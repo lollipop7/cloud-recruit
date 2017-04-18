@@ -14,8 +14,18 @@ const extractSass = new ExtractTextPlugin({
     // disable: process.env.NODE_ENV === "development"
 });
 
+// 公共库
+const vendor = [
+    'react',
+    'react-dom',
+    'react-redux',
+    'redux',
+    'redux-thunk'
+]
+
 module.exports = {
   entry: {
+    vendor: vendor,
     app: './src/main.js'
   },
   output: {
