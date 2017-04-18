@@ -1,15 +1,34 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
-import App from './App';
-import router from './router';
+import React from 'react';
+import ReactDom from 'react-dom';
 
-Vue.config.productionTip = false;
+import Promise from 'promise-polyfill'; 
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App },
-});
+// To add to window
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
+// react-router
+import { Router , hashHistory } from 'react-router'
+
+// redux
+import { createStore , applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import reducer from './reducer';
+
+import getRoutes from './router';
+const routes = getRoutes();
+
+// 创建一个store
+const store = createStore(reducer,applyMiddleware(thunk));
+
+import Styles from './scss/main.scss';
+
+ReactDom.render(
+    <Provider store={store}>
+        <Router history={hashHistory}>
+            {routes}
+        </Router>
+    </Provider>
+,document.getElementById('app'));
