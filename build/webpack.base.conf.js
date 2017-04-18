@@ -34,6 +34,7 @@ module.exports = {
       'reducer': resolve('src/reducer'),
       'pages': resolve('src/pages'),
       'views': resolve('src/views'),
+      'utils': resolve('src/utils')
     }
   },
   module: {
