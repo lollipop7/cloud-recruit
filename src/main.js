@@ -23,6 +23,7 @@ const routes = getRoutes();
 // 创建一个store
 const store = createStore(reducer,applyMiddleware(thunk));
 
+import 'antd/lib/message/style/css';
 import Styles from './scss/main.scss';
 
 ReactDom.render(

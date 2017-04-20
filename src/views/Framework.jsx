@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
+import NavBarComponents from 'components/navbar';
 
 export default class FrameworkView extends Component {
-
-    // propTypes = {
-    //     children: PropTypes.isRequired,
-    // }
     
     render() {
+        const {location} = this.props;
         return (
             <div>
+                {location.pathname != '/login' && <NavBarComponents />}
                 {this.props.children}
             </div>
         );

@@ -8,3 +8,25 @@
 .table-cell {
     display: table-cell;
 }
+
+// float
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+
+// page-content 
+.page-content {
+    margin: 15px auto 0;
+    width: 1200px;
+}
+
+// 垂直居中
+.vertical-center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}

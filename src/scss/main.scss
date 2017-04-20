@@ -1,5 +1,10 @@
+@import 'variable';
 @import '_initialize';
 @import 'common';
 
+@import 'view';
+@import 'navbar';
+
 //pages
+@import 'pages/index';
 @import 'pages/login';

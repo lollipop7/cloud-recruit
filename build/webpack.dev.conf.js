@@ -36,7 +36,7 @@ module.exports = merge(baseWebpackConfig, {
     new FriendlyErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
         name:'vendor',
-        filename: 'vendor.js'
+        filename: 'js/vendor.js'
     })
   ]
 })

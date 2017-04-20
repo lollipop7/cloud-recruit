@@ -1,0 +1,42 @@
+.index-page {
+    .time,.mission {
+        background-color: #FFF;
+    }
+    .time {
+        height: 64px;
+        width: 270px;
+        padding-left: 13px;
+        padding-top: 17px;
+        position: relative;
+        .top {
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+        .bottom {
+            font-size: 12px;
+            line-height: 12px;
+            margin-top: 8px;
+        }
+        .right {
+            width: 80px;
+            height: 100%;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            background-color: $theme-color;
+            color: #FFF;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 64px;
+        }
+    }
+    .mission {
+        margin-top: 16px;
+        height: 300px;
+        width: 270px;
+        padding-top: 12px;
+        padding-bottom: 38px;
+    }
+}

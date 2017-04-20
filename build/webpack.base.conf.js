@@ -44,7 +44,8 @@ module.exports = {
       'reducer': resolve('src/reducer'),
       'pages': resolve('src/pages'),
       'views': resolve('src/views'),
-      'utils': resolve('src/utils')
+      'utils': resolve('src/utils'),
+      'components': resolve('src/components')
     }
   },
   module: {
@@ -72,6 +73,10 @@ module.exports = {
             cacheDirectory: true
         },
         include: [resolve('src'), resolve('test')]
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       },
       {
         test: /\.scss$/,
