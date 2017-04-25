@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-
 import Promise from 'promise-polyfill'; 
 
 // To add to window
@@ -23,7 +22,6 @@ const routes = getRoutes();
 // 创建一个store
 const store = createStore(reducer,applyMiddleware(thunk));
 
-import 'antd/lib/message/style/css';
 import Styles from './scss/main.scss';
 
 ReactDom.render(

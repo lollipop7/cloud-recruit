@@ -13,7 +13,7 @@ export default class IndexPage extends Component {
                     <MissionComponent />
                 </div>
                 <div className="pull-right">
-
+                    
                 </div>
             </div>
         );

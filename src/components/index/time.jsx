@@ -11,8 +11,8 @@ export default class TimeComponent extends Component {
      componentDidMount() {
         this.timeout();
         this.loopTime = setInterval(()=>{
-                            this.timeout();
-                        },1000);
+            this.timeout();
+        },1000);
     }
 
     componentWillUnMount() {
