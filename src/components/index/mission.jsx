@@ -30,12 +30,48 @@ class MissionComponent extends Component {
     }
 
     render() {
-        const {isLoading} = this.state;
+        const {isLoading} = this.state,
+            {urgentTasks=[]} = this.props;
         return (
             <div className="mission">
                 <div className="title">
                     紧急任务 
                 </div>
+                {!isLoading && urgentTasks.length > 0 &&
+                    <ul>
+                        {urgentTasks.map((item,index)=>{
+                            // positionname 职位名称
+                            // interview 面试人数
+                            // sinterview 复试人数
+                            // off offer数
+                            // plan 任务进度
+                            const {
+                                positionname='',
+                                interview=0,
+                                sinterview=0,
+                                off=0,
+                                plan=0
+                            } = item;
+                            return (
+                                <li key={index}>
+                                    <div className="left">
+                                        <div className="top">
+                                            {positionname}
+                                        </div>
+                                        <div className="bottom">
+                                            面试：{interview} 复试：{sinterview} offer: {off}
+                                        </div>
+                                    </div>
+                                    <div className="right">
+                                        <a href="javascript:void(0);">
+                                            {plan}%
+                                        </a>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                }
                 {isLoading && <LoadingComponent />}
             </div>
         );

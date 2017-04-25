@@ -45,7 +45,8 @@ module.exports = {
       'pages': resolve('src/pages'),
       'views': resolve('src/views'),
       'utils': resolve('src/utils'),
-      'components': resolve('src/components')
+      'components': resolve('src/components'),
+      'data': resolve('src/data')
     }
   },
   module: {

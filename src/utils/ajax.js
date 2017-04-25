@@ -3,17 +3,22 @@ import store from 'store';
 import merge from 'lodash/merge';
 
 const checkStatus = response => {
+    layer.closeAll('loading'); //关闭加载层
     if (response.status >= 200 && response.status < 300) {
         return response
     } else {
         var error = new Error(response.statusText)
         error.response = response
+        layer.open({
+            type: 0,
+            content: response.statusText,
+            icon: 2
+        });
         throw error
     }
 }
 
 const parseJSON = response => {
-    layer.closeAll('loading'); //关闭加载层
     return response.json();
 }
 
@@ -46,7 +51,6 @@ export const AjaxByPost = (uri,data) => {
                 }
             })
             .catch(function(error) {
-                layer.close(index);
                 reject(error);
             })
         });

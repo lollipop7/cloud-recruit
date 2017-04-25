@@ -52,5 +52,48 @@
                 @include border-bottom;
             }
         }
+        li {
+            height: 55px;
+            box-sizing: border-box;
+            padding: 13px 0;
+            position: relative;
+            color: $assist-color;
+            &:after {
+                @include border-bottom;
+            }
+            .left {
+                position: absolute;
+                left: 0px;
+            }
+            .right {
+                position: absolute;
+                height: 29px;
+                right: 0px;
+            }
+        }
+        .top {
+            font-size: 16px;
+            line-height: 16px;
+        }
+        .bottom {
+            line-height: 12px;
+            font-size: 12px;
+            margin-top: 1px;
+        }
+        a {
+            display: block;
+            width: 50px;
+            height: 20px;
+            border: 1px solid $mission-theme-color;
+            text-align: center;
+            line-height: 20px;
+            box-sizing: border-box;
+            color: $mission-theme-color;
+            font-size: 16px;
+            margin-top: 4px;
+            &:hover {
+                cursor: default;
+            }
+        }
     }
 }
