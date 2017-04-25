@@ -3,19 +3,16 @@ import moment from 'moment';
 
 export default class TimeComponent extends Component {
 
-    constructor() {
-        super();
-        this.state = {};
-    }
+    state = {};
 
-     componentDidMount() {
+    componentDidMount() {
         this.timeout();
         this.loopTime = setInterval(()=>{
             this.timeout();
         },1000);
     }
 
-    componentWillUnMount() {
+    componentWillUnmount() {
         clearInterval(this.loopTime);
     }
 

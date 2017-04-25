@@ -1,5 +1,6 @@
 @import 'variable';
-@import '_initialize';
+@import 'initialize';
+@import 'mixin';
 @import 'common';
 
 @import 'view';

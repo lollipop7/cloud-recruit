@@ -1,4 +1,6 @@
 import 'whatwg-fetch';
+import store from 'store';
+import merge from 'lodash/merge';
 
 const checkStatus = response => {
     if (response.status >= 200 && response.status < 300) {
@@ -11,6 +13,7 @@ const checkStatus = response => {
 }
 
 const parseJSON = response => {
+    layer.closeAll('loading'); //关闭加载层
     return response.json();
 }
 
@@ -21,9 +24,6 @@ const getData = data => {
 
 export const AjaxByPost = (uri,data) => {
     return new Promise(function(resolve, reject) {
-            let index = layer.open({
-                type: 3
-            });
             fetch(uri, {
                 method: 'POST',
                 headers: {
@@ -34,7 +34,6 @@ export const AjaxByPost = (uri,data) => {
             .then(checkStatus)
             .then(parseJSON)
             .then(data=>{
-                layer.close(index);
                 const {returnCode,returnMsg} = data;
                 if(returnCode !== 'AAAAAAA'){
                     layer.open({
@@ -51,4 +50,10 @@ export const AjaxByPost = (uri,data) => {
                 reject(error);
             })
         });
+}
+
+export const AjaxByToken = (uri,data) => {
+    // 获取本地存储的token
+    const token = store.get('token');
+    return AjaxByPost(uri,merge(data,{data:token}));
 }

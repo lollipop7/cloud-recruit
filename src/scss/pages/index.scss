@@ -8,6 +8,7 @@
         padding-left: 13px;
         padding-top: 17px;
         position: relative;
+        box-sizing: border-box;
         .top {
             font-size: 18px;
             line-height: 18px;
@@ -36,7 +37,20 @@
         margin-top: 16px;
         height: 300px;
         width: 270px;
-        padding-top: 12px;
-        padding-bottom: 38px;
+        padding: 12px 13px 38px;
+        box-sizing: border-box;
+        .title {
+            position: relative;
+            font-size: 16px;
+            line-height: 16px;
+            font-weight: bold;
+            background-image: url(/static/images/index/more.png);
+            background-position: 100% 0%;
+            background-repeat: no-repeat;
+            padding-bottom: 12px;
+            &:after {
+                @include border-bottom;
+            }
+        }
     }
 }

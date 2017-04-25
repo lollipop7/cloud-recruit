@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 
 export default class ListItemComponents extends Component {
-
-    constructor() {
-        super();
-        this.onChange = this._onChange.bind(this);
-    }
-
+    onChange = this._onChange.bind(this);
+    onKeyUp = this._onKeyUp.bind(this);
+    
     _onChange(event) {
         const {onChange} = this.props;
         if(onChange){
             onChange(event);
+        }
+    }
+
+    _onKeyUp(event) {
+        const {onKeyUp} = this.props;
+        if(onKeyUp){
+            onKeyUp(event);
         }
     }
 
@@ -27,9 +31,11 @@ export default class ListItemComponents extends Component {
                     </div>
                     <div className="table-cell">
                         <input 
+                            ref="input"
                             type={inputType} 
                             placeholder={placeholder} 
                             onChange={this.onChange}
+                            onKeyUp={this.onKeyUp}
                         />
                     </div>
                 </div>

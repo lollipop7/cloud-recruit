@@ -2,20 +2,22 @@ import React, {Component} from 'react';
 
 export default class NavBarComponents extends Component {
     render() {
-        const prefix = '/static/images/navbar/';
-        const navData = [
-            {name: '职位管理'},
-            {name: '招聘流程'},
-            {name: '人才库'},
-            {name: '任务报表'}
-        ]
+        const {location} = this.props,
+            {pathname} = location,
+            prefix = '/static/images/navbar/',
+            navData = [
+                {name: '职位管理'},
+                {name: '招聘流程'},
+                {name: '人才库'},
+                {name: '任务报表'}
+            ];
         return (
             <div className="navbar">
                 <div className="navbar-inner">
                     <div className="logo">
                         <img src={`${prefix}logo.png`} alt="51云招聘"/>
                     </div>
-                    <div className="home">
+                    <div className="home" style={{backgroundColor: pathname === '/' ? '#00699f' : ''}}>
                         <img src={`${prefix}home.png`} alt="首页"/>
                     </div>
                     <ul>

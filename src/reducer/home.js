@@ -1,13 +1,13 @@
-import {USER_LOGIN} from 'constants/ActionTypes';
+import {URGENT_TASKS} from 'constants/ActionTypes';
 
 const initialState = {
-    token: {}
+    urgentTasks: []
 };
 
 export default function users(state = initialState,actions){
     switch(actions.type){
-        case USER_LOGIN: 
-            return {...state,token:actions.token};
+        case URGENT_TASKS: 
+            return {...state,urgentTasks:actions.urgentTasks};
         default: 
             return state;
     }

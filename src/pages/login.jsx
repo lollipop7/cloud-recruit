@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 import ListItem from '@/components/login/ListItem';
 
 // redux
@@ -11,19 +11,24 @@ import customLayer from 'utils/layer';
 
 class LoginPage extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            companyName: '',
-            userName: '',
-            passwd: ''
-        }
-        // bind event
-        this.toLogin = this._toLogin.bind(this);
-        this.inputCompany = this._inputCompany.bind(this);
-        this.inputUserName = this._inputUserName.bind(this);
-        this.inputPasswd = this._inputPasswd.bind(this);
+    static contextTypes = {
+        router: PropTypes.object
+    };
+
+    state = {
+        companyName: '',
+        userName: '',
+        passwd: ''
     }
+
+    // bind event
+    toLogin = this._toLogin.bind(this);
+    inputCompany = this._inputCompany.bind(this);
+    inputUserName = this._inputUserName.bind(this);
+    inputPasswd = this._inputPasswd.bind(this);
+    companyKeyUp = this._companyKeyUp.bind(this);
+    userNameKeyUp = this._userNameKeyUp.bind(this);
+    passwdKeyUp = this._passwdKeyUp.bind(this);
 
     _inputCompany(event) {
         this.setState({
@@ -39,6 +44,24 @@ class LoginPage extends Component {
         this.setState({
             passwd: event.target.value
         });
+    }
+
+    _companyKeyUp(event) {
+        if(event.keyCode === 13){
+            this.refs.username.refs.input.focus();
+        }
+    }
+
+    _userNameKeyUp(event) {
+        if(event.keyCode === 13){
+            this.refs.passwd.refs.input.focus();
+        }
+    }
+
+    _passwdKeyUp(event) {
+        if(event.keyCode === 13){
+            this._toLogin();
+        }
     }
 
     _toLogin() {
@@ -61,6 +84,15 @@ class LoginPage extends Component {
         });
     }
 
+    componentWillUpdate(nextProps,nextState) {
+        const {token} = nextProps.token || {};
+        if(token){
+            this.context.router.push({
+                pathname: '/'
+            });
+        }
+    }
+
     render() {
         const {companyName,userName,passwd} = this.state;
         const prefix = "/static/images/login/";
@@ -71,26 +103,31 @@ class LoginPage extends Component {
                         <img className="logo" src={`${prefix}logo.png`} alt="51招聘云"/>
                         <p className="desc">先进的互联网金融招聘系统</p>
                         <ul>
-                            <ListItem 
+                            <ListItem
                                 imgSrc={`${prefix}company-icon.png`}
                                 title="公司名"
                                 placeholder="请输入公司名"
                                 onChange={this.inputCompany}
+                                onKeyUp = {this.companyKeyUp}
                                 value={companyName}
                             />
                             <ListItem 
+                                ref="username"
                                 imgSrc={`${prefix}user-icon.png`}
                                 title="用户名"
                                 placeholder="请输入您的用户名"
                                 onChange={this.inputUserName}
+                                onKeyUp={this.userNameKeyUp}
                                 value={userName}
                             />
                             <ListItem 
+                                ref="passwd"
                                 imgSrc={`${prefix}passwd-icon.png`}
                                 title="密码"
                                 placeholder="请输入您的密码"
                                 inputType="password"
                                 onChange={this.inputPasswd}
+                                onKeyUp={this.passwdKeyUp}
                                 value={passwd}
                             />
                         </ul>
@@ -110,6 +147,7 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    token: state.Login.token
 })
 const mapDispatchToProps = dispatch => ({
     userLogin: bindActionCreators(Actions.loginActions.userLogin, dispatch),

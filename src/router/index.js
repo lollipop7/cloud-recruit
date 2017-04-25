@@ -7,7 +7,7 @@ export default function getRoutes () {
     <Route path='/' component={require('views/Framework').default}>
       // 首页
       <IndexRoute component={require('pages/index').default} onEnter={requireAuthHook} />
-      <Route path="login" component={require('pages/login').default} />
+      <Route path="login" component={require('pages/login').default} onEnter={onEnterLoginHook} />
     </Route>
   )
 }
