@@ -19,7 +19,7 @@
 
 // page-content 
 .page-content {
-    margin: 15px auto 0;
+    margin: 0 auto;
     width: 1200px;
 }
 
@@ -29,4 +29,29 @@
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+.box-border {
+    border: 1px solid #e7eaf1;
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-sizing: border-box;
+}
+
+// button
+.ellipse-button {
+    width: 54px;
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    font-size: 14px;
+    color: #FFF;
+    background-color: #c0c0c0;
+    text-align: center;
+    border-radius: 9px;
+    &.perfect {
+        background-color: #2db9e8;
+    }
+    &.complete {
+        background-color: #faa426;
+    }
 }

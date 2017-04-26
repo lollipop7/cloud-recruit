@@ -33,7 +33,7 @@ class MissionComponent extends Component {
         const {isLoading} = this.state,
             {urgentTasks=[]} = this.props;
         return (
-            <div className="mission">
+            <div className="mission box-border">
                 <div className="title">
                     紧急任务 
                 </div>

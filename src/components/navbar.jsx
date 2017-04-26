@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 export default class NavBarComponents extends Component {
     render() {
@@ -6,8 +7,8 @@ export default class NavBarComponents extends Component {
             {pathname} = location,
             prefix = '/static/images/navbar/',
             navData = [
-                {name: '职位管理'},
-                {name: '招聘流程'},
+                {name: '职位管理',path:'/job'},
+                {name: '招聘流程',path:'/recruit'},
                 {name: '人才库'},
                 {name: '任务报表'}
             ];
@@ -18,14 +19,14 @@ export default class NavBarComponents extends Component {
                         <img src={`${prefix}logo.png`} alt="51云招聘"/>
                     </div>
                     <div className="home" style={{backgroundColor: pathname === '/' ? '#00699f' : ''}}>
-                        <img src={`${prefix}home.png`} alt="首页"/>
+                        <Link to='#/'><img src={`${prefix}home.png`} alt="首页"/></Link>
                     </div>
                     <ul>
                         {
                             navData.map((item,index)=>{
                                 return (
-                                    <li key={index}>
-                                        <a href="javascript:void(0);">{item.name}</a>
+                                    <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
+                                        <Link to={item.path}>{item.name}</Link>
                                     </li>
                                 )
                             })

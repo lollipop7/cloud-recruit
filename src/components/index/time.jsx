@@ -46,7 +46,7 @@ export default class TimeComponent extends Component {
     render() {
         const {hourTime=''} = this.state;
         return (
-            <div className="time">
+            <div className="time box-border">
                 <p className="top">
                     {hourTime}
                 </p>
