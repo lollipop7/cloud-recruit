@@ -49,29 +49,20 @@ export default class FormComponent extends Component {
                     </div>
                     <a href="javascript:void(0);" className="button active" style={{
                         marginRight: 16,
-                        position: 'relative',
-                        top: 4
                     }}>
                         职位筛选
                     </a>
                     <a href="javascript:void(0);" className="button" style={{
                         marginRight: 16,
-                        position: 'relative',
-                        top: 4
                     }}>
                         清空条件
                     </a>
                 </div>
-                <a href="javascript:void(0);" style={{
-                    position: 'absolute',
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    display: 'inline-block',
-                    backgroundColor: '#000',
-                    right: 0,
-                    bottom: 0
-                }}></a>
+                <div className="float-button">
+                    <a href="javascript:void(0);">
+                    </a>
+                    <span>新建职位</span>
+                </div>
             </div>
         );
     }
