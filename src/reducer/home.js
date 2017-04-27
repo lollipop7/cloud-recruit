@@ -1,13 +1,16 @@
-import {URGENT_TASKS} from 'constants/ActionTypes';
+import {URGENT_TASKS,ENTRY_PERSON} from 'constants/ActionTypes';
 
 const initialState = {
-    urgentTasks: []
+    urgentTasks: [],
+    entryPersonList: []
 };
 
-export default function users(state = initialState,actions){
+export default function home(state = initialState,actions){
     switch(actions.type){
         case URGENT_TASKS: 
             return {...state,urgentTasks:actions.urgentTasks};
+        case ENTRY_PERSON:
+            return {...state,entryPersonList:actions.entryPersonList};
         default: 
             return state;
     }

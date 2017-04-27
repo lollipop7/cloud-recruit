@@ -1,9 +1,40 @@
 import React, {Component} from 'react';
 
-import data from 'data/entry-person';
+import LoadingComponent from 'components/loading';
 
-export default class EntryPersonComponent extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class EntryPersonComponent extends Component {
+
+    state = {
+        isLoading: false
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading: true
+        });
+        this.props.getEntryPerson();
+    }
+
+    componentWillUnmount() {
+        this.props.resetEntryPerson();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        if(nextState.isLoading && nextProps.entryPersonList.length > 0){
+            this.setState({
+                isLoading: false
+            });
+        }
+    }
+
     render() {
+        const {isLoading} = this.state;
+        const {entryPersonList=[]} = this.props;
         return (
             <div className="entry-person box-border">
                 <div className="title">待入职人员</div>
@@ -19,30 +50,30 @@ export default class EntryPersonComponent extends Component {
                         </tr> 
                     </thead>
                     <tbody>
-                        {
-                            data.map((item,index)=>{
-                                const {name,jobname,time,tel,complete,entry} = item;
+                        {!isLoading && entryPersonList.length > 0 &&
+                            entryPersonList.map((item,index)=>{
+                                const {username='',positionname='',eventtime,telephone='',entry} = item;
                                 return (
                                     <tr key={index}>
                                         <td>
-                                            {name}
+                                            {username}
                                         </td>
                                         <td>
-                                            {jobname}
+                                            {positionname}
                                         </td>
                                         <td>
-                                            {time}
+                                            {eventtime}
                                         </td>
                                         <td>
-                                            {tel}
+                                            {telephone}
                                         </td>
                                         <td>
-                                            {
+                                            {/*{
                                                 parseInt((Math.random()*10)) % 2 == 0 ? 
                                                 <span className="ellipse-button perfect">已完善</span>
                                                 :
                                                 <span className="ellipse-button">未完善</span>
-                                            }
+                                            }*/}
                                         </td>
                                         <td>
                                             {
@@ -59,7 +90,29 @@ export default class EntryPersonComponent extends Component {
                         <tr className="space"></tr>
                     </tbody>
                 </table> 
+                {isLoading && 
+                    <div style={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '327px'
+                    }}>
+                        <LoadingComponent />
+                    </div>
+                }
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    entryPersonList: state.Home.entryPersonList
+})
+const mapDispatchToProps = dispatch => ({
+    getEntryPerson: bindActionCreators(Actions.homeActions.getEntryPerson, dispatch),
+    resetEntryPerson: bindActionCreators(Actions.homeActions.resetEntryPerson, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EntryPersonComponent);

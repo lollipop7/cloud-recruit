@@ -4,7 +4,7 @@ const initialState = {
     token: {}
 };
 
-export default function users(state = initialState,actions){
+export default function login(state = initialState,actions){
     switch(actions.type){
         case USER_LOGIN: 
             return {...state,token:actions.token};

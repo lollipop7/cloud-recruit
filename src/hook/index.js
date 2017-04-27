@@ -7,5 +7,5 @@ export const onEnterLoginHook = (nextState,replace) => {
 
 export const requireAuthHook = (nextState,replace) => {
     const {token} = store.get('token') || {};
-    // if(!token) replace({pathname:'/login'});
+    if(!token) replace({pathname:'/login'});
 }
