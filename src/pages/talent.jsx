@@ -4,7 +4,7 @@ import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
 import { Breadcrumb } from 'antd';
 
-export default class RecruitPage extends Component {
+export default class TalentPage extends Component {
 
      _getNavData(){
         return [
@@ -14,40 +14,30 @@ export default class RecruitPage extends Component {
                     num: 0
                 },
                 {
-                    title: '申请中',
+                    title: '在职人员',
                     type: 'preparation',
                     num: 1
                 },
                 {
-                    title: '预约中',
+                    title: '离职人员',
                     type: 'ongoing',
                     num: 2
                 },
                 {
-                    title: '面试',
+                    title: '社会人才',
                     type: 'completed',
                     num: 3
                 },
                 {
-                    title: '复试',
+                    title: '收藏',
                     type: 'stop',
                     num: 4
                 },
                 {
-                    title: '待入职人员',
+                    title: '理财师',
                     type: 'stop',
                     num: 4
-                },
-                {
-                    title: '已入职',
-                    type: 'stop',
-                    num: 4
-                },
-                {
-                    title: '未通过',
-                    type: 'stop',
-                    num: 4
-                },
+                }
             ];
     }
 
@@ -58,7 +48,7 @@ export default class RecruitPage extends Component {
         const {routes,params} = this.props;
         return (
             <ScrollPageContent>
-                <div className="page-content recruit-page">
+                <div className="page-content talent-page">
                     <Breadcrumb routes={routes} params={params} separator="&gt;" />
                         <div className="list-block">
                             <div className="pull-left">

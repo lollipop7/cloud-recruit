@@ -6,9 +6,6 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-// layer
-import customLayer from 'utils/layer';
-
 class LoginPage extends Component {
 
     static contextTypes = {
@@ -67,13 +64,13 @@ class LoginPage extends Component {
     _toLogin() {
         const {companyName,userName,passwd} = this.state;
         if(companyName.length == 0){
-            customLayer.msg('公司名不能为空！');
+            // Message.error('公司名不能为空！');
             return ;
         }else if(userName.length == 0) {
-            customLayer.msg('用户名不能为空！');
+            // Message.error('用户名不能为空！');
             return ;
         }else if(passwd.length == 0) {
-            customLayer.msg('密码不能为空！');
+            // Message.error('密码不能为空！');
             return ;
         }
         const {userLogin}  = this.props;

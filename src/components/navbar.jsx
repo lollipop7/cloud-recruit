@@ -9,8 +9,8 @@ export default class NavBarComponents extends Component {
             navData = [
                 {name: '职位管理',path:'/job'},
                 {name: '招聘流程',path:'/recruit'},
-                {name: '人才库'},
-                {name: '任务报表'}
+                {name: '人才库',path:'/talent'},
+                {name: '任务报表',path:'/task'}
             ];
         return (
             <div className="navbar">
@@ -25,7 +25,7 @@ export default class NavBarComponents extends Component {
                         {
                             navData.map((item,index)=>{
                                 return (
-                                    <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
+                                    <li key={index} style={{backgroundColor: ('/'+pathname.split('/')[1]) === item.path ? '#00699f' : ''}}>
                                         <Link to={item.path}>{item.name}</Link>
                                     </li>
                                 )

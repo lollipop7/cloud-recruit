@@ -10,9 +10,6 @@ import extend from 'lodash/extend';
 const USER_LOGIN = {type:types.USER_LOGIN};
 
 export const userLogin = (userInfo={}) => (dispatch,getState) => {
-    layer.open({
-        type: 3
-    });
     userInfo.password = Md5(userInfo.password);
     AjaxByPost('/web/login',{
         head: {

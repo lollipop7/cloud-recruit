@@ -2,18 +2,29 @@ import 'whatwg-fetch';
 import store from 'store';
 import merge from 'lodash/merge';
 
+import {notification} from 'antd';
+
 const checkStatus = response => {
-    layer.closeAll('loading'); //关闭加载层
+    // layer.closeAll('loading'); //关闭加载层
     if (response.status >= 200 && response.status < 300) {
         return response
     } else {
         var error = new Error(response.statusText)
         error.response = response
-        layer.open({
-            type: 0,
-            content: response.statusText,
-            icon: 2
+        notification.error({
+            message: '网络错误',
+            description: response.statusText
         });
+        // Notification({
+        //     title: '错误',
+        //     message: response.statusText,
+        //     type: 'error'
+        // });
+        // layer.open({
+        //     type: 0,
+        //     content: response.statusText,
+        //     icon: 2
+        // });
         throw error
     }
 }
@@ -41,11 +52,11 @@ export const AjaxByPost = (uri,data) => {
             .then(data=>{
                 const {returnCode,returnMsg} = data;
                 if(returnCode !== 'AAAAAAA'){
-                    layer.open({
-                        type: 0,
-                        content: returnMsg,
-                        icon: 2
-                    });
+                    // layer.open({
+                    //     type: 0,
+                    //     content: returnMsg,
+                    //     icon: 2
+                    // });
                 }else{
                     resolve(data);
                 }

@@ -6,29 +6,33 @@ import ResumeComponent from 'components/index/resume';
 import TaskProgressComponent from 'components/index/task-progress';
 import EntryPersonComponent from 'components/index/entry-person';
 
+import ScrollPageContent from 'components/scroll-page-content';
+
 export default class IndexPage extends Component {
 
     render() {
         return (
-            <div className="page-content index-page">
-                <div className="list-block">
-                    <div className="pull-left">
-                        <TimeComponent />
-                        <MissionComponent />
+            <ScrollPageContent>
+                <div className="page-content index-page">
+                    <div className="list-block">
+                        <div className="pull-left">
+                            <TimeComponent />
+                            <MissionComponent />
+                        </div>
+                        <div className="pull-right" style={{backgroundColor: '#FFF'}}>
+                            <ResumeComponent />
+                        </div>
                     </div>
-                    <div className="pull-right" style={{backgroundColor: '#FFF'}}>
-                        <ResumeComponent />
+                    <div className="list-block">
+                        <div className="pull-left">
+                            <TaskProgressComponent />
+                        </div>
+                        <div className="pull-right">
+                            <EntryPersonComponent />
+                        </div>
                     </div>
                 </div>
-                <div className="list-block">
-                    <div className="pull-left">
-                        <TaskProgressComponent />
-                    </div>
-                    <div className="pull-right">
-                        <EntryPersonComponent />
-                    </div>
-                </div>
-            </div>
+            </ScrollPageContent>
         );
     }
 }

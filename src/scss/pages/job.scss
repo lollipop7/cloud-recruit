@@ -1,4 +1,8 @@
 .job-page {
+    
+    .list-block {
+        overflow: auto;
+    }
     .pull-right {
         .box-border {
             background-color: #FFF;
@@ -6,24 +10,16 @@
             height: 930px;
             padding: 16px 16px 0;
         }
-        .layui-input-block {
+        .bottom16 {
             margin-bottom: 15px;
         }
-        .layui-input-block,.layui-inline {
-            vertical-align: inherit !important;
-            display: inline-block;
-            margin-left: 0px;
-            width: 249px;
-            height: 40px;
+        input {
             margin-right: 16px;
-            // margin-bottom: 16px;
-            input {
-                border-radius: 8px;
-                font-size: 16px;
-                height: 40px;
-                line-height: 40px;
-                // border-color: $border-color;
-            }
+            width: 249px;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 40px;
+            line-height: 40px;
         }
         .float-button {
             position: absolute;
@@ -50,6 +46,33 @@
                 margin-top: 8px;
                 display: block;
             }
+        }
+    }
+    // 表格
+    .ant-table-wrapper {
+        .ant-table {
+            font-size: 14px;
+        }
+        .ant-table-thead , .ant-table-tbody{
+            &> tr {
+                &>th,&>td {
+                    height: 34px;
+                    padding: 0px;
+                }
+            }
+            
+        }
+        margin-top: 16px;
+        td,th {
+            // border-right: 1px solid #dfe6ec;
+            // &:last-child {
+            //     border-right: 0;
+            // }
+        }
+        .cell {
+            padding: 0px;
+            text-align: center;
+            white-space: nowrap;
         }
     }
 }

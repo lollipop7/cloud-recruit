@@ -21,6 +21,7 @@
 .page-content {
     margin: 0 auto;
     width: 1200px;
+    padding-bottom: 50px;
 }
 
 // 垂直居中
@@ -29,6 +30,11 @@
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+// display
+.inline-block {
+    display: inline-block;
 }
 
 .box-border {

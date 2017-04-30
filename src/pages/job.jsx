@@ -8,11 +8,22 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
+import CreateJobPage from './create-job';
+
+import ScrollPageContent from 'components/scroll-page-content';
+
+import { Breadcrumb } from 'antd';
+
 class JobPage extends Component {
 
+    state = {};
+
     componentDidMount() {
-        this.props.getJobStatistics();
-        this.props.getJobList({type: 'all',count: "20"});
+        const {location} = this.props;
+        if(location.pathname === '/job'){
+            this.props.getJobStatistics();
+            this.props.getJobList({type: 'all',count: "20"});
+        }
     }
 
     _getNavData() {
@@ -47,29 +58,34 @@ class JobPage extends Component {
     }
 
     onClick(type) {
-        console.log(type);
     }
 
     render() {
+        const {routes,params,location} = this.props;
+        const {pathname = ''}  = location;
         return (
-            <div className="page-content job-page">
-                <span className="layui-breadcrumb">
-                    <a href="#/">首页<span className="layui-box">&gt;</span></a>
-                    <a href="javascript:void(0);">职位管理</a>
-                </span>
-                <div className="list-block">
-                    <div className="pull-left">
-                        <LeftNav 
-                            title="职位分类" 
-                            data={this._getNavData()}
-                            onClick={this.onClick.bind(this)} 
-                        />
-                    </div>
-                    <div className="pull-right">
-                        <RightComponent />
-                    </div>
+            <ScrollPageContent>
+                <div className={`page-content ${pathname === '/job' ? 'job-page' : 'new-job-page'}`}>
+                    <Breadcrumb routes={routes} params={params} separator="&gt;" />
+                    {pathname === '/job' &&
+                        <div className="list-block">
+                            <div className="pull-left">
+                                <LeftNav 
+                                    title="职位分类" 
+                                    data={this._getNavData()}
+                                    onClick={this.onClick.bind(this)} 
+                                />
+                            </div>
+                            <div className="pull-right">
+                                <RightComponent />
+                            </div>
+                        </div>
+                    }
+                    {pathname === '/job/newJob'&&
+                        <CreateJobPage />
+                    }
                 </div>
-            </div>
+            </ScrollPageContent>
         );
     }
 }
