@@ -30,7 +30,7 @@ export default class NavBarComponents extends Component {
                         {
                             navData.map((item,index)=>{
                                 return (
-                                    <li key={index} style={{backgroundColor: ('/'+pathname.split('/')[1]) === item.path ? '#00699f' : ''}}>
+                                    <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
                                         <Link onClick={this.onClick} to={item.path}>{item.name}</Link>
                                     </li>
                                 )

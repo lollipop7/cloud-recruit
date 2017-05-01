@@ -44,6 +44,10 @@ export default class FormComponent extends Component {
             [field]: moment(value).format('YYYY-MM-DD')
         });
     }
+
+    handleClick() {
+        NProgress.start();
+    }
    
     render() {
         const {department,positionname} = this.state;
@@ -64,7 +68,7 @@ export default class FormComponent extends Component {
                         <Button onClick={this.clearInput}>清空条件</Button>
                 </div>
                 <div className="float-button">
-                    <Link to="/job/newJob">
+                    <Link to="/job/newJob" onClick={this.handleClick}>
                         <Button type="primary"></Button>
                         <span>新建职位</span>
                     </Link>

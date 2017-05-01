@@ -5,7 +5,7 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["transform-runtime",["import", { "libraryName": "antd", "style": "css"}]],
+  "plugins": ["transform-runtime",["import", { "libraryName": "antd", "style": "css"}],"lodash"],
   "comments": false,
   "env": {
     "test": {

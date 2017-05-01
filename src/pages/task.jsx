@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 
 import ScrollPageContent from 'components/scroll-page-content';
-import { Breadcrumb } from 'antd';
+import BreadCrumbComponent from 'components/breadcrumb';
 
 export default class TaskPage extends Component {
     componentDidMount() {
         NProgress.done();
     }
     render() {
-        const {routes,params} = this.props;
+        const {routes} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content task-page">
-                    <Breadcrumb routes={routes} params={params} separator="&gt;" />
+                    <BreadCrumbComponent routes={routes} />
                 </div>
             </ScrollPageContent>
         );

@@ -4,7 +4,7 @@ import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
 import FormComponent from 'components/talent/form';
 import TableComponent from 'components/talent/table';
-import { Breadcrumb } from 'antd';
+import BreadCrumbComponent from 'components/breadcrumb';
 
 export default class TalentPage extends Component {
 
@@ -51,26 +51,26 @@ export default class TalentPage extends Component {
     }
 
     render() {
-        const {routes,params} = this.props;
+        const {routes} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content talent-page">
-                    <Breadcrumb routes={routes} params={params} separator="&gt;" />
-                        <div className="list-block">
-                            <div className="pull-left">
-                                <LeftNav 
-                                    title="人才分类" 
-                                    data={this._getNavData()}
-                                    onClick={this.onClick.bind(this)} 
-                                />
-                            </div>
-                            <div className="pull-right">
-                                <div className="box-border right-panel">
-                                    <FormComponent />
-                                    <TableComponent />
-                                </div>
+                    <BreadCrumbComponent routes={routes} />
+                    <div className="list-block">
+                        <div className="pull-left">
+                            <LeftNav 
+                                title="人才分类" 
+                                data={this._getNavData()}
+                                onClick={this.onClick.bind(this)} 
+                            />
+                        </div>
+                        <div className="pull-right">
+                            <div className="box-border right-panel">
+                                <FormComponent />
+                                <TableComponent />
                             </div>
                         </div>
+                    </div>
                 </div>
             </ScrollPageContent>
         );

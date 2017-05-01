@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
-import { Breadcrumb } from 'antd';
+import BreadCrumbComponent from 'components/breadcrumb';
 
 export default class RecruitPage extends Component {
 
@@ -59,22 +59,22 @@ export default class RecruitPage extends Component {
     }
 
     render() {
-        const {routes,params} = this.props;
+        const {routes} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content recruit-page">
-                    <Breadcrumb routes={routes} params={params} separator="&gt;" />
-                        <div className="list-block">
-                            <div className="pull-left">
-                                <LeftNav 
-                                    title="招聘分类" 
-                                    data={this._getNavData()}
-                                    onClick={this.onClick.bind(this)} 
-                                />
-                            </div>
-                            <div className="pull-right">
-                            </div>
+                    <BreadCrumbComponent routes={routes} />
+                    <div className="list-block">
+                        <div className="pull-left">
+                            <LeftNav 
+                                title="招聘分类" 
+                                data={this._getNavData()}
+                                onClick={this.onClick.bind(this)} 
+                            />
                         </div>
+                        <div className="pull-right">
+                        </div>
+                    </div>
                 </div>
             </ScrollPageContent>
         );

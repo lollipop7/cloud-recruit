@@ -7,6 +7,7 @@ function resolve (dir) {
 }
 // plugins
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
     filename: "static/css/style.css",
@@ -81,7 +82,8 @@ module.exports = {
             // This is a feature of `babel-loader` for webpack (not Babel itself).
             // It enables caching results in ./node_modules/.cache/babel-loader/
             // directory for faster rebuilds.
-            cacheDirectory: true
+            cacheDirectory: true,
+            plugins: ['lodash']
         },
         include: [resolve('src'), resolve('test')]
       },
@@ -151,6 +153,7 @@ module.exports = {
     ]
   },
   plugins: [
+      new LodashModuleReplacementPlugin,
       extractSass,
       extractLess
   ]

@@ -5,8 +5,16 @@ import BaseInfoComponent from 'components/create-job/baseinfo';
 import TagsComponent from 'components/create-job/tags';
 import OtherInfoComponent from 'components/create-job/other-info';
 
+import BreadCrumbComponent from 'components/breadcrumb';
+
+import _ from 'lodash';
+
 export default class CreateJobPage extends Component {
     
+    componentDidMount() {
+        NProgress.done();
+    }
+
     resetForm = () => {
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
         BaseInfoComponent.resetData();
@@ -14,20 +22,29 @@ export default class CreateJobPage extends Component {
     }
 
     render() {
+        let routesCopy = [];
+        const {routes} = this.props;
+        _.each(routes,item=>{
+            routesCopy.push(_.pick(item,['breadcrumbName','path']));
+        });
+        routesCopy[1].path = '/job/index';
         return (
-            <ul>
-                <BaseInfoComponent ref="BaseInfoComponent" />
-                <TagsComponent />
-                <OtherInfoComponent ref="OtherInfoComponent" />
-                <li className="control">
+            <div className="page-content new-job-page">
+                    <BreadCrumbComponent routes={routesCopy} />
                     <ul>
-                        <li>
-                            <Button type="primary">发布</Button>
-                            <Button onClick={this.resetForm}>重置</Button>
+                        <BaseInfoComponent ref="BaseInfoComponent" />
+                        <TagsComponent />
+                        <OtherInfoComponent ref="OtherInfoComponent" />
+                        <li className="control">
+                            <ul>
+                                <li>
+                                    <Button type="primary">发布</Button>
+                                    <Button onClick={this.resetForm}>重置</Button>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </li>
-            </ul>
+            </div>
         );
     }
 }

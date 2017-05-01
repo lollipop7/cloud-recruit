@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import LeftNav from 'components/job/nav';
 import RightComponent from './right';
 
+import BreadCrumbComponent from 'components/breadcrumb';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -12,11 +14,8 @@ class IndexPage extends Component {
 
     componentDidMount() {
         NProgress.done();
-        const {location} = this.props;
-        if(location.pathname === '/job'){
-            this.props.getJobStatistics();
-            this.props.getJobList({type: 'all',count: "20"});
-        }
+        this.props.getJobStatistics();
+        this.props.getJobList({type: 'all',count: "20"});
     }
 
     onClick(type) {
@@ -54,17 +53,21 @@ class IndexPage extends Component {
     }
 
     render() {
+        const {routes} = this.props;
         return (
-            <div className="list-block">
-                <div className="pull-left">
-                    <LeftNav 
-                        title="职位分类" 
-                        data={this._getNavData()}
-                        onClick={this.onClick.bind(this)} 
-                    />
-                </div>
-                <div className="pull-right">
-                    <RightComponent />
+            <div className="page-content job-page">
+                <BreadCrumbComponent routes={routes} />
+                <div className="list-block">
+                    <div className="pull-left">
+                        <LeftNav 
+                            title="职位分类" 
+                            data={this._getNavData()}
+                            onClick={this.onClick.bind(this)} 
+                        />
+                    </div>
+                    <div className="pull-right">
+                        <RightComponent />
+                    </div>
                 </div>
             </div>
         );
