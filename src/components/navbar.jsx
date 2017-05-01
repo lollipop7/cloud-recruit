@@ -2,12 +2,17 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 
 export default class NavBarComponents extends Component {
+
+    onClick=()=>{
+        NProgress.start();
+    }
+
     render() {
         const {location} = this.props,
             {pathname} = location,
             prefix = '/static/images/navbar/',
             navData = [
-                {name: '职位管理',path:'/job'},
+                {name: '职位管理',path:'/job/index'},
                 {name: '招聘流程',path:'/recruit'},
                 {name: '人才库',path:'/talent'},
                 {name: '任务报表',path:'/task'}
@@ -26,7 +31,7 @@ export default class NavBarComponents extends Component {
                             navData.map((item,index)=>{
                                 return (
                                     <li key={index} style={{backgroundColor: ('/'+pathname.split('/')[1]) === item.path ? '#00699f' : ''}}>
-                                        <Link to={item.path}>{item.name}</Link>
+                                        <Link onClick={this.onClick} to={item.path}>{item.name}</Link>
                                     </li>
                                 )
                             })

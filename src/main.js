@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import Promise from 'promise-polyfill'; 
-
 // To add to window
 if (!window.Promise) {
   window.Promise = Promise;

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
+import FormComponent from 'components/talent/form';
+import TableComponent from 'components/talent/table';
 import { Breadcrumb } from 'antd';
 
 export default class TalentPage extends Component {
@@ -41,6 +43,10 @@ export default class TalentPage extends Component {
             ];
     }
 
+    componentDidMount() {
+        NProgress.done();
+    }
+
     onClick(type) {
     }
 
@@ -53,12 +59,16 @@ export default class TalentPage extends Component {
                         <div className="list-block">
                             <div className="pull-left">
                                 <LeftNav 
-                                    title="招聘分类" 
+                                    title="人才分类" 
                                     data={this._getNavData()}
                                     onClick={this.onClick.bind(this)} 
                                 />
                             </div>
                             <div className="pull-right">
+                                <div className="box-border right-panel">
+                                    <FormComponent />
+                                    <TableComponent />
+                                </div>
                             </div>
                         </div>
                 </div>

@@ -6,6 +6,10 @@ import { Breadcrumb } from 'antd';
 
 export default class RecruitPage extends Component {
 
+    componentDidMount() {
+        NProgress.done();
+    }
+
      _getNavData(){
         return [
                 {

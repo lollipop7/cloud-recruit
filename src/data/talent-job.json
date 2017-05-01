@@ -1,0 +1,61 @@
+[
+    {
+        "title": "姓名",
+        "dataIndex": "name",
+        "key": "name",
+        "width": 77
+    },
+    {
+        "title": "性别",
+        "dataIndex": "sex",
+        "key": "sex",
+        "width": 50
+    },
+    {
+        "title": "居住地",
+        "dataIndex": "address", 
+        "key": "address",
+        "width": 97
+    },
+    {
+        "title": "出生日期",
+        "dataIndex": "birthdate",
+        "key": "birthdate",
+        "width": 130
+    },
+    {
+        "title": "学历",
+        "dataIndex": "education",
+        "key": "pay",
+        "width": 50
+    },
+    {
+        "title": "工作年限",
+        "dataIndex": "workYear",
+        "key": "workYear",
+        "width": 84
+    },
+    {
+        "title": "期望职位",
+        "dataIndex": "expectJob",
+        "key": "expectJob",
+        "width": 190
+    },
+    {
+        "title": "创建日期",
+        "dataIndex": "created",
+        "key": "created",
+        "width": 102
+    },
+    {
+        "title": "操作",
+        "dataIndex": "control",
+        "key": "control",
+        "width": 79
+    },
+    {
+        "title": "收藏",
+        "dataIndex": "isFav",
+        "key": "isFav"
+    }
+]

@@ -4,6 +4,9 @@ import ScrollPageContent from 'components/scroll-page-content';
 import { Breadcrumb } from 'antd';
 
 export default class TaskPage extends Component {
+    componentDidMount() {
+        NProgress.done();
+    }
     render() {
         const {routes,params} = this.props;
         return (

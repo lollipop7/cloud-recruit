@@ -13,36 +13,45 @@ export default class TimeComponent extends Component {
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
         if (!startValue || !endValue) {
-        return false;
+            return false;
         }
         return startValue.valueOf() > endValue.valueOf();
     }
 
     onChange = (field, value) => {
         this.setState({
-        [field]: value,
+            [field]: value,
         });
     }
 
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
-        return false;
+            return false;
         }
         return endValue.valueOf() <= startValue.valueOf();
     }
 
     onStartChange = (value) => {
+        const {onChange} = this.props;
+        if(this.props.onChange){
+            onChange('startTime',value);
+        }
         this.onChange('startValue', value);
     }
 
     onEndChange = (value) => {
+        const {onChange} = this.props;
+        if(this.props.onChange){
+            onChange('endTime',value);
+        }
         this.onChange('endValue', value);
     }
 
     handleStartOpenChange = (open) => {
-        if (!open) {
-        this.setState({ endOpen: true });
+        const {endValue} = this.state;
+        if (!open&&!endValue) {
+            this.setState({ endOpen: true });
         }
     }
 

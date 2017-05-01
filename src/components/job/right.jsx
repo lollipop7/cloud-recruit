@@ -7,7 +7,7 @@ export default class RightComponent extends Component {
     
     render() {
         return (
-            <div className="box-border">
+            <div className="box-border right-panel">
                 <FormComponent />
                 <TableComponent />
             </div>

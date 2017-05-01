@@ -10,6 +10,10 @@ import ScrollPageContent from 'components/scroll-page-content';
 
 export default class IndexPage extends Component {
 
+    componentDidMount() {
+        NProgress.done();
+    }
+
     render() {
         return (
             <ScrollPageContent>

@@ -1,37 +1,73 @@
 import React, {Component} from 'react';
-import { Input } from 'antd';
+import { Input , Button } from 'antd';
 
 import {Link} from 'react-router';
+
+import moment from 'moment';
 
 import TimeComponent from '../time';
 
 export default class FormComponent extends Component {
+
+    state = {
+        positionname: '',
+        department: '',
+    }
+
+    handlePositionName=(event) => {
+        this.setState({
+            positionname: event.target.value
+        });
+    }
+
+    handleDepartMent=(event) => {
+        this.setState({
+            department: event.target.value
+        });
+    }
+
+    clearInput=() => {
+        const {onStartChange,onEndChange} = this.refs.TimeComponent;
+        this.setState({
+            department: '',
+            positionname: ''
+        });
+        onStartChange(null);
+        onEndChange(null);
+    }
+
+    searchJob = () => {
+    }
+
+    onTimeChange=(field,value)=> {
+        this.setState({
+            [field]: moment(value).format('YYYY-MM-DD')
+        });
+    }
    
     render() {
+        const {department,positionname} = this.state;
         return (
-            <div style={{
+            <div className="form" style={{
                 position: 'relative'
             }}>
                 <div className="bottom16">
-                    <Input placeholder="职位" />
-                    <Input placeholder="部门" />
+                    <Input placeholder="职位" onChange={this.handleDepartMent} value={department} />
+                    <Input placeholder="部门" onChange={this.handlePositionName} value={positionname} />
                 </div>
                 <div>
-                    <TimeComponent style={{width:'249px',marginRight:'16px'}} />
-                    <a href="javascript:void(0);" className="button active" style={{
-                        marginRight: 16,
-                    }}>
-                        职位筛选
-                    </a>
-                    <a href="javascript:void(0);" className="button" style={{
-                        marginRight: 16,
-                    }}>
-                        清空条件
-                    </a>
+                    <TimeComponent
+                        ref="TimeComponent"
+                        onChange={this.onTimeChange}
+                        style={{width:'249px',marginRight:'16px'}} />
+                        <Button type="primary" onClick={this.searchJob}>职位筛选</Button>
+                        <Button onClick={this.clearInput}>清空条件</Button>
                 </div>
                 <div className="float-button">
-                    <Link to="/job/newJob" />
-                    <span>新建职位</span>
+                    <Link to="/job/newJob">
+                        <Button type="primary"></Button>
+                        <span>新建职位</span>
+                    </Link>
                 </div>
             </div>
         );

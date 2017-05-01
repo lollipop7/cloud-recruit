@@ -50,7 +50,7 @@
     }
     .inline-block {
         margin-right: 50px;
-        span {
+        &>span {
             margin-right: 11px;
         }
     }
@@ -58,7 +58,13 @@
         width: 279px;
         height: 40px;
         font-size: 16px;
+        color: #868686;
+        padding-left: 13px;
     }
+    .ant-select-selection__rendered {
+        margin-left: 13px;
+    }
+    
     //选择框
     .ant-select-selection--single {
         height: 40px;
@@ -94,8 +100,8 @@
         }
         .ant-tag {
             background-color: transparent;
-            border: 1px solid #568ccc;
-            color: #568ccc;
+            border: 1px solid $theme-color;
+            color: $theme-color;
             height: 37px;
             font-size: 16px;
             padding: 7px;
@@ -103,7 +109,7 @@
             margin-right: 14px;
         }
         .ant-tag-checkable-checked {
-            background-color: #568ccc;
+            background-color: $theme-color;
             color: #FFF;
         }
     }
@@ -162,7 +168,6 @@
                 border-color: transparent;
             }
             &:first-child {
-                background-color: $theme-color;
                 margin-right: 16px;
             }
             &:last-child {

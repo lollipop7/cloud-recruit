@@ -24,6 +24,10 @@
     padding-bottom: 50px;
 }
 
+.list-block {
+    overflow: auto;
+}
+
 // 垂直居中
 .vertical-center {
     position: absolute;
@@ -43,21 +47,8 @@
     box-sizing: border-box;
 }
 
-// button
-.ellipse-button {
-    width: 54px;
-    height: 20px;
-    display: inline-block;
-    line-height: 20px;
-    font-size: 14px;
-    color: #FFF;
-    background-color: #c0c0c0;
-    text-align: center;
-    border-radius: 9px;
-    &.perfect {
-        background-color: #2db9e8;
-    }
-    &.complete {
-        background-color: #faa426;
-    }
+.right-panel {
+    background-color: #FFF;
+    width: 984px;
+    padding: 16px 16px 0;
 }

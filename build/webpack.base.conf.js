@@ -5,12 +5,16 @@ var config = require('../config')
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-
 // plugins
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractSass = new ExtractTextPlugin({
-    filename: "css/style.css",
+    filename: "static/css/style.css",
+    // disable: process.env.NODE_ENV === "development"
+});
+
+const extractLess = new ExtractTextPlugin({
+    filename: "static/css/antd.css",
     // disable: process.env.NODE_ENV === "development"
 });
 
@@ -20,7 +24,10 @@ const vendor = [
     'react-dom',
     'react-redux',
     'redux',
-    'redux-thunk'
+    'redux-thunk',
+    'md5',
+    'store',
+    'moment'
 ]
 
 module.exports = {
@@ -38,15 +45,18 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      '@': resolve('src'),
-      'constants': resolve('src/constants'),
-      'actions': resolve('src/actions'),
-      'reducer': resolve('src/reducer'),
-      'pages': resolve('src/pages'),
-      'views': resolve('src/views'),
-      'utils': resolve('src/utils'),
-      'components': resolve('src/components'),
-      'data': resolve('src/data')
+        // 'moment':resolve('node_modules/moment/min/moment-with-locales.min.js'),
+        'md5': resolve('node_modules/blueimp-md5/js/md5.min.js'),
+        'store': resolve('node_modules/store/dist/store.legacy.min.js'),
+        '@': resolve('src'),
+        'constants': resolve('src/constants'),
+        'actions': resolve('src/actions'),
+        'reducer': resolve('src/reducer'),
+        'pages': resolve('src/pages'),
+        'views': resolve('src/views'),
+        'utils': resolve('src/utils'),
+        'components': resolve('src/components'),
+        'data': resolve('src/data')
     }
   },
   module: {
@@ -101,6 +111,27 @@ module.exports = {
             fallback: "style-loader"
         })
       },
+    {
+        test: /\.less$/,
+        use: extractLess.extract({
+            use: [
+                // {
+                //     loader: "style-loader" // creates style nodes from JS strings
+                // }, 
+                {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, 
+                {
+                    loader: "less-loader", // compiles Less to CSS
+                    options: {
+                        "modifyVars":config.theme
+                    }
+                }
+            ],
+            // use style-loader in development
+            fallback: "style-loader"
+        })
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
@@ -120,6 +151,7 @@ module.exports = {
     ]
   },
   plugins: [
-      extractSass
+      extractSass,
+      extractLess
   ]
 }

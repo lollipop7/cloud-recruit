@@ -53,6 +53,9 @@
                 a {
                     color: #FFF;
                     font-size: 18px;
+                    &:focus {
+                        text-decoration: none;
+                    }
                 }
             }
             &:after {
