@@ -1,98 +1,94 @@
 import React, {Component} from 'react';
 
-import echarts from 'echarts/lib/echarts';
-// 引入柱状图
-require('echarts/lib/chart/Line');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-require('echarts/lib/component/Legend');
+import echarts from 'static/js/echarts.min.js';
 
 export default class ResumeComponent extends Component {
 
     componentDidMount() {
-            var myChart = echarts.init(this.refs.echarts);
-            // 指定图表的配置项和数据
-            var option = {
-                title: {
-                    text: '简历入库情况',
+        var myChart = echarts.init(this.refs.echarts);
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '简历入库情况',
+                textStyle: {
+                    color: '#4d4d4d',
+                    fontSize: 16,
+                    fontFamily: 'Microsoft YaHei',
+                    fontWeight: 'bolder'
+                },
+                padding: 0,
+                top: 13,
+                left: 13
+            },
+            color: ['#ac4100','#00b1c6','#f9a326'],
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: 23,
+                top: 78,
+                right: 43,
+                bottom: 15,
+                containLabel: true
+            },
+            legend: {
+                top: 42,
+                left: 8,
+                itemWidth: 15,
+                data:[{
+                    name: '前程无忧',
+                    icon: `image://static/images/index/rect-1.png`,
+                    textStyle: {
+                        color: '#6b6b6b',
+                        fontSize: 12
+                    }
+                },{
+                    name: '智联招聘',
+                    icon: `image://static/images/index/rect-2.png`,
+                    textStyle: {
+                        color: '#6b6b6b',
+                        fontSize: 12
+                    }
+                },{
+                    name: '其他',
+                    icon: `image://static/images/index/rect-3.png`,
+                    textStyle: {
+                        color: '#6b6b6b',
+                        fontSize: 12
+                    }
+                }]
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {show: true, type: ['stack', 'tiled']},
+                    saveAsImage: {show: true}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['第一周','第二周','第三周','第四周'],
+                axisTick: {
+                    show: false // 不显示刻度
+                },
+                axisLabel: {
                     textStyle: {
                         color: '#4d4d4d',
-                        fontSize: 16,
-                        fontFamily: 'Microsoft YaHei',
-                        fontWeight: 'bolder'
-                    },
-                    padding: 0,
-                    top: 13,
-                    left: 13
+                        fontSize: 12
+                    }
                 },
-                color: ['#ac4100','#00b1c6','#f9a326'],
-                tooltip: {
-                    trigger: 'axis'
-                },
-                grid: {
-                    left: 23,
-                    top: 78,
-                    right: 43,
-                    bottom: 15,
-                    containLabel: true
-                },
-                legend: {
-                    top: 42,
-                    left: 8,
-                    data:[{
-                        name: '前程无忧',
-                        icon: 'roundRect',
-                        textStyle: {
-                            color: '#6b6b6b',
-                            fontSize: 12
-                        }
-                    },{
-                        name: '智联招聘',
-                        icon: 'roundRect',
-                        textStyle: {
-                            color: '#6b6b6b',
-                            fontSize: 12
-                        }
-                    },{
-                        name: '其他',
-                        icon: 'roundRect',
-                        textStyle: {
-                            color: '#6b6b6b',
-                            fontSize: 12
-                        }
-                    }]
-                },
-                toolbox: {
+                splitLine: {
                     show: true,
-                    feature: {
-                        magicType: {show: true, type: ['stack', 'tiled']},
-                        saveAsImage: {show: true}
-                    }
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['第一周','第二周','第三周','第四周'],
-                    axisTick: {
-                        show: false // 不显示刻度
-                    },
-                    axisLabel: {
-                        textStyle: {
-                            color: '#4d4d4d',
-                            fontSize: 12
-                        }
-                    },
-                    splitLine: {
-                        show: true,
-                    }
-                },
-                yAxis: {
-                    axisTick: {
-                        show: false // 不显示刻度
-                    }
-                },
-                series: [{
+                }
+            },
+            yAxis: {
+                axisTick: {
+                    show: false // 不显示刻度
+                }
+            },
+            series: [
+                {
                     name: '前程无忧',
                     type: 'line',
                     smooth: false,
@@ -124,11 +120,12 @@ export default class ResumeComponent extends Component {
                         }
                     },
                     data: [20, 32, 61, 24]
-                }]
-            };
+                }
+            ]
+        };
 
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
     }
 
     render() {

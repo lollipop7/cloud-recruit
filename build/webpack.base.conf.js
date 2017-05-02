@@ -57,7 +57,8 @@ module.exports = {
         'views': resolve('src/views'),
         'utils': resolve('src/utils'),
         'components': resolve('src/components'),
-        'data': resolve('src/data')
+        'data': resolve('src/data'),
+        'static': resolve('static')
     }
   },
   module: {
@@ -87,12 +88,12 @@ module.exports = {
         },
         include: [resolve('src'), resolve('test')]
       },
+    //   {
+    //     test: /\.css$/,
+    //     use: [ 'style-loader', 'css-loader' ]
+    //   },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      },
-      {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         // include: [resolve('src')],
         use: extractSass.extract({
             use: [

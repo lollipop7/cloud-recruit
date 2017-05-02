@@ -19,6 +19,7 @@ class IndexPage extends Component {
     }
 
     onClick(type) {
+        NProgress.start();
     }
 
     _getNavData() {

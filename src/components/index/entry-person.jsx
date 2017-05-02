@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import {Table} from 'antd';
+import columns from 'data/index-table';
+
 import LoadingComponent from 'components/loading';
 
 // redux
@@ -10,12 +13,25 @@ import * as Actions from 'actions';
 class EntryPersonComponent extends Component {
 
     state = {
-        isLoading: false
     }
 
     componentDidMount() {
         this.setState({
             isLoading: true
+        });
+        let data = [];
+        for(let i=0;i<10;i++){
+            data.push({
+                key: `${i}`,
+                username: '',
+                positionname: '',
+                eventtime: '',
+                telephone: '',
+                entry: ''
+            });
+        }
+        this.setState({
+            datasource: data
         });
         this.props.getEntryPerson();
     }
@@ -25,76 +41,45 @@ class EntryPersonComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        if(nextState.isLoading && nextProps.entryPersonList.length > 0){
+        const list = nextProps.entryPersonList;
+        if(nextState.isLoading && list.length > 0){
+            
+            let data = [];
+            data = list.map((item,index)=>{
+                const {username= '',positionname='',eventtime= '',telephone= ''} = item;
+                return {
+                            key: `${index}`,
+                            username: username,
+                            positionname: positionname,
+                            eventtime: eventtime,
+                            telephone: telephone
+                        }
+            });
             this.setState({
-                isLoading: false
+                isLoading: false,
+                datasource: data
             });
         }
     }
 
     render() {
-        const {isLoading} = this.state;
+        const {isLoading=false,datasource=[]} = this.state;
         const {entryPersonList=[]} = this.props;
         return (
             <div className="entry-person box-border">
                 <div className="title">待入职人员</div>
-                <table className="layui-table">
-                    <thead>
-                        <tr>
-                        <th>人员姓名</th>
-                        <th>应聘岗位</th>
-                        <th>入职时间</th>
-                        <th>电话</th>
-                        <th>资料情况</th>
-                        <th>确认入职</th>
-                        </tr> 
-                    </thead>
-                    <tbody>
-                        {!isLoading && entryPersonList.length > 0 &&
-                            entryPersonList.map((item,index)=>{
-                                const {username='',positionname='',eventtime,telephone='',entry} = item;
-                                return (
-                                    <tr key={index}>
-                                        <td>
-                                            {username}
-                                        </td>
-                                        <td>
-                                            {positionname}
-                                        </td>
-                                        <td>
-                                            {eventtime}
-                                        </td>
-                                        <td>
-                                            {telephone}
-                                        </td>
-                                        <td>
-                                            {/*{
-                                                parseInt((Math.random()*10)) % 2 == 0 ? 
-                                                <span className="ellipse-button perfect">已完善</span>
-                                                :
-                                                <span className="ellipse-button">未完善</span>
-                                            }*/}
-                                        </td>
-                                        <td>
-                                            {
-                                                parseInt((Math.random()*10)) % 2 == 0 ? 
-                                                <span className="ellipse-button complete">已确认</span>
-                                                :
-                                                <span className="ellipse-button">未确认</span>
-                                            }
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        <tr className="space"></tr>
-                    </tbody>
-                </table> 
+                <Table 
+                    columns={columns}
+                    dataSource={datasource}
+                    pagination={false}
+                />
                 {isLoading && 
                     <div style={{
                         position: 'absolute',
                         width: '100%',
-                        height: '327px'
+                        height: 350,
+                        bottom: 0,
+                        backgroundColor: '#FFF'
                     }}>
                         <LoadingComponent />
                     </div>

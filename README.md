@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# cloud-recruit
+=======
 # cloud-recruit
 
 > A Vue.js project
@@ -28,3 +31,4 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+>>>>>>> 281d46c7d05b7d760fbdd635d1c4bf8d95e54f79
