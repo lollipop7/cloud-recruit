@@ -30,20 +30,20 @@ export default class CreateJobPage extends Component {
         routesCopy[1].path = '/job/index';
         return (
             <div className="page-content new-job-page">
-                    <BreadCrumbComponent routes={routesCopy} />
-                    <ul>
-                        <BaseInfoComponent ref="BaseInfoComponent" />
-                        <TagsComponent />
-                        <OtherInfoComponent ref="OtherInfoComponent" />
-                        <li className="control">
-                            <ul>
-                                <li>
-                                    <Button type="primary">发布</Button>
-                                    <Button onClick={this.resetForm}>重置</Button>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                <BreadCrumbComponent routes={routesCopy} />
+                <ul>
+                    <BaseInfoComponent ref="BaseInfoComponent" />
+                    <TagsComponent />
+                    <OtherInfoComponent ref="OtherInfoComponent" />
+                    <li className="control">
+                        <ul>
+                            <li>
+                                <Button type="primary">发布</Button>
+                                <Button onClick={this.resetForm}>重置</Button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         );
     }

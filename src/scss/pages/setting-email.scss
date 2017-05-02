@@ -1,0 +1,10 @@
+.setting-email-page {
+    ul {
+        width:368px; 
+    }
+    div.table-cell {
+        &:first-child {
+            width: 82px;
+        }
+    }
+}

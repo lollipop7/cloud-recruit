@@ -1,0 +1,26 @@
+.settings-block {
+    input {
+        margin-right: 0px;
+    }
+    ul {
+        margin: 70px auto 0;
+        font-size: 16px;
+        color: $theme-font-color;
+        li {
+            margin-bottom: 30px;
+            &:last-child {
+                margin-bottom: 0;
+                text-align: center;
+            }
+        }
+        div.table-cell {
+            &:first-child {
+                text-align: right;
+            }
+            &:last-child {
+                padding-left: 12px;
+                box-sizing: border-box;
+            }
+        }
+    }
+}

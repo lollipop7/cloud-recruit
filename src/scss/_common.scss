@@ -1,6 +1,7 @@
 // display
 .table {
     display: table;
+    width: 100%;
 }
 .table-row {
     display: table-row;
@@ -51,4 +52,10 @@
     background-color: #FFF;
     width: 984px;
     padding: 16px 16px 0;
+}
+
+.settings-block {
+    height: 400px;
+    background-color: #FFF;
+    
 }

@@ -88,7 +88,26 @@ export default function getRoutes () {
             }}    
             onEnter={onEnterLoginHook} 
         />
-        <Redirect from="/job" to="/job/index" />
+        <Route 
+            path="changePasswd" 
+            breadcrumbName="修改密码"
+            getComponent={(nextState,cb)=>{
+                require.ensure([], (require) => {
+                    cb(null, require('pages/change-passwd').default)
+                }, 'ChangePasswdPage')
+            }} 
+            onEnter={onEnterLoginHook} 
+        />
+        <Route 
+            path="settingEmail" 
+            breadcrumbName="配置邮箱(候选人管理)"
+            getComponent={(nextState,cb)=>{
+                require.ensure([], (require) => {
+                    cb(null, require('pages/setting-email').default)
+                }, 'SettingEmailPage')
+            }} 
+            onEnter={onEnterLoginHook} 
+        />
     </Route>
   )
 }
