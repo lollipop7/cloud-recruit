@@ -1,0 +1,40 @@
+.left-nav {
+    width: 200px;
+    background-color: #FFF;
+    a {
+        display: block;
+        padding: 13px 0;
+        width: 174px;
+        font-size: 16px;
+        color: $theme-font-color;
+        font-weight: bold;
+        position: relative;
+        margin: 0 auto;
+        &:after {
+            @include border-bottom;
+        }
+    }
+    dl {
+        margin-top: 12px;
+        dd {
+            height: 46px;
+            line-height: 46px;
+            padding-left: 13px;
+            font-size: 16px;
+            color: #868686;
+            &.active,&:hover {
+                background-color: $theme-color;
+                color: #FFF;
+            }
+            &.active {
+                background-image: url(/static/images/arrow.png);
+                background-repeat: no-repeat;
+                background-size: 8px 12px;
+                background-position: 179px 50%;
+            }
+            &:hover {
+                cursor:pointer;
+            }
+        }
+    }
+}

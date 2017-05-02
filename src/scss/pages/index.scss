@@ -1,0 +1,138 @@
+.index-page {
+    padding-bottom: 18px;
+    .list-block {
+        overflow: auto;
+        margin-top: 16px;
+    }
+    .time,.mission,.task-progress,.entry-person {
+        background-color: #FFF;
+    }
+    .title {
+        position: relative;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: bold;
+        background-image: url(/static/images/index/more.png);
+        background-position: 100% 0%;
+        background-repeat: no-repeat;
+        padding-bottom: 12px;
+        color: $theme-font-color;
+    }
+    .pull-left {
+        width: 270px;
+    }
+    // 时间
+    .time {
+        height: 64px;
+        padding-left: 13px;
+        padding-top: 17px;
+        position: relative;
+        .top {
+            color: $theme-font-color;
+            font-size: 18px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+        .bottom {
+            font-size: 12px;
+            line-height: 12px;
+            margin-top: 8px;
+        }
+        .right {
+            width: 80px;
+            height: 100%;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            background-color: $theme-color;
+            color: #FFF;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 64px;
+        }
+    }
+    // 紧急任务
+    .mission {
+        margin-top: 16px;
+        height: 300px;
+        padding: 12px 13px 38px;
+        .title {
+            &:after {
+                @include border-bottom;
+            }
+        }
+        li {
+            height: 55px;
+            box-sizing: border-box;
+            padding: 13px 0;
+            position: relative;
+            color: $assist-color;
+            &:after {
+                @include border-bottom;
+            }
+            .left {
+                position: absolute;
+                left: 0px;
+            }
+            .right {
+                position: absolute;
+                height: 29px;
+                right: 0px;
+            }
+        }
+        .top {
+            font-size: 16px;
+            line-height: 16px;
+        }
+        .bottom {
+            line-height: 12px;
+            font-size: 12px;
+            margin-top: 1px;
+        }
+        a {
+            display: block;
+            width: 50px;
+            height: 20px;
+            border: 1px solid $mission-theme-color;
+            text-align: center;
+            line-height: 20px;
+            box-sizing: border-box;
+            color: $mission-theme-color;
+            font-size: 16px;
+            margin-top: 4px;
+            &:hover {
+                cursor: default;
+            }
+        }
+    }
+    // 任务完成进度
+    .task-progress {
+        height: 330px;
+        padding: 13px;
+        .pie-chart {
+            height: 276px;
+            width: 244px;
+        }
+    }
+    // 待入职人员
+    .entry-person {
+        // min-height: 413px;
+        width: 914px;
+        position: relative;
+        padding-bottom: 10px;
+        .title {
+            margin: 12px 12px 0;
+        }
+        .ant-table-wrapper {
+            margin-top: 0;
+        }
+        th {
+            background-color: $theme-color;
+            color: #FFF !important;
+        }
+        th,td {
+            padding-left: 13px !important;
+        }
+    }
+}

@@ -1,0 +1,54 @@
+// display
+.table {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
+
+// float
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+
+// page-content 
+.page-content {
+    margin: 0 auto;
+    width: 1200px;
+    padding-bottom: 50px;
+}
+
+.list-block {
+    overflow: auto;
+}
+
+// 垂直居中
+.vertical-center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+// display
+.inline-block {
+    display: inline-block;
+}
+
+.box-border {
+    border: 1px solid #e7eaf1;
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-sizing: border-box;
+}
+
+.right-panel {
+    background-color: #FFF;
+    width: 984px;
+    padding: 16px 16px 0;
+}

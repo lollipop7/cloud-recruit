@@ -1,0 +1,30 @@
+.form {
+    .bottom16 {
+        margin-bottom: 16px;
+    }
+    input {
+        margin-right: 16px;
+        border-radius: 8px;
+        font-size: 16px;
+        height: 40px;
+        color: #868686;
+        padding-left: 13px;
+    }
+    .ant-btn {
+        width: 114px;
+        height: 40px;
+        font-size: 18px;
+        color: #FFF;
+        border-radius: 8px;
+        &:hover {
+            border-color: transparent;
+            color: #FFF;
+        }
+        &.ant-btn-primary {
+            margin-right: 16px;
+        }
+        &:last-child {
+            background-color: #c0c0c0;
+        }
+    }
+}

@@ -1,0 +1,80 @@
+[
+    {
+        "title": "紧急",
+        "dataIndex": "urgent",
+        "key": "urgent",
+        "width": 49
+    },
+    {
+        "title": "编号",
+        "dataIndex": "num",
+        "key": "num",
+        "width": 87
+    },
+    {
+        "title": "职位名",
+        "dataIndex": "name", 
+        "key": "name",
+        "width": 138
+    },
+    {
+        "title": "部门",
+        "dataIndex": "department",
+        "key": "department",
+        "width": 80
+    },
+    {
+        "title": "薪资要求",
+        "dataIndex": "pay",
+        "key": "pay",
+        "width": 80
+    },
+    {
+        "title": "申请",
+        "dataIndex": "reply",
+        "key": "reply",
+        "width": 48
+    },
+    {
+        "title": "面试",
+        "dataIndex": "interview",
+        "key": "interview",
+        "width": 48
+    },
+    {
+        "title": "复试",
+        "dataIndex": "sinterview",
+        "key": "sinterview",
+        "width": 48
+    },
+    {
+        "title": "offer",
+        "dataIndex": "off",
+        "key": "off",
+        "width": 48
+    },
+    {
+        "title": "入职",
+        "dataIndex": "entry",
+        "key": "entry",
+        "width": 48
+    },
+    {
+        "title": "开始时间",
+        "dataIndex": "startTime",
+        "key": "startTime",
+        "width": 97
+    },
+    {
+        "title": "结束时间",
+        "dataIndex": "endTime",
+        "key": "endTime",
+        "width": 97
+    },
+    {
+        "title": "状态",
+        "dataIndex": "status",
+        "key": "status"
+    }
+]
+        

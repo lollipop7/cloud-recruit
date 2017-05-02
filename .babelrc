@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["env", { "modules": false }],
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "plugins": ["transform-runtime",["import", { "libraryName": "antd", "style": "css"}],"lodash"],
+  "comments": false,
+  "env": {
+    "test": {
+      "presets": ["env", "stage-2"],
+      "plugins": [ "istanbul" ]
+    }
+  }
+}
