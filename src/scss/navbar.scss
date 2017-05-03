@@ -9,8 +9,7 @@
         min-width: 1200px;
         margin: 0 auto;
         .logo,.home {
-            display: inline-block;
-            position: relative;
+            position: absolute;
             height: 100%;
             img {
                 position: absolute;
@@ -22,6 +21,7 @@
             }
         }
         .logo {
+            left: 0px;
             width: 119px;
             img {
                 height: 28px;
@@ -29,7 +29,7 @@
         }
         .home {
             width: 70px;
-            left: 40px;
+            left: 158px;
             a {
                 display: inline-block;
                 width: 100%;
@@ -40,15 +40,15 @@
             }
         }
         ul {
-            display: inline-block;
-            margin-left: 67px;
+            position: absolute;
+            left: 255px;
             overflow: auto;
             li {
-                float: left;
-                height: 56px;
-                line-height: 56px;
+                display: table-cell;
                 width: 96px;
                 text-align: center;
+                height: 56px;
+                vertical-align: middle;
                 // margin-right: 31px;
                 a {
                     color: #FFF;
@@ -57,13 +57,6 @@
                         text-decoration: none;
                     }
                 }
-            }
-            &:after {
-                clear:both;
-                content:'.';
-                width: 0;
-                height: 0;
-                visibility:hidden;
             }
         }
         .search,input,.search-button,.email {
@@ -84,7 +77,6 @@
                 outline: none;
                 font-size: 14px;
                 color: #FFF;
-                height: 14px;
                 background-color: transparent;
             }
             .search-button {

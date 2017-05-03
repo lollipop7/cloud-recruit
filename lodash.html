@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.js"></script>
+    <script>
+        var arr = [
+            {cnt:1,stageid:1},
+            {cnt:2,stageid:2},
+            {cnt:3,stageid:3},
+            {cnt:4,stageid:4},
+            {cnt:5,stageid:5},
+            {cnt:6,stageid:6},
+            {cnt:7,stageid:7}
+        ];
+        const array = _.filter(arr,item=>{
+            return item.stageid != 2 && item.stageid != 7;
+        });
+        console.log(array);
+    </script>
+</body>
+</html>

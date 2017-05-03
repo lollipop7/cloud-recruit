@@ -6,8 +6,6 @@ import Promise from 'promise-polyfill';
 import normallize from 'static/css/normalize.css';
 import nprogress from 'static/css/nprogress.css';
 
-import Breadcrumb from 'antd/lib/breadcrumb/style/index.css';
-
 // To add to window
 if (!window.Promise) {
   window.Promise = Promise;

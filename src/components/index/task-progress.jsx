@@ -1,112 +1,151 @@
 import React, {Component} from 'react';
 import echarts from 'static/js/echarts.min.js';
-export default class TaskProgressComponent extends Component {
+import {Button} from 'antd';
+// pie option
+import chartOptions from 'data/chart/pie';
+
+// loading
+import LoadingComponent from 'components/loading';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+// lodash
+import filter from 'lodash/filter';
+
+class TaskProgressComponent extends Component {
+
+    state = {
+        isLoading: false,
+        activeTab: 0
+    }
+
+    tabList= [7,30,180,360];
+    
+    chartInstance = null;
 
     componentDidMount() {
-         var myChart = echarts.init(this.refs.echarts);
-            // 指定图表的配置项和数据
-            var option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)",
-                    position: function (pos, params, dom, rect, size) {
-                        // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
-                        var obj = {top: 60};
-                        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-                        return obj;
-                    }
-                },
-                legend: {
-                    itemWidth: 15,
-                    data:[
-                        {
-                            name: '申请人数 ',
-                            icon: 'image://static/images/index/reply.png'
-                        },
-                        {
-                            name: '面试人数',
-                            icon: 'image://static/images/index/interview.png'
-                        },
-                        {
-                            name: '复试人数',
-                            icon: 'image://static/images/index/sinterview.png'
-                        },
-                        {
-                            name: 'offer人数',
-                            icon: 'image://static/images/index/offer.png'
-                        },
-                        {
-                            name: '入职人数',
-                            icon: 'image://static/images/index/entry.png'
-                        }
-                    ],
-                    itemGap: 11,
-                    textStyle: {
-                        color: '#6b6b6b',
-                        fontSize: 12
-                    },
-                    padding: 7,
-                    bottom: 0,
-                    borderColor: '#d5d5d5',
-                    borderWidth: 1,
-                },
-                grid: {
-                    show: false,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    width: 244,
-                    height: 276,
-                    containLabel: false
-                },
-                series: [
-                    {
-                        name:'任务完成指数',
-                        type:'pie',
-                        center: ['50%',115],
-                        radius: ['40%', '65%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'inside',
-                                formatter: '{c}',
-                                textStyle:{
-                                    fontSize: 12
-                                }
-                            },
-                            emphasis: {
-                                show: true,
-                                textStyle: {
-                                    fontSize: '16',
-                                    fontWeight: 'bold'
-                                }
-                            }
-                        },
-                        data:[
-                            {value:335, name:'申请人数 '},
-                            {value:310, name:'面试人数'},
-                            {value:234, name:'复试人数'},
-                            {value:135, name:'offer人数'},
-                            {value:1548, name:'入职人数'}
-                        ]
-                    }
-                ]
-            };
+        this.setState({
+            isLoading: true
+        });
+        this.props.getTaskProgress(this.tabList[this.state.activeTab]);
+    }
 
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
+    componentWillUnmount() {
+        if(this.chartInstance){
+            // 组件卸载后销毁echart实例
+            this.destroyChart();
+        }
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        const {taskProgress} = nextProps,
+            {isLoading} = nextState;
+        if(taskProgress.length && nextProps.taskProgress !== this.props.taskProgress && isLoading){
+            // 去除loading
+            this.setState({
+                isLoading: false
+            });
+            // 实例化echart
+            this.chartInstance = echarts.init(this.refs.echarts);
+             /**
+             * stageid 
+             * 1: 职位申请
+             * 2: 预约管理
+             * 3: 面试管理
+             * 4: 复试管理
+             * 5: 发送office
+             * 6: 入职管理
+             * 7: 结束管理
+             */
+            const {data} = chartOptions.legend,
+            filterData = filter(taskProgress,item=>{
+                return item.stageid !== 2 && item.stageid !== 7;
+            });
+            let result = [];
+            filterData.forEach( (item,index) => {
+                const {cnt,stageid} = item;
+                result.push({
+                    value: cnt,
+                    name:  data[index].name
+                });
+            });
+            chartOptions.series[0].data = result;
+            // 渲染图表
+            // 使用指定的配置项和数据显示图表。
+            this.chartInstance.setOption(chartOptions);
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        const {isLoading,activeTab} = this.state;
+        return nextProps.taskProgress !== this.props.taskProgress 
+        || nextState.isLoading !== isLoading 
+        || nextState.activeTab !== activeTab;
+    }
+
+    destroyChart = () => {
+        echarts.dispose(this.chartInstance);
+    }
+
+    handleClick = (index) => {
+        if(index === this.state.activeTab) return ;
+        this.setState({
+            activeTab:index,
+            isLoading: true
+        });
+        // 销毁实例化图表
+        this.destroyChart();
+        this.props.getTaskProgress(this.tabList[index]);
     }
 
     render() {
+        const {isLoading,activeTab} = this.state;
         return (
-            <div className="task-progress box-border">
-                <div className="title">任务完成指数</div>
+            <div className="task-progress box-border" style={{
+                position: 'relative'
+            }}>
+                <div className="title" onClick={this.onCancelRequest}>任务完成指数</div>
+                {isLoading &&
+                    <div style={{
+                        position: 'absolute',
+                        width: 244,
+                        height: 276
+                    }}>
+                        <LoadingComponent />
+                    </div>
+                }
+                <div className="tab">
+                    {
+                        this.tabList.map((item,index)=>{
+                            return (
+                                <Button 
+                                    key={index} 
+                                    type={ index === activeTab ? 'primary' : ''}
+                                    onClick={this.handleClick.bind(this,index)}
+                                    disabled={ index !== activeTab && isLoading ? true : false}
+                                >{item}天</Button>
+                            )
+                        })
+                    }
+                </div>
                 <div ref="echarts" className="pie-chart">
-
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    taskProgress: state.Home.taskProgress
+})
+const mapDispatchToProps = dispatch => ({
+    getTaskProgress: bindActionCreators(Actions.homeActions.getTaskProgress, dispatch),
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TaskProgressComponent);

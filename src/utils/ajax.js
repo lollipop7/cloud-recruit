@@ -1,58 +1,69 @@
-import 'whatwg-fetch';
+import axios from 'axios';
 import store from 'store';
+
+// lodash
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 
-import {notification} from 'antd';
+import { notification } from 'utils/antd';
 
-const checkStatus = response => {
-    if (response.status >= 200 && response.status < 300) {
-        return response
-    } else {
-        var error = new Error(response.statusText)
-        error.response = response
-        notification.error({
-            message: '网络错误',
-            description: response.statusText
-        });
-        throw error
-    }
+const CancelToken = axios.CancelToken;
+let cancel;
+
+// let instance = axios.create({
+//     // timeout: 25000,
+//     // headers: {'Content-Type': 'application/json;charset=utf-8'},
+// });
+
+export const cancelRequest = function() {
 }
 
-const parseJSON = response => {
-    return response.json();
-}
 
-const getData = data => {
-    data.head.type = 'h';
-    return data;
-}
-
-export const AjaxByPost = (uri,data) => {
+export const AjaxByPost = (uri, data) => {
     return new Promise(function(resolve, reject) {
-            fetch(uri, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(getData(data))
+        axios.post(uri, merge(data,{
+            head:{
+                type:'h'
+            },
+            cancelToken: new CancelToken(function executor(c) {
+                // An executor function receives a cancel function as a parameter
+                cancel=c;
             })
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(data=>{
-                const {returnCode,returnMsg} = data;
-                if(returnCode !== 'AAAAAAA'){
-                }else{
-                    resolve(data);
-                }
-            })
-            .catch(function(error) {
-                reject(error);
-            })
-        });
+        }))
+        .then(response => {
+            const {data} = response;
+            const { returnCode, returnMsg } = data;
+            if (returnCode !== 'AAAAAAA') {
+                console.error(`${returnCode}:${returnMsg}`);
+                notification.error(returnMsg);
+            } else {
+                resolve(omit(data,['returnCode','returnMsg']));
+            }
+        })
+        .catch(function(response) {
+            // console.log(response.config);
+            if (response instanceof Error) {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', response.message);
+                notification.error('网络错误',response.message);
+            } else if(axios.isCancel(response)) {
+                console.log(response.message);
+            } else {
+                // The request was made, but the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.headers);
+                console.log(response.config);
+            }
+        })
+        cancel();
+    });
+    
 }
 
-export const AjaxByToken = (uri,data) => {
+export const AjaxByToken = (uri, data) => {
     // 获取本地存储的token
     const token = store.get('token');
-    return AjaxByPost(uri,merge(data,{data:token}));
+    return AjaxByPost(uri, merge(data, { data: token }));
 }

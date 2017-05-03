@@ -2,9 +2,15 @@ import React, {Component} from 'react';
 
 import echarts from 'static/js/echarts.min.js';
 
-export default class ResumeComponent extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class ResumeComponent extends Component {
 
     componentDidMount() {
+        this.props.resumeWareHousing();
         var myChart = echarts.init(this.refs.echarts);
         // 指定图表的配置项和数据
         var option = {
@@ -139,3 +145,14 @@ export default class ResumeComponent extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+})
+const mapDispatchToProps = dispatch => ({
+    resumeWareHousing: bindActionCreators(Actions.homeActions.resumeWareHousing, dispatch),
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ResumeComponent);

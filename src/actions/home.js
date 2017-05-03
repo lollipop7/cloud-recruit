@@ -1,11 +1,12 @@
 import * as types from 'constants/ActionTypes.js';
 import {AjaxByToken} from 'utils/ajax';
 
-import only from 'only';
 import extend from 'lodash/extend';
 
 // 紧急任务
 const URGENT_TASKS = {type:types.URGENT_TASKS};
+// 获取任务完成指数
+const TASK_PROGRESS = {type:types.TASK_PROGRESS};
 // 待入职人员列表
 const ENTRY_PERSON = {type:types.ENTRY_PERSON};
 
@@ -19,6 +20,35 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(extend({},URGENT_TASKS,{urgentTasks:res.list}));
+    });
+}
+
+// 获取简历入库情况
+export const resumeWareHousing = () => (dispatch,getState) => {
+    AjaxByToken('/web/ResumeWareHousing',{
+        head: {
+            transcode: 'L0008'
+        },
+        data: {
+            latestDays: '360'
+        }
+    })
+    .then(res=>{
+    });
+}
+
+// 获取任务完成指数
+export const getTaskProgress = (latestDays) => (dispatch,getState) => {
+    AjaxByToken('/web/TaskCompletion',{
+        head: {
+            transcode: 'L0009'
+        },
+        data: {
+            latestDays: latestDays + '' //将数字转化为字符串
+        }
+    })
+    .then(res=>{
+        dispatch(extend({},TASK_PROGRESS,{taskProgress:res.content}));
     });
 }
 

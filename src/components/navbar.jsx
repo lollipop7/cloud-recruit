@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 
 export default class NavBarComponents extends Component {
 
-    onClick=()=>{
+    showNprogress=()=>{
         NProgress.start();
     }
 
@@ -24,14 +24,14 @@ export default class NavBarComponents extends Component {
                         <img src={`${prefix}logo.png`} alt="51云招聘"/>
                     </div>
                     <div className="home" style={{backgroundColor: pathname === '/' ? '#00699f' : ''}}>
-                        <Link to='#/'><img src={`${prefix}home.png`} alt="首页"/></Link>
+                        <Link to='#/' onClick={this.showNprogress}><img src={`${prefix}home.png`} alt="首页"/></Link>
                     </div>
                     <ul>
                         {
                             navData.map((item,index)=>{
                                 return (
                                     <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
-                                        <Link onClick={this.onClick} to={item.path}>{item.name}</Link>
+                                        <Link onClick={this.showNprogress} to={item.path}>{item.name}</Link>
                                     </li>
                                 )
                             })
