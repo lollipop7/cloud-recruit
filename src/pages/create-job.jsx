@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import { Button } from 'antd';
 import BaseInfoComponent from 'components/create-job/baseinfo';
-import TagsComponent from 'components/create-job/tags';
+// import TagsComponent from 'components/create-job/tags';
 import OtherInfoComponent from 'components/create-job/other-info';
 
 import BreadCrumbComponent from 'components/breadcrumb';
@@ -33,7 +33,7 @@ export default class CreateJobPage extends Component {
                 <BreadCrumbComponent routes={routesCopy} />
                 <ul>
                     <BaseInfoComponent ref="BaseInfoComponent" />
-                    <TagsComponent />
+                    {/*<TagsComponent />*/}
                     <OtherInfoComponent ref="OtherInfoComponent" />
                     <li className="control">
                         <ul>

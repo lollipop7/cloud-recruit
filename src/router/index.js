@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, IndexRoute , Redirect } from 'react-router';
-import {onEnterLoginHook,requireAuthHook} from '../hook';
+import {onEnterLoginHook,requireAuthHook,onLeavePage} from '../hook';
 
 export default function getRoutes () {
   return (
@@ -8,6 +8,7 @@ export default function getRoutes () {
          // 首页
         <IndexRoute 
             onEnter={requireAuthHook}
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/index').default)
@@ -24,18 +25,20 @@ export default function getRoutes () {
             }}  
         >
                 <Route 
-                    path="index" 
+                    path="index"
+                    onEnter={requireAuthHook}
+                    onLeave={onLeavePage} 
                     getComponent={(nextState,cb)=>{
                         require.ensure([], (require) => {
                             cb(null, require('components/job/index').default)
                         }, 'JobIndexPage')
                     }}  
-                    onEnter={requireAuthHook} 
                 />
                 <Route 
                 path="newJob" 
                 breadcrumbName="新建职位" 
                 onEnter={requireAuthHook}
+                onLeave={onLeavePage}
                 getComponent={(nextState,cb)=>{
                     require.ensure([], (require) => {
                         cb(null, require('pages/create-job').default)
@@ -47,6 +50,7 @@ export default function getRoutes () {
             path="recruit" 
             breadcrumbName="招聘流程" 
             onEnter={requireAuthHook}
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/recruit').default)
@@ -57,6 +61,7 @@ export default function getRoutes () {
             path="talent" 
             breadcrumbName="人才库" 
             onEnter={requireAuthHook}
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/talent').default)
@@ -67,6 +72,7 @@ export default function getRoutes () {
             path="task" 
             breadcrumbName="任务报表" 
             onEnter={requireAuthHook}
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/task').default)
@@ -85,6 +91,7 @@ export default function getRoutes () {
         <Route 
             path="changePasswd" 
             breadcrumbName="修改密码"
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/change-passwd').default)
@@ -94,6 +101,7 @@ export default function getRoutes () {
         <Route 
             path="settingEmail" 
             breadcrumbName="配置邮箱(候选人管理)"
+            onLeave={onLeavePage}
             getComponent={(nextState,cb)=>{
                 require.ensure([], (require) => {
                     cb(null, require('pages/setting-email').default)

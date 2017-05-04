@@ -1,33 +1,41 @@
 import React, {Component} from 'react';
+import md5 from 'blueimp-md5';
 
 import {Input,Button} from 'antd';
+import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 
 import ScrollPageContent from 'components/scroll-page-content';
 import BreadCrumbComponent from 'components/breadcrumb';
 
 import {ErrorInputComponents} from 'components/input';
 
-export default class ChangePasswdPage extends Component {
+import { notification } from 'utils/antd';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class ChangePasswdPage extends Component {
 
     state = {
         oldPwd: '',
         newPwd: '',
-        reNewPwd: ''
+        reNewPwd: '',
+        oldPwdError: false,
+        newPwdError: false,
+        reNewPwdError: false
     };
 
     onChange=(field,e)=>{
-        const {oldError=false,newError=false,reNewError=false} = this.state;
-        if(field === 'oldPwd' && oldError){
-            this.triggerError('oldError',false);
-        }
-        if(field === 'newPwd' && newError){
-            this.triggerError('newError',false);
-        }
-        if(field === 'reNewPwd' && reNewError){
-            this.triggerError('reNewError',false);
+        const val = e.target.value,
+        pattern = /[0-9a-zA-Z]/;
+        if(this.state[field+'Error']){
+            this.triggerError(field,false);
         }
         this.setState({
-            [field]: e.target.value
+            [field]: val
         });
     }
 
@@ -41,54 +49,66 @@ export default class ChangePasswdPage extends Component {
 
     triggerError = (field,bool) => {
         this.setState({
-            [field]: bool
+            [field+'Error']: bool
         });
     }
 
     validate = () => {
-        const {oldPwd='',newPwd='',reNewPwd=''} = this.state;
-        if(oldPwd === ''){
-            this.triggerError('oldError',true);
+        const {oldPwd,newPwd,reNewPwd} = this.state;
+        if(isEmpty(oldPwd)){
+            this.refs.oldPwdInput.refs.input.focus();
+            return false;
         }
-        if(newPwd === '') {
-            this.triggerError('newError',true);
+        if(isEmpty(newPwd)) {
+            this.refs.newPwdInput.refs.input.focus();
+            return false;
         }
-        if(reNewPwd === ''){
-            this.triggerError('reNewError',true);
+        if(isEmpty(reNewPwd)){
+            this.refs.reNewPwdInput.refs.input.focus();
+            return false;
         }
+        return true;
     }
 
     handChange = () => {
         const {oldPwd='',newPwd='',reNewPwd=''} = this.state;
-        this.validate();
-        if(oldPwd === ''){
-            this.refs.oldPwdInput.refs.input.focus();
-            return;
-        }else if(newPwd === '') {
-            this.refs.newPwdInput.refs.input.focus();
-            return;
-        }else if(reNewPwd === ''){
-            this.refs.reNewPwdInput.refs.input.focus();
+        if(!this.validate()) return;
+        if(newPwd !== reNewPwd)
+        {
+            notification.error('输入的两次密码不一致！');
             return;
         }
-        console.log('submit form');
+        this.props.changePassWd({
+            oldpasswd: md5(oldPwd),
+            newpasswd: md5(newPwd)
+        });
     }
 
-    handleOldEnter = () => {
-        this.refs.newPwdInput.refs.input.focus();
+    onEnter = (field) => {
+        if(isString(field)){
+            this.refs[field+'Input'].refs.input.focus();
+        }else{
+        }
     }
 
-    handleNewEnter = () => {
-        this.refs.reNewPwdInput.refs.input.focus();
-    }
-
-    handleReNewEnter = () => {
-        this.handChange();
+    onBlur = (field,event) => {
+        if(this.state[field] === ''){
+            this.triggerError(field,true);
+        }
     }
 
     render() {
         const {routes} = this.props;
-        const {oldPwd='',newPwd='',reNewPwd='',oldError=false,newError=false,reNewError=false} = this.state;
+        const {
+            oldPwd,
+            newPwd,
+            reNewPwd,
+            oldPwdError,
+            newPwdError,
+            reNewPwdError,
+            oldPwdErrorMsg= '必填',
+            errorMsg = '必填'
+        } = this.state;
         return (
             <ScrollPageContent>
                 <div className="page-content change-passwd-page">
@@ -104,12 +124,13 @@ export default class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="oldPwdInput"
-                                            error={oldError}
-                                            errorMsg="必填"
+                                            error={oldPwdError}
+                                            errorMsg={oldPwdErrorMsg}
                                             placeholder="请输入旧密码"
                                             value={oldPwd}
                                             onChange={this.onChange.bind(this,'oldPwd')}
-                                            onEnter={this.handleOldEnter}
+                                            onEnter={this.onEnter.bind(this,'newPwd')}
+                                            onBlur={this.onBlur.bind(this,'oldPwd')}
                                         />
                                     </div>
                                 </li>
@@ -121,12 +142,13 @@ export default class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="newPwdInput"
-                                            error={newError}
-                                            errorMsg="必填"
+                                            error={newPwdError}
+                                            errorMsg={errorMsg}
                                             placeholder="请输入新密码"
                                             value={newPwd}
                                             onChange={this.onChange.bind(this,'newPwd')}
-                                            onEnter={this.handleNewEnter}
+                                            onEnter={this.onEnter.bind(this,'reNewPwd')}
+                                            onBlur={this.onBlur.bind(this,'newPwd')}
                                         />
                                     </div>
                                 </li>
@@ -138,12 +160,13 @@ export default class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="reNewPwdInput"
-                                            error={reNewError}
-                                            errorMsg="必填"
+                                            error={reNewPwdError}
+                                            errorMsg={errorMsg}
                                             placeholder="请再次输入新密码"
                                             value={reNewPwd}
                                             onChange={this.onChange.bind(this,'reNewPwd')}
-                                            onEnter={this.handleReNewEnter}
+                                            onEnter={this.onEnter}
+                                            onBlur={this.onBlur.bind(this,'reNewPwd')}
                                         />
                                     </div>
                                 </li>
@@ -159,3 +182,14 @@ export default class ChangePasswdPage extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+})
+const mapDispatchToProps = dispatch => ({
+    changePassWd: bindActionCreators(Actions.UserActions.changePassWd, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ChangePasswdPage);

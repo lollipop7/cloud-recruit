@@ -18,6 +18,13 @@ export class ErrorInputComponents extends Component {
         }
     }
 
+    handleBlur = (event) => {
+        const {onBlur} = this.props;
+        if(onBlur){
+            onBlur(event);
+        }
+    }
+
     render() {
         const {error=false,errorMsg='',placeholder='',value='',type='text',className=''} = this.props;
         return (
@@ -32,6 +39,7 @@ export class ErrorInputComponents extends Component {
                     value={value}
                     onChange={this.handleChange}
                     onPressEnter={this.handleEnter}
+                    onBlur={this.handleBlur}
                 />
                 {error && 
                     <div className="error-promote">

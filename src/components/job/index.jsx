@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 import LeftNav from 'components/job/nav';
 import RightComponent from './right';
 
+import merge from 'lodash/merge';
+import omit from 'lodash/omit';
+
 import BreadCrumbComponent from 'components/breadcrumb';
 
 // redux
@@ -12,18 +15,46 @@ import * as Actions from 'actions';
 
 class IndexPage extends Component {
 
+    params = {
+        type: 'all'
+    };
+
     componentDidMount() {
         NProgress.done();
         this.props.getJobStatistics();
-        this.props.getJobList({type: 'all',count: "20"});
+        this.props.getJobList({
+            type: this.params.type
+        });
     }
 
     onClick(type) {
-        NProgress.start();
+        this.params.type = type;
+        this.requestData();
+    }
+
+    requestData() {
+        this.props.getJobList({...this.params});
+    }
+
+    searchJob = (params) => {
+        const {starttime,endtime} = params;
+        if(starttime === 0 ){
+            this.params = omit(params,['starttime']);
+        }
+        if(endtime === 0){
+            this.params = omit(params,['endtime']);
+        }
+        this.requestData();
     }
 
     _getNavData() {
-        const {all=0,completed=0,ongoing=0,preparation=0,stop=0} = this.props.statisticsData;
+        const {
+            all=0,
+            completed=0,
+            ongoing=0,
+            preparation=0,
+            stop=0
+        } = this.props.statisticsData;
         return [
                     {
                         title: '全部',
@@ -53,6 +84,9 @@ class IndexPage extends Component {
                 ];
     }
 
+    componentWillUpdate(nextProps,nextState) {
+    }
+
     render() {
         const {routes} = this.props;
         return (
@@ -67,7 +101,7 @@ class IndexPage extends Component {
                         />
                     </div>
                     <div className="pull-right">
-                        <RightComponent />
+                        <RightComponent searchJob={this.searchJob} />
                     </div>
                 </div>
             </div>
@@ -76,7 +110,8 @@ class IndexPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    statisticsData: state.Job.statisticsData // 统计列表数据
+    statisticsData: state.Job.statisticsData, // 统计列表数据
+    isLoading : state.Job.isLoading
 })
 const mapDispatchToProps = dispatch => ({
     getJobStatistics: bindActionCreators(Actions.jobActions.getJobStatistics, dispatch),

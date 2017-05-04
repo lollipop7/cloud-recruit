@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
-import { Input , Select } from 'antd';
+import { Select } from 'antd';
+
+import ErrorInputComponents from 'components/input';
 
 import data from 'data/create-job';
 
@@ -22,7 +24,7 @@ class InputComponent extends Component {
         return (
             <div className="inline-block">
                 <span>{title}</span>
-                <Input 
+                <ErrorInputComponents 
                     placeholder={`请输入${title}`} 
                     value={value}
                     onChange={this.onChange.bind(this,field)} 
@@ -39,13 +41,15 @@ class SelectComponent extends Component {
         });
     }
 
+    componentDidMount() {
+    }
+
     render() {
         const {title,placeholder} = this.props;
         return (
             <div className="inline-block">
                 <span>{title}</span>
                 <Select
-                    size='default'
                     placeholder={placeholder}
                     onChange={this.handleChange.bind(this,'major')}
                     allowClear
@@ -71,18 +75,25 @@ export default class BaseinfoComponent extends Component {
 
     resetData() {
         this.setState({
-            jobName:'',
-            pay:'',
+            positionname:'',
+            salary:'',
             department:'',
-            reason:'',
-            personNum:'',
-            workAddress:''
+            recruitreason:'',
+            headcount:'',
+            workcity:''
         });
     }
     
 
     render() {
-        const {jobName='',pay='',department='',reason='',personNum='',workAddress=''} = this.state;
+        const {
+            positionname='', // 职位名称
+            salary='', // 薪资待遇
+            department='', // 用人部门
+            recruitreason='', // 招聘理由
+            headcount='', // 招聘人数
+            workcity='' // 工作地点
+        } = this.state;
         return (
             <li className="base-info">
                 <h2 className="title">
@@ -92,14 +103,14 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <InputComponent
                             title="职位名称"
-                            field="jobName"
-                            value={jobName}
+                            field="positionname"
+                            value={positionname}
                             onChange={this.onChange}
                         />
                         <InputComponent
                             title="薪资待遇"
-                            field="pay"
-                            value={pay}
+                            field="salary"
+                            value={salary}
                             onChange={this.onChange}
                         />
                     </li>
@@ -112,22 +123,22 @@ export default class BaseinfoComponent extends Component {
                         />
                         <InputComponent
                             title="招聘理由"
-                            field="reason"
-                            value={reason}
+                            field="recruitreason"
+                            value={recruitreason}
                             onChange={this.onChange}
                         />
                     </li>
                     <li>
                         <InputComponent
                             title="招聘人数"
-                            field="personNum"
-                            value={personNum}
+                            field="headcount"
+                            value={headcount}
                             onChange={this.onChange}
                         />
                         <InputComponent
                             title="工作地点"
-                            field="workAddress"
-                            value={workAddress}
+                            field="workcity"
+                            value={workcity}
                             onChange={this.onChange}
                         />
                         <SelectComponent 

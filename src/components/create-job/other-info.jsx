@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import { Input , Tag , Radio } from 'antd';
+// import { Input , Tag , Radio } from 'antd';
+import { Input  , Radio } from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
-class TextAreaComponent extends Component {
+/*class TextAreaComponent extends Component {
 
     handleChange = (event) => {
         this.props.onChange(event);
@@ -28,13 +29,13 @@ class TextAreaComponent extends Component {
             </li>
         )
     }
-}
+}*/
 
 export default class OtherInfoComponent extends Component {
 
     state = {
-        workType: 1,
-        isUrgent: 1
+        // workType: 1,
+        // isUrgent: 1
     }
 
     onChange=(field,e)=>{
@@ -46,10 +47,10 @@ export default class OtherInfoComponent extends Component {
     resetData() {
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
-            workType: 1,
+            // workType: 1,
             isUrgent: 1,
-            workDuty: '',
-            dictate: ''
+            // workDuty: '',
+            // dictate: ''
         });
         onStartChange(null);
         onEndChange(null);
@@ -66,14 +67,14 @@ export default class OtherInfoComponent extends Component {
         // workDuty 工作职责
         // dicatate 工作资格
         // isUrgent 是否紧急
-        const {workType,workDuty,dictate,isUrgent} = this.state;
+        const {isUrgent=1} = this.state;
         return (
             <li className="other-info">
                 <h2 className="title">
                     其他信息
                 </h2>
                 <ul>
-                    <li>
+                    {/*<li>
                         <span>工作类型</span>
                         <RadioGroup onChange={this.onChange.bind(this,'workType')} value={workType}>
                             <Radio value={1}>全职</Radio>
@@ -90,7 +91,7 @@ export default class OtherInfoComponent extends Component {
                         title="任职资格"
                         value={dictate}
                         onChange={this.onChange.bind(this,'dictate')}
-                    />
+                    />*/}
                     <li>
                         <TimeComponent 
                             showField={true} 
@@ -103,7 +104,7 @@ export default class OtherInfoComponent extends Component {
                         <span>是否紧急</span>
                         <RadioGroup onChange={this.onChange.bind(this,'isUrgent')} value={isUrgent}>
                             <Radio value={1}>是</Radio>
-                            <Radio value={2}>否</Radio>
+                            <Radio value={0}>否</Radio>
                         </RadioGroup>
                     </li>
                 </ul>

@@ -1,81 +1,107 @@
 import React, {Component} from 'react';
 
-import {Table,Button} from 'antd';
+import {Table,Button,Tooltip} from 'antd';
+import pick from 'lodash/pick';
+import assign from 'lodash/assign';
 
 import columns from 'data/job-table';
+import LoadingComponent from 'components/loading';
+import moment from 'moment';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+const renderTime = (text,record,index) => {
+    return moment(text).format('YYYY-MM-DD');
+}
+
+const renderTextWithATag = (text, record, index) => {
+    return <a href="javascript:;" title={text}>{text}</a>
+}
+
+// 渲染紧急
 columns[0].render=(text, record, index)=>{
     return text ? <i className="urgent-icon"></i> : null;
 }
-columns[columns.length -1].render=(text, record, index)=>{
-    switch(text) {
+// 渲染职位名
+columns[2].render = renderTextWithATag;
+// 渲染部门
+columns[3].render = renderTextWithATag;
+// 渲染薪资要求
+columns[4].render = renderTextWithATag;
+// 渲染开始时间
+columns[10].render = renderTime;
+// 渲染结束时间
+columns[11].render= renderTime;
+// 渲染状态
+columns[12].render=(text, record, index)=>{
+    switch(parseInt(text)) {
+        case 0:
+            return <button className="status-button plan">准备中</button>;
         case 1:
-            return <a href="javascript:void(0);" className="status-button plan">准备中</a>;
+            return <button className="status-button progress">进行中</button>;
         case 2:
-            return <a href="javascript:void(0);" className="status-button progress">进行中</a>;
+            return <button className="status-button complete">已完成</button>;
         case 3:
-            return <a href="javascript:void(0);" className="status-button complete">已完成</a>;
-        case 4:
-            return <a href="javascript:void(0);" className="status-button end">已终止</a>;
+            return <button className="status-button end">已终止</button>;
     }
 }
-export default class TableComponent extends Component {
+
+class TableComponent extends Component {
     state = {
         dataSource:[]
     }
 
-    randomNum() {
-        return Math.random()*10;
-    }
-
-    getStatus= () => {
-        let num = this.randomNum();
-        if(num > 0 && num < 2.5){
-            return 1;
-        }else if (num>.25 && num < 5) {
-            return 2;
-        }else if(num>5 && num < 7.5) {
-            return 3;
-        }else if(num > 7.5 && num < 10) {
-            return 4;
-        }
-    }
-
-    componentDidMount() {
-        let obj = [];
-        for(let i=0;i<20;i++){
-            obj.push({
-                key: `${i}`,
-                urgent: (parseInt(Math.random()*10)%2 === 0) ? true : false,
-                num: 'cw14324',
-                name: '市场营销专员',
-                department: '运营部',
-                pay: '薪资要求',
-                reply: 100,
-                interview: 30,
-                sinterview: 10,
-                off: 5,
-                entry: 3,
-                startTime: '2017-03-04',
-                endTime: '2017-03-04',
-                status: this.getStatus()
-            });
-        }
-        this.setState({
-            dataSource: obj
+    _getDataSource(list) {
+        const keys = columns.map(item=>{
+            return item.key;
+        })
+        let dataSource = list.map((item,index)=>{
+            return assign(pick(item,keys),{key:index});
         });
+        return dataSource;
     }
-
     render() {
+        const {JobList,isLoading} = this.props;
         return (
-           <Table 
-                dataSource={this.state.dataSource} 
-                bordered
-                columns={columns}
-                pagination={{
-                    defaultPageSize:20 ,
-                    total: 1000
-                }}
-            />
+            <div style={{
+                position: 'relative',
+                width: 950,
+                height: 780
+            }}>
+                <Table 
+                    dataSource={this._getDataSource(JobList.list)} 
+                    bordered
+                    columns={columns}
+                    pagination={{
+                        defaultPageSize:20 ,
+                        total: JobList.count
+                    }}
+                />
+                {isLoading &&
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        zIndex: 3,
+                        width: 950,
+                        top: 34,
+                        height: 746,
+                    }} />
+                }
+            </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    JobList: state.Job.JobList, // 统计列表数据
+    isLoading: state.Job.isLoading
+})
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TableComponent);

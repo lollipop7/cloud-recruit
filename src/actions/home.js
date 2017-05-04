@@ -1,10 +1,12 @@
 import * as types from 'constants/ActionTypes.js';
 import {AjaxByToken} from 'utils/ajax';
-
+import store from 'store';
 import extend from 'lodash/extend';
 
 // 紧急任务
 const URGENT_TASKS = {type:types.URGENT_TASKS};
+// 获取简历入库情况
+const RESUME = {type:types.RESUME};
 // 获取任务完成指数
 const TASK_PROGRESS = {type:types.TASK_PROGRESS};
 // 待入职人员列表
@@ -24,16 +26,22 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
 }
 
 // 获取简历入库情况
-export const resumeWareHousing = () => (dispatch,getState) => {
+export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
+    setTimeout(function(){
+        console.log(latestDays);
+        dispatch(extend({},RESUME,{resumeData:store.get('resume')}));
+    },10000);
+    return;
     AjaxByToken('/web/ResumeWareHousing',{
         head: {
             transcode: 'L0008'
         },
         data: {
-            latestDays: '360'
+            latestDays: latestDays + ''
         }
     })
     .then(res=>{
+        dispatch(extend({},RESUME,{resumeData:res}));
     });
 }
 

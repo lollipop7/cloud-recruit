@@ -1,20 +1,20 @@
 [
     {
         "title": "紧急",
-        "dataIndex": "urgent",
-        "key": "urgent",
+        "dataIndex": "isurgent",
+        "key": "isurgent",
         "width": 49
     },
     {
         "title": "编号",
-        "dataIndex": "num",
-        "key": "num",
+        "dataIndex": "positionid",
+        "key": "positionid",
         "width": 87
     },
     {
         "title": "职位名",
-        "dataIndex": "name", 
-        "key": "name",
+        "dataIndex": "positionname", 
+        "key": "positionname",
         "width": 138
     },
     {
@@ -25,14 +25,14 @@
     },
     {
         "title": "薪资要求",
-        "dataIndex": "pay",
-        "key": "pay",
+        "dataIndex": "salary",
+        "key": "salary",
         "width": 80
     },
     {
         "title": "申请",
-        "dataIndex": "reply",
-        "key": "reply",
+        "dataIndex": "cnt",
+        "key": "cnt",
         "width": 48
     },
     {
@@ -55,20 +55,20 @@
     },
     {
         "title": "入职",
-        "dataIndex": "entry",
-        "key": "entry",
+        "dataIndex": "induction",
+        "key": "induction",
         "width": 48
     },
     {
         "title": "开始时间",
-        "dataIndex": "startTime",
-        "key": "startTime",
+        "dataIndex": "starttime",
+        "key": "starttime",
         "width": 97
     },
     {
         "title": "结束时间",
-        "dataIndex": "endTime",
-        "key": "endTime",
+        "dataIndex": "endtime",
+        "key": "endtime",
         "width": 97
     },
     {

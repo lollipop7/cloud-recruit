@@ -5,9 +5,6 @@ import { DatePicker } from 'antd';
 export default class TimeComponent extends Component {
 
      state = {
-        startValue: null,
-        endValue: null,
-        endOpen: false,
     };
 
     disabledStartDate = (startValue) => {
@@ -34,16 +31,16 @@ export default class TimeComponent extends Component {
 
     onStartChange = (value) => {
         const {onChange} = this.props;
-        if(this.props.onChange){
-            onChange('startTime',value);
+        if(onChange){
+            onChange('starttime',value);
         }
         this.onChange('startValue', value);
     }
 
     onEndChange = (value) => {
         const {onChange} = this.props;
-        if(this.props.onChange){
-            onChange('endTime',value);
+        if(onChange){
+            onChange('endtime',value);
         }
         this.onChange('endValue', value);
     }
@@ -53,7 +50,7 @@ export default class TimeComponent extends Component {
         if (!open&&!endValue) {
             this.setState({ endOpen: true });
         }
-    }
+    }  
 
     handleEndOpenChange = (open) => {
         this.setState({ endOpen: open });
@@ -61,7 +58,7 @@ export default class TimeComponent extends Component {
 
     render() {
         const {style={},showField=false} = this.props;
-        const { startValue, endValue, endOpen  } = this.state;
+        const { startValue=null, endValue=null, endOpen=false  } = this.state;
         return (
             <div style={{
                 display: "inline-block"

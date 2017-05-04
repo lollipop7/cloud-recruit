@@ -110,17 +110,6 @@
     .task-progress {
         height: 330px;
         padding: 13px;
-        .tab {
-            position: absolute;
-            z-index: 2;
-            button {
-                width: 50px;
-                height: 20px;
-                border-radius: 10px;
-                padding: 0px;
-                margin-right: 9px;
-            }
-        }
         .pie-chart {
             height: 276px;
             width: 244px;
@@ -144,6 +133,18 @@
         }
         th,td {
             padding-left: 13px !important;
+        }
+    }
+    //图表tab
+    .chart-tab {
+        position: absolute;
+        z-index: 2;
+        button {
+            width: 50px;
+            height: 20px;
+            border-radius: 10px;
+            padding: 0px;
+            margin-right: 9px;
         }
     }
 }
