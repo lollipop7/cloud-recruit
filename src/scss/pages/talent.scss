@@ -31,21 +31,8 @@
             font-size: 16px;
         }
     }
-    .control {
-        margin-top: 11px;
+    .table-control {
         button {
-            width: 66px;
-            height: 24px;
-            font-size: 14px;
-            padding-left: 26px;
-            text-align: inherit;
-            background-size: 13px 14px;
-            background-repeat: no-repeat;
-            background-position: 9px 50%; 
-            &:first-child {
-                margin-right: 12px;
-                background-image: url(/static/images/talent/delete.png);
-            }
             &:last-child {
                 background-image: url(/static/images/talent/move.png);
             }

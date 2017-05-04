@@ -26,10 +26,18 @@ export class ErrorInputComponents extends Component {
     }
 
     render() {
-        const {error=false,errorMsg='',placeholder='',value='',type='text',className=''} = this.props;
+        const {
+            error=false,
+            errorMsg='',
+            placeholder='',
+            value='',
+            type='text',
+            className='',
+            style={}
+        } = this.props;
         return (
             <div style={{
-                position: 'relative'
+                position: 'relative',...style
             }}>
                 <Input
                     ref="input"

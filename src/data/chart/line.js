@@ -23,7 +23,7 @@ module.exports = {
         containLabel: true
     },
     legend: {
-        top: 42,
+        top: 38,
         left: 8,
         itemWidth: 15,
         data:[{

@@ -63,6 +63,13 @@ class TableComponent extends Component {
         });
         return dataSource;
     }
+
+    handleChange = (p) => {
+        const {paginationChange} = this.props;
+        if(paginationChange){
+            paginationChange(p);
+        }
+    }
     render() {
         const {JobList,isLoading} = this.props;
         return (
@@ -79,6 +86,7 @@ class TableComponent extends Component {
                         defaultPageSize:20 ,
                         total: JobList.count
                     }}
+                    onChange={this.handleChange}
                 />
                 {isLoading &&
                     <LoadingComponent style={{

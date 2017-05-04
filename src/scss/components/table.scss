@@ -1,5 +1,5 @@
 .ant-table-wrapper {
-    margin-top: 16px;
+    margin-top: 11px;
     .ant-table,a {
         font-size: 14px;
         color: #868686;
@@ -48,5 +48,27 @@
     tr>th {
         color: $theme-font-color !important;
         // border-right: 1px solid #d5d5d5 !important;
+    }
+}
+
+.table-control {
+    margin-top: 11px;
+    button {
+        &:hover,&:focus {
+            background-repeat: no-repeat;
+            background-position: 9px 50%;
+            background-color: $theme-color;
+        }
+        width: 66px;
+        height: 24px;
+        font-size: 14px;
+        padding-left: 26px;
+        text-align: inherit;
+        background-repeat: no-repeat;
+        background-position: 9px 50%; 
+        &:first-child {
+            margin-right: 12px;
+            background-image: url(/static/images/talent/delete.png);
+        }
     }
 }

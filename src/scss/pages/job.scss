@@ -16,29 +16,10 @@
     }
     .pull-right {
         .float-button {
-            position: absolute;
-            right: 0px;
             bottom: 0px;
-            font-size: 0;
             button {
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
-                display: block;
-                background-color: $theme-color;
-                right: 0px;
-                bottom: 0px;
-                background-image: url(/static/images/plus.png);
                 background-size: 26px 26px;
-                background-repeat: no-repeat;
-                background-position: center center;
-            }
-            span {
-                font-size: 14px;
-                color: #868686;
-                line-height: 14px;
-                margin-top: 8px;
-                display: block;
+                background-image: url(/static/images/plus.png);
             }
         }
     }

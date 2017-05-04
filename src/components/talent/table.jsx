@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Table,Button , Modal,Select} from 'antd';
 const Option = Select.Option;
 
-import columns from 'data/talent-job';
+import columns from 'data/talent-table';
 
 export default class TableComponent extends Component {
     state = {modalVisible: false};
@@ -44,7 +44,7 @@ export default class TableComponent extends Component {
     render() {
         return (
             <div>
-                <div className="control">
+                <div className="table-control">
                     <Button type="primary">删除</Button>
                     <Button type="primary" onClick={this.moveItem}>移动</Button>
                     <Modal

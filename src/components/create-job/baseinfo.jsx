@@ -19,6 +19,10 @@ class InputComponent extends Component {
        this.props.onChange(field,event);
     }
 
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.value !== this.props.value
+    }
+
     render() {
         const {title,field,value} = this.props;
         return (
@@ -27,6 +31,9 @@ class InputComponent extends Component {
                 <ErrorInputComponents 
                     placeholder={`请输入${title}`} 
                     value={value}
+                    style={{
+                        display: 'inline-block'
+                    }}
                     onChange={this.onChange.bind(this,field)} 
                 />
             </div>
@@ -36,22 +43,25 @@ class InputComponent extends Component {
 
 class SelectComponent extends Component {
     handleChange= (field,value) => {
-        this.setState({
-            [field]: value ? value : ''
-        });
+        const {onChange} = this.props;
+        if(onChange){
+            onChange(field,value);
+        }
     }
 
-    componentDidMount() {
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.value !== this.props.value
     }
 
     render() {
-        const {title,placeholder} = this.props;
+        const {value,title,placeholder,field} = this.props;
         return (
             <div className="inline-block">
                 <span>{title}</span>
                 <Select
+                    value={value}
                     placeholder={placeholder}
-                    onChange={this.handleChange.bind(this,'major')}
+                    onChange={this.handleChange.bind(this,field)}
                     allowClear
                     style={{ width: 155,height:40 }}
                 >
@@ -67,10 +77,16 @@ export default class BaseinfoComponent extends Component {
 
     state = {}
 
-    onChange = (field,event) => {
-        this.setState({
-            [field]: event.target.value
-        });
+    onChange = (field,e) => {
+        if(typeof e === 'string'){
+            this.setState({
+                [field]: e
+            });
+        }else{
+            this.setState({
+                [field]: e.target.value
+            });
+        }
     }
 
     resetData() {
@@ -80,7 +96,10 @@ export default class BaseinfoComponent extends Component {
             department:'',
             recruitreason:'',
             headcount:'',
-            workcity:''
+            workcity:'',
+            workyears: undefined,
+            specialty: undefined,
+            educationbackground: undefined
         });
     }
     
@@ -92,7 +111,10 @@ export default class BaseinfoComponent extends Component {
             department='', // 用人部门
             recruitreason='', // 招聘理由
             headcount='', // 招聘人数
-            workcity='' // 工作地点
+            workcity='', // 工作地点
+            workyears=undefined, // 工作年限
+            specialty=undefined, // 专业
+            educationbackground=undefined //学历
         } = this.state;
         return (
             <li className="base-info">
@@ -143,17 +165,26 @@ export default class BaseinfoComponent extends Component {
                         />
                         <SelectComponent 
                             title="工作年限"
+                            value={workyears}
+                            field="workyears"
                             placeholder="请选择工作年限"
+                            onChange={this.onChange}
                         />
                     </li>
                     <li>
                         <SelectComponent 
                             title="专业"
+                            value={specialty}
+                            field="specialty"
                             placeholder="选择/修改"
+                            onChange={this.onChange}
                         />
                         <SelectComponent 
                             title="学历"
+                            value={educationbackground}
+                            field="educationbackground"
                             placeholder="请选择学历"
+                            onChange={this.onChange}
                         />
                     </li>
                 </ul>

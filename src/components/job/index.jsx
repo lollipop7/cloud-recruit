@@ -87,6 +87,11 @@ class IndexPage extends Component {
     componentWillUpdate(nextProps,nextState) {
     }
 
+    paginationChange = (p) => {
+        this.params.skip = (p.current-1)*20+'';
+        this.requestData();
+    }   
+
     render() {
         const {routes} = this.props;
         return (
@@ -101,7 +106,7 @@ class IndexPage extends Component {
                         />
                     </div>
                     <div className="pull-right">
-                        <RightComponent searchJob={this.searchJob} />
+                        <RightComponent searchJob={this.searchJob} paginationChange={this.paginationChange} />
                     </div>
                 </div>
             </div>

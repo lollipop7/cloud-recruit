@@ -4,6 +4,9 @@ import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
 import BreadCrumbComponent from 'components/breadcrumb';
 
+import FormComponents from 'components/recruit/form';
+import TableComponents from 'components/recruit/table';
+
 export default class RecruitPage extends Component {
 
     componentDidMount() {
@@ -73,6 +76,10 @@ export default class RecruitPage extends Component {
                             />
                         </div>
                         <div className="pull-right">
+                            <div className="box-border right-panel">
+                                <FormComponents />
+                                <TableComponents />
+                            </div>
                         </div>
                     </div>
                 </div>

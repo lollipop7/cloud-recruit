@@ -9,7 +9,7 @@ export default class RightComponent extends Component {
         return (
             <div className="box-border right-panel">
                 <FormComponent {...this.props} />
-                <TableComponent />
+                <TableComponent {...this.props} />
             </div>
         );
     }
