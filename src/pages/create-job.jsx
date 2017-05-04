@@ -7,7 +7,9 @@ import OtherInfoComponent from 'components/create-job/other-info';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
-import _ from 'lodash';
+import each from 'lodash/each';
+import pick from 'lodash/pick';
+
 
 export default class CreateJobPage extends Component {
     
@@ -24,8 +26,8 @@ export default class CreateJobPage extends Component {
     render() {
         let routesCopy = [];
         const {routes} = this.props;
-        _.each(routes,item=>{
-            routesCopy.push(_.pick(item,['breadcrumbName','path']));
+        each(routes,item=>{
+            routesCopy.push(pick(item,['breadcrumbName','path']));
         });
         routesCopy[1].path = '/job/index';
         return (
