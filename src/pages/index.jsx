@@ -8,8 +8,6 @@ import EntryPersonComponent from 'components/index/entry-person';
 
 import ScrollPageContent from 'components/scroll-page-content';
 
-import {cancelRequest} from 'utils/ajax';
-
 export default class IndexPage extends Component {
 
     componentDidMount() {
@@ -17,7 +15,6 @@ export default class IndexPage extends Component {
     }
 
     componentWillUnmount() {
-        // cancelRequest();
     }
 
     render() {

@@ -30,13 +30,18 @@ class TaskProgressComponent extends Component {
         this.setState({
             isLoading: true
         });
+        // 实例化echart
+        this.chartInstance = echarts.init(this.refs.echarts);
+        // 渲染图表
+        // 使用指定的配置项和数据显示图表。
+        this.chartInstance.setOption(chartOptions);
         this.props.getTaskProgress(this.tabList[this.state.activeTab]);
     }
 
     componentWillUnmount() {
         if(this.chartInstance){
             // 组件卸载后销毁echart实例
-            this.destroyChart();
+            // this.destroyChart();
         }
     }
 
@@ -48,8 +53,6 @@ class TaskProgressComponent extends Component {
             this.setState({
                 isLoading: false
             });
-            // 实例化echart
-            this.chartInstance = echarts.init(this.refs.echarts);
              /**
              * stageid 
              * 1: 职位申请
@@ -72,10 +75,12 @@ class TaskProgressComponent extends Component {
                     name:  data[index].name
                 });
             });
-            chartOptions.series[0].data = result;
-            // 渲染图表
-            // 使用指定的配置项和数据显示图表。
-            this.chartInstance.setOption(chartOptions);
+            this.chartInstance.setOption({
+                series: [{
+                    name: '任务完成指数',
+                    data: result
+                }]
+            });
         }
     }
 
@@ -97,7 +102,7 @@ class TaskProgressComponent extends Component {
             isLoading: true
         });
         // 销毁实例化图表
-        this.destroyChart();
+        // this.destroyChart();
         this.props.getTaskProgress(this.tabList[index]);
     }
 
@@ -117,7 +122,7 @@ class TaskProgressComponent extends Component {
                         <LoadingComponent />
                     </div>
                 }
-                <div className="tab">
+                <div className="chart-tab">
                     {
                         this.tabList.map((item,index)=>{
                             return (

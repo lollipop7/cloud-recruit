@@ -11,38 +11,42 @@ import TimeComponent from '../time';
 export default class FormComponent extends Component {
 
     state = {
-        positionname: '',
-        department: '',
     }
 
-    handlePositionName=(event) => {
+    handleChange = (field,e) => {
         this.setState({
-            positionname: event.target.value
+            [field]: e.target.value
         });
     }
 
-    handleDepartMent=(event) => {
-        this.setState({
-            department: event.target.value
-        });
+    handlePositionName=(e) => {
+        this.handleChange('positionname',e);
+    }
+
+    handleDepartMent=(e) => {
+        this.handleChange('department',e);
     }
 
     clearInput=() => {
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
-            department: '',
-            positionname: ''
+            positionname: '',
+            department: ''
         });
         onStartChange(null);
         onEndChange(null);
     }
 
     searchJob = () => {
+        const {searchJob} = this.props;
+        if(searchJob){
+            searchJob(this.state);
+        }
     }
 
     onTimeChange=(field,value)=> {
         this.setState({
-            [field]: moment(value).format('YYYY-MM-DD')
+            [field]: value ? moment(value).format('YYYY-MM-DD') : 0
         });
     }
 
@@ -51,14 +55,14 @@ export default class FormComponent extends Component {
     }
    
     render() {
-        const {department,positionname} = this.state;
+        const {department='',positionname=''} = this.state;
         return (
             <div className="form" style={{
                 position: 'relative'
             }}>
                 <div className="bottom16">
-                    <Input placeholder="职位" onChange={this.handleDepartMent} value={department} />
-                    <Input placeholder="部门" onChange={this.handlePositionName} value={positionname} />
+                    <Input placeholder="职位" onChange={this.handlePositionName} value={positionname} />
+                    <Input placeholder="部门" onChange={this.handleDepartMent} value={department} />
                 </div>
                 <div>
                     <TimeComponent

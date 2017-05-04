@@ -8,28 +8,48 @@ import omit from 'lodash/omit';
 import { notification } from 'utils/antd';
 
 const CancelToken = axios.CancelToken;
-let cancel;
+let cancel = [];
 
 // let instance = axios.create({
-//     // timeout: 25000,
-//     // headers: {'Content-Type': 'application/json;charset=utf-8'},
+//     timeout: 25000,
+//     headers: {'Content-Type': 'application/json;charset=utf-8'},
 // });
 
 export const cancelRequest = function() {
+    cancel.forEach(item=>{
+        Object.keys(item).forEach(key=>{
+            item[key]();
+        });
+    });
+    cancel = [];
 }
 
+export const cancelRequestByKey = function(key) {
+    cancel.forEach(item=>{
+        item[key] && item[key](`cancel uri:${key} request!`);
+    });
+}
 
 export const AjaxByPost = (uri, data) => {
     return new Promise(function(resolve, reject) {
-        axios.post(uri, merge(data,{
-            head:{
-                type:'h'
-            },
-            cancelToken: new CancelToken(function executor(c) {
-                // An executor function receives a cancel function as a parameter
-                cancel=c;
-            })
-        }))
+        axios({
+            url: uri,
+            method: 'post',
+            data: merge(data,{
+                head:{
+                    type:'h'
+                }
+            }),
+            cancelToken: new CancelToken(function (c) {
+                cancel.push({
+                    [uri]: c
+                });
+            }),
+            transformResponse(data,b){
+                NProgress.done();
+                return JSON.parse(data);
+            }
+        })
         .then(response => {
             const {data} = response;
             const { returnCode, returnMsg } = data;
@@ -57,7 +77,6 @@ export const AjaxByPost = (uri, data) => {
                 console.log(response.config);
             }
         })
-        cancel();
     });
     
 }
