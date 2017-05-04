@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import { Select } from 'antd';
 
-import ErrorInputComponents from 'components/input';
+import {ErrorInputComponents} from 'components/input';
 
 import data from 'data/create-job';
 
