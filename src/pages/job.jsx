@@ -6,9 +6,6 @@ import {cancelRequest} from 'utils/ajax';
 
 export default class JobPage extends Component {
 
-    componentWillUnMount() {
-    }
-
     render() {
         return (
             <ScrollPageContent>

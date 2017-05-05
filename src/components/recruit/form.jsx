@@ -60,7 +60,7 @@ export default class FormComponents extends Component {
                         }
                     </Select>
                     <Button type="primary">查询</Button>
-                    <Button>清空条件</Button>
+                    <Button className="grey">清空条件</Button>
                 </div>
             </div>
         );

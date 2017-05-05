@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {Table,Button} from 'antd';
 
-import columns from 'data/recruit-table';
+import columns from 'data/table-columns/recruit-table';
 
 export default class TableComponents extends Component {
 

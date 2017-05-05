@@ -1,113 +1,150 @@
-import React from 'react';
-import { Route, IndexRoute , Redirect } from 'react-router';
 import {onEnterLoginHook,requireAuthHook,onLeavePage} from '../hook';
 
-export default function getRoutes () {
-  return (
-    <Route path='/' component={require('views/Framework').default} breadcrumbName="首页" >
-         // 首页
-        <IndexRoute 
-            onEnter={requireAuthHook}
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/index').default)
-                }, 'IndexPage')
-            }}
-        />
-        <Route 
-            path="job" 
-            breadcrumbName="职位管理"
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/job').default)
-                }, 'JobPage')
-            }}  
-        >
-                <Route 
-                    path="index"
-                    onEnter={requireAuthHook}
-                    onLeave={onLeavePage} 
-                    getComponent={(nextState,cb)=>{
-                        require.ensure([], (require) => {
-                            cb(null, require('components/job/index').default)
-                        }, 'JobIndexPage')
-                    }}  
-                />
-                <Route 
-                path="newJob" 
-                breadcrumbName="新建职位" 
-                onEnter={requireAuthHook}
-                onLeave={onLeavePage}
-                getComponent={(nextState,cb)=>{
-                    require.ensure([], (require) => {
-                        cb(null, require('pages/create-job').default)
-                    }, 'NewJobPage')
-                }}  
-            />
-        </Route>
-        <Route 
-            path="recruit" 
-            breadcrumbName="招聘流程" 
-            onEnter={requireAuthHook}
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/recruit').default)
-                }, 'RecruitPage')
-            }}  
-        />
-        <Route 
-            path="talent" 
-            breadcrumbName="人才库" 
-            onEnter={requireAuthHook}
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/talent').default)
-                }, 'TalentPage')
-            }}  
-        />
-        <Route 
-            path="task" 
-            breadcrumbName="任务报表" 
-            onEnter={requireAuthHook}
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/task').default)
-                }, 'TaskPage')
-            }}   
-        />
-        <Route 
-            path="login" 
-            onEnter={onEnterLoginHook}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/login').default)
-                }, 'LoginPage')
-            }}    
-        />
-        <Route 
-            path="changePasswd" 
-            breadcrumbName="修改密码"
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/change-passwd').default)
-                }, 'ChangePasswdPage')
-            }} 
-        />
-        <Route 
-            path="settingEmail" 
-            breadcrumbName="配置邮箱(候选人管理)"
-            onLeave={onLeavePage}
-            getComponent={(nextState,cb)=>{
-                require.ensure([], (require) => {
-                    cb(null, require('pages/setting-email').default)
-                }, 'SettingEmailPage')
-            }} 
-        />
-    </Route>
-  )
+/**
+ * 引入子路由
+ */
+
+// 职位管理页面子路由
+const JobIndex = {
+    path: 'index',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/job/index').default)
+        }, 'JobIndexPage')
+    }
 }
+
+const NewJob = {
+    path: 'newJob',
+    breadcrumbName:"新建职位",
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/create-job').default)
+        }, 'NewJobPage')
+    } 
+}
+
+// 引入职位管理路由组件
+const Job = {
+    path: 'job',
+    breadcrumbName: '职位管理',
+    getChildRoutes(partialNextState, cb) {
+        require.ensure([], (require) => {
+            cb(null, [
+                JobIndex,
+                NewJob
+            ])
+        })
+    },
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/job').default)
+        }, 'JobPage')
+    } 
+}
+
+// 引入招聘流程路由组件
+const Recruit = {
+    path: 'recruit',
+    breadcrumbName:"招聘流程", 
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/recruit').default)
+        }, 'RecruitPage')
+    }
+}
+
+// 引入人才库路由组件
+const Talent = {
+    path:"talent",
+    breadcrumbName:"人才库",
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/talent').default)
+        }, 'TalentPage')
+    }
+}
+
+// 引入任务报表路由组件
+const Task = {
+    path:"task",
+    breadcrumbName:"任务报表",
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/task').default)
+        }, 'TaskPage')
+    }
+}
+
+//引入登陆路由组件
+const Login = {
+    path:"login",
+    onEnter:onEnterLoginHook,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/login').default)
+        }, 'LoginPage')
+    }
+}
+
+//引入修改密码路由
+const ChangePasswd = {
+    path:"changePasswd",
+    breadcrumbName:"修改密码",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/change-passwd').default)
+        }, 'ChangePasswdPage')
+    }
+}
+
+// 引入配置邮箱路由
+const SettingEmail = {
+    path:"settingEmail",
+    breadcrumbName:"配置邮箱(候选人管理)",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/setting-email').default)
+        }, 'SettingEmailPage')
+    } 
+}
+
+/*路由配置*/
+const RouteConfig = {
+  childRoutes: [ {
+    path: '/',
+    component: require('views/Framework').default,
+    indexRoute: {
+        onEnter:requireAuthHook,
+        onLeave:onLeavePage,
+        getComponent(nextState,cb){
+            require.ensure([], (require) => {
+                cb(null, require('pages/index').default)
+            }, 'IndexPage')
+        } 
+    },
+    childRoutes: [
+      Job,
+      Recruit,
+      Talent,
+      Task,
+      Login,
+      ChangePasswd,
+      SettingEmail
+    ]
+  } ]
+}
+
+module.exports = RouteConfig;

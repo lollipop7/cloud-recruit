@@ -70,7 +70,7 @@ export default class FormComponent extends Component {
                         onChange={this.onTimeChange}
                         style={{width:'249px',marginRight:'16px'}} />
                         <Button type="primary" onClick={this.searchJob}>职位筛选</Button>
-                        <Button onClick={this.clearInput}>清空条件</Button>
+                        <Button className="grey" onClick={this.clearInput}>清空条件</Button>
                 </div>
                 <div className="float-button">
                     <Link to="/job/newJob" onClick={this.handleClick}>

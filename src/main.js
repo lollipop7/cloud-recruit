@@ -20,8 +20,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './reducer';
 
-import getRoutes from './router';
-const routes = getRoutes();
+// import getRoutes from './router/router.bak';
+// const routes = getRoutes();
+import routes from './router';
 
 // 创建一个store
 const store = createStore(reducer,applyMiddleware(thunk));
@@ -30,8 +31,7 @@ import Styles from './scss/main.scss';
 
 ReactDom.render(
     <Provider store={store}>
-        <Router history={hashHistory}>
-            {routes}
+        <Router history={hashHistory} routes={routes}>
         </Router>
     </Provider>
 ,document.getElementById('app'));

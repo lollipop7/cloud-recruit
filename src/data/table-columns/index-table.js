@@ -1,4 +1,4 @@
-[
+module.exports = [
     {
         "title": "人员姓名",
         "dataIndex": "username",

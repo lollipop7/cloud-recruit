@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Table,Button , Modal,Select} from 'antd';
 const Option = Select.Option;
 
-import columns from 'data/talent-table';
+import columns from 'data/table-columns/talent-table';
 
 export default class TableComponent extends Component {
     state = {modalVisible: false};

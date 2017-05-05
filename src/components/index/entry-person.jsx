@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Table} from 'antd';
-import columns from 'data/index-table';
+import columns from 'data/table-columns/index-table';
 
 import LoadingComponent from 'components/loading';
 
