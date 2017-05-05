@@ -27,11 +27,12 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
 
 // 获取简历入库情况
 export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
-    setTimeout(function(){
-        console.log(latestDays);
-        dispatch(extend({},RESUME,{resumeData:store.get('resume')}));
-    },10000);
-    return;
+    // setTimeout(function(){
+    //     console.log(latestDays);
+    //     dispatch(extend({},RESUME,{resumeData:store.get('resume')}));
+    // },10000);
+    // return;
+    return ;
     AjaxByToken('/web/ResumeWareHousing',{
         head: {
             transcode: 'L0008'

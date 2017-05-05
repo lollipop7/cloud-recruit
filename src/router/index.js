@@ -125,6 +125,7 @@ const SettingEmail = {
 const RouteConfig = {
   childRoutes: [ {
     path: '/',
+    breadcrumbName:'首页',
     component: require('views/Framework').default,
     indexRoute: {
         onEnter:requireAuthHook,

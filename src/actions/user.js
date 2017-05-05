@@ -7,6 +7,7 @@ import extend from 'lodash/extend';
 // 用户修改密码
 const CHANGE_PASSWD = {type:types.CHANGE_PASSWD};
 
+// 修改密码
 export const changePassWd = (data={}) => (dispatch,getState) => {
     NProgress.start();
     AjaxByToken('/web/changepwd',{
@@ -19,4 +20,8 @@ export const changePassWd = (data={}) => (dispatch,getState) => {
         notification.success('修改密码成功！');
         dispatch(CHANGE_PASSWD);
     });
+}
+
+export const getUserEmail = () => {
+    
 }

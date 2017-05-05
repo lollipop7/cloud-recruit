@@ -60,7 +60,7 @@ export const AjaxByPost = (uri, data) => {
                 resolve(omit(data,['returnCode','returnMsg']));
             }
         })
-        .catch(function(response) {
+        .catch(function(response,e) {
             // console.log(response.config);
             if (response instanceof Error) {
                 // Something happened in setting up the request that triggered an Error

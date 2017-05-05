@@ -14,6 +14,10 @@ export default class SettingEmailPage extends Component {
         reNewPwd: ''
     };
 
+    componentDidMount() {
+        NProgress.done();
+    }
+
     onChange=(field,e)=>{
         const {oldError=false,newError=false,reNewError=false} = this.state;
         if(field === 'oldPwd' && oldError){

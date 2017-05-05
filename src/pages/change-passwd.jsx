@@ -28,6 +28,10 @@ class ChangePasswdPage extends Component {
         reNewPwdError: false
     };
 
+    componentDidMount() {
+        NProgress.done();
+    }
+
     onChange=(field,e)=>{
         const val = e.target.value,
         pattern = /[0-9a-zA-Z]/;
