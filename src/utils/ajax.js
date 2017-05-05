@@ -40,6 +40,9 @@ export const AjaxByPost = (uri, data) => {
                     type:'h'
                 }
             }),
+            header: {
+                contentType: 'application/json'
+            },
             cancelToken: new CancelToken(function (c) {
                 cancel.push({
                     [uri]: c

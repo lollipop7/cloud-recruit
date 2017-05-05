@@ -94,8 +94,12 @@
         position: absolute;
         color: #FFF;
         right: 48px;
-        top: 10px;
-        .settings-wrapper {
+        height: 100%;
+        min-width: 56px;
+        .table {
+            margin-top: 10px;
+        }
+        .dropdown-wrapper {
             background-image: url(/static/images/navbar/dropdown.png);
             &:hover {
                 cursor: pointer;
@@ -125,7 +129,7 @@
             height: 17px;
         }
     }
-    .settings {
+    .dropdown-menu {
         position: absolute;
         top: -11px;
         right: 0px;
@@ -136,6 +140,7 @@
         font-size: 16px;
         transform: translateY(-219px);
         transition: transform .4s ease-in;
+        min-width: 64px;
         li {
             margin-bottom: 18px;
         }

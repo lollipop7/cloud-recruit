@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import { Select } from 'antd';
 
-import {ErrorInputComponents} from 'components/input';
+import {ErrorInputComponents,InputComponent} from 'components/input';
 
 import data from 'data/create-job';
 
@@ -12,34 +12,6 @@ const children = [];
 data.workYear.forEach( (item,index)=>{
     children.push(<Option key={item}>{item}</Option>);
 });
-
-class InputComponent extends Component {
-    state = {}
-    onChange = (field,event) => {
-       this.props.onChange(field,event);
-    }
-
-    shouldComponentUpdate(nextProps,nextState){
-        return nextProps.value !== this.props.value
-    }
-
-    render() {
-        const {title,field,value} = this.props;
-        return (
-            <div className="inline-block">
-                <span>{title}</span>
-                <ErrorInputComponents 
-                    placeholder={`请输入${title}`} 
-                    value={value}
-                    style={{
-                        display: 'inline-block'
-                    }}
-                    onChange={this.onChange.bind(this,field)} 
-                />
-            </div>
-        )
-    }
-}
 
 class SelectComponent extends Component {
     handleChange= (field,value) => {

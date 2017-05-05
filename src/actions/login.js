@@ -1,4 +1,4 @@
-import * as types from 'constants/ActionTypes.js';
+import * as types from 'constants/login';
 import Md5 from 'blueimp-md5';
 import {AjaxByPost} from 'utils/ajax';
 

@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import pick from 'lodash/pick';
+import merge from 'lodash/merge';
+
 import {Table} from 'antd';
 import columns from 'data/table-columns/index-table';
 
@@ -43,17 +46,9 @@ class EntryPersonComponent extends Component {
     componentWillUpdate(nextProps,nextState) {
         const list = nextProps.entryPersonList;
         if(nextState.isLoading && list.length > 0){
-            
             let data = [];
             data = list.map((item,index)=>{
-                const {username= '',positionname='',eventtime= '',telephone= ''} = item;
-                return {
-                            key: `${index}`,
-                            username: username,
-                            positionname: positionname,
-                            eventtime: eventtime,
-                            telephone: telephone
-                        }
+                return merge({key:index},pick(item,['username','positionname','eventtime','telephone']));
             });
             this.setState({
                 isLoading: false,

@@ -8,27 +8,29 @@ import omit from 'lodash/omit';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
+import navData from 'data/nav/job';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class IndexPage extends Component {
-
     params = {
         type: 'all'
     };
 
     componentDidMount() {
         NProgress.done();
-        this.props.getJobStatistics();
-        this.props.getJobList({
-            type: this.params.type
-        });
+        // 获取职位分类统计
+        this.props.getJobCategory();
+        // 获取职位列表
+        this.requestData();
     }
 
     onClick(type) {
         this.params.type = type;
+        this.params.skip = 0;
         this.requestData();
     }
 
@@ -38,62 +40,34 @@ class IndexPage extends Component {
 
     searchJob = (params) => {
         const {starttime,endtime} = params;
+        this.params = merge(this.params,params);
         if(starttime === 0 ){
-            this.params = omit(params,['starttime']);
+            this.params = omit(this.params,['starttime']);
         }
         if(endtime === 0){
-            this.params = omit(params,['endtime']);
+            this.params = omit(this.params,['endtime']);
         }
         this.requestData();
     }
 
-    _getNavData() {
-        const {
-            all=0,
-            completed=0,
-            ongoing=0,
-            preparation=0,
-            stop=0
-        } = this.props.statisticsData;
-        return [
-                    {
-                        title: '全部',
-                        type: 'all',
-                        num: all
-                    },
-                    {
-                        title: '准备中',
-                        type: 'preparation',
-                        num: preparation
-                    },
-                    {
-                        title: '进行中',
-                        type: 'ongoing',
-                        num: ongoing
-                    },
-                    {
-                        title: '已完成',
-                        type: 'completed',
-                        num: completed
-                    },
-                    {
-                        title: '已终止',
-                        type: 'stop',
-                        num: stop
-                    }
-                ];
-    }
-
-    componentWillUpdate(nextProps,nextState) {
+    _getNavData(data) {
+        let navArr =  Object.keys(data).map(item=>{
+            navData[item].num = data[item]
+            return navData[item];
+        }); 
+        navArr.sort((a,b)=>{
+            return a.index - b.index;
+        });
+        return navArr;        
     }
 
     paginationChange = (p) => {
-        this.params.skip = (p.current-1)*20+'';
+        this.params.skip = (p.current-1)*20;
         this.requestData();
     }   
 
     render() {
-        const {routes} = this.props;
+        const {routes,categoryData,isLoading} = this.props;
         return (
             <div className="page-content job-page">
                 <BreadCrumbComponent routes={routes} />
@@ -101,7 +75,8 @@ class IndexPage extends Component {
                     <div className="pull-left">
                         <LeftNav 
                             title="职位分类" 
-                            data={this._getNavData()}
+                            isLoading={isLoading}
+                            data={this._getNavData(categoryData)}
                             onClick={this.onClick.bind(this)} 
                         />
                     </div>
@@ -115,11 +90,11 @@ class IndexPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    statisticsData: state.Job.statisticsData, // 统计列表数据
-    isLoading : state.Job.isLoading
+    categoryData: state.Job.categoryData, // 统计列表数据
+    isLoading: state.Job.isLoadingCategory
 })
 const mapDispatchToProps = dispatch => ({
-    getJobStatistics: bindActionCreators(Actions.jobActions.getJobStatistics, dispatch),
+    getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
     getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch)
 })
 

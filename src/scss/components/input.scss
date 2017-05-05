@@ -10,6 +10,12 @@ input {
         }
     }
 }
+
+.ant-input[disabled] {
+    background-color: #FFF !important;
+    color: #868686 !important;
+}
+
 .error-promote {
     position: absolute;
     color: $error-color;

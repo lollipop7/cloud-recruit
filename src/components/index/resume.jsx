@@ -3,6 +3,8 @@ import {Button} from 'antd';
 import LoadingComponent from 'components/loading';
 import echarts from 'static/js/echarts.min.js';
 
+import moment from 'moment';
+
 import extend from 'lodash/extend';
 
 // 指定图表的配置项和数据
@@ -21,7 +23,8 @@ class ResumeComponent extends Component {
 
     state = {
         isLoading: false,
-        activeTab: 0
+        activeTab: 0,
+        isEmpty: false
     }
 
     componentDidMount() {
@@ -37,51 +40,84 @@ class ResumeComponent extends Component {
 
     componentWillUpdate(nextProps,nextState) {
         const {data} = nextProps;
-        if(data.content && nextState.isLoading) {
+        if(data.content !== this.props.data.content && nextState.isLoading) {
             this.setState({
                 isLoading: false
             });
-            let xaxis = data.content['zhilian'].map((item,index)=>{
-                return item.labelname;
-            });
-            let job = data.content['51job'].map((item,index)=>{
-                return item.cnt;
-            });
-            let zhilian = data.content['zhilian'].map((item,index)=>{
-                return item.cnt;
-            });
+            let xaxis = [],
+                job = [],
+                zhilian = [];
+            if(data.size === '1'){
+                xaxis = data.content['zhilian'].map((item,index)=>{
+                    return item.labelname;
+                });
+                job = data.content['51job'].map((item,index)=>{
+                    return item.cnt;
+                });
+                zhilian = data.content['zhilian'].map((item,index)=>{
+                    return item.cnt;
+                });
+                this.setState({
+                    isEmpty: false
+                });
+            }else{
+                xaxis = this._getDefaultXaxis();
+                xaxis.push(' ');
+                job = [42,40,62,26,20,45,28,43];
+                zhilian = [22,63,42,59,105,100,11,62];
+                this.setState({
+                    isEmpty: true
+                });
+            }
             //更改数据
             this.chartInstance.setOption({
                 xAxis: {
-                    data: xaxis.slice(0,360)
+                    data: xaxis
                 },
                 series: [
                     {
                         name:'前程无忧',
-                        data: job.slice(0,360)
+                        data: job
                     },
                     {
                         name: '智联招聘',
-                        data: zhilian.slice(0,360)
+                        data: zhilian
                     }
                 ]
             });
         }
     }
 
+    _getDefaultXaxis(){
+        let step = 86400000,
+            i = 1,
+            timeArr = [];
+        function getTimeArr(time) {
+            if(i>7){
+                return ;
+            }
+            timeArr.push(moment(time).format('YYYY-MM-DD'));
+            i++;
+            getTimeArr(time+step);
+        }
+        getTimeArr(new Date().getTime());
+        return timeArr;
+    }
+
     handleClick = (index) => {
         if(index === this.state.activeTab) return ;
         this.setState({
             activeTab:index,
-            isLoading: true
+            isLoading: true,
+            isEmpty: false
         });
         // 销毁实例化图表
         // this.destroyChart();
-        // this.props.resumeWareHousing(this.tabList[index]);
+        this.props.resumeWareHousing(this.tabList[index]);
     }
 
     render() {
-        const {isLoading,activeTab} = this.state;
+        const {isLoading,activeTab,isEmpty} = this.state;
         return (
             <div style={{
                 position: 'relative',
@@ -97,6 +133,13 @@ class ResumeComponent extends Component {
                         backgroundColor: '#FFF',
                         zIndex: 2
                     }} />
+                }
+                {isEmpty &&
+                    <div className="canvas-mask" style={{
+                            lineHeight: '380px'
+                        }}>
+                            暂无数据
+                    </div>
                 }
                 <div className="chart-tab" style={{
                     top: 13,

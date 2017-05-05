@@ -63,6 +63,12 @@ module.exports = {
   },
   module: {
     rules: [
+        //https://github.com/bhovhannes/svg-url-loader
+        {
+            test: /\.svg/,
+            loader:'svg-url-loader',
+            options: {}
+        },
       // {
       //   test: /\.(js|vue)$/,
       //   loader: 'eslint-loader',

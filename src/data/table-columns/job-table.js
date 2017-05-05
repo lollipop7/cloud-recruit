@@ -28,8 +28,7 @@ module.exports = [
         "title": "职位名",
         "dataIndex": "positionname", 
         "key": "positionname",
-        "width": 138,
-        "render": renderTextWithATag
+        "width": 138
     },
     {
         "title": "部门",

@@ -176,7 +176,7 @@ class ChangePasswdPage extends Component {
                                 </li>
                                 <li className="table">
                                     <Button type="primary" onClick={this.handChange}>保存</Button>
-                                    <Button onClick={this.resetForm}>重填</Button>
+                                    <Button className="grey" onClick={this.resetForm}>重填</Button>
                                 </li>
                             </ul>
                         </div>

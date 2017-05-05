@@ -1,4 +1,4 @@
-import {USER_LOGIN} from 'constants/ActionTypes';
+import {USER_LOGIN} from 'constants/login';
 
 const initialState = {
     token: {}

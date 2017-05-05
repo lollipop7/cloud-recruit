@@ -1,4 +1,4 @@
-import {URGENT_TASKS,RESUME,ENTRY_PERSON,TASK_PROGRESS} from 'constants/ActionTypes';
+import {URGENT_TASKS,RESUME,ENTRY_PERSON,TASK_PROGRESS} from 'constants/home';
 
 const initialState = {
     urgentTasks: [], // 紧急任务列表

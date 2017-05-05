@@ -19,7 +19,7 @@ export default class LeftNavComponent extends Component {
 
     render() {
         const {selectedIndex} = this.state;
-        const {title='',data} = this.props;
+        const {title='',data,isLoading=false} = this.props;
         return (
             <ul className="left-nav box-border">
                 <li>
@@ -33,7 +33,20 @@ export default class LeftNavComponent extends Component {
                                     onClick={this.handleClick.bind(this,index,type)}
                                     className={selectedIndex === index ? 'active' : ''}
                                 >
-                                    {title} ({num})
+                                    {title} 
+                                    ({isLoading ?
+                                        <div 
+                                            className={selectedIndex === index ? 'preloader-white' : 'preloader'} 
+                                            style={{
+                                                position: 'relative',
+                                                top: 3,
+                                                width: 16,
+                                                height: 16
+                                            }}
+                                        >
+                                        </div> :
+                                        num
+                                    })
                                 </dd>
                             )
                         })}

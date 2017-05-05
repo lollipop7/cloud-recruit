@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 
-import {Table,Button,Tooltip} from 'antd';
+import {Table,Modal} from 'antd';
 import pick from 'lodash/pick';
 import assign from 'lodash/assign';
 
 import columns from 'data/table-columns/job-table';
 import LoadingComponent from 'components/loading';
+import JobInfoComponent from './job-info';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -14,7 +15,38 @@ import * as Actions from 'actions';
 
 class TableComponent extends Component {
     state = {
-        dataSource:[]
+        dataSource:[],
+        modalVisible: false
+    }
+
+    columns = [];
+
+    showJobInfo = (record) => {
+        const {positionid} = record;
+        this.props.getJobInfo({positionid});
+        this.setModalVisible(true);
+    }
+
+    componentDidMount() {
+        this.columns = this.getColumns();
+    }
+
+    getColumns() {
+        columns[2].render = this.renderWithAtag;
+        return columns;
+    }
+
+    renderWithAtag = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={text}
+                onClick={this.showJobInfo.bind(this,record)}
+            >
+                {text}
+            </a>
+        )
     }
 
     _getDataSource(list) {
@@ -33,6 +65,11 @@ class TableComponent extends Component {
             paginationChange(p);
         }
     }
+
+    setModalVisible = (modalVisible) => {
+        this.setState({modalVisible});
+    }
+
     render() {
         const {JobList,isLoading} = this.props;
         return (
@@ -44,11 +81,15 @@ class TableComponent extends Component {
                 <Table 
                     dataSource={this._getDataSource(JobList.list)} 
                     bordered
-                    columns={columns}
-                    pagination={{
-                        defaultPageSize:20 ,
-                        total: JobList.count
-                    }}
+                    columns={this.columns}
+                    pagination={
+                        JobList.count > 20 
+                        ? {
+                            pageSize:20 ,
+                            total: JobList.count
+                        }
+                        : false
+                    }
                     onChange={this.handleChange}
                 />
                 {isLoading &&
@@ -60,6 +101,16 @@ class TableComponent extends Component {
                         height: 746,
                     }} />
                 }
+                <Modal
+                    wrapClassName="vertical-center-modal"
+                    visible={this.state.modalVisible}
+                    onOk={() => this.setModalVisible(false)}
+                    onCancel={() => this.setModalVisible(false)}
+                    width={1100}
+                    footer={null}
+                >
+                    <JobInfoComponent />
+                </Modal>
             </div>
         );
     }
@@ -67,9 +118,10 @@ class TableComponent extends Component {
 
 const mapStateToProps = state => ({
     JobList: state.Job.JobList, // 统计列表数据
-    isLoading: state.Job.isLoading
+    isLoading: state.Job.isLoadingList
 })
 const mapDispatchToProps = dispatch => ({
+    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch)
 })
 
 export default connect(

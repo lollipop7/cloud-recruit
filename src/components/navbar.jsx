@@ -1,13 +1,31 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 
-export default class NavBarComponents extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class NavBarComponents extends Component {
 
     state = {
+        isLoading: false,
         showSetting: false
     }
 
     componentDidMount() {
+        this.setState({
+            isLoading: true
+        });
+        this.props.getUserEmail();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        if(nextProps.userEmailInfo.mailServersList && nextState.isLoading ){
+            this.setState({
+                isLoading: false
+            });
+        }
     }
 
     showNprogress=(uri)=>{
@@ -30,8 +48,10 @@ export default class NavBarComponents extends Component {
     }
 
     render() {
-        const {location} = this.props,
+        const {isLoading} = this.state,
+        {location,userEmailInfo} = this.props,
             {pathname} = location,
+            {email='',servername=''} = userEmailInfo.userMail,
             prefix = '/static/images/navbar/',
             navData = [
                 {name: '职位管理',path:'/job/index'},
@@ -64,45 +84,69 @@ export default class NavBarComponents extends Component {
                         <a href="javascript:void(0);" className="search-button"></a>
                     </div>
                     <div className="user">
-                        <div className="table">
-                            <div className="table-row">
-                                <div className="email-address settings-wrapper" onMouseLeave={this.onMouseLeave} onMouseOver={this.showSettings}>alicewang@163.com
-                                     <ul className="settings box-border" style={{
-                                        transform: this.state.showSetting ? 'translateY(0px)' : ''
-                                    }}>
-                                        <li>
-                                            <p className="email-address">alicewang@163.com</p>
-                                        </li>
-                                        <li>
-                                            <Link to="/changePasswd" onClick={this.showNprogress.bind(this,'/changePasswd')}>
-                                                修改密码
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/settingEmail" onClick={this.showNprogress.bind(this,'/settingEmail')}>
-                                                配置邮箱
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="javascript:;">
-                                                登出邮箱
-                                            </Link>
-                                        </li>
-                                    </ul>
+                        {!isLoading &&
+                            <div className="table">
+                                <div className="table-row">
+                                    <div 
+                                        className="email-address dropdown-wrapper" 
+                                        onMouseLeave={this.onMouseLeave} 
+                                        onMouseOver={this.showSettings}
+                                    >
+                                        {email}
+                                        <ul className="dropdown-menu box-border" style={{
+                                            transform: this.state.showSetting ? 'translateY(10px)' : ''
+                                        }}>
+                                            <li>
+                                                <p className="email-address">{email}</p>
+                                            </li>
+                                            <li>
+                                                <Link to="/changePasswd" onClick={this.showNprogress.bind(this,'/changePasswd')}>
+                                                    修改密码
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/settingEmail" onClick={this.showNprogress.bind(this,'/settingEmail')}>
+                                                    配置邮箱
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="javascript:;">
+                                                    登出系统
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="table-row">
+                                    <p className="company-name">{servername}</p>
                                 </div>
                             </div>
-                            <div className="table-row">
-                                <p className="company-name">上海伊尔哈金融有限公司</p>
+                        }
+                        {isLoading &&
+                            <div className="preloader-white absolute-center" style={{
+                                width: 25,
+                                height: 25
+                            }}>
                             </div>
-                        </div>
-                       
+                        }
                     </div>
                     <a href="javascript:void(0);" className="email">
                         <img src={`${prefix}email.png`} alt="邮箱" />
                     </a>
-                    
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    userEmailInfo: state.User.userEmailInfo
+})
+const mapDispatchToProps = dispatch => ({
+    getUserEmail: bindActionCreators(Actions.UserActions.getUserEmail, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NavBarComponents);

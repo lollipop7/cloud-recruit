@@ -1,4 +1,4 @@
-import * as types from 'constants/ActionTypes.js';
+import * as types from 'constants/home';
 import {AjaxByToken} from 'utils/ajax';
 import store from 'store';
 import extend from 'lodash/extend';
@@ -27,12 +27,6 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
 
 // 获取简历入库情况
 export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
-    // setTimeout(function(){
-    //     console.log(latestDays);
-    //     dispatch(extend({},RESUME,{resumeData:store.get('resume')}));
-    // },10000);
-    // return;
-    return ;
     AjaxByToken('/web/ResumeWareHousing',{
         head: {
             transcode: 'L0008'

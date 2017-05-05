@@ -2,6 +2,37 @@ import React, {Component} from 'react';
 
 import {Input} from 'antd';
 
+export class InputComponent extends Component {
+    state = {}
+    onChange = (field,event) => {
+       this.props.onChange(field,event);
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.value !== this.props.value
+    }
+
+    render() {
+        const {title,field='',value,style={},className='',disabled=false} = this.props;
+        return (
+            <div className="inline-block">
+                <span>{title}</span>
+                <ErrorInputComponents 
+                    placeholder={`请输入${title}`} 
+                    value={value}
+                    style={{
+                        display: 'inline-block',
+                        ...style
+                    }}
+                    disabled={disabled}
+                    className={className}
+                    onChange={this.onChange.bind(this,field)} 
+                />
+            </div>
+        )
+    }
+}
+
 export class ErrorInputComponents extends Component {
 
     handleChange = (event) => {
@@ -33,7 +64,8 @@ export class ErrorInputComponents extends Component {
             value='',
             type='text',
             className='',
-            style={}
+            style={},
+            disabled
         } = this.props;
         return (
             <div style={{
@@ -45,6 +77,7 @@ export class ErrorInputComponents extends Component {
                     type={type}
                     placeholder={placeholder}
                     value={value}
+                    disabled={disabled}
                     onChange={this.handleChange}
                     onPressEnter={this.handleEnter}
                     onBlur={this.handleBlur}
