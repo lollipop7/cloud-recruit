@@ -26,7 +26,7 @@ const columns = [{
       }
     }
     return {
-      props: {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          props: {
         rowSpan: 0,
       },
     };
@@ -105,6 +105,20 @@ const data = [{
 }];
 
 export default class TableComponents extends Component {
+
+    componentDidMount() {
+      let data = {
+        name: '刘德华',
+        loginnum: 11,
+        resumenum: 11,
+        job: 11,
+        zhilian: 11,
+        focus: 20,
+        pending: 20,
+        cnt: 20,
+      }
+    }
+
     render() {
         return (
             <Table columns={columns} dataSource={data} bordered />
