@@ -19,7 +19,8 @@ class TaskProgressComponent extends Component {
 
     state = {
         isLoading: false,
-        activeTab: 0
+        activeTab: 0,
+        isEmpty: false
     }
 
     tabList= [7,30,180,360];
@@ -75,6 +76,12 @@ class TaskProgressComponent extends Component {
                     name:  data[index].name
                 });
             });
+            if(result.length === 0) {
+                result = chartOptions.series[0].data;
+                this.setState({
+                    isEmpty: true
+                });
+            }
             this.chartInstance.setOption({
                 series: [{
                     name: '任务完成指数',
@@ -99,7 +106,8 @@ class TaskProgressComponent extends Component {
         if(index === this.state.activeTab) return ;
         this.setState({
             activeTab:index,
-            isLoading: true
+            isLoading: true,
+            isEmpty: false
         });
         // 销毁实例化图表
         // this.destroyChart();
@@ -107,7 +115,7 @@ class TaskProgressComponent extends Component {
     }
 
     render() {
-        const {isLoading,activeTab} = this.state;
+        const {isLoading,activeTab,isEmpty} = this.state;
         return (
             <div className="task-progress box-border" style={{
                 position: 'relative'
@@ -117,9 +125,22 @@ class TaskProgressComponent extends Component {
                     <div style={{
                         position: 'absolute',
                         width: 244,
-                        height: 276
+                        height: 276,
+                        zIndex: 1
                     }}>
-                        <LoadingComponent />
+                        <LoadingComponent style={{
+                            position: 'absolute',
+                            width: '100%',
+                            backgroundColor: '#FFF'
+                        }} />
+                    </div>
+                }
+                {isEmpty &&
+                     <div className="canvas-mask" style={{
+                            lineHeight: '330px',
+                            left: 0
+                        }}>
+                            暂无数据
                     </div>
                 }
                 <div className="chart-tab">

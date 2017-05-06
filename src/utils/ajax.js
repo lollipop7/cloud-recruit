@@ -41,7 +41,7 @@ export const AjaxByPost = (uri, data) => {
                 }
             }),
             header: {
-                contentType: 'application/json'
+                contentType: 'application/json;charset=utf-8'
             },
             cancelToken: new CancelToken(function (c) {
                 cancel.push({

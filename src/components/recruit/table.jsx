@@ -4,7 +4,7 @@ import {Table,Button} from 'antd';
 
 import columns from 'data/table-columns/recruit-table';
 
-export default class TableComponents extends Component {
+export default class TableComponents extends Component { 
 
     state = {
         data: []

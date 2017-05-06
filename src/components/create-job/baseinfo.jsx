@@ -4,16 +4,15 @@ import { Select } from 'antd';
 
 import {ErrorInputComponents,InputComponent} from 'components/input';
 
-import data from 'data/create-job';
-
 const Option = Select.Option;
-const children = [];
 
-data.workYear.forEach( (item,index)=>{
-    children.push(<Option key={item}>{item}</Option>);
-});
 
 class SelectComponent extends Component {
+
+    state = {
+        data: []
+    }
+
     handleChange= (field,value) => {
         const {onChange} = this.props;
         if(onChange){
@@ -21,23 +20,34 @@ class SelectComponent extends Component {
         }
     }
 
+    handleFocus = () => {
+        console.log('handleFocus');
+    }
+
     shouldComponentUpdate(nextProps,nextState){
         return nextProps.value !== this.props.value
     }
 
     render() {
-        const {value,title,placeholder,field} = this.props;
+        const {data} = this.state,
+            {value,title,placeholder,field} = this.props;
         return (
             <div className="inline-block">
                 <span>{title}</span>
                 <Select
                     value={value}
                     placeholder={placeholder}
+                    onFocus={this.handleFocus}
                     onChange={this.handleChange.bind(this,field)}
                     allowClear
+                    notFoundContent='加载中...'
                     style={{ width: 155,height:40 }}
                 >
-                    {children}
+                    {
+                        data.map(item=>{
+                            return <Option value={item}>{item}</Option>
+                        })
+                    }
                 </Select>
             </div>
         )

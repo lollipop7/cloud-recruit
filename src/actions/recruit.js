@@ -1,8 +1,6 @@
 import * as types from 'constants/recruit';
 import {AjaxByToken} from 'utils/ajax';
 
-import extend from 'lodash/extend';
-
 // 获取// 招聘分类统计信息
 const RECRUIT_CATEGORY = {type:types.RECRUIT_CATEGORY};
 
@@ -14,7 +12,6 @@ export const getRecruitCategory = () => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        console.log(res);
-        // dispatch(extend({},RECRUIT_CATEGORY,{userEmailInfo:res}));
+        dispatch(Object.assign({},RECRUIT_CATEGORY,{categoryData:res.list}));
     });
 }

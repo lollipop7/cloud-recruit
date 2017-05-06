@@ -7,13 +7,21 @@ import BreadCrumbComponent from 'components/breadcrumb';
 import FormComponents from 'components/recruit/form';
 import TableComponents from 'components/recruit/table';
 
-export default class RecruitPage extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class RecruitPage extends Component {
 
     componentDidMount() {
         NProgress.done();
+        this.props.getRecruitCategory();
     }
 
      _getNavData(){
+        const {categoryData} = this.props;
+        console.log(categoryData);
         return [
                 {
                     title: '全部',
@@ -87,3 +95,15 @@ export default class RecruitPage extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    categoryData: state.Recruit.categoryData, // 统计列表数据
+})
+const mapDispatchToProps = dispatch => ({
+    getRecruitCategory: bindActionCreators(Actions.RecruitACtions.getRecruitCategory, dispatch),
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RecruitPage);

@@ -52,7 +52,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
-        dispatch(extend({},JOB_LIST,{JobList:res}));
+        dispatch(extend({},JOB_LIST,{listData:res}));
     });
 }
 

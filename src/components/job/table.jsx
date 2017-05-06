@@ -71,7 +71,8 @@ class TableComponent extends Component {
     }
 
     render() {
-        const {JobList,isLoading} = this.props;
+        const {listData,isLoading} = this.props;
+        const {list,count} = listData;
         return (
             <div style={{
                 position: 'relative',
@@ -79,14 +80,14 @@ class TableComponent extends Component {
                 height: 780
             }}>
                 <Table 
-                    dataSource={this._getDataSource(JobList.list)} 
+                    dataSource={this._getDataSource(list)} 
                     bordered
                     columns={this.columns}
                     pagination={
-                        JobList.count > 20 
+                        count > 20 
                         ? {
                             pageSize:20 ,
-                            total: JobList.count
+                            total: count
                         }
                         : false
                     }
@@ -117,7 +118,7 @@ class TableComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    JobList: state.Job.JobList, // 统计列表数据
+    listData: state.Job.listData, // 统计列表数据
     isLoading: state.Job.isLoadingList
 })
 const mapDispatchToProps = dispatch => ({

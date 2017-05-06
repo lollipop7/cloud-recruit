@@ -56,7 +56,7 @@ class IndexPage extends Component {
             return navData[item];
         }); 
         navArr.sort((a,b)=>{
-            return a.index - b.index;
+             return a.index - b.index;
         });
         return navArr;        
     }

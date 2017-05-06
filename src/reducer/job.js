@@ -19,7 +19,7 @@ const initialState = {
         preparation: 0,
         stop: 0
     },
-    JobList: {
+    listData: {
         list: [],
         count: 0
     },
@@ -41,7 +41,7 @@ export default function job(state = initialState,actions){
         case LOAD_LIST_DONE:
             return {...state,isLoadingList:false};
         case JOB_LIST:
-            return {...state,JobList:actions.JobList};
+            return {...state,listData:actions.listData};
         case LOAD_INFO_START:
             return {...state,isLoadingInfo:true};
         case LOAD_INFO_DONE:
