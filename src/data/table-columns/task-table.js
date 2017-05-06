@@ -1,11 +1,13 @@
 import React from 'react';
 
+const totalRow = 9;
+
 const rednerContent = (text,record,index) => {
     const obj = {
         children: text,
         props: {}
     }
-    if(index === 8){
+    if(index === (totalRow - 1)){
         obj.props.colSpan = 0;
     }
     return obj;
@@ -18,19 +20,16 @@ module.exports = [
         "key": "organization",
         "width": 95,
         "render": (text,record,index) => {
-            if(index === 0){
-                return {
-                    children: text,
-                    props: {
-                        rowSpan: 9
-                    }
-                }
-            }
-            return {
+            const obj = {
+                children: text,
                 props: {
                     rowSpan: 0
                 }
             }
+            if(index === 0){
+                obj.props.rowSpan = totalRow;
+            }
+            return obj;
         }
     },
     {
@@ -126,7 +125,7 @@ module.exports = [
                 children: text,
                 props: {}
             }
-            if(index === 8){
+            if(index === (totalRow - 1)){
                 obj.props.colSpan = 13;
             }
             return obj;
