@@ -106,9 +106,27 @@ module.exports = {
                 {
                     loader: "css-loader",
                     options: {
-                        sourceMap: true
+                        sourceMap: true,
+                        importLoaders: 1
                     }
                 }, 
+                {
+                    loader: "postcss-loader",
+                    options: {
+                        plugins: function () {
+                            return [
+                                require('autoprefixer')({
+                                    browsers: [
+                                        '>1%',
+                                        'last 4 versions',
+                                        'Firefox ESR',
+                                        'not ie < 9', // React doesn't support IE8 anyway
+                                    ]
+                                })
+                            ];
+                        }
+                    }
+                },
                 {
                     loader: "sass-loader",
                     options: {
@@ -120,6 +138,7 @@ module.exports = {
             fallback: "style-loader"
         })
       },
+      
     {
         test: /\.less$/,
         use: extractLess.extract({

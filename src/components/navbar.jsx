@@ -57,6 +57,14 @@ class NavBarComponents extends Component {
         this.props.userLoginout(this.context);
     }
 
+    handleClickSetting = (uri) => {
+        const {location} = this.props,
+            {pathname} = location;
+        if(uri === pathname) return ;
+        this.showNprogress();
+        this.hideSettings();
+    }
+
     render() {
         const {isLoading} = this.state,
         {location,userEmailInfo} = this.props,
@@ -76,14 +84,14 @@ class NavBarComponents extends Component {
                         <img src={`${prefix}logo.png`} alt="51云招聘"/>
                     </div>
                     <div className="home" style={{backgroundColor: pathname === '/' ? '#00699f' : ''}}>
-                        <Link to='#/' onClick={this.showNprogress}><img src={`${prefix}home.png`} alt="首页"/></Link>
+                        <Link to='#/' onClick={this.showNprogress.bind(this,'/')}><img src={`${prefix}home.png`} alt="首页"/></Link>
                     </div>
                     <ul className="nav-list">
                         {
                             navData.map((item,index)=>{
                                 return (
                                     <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
-                                        <Link onClick={this.showNprogress} to={item.path}>{item.name}</Link>
+                                        <Link onClick={this.showNprogress.bind(this,item.path)} to={item.path}>{item.name}</Link>
                                     </li>
                                 )
                             })
@@ -110,12 +118,12 @@ class NavBarComponents extends Component {
                                                 <p className="email-address">{email}</p>
                                             </li>
                                             <li>
-                                                <Link to="/changePasswd" onClick={this.showNprogress.bind(this,'/changePasswd')}>
+                                                <Link to="/changePasswd" onClick={this.handleClickSetting.bind(this,'/changePasswd')}>
                                                     修改密码
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to="/settingEmail" onClick={this.showNprogress.bind(this,'/settingEmail')}>
+                                                <Link to="/settingEmail" onClick={this.handleClickSetting.bind(this,'/settingEmail')}>
                                                     配置邮箱
                                                 </Link>
                                             </li>
