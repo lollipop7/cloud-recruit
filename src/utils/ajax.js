@@ -59,6 +59,7 @@ export const AjaxByPost = (uri, data) => {
             if (returnCode !== 'AAAAAAA') {
                 console.error(`${returnCode}:${returnMsg}`);
                 notification.error(returnMsg);
+                resolve(returnMsg);
             } else {
                 resolve(omit(data,['returnCode','returnMsg']));
             }

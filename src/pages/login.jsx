@@ -1,10 +1,14 @@
 import React, {Component,PropTypes} from 'react';
-import ListItem from '@/components/login/ListItem';
+import ListItem from 'components/login/ListItem';
 
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
+
+import isEmpty from 'lodash/isEmpty';
+
+import store from 'store';
 
 class LoginPage extends Component {
 
@@ -13,89 +17,91 @@ class LoginPage extends Component {
     };
 
     state = {
-        companyName: '',
-        userName: '',
-        passwd: ''
+        companyname: '',
+        loginname: '',
+        password: '',
+        errMsg: '',
+        isLoading: false
     }
 
-    // bind event
-    toLogin = this._toLogin.bind(this);
-    inputCompany = this._inputCompany.bind(this);
-    inputUserName = this._inputUserName.bind(this);
-    inputPasswd = this._inputPasswd.bind(this);
-    companyKeyUp = this._companyKeyUp.bind(this);
-    userNameKeyUp = this._userNameKeyUp.bind(this);
-    passwdKeyUp = this._passwdKeyUp.bind(this);
-
-    _inputCompany(event) {
+    handleChange = (field,e) => {
         this.setState({
-            companyName: event.target.value
-        });
-    }
-    _inputUserName(event) {
-        this.setState({
-            userName: event.target.value
-        });
-    }
-    _inputPasswd(event) {
-        this.setState({
-            passwd: event.target.value
+            [field]: e.target.value
         });
     }
 
-    _companyKeyUp(event) {
-        if(event.keyCode === 13){
-            this.refs.username.refs.input.focus();
+    handleKeyUp = (field,e) => {
+        if(e.keyCode === 13){
+            this.refs[field].refs.input.focus();
         }
     }
 
-    _userNameKeyUp(event) {
-        if(event.keyCode === 13){
-            this.refs.passwd.refs.input.focus();
+    passwdKeyUp = (e) => {
+        if(e.keyCode === 13){
+            this.toLogin();
         }
     }
 
-    _passwdKeyUp(event) {
-        if(event.keyCode === 13){
-            this._toLogin();
-        }
+    componentWillUnmount() {
+        this.setState({
+            isLoading: false
+        });
     }
 
-    _toLogin() {
-        const {companyName,userName,passwd} = this.state;
-        if(companyName.length == 0){
-            // Message.error('公司名不能为空！');
+    toLogin = () => {
+        const {companyname,loginname,password} = this.state;
+        if(companyname.length == 0){
+            this.setState({
+                errMsg: '公司名不能为空！'
+            });
             return ;
-        }else if(userName.length == 0) {
-            // Message.error('用户名不能为空！');
+        }else if(loginname.length == 0) {
+            this.setState({
+                errMsg: '用户名不能为空！'
+            });
             return ;
-        }else if(passwd.length == 0) {
-            // Message.error('密码不能为空！');
+        }else if(password.length == 0) {
+            this.setState({
+                errMsg: '密码不能为空！'
+            });
             return ;
         }
-        const {userLogin}  = this.props;
-        userLogin({
-            companyname: companyName,
-            loginname: userName,
-            password: passwd
+        this.setState({
+            isLoading: true
         });
+        this.props.userLogin({...this.state},this.context);
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {token} = nextProps.token || {};
-        if(token){
-            this.context.router.push({
-                pathname: '/'
+        if(nextProps.loaddone && nextState.isLoading){
+            this.setState({
+                isLoading: false
             });
+        }
+        if(nextState.errMsg !== ''){
+            setTimeout(()=>{
+                this.setState({
+                    errMsg: ''
+                });
+            },1000);
         }
     }
 
     render() {
-        const {companyName,userName,passwd} = this.state;
-        const prefix = "/static/images/login/";
+        // const {isLoading} = this.props,
+        const {companyname,loginname,password,errMsg,isLoading} = this.state,
+            prefix = "/static/images/login/";
         return (
             <div id="login-page">
                 <div className="bg">
+                    {isLoading &&
+                        <div id="common-loader" className="common-loader page-loader">
+                            <div className="spinner">
+                                <div className="dot1"></div>
+                                <div className="dot2"></div>
+                            </div>
+                        </div>
+                    }
                     <div className="login-area">
                         <img className="logo" src={`${prefix}logo.png`} alt="51招聘云"/>
                         <p className="desc">先进的互联网金融招聘系统</p>
@@ -104,28 +110,28 @@ class LoginPage extends Component {
                                 imgSrc={`${prefix}company-icon.png`}
                                 title="公司名"
                                 placeholder="请输入公司名"
-                                onChange={this.inputCompany}
-                                onKeyUp = {this.companyKeyUp}
-                                value={companyName}
+                                onChange={this.handleChange.bind(this,'companyname')}
+                                onKeyUp = {this.handleKeyUp.bind(this,'loginname')}
+                                value={companyname}
                             />
                             <ListItem 
-                                ref="username"
+                                ref="loginname"
                                 imgSrc={`${prefix}user-icon.png`}
                                 title="用户名"
                                 placeholder="请输入您的用户名"
-                                onChange={this.inputUserName}
-                                onKeyUp={this.userNameKeyUp}
-                                value={userName}
+                                onChange={this.handleChange.bind(this,'loginname')}
+                                onKeyUp={this.handleKeyUp.bind(this,'password')}
+                                value={loginname}
                             />
                             <ListItem 
-                                ref="passwd"
+                                ref="password"
                                 imgSrc={`${prefix}passwd-icon.png`}
                                 title="密码"
                                 placeholder="请输入您的密码"
                                 inputType="password"
-                                onChange={this.inputPasswd}
+                                onChange={this.handleChange.bind(this,'password')}
                                 onKeyUp={this.passwdKeyUp}
-                                value={passwd}
+                                value={password}
                             />
                         </ul>
                         <p className="forget-password">
@@ -137,6 +143,11 @@ class LoginPage extends Component {
                             onClick={this.toLogin}
                         >安全登陆</a>
                     </div>
+                    <div className="tips bounceIn" style={{
+                        display: errMsg !== '' ? '' : 'none'
+                    }}>
+                        {errMsg}
+                    </div>
                 </div>
             </div>
         );
@@ -144,10 +155,11 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    token: state.Login.token
+    loaddone: state.Login.loaddone
 })
 const mapDispatchToProps = dispatch => ({
     userLogin: bindActionCreators(Actions.loginActions.userLogin, dispatch),
+    hideLoading: bindActionCreators(Actions.loginActions.hideLoading, dispatch)
 })
 
 export default connect(

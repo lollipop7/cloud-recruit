@@ -26,6 +26,7 @@ export default class TaskPage extends Component {
                             <Button type="primary">查询</Button>
                         </div>
                         <TableComponent />
+                        <Button className="download" type="primary">下载</Button>
                     </div>
                 </div>
             </ScrollPageContent>

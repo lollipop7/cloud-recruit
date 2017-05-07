@@ -38,7 +38,11 @@ class CreateJobPage extends Component {
         each(routes,item=>{
             routesCopy.push(pick(item,['breadcrumbName','path']));
         });
-        routesCopy[1].path = '/job/index';
+        each(routesCopy,(item,index)=>{
+            if(item.path === 'job'){
+                routesCopy[index].path = '/job/index';
+            }
+        });
         return (
             <div className="page-content new-job-page">
                 <BreadCrumbComponent routes={routesCopy} />

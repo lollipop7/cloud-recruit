@@ -15,18 +15,18 @@ export default class TimeComponent extends Component {
         return startValue.valueOf() > endValue.valueOf();
     }
 
-    onChange = (field, value) => {
-        this.setState({
-            [field]: value,
-        });
-    }
-
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
             return false;
         }
         return endValue.valueOf() <= startValue.valueOf();
+    }
+
+    onChange = (field, value) => {
+        this.setState({
+            [field]: value,
+        });
     }
 
     onStartChange = (value) => {

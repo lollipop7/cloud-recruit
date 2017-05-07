@@ -6,6 +6,10 @@ import {Link} from 'react-router';
 
 import moment from 'moment';
 
+import isNull from 'lodash/isNull';
+import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
+
 import TimeComponent from '../time';
 
 export default class FormComponent extends Component {
@@ -20,33 +24,47 @@ export default class FormComponent extends Component {
     }
 
     handlePositionName=(e) => {
-        this.handleChange('positionname',e);
+        this.handleChange('position',e);
     }
 
     handleDepartMent=(e) => {
         this.handleChange('department',e);
     }
 
-    clearInput=() => {
+    filterState=() => {
+         return pickBy(this.state,item=>{
+                return item !== '';
+            });
+    }
+
+    resetForm=() => {
+        if(isEmpty(this.filterState())) return ;
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
-            positionname: '',
+            position: '',
             department: ''
         });
         onStartChange(null);
         onEndChange(null);
+        const {handleSearch} = this.props;
+        if(handleSearch){
+            handleSearch({});
+        }
     }
 
-    searchJob = () => {
-        const {searchJob} = this.props;
-        if(searchJob){
-            searchJob(this.state);
+    handleSearch = () => {
+        const {handleSearch} = this.props;
+        if(handleSearch){
+            // 过滤值为空的参数
+           const params = this.filterState();
+           if(isEmpty(params)) return ;
+            handleSearch(params);
         }
     }
 
     onTimeChange=(field,value)=> {
         this.setState({
-            [field]: value ? moment(value).format('YYYY-MM-DD') : 0
+            [field]: isNull(value) ? '' : moment(value).format('YYYY-MM-DD')
         });
     }
 
@@ -55,22 +73,30 @@ export default class FormComponent extends Component {
     }
    
     render() {
-        const {department='',positionname=''} = this.state;
+        const {department='',position=''} = this.state;
         return (
             <div className="form" style={{
                 position: 'relative'
             }}>
                 <div className="bottom16">
-                    <Input placeholder="职位" onChange={this.handlePositionName} value={positionname} />
-                    <Input placeholder="部门" onChange={this.handleDepartMent} value={department} />
+                    <Input 
+                        placeholder="职位" 
+                        onChange={this.handlePositionName} 
+                        value={position} 
+                    />
+                    <Input 
+                        placeholder="部门" 
+                        onChange={this.handleDepartMent} 
+                        value={department} 
+                    />
                 </div>
                 <div>
                     <TimeComponent
                         ref="TimeComponent"
                         onChange={this.onTimeChange}
                         style={{width:'249px',marginRight:'16px'}} />
-                        <Button type="primary" onClick={this.searchJob}>职位筛选</Button>
-                        <Button className="grey" onClick={this.clearInput}>清空条件</Button>
+                        <Button type="primary" onClick={this.handleSearch}>职位筛选</Button>
+                        <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>
                 <div className="float-button">
                     <Link to="/job/newJob" onClick={this.handleClick}>

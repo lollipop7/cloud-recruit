@@ -9,6 +9,11 @@ body {
     font: 12px/1.5 "Microsoft Yahei","Hiragino Sans GB",tahoma,arial,"\5B8B\4F53" !important;
     // font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif !important;
     background-color: $page-bg-color !important;
+    user-select:none;
+}
+
+div,input,span,p {
+    user-select: none;
 }
 
 ul,li {

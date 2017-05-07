@@ -1,6 +1,30 @@
 .task-page {
     .box-border {
         background-color: #FFF;
-        padding: 16px 16px 0;
+        padding: 16px 16px 124px;
+    }
+    tr {
+        &:first-child,&:last-child  {
+            td {
+                font-weight: bold;
+            }
+        }
+        &:last-child td {
+            text-align: center;
+        }
+    }
+    .ant-table-wrapper  {
+        margin-top: 16px;
+        .ant-table-pagination {
+            margin: 10px 0 0;
+            text-align: right;
+        }
+    }
+    .download {
+        display: block;
+        width: 194px;
+        height: 40px;
+        margin: 30px auto 0;
+        font-size: 18px;
     }
 }

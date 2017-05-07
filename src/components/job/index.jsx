@@ -17,7 +17,13 @@ import * as Actions from 'actions';
 
 class IndexPage extends Component {
     params = {
-        type: 'all'
+        type: 'all',
+        skip: 0
+    };
+
+    // 表单数据
+    formData = {
+
     };
 
     componentDidMount() {
@@ -28,25 +34,19 @@ class IndexPage extends Component {
         this.requestData();
     }
 
-    onClick(type) {
+    requestData() {
+        this.props.getJobList({...this.params,...this.formData});
+    }
+
+    clickNav(type) {
         this.params.type = type;
         this.params.skip = 0;
         this.requestData();
     }
 
-    requestData() {
-        this.props.getJobList({...this.params});
-    }
-
-    searchJob = (params) => {
-        const {starttime,endtime} = params;
-        this.params = merge(this.params,params);
-        if(starttime === 0 ){
-            this.params = omit(this.params,['starttime']);
-        }
-        if(endtime === 0){
-            this.params = omit(this.params,['endtime']);
-        }
+    handleSearch = (params) => {
+        this.params.skip = 0;
+        this.formData = params;
         this.requestData();
     }
 
@@ -77,11 +77,11 @@ class IndexPage extends Component {
                             title="职位分类" 
                             isLoading={isLoading}
                             data={this._getNavData(categoryData)}
-                            onClick={this.onClick.bind(this)} 
+                            onClick={this.clickNav.bind(this)} 
                         />
                     </div>
                     <div className="pull-right">
-                        <RightComponent searchJob={this.searchJob} paginationChange={this.paginationChange} />
+                        <RightComponent handleSearch={this.handleSearch} paginationChange={this.paginationChange} />
                     </div>
                 </div>
             </div>

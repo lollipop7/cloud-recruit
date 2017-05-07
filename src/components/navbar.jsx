@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 import {Link} from 'react-router';
 
 // redux
@@ -11,6 +11,10 @@ class NavBarComponents extends Component {
     state = {
         isLoading: false,
         showSetting: false
+    }
+
+    static contextTypes = {
+        router: PropTypes.object
     }
 
     componentDidMount() {
@@ -41,10 +45,16 @@ class NavBarComponents extends Component {
         });
     }
 
-    onMouseLeave = () => {
+    hideSettings = () => {
         this.setState({
             showSetting: false
         });
+    }
+
+    logout = () => {
+        this.hideSettings();
+        NProgress.start();
+        this.props.userLoginout(this.context);
     }
 
     render() {
@@ -89,7 +99,7 @@ class NavBarComponents extends Component {
                                 <div className="table-row">
                                     <div 
                                         className="email-address dropdown-wrapper" 
-                                        onMouseLeave={this.onMouseLeave} 
+                                        onMouseLeave={this.hideSettings} 
                                         onMouseOver={this.showSettings}
                                     >
                                         {email}
@@ -110,7 +120,7 @@ class NavBarComponents extends Component {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="javascript:;">
+                                                <Link href="javascript:;" onClick={this.logout}>
                                                     登出系统
                                                 </Link>
                                             </li>
@@ -143,7 +153,8 @@ const mapStateToProps = state => ({
     userEmailInfo: state.User.userEmailInfo
 })
 const mapDispatchToProps = dispatch => ({
-    getUserEmail: bindActionCreators(Actions.UserActions.getUserEmail, dispatch)
+    getUserEmail: bindActionCreators(Actions.UserActions.getUserEmail, dispatch),
+    userLoginout:bindActionCreators(Actions.logoutActions.userLoginout, dispatch)
 })
 
 export default connect(

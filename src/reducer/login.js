@@ -1,13 +1,18 @@
-import {USER_LOGIN} from 'constants/login';
+import {USER_LOGIN,LOGIN_START,LOGIN_DONE} from 'constants/login';
 
 const initialState = {
-    token: {}
+    // token: {},
+    isLoading: false
 };
 
 export default function login(state = initialState,actions){
     switch(actions.type){
-        case USER_LOGIN: 
-            return {...state,token:actions.token};
+        case LOGIN_START:
+            return {...state,loaddone: false};
+        case LOGIN_DONE:
+            return {...state,loaddone: true};
+        // case USER_LOGIN: 
+        //     return {...state,token:actions.token};
         default: 
             return state;
     }

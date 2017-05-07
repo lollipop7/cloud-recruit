@@ -59,7 +59,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
 // 获取职位详细信息
 export const getJobInfo = (data) => (dispatch,getState) => {
     dispatch(LOAD_INFO_START);
-    AjaxByToken('web/lookposition',{
+    AjaxByToken('/web/lookposition',{
         head: {
             transcode: 'L0014'
         },

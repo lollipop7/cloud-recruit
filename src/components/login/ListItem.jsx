@@ -20,7 +20,6 @@ export default class ListItemComponents extends Component {
 
     render() {
         const {title="",inputType="text",placeholder="",imgSrc=''} = this.props;
-
         return (
             <li className="table">
                 <div className="table-row">
