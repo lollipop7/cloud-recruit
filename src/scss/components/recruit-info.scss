@@ -1,0 +1,74 @@
+.recruit-info {
+    .ant-modal-body {
+        padding: 20px 30px !important; 
+        text-align: left !important;
+    }
+    .header-info {
+        width: 1008;
+        margin: 0 auto;
+        font-size: 0px;
+        img {
+            width: 105px;
+            height: 140px;
+        }
+        .info-right {
+            vertical-align: top;
+            width: 880px;
+            margin-left: 23px;
+            position: relative;
+            ul {
+                font-size: 0;
+                color: $theme-font-color;
+                li {
+                    &:first-child {
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+                    font-size: 14px;
+                    line-height: 15px;
+                }
+            }
+        }
+        button {
+            width: 114px;
+            height: 40px;
+            font-size: 18px;
+            &:first-child {
+                margin-right: 16px;
+            }
+        }
+        .info-bottom {
+            position: relative;
+            font-size: 16px;
+            height: 40px;
+            margin-top: 5px;
+            span {
+                color: $theme-color;
+                font-weight: bold;
+            }
+            ul {
+                color: #868686;
+            }
+            img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        .stage-process {
+            .circle {
+                width: 33px;
+                display: block;
+                background-color: $theme-color;
+                border-radius: 50%;
+                line-height: 33px;
+                color: #FFF;
+                font-size: 18px;
+                text-align: center;
+                &+span {
+                    font-size: 12px;
+                    color: $theme-color;
+                }
+            }
+        }
+    }
+}

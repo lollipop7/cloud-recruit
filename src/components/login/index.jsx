@@ -55,7 +55,7 @@ class IndexComponent extends Component {
 
     render() {
         const {companyName,userName,passwd} = this.state;
-        const prefix = "/static/images/login/";
+        const prefix = "./static/images/login/";
         return (
             <div className="bg">
                 <div id="common-loader" className="common-loader page-loader">

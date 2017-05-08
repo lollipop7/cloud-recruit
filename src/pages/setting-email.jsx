@@ -1,97 +1,115 @@
 import React, {Component} from 'react';
 
-import {Input,Button} from 'antd';
+import {Input,Button,Select} from 'antd';
+const Option = Select.Option;
 
 import ScrollPageContent from 'components/scroll-page-content';
 import BreadCrumbComponent from 'components/breadcrumb';
 
 import {ErrorInputComponents} from 'components/input';
 
-export default class SettingEmailPage extends Component {
+import omit from 'lodash/omit';
+import isEmpty from 'lodash/isEmpty';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class SettingEmailPage extends Component {
     state = {
-        oldPwd: '',
-        newPwd: '',
-        reNewPwd: ''
+        email: '',
+        pwd: ''
     };
 
     componentDidMount() {
         NProgress.done();
+        this.props.getUserEmail();
     }
 
-    onChange=(field,e)=>{
-        const {oldError=false,newError=false,reNewError=false} = this.state;
-        if(field === 'oldPwd' && oldError){
-            this.triggerError('oldError',false);
+    componentWillUpdate(nextProps,nextState) {
+        const {userEmailInfo} = nextProps;
+        if(!isEmpty(userEmailInfo.userMail) && ( userEmailInfo !== this.props.userEmailInfo)){
+            setTimeout(()=>{
+                this.resetForm();
+            },0);
         }
-        if(field === 'newPwd' && newError){
-            this.triggerError('newError',false);
-        }
-        if(field === 'reNewPwd' && reNewError){
-            this.triggerError('reNewError',false);
-        }
+    }
+
+    handleChange=(field,e)=>{
         this.setState({
             [field]: e.target.value
         });
     }
 
-    resetForm = () => {
-        this.setState({
-            oldPwd: '',
-            newPwd: '',
-            reNewPwd: ''
-        });
+    triggerError = (error) => {
+        this.setState({error});
     }
 
-    triggerError = (field,bool) => {
+    resetForm = () => {
+        const {userEmailInfo} = this.props,
+            {email,password,mailid} = userEmailInfo.userMail;
+        const {emailInput,pwdInput} = this.refs;
         this.setState({
-            [field]: bool
+            mailid: mailid+'',
+            email: email,
+            pwd: password
         });
+        emailInput.resetVal(email);
+        pwdInput.resetVal(password);
     }
 
     validate = () => {
-        const {oldPwd='',newPwd='',reNewPwd=''} = this.state;
-        if(oldPwd === ''){
-            this.triggerError('oldError',true);
+        const {email='',pwd=''} = this.state,
+            {emailInput,pwdInput} = this.refs;
+        // if(mailid === undefined){
+        //     this.triggerError(true);
+        //     return false;
+        // }
+        if(email === '') {
+            emailInput.refs.input.focus();
+            return false;
         }
-        if(newPwd === '') {
-            this.triggerError('newError',true);
+        if(pwd === ''){
+            pwdInput.refs.input.focus();
+            return false;
         }
-        if(reNewPwd === ''){
-            this.triggerError('reNewError',true);
+        return true;
+    }
+
+    setEmail = () => {
+        if(!this.validate()) return ;
+        NProgress.start();
+        this.props.changeEmailSetting(omit(this.state,['error']));
+    }
+
+    handleEnter = (field) => {
+        if(typeof field === 'string'){
+            this.refs[field].refs.input.focus();
+        }else{
+            this.setEmail();
         }
     }
 
-    handChange = () => {
-        const {oldPwd='',newPwd='',reNewPwd=''} = this.state;
-        this.validate();
-        if(oldPwd === ''){
-            this.refs.oldPwdInput.refs.input.focus();
-            return;
-        }else if(newPwd === '') {
-            this.refs.newPwdInput.refs.input.focus();
-            return;
-        }else if(reNewPwd === ''){
-            this.refs.reNewPwdInput.refs.input.focus();
-            return;
+    handleSelectChange = (value) => {
+        this.setState({
+            mailid: value
+        });
+    }
+
+    handleSelectBlur = () => {
+        if(this.state.mailid === undefined){
+            this.triggerError(true);
+        }else{
+            this.triggerError(false);
         }
-        console.log('submit form');
-    }
-
-    handleOldEnter = () => {
-        this.refs.newPwdInput.refs.input.focus();
-    }
-
-    handleNewEnter = () => {
-        this.refs.reNewPwdInput.refs.input.focus();
-    }
-
-    handleReNewEnter = () => {
-        this.handChange();
     }
 
     render() {
-        const {routes} = this.props;
-        const {oldPwd='',newPwd='',reNewPwd='',oldError=false,newError=false,reNewError=false} = this.state;
+        const {error=false,mailid,errorMsg='必填'} = this.state,
+            {routes,userEmailInfo} = this.props,
+            {mailServersList,userMail} = userEmailInfo;
+        const userMailId = userMail.mailid;
         return (
             <ScrollPageContent>
                 <div className="page-content setting-email-page">
@@ -104,16 +122,34 @@ export default class SettingEmailPage extends Component {
                                         邮箱服务器
                                     </div>
                                     <div className="table-cell">
-                                        <ErrorInputComponents 
-                                            type="password"
-                                            ref="oldPwdInput"
-                                            error={oldError}
-                                            errorMsg="必填"
-                                            placeholder="请输入旧密码"
-                                            value={oldPwd}
-                                            onChange={this.onChange.bind(this,'oldPwd')}
-                                            onEnter={this.handleOldEnter}
-                                        />
+                                        <Select
+                                            style={{
+                                                width: '100%'
+                                            }}
+                                            className={error ? 'error' : ''}
+                                            value={mailid}
+                                            placeholder="请选择邮箱服务器"
+                                            onChange={this.handleSelectChange}
+                                            onBlur={this.handleSelectBlur}
+                                        >
+                                           {
+                                               mailServersList.map( (item,index)=>{
+                                                   const {id,servername} = item;
+                                                   return (
+                                                       <Option key={index} value={id+''}>
+                                                           {servername}
+                                                        </Option>
+                                                   );
+                                               })
+                                           }
+                                        </Select>
+                                        {error&&
+                                            <div className="error-promote" style={{
+                                                paddingLeft: 0
+                                            }}>
+                                                <label className="error">{errorMsg}</label>
+                                            </div>
+                                        }
                                     </div>
                                 </li>
                                 <li className="table">
@@ -122,14 +158,10 @@ export default class SettingEmailPage extends Component {
                                     </div>
                                     <div className="table-cell">
                                         <ErrorInputComponents 
-                                            type="password"
-                                            ref="newPwdInput"
-                                            error={newError}
-                                            errorMsg="必填"
+                                            ref="emailInput"
                                             placeholder="请输入邮箱名"
-                                            value={newPwd}
-                                            onChange={this.onChange.bind(this,'newPwd')}
-                                            onEnter={this.handleNewEnter}
+                                            onChange={this.handleChange.bind(this,'email')}
+                                            onEnter={this.handleEnter.bind(this,'pwdInput')}
                                         />
                                     </div>
                                 </li>
@@ -140,18 +172,15 @@ export default class SettingEmailPage extends Component {
                                     <div className="table-cell">
                                         <ErrorInputComponents 
                                             type="password"
-                                            ref="reNewPwdInput"
-                                            error={reNewError}
-                                            errorMsg="必填"
-                                            placeholder="请输入新密码"
-                                            value={reNewPwd}
-                                            onChange={this.onChange.bind(this,'reNewPwd')}
-                                            onEnter={this.handleReNewEnter}
+                                            ref="pwdInput"
+                                            placeholder="请输新密码"
+                                            onChange={this.handleChange.bind(this,'pwd')}
+                                            onEnter={this.handleEnter}
                                         />
                                     </div>
                                 </li>
                                 <li className="table">
-                                    <Button type="primary" onClick={this.handChange}>配置</Button>
+                                    <Button type="primary" onClick={this.setEmail}>配置</Button>
                                     <Button className="grey" onClick={this.resetForm}>重填</Button>
                                 </li>
                             </ul>
@@ -162,3 +191,16 @@ export default class SettingEmailPage extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    userEmailInfo: state.User.userEmailInfo
+})
+const mapDispatchToProps = dispatch => ({
+    getUserEmail: bindActionCreators(Actions.UserActions.getUserEmail, dispatch),
+    changeEmailSetting: bindActionCreators(Actions.UserActions.changeEmailSetting, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SettingEmailPage);

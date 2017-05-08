@@ -4,12 +4,8 @@
         padding: 16px 16px 124px;
     }
     tr {
-        &:first-child,&:last-child  {
-            td {
-                font-weight: bold;
-            }
-        }
         &:last-child td {
+            font-weight: bold;
             text-align: center;
         }
     }

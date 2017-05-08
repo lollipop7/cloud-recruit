@@ -81,7 +81,7 @@
             background-color: transparent;
         }
         .search-button {
-            background-image: url(/static/images/navbar/search.png);
+            background-image: url(../../static/images/navbar/search.png);
             height: 17px;
             width: 17px;
             display: block;
@@ -100,7 +100,7 @@
             margin-top: 10px;
         }
         .dropdown-wrapper {
-            background-image: url(/static/images/navbar/dropdown.png);
+            background-image: url(../../static/images/navbar/dropdown.png);
             &:hover {
                 cursor: pointer;
             }
@@ -146,9 +146,11 @@
         }
         p {
             color: $theme-font-color;
-            background-image: url(/static/images/navbar/dropdown-black.png);
+            background-image: url(../../static/images/navbar/dropdown-black.png);
         }
         a {
+            display: inline-block;
+            min-width: 70px;
             color: $theme-font-color;
             &:hover {
                 color: $theme-color;

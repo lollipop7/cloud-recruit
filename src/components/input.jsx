@@ -4,7 +4,8 @@ import {Input} from 'antd';
 
 export class InputComponent extends Component {
     state = {}
-    onChange = (field,event) => {
+
+    handleChange = (field,event) => {
        this.props.onChange(field,event);
     }
 
@@ -13,7 +14,14 @@ export class InputComponent extends Component {
     }
 
     render() {
-        const {title,field='',value,style={},className='',disabled=false} = this.props;
+        const {
+            title,
+            field='',
+            value,
+            style={},
+            className='',
+            disabled=false
+        } = this.props;
         return (
             <div className="inline-block">
                 <span>{title}</span>
@@ -25,8 +33,8 @@ export class InputComponent extends Component {
                         ...style
                     }}
                     disabled={disabled}
-                    className={className}
-                    onChange={this.onChange.bind(this,field)} 
+                    className={className}    
+                    onChange={this.handleChange.bind(this,field)} 
                 />
             </div>
         )
@@ -35,33 +43,58 @@ export class InputComponent extends Component {
 
 export class ErrorInputComponents extends Component {
 
-    handleChange = (event) => {
+    state = {
+        value: undefined
+    }
+
+    _handleChange = (event) => {
         const {onChange} = this.props;
         if(onChange){
             onChange(event);
         }
+        this.setState({
+            value: event.target.value,
+            error: false // 输入字符后,隐藏错误信息
+        });
     }
 
-    handleEnter = (event) => {
+    _handleEnter = (event) => {
         const {onEnter} = this.props;
         if(onEnter){
             onEnter(event);
         }
     }
 
-    handleBlur = (event) => {
-        const {onBlur} = this.props;
-        if(onBlur){
-            onBlur(event);
+    setErrorAndMsg = (bool=false,msg='必填') => {
+        // 设置error是否隐藏和错误信息
+        this.setState({
+            error: bool,
+            errorMsg: msg
+        });
+    }
+
+    resetVal = (val) => {
+        // 提供给外部的方法,重置值
+        this.setState({
+            value: val,
+            error: false
+        });
+    }
+
+    _handleBlur = (event) => {
+        // const {onBlur} = this.props;
+        // if(onBlur){
+        //     onBlur(event);
+        // }
+        if(this.state.value === ''){
+            this.setErrorAndMsg(true); // 显示错误信息
         }
     }
 
     render() {
-        const {
-            error=false,
-            errorMsg='',
+        const {error=false,errorMsg='必填',value} = this.state,
+            {
             placeholder='',
-            value='',
             type='text',
             className='',
             style={},
@@ -76,11 +109,11 @@ export class ErrorInputComponents extends Component {
                     className={`${error ? 'error' : ''} ${className}`} 
                     type={type}
                     placeholder={placeholder}
-                    value={value}
+                    value={value || this.props.value}
                     disabled={disabled}
-                    onChange={this.handleChange}
-                    onPressEnter={this.handleEnter}
-                    onBlur={this.handleBlur}
+                    onChange={this._handleChange}
+                    onPressEnter={this._handleEnter}
+                    onBlur={this._handleBlur}
                 />
                 {error && 
                     <div className="error-promote">

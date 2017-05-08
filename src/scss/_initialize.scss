@@ -21,6 +21,12 @@ ul,li {
 }
 
 a {
+    &.hover {
+        &:hover {
+            color: $theme-color;
+            text-decoration: underline;
+        }
+    }
     &:focus {
         text-decoration: none;
     }

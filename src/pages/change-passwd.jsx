@@ -22,10 +22,7 @@ class ChangePasswdPage extends Component {
     state = {
         oldPwd: '',
         newPwd: '',
-        reNewPwd: '',
-        oldPwdError: false,
-        newPwdError: false,
-        reNewPwdError: false
+        reNewPwd: ''
     };
 
     componentDidMount() {
@@ -33,11 +30,7 @@ class ChangePasswdPage extends Component {
     }
 
     onChange=(field,e)=>{
-        const val = e.target.value,
-        pattern = /[0-9a-zA-Z]/;
-        if(this.state[field+'Error']){
-            this.triggerError(field,false);
-        }
+        const val = e.target.value;
         this.setState({
             [field]: val
         });
@@ -49,37 +42,37 @@ class ChangePasswdPage extends Component {
             newPwd: '',
             reNewPwd: ''
         });
-    }
-
-    triggerError = (field,bool) => {
-        this.setState({
-            [field+'Error']: bool
-        });
+        const {oldPwdInput,newPwdInput,reNewPwdInput} = this.refs;
+        oldPwdInput.resetVal();
+        newPwdInput.resetVal();
+        reNewPwdInput.resetVal();
     }
 
     validate = () => {
-        const {oldPwd,newPwd,reNewPwd} = this.state;
+        const {oldPwd,newPwd,reNewPwd} = this.state,
+            {oldPwdInput,newPwdInput,reNewPwdInput} = this.refs;
         if(isEmpty(oldPwd)){
-            this.refs.oldPwdInput.refs.input.focus();
+            oldPwdInput.refs.input.focus();
             return false;
         }
         if(isEmpty(newPwd)) {
-            this.refs.newPwdInput.refs.input.focus();
+            newPwdInput.refs.input.focus();
             return false;
         }
         if(isEmpty(reNewPwd)){
-            this.refs.reNewPwdInput.refs.input.focus();
+            reNewPwdInput.refs.input.focus();
             return false;
         }
         return true;
     }
 
-    handChange = () => {
+    changePasswd = () => {
         const {oldPwd='',newPwd='',reNewPwd=''} = this.state;
         if(!this.validate()) return;
         if(newPwd !== reNewPwd)
         {
-            notification.error('输入的两次密码不一致！');
+            this.refs.reNewPwdInput.setErrorAndMsg(true,'输入的两次密码不一致！');
+            this.refs.reNewPwdInput.refs.input.focus();
             return;
         }
         this.props.changePassWd({
@@ -95,24 +88,14 @@ class ChangePasswdPage extends Component {
         }
     }
 
-    onBlur = (field,event) => {
-        if(this.state[field] === ''){
-            this.triggerError(field,true);
+    componentWillUpdate(nextProps,nextState) {
+        if(nextProps.changeRes && this.validate()){
+            this.resetForm();
         }
     }
 
     render() {
         const {routes} = this.props;
-        const {
-            oldPwd,
-            newPwd,
-            reNewPwd,
-            oldPwdError,
-            newPwdError,
-            reNewPwdError,
-            oldPwdErrorMsg= '必填',
-            errorMsg = '必填'
-        } = this.state;
         return (
             <ScrollPageContent>
                 <div className="page-content change-passwd-page">
@@ -128,13 +111,9 @@ class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="oldPwdInput"
-                                            error={oldPwdError}
-                                            errorMsg={oldPwdErrorMsg}
                                             placeholder="请输入旧密码"
-                                            value={oldPwd}
                                             onChange={this.onChange.bind(this,'oldPwd')}
                                             onEnter={this.onEnter.bind(this,'newPwd')}
-                                            onBlur={this.onBlur.bind(this,'oldPwd')}
                                         />
                                     </div>
                                 </li>
@@ -146,13 +125,9 @@ class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="newPwdInput"
-                                            error={newPwdError}
-                                            errorMsg={errorMsg}
                                             placeholder="请输入新密码"
-                                            value={newPwd}
                                             onChange={this.onChange.bind(this,'newPwd')}
                                             onEnter={this.onEnter.bind(this,'reNewPwd')}
-                                            onBlur={this.onBlur.bind(this,'newPwd')}
                                         />
                                     </div>
                                 </li>
@@ -164,18 +139,14 @@ class ChangePasswdPage extends Component {
                                         <ErrorInputComponents 
                                             type="password"
                                             ref="reNewPwdInput"
-                                            error={reNewPwdError}
-                                            errorMsg={errorMsg}
                                             placeholder="请再次输入新密码"
-                                            value={reNewPwd}
                                             onChange={this.onChange.bind(this,'reNewPwd')}
                                             onEnter={this.onEnter}
-                                            onBlur={this.onBlur.bind(this,'reNewPwd')}
                                         />
                                     </div>
                                 </li>
                                 <li className="table">
-                                    <Button type="primary" onClick={this.handChange}>保存</Button>
+                                    <Button type="primary" onClick={this.changePasswd}>保存</Button>
                                     <Button className="grey" onClick={this.resetForm}>重填</Button>
                                 </li>
                             </ul>
@@ -188,6 +159,7 @@ class ChangePasswdPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    changeRes: state.User.changeRes
 })
 const mapDispatchToProps = dispatch => ({
     changePassWd: bindActionCreators(Actions.UserActions.changePassWd, dispatch)

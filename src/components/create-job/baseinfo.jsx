@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 
 import { Select } from 'antd';
 
-import {ErrorInputComponents,InputComponent} from 'components/input';
+import WorkYears from 'data/select/workyears';
+import Industry from 'data/select/industry';
+import Education from 'data/select/education';
+
+import {InputComponent} from 'components/input';
 
 const Option = Select.Option;
 
 
 class SelectComponent extends Component {
-
-    state = {
-        data: []
-    }
 
     handleChange= (field,value) => {
         const {onChange} = this.props;
@@ -21,7 +21,6 @@ class SelectComponent extends Component {
     }
 
     handleFocus = () => {
-        console.log('handleFocus');
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -29,8 +28,7 @@ class SelectComponent extends Component {
     }
 
     render() {
-        const {data} = this.state,
-            {value,title,placeholder,field} = this.props;
+        const {data=[],value,title,placeholder,field,dropdownMatchSelectWidth} = this.props;
         return (
             <div className="inline-block">
                 <span>{title}</span>
@@ -40,12 +38,12 @@ class SelectComponent extends Component {
                     onFocus={this.handleFocus}
                     onChange={this.handleChange.bind(this,field)}
                     allowClear
-                    notFoundContent='加载中...'
+                    dropdownMatchSelectWidth={dropdownMatchSelectWidth}
                     style={{ width: 155,height:40 }}
                 >
                     {
-                        data.map(item=>{
-                            return <Option value={item}>{item}</Option>
+                        data.map( (item,index)=>{
+                            return <Option key={index} value={item}>{item}</Option>
                         })
                     }
                 </Select>
@@ -59,8 +57,8 @@ export default class BaseinfoComponent extends Component {
 
     state = {}
 
-    onChange = (field,e) => {
-        if(typeof e === 'string'){
+    handleChange = (field,e) => {
+        if(typeof e === 'string' || typeof e === 'undefined'){
             this.setState({
                 [field]: e
             });
@@ -96,7 +94,7 @@ export default class BaseinfoComponent extends Component {
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
             specialty=undefined, // 专业
-            educationbackground=undefined //学历
+            educationbackground=undefined //学历,
         } = this.state;
         return (
             <li className="base-info">
@@ -109,13 +107,13 @@ export default class BaseinfoComponent extends Component {
                             title="职位名称"
                             field="positionname"
                             value={positionname}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                         <InputComponent
                             title="薪资待遇"
                             field="salary"
                             value={salary}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                     </li>
                     <li>
@@ -123,13 +121,13 @@ export default class BaseinfoComponent extends Component {
                             title="用人部门"
                             field="department"
                             value={department}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                         <InputComponent
                             title="招聘理由"
                             field="recruitreason"
                             value={recruitreason}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                     </li>
                     <li>
@@ -137,36 +135,40 @@ export default class BaseinfoComponent extends Component {
                             title="招聘人数"
                             field="headcount"
                             value={headcount}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                         <InputComponent
                             title="工作地点"
                             field="workcity"
                             value={workcity}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                         <SelectComponent 
                             title="工作年限"
                             value={workyears}
+                            data={WorkYears}
                             field="workyears"
                             placeholder="请选择工作年限"
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                     </li>
                     <li>
                         <SelectComponent 
                             title="专业"
+                            data={Industry}
+                            dropdownMatchSelectWidth={false}
                             value={specialty}
                             field="specialty"
                             placeholder="选择/修改"
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                         <SelectComponent 
                             title="学历"
+                            data={Education}
                             value={educationbackground}
                             field="educationbackground"
                             placeholder="请选择学历"
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                         />
                     </li>
                 </ul>

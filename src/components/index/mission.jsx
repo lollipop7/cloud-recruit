@@ -7,6 +7,8 @@ import * as Actions from 'actions';
 
 import LoadingComponent from 'components/loading';
 
+import {notification} from 'antd';
+
 class MissionComponent extends Component {
 
     state = {
@@ -29,12 +31,19 @@ class MissionComponent extends Component {
         }
     }
 
+    handleClick(){
+        notification.info({
+            message: '提示',
+            description: '功能正在开发中...'
+        });
+    }
+
     render() {
         const {isLoading} = this.state,
             {urgentTasks=[]} = this.props;
         return (
             <div className="mission box-border">
-                <div className="title">
+                <div className="title" onClick={this.handleClick}>
                     紧急任务 
                 </div>
                 {!isLoading && urgentTasks.length > 0 &&

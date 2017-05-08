@@ -1,3 +1,5 @@
+// 获取用户基本信息
+export const GET_USER_INFO = "GET_USER_INFO";
 // 获取用户邮箱配置信息
 export const GET_USER_EMAIL_INFO = "GET_USER_EMAIL_INFO";
 // 修改密码

@@ -1,6 +1,8 @@
 import React, {Component,PropTypes} from 'react';
 import {Link} from 'react-router';
 
+import isEmpty from 'lodash/isEmpty';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -21,11 +23,11 @@ class NavBarComponents extends Component {
         this.setState({
             isLoading: true
         });
-        this.props.getUserEmail();
+        this.props.getUserInfo();
     }
 
     componentWillUpdate(nextProps,nextState) {
-        if(nextProps.userEmailInfo.mailServersList && nextState.isLoading ){
+        if(!isEmpty(nextProps.userInfo) && nextState.isLoading ){
             this.setState({
                 isLoading: false
             });
@@ -67,10 +69,10 @@ class NavBarComponents extends Component {
 
     render() {
         const {isLoading} = this.state,
-        {location,userEmailInfo} = this.props,
+        {location,userInfo} = this.props,
             {pathname} = location,
-            {email='',servername=''} = userEmailInfo.userMail,
-            prefix = '/static/images/navbar/',
+            {username='',companyname=''} = userInfo,
+            prefix = './static/images/navbar/',
             navData = [
                 {name: '职位管理',path:'/job/index'},
                 {name: '招聘流程',path:'/recruit'},
@@ -110,12 +112,12 @@ class NavBarComponents extends Component {
                                         onMouseLeave={this.hideSettings} 
                                         onMouseOver={this.showSettings}
                                     >
-                                        {email}
+                                        {username}
                                         <ul className="dropdown-menu box-border" style={{
                                             transform: this.state.showSetting ? 'translateY(10px)' : ''
                                         }}>
                                             <li>
-                                                <p className="email-address">{email}</p>
+                                                <p className="email-address">{username}</p>
                                             </li>
                                             <li>
                                                 <Link to="/changePasswd" onClick={this.handleClickSetting.bind(this,'/changePasswd')}>
@@ -136,7 +138,7 @@ class NavBarComponents extends Component {
                                     </div>
                                 </div>
                                 <div className="table-row">
-                                    <p className="company-name">{servername}</p>
+                                    <p className="company-name">{companyname}</p>
                                 </div>
                             </div>
                         }
@@ -158,10 +160,10 @@ class NavBarComponents extends Component {
 }
 
 const mapStateToProps = state => ({
-    userEmailInfo: state.User.userEmailInfo
+    userInfo: state.User.userInfo
 })
 const mapDispatchToProps = dispatch => ({
-    getUserEmail: bindActionCreators(Actions.UserActions.getUserEmail, dispatch),
+    getUserInfo: bindActionCreators(Actions.UserActions.getUserInfo, dispatch),
     userLoginout:bindActionCreators(Actions.logoutActions.userLoginout, dispatch)
 })
 

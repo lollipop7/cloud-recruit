@@ -18,7 +18,7 @@ let cancel = [];
 export const cancelRequest = function() {
     cancel.forEach(item=>{
         Object.keys(item).forEach(key=>{
-            item[key]();
+            item[key]('cancel by change page!');
         });
     });
     cancel = [];
@@ -33,6 +33,7 @@ export const cancelRequestByKey = function(key) {
 export const AjaxByPost = (uri, data) => {
     return new Promise(function(resolve, reject) {
         axios({
+            // url: '/hrmanage/api'+uri,
             url: uri,
             method: 'post',
             data: merge(data,{

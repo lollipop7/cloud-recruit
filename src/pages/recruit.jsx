@@ -17,11 +17,11 @@ class RecruitPage extends Component {
     componentDidMount() {
         NProgress.done();
         this.props.getRecruitCategory();
+        this.props.getRecruitList();
     }
 
      _getNavData(){
         const {categoryData} = this.props;
-        console.log(categoryData);
         return [
                 {
                     title: '全部',
@@ -101,6 +101,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitCategory: bindActionCreators(Actions.RecruitACtions.getRecruitCategory, dispatch),
+    getRecruitList: bindActionCreators(Actions.RecruitACtions.getRecruitList, dispatch)
 })
 
 export default connect(

@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import data from 'data/create-job';
-
 import { Input , Button , Cascader , Select } from 'antd';
 const Option = Select.Option;
 
@@ -34,6 +32,11 @@ function onChange(value) {
 }
 
 export default class FormComponent extends Component {
+
+    resetForm() {
+        
+    }
+
     render() {
         return (
             <div className="form">
@@ -50,7 +53,7 @@ export default class FormComponent extends Component {
                 <div>
                     <Select placeholder="工作年限" style={{width: 209}} onChange={onChange}>
                         {
-                            data.workYear.map((item,index)=>{
+                            [].map((item,index)=>{
                                 return (
                                     <Option key={index} value={item}>{item}</Option>
                                 )
@@ -67,7 +70,7 @@ export default class FormComponent extends Component {
                         }
                     </Select>
                     <Button type="primary">查询</Button>
-                    <Button className="grey">清空条件</Button>
+                    <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>
             </div>
         );

@@ -90,7 +90,7 @@ class LoginPage extends Component {
     render() {
         // const {isLoading} = this.props,
         const {companyname,loginname,password,errMsg,isLoading} = this.state,
-            prefix = "/static/images/login/";
+            prefix = "./static/images/login/";
         return (
             <div id="login-page">
                 <div className="bg">

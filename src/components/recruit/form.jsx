@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import data from 'data/create-job';
-
 import { Input , Button , Cascader , Select } from 'antd';
 const Option = Select.Option;
 
@@ -34,7 +32,32 @@ function onChange(value) {
 }
 
 export default class FormComponents extends Component {
+
+    state = {
+        positionname: '',
+        livecityid: '',
+        username: '',
+        workyear: ''
+    }
+
+    handleChange(field,e){
+        this.setState({
+            [field]: e.target.value
+        });
+    }
+
+    resetForm = () => {
+        this.setState({
+            positionname: '',
+            livecityid: '',
+            username: '',
+            workyear: ''
+        });
+    }
+
     render() {
+        const {positionname,livecityid,username,workyear} = this.state;
+
         return (
             <div className="form">
                 <div className="float-button">
@@ -42,17 +65,29 @@ export default class FormComponents extends Component {
                     <span>导入简历</span>
                 </div>
                 <div className="bottom16">
-                    <Input placeholder="申请职位" />
-                    <Cascader options={cascaderOptions} onChange={onChange} placeholder="居住地" />
+                    <Input 
+                        placeholder="申请职位"
+                        value={positionname}
+                        onChange={this.handleChange.bind(this,'positionname')}
+                    />
+                    <Cascader 
+                        options={cascaderOptions} 
+                        onChange={onChange} 
+                        placeholder="居住地" 
+                    />
                 </div>
                 <div>
-                    <Input placeholder="姓名" />
+                    <Input 
+                        placeholder="姓名" 
+                        value={username}
+                        onChange={this.handleChange.bind(this,'username')}
+                    />
                     <Select placeholder="工作年限" style={{
                         width: 249,
                         marginRight: 16
                     }} onChange={onChange}>
                         {
-                            data.workYear.map((item,index)=>{
+                            [].map((item,index)=>{
                                 return (
                                     <Option key={index} value={item}>{item}</Option>
                                 )
@@ -60,7 +95,7 @@ export default class FormComponents extends Component {
                         }
                     </Select>
                     <Button type="primary">查询</Button>
-                    <Button className="grey">清空条件</Button>
+                    <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>
             </div>
         );

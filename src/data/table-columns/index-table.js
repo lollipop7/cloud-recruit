@@ -15,7 +15,7 @@ module.exports = [
         "title": "入职时间",
         "dataIndex": "eventtime",
         "key": "eventtime",
-        "width": 156
+        "width": 200
     },
     {
         "title": "电话",

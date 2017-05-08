@@ -35,7 +35,7 @@ export default class OtherInfoComponent extends Component {
 
     state = {
         // workType: 1,
-        isUrgent: 1
+        isurgent: true
     }
 
     onChange=(field,e)=>{
@@ -48,7 +48,7 @@ export default class OtherInfoComponent extends Component {
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
             // workType: 1,
-            isUrgent: 1,
+            isurgent: true,
             // workDuty: '',
             // dictate: ''
         });
@@ -67,7 +67,7 @@ export default class OtherInfoComponent extends Component {
         // workDuty 工作职责
         // dicatate 工作资格
         // isUrgent 是否紧急
-        const {isUrgent} = this.state;
+        const {isurgent} = this.state;
         return (
             <li className="other-info">
                 <h2 className="title">
@@ -102,9 +102,9 @@ export default class OtherInfoComponent extends Component {
                     </li>
                     <li>
                         <span>是否紧急</span>
-                        <RadioGroup onChange={this.onChange.bind(this,'isUrgent')} value={isUrgent}>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={0}>否</Radio>
+                        <RadioGroup onChange={this.onChange.bind(this,'isurgent')} value={isurgent}>
+                            <Radio value={true}>是</Radio>
+                            <Radio value={false}>否</Radio>
                         </RadioGroup>
                     </li>
                 </ul>
