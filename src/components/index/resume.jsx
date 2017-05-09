@@ -40,21 +40,28 @@ class ResumeComponent extends Component {
 
     componentWillUpdate(nextProps,nextState) {
         const {data} = nextProps;
-        if(data.content !== this.props.data.content && nextState.isLoading) {
+        const {pieSourceList,content} = data;
+        if(content !== this.props.data.content && nextState.isLoading) {
             this.setState({
                 isLoading: false
             });
             let xaxis = [],
                 job = [],
-                zhilian = [];
+                zhilian = [],
+                unknown = [];
             if(data.size === '1'){
-                xaxis = data.content['zhilian'].map((item,index)=>{
+                // pieSourceList
+                xaxis = content[pieSourceList[0].labelname].map((item,index)=>{
                     return item.labelname;
                 });
-                job = data.content['51job'].map((item,index)=>{
+                if(xaxis.length === 7) xaxis.push('');
+                job = content['51job'] &&  content['51job'].map((item,index)=>{
                     return item.cnt;
                 });
-                zhilian = data.content['zhilian'].map((item,index)=>{
+                zhilian = content['zhilian'] &&  content['zhilian'].map((item,index)=>{
+                    return item.cnt;
+                });
+                unknown = content['unknown'] &&  content['unknown'].map((item,index)=>{
                     return item.cnt;
                 });
                 this.setState({
@@ -82,6 +89,10 @@ class ResumeComponent extends Component {
                     {
                         name: '智联招聘',
                         data: zhilian
+                    },
+                    {
+                        name: '其他',
+                        data: unknown
                     }
                 ]
             });

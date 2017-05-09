@@ -1,6 +1,10 @@
 /**
  * ==== 招聘管理 ====
  */
+// 开始请求分类统计信息
+export const LOAD_CATEGORY_START = "LOAD_CATEGORY_START";
+// 请求分类统计信息结束
+export const LOAD_CATEGORY_DONE = "LOAD_CATEGORY_DONE";
 // 招聘分类统计信息
 export const RECRUIT_CATEGORY = "RECRUIT_CATEGORY";
 // 招聘人员信息列表

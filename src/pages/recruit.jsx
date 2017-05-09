@@ -4,8 +4,12 @@ import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
 import BreadCrumbComponent from 'components/breadcrumb';
 
+import NavData from 'data/nav/recruit';
+
 import FormComponents from 'components/recruit/form';
 import TableComponents from 'components/recruit/table';
+
+import RecruitInfoModalComponent from 'components/recruit-info';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -14,63 +18,51 @@ import * as Actions from 'actions';
 
 class RecruitPage extends Component {
 
+    params = {
+        stageid: '0'
+    };
+
     componentDidMount() {
+        const {resumeId,logId} = this.props.routeParams;
         NProgress.done();
         this.props.getRecruitCategory();
-        this.props.getRecruitList();
+        this.requestData();
+        if(resumeId && logId){
+            this.props.showResumeModal();
+            // this.props.getResumeInfo({resumeId,logId});
+        }
+    }
+
+    componentWillUnmount() {
+        // 清空总数,防止叠加
+        NavData[0].num = 0;
+    }
+
+    requestData(){
+        this.props.getRecruitList(this.params);
     }
 
      _getNavData(){
         const {categoryData} = this.props;
-        return [
-                {
-                    title: '全部',
-                    type: 'all',
-                    num: 0
-                },
-                {
-                    title: '申请中',
-                    type: 'preparation',
-                    num: 1
-                },
-                {
-                    title: '预约中',
-                    type: 'ongoing',
-                    num: 2
-                },
-                {
-                    title: '面试',
-                    type: 'completed',
-                    num: 3
-                },
-                {
-                    title: '复试',
-                    type: 'stop',
-                    num: 4
-                },
-                {
-                    title: '待入职人员',
-                    type: 'stop',
-                    num: 4
-                },
-                {
-                    title: '已入职',
-                    type: 'stop',
-                    num: 4
-                },
-                {
-                    title: '未通过',
-                    type: 'stop',
-                    num: 4
-                },
-            ];
+        categoryData.forEach((item,index)=>{
+            return NavData[item.stageid].num = item.cnt;
+        });
+        // 求和获得总共的数量
+        
+        const total = NavData.reduce((prevObj,nextObj)=>{
+            return {num:prevObj.num + nextObj.num}
+        },{num:0});
+        NavData[0].num = total.num;
+        return NavData;
     }
 
     onClick(type) {
+        this.params.stageid = type;
+        this.requestData();
     }
 
     render() {
-        const {routes} = this.props;
+        const {routes,isLoading} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content recruit-page">
@@ -79,6 +71,7 @@ class RecruitPage extends Component {
                         <div className="pull-left">
                             <LeftNav 
                                 title="招聘分类" 
+                                isLoading={isLoading}
                                 data={this._getNavData()}
                                 onClick={this.onClick.bind(this)} 
                             />
@@ -91,17 +84,21 @@ class RecruitPage extends Component {
                         </div>
                     </div>
                 </div>
+                <RecruitInfoModalComponent />
             </ScrollPageContent>
         );
     }
 }
 
 const mapStateToProps = state => ({
+    isLoading: state.Recruit.isCategoryLoading,
     categoryData: state.Recruit.categoryData, // 统计列表数据
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitCategory: bindActionCreators(Actions.RecruitACtions.getRecruitCategory, dispatch),
-    getRecruitList: bindActionCreators(Actions.RecruitACtions.getRecruitList, dispatch)
+    getRecruitList: bindActionCreators(Actions.RecruitACtions.getRecruitList, dispatch),
+    showResumeModal: bindActionCreators(Actions.RecruitACtions.showResumeModal, dispatch),
+    // getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
 })
 
 export default connect(

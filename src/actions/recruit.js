@@ -3,6 +3,10 @@ import {AjaxByToken} from 'utils/ajax';
 
 import extend from 'lodash/extend';
 
+// 开始请求分类统计信息
+const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
+// 请求分类统计信息结束
+const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
 // 获取招聘分类统计信息
 const RECRUIT_CATEGORY = {type:types.RECRUIT_CATEGORY};
 // 招聘人员信息列表
@@ -19,32 +23,33 @@ const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
 const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
 
 export const getRecruitCategory = () => (dispatch,getState) => {
-    dispatch(LOAD_INFO_START);
+    dispatch(LOAD_CATEGORY_START);
     AjaxByToken('/web/jobclassCount',{
         head: {
             transcode: 'L0015'
         }
     })
     .then(res=>{
-        dispatch(LOAD_INFO_DONE);
+        dispatch(LOAD_CATEGORY_DONE);
         dispatch(extend({},RECRUIT_CATEGORY,{categoryData:res.list}));
     });
 }
 
-export const getRecruitList = () => (dispatch,getState) => {
+export const getRecruitList = (data) => (dispatch,getState) => {
     AjaxByToken('/web/queryResume',{
         head: {
-            transcode: 'L0016'
-        }
+            transcode: 'L0016',
+        },
+        data: extend({},data,{count: '20'})
     })
     .then(res=>{
-        console.log(res);
-        // dispatch(Object.assign({},RECRUIT_CATEGORY,{categoryData:res.list}));
+        dispatch(extend({},RECRUIT_LIST,{recruitList:res}));
     });
 }
 
 // 得到招聘流程人员详细信息
 export const getResumeInfo = (data) => (dispatch,getState) => {
+    // dispatch(LOAD_INFO_START);
     AjaxByToken('/web/getResumeById',{
         head: {
             transcode: 'L0017'
@@ -52,6 +57,7 @@ export const getResumeInfo = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        dispatch(LOAD_INFO_DONE);
         dispatch(extend({},RECRUIT_INFO,{recruitInfo:res}));
     });
 }

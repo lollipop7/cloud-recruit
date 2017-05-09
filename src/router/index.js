@@ -49,7 +49,7 @@ const Job = {
 
 // 引入招聘流程路由组件
 const Recruit = {
-    path: 'recruit',
+    path: 'recruit(/:resumeId)(/:logId)', // resumeId:职位id logId:流程id
     breadcrumbName:"招聘流程", 
     onEnter:requireAuthHook,
     onLeave:onLeavePage,
@@ -57,6 +57,19 @@ const Recruit = {
         require.ensure([], (require) => {
             cb(null, require('pages/recruit').default)
         }, 'RecruitPage')
+    }
+}
+
+// 引入招聘详情页面路由组件
+const resumeInfo = {
+    path: 'resumeInfo(/:resumeId)(/:logId)', // resumeId:职位id logId:流程id
+    // breadcrumbName:"招聘流程", 
+    onEnter:requireAuthHook,
+    // onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/resume-info').default)
+        }, 'ResumeInfoPage')
     }
 }
 
@@ -143,7 +156,8 @@ const RouteConfig = {
       Task,
       Login,
       ChangePasswd,
-      SettingEmail
+      SettingEmail,
+      resumeInfo
     ]
   } ]
 }

@@ -1,10 +1,9 @@
 import React, {Component,PropTypes} from 'react';
 
-import pick from 'lodash/pick';
 import merge from 'lodash/merge';
 import trim from 'lodash/trim';
 
-import {Table,Button} from 'antd';
+import {Table} from 'antd';
 import columns from 'data/table-columns/index-table';
 
 import LoadingComponent from 'components/loading';
@@ -68,10 +67,7 @@ class EntryPersonComponent extends Component {
                  */
                 return merge(
                     {key:index},
-                    pick(
-                        item,
-                        ['username','positionname','eventtime','telephone','resumeid','id']
-                    ),
+                    item,
                     {entry: '入职管理'}
                 );
             });
@@ -88,9 +84,10 @@ class EntryPersonComponent extends Component {
         this.props.getResumeInfo({resumeId,logId});
     }
 
-    toRecruitPage = () => {
+    toRecruitPage = (record) => {
         NProgress.start();
-        this.context.router.push('/recruit');
+        const {id,resumeid} = record;
+        this.context.router.push(`/recruit/${resumeid}/${id}`);
     }
 
     _getColumns() {
@@ -112,17 +109,12 @@ class EntryPersonComponent extends Component {
         }  
 
         columns[columns.length - 1].render = (text,record,index) => {
-            return <Button 
-                        onClick={this.toRecruitPage}
-                        className="status-button" 
-                        type="primary" 
-                        style={{
-                            width: 72,
-                            padding: 0,
-                            height: '24px'
-                        }}>
-                            {text}
-                    </Button>
+            return  <a 
+                        onClick={this.toRecruitPage.bind(this,record)}
+                        className="highlight-text"
+                    >
+                        {text}
+                    </a>
         }
 
         return columns;
@@ -157,7 +149,7 @@ class EntryPersonComponent extends Component {
                         <LoadingComponent />
                     </div>
                 }
-                <RecruitInfoModalComponent ref="recruitInfo" />
+                <RecruitInfoModalComponent />
             </div>
         );
     }

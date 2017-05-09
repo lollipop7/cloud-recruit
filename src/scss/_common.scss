@@ -50,6 +50,10 @@
 .inline-block {
     display: inline-block;
 }
+.none {
+    display: none;
+}
+
 
 .box-border {
     border: 1px solid #e7eaf1;
@@ -67,4 +71,14 @@
     height: 400px;
     background-color: #FFF;
     
+}
+
+// text 
+.highlight-text {
+    color: $theme-color !important;
+    text-decoration: underline;
+    &:hover {
+        color: lighten($theme-color,10%) !important;
+        text-decoration: underline;
+    }
 }

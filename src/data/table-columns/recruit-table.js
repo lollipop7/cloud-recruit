@@ -1,3 +1,9 @@
+import React from 'react';
+
+const renderWithATag = (text,record,index) => {
+    return <a href="javascript:void(0)" title={text}>{text}</a>
+}
+
 module.exports = [
     {
         "title": "姓名",
@@ -9,19 +15,22 @@ module.exports = [
         "title": "职位",
         "dataIndex": "positionname",
         "key": "positionname",
-        "width": 132
+        "width": 132,
+        render: renderWithATag
     },
     {
         "title": "部门",
         "dataIndex": "department", 
         "key": "department",
-        "width": 80
+        "width": 80,
+        render: renderWithATag
     },
     {
         "title": "工作年限",
         "dataIndex": "workyears",
         "key": "workyears",
-        "width": 90
+        "width": 90,
+        render: renderWithATag
     },
     {
         "title": "电话",
@@ -45,7 +54,8 @@ module.exports = [
         "title": "申请时间",
         "dataIndex": "deliverytime",
         "key": "deliverytime",
-        "width": 99
+        "width": 99,
+        render: renderWithATag
     },
     {
         "title": "进度",

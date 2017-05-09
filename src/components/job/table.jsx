@@ -49,16 +49,6 @@ class TableComponent extends Component {
         )
     }
 
-    _getDataSource(list) {
-        const keys = columns.map(item=>{
-            return item.key;
-        })
-        let dataSource = list.map((item,index)=>{
-            return assign(pick(item,keys),{key:index});
-        });
-        return dataSource;
-    }
-
     handleChange = (p) => {
         const {paginationChange} = this.props;
         if(paginationChange){
@@ -80,7 +70,7 @@ class TableComponent extends Component {
                 height: 780
             }}>
                 <Table 
-                    dataSource={this._getDataSource(list)} 
+                    dataSource={list} 
                     bordered
                     columns={this.columns}
                     pagination={

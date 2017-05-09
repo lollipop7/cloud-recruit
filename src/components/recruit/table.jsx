@@ -3,35 +3,37 @@ import React, {Component} from 'react';
 import {Table,Button} from 'antd';
 
 import columns from 'data/table-columns/recruit-table';
+import trim from 'lodash/trim';
 
-export default class TableComponents extends Component { 
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
 
-    state = {
-        data: []
+class TableComponents extends Component { 
+    componentDidMount() {
     }
 
-    componentDidMount() {
-        let data = [];
-        for(let i=0;i<20;i++){
-            data.push({
-                key: `${i}`,
-                username: '刘德华',
-                title: '猎头顾问  助理顾问',
-                department: '部门',
-                workyears: '5-10年',
-                telephone: '13564030785',
-                email: '13564030785@163.com',
-                expectJob: '完善',
-                deliverytime: '2017-03-5',
-                control: '进度'
-            });
+    showRecruitInfo = (record) => {
+        const {resumeid,id} = record;
+        this.props.showResumeModal();
+        // this.props.getResumeInfo({resumeId:resumeid,logId:id+''});
+    }
+
+    getColumns = () => {
+        columns[0].render = (text,record,index) => {
+            return  <a 
+                        className="hover" 
+                        href="javascript:void(0)" 
+                        title={text}
+                        onClick={this.showRecruitInfo.bind(this,record)}
+                    >{text}</a>
         }
-        this.setState({
-            data
-        });
+        return columns;
     }
 
     render() {
+        const {recruitList} = this.props;
         return (
             <div>
                 <div className="table-control">
@@ -40,14 +42,27 @@ export default class TableComponents extends Component {
                 <Table 
                     rowSelection={{type:'checkbox'}}
                     bordered
-                    columns={columns} 
-                    dataSource={this.state.data}
+                    columns={this.getColumns()} 
+                    dataSource={recruitList.list}
                     pagination={{
                         defaultPageSize:20 ,
-                        total: 1000
+                        total: recruitList.count
                     }}
                 />
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    recruitList: state.Recruit.recruitList // 列表数据
+})
+const mapDispatchToProps = dispatch => ({
+    showResumeModal: bindActionCreators(Actions.RecruitACtions.showResumeModal, dispatch),
+    // getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TableComponents);

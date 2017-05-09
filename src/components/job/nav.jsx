@@ -26,7 +26,7 @@ export default class LeftNavComponent extends Component {
                     <a href="javascript:void(0);">{title}</a>
                     <dl>
                         {data.map((item,index)=>{
-                            const {type,title,num} = item;
+                            const {type,title,num=0} = item;
                             return (
                                 <dd 
                                     key={index} 

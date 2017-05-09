@@ -7,7 +7,7 @@ export default class FrameworkView extends Component {
         const {location} = this.props;
         return (
             <div>
-                {location.pathname != '/login' && <NavBarComponents location={location} />}
+                {location.pathname != '/login' && location.pathname != '/resumeInfo' && <NavBarComponents location={location} />}
                 {this.props.children}
             </div>
         );

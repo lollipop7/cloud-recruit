@@ -5,23 +5,31 @@ import {Button} from 'antd';
 import trim from 'lodash/trim';
 
 export default class HeaderInfoComponent extends Component {
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps.data !== this.props.data;
+    }
+
+    printResume = () => {
+        window.print();
+    }
+
     render() {
         const {
-            data,
-            currentPName, // 申请职位名称
-            currentPworkcity, // 申请区域
+            resumeInfo={},
+            currentPName='', // 申请职位名称
+            currentPworkcity='', // 申请区域
             positions=[], // 当前简历同时申请的
-        } = this.props;
-        console.log(positions);
+        } = this.props.data;
         const {
-            headimg, // 头像
+            // headimg, // 头像
             username, //姓名
             telephone, //电话
             email, //邮箱
             workyears, //工作年限
             educationbg, //学历
             channel, // 简历来源
-        } = data;
+        } = resumeInfo;
         return (
             <div className="header-info">
                 <div>
@@ -31,7 +39,7 @@ export default class HeaderInfoComponent extends Component {
                     <div className="info-right inline-block">
                         <ul>
                             <li style={{
-                                overflow: 'auto'
+                                overflow: 'hidden'
                             }}>
                                 <div className="pull-left">
                                     <span>{trim(username)}</span>
@@ -48,7 +56,7 @@ export default class HeaderInfoComponent extends Component {
                                     <Button type="primary">
                                         简历下载
                                     </Button>
-                                    <Button type="primary">
+                                    <Button type="primary" onClick={this.printResume} >
                                         打印简历
                                     </Button>
                                 </div>
@@ -78,16 +86,6 @@ export default class HeaderInfoComponent extends Component {
                                 职位区域 : {currentPworkcity}
                             </li>
                         </ul>
-                        <div className="stage-process">
-                            <a href="javascript:;" className="process-item">
-                                <span className="circle">
-                                    1
-                                </span>
-                                <span>
-                                    申请职位
-                                </span>
-                            </a>
-                        </div>
                     </div>
                     <div className="info-bottom">
                         <div style={{
