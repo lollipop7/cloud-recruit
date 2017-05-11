@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {Table,Button} from 'antd';
 
+import LoadingComponent from 'components/loading';
+
 import columns from 'data/table-columns/recruit-table';
 import trim from 'lodash/trim';
 
@@ -14,10 +16,10 @@ class TableComponents extends Component {
     componentDidMount() {
     }
 
-    showRecruitInfo = (record) => {
+    showResumeModal = (record) => {
+        // 显示详情页面Modal
         const {resumeid,id} = record;
-        this.props.showResumeModal();
-        // this.props.getResumeInfo({resumeId:resumeid,logId:id+''});
+        this.props.showResumeModal({id,resumeid});
     }
 
     getColumns = () => {
@@ -26,16 +28,18 @@ class TableComponents extends Component {
                         className="hover" 
                         href="javascript:void(0)" 
                         title={text}
-                        onClick={this.showRecruitInfo.bind(this,record)}
-                    >{text}</a>
+                        onClick={this.showResumeModal.bind(this,record)}
+                    >{trim(text)}</a>
         }
         return columns;
     }
 
     render() {
-        const {recruitList} = this.props;
+        const {recruitList,isLoading} = this.props;
         return (
-            <div>
+            <div style={{
+                position: 'relative'
+            }}>
                 <div className="table-control">
                     <Button type="primary">删除</Button>
                 </div>
@@ -43,23 +47,37 @@ class TableComponents extends Component {
                     rowSelection={{type:'checkbox'}}
                     bordered
                     columns={this.getColumns()} 
-                    dataSource={recruitList.list}
+                    dataSource={
+                        recruitList.list.map((item,index)=>{
+                            item.key = index;
+                            return item;
+                        })
+                    }
                     pagination={{
-                        defaultPageSize:20 ,
+                        defaultPageSize: 20 ,
                         total: recruitList.count
                     }}
                 />
+                {isLoading &&
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        zIndex: 3,
+                        width: 950,
+                        top: 34,
+                        height: 781
+                    }} />
+                }
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
+    isLoading: state.Recruit.isListLoading,
     recruitList: state.Recruit.recruitList // 列表数据
 })
 const mapDispatchToProps = dispatch => ({
-    showResumeModal: bindActionCreators(Actions.RecruitACtions.showResumeModal, dispatch),
-    // getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
 })
 
 export default connect(

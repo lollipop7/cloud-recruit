@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import isEmpty from 'lodash/isEmpty';
 import {InputComponent} from 'components/input';
 
 export default class BaseInfoComponent extends Component {
@@ -9,11 +8,11 @@ export default class BaseInfoComponent extends Component {
             positionname='',
             salary='',
             department='',
-            recruitreason='暂无',
+            recruitreason='',
             headcount=0,
             workcity='',
             workyears='',
-            specialty='暂无',
+            specialty='',
             educationbackground=''
         } = this.props.jobInfo;
         return (
@@ -25,67 +24,72 @@ export default class BaseInfoComponent extends Component {
                 <ul>
                     <li>
                         <InputComponent
-                            title="职位名称"
+                            name="职位名称"
                             value={positionname}
                             disabled={true}
+                            placeholder=''
                         />
                         <InputComponent
-                            title="薪资待遇"
+                            name="薪资待遇"
                             value={salary}
                             disabled={true}
+                            placeholder=''
                         />
                     </li>
                     <li>
                         <InputComponent
-                            title="用人部门"
+                            name="用人部门"
                             value={department}
                             disabled={true}
+                            placeholder=''
                         />
                         <InputComponent
-                            title="招聘理由"
+                            name="招聘理由"
                             value={recruitreason}
                             disabled={true}
+                            placeholder=''
                         />
                     </li>
                     <li>
                         <InputComponent
-                            title="招聘人数"
+                            name="招聘人数"
                             value={headcount+'人'}
                             disabled={true}
+                            
                         />
                         <InputComponent
-                            title="工作地点"
+                            name="工作地点"
                             value={workcity}
                             disabled={true}
+                            placeholder=''
                         />
                         <InputComponent 
-                            title="工作年限"
-                            value={isEmpty(workyears) ? '暂无' : workyears}
+                            name="工作年限"
+                            value={workyears}
                             disabled={true}
+                            placeholder=''
                         />
                     </li>
                     <li>
                         <InputComponent 
-                            title="专业"
+                            name="专业"
                             style={{
                                 left: -32
                             }}
                             className="wth155"
-                            value={
-                                isEmpty(specialty) ? '暂无' : specialty
-                            }
+                            value={specialty}
                             disabled={true}
+                            placeholder=''
                         />
                         <InputComponent 
-                            title="学历"
+                            name="学历"
                             style={{
                                 left: -32
                             }}
                             className="wth155"
-                            value={
-                                isEmpty(educationbackground) ? '暂无' : educationbackground
-                            }
+                            value={educationbackground}
                             disabled={true}
+                            placeholder=''
                         />
                     </li>
                 </ul>

@@ -55,7 +55,9 @@ class SettingEmailPage extends Component {
             email: email,
             pwd: password
         });
+        // 设置邮箱名的值
         emailInput.resetVal(email);
+        // 设置密码的值
         pwdInput.resetVal(password);
     }
 

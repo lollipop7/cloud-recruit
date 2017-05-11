@@ -29,11 +29,25 @@ class ChangePasswdPage extends Component {
         NProgress.done();
     }
 
+    componentWillUpdate(nextProps,nextState) {
+        if(nextProps.changeRes && this.validate()){
+            this.resetForm();
+        }
+    }
+
     onChange=(field,e)=>{
         const val = e.target.value;
         this.setState({
             [field]: val
         });
+    }
+
+    onEnter = (field) => {
+        if(isString(field)){
+            this.refs[field+'Input'].refs.input.focus();
+        }else{
+            this.changePasswd();
+        }
     }
 
     resetForm = () => {
@@ -74,24 +88,13 @@ class ChangePasswdPage extends Component {
             this.refs.reNewPwdInput.setErrorAndMsg(true,'输入的两次密码不一致！');
             this.refs.reNewPwdInput.refs.input.focus();
             return;
+        }else{
+            this.refs.reNewPwdInput.setErrorAndMsg(false);
         }
         this.props.changePassWd({
             oldpasswd: md5(oldPwd),
             newpasswd: md5(newPwd)
         });
-    }
-
-    onEnter = (field) => {
-        if(isString(field)){
-            this.refs[field+'Input'].refs.input.focus();
-        }else{
-        }
-    }
-
-    componentWillUpdate(nextProps,nextState) {
-        if(nextProps.changeRes && this.validate()){
-            this.resetForm();
-        }
     }
 
     render() {

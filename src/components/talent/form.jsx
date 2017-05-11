@@ -3,64 +3,122 @@ import React, {Component} from 'react';
 import { Input , Button , Cascader , Select } from 'antd';
 const Option = Select.Option;
 
-const cascaderOptions = [{
-  value: 'zhejiang',
-  label: '浙江',
-  children: [{
-    value: 'hangzhou',
-    label: '杭州',
-    children: [{
-      value: 'xihu',
-      label: '西湖',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: '江苏',
-  children: [{
-    value: 'nanjing',
-    label: '南京',
-    children: [{
-      value: 'zhonghuamen',
-      label: '中华门',
-    }],
-  }],
-}];
+// lodash
+import pickBy from 'lodash/pickBy';
 
-function onChange(value) {
-  console.log(value);
-}
+// 学历要求
+import education from 'data/select/education';
+import workyears from 'data/select/workyears';
 
 export default class FormComponent extends Component {
 
-    resetForm() {
-        
+    state = {
+        company: '', // 公司名称
+        city: '', // 居住地
+        keywords: '', // 关键字
+        edu: undefined, // 学历要求
+        year: undefined, // 工作年限
+        source: undefined // 简历来源
+    }
+
+    resetForm = () => {
+        this.setState({
+            company: '', // 公司名称
+            city: '', // 居住地
+            keywords: '', // 关键字
+            edu: undefined, // 学历要求
+            year: undefined, // 工作年限
+            source: undefined // 简历来源
+        });
+    }
+    
+    handleChange(field,e) {
+        this.setState({
+            [field]: e.target.value
+        });
+    }
+
+    handleSelectChange = (field,value) => {
+        this.setState({
+            [field]: value
+        });
+    }
+
+    handleFind = () => {
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return val !== '' && val !== undefined
+        });
+        this.props.findEvent(filterObj);
     }
 
     render() {
+        const {
+            company,
+            city,
+            keywords,
+            edu=undefined,
+            year=undefined,
+            source=undefined
+        } = this.state;
         return (
             <div className="form">
                 <div className="bottom16">
-                    <Input placeholder="公司名称" />
-                    <Cascader options={cascaderOptions} onChange={onChange} placeholder="居住地" />
-                    <Input placeholder="关键词" />
-                    <Select placeholder="学历要求" style={{width: 209}} onChange={onChange}>
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="Yiminghe">yiminghe</Option>
-                    </Select>
-                </div>
-                <div>
-                    <Select placeholder="工作年限" style={{width: 209}} onChange={onChange}>
+                    <Input 
+                        placeholder="公司名称"
+                        value={company}
+                        onChange={(e)=>this.handleChange('company',e)}
+                    />
+                    <Input 
+                        placeholder="居住地"
+                        value={city}
+                        onChange={(e)=>this.handleChange('city',e)}
+                    />
+                    <Input 
+                        placeholder="关键词"
+                        value={keywords}
+                        onChange={(e)=>this.handleChange('keywords',e)}
+                    />
+                    <Select 
+                        placeholder="学历要求" 
+                        style={{width: 209}}
+                        value={edu}
+                        onChange={(value)=>this.handleSelectChange('edu',value)}
+                    >
                         {
-                            [].map((item,index)=>{
+                            education.map((item,index)=>{
                                 return (
                                     <Option key={index} value={item}>{item}</Option>
                                 )
                             })
                         }
                     </Select>
-                    <Select placeholder="简历来源" style={{width: 209}} onChange={onChange}>
+                </div>
+                <div>
+                    {/*<Select 
+                        placeholder="工作年限" 
+                        style={{width: 209}}
+                        value={year}
+                        onChange={(value)=>this.handleSelectChange('year',value)}
+                    >
+                        {
+                            workyears.map((item,index)=>{
+                                return (
+                                    <Option key={index} value={item}>{item}</Option>
+                                )
+                            })
+                        }
+                    </Select>*/}
+                    <Input 
+                        placeholder="工作年限"
+                        value={year}
+                        onChange={(e)=>this.handleChange('year',e)}
+                    />
+                    <Select 
+                        placeholder="简历来源" 
+                        style={{width: 209}} 
+                        value={source}
+                        onChange={(value)=>this.handleSelectChange('source',value)}
+                    >
                         {
                             ['前程无忧','智联招聘','其他'].map((item,index)=>{
                                 return (
@@ -69,7 +127,7 @@ export default class FormComponent extends Component {
                             })
                         }
                     </Select>
-                    <Button type="primary">查询</Button>
+                    <Button type="primary" onClick={this.handleFind}>查询</Button>
                     <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>
             </div>

@@ -1,35 +1,6 @@
 import React, {Component} from 'react';
 
-import { Input , Button , Cascader , Select } from 'antd';
-const Option = Select.Option;
-
-const cascaderOptions = [{
-  value: 'zhejiang',
-  label: '浙江',
-  children: [{
-    value: 'hangzhou',
-    label: '杭州',
-    children: [{
-      value: 'xihu',
-      label: '西湖',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: '江苏',
-  children: [{
-    value: 'nanjing',
-    label: '南京',
-    children: [{
-      value: 'zhonghuamen',
-      label: '中华门',
-    }],
-  }],
-}];
-
-function onChange(value) {
-  console.log(value);
-}
+import { Input , Button } from 'antd';
 
 export default class FormComponents extends Component {
 
@@ -57,7 +28,6 @@ export default class FormComponents extends Component {
 
     render() {
         const {positionname,livecityid,username,workyear} = this.state;
-
         return (
             <div className="form">
                 <div className="float-button">
@@ -70,10 +40,10 @@ export default class FormComponents extends Component {
                         value={positionname}
                         onChange={this.handleChange.bind(this,'positionname')}
                     />
-                    <Cascader 
-                        options={cascaderOptions} 
-                        onChange={onChange} 
-                        placeholder="居住地" 
+                    <Input 
+                        placeholder="居住地"
+                        value={livecityid}
+                        onChange={this.handleChange.bind(this,'livecityid')}
                     />
                 </div>
                 <div>
@@ -82,18 +52,11 @@ export default class FormComponents extends Component {
                         value={username}
                         onChange={this.handleChange.bind(this,'username')}
                     />
-                    <Select placeholder="工作年限" style={{
-                        width: 249,
-                        marginRight: 16
-                    }} onChange={onChange}>
-                        {
-                            [].map((item,index)=>{
-                                return (
-                                    <Option key={index} value={item}>{item}</Option>
-                                )
-                            })
-                        }
-                    </Select>
+                    <Input 
+                        placeholder="工作年限"
+                        value={workyear}
+                        onChange={this.handleChange.bind(this,'workyear')}
+                    />
                     <Button type="primary">查询</Button>
                     <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>

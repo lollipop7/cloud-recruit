@@ -3,6 +3,7 @@ import Login from './login';
 import Home from './home';
 import Job from './job';
 import Recruit from './recruit';
+import Talent from './talent';
 import User from './user';
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     Home,
     Job,
     Recruit,
+    Talent,
     User
 });
 

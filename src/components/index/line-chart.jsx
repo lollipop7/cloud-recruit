@@ -15,7 +15,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class ResumeComponent extends Component {
+class LineChartComponent extends Component {
 
     tabList = [7,30,180,360];
 
@@ -189,4 +189,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ResumeComponent);
+)(LineChartComponent);

@@ -1,23 +1,26 @@
 import React, {Component} from 'react';
 
 import TimeComponent from 'components/index/time';
-import MissionComponent from 'components/index/mission';
-import ResumeComponent from 'components/index/resume';
-import TaskProgressComponent from 'components/index/task-progress';
-import EntryPersonComponent from 'components/index/entry-person';
+// 列表
+import ListComponent from 'components/index/list';
+// 折线图
+import LineChartComponent from 'components/index/line-chart';
+// 饼图
+import PieChartComponent from 'components/index/pie-chart';
+// 表格
+import TableComponent from 'components/index/table';
 
 import ScrollPageContent from 'components/scroll-page-content';
+
+// 招聘人员详细信息Modal页面
+import ResumeModalComponent from 'components/resume-modal';
 
 export default class IndexPage extends Component {
 
     componentDidMount() {
-        
         NProgress.done();
     }
-
-    componentWillUnmount() {
-    }
-
+    
     render() {
         return (
             <ScrollPageContent>
@@ -25,21 +28,23 @@ export default class IndexPage extends Component {
                     <div className="list-block">
                         <div className="pull-left">
                             <TimeComponent />
-                            <MissionComponent />
+                            <ListComponent />
                         </div>
                         <div className="pull-right" style={{backgroundColor: '#FFF'}}>
-                            <ResumeComponent />
+                            <LineChartComponent />
                         </div>
                     </div>
                     <div className="list-block">
                         <div className="pull-left">
-                            <TaskProgressComponent />
+                            <PieChartComponent />
                         </div>
                         <div className="pull-right">
-                            <EntryPersonComponent />
+                            <TableComponent />
                         </div>
                     </div>
                 </div>
+                {/*招聘人员详细信息Modal页面*/}
+                <ResumeModalComponent />
             </ScrollPageContent>
         );
     }

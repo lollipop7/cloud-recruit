@@ -1,0 +1,22 @@
+{
+    "all": {
+        "title": "全部",
+        "type": "all"
+    },
+    "onthjob": {
+        "title": "在职人员",
+        "type": "office"
+    },
+    "departure": {
+        "title": "离职人员",
+        "type": "departure"
+    },
+    "talents": {
+        "title": "社会人才",
+        "type": "social"
+    },
+    "collection": {
+        "title": "收藏",
+        "type": "collection"
+    }
+}

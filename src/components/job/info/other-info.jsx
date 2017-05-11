@@ -19,12 +19,12 @@ export default class OtherInfoComponent extends Component {
                 <ul>
                     <li>
                         <InputComponent 
-                            title="开始时间"
+                            name="开始时间"
                             value={moment(starttime).format('YYYY-MM-DD')}
                             disabled={true}
                         />
                         <InputComponent 
-                            title="结束时间"
+                            name="结束时间"
                             value={moment(endtime).format('YYYY-MM-DD')}
                             disabled={true}
                         />

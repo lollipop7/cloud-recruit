@@ -1,26 +1,31 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 import { DatePicker } from 'antd';
 
 export default class TimeComponent extends Component {
 
-     state = {
+    static propTypes = {
+        style: PropTypes.object,
+        showField: PropTypes.bool
+    }
+
+    state = {
     };
 
     disabledStartDate = (startValue) => {
-        const endValue = this.state.endValue;
-        if (!startValue || !endValue) {
+        const {_endValue} = this.state;
+        if (!startValue || !_endValue) {
             return false;
         }
-        return startValue.valueOf() > endValue.valueOf();
+        return startValue.valueOf() > _endValue.valueOf();
     }
 
     disabledEndDate = (endValue) => {
-        const startValue = this.state.startValue;
-        if (!endValue || !startValue) {
+        const {_startValue} = this.state;
+        if (!endValue || !_startValue) {
             return false;
         }
-        return endValue.valueOf() <= startValue.valueOf();
+        return endValue.valueOf() <= _startValue.valueOf();
     }
 
     onChange = (field, value) => {
@@ -34,7 +39,7 @@ export default class TimeComponent extends Component {
         if(onChange){
             onChange('starttime',value);
         }
-        this.onChange('startValue', value);
+        this.onChange('_startValue', value);
     }
 
     onEndChange = (value) => {
@@ -42,23 +47,23 @@ export default class TimeComponent extends Component {
         if(onChange){
             onChange('endtime',value);
         }
-        this.onChange('endValue', value);
+        this.onChange('_endValue', value);
     }
 
     handleStartOpenChange = (open) => {
-        const {endValue} = this.state;
-        if (!open&&!endValue) {
-            this.setState({ endOpen: true });
+        const {_endValue} = this.state;
+        if (!open&&!_endValue) {
+            this.setState({ _endOpen: true });
         }
     }  
 
     handleEndOpenChange = (open) => {
-        this.setState({ endOpen: open });
+        this.setState({ _endOpen: open });
     }
 
     render() {
         const {style={},showField=false} = this.props;
-        const { startValue=null, endValue=null, endOpen=false  } = this.state;
+        const { _startValue=null, _endValue=null, _endOpen=false  } = this.state;
         return (
             <div style={{
                 display: "inline-block"
@@ -67,7 +72,7 @@ export default class TimeComponent extends Component {
                 <DatePicker
                     disabledDate={this.disabledStartDate}
                     format="YYYY-MM-DD"
-                    value={startValue}
+                    value={_startValue}
                     placeholder="开始时间"
                     style={style}
                     onChange={this.onStartChange}
@@ -77,11 +82,11 @@ export default class TimeComponent extends Component {
                 <DatePicker
                     disabledDate={this.disabledEndDate}
                     format="YYYY-MM-DD"
-                    value={endValue}
+                    value={_endValue}
                     placeholder="结束时间"
                     style={style}
                     onChange={this.onEndChange}
-                    open={endOpen}
+                    open={_endOpen}
                     onOpenChange={this.handleEndOpenChange}
                 />
             </div>

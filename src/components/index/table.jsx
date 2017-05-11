@@ -7,7 +7,6 @@ import {Table} from 'antd';
 import columns from 'data/table-columns/index-table';
 
 import LoadingComponent from 'components/loading';
-import RecruitInfoModalComponent from 'components/recruit-info';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -16,7 +15,7 @@ import * as Actions from 'actions';
 
 import {notification} from 'antd';
 
-class EntryPersonComponent extends Component {
+class TableComponent extends Component {
 
     static contextTypes = {
         router: PropTypes.object
@@ -78,16 +77,10 @@ class EntryPersonComponent extends Component {
         }
     }
 
-    getResumeInfo(resumeId,logId) {
-        logId = logId + '';
-        this.props.showResumeModal();
-        this.props.getResumeInfo({resumeId,logId});
-    }
-
-    toRecruitPage = (record) => {
-        NProgress.start();
+    showResumeModal(record) {
+        // 显示详情页面Modal
         const {id,resumeid} = record;
-        this.context.router.push(`/recruit/${resumeid}/${id}`);
+        this.props.showResumeModal({id,resumeid});
     }
 
     _getColumns() {
@@ -96,12 +89,11 @@ class EntryPersonComponent extends Component {
              * resumeid 简历id
              * id 当前流程id
              */
-            const {resumeid,id} =record;
             return (
                 <a 
                     className="hover" 
                     href="javascript:void(0);"
-                    onClick={this.getResumeInfo.bind(this,resumeid,id)}
+                    onClick={this.showResumeModal.bind(this,record)}
                 >
                     {trim(text)}
                 </a>
@@ -110,7 +102,7 @@ class EntryPersonComponent extends Component {
 
         columns[columns.length - 1].render = (text,record,index) => {
             return  <a 
-                        onClick={this.toRecruitPage.bind(this,record)}
+                        onClick={this.showResumeModal.bind(this,record)}
                         className="highlight-text"
                     >
                         {text}
@@ -149,7 +141,6 @@ class EntryPersonComponent extends Component {
                         <LoadingComponent />
                     </div>
                 }
-                <RecruitInfoModalComponent />
             </div>
         );
     }
@@ -161,11 +152,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getEntryPerson: bindActionCreators(Actions.homeActions.getEntryPerson, dispatch),
     resetEntryPerson: bindActionCreators(Actions.homeActions.resetEntryPerson, dispatch),
-    showResumeModal: bindActionCreators(Actions.RecruitACtions.showResumeModal, dispatch),
-    getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EntryPersonComponent);
+)(TableComponent);

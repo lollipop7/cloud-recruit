@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import {Breadcrumb} from 'antd';
-// const Breadcrumb  = require("bundle-loader!antd/lib/breadcrumb").default;
 
 export default class BreadCrumbComponent extends Component {
 

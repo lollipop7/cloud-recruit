@@ -44,7 +44,7 @@ export default class OtherInfoComponent extends Component {
         });
     }
 
-    resetData() {
+    resetForm() {
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
             // workType: 1,

@@ -9,6 +9,10 @@ const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
 const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
 // 获取招聘分类统计信息
 const RECRUIT_CATEGORY = {type:types.RECRUIT_CATEGORY};
+// 开始请求列表
+const LOAD_LIST_START = {type:types.LOAD_LIST_START};
+// 结束请求列表
+const LOAD_LIST_DONE = {type:types.LOAD_LIST_DONE};
 // 招聘人员信息列表
 const RECRUIT_LIST = {type:types.RECRUIT_LIST};
 // 招聘人员详细信息
@@ -36,6 +40,7 @@ export const getRecruitCategory = () => (dispatch,getState) => {
 }
 
 export const getRecruitList = (data) => (dispatch,getState) => {
+    dispatch(LOAD_LIST_START);
     AjaxByToken('/web/queryResume',{
         head: {
             transcode: 'L0016',
@@ -43,13 +48,14 @@ export const getRecruitList = (data) => (dispatch,getState) => {
         data: extend({},data,{count: '20'})
     })
     .then(res=>{
+        dispatch(LOAD_LIST_DONE);
         dispatch(extend({},RECRUIT_LIST,{recruitList:res}));
     });
 }
 
 // 得到招聘流程人员详细信息
 export const getResumeInfo = (data) => (dispatch,getState) => {
-    // dispatch(LOAD_INFO_START);
+    dispatch(LOAD_INFO_START);
     AjaxByToken('/web/getResumeById',{
         head: {
             transcode: 'L0017'
@@ -62,8 +68,8 @@ export const getResumeInfo = (data) => (dispatch,getState) => {
     });
 }
 
-export const showResumeModal = () => (dispatch,getState) => {
-    dispatch(SHOW_INFO_MODAL);
+export const showResumeModal = (data) => (dispatch,getState) => {
+    dispatch(extend({},SHOW_INFO_MODAL,{uriParams:data}));
 }
 
 export const hideResumeModal = () => (dispatch,getState) => {

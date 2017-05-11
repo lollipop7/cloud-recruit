@@ -9,7 +9,8 @@ import NavData from 'data/nav/recruit';
 import FormComponents from 'components/recruit/form';
 import TableComponents from 'components/recruit/table';
 
-import RecruitInfoModalComponent from 'components/recruit-info';
+// 招聘人员详细信息Modal页面
+import ResumeModalComponent from 'components/resume-modal';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -27,15 +28,9 @@ class RecruitPage extends Component {
         NProgress.done();
         this.props.getRecruitCategory();
         this.requestData();
-        if(resumeId && logId){
-            this.props.showResumeModal();
-            // this.props.getResumeInfo({resumeId,logId});
-        }
     }
 
     componentWillUnmount() {
-        // 清空总数,防止叠加
-        NavData[0].num = 0;
     }
 
     requestData(){
@@ -47,8 +42,9 @@ class RecruitPage extends Component {
         categoryData.forEach((item,index)=>{
             return NavData[item.stageid].num = item.cnt;
         });
+        // 清空总数,防止叠加
+        NavData[0].num = 0;
         // 求和获得总共的数量
-        
         const total = NavData.reduce((prevObj,nextObj)=>{
             return {num:prevObj.num + nextObj.num}
         },{num:0});
@@ -56,7 +52,7 @@ class RecruitPage extends Component {
         return NavData;
     }
 
-    onClick(type) {
+    handleClickNav = (type) => {
         this.params.stageid = type;
         this.requestData();
     }
@@ -73,7 +69,7 @@ class RecruitPage extends Component {
                                 title="招聘分类" 
                                 isLoading={isLoading}
                                 data={this._getNavData()}
-                                onClick={this.onClick.bind(this)} 
+                                onClick={this.handleClickNav} 
                             />
                         </div>
                         <div className="pull-right">
@@ -84,7 +80,8 @@ class RecruitPage extends Component {
                         </div>
                     </div>
                 </div>
-                <RecruitInfoModalComponent />
+                {/*招聘人员详细信息Modal页面*/}
+                <ResumeModalComponent />
             </ScrollPageContent>
         );
     }
@@ -95,10 +92,8 @@ const mapStateToProps = state => ({
     categoryData: state.Recruit.categoryData, // 统计列表数据
 })
 const mapDispatchToProps = dispatch => ({
-    getRecruitCategory: bindActionCreators(Actions.RecruitACtions.getRecruitCategory, dispatch),
-    getRecruitList: bindActionCreators(Actions.RecruitACtions.getRecruitList, dispatch),
-    showResumeModal: bindActionCreators(Actions.RecruitACtions.showResumeModal, dispatch),
-    // getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
+    getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),
+    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch)
 })
 
 export default connect(

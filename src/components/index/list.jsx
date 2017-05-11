@@ -9,7 +9,7 @@ import LoadingComponent from 'components/loading';
 
 import {notification} from 'antd';
 
-class MissionComponent extends Component {
+class ListComponent extends Component {
 
     state = {
         isLoading: false
@@ -97,4 +97,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MissionComponent);
+)(ListComponent);

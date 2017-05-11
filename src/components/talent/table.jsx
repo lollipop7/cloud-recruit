@@ -1,47 +1,81 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 import {Table,Button , Modal,Select} from 'antd';
 const Option = Select.Option;
 
 import columns from 'data/table-columns/talent-table';
 
-export default class TableComponent extends Component {
-    state = {modalVisible: false};
-    componentDidMount() {
-        let data = [];
-        for(let i=0;i<20;i++){
-            data.push({
-                key: `${i}`,
-                name: '刘德华',
-                sex: '男',
-                address: '上海',
-                birthdate: '1990年10月31日',
-                education: '本科',
-                workYear: '10年',
-                expectJob: '网络维护专员',
-                created: '2017-03-04',
-                control: '招聘管理',
-                isFav: true
-            });
+import trim from 'lodash/trim';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class TableComponent extends Component {
+
+    static propTypes = {
+        paginationChange: PropTypes.func
+    }
+
+    state = {
+        modalVisible: false
+    }
+    
+    _getColumns() {
+        columns[0].render = (text,record,index) => {
+            return (
+                <a 
+                    href="javascript:;" 
+                    className="hover"
+                    onClick={this.showResumeModal.bind(this,record)}
+                >
+                    {trim(text)}
+                </a>
+            )
         }
-        this.setState({
-            data
-        });
+
+        columns[columns.length - 2].render = (text,record,index) => {
+            return (
+                <a href="javascript:;" className="highlight-text">
+                   {text}
+                </a>
+            )
+        }
+
+        columns[columns.length - 1].render = (text,record,index) => {
+            return (
+                <a href="javascript:;">
+                    <img 
+                        src={`./static/images/talent/fav${parseInt(text) ? 1 : 2}.png`} 
+                        alt={parseInt(text) ? '收藏' : '未收藏'} 
+                        style={{
+                            height: 17,
+                            verticalAlign: 'middle',
+                            marginLeft: 7
+                        }}
+                    />
+                </a>
+            )
+        }
+        return columns;
+    }
+
+    showResumeModal(record) {
+        console.log(record);
     }
 
     moveItem = () => {
-        this.setState({
-            modalVisible: true
-        });
+        this.setModalVisible(true);
     }
 
-    setModal1Visible(bool) {
-        this.setState({
-            modalVisible: bool
-        });
+    setModalVisible = (modalVisible) => {
+        this.setState({modalVisible});
     }
 
     render() {
+        const {talentList,paginationChange} = this.props,
+            {list,count} = talentList;
         return (
             <div>
                 <div className="table-control">
@@ -51,8 +85,8 @@ export default class TableComponent extends Component {
                         title="移动"
                         wrapClassName="vertical-center-modal"
                         visible={this.state.modalVisible}
-                        onOk={() => this.setModal1Visible(false)}
-                        onCancel={() => this.setModal1Visible(false)}
+                        onOk={() => this.setModalVisible(false)}
+                        onCancel={() => this.setModalVisible(false)}
                     >
                         <span style={{
                             marginRight: 16
@@ -67,14 +101,33 @@ export default class TableComponent extends Component {
                 <Table 
                     rowSelection={{type:'checkbox'}}
                     bordered
-                    columns={columns} 
-                    dataSource={this.state.data}
+                    columns={this._getColumns()} 
+                    dataSource={
+                        list.map((item,index)=>{
+                            item.key = index;
+                            item.control = '入职管理'
+                            return item;
+                        })
+                    }
                     pagination={{
                         defaultPageSize:20 ,
-                        total: 1000
+                        total: count,
+                        onChange:(page,pageSize)=> paginationChange(page,pageSize)
                     }}
                 />
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    isLoading: state.Talent.isListLoading,
+    talentList: state.Talent.talentList // 列表数据
+})
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TableComponent);

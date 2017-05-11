@@ -95,7 +95,7 @@ class LoginPage extends Component {
             <div id="login-page">
                 <div className="bg">
                     {isLoading &&
-                        <div id="common-loader" className="common-loader page-loader">
+                        <div id="common-loader" className="common-loader page-loader white-loader">
                             <div className="spinner">
                                 <div className="dot1"></div>
                                 <div className="dot2"></div>

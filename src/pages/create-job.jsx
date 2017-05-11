@@ -23,8 +23,8 @@ class CreateJobPage extends Component {
 
     resetForm = () => {
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
-        BaseInfoComponent.resetData();
-        OtherInfoComponent.resetData();
+        BaseInfoComponent.resetForm();
+        OtherInfoComponent.resetForm();
     }
 
     createJob=() => {

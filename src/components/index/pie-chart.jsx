@@ -15,7 +15,7 @@ import * as Actions from 'actions';
 // lodash
 import filter from 'lodash/filter';
 
-class TaskProgressComponent extends Component {
+class PieChartComponent extends Component {
 
     state = {
         isLoading: false,
@@ -174,4 +174,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TaskProgressComponent);
+)(PieChartComponent);

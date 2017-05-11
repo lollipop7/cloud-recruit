@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 import { Select } from 'antd';
 
@@ -13,6 +13,16 @@ const Option = Select.Option;
 
 class SelectComponent extends Component {
 
+    static PropTypes = {
+        name: PropTypes.string,
+        field: PropTypes.string,
+        value: PropTypes.string,
+        data: PropTypes.array,
+        placeholder: PropTypes.string,
+        dropdownMatchSelectWidth: PropTypes.bool,
+        onChange: PropTypes.func
+    }
+
     handleChange= (field,value) => {
         const {onChange} = this.props;
         if(onChange){
@@ -20,18 +30,22 @@ class SelectComponent extends Component {
         }
     }
 
-    handleFocus = () => {
-    }
-
     shouldComponentUpdate(nextProps,nextState){
         return nextProps.value !== this.props.value
     }
 
     render() {
-        const {data=[],value,title,placeholder,field,dropdownMatchSelectWidth} = this.props;
+        const {
+            name,
+            field,
+            placeholder,
+            data=[],
+            value,
+            dropdownMatchSelectWidth
+        } = this.props;
         return (
             <div className="inline-block">
-                <span>{title}</span>
+                <span>{name}</span>
                 <Select
                     value={value}
                     placeholder={placeholder}
@@ -57,19 +71,19 @@ export default class BaseinfoComponent extends Component {
 
     state = {}
 
-    handleChange = (field,e) => {
+    handleChange = (filed,e) => {
         if(typeof e === 'string' || typeof e === 'undefined'){
             this.setState({
-                [field]: e
+                [filed]: e
             });
         }else{
             this.setState({
-                [field]: e.target.value
+                [filed]: e.target.value
             });
         }
     }
 
-    resetData() {
+    resetForm() {
         this.setState({
             positionname:'',
             salary:'',
@@ -104,13 +118,15 @@ export default class BaseinfoComponent extends Component {
                 <ul>
                     <li>
                         <InputComponent
-                            title="职位名称"
+                            name="职位名称"
                             field="positionname"
+                            placeholder="请输入职位名称"
                             value={positionname}
                             onChange={this.handleChange}
                         />
                         <InputComponent
-                            title="薪资待遇"
+                            name="薪资待遇"
+                            placeholder="请输入薪资待遇"
                             field="salary"
                             value={salary}
                             onChange={this.handleChange}
@@ -118,13 +134,15 @@ export default class BaseinfoComponent extends Component {
                     </li>
                     <li>
                         <InputComponent
-                            title="用人部门"
+                            name="用人部门"
+                            placeholder="请输入用人部门"
                             field="department"
                             value={department}
                             onChange={this.handleChange}
                         />
                         <InputComponent
-                            title="招聘理由"
+                            name="招聘理由"
+                            placeholder="请输入招聘理由"
                             field="recruitreason"
                             value={recruitreason}
                             onChange={this.handleChange}
@@ -132,19 +150,21 @@ export default class BaseinfoComponent extends Component {
                     </li>
                     <li>
                         <InputComponent
-                            title="招聘人数"
+                            name="招聘人数"
+                            placeholder="请输入招聘人数"
                             field="headcount"
                             value={headcount}
                             onChange={this.handleChange}
                         />
                         <InputComponent
-                            title="工作地点"
+                            name="工作地点"
+                            placeholder="请输入工作地点"
                             field="workcity"
                             value={workcity}
                             onChange={this.handleChange}
                         />
                         <SelectComponent 
-                            title="工作年限"
+                            name="工作年限"
                             value={workyears}
                             data={WorkYears}
                             field="workyears"
@@ -154,7 +174,7 @@ export default class BaseinfoComponent extends Component {
                     </li>
                     <li>
                         <SelectComponent 
-                            title="专业"
+                            name="专业"
                             data={Industry}
                             dropdownMatchSelectWidth={false}
                             value={specialty}
@@ -163,7 +183,7 @@ export default class BaseinfoComponent extends Component {
                             onChange={this.handleChange}
                         />
                         <SelectComponent 
-                            title="学历"
+                            name="学历"
                             data={Education}
                             value={educationbackground}
                             field="educationbackground"

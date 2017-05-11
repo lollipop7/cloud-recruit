@@ -43,6 +43,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
     if(isNumber(data.skip)) data.skip = data.skip + '';
     const uri = '/web/PositionQuery';
     cancelRequestByKey(uri);
+    // NProgress.start();
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri,{
         head: {
@@ -51,6 +52,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
         data: extend({},data,{count:'20'})
     })
     .then(res=>{
+        // NProgress.done();
         dispatch(LOAD_LIST_DONE);
         dispatch(extend({},JOB_LIST,{listData:res}));
     });
@@ -73,6 +75,7 @@ export const getJobInfo = (data) => (dispatch,getState) => {
 
 // 创建职位
 export const createJob = (data) => (dispatch,getState) => {
+    NProgress.start();
     AjaxByToken('web/saveorupdateposition',{
         head: {
             transcode: 'L0013'
@@ -80,7 +83,10 @@ export const createJob = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res);
+        NProgress.done();
+        if(typeof res === 'object'){
+            console.log(res);
+        }
         // dispatch(extend({},CREATE_JOB,{jobInfo:res.entity}));
     });
 }

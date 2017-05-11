@@ -7,14 +7,15 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class RecruitInfoModalComponent extends Component {
+class ResumeModalComponent extends Component {
 
     setModalVisible = () => {
         this.props.hideResumeModal();
     }
 
     render() {
-        const {visible} = this.props;
+        const {visible,uriParams} = this.props,
+            {resumeid=0,id=0} = uriParams;
         return (
             <Modal
                 title="简历"
@@ -25,26 +26,29 @@ class RecruitInfoModalComponent extends Component {
                 footer={null}
                 width={1100}
             >   
-                <iframe 
-                    src="/#/resumeInfo" 
-                    frameBorder="0"
-                    width='100%'
-                    height='100%'
-                >
-                </iframe>
+                {visible &&
+                    <iframe 
+                        src={`/#/resumeInfo/${resumeid}/${id}`}
+                        frameBorder="0"
+                        width='100%'
+                        height='100%'
+                    >
+                    </iframe>
+                }
             </Modal>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    visible: state.Recruit.visible
+    visible: state.Recruit.visible,
+    uriParams: state.Recruit.uriParams
 })
 const mapDispatchToProps = dispatch => ({
-    hideResumeModal: bindActionCreators(Actions.RecruitACtions.hideResumeModal, dispatch)
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RecruitInfoModalComponent);
+)(ResumeModalComponent);

@@ -32,13 +32,13 @@ export default class FormComponent extends Component {
     }
 
     filterState=() => {
-         return pickBy(this.state,item=>{
-                return item !== '';
-            });
+        return pickBy(this.state,item=>{
+            return item !== '';
+        });
     }
 
     resetForm=() => {
-        if(isEmpty(this.filterState())) return ;
+        // 重置表单
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
             position: '',
@@ -46,20 +46,12 @@ export default class FormComponent extends Component {
         });
         onStartChange(null);
         onEndChange(null);
-        const {handleSearch} = this.props;
-        if(handleSearch){
-            handleSearch({});
-        }
     }
 
     handleSearch = () => {
-        const {handleSearch} = this.props;
-        if(handleSearch){
-            // 过滤值为空的参数
-           const params = this.filterState();
-           if(isEmpty(params)) return ;
-            handleSearch(params);
-        }
+        // 过滤值为空的参数
+        const params = this.filterState();
+        this.props.onSearch(params);
     }
 
     onTimeChange=(field,value)=> {
@@ -69,6 +61,7 @@ export default class FormComponent extends Component {
     }
 
     handleClick() {
+        // 切换创建职位页面显示进度条
         NProgress.start();
     }
    

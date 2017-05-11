@@ -49,7 +49,7 @@ const Job = {
 
 // 引入招聘流程路由组件
 const Recruit = {
-    path: 'recruit(/:resumeId)(/:logId)', // resumeId:职位id logId:流程id
+    path: 'recruit', // resumeId:职位id logId:流程id
     breadcrumbName:"招聘流程", 
     onEnter:requireAuthHook,
     onLeave:onLeavePage,

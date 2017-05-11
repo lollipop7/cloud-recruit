@@ -20,12 +20,12 @@ class ResumeInfoPage extends Component {
 
     componentDidMount() {
         const {resumeId,logId} = this.props.routeParams;
-        // if(resumeId && logId){
+        if(resumeId && logId){
             this.props.getResumeInfo({
-                resumeId: '4810360',
-                logId: '457028'
+                resumeId: resumeId,
+                logId: logId
             });
-        // }
+        }
     }
 
     handleChangeType(type){
@@ -35,11 +35,18 @@ class ResumeInfoPage extends Component {
     render() {
         const {type} = this.state,
             {isLoading,recruitInfo} = this.props;
-            console.log(isLoading);
         return (
-            <div className="resume-info-container">
+            <div className="resume-info-container" style={{
+                height: isLoading ? '100%' : '',
+                padding: isLoading ? '' : '20px 30px'
+            }}>
                 {isLoading &&
-                    <LoadingComponent />
+                    <div id="common-loader" className="common-loader page-loader theme-loader">
+                        <div className="spinner">
+                            <div className="dot1"></div>
+                            <div className="dot2"></div>
+                        </div>
+                    </div>
                 }
                 {!isLoading &&
                         <div>
@@ -82,7 +89,7 @@ const mapStateToProps = state => ({
     isLoading: state.Recruit.isInfoLoading
 })
 const mapDispatchToProps = dispatch => ({
-    getResumeInfo: bindActionCreators(Actions.RecruitACtions.getResumeInfo, dispatch)
+    getResumeInfo: bindActionCreators(Actions.RecruitActions.getResumeInfo, dispatch)
 })
 
 export default connect(

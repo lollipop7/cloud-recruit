@@ -25,12 +25,19 @@
           return lang;
       };
       if (getIEVersion() < 11) {
-          window.location.href = '/s/web/outdatedbrowser/' + getLangPath() + '.html';
+        //   window.location.href = '/s/web/outdatedbrowser/' + getLangPath() + '.html';
       }
     </script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+        <div id="common-loader" class="common-loader page-loader theme-loader">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
     <script src="/static/js/nprogress.js"></script>
     <!-- built files will be auto injected -->
   </body>

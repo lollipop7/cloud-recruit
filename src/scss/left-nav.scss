@@ -1,7 +1,7 @@
 .left-nav {
     width: 200px;
     background-color: #FFF;
-    a {
+    .title {
         display: block;
         padding: 13px 0;
         width: 174px;
@@ -17,6 +17,7 @@
     dl {
         margin-top: 12px;
         dd {
+            position: relative;
             height: 46px;
             line-height: 46px;
             padding-left: 13px;
@@ -35,6 +36,23 @@
             &:hover {
                 cursor:pointer;
             }
+        }
+    }
+    .delete {
+        display: inline-block;
+        position: absolute;
+        background-color: $theme-color;
+        top: 0;
+        bottom: 0;
+        right: 12px;
+        width: 24px;
+        height: 24px;
+        border-radius: 5px;
+        margin: auto;
+        text-align: center;
+        line-height: 24px;
+        img {
+            height: 14px;
         }
     }
 }

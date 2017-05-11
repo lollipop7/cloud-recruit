@@ -1,12 +1,28 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 import {Input} from 'antd';
 
 export class InputComponent extends Component {
     state = {}
+    static propTypes = {
+        name: PropTypes.string,
+        field: PropTypes.string,
+        value: PropTypes.oneOfType([ // 输入框的值
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        placeholder: PropTypes.string,
+        onChange: PropTypes.func,
+        disabled: PropTypes.bool, //是否禁用输入框
+        className: PropTypes.string, // 输入框类名
+        style: PropTypes.object // 输入框内联样式
+    }
 
     handleChange = (field,event) => {
-       this.props.onChange(field,event);
+        const {onChange} = this.props;
+        if(onChange){
+            onChange(field,event);
+        }
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -15,26 +31,24 @@ export class InputComponent extends Component {
 
     render() {
         const {
-            title,
+            name='',
             field='',
             value,
-            style={},
+            placeholder,
+            disabled=false,
             className='',
-            disabled=false
+            style={}
         } = this.props;
         return (
             <div className="inline-block">
-                <span>{title}</span>
-                <ErrorInputComponents 
-                    placeholder={`请输入${title}`} 
+                <span>{name}</span>
+                <Input 
+                    placeholder={placeholder} 
                     value={value}
-                    style={{
-                        display: 'inline-block',
-                        ...style
-                    }}
-                    disabled={disabled}
-                    className={className}    
                     onChange={this.handleChange.bind(this,field)} 
+                    disabled={disabled}
+                    className={className}
+                    style={style}
                 />
             </div>
         )
@@ -43,81 +57,80 @@ export class InputComponent extends Component {
 
 export class ErrorInputComponents extends Component {
 
+    static propTypes = {
+        type: PropTypes.string, // 输入框的类型
+        placeholder: PropTypes.string,
+        onChange: PropTypes.func,
+        onEnter: PropTypes.func
+    }
+
     state = {
         value: undefined
     }
 
-    _handleChange = (event) => {
-        const {onChange} = this.props;
-        if(onChange){
-            onChange(event);
-        }
-        this.setState({
-            value: event.target.value,
-            error: false // 输入字符后,隐藏错误信息
-        });
-    }
-
-    _handleEnter = (event) => {
-        const {onEnter} = this.props;
-        if(onEnter){
-            onEnter(event);
-        }
-    }
-
     setErrorAndMsg = (bool=false,msg='必填') => {
+        // 外部可以使用该方法设置是否显示错误
         // 设置error是否隐藏和错误信息
         this.setState({
-            error: bool,
-            errorMsg: msg
+            _error: bool,
+            _errorMsg: msg
         });
     }
 
     resetVal = (val) => {
-        // 提供给外部的方法,重置值
+        // 外部可以通过该方法重置值
         this.setState({
-            value: val,
-            error: false
+            _value: val,
+            _error: false
         });
     }
 
-    _handleBlur = (event) => {
-        // const {onBlur} = this.props;
-        // if(onBlur){
-        //     onBlur(event);
-        // }
-        if(this.state.value === ''){
+    _handleChange = (e) => {
+        const {onChange} = this.props;
+        if(onChange){
+            onChange(e);
+        }
+        this.setState({
+            _value: e.target.value,
+            _error: false // 输入字符后,隐藏错误信息
+        });
+    }
+
+    _handleEnter = (e) => {
+        const {onEnter} = this.props;
+        if(onEnter){
+            onEnter(e);
+        }
+    }
+
+    _handleBlur = (e) => {
+        const {_value} = this.state;
+        if(_value === '' || _value === undefined){
             this.setErrorAndMsg(true); // 显示错误信息
         }
     }
 
     render() {
-        const {error=false,errorMsg='必填',value} = this.state,
+        const {_error=false,_errorMsg='必填',_value} = this.state,
             {
-            placeholder='',
-            type='text',
-            className='',
-            style={},
-            disabled
-        } = this.props;
+                placeholder='',
+                type='text'
+            } = this.props;
         return (
-            <div style={{
-                position: 'relative',...style
-            }}>
+            <div>
                 <Input
                     ref="input"
-                    className={`${error ? 'error' : ''} ${className}`} 
                     type={type}
+                    value={_value}
+                    className={`${_error ? 'error' : ''}`} 
                     placeholder={placeholder}
-                    value={value || this.props.value}
-                    disabled={disabled}
                     onChange={this._handleChange}
                     onPressEnter={this._handleEnter}
                     onBlur={this._handleBlur}
                 />
-                {error && 
+                {_error && 
                     <div className="error-promote">
-                        <label className="error">{errorMsg}</label>
+                        <label className="error">{_errorMsg}</label>
                     </div>
                 }
             </div>

@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 import LeftNav from 'components/job/nav';
 import RightComponent from './right';
 
+// lodash
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import isEqual from 'lodash/isEqual';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
@@ -23,7 +25,6 @@ class IndexPage extends Component {
 
     // 表单数据
     formData = {
-
     };
 
     componentDidMount() {
@@ -39,12 +40,15 @@ class IndexPage extends Component {
     }
 
     clickNav(type) {
+        // 点击侧边栏分类
         this.params.type = type;
         this.params.skip = 0;
         this.requestData();
     }
 
     handleSearch = (params) => {
+        if(isEqual(this.formData,params)) return ;
+        // 点击搜索按钮
         this.params.skip = 0;
         this.formData = params;
         this.requestData();
@@ -81,7 +85,7 @@ class IndexPage extends Component {
                         />
                     </div>
                     <div className="pull-right">
-                        <RightComponent handleSearch={this.handleSearch} paginationChange={this.paginationChange} />
+                        <RightComponent onSearch={this.handleSearch} paginationChange={this.paginationChange} />
                     </div>
                 </div>
             </div>

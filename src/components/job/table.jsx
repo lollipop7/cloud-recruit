@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 
 import {Table,Modal} from 'antd';
-import pick from 'lodash/pick';
-import assign from 'lodash/assign';
 
 import columns from 'data/table-columns/job-table';
 import LoadingComponent from 'components/loading';
