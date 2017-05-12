@@ -42,13 +42,13 @@ module.exports = [
         "title": "邮箱",
         "dataIndex": "email",
         "key": "email",
-        "width": 159
+        "width": 129
     },
     {
-        "title": "资料完善",
-        "dataIndex": "expectJob",
-        "key": "expectJob",
-        "width": 79
+        "title": "居住地",
+        "dataIndex": "livecityid",
+        "key": "livecityid",
+        "width": 109
     },
     {
         "title": "申请时间",
@@ -59,7 +59,7 @@ module.exports = [
     },
     {
         "title": "进度",
-        "dataIndex": "control",
-        "key": "control"
+        "dataIndex": "stagename",
+        "key": "stagename"
     }
 ]

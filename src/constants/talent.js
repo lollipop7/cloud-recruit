@@ -15,3 +15,6 @@ export const LOAD_TALENT_CATEGORY = "LOAD_TALENT_CATEGORY";
 // ==== 创建分类 ====
 export const CREATE_LABEL = "CREATE_LABEL";
 export const DELETE_LABEL = "DELETE_LABEL";
+
+// ==== 移动简历 ====
+export const MOVE_RESUME = "MOVE_RESUME";

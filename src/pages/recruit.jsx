@@ -9,6 +9,9 @@ import NavData from 'data/nav/recruit';
 import FormComponents from 'components/recruit/form';
 import TableComponents from 'components/recruit/table';
 
+// lodash
+import isEqual from 'lodash/isEqual';
+
 // 招聘人员详细信息Modal页面
 import ResumeModalComponent from 'components/resume-modal';
 
@@ -19,22 +22,27 @@ import * as Actions from 'actions';
 
 class RecruitPage extends Component {
 
+    state = {
+        paginationCurrent: 1
+    }
+
     params = {
-        stageid: '0'
+        stageid: '0',
+        skip: 0
+    };
+
+    formData = {
     };
 
     componentDidMount() {
         const {resumeId,logId} = this.props.routeParams;
         NProgress.done();
         this.props.getRecruitCategory();
-        this.requestData();
+        this._requestData();
     }
 
-    componentWillUnmount() {
-    }
-
-    requestData(){
-        this.props.getRecruitList(this.params);
+    _requestData(){
+        this.props.getRecruitList({...this.params,...this.formData});
     }
 
      _getNavData(){
@@ -54,10 +62,33 @@ class RecruitPage extends Component {
 
     handleClickNav = (type) => {
         this.params.stageid = type;
-        this.requestData();
+        this.params.skip = 0;
+        this.setState({
+            paginationCurrent: 1
+        });
+        this._requestData();
+    }
+
+    handleFind = (params) => {
+        console.log(params);
+        // 点击开始查找按钮
+        if(isEqual(this.formData,params)) return ;
+        this.formData = params;
+        this.params.skip = 0;
+        this._requestData();
+    }
+
+    paginationChange = (page,pageSize) => {
+        // 点击分页器
+        this.params.skip = (page - 1) * 20;
+        this._requestData();
+        this.setState({
+            paginationCurrent: page
+        });
     }
 
     render() {
+        const {paginationCurrent} = this.state;
         const {routes,isLoading} = this.props;
         return (
             <ScrollPageContent>
@@ -74,8 +105,11 @@ class RecruitPage extends Component {
                         </div>
                         <div className="pull-right">
                             <div className="box-border right-panel">
-                                <FormComponents />
-                                <TableComponents />
+                                <FormComponents findEvent={this.handleFind} />
+                                <TableComponents
+                                    paginationChange={this.paginationChange}
+                                    paginationCurrent={paginationCurrent}
+                                />
                             </div>
                         </div>
                     </div>

@@ -29,7 +29,7 @@ export default class ProjectListComponent extends Component {
                                 </li>
                                 <li>
                                     <span>项目描述 : </span>
-                                    <span>{projectremark}</span>
+                                    <span dangerouslySetInnerHTML={{__html:projectremark}}></span>
                                 </li>
                                 <li>
                                     <span>责任描述 : </span>

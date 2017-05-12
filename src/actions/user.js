@@ -2,8 +2,6 @@ import * as types from 'constants/user';
 import {AjaxByToken} from 'utils/ajax';
 import { Notification } from 'antd';
 
-import extend from 'lodash/extend';
-
 // 获取用户基本信息
 const GET_USER_INFO = {type:types.GET_USER_INFO};
 
@@ -21,7 +19,7 @@ export const getUserInfo = () => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        dispatch(extend({},GET_USER_INFO,{userInfo:res}));
+        dispatch({...GET_USER_INFO,userInfo:res});
     });
 }
 
@@ -33,7 +31,7 @@ export const getUserEmail = () => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        dispatch(extend({},GET_USER_EMAIL_INFO,{userEmailInfo:res}));
+        dispatch({...GET_USER_EMAIL_INFO,userEmailInfo:res});
     });
 }
 
@@ -52,7 +50,7 @@ export const changeEmailSetting = (data) => (dispatch,getState) => {
             message: '提示',
             description: '配置邮箱成功!'
         });
-        // dispatch(extend({},GET_USER_EMAIL_INFO,{userEmailInfo:res}));
+        // dispatch({...GET_USER_EMAIL_INFO,userEmailInfo:res});
     });
 }
 

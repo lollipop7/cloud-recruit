@@ -47,19 +47,17 @@ class TableComponent extends Component {
         )
     }
 
-    handleChange = (p) => {
-        const {paginationChange} = this.props;
-        if(paginationChange){
-            paginationChange(p);
-        }
-    }
-
     setModalVisible = (modalVisible) => {
         this.setState({modalVisible});
     }
 
     render() {
-        const {listData,isLoading} = this.props;
+        const {
+            listData,
+            isLoading,
+            paginationCurrent,
+            paginationChange
+        } = this.props;
         const {list,count} = listData;
         return (
             <div style={{
@@ -70,26 +68,15 @@ class TableComponent extends Component {
                 <Table 
                     dataSource={list} 
                     bordered
+                    loading={isLoading}
                     columns={this.columns}
-                    pagination={
-                        count > 20 
-                        ? {
-                            pageSize:20 ,
-                            total: count
-                        }
-                        : false
-                    }
-                    onChange={this.handleChange}
+                    pagination={{
+                        defaultPageSize:20,
+                        total: count,
+                        current: paginationCurrent,
+                        onChange:(page,pageSize)=> paginationChange(page,pageSize)
+                    }}
                 />
-                {isLoading &&
-                    <LoadingComponent style={{
-                        position: 'absolute',
-                        zIndex: 3,
-                        width: 950,
-                        top: 34,
-                        height: 746,
-                    }} />
-                }
                 <Modal
                     wrapClassName="vertical-center-modal"
                     visible={this.state.modalVisible}

@@ -3,8 +3,6 @@ import {AjaxByToken} from 'utils/ajax';
 
 import {notification} from 'antd'; 
 
-import extend from 'lodash/extend';
-
 const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
 const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
 const LOAD_TALENT_CATEGORY = {type:types.LOAD_TALENT_CATEGORY};
@@ -18,6 +16,9 @@ const LOAD_TALENT_LIST = {type:types.LOAD_TALENT_LIST};
 const CREATE_LABEL = {type:types.CREATE_LABEL};
 const DELETE_LABEL = {type:types.DELETE_LABEL};
 
+// ==== 移动简历 ====
+const MOVE_RESUME = {type:types.MOVE_RESUME};
+
 export const getTalentCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
     AjaxByToken('/web/TalentStatis',{
@@ -27,24 +28,24 @@ export const getTalentCategory = () => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_CATEGORY_DONE);
-        dispatch(extend({},LOAD_TALENT_CATEGORY,{categoryData:res}));
+        dispatch({...LOAD_TALENT_CATEGORY,categoryData:res});
     });
 }
 
 export const getTalentList = (data) => (dispatch,getState) => {
-    data.skip = data.skip + '';
-    // dispatch(LOAD_LIST_START);
-    NProgress.start();
+    data.start = data.start + '';
+    dispatch(LOAD_LIST_START);
     AjaxByToken('/web/queryTalent',{
         head: {
             transcode: 'L0025'
         },
-        data: extend({},data,{rows:20+''})
+        data: {...data,rows:20+''}
     })
     .then(res=>{
-        NProgress.done();
-        // dispatch(LOAD_LIST_DONE);
-        dispatch(extend({},LOAD_TALENT_LIST,{talentList:res}));
+        dispatch(LOAD_LIST_DONE);
+        // 如果返回状态吗不是AAAAAA res为服务器返回的错误信息
+        if(typeof res === 'string') res = {list: [],count: 0};
+        dispatch({...LOAD_TALENT_LIST,talentList:res});
     });
 }
 
@@ -61,7 +62,7 @@ export const createLabel = (data) => (dispatch,getState) => {
             message: '提示',
             description: '新建类别成功'
         });
-        dispatch(extend({},CREATE_LABEL,{createLabelRes:true}));
+        dispatch({...CREATE_LABEL,createLabelRes:true});
     });
 }
 
@@ -79,7 +80,22 @@ export const deleteLabel = (data) => (dispatch,getState) => {
                 message: '提示',
                 description: '删除类别成功'
             });
-            dispatch(extend({},DELETE_LABEL,{deleteLabelRes:true}));
+            dispatch({...DELETE_LABEL,deleteLabelRes:true});
+        }
+    });
+}
+
+// 移动人员
+export const moveResume = (data) => (dispatch,getState) => {
+    AjaxByToken('/web/resumemobile',{
+        head: {
+            transcode: 'L0031'
+        },
+        data: data
+    })
+    .then(res=>{
+        if(typeof res == 'object'){
+            // dispatch({...MOVE_RESUME,deleteLabelRes:true});
         }
     });
 }

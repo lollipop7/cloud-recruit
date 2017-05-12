@@ -1,7 +1,8 @@
 import React, {Component,PropTypes} from 'react';
 
-import {Table,Button , Modal,Select} from 'antd';
-const Option = Select.Option;
+import {Table} from 'antd';
+
+import MoveModalComponents from './modal';
 
 import columns from 'data/table-columns/talent-table';
 
@@ -18,10 +19,6 @@ class TableComponent extends Component {
         paginationChange: PropTypes.func
     }
 
-    state = {
-        modalVisible: false
-    }
-    
     _getColumns() {
         columns[0].render = (text,record,index) => {
             return (
@@ -62,45 +59,24 @@ class TableComponent extends Component {
     }
 
     showResumeModal(record) {
-        console.log(record);
-    }
-
-    moveItem = () => {
-        this.setModalVisible(true);
-    }
-
-    setModalVisible = (modalVisible) => {
-        this.setState({modalVisible});
     }
 
     render() {
-        const {talentList,paginationChange} = this.props,
+        const {
+            talentList,
+            paginationChange,
+            isLoading,
+            paginationCurrent,
+            customNavData
+        } = this.props,
             {list,count} = talentList;
         return (
             <div>
-                <div className="table-control">
-                    <Button type="primary">删除</Button>
-                    <Button type="primary" onClick={this.moveItem}>移动</Button>
-                    <Modal
-                        title="移动"
-                        wrapClassName="vertical-center-modal"
-                        visible={this.state.modalVisible}
-                        onOk={() => this.setModalVisible(false)}
-                        onCancel={() => this.setModalVisible(false)}
-                    >
-                        <span style={{
-                            marginRight: 16
-                        }}>移动到</span>
-                        <Select defaultValue="lucy" style={{ width: 395 }}>
-                            <Option value="jack">理财师</Option>
-                            <Option value="lucy">在职人员</Option>
-                            <Option value="Yiminghe">预约中</Option>
-                        </Select>
-                    </Modal>
-                </div>
+                <MoveModalComponents customNavData={customNavData} />
                 <Table 
                     rowSelection={{type:'checkbox'}}
                     bordered
+                    loading={isLoading}
                     columns={this._getColumns()} 
                     dataSource={
                         list.map((item,index)=>{
@@ -112,6 +88,7 @@ class TableComponent extends Component {
                     pagination={{
                         defaultPageSize:20 ,
                         total: count,
+                        current: paginationCurrent,
                         onChange:(page,pageSize)=> paginationChange(page,pageSize)
                     }}
                 />

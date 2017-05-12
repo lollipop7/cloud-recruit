@@ -1,4 +1,4 @@
-import {URGENT_TASKS,RESUME,ENTRY_PERSON,TASK_PROGRESS} from 'constants/home';
+import {URGENT_TASKS,RESUME,GET_ENTRY_LIST,TASK_PROGRESS} from 'constants/home';
 
 const initialState = {
     urgentTasks: [], // 紧急任务列表
@@ -15,7 +15,7 @@ export default function home(state = initialState,actions){
             return {...state,resumeData:actions.resumeData};
         case TASK_PROGRESS: 
             return {...state,taskProgress:actions.taskProgress};
-        case ENTRY_PERSON:
+        case GET_ENTRY_LIST:
             return {...state,entryPersonList:actions.entryPersonList};
         default: 
             return state;

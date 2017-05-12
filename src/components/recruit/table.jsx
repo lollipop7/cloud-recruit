@@ -35,17 +35,23 @@ class TableComponents extends Component {
     }
 
     render() {
-        const {recruitList,isLoading} = this.props;
+        const {
+            recruitList,
+            isLoading,
+            paginationChange,
+            paginationCurrent
+        } = this.props;
         return (
             <div style={{
                 position: 'relative'
             }}>
                 <div className="table-control">
-                    <Button type="primary">删除</Button>
+                    {/*<Button type="primary">删除</Button>*/}
                 </div>
+                {/*rowSelection={{type:'checkbox'}}*/}
                 <Table 
-                    rowSelection={{type:'checkbox'}}
                     bordered
+                    loading={isLoading}
                     columns={this.getColumns()} 
                     dataSource={
                         recruitList.list.map((item,index)=>{
@@ -55,18 +61,11 @@ class TableComponents extends Component {
                     }
                     pagination={{
                         defaultPageSize: 20 ,
-                        total: recruitList.count
+                        total: recruitList.count,
+                        current: paginationCurrent,
+                        onChange:(page,pageSize)=> paginationChange(page,pageSize)
                     }}
                 />
-                {isLoading &&
-                    <LoadingComponent style={{
-                        position: 'absolute',
-                        zIndex: 3,
-                        width: 950,
-                        top: 34,
-                        height: 781
-                    }} />
-                }
             </div>
         );
     }

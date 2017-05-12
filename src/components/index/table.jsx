@@ -1,4 +1,4 @@
-import React, {Component,PropTypes} from 'react';
+import React, {Component} from 'react';
 
 import merge from 'lodash/merge';
 import trim from 'lodash/trim';
@@ -16,11 +16,6 @@ import * as Actions from 'actions';
 import {notification} from 'antd';
 
 class TableComponent extends Component {
-
-    static contextTypes = {
-        router: PropTypes.object
-    }
-
     state = {
     }
 
@@ -129,18 +124,8 @@ class TableComponent extends Component {
                     columns={this.columns}
                     dataSource={datasource}
                     pagination={false}
+                    loading={isLoading}
                 />
-                {isLoading && 
-                    <div style={{
-                        position: 'absolute',
-                        width: '100%',
-                        height: 350,
-                        bottom: 0,
-                        backgroundColor: '#FFF'
-                    }}>
-                        <LoadingComponent />
-                    </div>
-                }
             </div>
         );
     }

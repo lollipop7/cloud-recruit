@@ -13,7 +13,7 @@ import workyears from 'data/select/workyears';
 export default class FormComponent extends Component {
 
     state = {
-        company: '', // 公司名称
+        // company: '', // 公司名称
         city: '', // 居住地
         keywords: '', // 关键字
         edu: undefined, // 学历要求
@@ -23,7 +23,7 @@ export default class FormComponent extends Component {
 
     resetForm = () => {
         this.setState({
-            company: '', // 公司名称
+            // company: '', // 公司名称
             city: '', // 居住地
             keywords: '', // 关键字
             edu: undefined, // 学历要求
@@ -53,7 +53,7 @@ export default class FormComponent extends Component {
 
     render() {
         const {
-            company,
+            // company,
             city,
             keywords,
             edu=undefined,
@@ -63,11 +63,11 @@ export default class FormComponent extends Component {
         return (
             <div className="form">
                 <div className="bottom16">
-                    <Input 
+                    {/*<Input 
                         placeholder="公司名称"
                         value={company}
                         onChange={(e)=>this.handleChange('company',e)}
-                    />
+                    />*/}
                     <Input 
                         placeholder="居住地"
                         value={city}
@@ -92,6 +92,11 @@ export default class FormComponent extends Component {
                             })
                         }
                     </Select>
+                    <Input 
+                        placeholder="工作年限"
+                        value={year}
+                        onChange={(e)=>this.handleChange('year',e)}
+                    />
                 </div>
                 <div>
                     {/*<Select 
@@ -108,11 +113,6 @@ export default class FormComponent extends Component {
                             })
                         }
                     </Select>*/}
-                    <Input 
-                        placeholder="工作年限"
-                        value={year}
-                        onChange={(e)=>this.handleChange('year',e)}
-                    />
                     <Select 
                         placeholder="简历来源" 
                         style={{width: 209}} 
@@ -120,9 +120,18 @@ export default class FormComponent extends Component {
                         onChange={(value)=>this.handleSelectChange('source',value)}
                     >
                         {
-                            ['前程无忧','智联招聘','其他'].map((item,index)=>{
+                            [{
+                                name: '前程无忧',
+                                value: '51job'
+                            },{
+                                name: '智联招聘',
+                                value: 'zhilian'
+                            },{
+                                name: '其他',
+                                value: 'unknown'
+                            }].map((item,index)=>{
                                 return (
-                                    <Option key={index} value={item}>{item}</Option>
+                                    <Option key={index} value={item.value}>{item.name}</Option>
                                 )
                             })
                         }

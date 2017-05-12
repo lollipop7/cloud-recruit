@@ -1,8 +1,6 @@
 import * as types from 'constants/recruit';
 import {AjaxByToken} from 'utils/ajax';
 
-import extend from 'lodash/extend';
-
 // 开始请求分类统计信息
 const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
 // 请求分类统计信息结束
@@ -35,21 +33,22 @@ export const getRecruitCategory = () => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_CATEGORY_DONE);
-        dispatch(extend({},RECRUIT_CATEGORY,{categoryData:res.list}));
+        dispatch({...RECRUIT_CATEGORY,categoryData:res.list});
     });
 }
 
 export const getRecruitList = (data) => (dispatch,getState) => {
+    data.skip = data.skip + '';
     dispatch(LOAD_LIST_START);
     AjaxByToken('/web/queryResume',{
         head: {
             transcode: 'L0016',
         },
-        data: extend({},data,{count: '20'})
+        data: {...data,count: '20'}
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
-        dispatch(extend({},RECRUIT_LIST,{recruitList:res}));
+        dispatch({...RECRUIT_LIST,recruitList:res});
     });
 }
 
@@ -64,12 +63,12 @@ export const getResumeInfo = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_INFO_DONE);
-        dispatch(extend({},RECRUIT_INFO,{recruitInfo:res}));
+        dispatch({...RECRUIT_INFO,recruitInfo:res});
     });
 }
 
 export const showResumeModal = (data) => (dispatch,getState) => {
-    dispatch(extend({},SHOW_INFO_MODAL,{uriParams:data}));
+    dispatch({...SHOW_INFO_MODAL,uriParams:data});
 }
 
 export const hideResumeModal = () => (dispatch,getState) => {

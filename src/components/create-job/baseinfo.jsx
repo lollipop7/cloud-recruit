@@ -1,6 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 
-import { Select } from 'antd';
+import { Input , Select , Cascader } from 'antd';
 
 import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';
@@ -8,8 +8,72 @@ import Education from 'data/select/education';
 
 import {InputComponent} from 'components/input';
 
+import city from 'data/city.json';
+import salaryData from 'data/salary.json';
+
 const Option = Select.Option;
 
+export class ErrorInputComponent extends Component {
+    state = {}
+    static propTypes = {
+        name: PropTypes.string,
+        field: PropTypes.string,
+        value: PropTypes.oneOfType([ // 输入框的值
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        placeholder: PropTypes.string,
+        onChange: PropTypes.func,
+        disabled: PropTypes.bool, //是否禁用输入框
+        className: PropTypes.string, // 输入框类名
+        style: PropTypes.object // 输入框内联样式
+    }
+
+    handleChange = (field,event) => {
+        const {onChange} = this.props;
+        if(onChange){
+            onChange(field,event);
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.value !== this.props.value
+    }
+
+    render() {
+        const {
+            name='',
+            field='',
+            value,
+            placeholder,
+            disabled=false,
+            className='',
+            style={}
+        } = this.props;
+        return (
+            <div className="inline-block">
+                <span>{name}</span>
+                <div className="inline-block" style={{
+                    position: 'relative',
+                    marginRight: 0
+                }}>
+                    <Input 
+                        placeholder={placeholder} 
+                        value={value}
+                        onChange={this.handleChange.bind(this,field)} 
+                        disabled={disabled}
+                        className={className}
+                        className="error"
+                        style={style}
+                    />
+                    <div className="error-promote">
+                        <label className="error">必填</label>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
 class SelectComponent extends Component {
 
@@ -41,7 +105,8 @@ class SelectComponent extends Component {
             placeholder,
             data=[],
             value,
-            dropdownMatchSelectWidth
+            dropdownMatchSelectWidth,
+            style={width: 155,height:40 }
         } = this.props;
         return (
             <div className="inline-block">
@@ -53,7 +118,7 @@ class SelectComponent extends Component {
                     onChange={this.handleChange.bind(this,field)}
                     allowClear
                     dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-                    style={{ width: 155,height:40 }}
+                    style={style}
                 >
                     {
                         data.map( (item,index)=>{
@@ -86,7 +151,7 @@ export default class BaseinfoComponent extends Component {
     resetForm() {
         this.setState({
             positionname:'',
-            salary:'',
+            salary:undefined,
             department:'',
             recruitreason:'',
             headcount:'',
@@ -96,12 +161,24 @@ export default class BaseinfoComponent extends Component {
             educationbackground: undefined
         });
     }
-    
+
+    handleCityChange = (val) => {
+        this.setState({
+            workcity: val.length > 0 ?  val[0] + '-' + val[1] : ''
+        });
+    }
+
+    handleNumChange = (field,e) => {
+        const pattern = /[^\d]/ig;
+        this.setState({
+            [field]: e.target.value.replace(pattern,'')
+        });
+    }
 
     render() {
         const {
             positionname='', // 职位名称
-            salary='', // 薪资待遇
+            salary=undefined, // 薪资待遇
             department='', // 用人部门
             recruitreason='', // 招聘理由
             headcount='', // 招聘人数
@@ -117,20 +194,34 @@ export default class BaseinfoComponent extends Component {
                 </h2>
                 <ul>
                     <li>
-                        <InputComponent
+                        <ErrorInputComponent
                             name="职位名称"
                             field="positionname"
                             placeholder="请输入职位名称"
                             value={positionname}
                             onChange={this.handleChange}
                         />
-                        <InputComponent
+                        <div className="inline-block">
+                            <span>工作地点</span>
+                            <Cascader 
+                                options={city}
+                                onChange={this.handleCityChange}
+                                displayRender={label => label.join(' - ')}
+                                placeholder="请输入工作地点" 
+                                style={{
+                                    height: 40,
+                                    width: 279
+                                }}
+                            />
+                        </div>
+                        
+                        {/*<InputComponent
                             name="薪资待遇"
                             placeholder="请输入薪资待遇"
                             field="salary"
                             value={salary}
                             onChange={this.handleChange}
-                        />
+                        />*/}
                     </li>
                     <li>
                         <InputComponent
@@ -154,15 +245,24 @@ export default class BaseinfoComponent extends Component {
                             placeholder="请输入招聘人数"
                             field="headcount"
                             value={headcount}
+                            onChange={this.handleNumChange}
+                        />
+                        <SelectComponent 
+                            name="薪资待遇"
+                            data={salaryData}
+                            dropdownMatchSelectWidth={false}
+                            value={salary}
+                            field="salary"
+                            placeholder="请选择薪资待遇"
                             onChange={this.handleChange}
                         />
-                        <InputComponent
+                        {/*<InputComponent
                             name="工作地点"
                             placeholder="请输入工作地点"
                             field="workcity"
                             value={workcity}
                             onChange={this.handleChange}
-                        />
+                        />*/}
                         <SelectComponent 
                             name="工作年限"
                             value={workyears}

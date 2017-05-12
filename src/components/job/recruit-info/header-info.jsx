@@ -47,7 +47,7 @@ export default class HeaderInfoComponent extends Component {
                                         marginLeft: 30,
                                         marginRight: 17
                                     }}>{telephone}</span>
-                                    <span>|</span>
+                                    {email && <span>|</span>}
                                     <span style={{
                                         marginLeft: 17
                                     }}>{email}</span>
@@ -65,7 +65,7 @@ export default class HeaderInfoComponent extends Component {
                                 <span style={{
                                     marginRight: 6
                                 }}>{workyears}</span>
-                                <span>|</span>
+                                {educationbg && <span>|</span>}
                                 <span style={{
                                     marginLeft: 6
                                 }}>{educationbg}</span>
@@ -73,7 +73,7 @@ export default class HeaderInfoComponent extends Component {
                             <li style={{
                                 marginTop: 14
                             }}>
-                                简历来源 : {channel}
+                                简历来源 : {channel === 'unknown' ? '其他' : channel}
                             </li>
                             <li style={{
                                 marginTop: 15

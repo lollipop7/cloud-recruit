@@ -16,7 +16,9 @@ export default class PersonalInfoComponent extends Component {
             sex // 性别
         } = data;
         return (
-            <li className="info-item">
+            <li className="info-item" style={{
+                position: 'relative'
+            }}>
                 <h3 className="title">
                     个人基本信息
                 </h3>
@@ -47,7 +49,8 @@ export default class PersonalInfoComponent extends Component {
                     </li>
                 </ul>
                 <ul className="field-list inline-block" style={{
-                    marginLeft: 100
+                    position: 'absolute',
+                    left: 349
                 }}>
                     <li>
                         <span>工作年限</span>

@@ -18,6 +18,9 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class IndexPage extends Component {
+    state = {
+        paginationCurrent: 1
+    }
     params = {
         type: 'all',
         skip: 0
@@ -32,26 +35,11 @@ class IndexPage extends Component {
         // 获取职位分类统计
         this.props.getJobCategory();
         // 获取职位列表
-        this.requestData();
+        this._requestData();
     }
 
-    requestData() {
+    _requestData() {
         this.props.getJobList({...this.params,...this.formData});
-    }
-
-    clickNav(type) {
-        // 点击侧边栏分类
-        this.params.type = type;
-        this.params.skip = 0;
-        this.requestData();
-    }
-
-    handleSearch = (params) => {
-        if(isEqual(this.formData,params)) return ;
-        // 点击搜索按钮
-        this.params.skip = 0;
-        this.formData = params;
-        this.requestData();
     }
 
     _getNavData(data) {
@@ -65,12 +53,34 @@ class IndexPage extends Component {
         return navArr;        
     }
 
-    paginationChange = (p) => {
-        this.params.skip = (p.current-1)*20;
-        this.requestData();
+    clickNav(type) {
+        // 点击侧边栏分类
+        this.params.type = type;
+        this.params.skip = 0;
+        this.setState({
+            paginationCurrent: 1
+        });
+        this._requestData();
+    }
+
+    handleSearch = (params) => {
+        if(isEqual(this.formData,params)) return ;
+        // 点击搜索按钮
+        this.params.skip = 0;
+        this.formData = params;
+        this._requestData();
+    }
+
+    paginationChange = (page,pageSize) => {
+        this.params.skip = (page-1)*20;
+        this._requestData();
+        this.setState({
+            paginationCurrent: page
+        });
     }   
 
     render() {
+        const {paginationCurrent} = this.state;
         const {routes,categoryData,isLoading} = this.props;
         return (
             <div className="page-content job-page">
@@ -85,7 +95,11 @@ class IndexPage extends Component {
                         />
                     </div>
                     <div className="pull-right">
-                        <RightComponent onSearch={this.handleSearch} paginationChange={this.paginationChange} />
+                        <RightComponent 
+                            onSearch={this.handleSearch} 
+                            paginationChange={this.paginationChange} 
+                            paginationCurrent={paginationCurrent}
+                        />
                     </div>
                 </div>
             </div>

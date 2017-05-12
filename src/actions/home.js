@@ -1,7 +1,6 @@
 import * as types from 'constants/home';
 import {AjaxByToken} from 'utils/ajax';
 import store from 'store';
-import extend from 'lodash/extend';
 
 // 紧急任务
 const URGENT_TASKS = {type:types.URGENT_TASKS};
@@ -10,7 +9,7 @@ const RESUME = {type:types.RESUME};
 // 获取任务完成指数
 const TASK_PROGRESS = {type:types.TASK_PROGRESS};
 // 待入职人员列表
-const ENTRY_PERSON = {type:types.ENTRY_PERSON};
+const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
 
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
@@ -21,7 +20,7 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch(extend({},URGENT_TASKS,{urgentTasks:res.list}));
+        dispatch({...URGENT_TASKS,urgentTasks:res.list});
     });
 }
 
@@ -36,7 +35,7 @@ export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        dispatch(extend({},RESUME,{resumeData:res}));
+        dispatch({...RESUME,resumeData:res});
     });
 }
 
@@ -51,7 +50,7 @@ export const getTaskProgress = (latestDays) => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        dispatch(extend({},TASK_PROGRESS,{taskProgress:res.content}));
+        dispatch({...TASK_PROGRESS,taskProgress:res.content});
     });
 }
 
@@ -64,11 +63,11 @@ export const getEntryPerson = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch(extend({},ENTRY_PERSON,{entryPersonList:res.content}));
+        dispatch({...GET_ENTRY_LIST,entryPersonList:res.content});
     });
 }
 
 // 重置待入职人员列表
 export const resetEntryPerson = () => (dispatch,getState) => {
-    dispatch(extend({},ENTRY_PERSON,{entryPersonList:[]}));
+    dispatch({...GET_ENTRY_LIST,entryPersonList:[]});
 }

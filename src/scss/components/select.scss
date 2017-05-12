@@ -5,6 +5,10 @@
     margin-left: 13px !important;
 }
 
+.ant-select-selection__placeholder {
+    right: inherit !important;
+}
+
 .error .ant-select-selection {
     border: 1px solid #ff3131;
 }

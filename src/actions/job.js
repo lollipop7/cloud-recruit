@@ -1,8 +1,6 @@
 import * as types from 'constants/job.js';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
-import extend from 'lodash/extend';
-
 import isNumber from 'lodash/isNumber';
 
 // 职位统计
@@ -34,7 +32,7 @@ export const getJobCategory = () => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_CATEGORY_DONE);
-        dispatch(extend({},JOB_CATEGORY,{categoryData:res}));
+        dispatch({...JOB_CATEGORY,categoryData:res});
     });
 }
 
@@ -49,12 +47,11 @@ export const getJobList = (data={}) => (dispatch,getState) => {
         head: {
             transcode: 'L0012'
         },
-        data: extend({},data,{count:'20'})
+        data: {...data,count:'20'}
     })
     .then(res=>{
-        // NProgress.done();
         dispatch(LOAD_LIST_DONE);
-        dispatch(extend({},JOB_LIST,{listData:res}));
+        dispatch({...JOB_LIST,listData:res});
     });
 }
 
@@ -69,7 +66,7 @@ export const getJobInfo = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_INFO_DONE);
-        dispatch(extend({},JOB_INFO,{jobInfo:res.entity}));
+        dispatch({...JOB_INFO,jobInfo:res.entity});
     });
 }
 
@@ -83,7 +80,6 @@ export const createJob = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        NProgress.done();
         if(typeof res === 'object'){
             console.log(res);
         }

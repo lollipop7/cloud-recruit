@@ -8,5 +8,7 @@ export const URGENT_TASKS = "URGENT_TASKS";
 export const RESUME = "RESUME";
 // 任务完成指数
 export const TASK_PROGRESS = "TASK_PROGRESS";
+export const GET_LIST_START = "GET_LIST_START";
 // 待入职人员列表
-export const ENTRY_PERSON = "ENTRY_PERSON";
+export const GET_ENTRY_LIST = "ENTRY_PERSON";
+export const GET_LIST_DONE = "GET_LIST_DONE";
