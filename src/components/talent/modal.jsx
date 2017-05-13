@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 import {Button,Modal,Select} from 'antd';
 const Option = Select.Option;
 
+import filter from 'lodash/filter';
+import indexOf from 'lodash/indexOf';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -11,8 +14,6 @@ import * as Actions from 'actions';
 class MoveModalComponents extends Component {
 
     state = {
-        modalVisible: false,
-        isLoading: false,
         selectLabelId: undefined
     }
 
@@ -20,11 +21,23 @@ class MoveModalComponents extends Component {
         // 移动简历操作
         const {selectLabelId} = this.state;
         if(!selectLabelId) return ;
-    }
+        const {data,selectedRowKeys} = this.props;
+        let filterArr = filter(data,(item,index)=>{
+            return indexOf(selectedRowKeys,index) !== -1;
+        });
+        this.props.moveResume({
+            resumeid: filterArr[0].resumeid,
+            lableid: selectLabelId
+        });
+    }   
 
     setModalVisible(modalVisible) {
         // 设置Modal的显示与隐藏
-        this.setState({modalVisible});
+        if(modalVisible){
+            this.props.showMoveResumeModal();
+        }else{
+            this.props.hideMoveResumeModal();
+        }
     }
 
     handleChange = (value) => {
@@ -35,12 +48,16 @@ class MoveModalComponents extends Component {
     }
 
     render() {
-        const {modalVisible,isLoading} = this.state;
-        const {customNavData} = this.props;
+        const {hasSelected,customNavData,moveModal} = this.props;
+        const {isLoading,modalVisible} = moveModal;
         return (
             <div className="table-control">
                     {/*<Button type="primary">删除</Button>*/}
-                    <Button type="primary" onClick={()=>this.setModalVisible(true)}>移动</Button>
+                    <Button 
+                        type="primary" 
+                        onClick={()=>this.setModalVisible(true)}
+                        disabled={!hasSelected}
+                    >移动</Button>
                     <Modal
                         title="移动"
                         wrapClassName="vertical-center-modal"
@@ -77,8 +94,12 @@ class MoveModalComponents extends Component {
 }
 
 const mapStateToProps = state => ({
+    moveModal: state.Talent.moveModal
 })
 const mapDispatchToProps = dispatch => ({
+    moveResume: bindActionCreators(Actions.TalentActions.moveResume, dispatch),
+    showMoveResumeModal: bindActionCreators(Actions.TalentActions.showMoveResumeModal, dispatch),
+    hideMoveResumeModal: bindActionCreators(Actions.TalentActions.hideMoveResumeModal, dispatch)
 })
 
 export default connect(

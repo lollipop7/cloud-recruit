@@ -17,8 +17,13 @@ class TableComponents extends Component {
     }
 
     showResumeModal = (record) => {
-        // 显示详情页面Modal
+        // 显示详情页面Modal 
+        /**
+         * id 流程id
+         * resumeid 简历id
+         */
         const {resumeid,id} = record;
+        // 获取简历详细信息
         this.props.showResumeModal({id,resumeid});
     }
 

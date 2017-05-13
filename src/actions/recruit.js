@@ -1,5 +1,7 @@
 import * as types from 'constants/recruit';
-import {AjaxByToken} from 'utils/ajax';
+import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
+
+let defaultData = {};
 
 // 开始请求分类统计信息
 const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
@@ -37,14 +39,17 @@ export const getRecruitCategory = () => (dispatch,getState) => {
     });
 }
 
-export const getRecruitList = (data) => (dispatch,getState) => {
+export const getRecruitList = (data=defaultData) => (dispatch,getState) => {
     data.skip = data.skip + '';
+    defaultData = {...data,count: '20'};
+    const uri = '/web/queryResume';
+    cancelRequestByKey(uri);
     dispatch(LOAD_LIST_START);
-    AjaxByToken('/web/queryResume',{
+    AjaxByToken(uri,{
         head: {
             transcode: 'L0016',
         },
-        data: {...data,count: '20'}
+        data: defaultData
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
@@ -52,12 +57,42 @@ export const getRecruitList = (data) => (dispatch,getState) => {
     });
 }
 
-// 得到招聘流程人员详细信息
-export const getResumeInfo = (data) => (dispatch,getState) => {
+// 得到招聘流程人员详细信息(根据简历id和流程id)
+export const getRecruitResume = (data) => (dispatch,getState) => {
     dispatch(LOAD_INFO_START);
     AjaxByToken('/web/getResumeById',{
         head: {
             transcode: 'L0017'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(LOAD_INFO_DONE);
+        dispatch({...RECRUIT_INFO,recruitInfo:res});
+    });
+}
+
+// 获取流程log(根据简历id和职位id)
+export const getStageLog = (data) => (dispatch,getState) => {
+    dispatch(LOAD_INFO_START);
+    AjaxByToken('/web/detailsByPosition',{
+        head: {
+            transcode: 'L0019'
+        },
+        data: data
+    })
+    .then(res=>{
+        console.log(res);
+        dispatch(LOAD_INFO_DONE);
+        dispatch({...RECRUIT_INFO,recruitInfo:res});
+    });
+}
+
+export const getTalentResume = (data) => (dispatch,getState) => {
+    dispatch(LOAD_INFO_START);
+    AjaxByToken('/web/resumeView',{
+        head: {
+            transcode: 'L0036'
         },
         data: data
     })

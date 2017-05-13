@@ -57,9 +57,7 @@ class IndexPage extends Component {
         // 点击侧边栏分类
         this.params.type = type;
         this.params.skip = 0;
-        this.setState({
-            paginationCurrent: 1
-        });
+        this.setPaginationCurrent(1);
         this._requestData();
     }
 
@@ -68,16 +66,19 @@ class IndexPage extends Component {
         // 点击搜索按钮
         this.params.skip = 0;
         this.formData = params;
+        this.setPaginationCurrent(1);
         this._requestData();
     }
 
     paginationChange = (page,pageSize) => {
         this.params.skip = (page-1)*20;
         this._requestData();
-        this.setState({
-            paginationCurrent: page
-        });
+        this.setPaginationCurrent(page);
     }   
+
+    setPaginationCurrent = paginationCurrent => {
+        this.setState({paginationCurrent});
+    }
 
     render() {
         const {paginationCurrent} = this.state;

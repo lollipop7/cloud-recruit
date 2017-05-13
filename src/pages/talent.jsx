@@ -13,6 +13,9 @@ import isEqual from 'lodash/isEqual';
 // nav data
 import navData from 'data/nav/talent';
 
+// 招聘人员详细信息Modal页面
+import ResumeModalComponent from 'components/resume-modal';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -101,9 +104,7 @@ class TalentPage extends Component {
         const {type,id} = record;
         this.params.type = type;
         this.params.start = 0;
-        this.setState({
-            paginationCurrent: 1
-        });
+        this.setPaginationCurrent(1);
         if(type === 'custom'){
             this.props.getTalentList({
                 ...this.params,...this.formData,...{lableid:id}
@@ -118,6 +119,7 @@ class TalentPage extends Component {
         if(isEqual(this.formData,params)) return ;
         this.formData = params;
         this.params.start = 0;
+        this.setPaginationCurrent(1);
         this._requestData();
     }
 
@@ -125,9 +127,11 @@ class TalentPage extends Component {
         // 点击分页器
         this.params.start = (page - 1) * 20;
         this._requestData();
-        this.setState({
-            paginationCurrent: page
-        });
+        this.setPaginationCurrent(page);
+    }
+
+    setPaginationCurrent = paginationCurrent => {
+        this.setState({paginationCurrent});
     }
 
     render() {
@@ -158,6 +162,7 @@ class TalentPage extends Component {
                                 />
                             </div>
                         </div>
+                        <ResumeModalComponent />
                     </div>
                 </div>
                 

@@ -1,35 +1,62 @@
 import React, {Component} from 'react';
-
 import {Button} from 'antd';
 
 import trim from 'lodash/trim';
+import find from 'lodash/find';
 
-export default class HeaderInfoComponent extends Component {
+import StepsComponent from 'components/steps';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class HeaderInfoComponent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
         return nextProps.data !== this.props.data;
     }
 
-    printResume = () => {
+    printResume() {
         window.print();
     }
 
+    getCurrentStage =()=> {
+        const {stagesMap} = this.props.data;
+        if(stagesMap){
+            const currentStage = find(stagesMap,item=>{
+                return item.iscurrentstage === '1';
+            })
+            return currentStage;
+        }
+        return {};
+    }
+
+    changeStage = () => {
+        const currentStage = this.getCurrentStage();
+        // stageid为7 状态流程已结束
+        if(currentStage.stageid === '7') return ;
+        this.props.showModal(currentStage);
+    }
+
     render() {
-        const {
-            resumeInfo={},
-            currentPName='', // 申请职位名称
-            currentPworkcity='', // 申请区域
-            positions=[], // 当前简历同时申请的
-        } = this.props.data;
-        const {
-            // headimg, // 头像
-            username, //姓名
-            telephone, //电话
-            email, //邮箱
-            workyears, //工作年限
-            educationbg, //学历
-            channel, // 简历来源
-        } = resumeInfo;
+        const {data} = this.props,
+            {
+                resumeInfo={},
+                currentPName='', // 申请职位名称
+                currentPworkcity='', // 申请区域
+                positions=[], // 当前简历同时申请的
+                stagesMap // 流程状态列表
+            } = data,
+            {
+                // headimg, // 头像
+                username, //姓名
+                telephone, //电话
+                email, //邮箱
+                workyears, //工作年限
+                educationbg, //学历
+                channel, // 简历来源
+            } = resumeInfo;
         return (
             <div className="header-info">
                 <div>
@@ -86,6 +113,7 @@ export default class HeaderInfoComponent extends Component {
                                 职位区域 : {currentPworkcity}
                             </li>
                         </ul>
+                        <StepsComponent stagesMap={stagesMap} />
                     </div>
                     <div className="info-bottom">
                         <div style={{
@@ -111,7 +139,9 @@ export default class HeaderInfoComponent extends Component {
                         <div style={{
                             position: 'absolute',
                             right: 0
-                        }}>
+                        }}
+                        onClick={this.changeStage}
+                        >
                             <img src="./static/images/left-arrow.png" alt=""/>
                         </div>
                     </div>
@@ -120,3 +150,15 @@ export default class HeaderInfoComponent extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    isLoading: state.Recruit.isInfoLoading
+})
+const mapDispatchToProps = dispatch => ({
+    showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderInfoComponent);

@@ -15,6 +15,10 @@ import * as Actions from 'actions';
 
 class TableComponent extends Component {
 
+    state = {
+        selectedRowKeys: []
+    }
+
     static propTypes = {
         paginationChange: PropTypes.func
     }
@@ -59,9 +63,16 @@ class TableComponent extends Component {
     }
 
     showResumeModal(record) {
+        const {resumeid} = record;
+        this.props.showResumeModal({resumeid});
+    }
+
+    onSelectChange = (selectedRowKeys) => {
+        this.setState({selectedRowKeys});
     }
 
     render() {
+        const {selectedRowKeys} = this.state;
         const {
             talentList,
             paginationChange,
@@ -70,11 +81,21 @@ class TableComponent extends Component {
             customNavData
         } = this.props,
             {list,count} = talentList;
+        const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                <MoveModalComponents customNavData={customNavData} />
+                <MoveModalComponents 
+                    hasSelected={hasSelected} 
+                    customNavData={customNavData} 
+                    data={list}
+                    selectedRowKeys={selectedRowKeys}
+                />
                 <Table 
-                    rowSelection={{type:'checkbox'}}
+                    rowSelection={{
+                        type:'checkbox',
+                        selectedRowKeys,
+                        onChange: this.onSelectChange
+                    }}
                     bordered
                     loading={isLoading}
                     columns={this._getColumns()} 
@@ -102,6 +123,7 @@ const mapStateToProps = state => ({
     talentList: state.Talent.talentList // 列表数据
 })
 const mapDispatchToProps = dispatch => ({
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
 })
 
 export default connect(

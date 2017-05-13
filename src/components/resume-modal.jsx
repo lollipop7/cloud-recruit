@@ -10,6 +10,8 @@ import * as Actions from 'actions';
 class ResumeModalComponent extends Component {
 
     setModalVisible = () => {
+        // this.props.getRecruitCategory();
+        // this.props.getRecruitList();
         this.props.hideResumeModal();
     }
 
@@ -28,7 +30,7 @@ class ResumeModalComponent extends Component {
             >   
                 {visible &&
                     <iframe 
-                        src={`/#/resumeInfo/${resumeid}/${id}`}
+                        src={`/#/resumeInfo${resumeid ? '/' + resumeid : ''}${id ? '/' + id : ''}`}
                         frameBorder="0"
                         width='100%'
                         height='100%'
@@ -45,7 +47,9 @@ const mapStateToProps = state => ({
     uriParams: state.Recruit.uriParams
 })
 const mapDispatchToProps = dispatch => ({
-    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch),
+    getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),
+    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch)
 })
 
 export default connect(

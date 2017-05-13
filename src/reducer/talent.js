@@ -5,8 +5,18 @@ import {
     LOAD_CATEGORY_START,
     LOAD_CATEGORY_DONE,
     LOAD_TALENT_CATEGORY,
-    CREATE_LABEL,
-    DELETE_LABEL
+    SHOW_CREATE_LABEL_MODAL,
+    HIDE_CREATE_LABEL_MODAL,
+    CREATE_LABEL_START,
+    CREATE_LABEL_DONE,
+    SHOW_DELETE_LABEL_MODAL,
+    HIDE_DELETE_LABEL_MODAL,
+    DELETE_LABEL_START,
+    DELETE_LABEL_DONE,
+    SHOW_MOVE_RESUME_MODAL,
+    HIDE_MOVE_RESUME_MODAL,
+    MOVE_RESUME_START,
+    MOVE_RESUME_DONE
 } from 'constants/talent';
 
 const initialState = {
@@ -15,7 +25,9 @@ const initialState = {
    talentList: {
        list: []
    },
-   createLabelRes: false
+   createModal: {isLoading:false,modalVisible:false},
+   deleteModal: {isLoading:false,modalVisible:false},
+   moveModal: {isLoading: false,modalVisible:false}
 };
 
 export default function talent(state = initialState,actions){
@@ -32,10 +44,30 @@ export default function talent(state = initialState,actions){
             return {...state,isCategoryLoading:false};
         case LOAD_TALENT_CATEGORY:
             return {...state,categoryData:actions.categoryData};
-        case CREATE_LABEL:
-            return {...state,createLabelRes:actions.createLabelRes};
-        case DELETE_LABEL:
-            return {...state,deleteLabelRes:actions.deleteLabelRes};
+        case SHOW_CREATE_LABEL_MODAL:
+            return {...state,createModal:{...state.createModal,modalVisible:true}};
+        case HIDE_CREATE_LABEL_MODAL:
+            return {...state,createModal:{...state.createModal,modalVisible:false}}
+        case CREATE_LABEL_START:
+            return {...state,createModal:{...state.createModal,isLoading:true}};
+        case CREATE_LABEL_DONE:
+            return {...state,createModal:{...state.createModal,isLoading:false}};
+        case SHOW_DELETE_LABEL_MODAL:
+            return {...state,deleteModal:{...state.deleteModal,modalVisible:true}};
+        case HIDE_DELETE_LABEL_MODAL:
+            return {...state,deleteModal:{...state.deleteModal,modalVisible:false}};
+        case DELETE_LABEL_START:
+            return {...state,deleteModal:{...state.deleteModal,isLoading:true}};
+        case DELETE_LABEL_DONE:
+            return {...state,deleteModal:{...state.deleteModal,isLoading:false}};
+        case SHOW_MOVE_RESUME_MODAL:
+            return {...state,moveModal:{...state.moveModal,modalVisible:true}};
+        case HIDE_MOVE_RESUME_MODAL:
+            return {...state,moveModal:{...state.moveModal,modalVisible:false}};
+        case MOVE_RESUME_START:
+            return {...state,moveModal:{...state.moveModal,isLoading:true}};
+        case MOVE_RESUME_DONE:
+            return {...state,moveModal:{...state.moveModal,isLoading:false}};
         default: 
             return state;
     }

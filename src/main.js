@@ -3,8 +3,9 @@ import ReactDom from 'react-dom';
 import Promise from 'promise-polyfill'; 
 
 // css文件
-import normallize from 'static/css/normalize.css';
-import nprogress from 'static/css/nprogress.css';
+import 'rc-steps/assets/index.css';
+import 'static/css/normalize.css';
+import 'static/css/nprogress.css';
 
 // To add to window
 if (!window.Promise) {

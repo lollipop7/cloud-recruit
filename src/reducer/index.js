@@ -5,6 +5,7 @@ import Job from './job';
 import Recruit from './recruit';
 import Talent from './talent';
 import User from './user';
+import Resume from './resume-info';
 
 const rootReducer = combineReducers({
     Login,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     Job,
     Recruit,
     Talent,
-    User
+    User,
+    Resume
 });
 
 export default rootReducer;

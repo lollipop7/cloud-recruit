@@ -1,0 +1,72 @@
+.resume-info-modal {
+    .ant-modal {
+        padding-bottom: 0px;
+    }
+    .ant-modal-body {
+        padding: 30px 30px;
+        font-size: 16px;
+    }
+    // 输入框
+    input[type='text'] {
+        width: 285px;
+        height: 40px;
+        font-size: 16px;
+        margin:0 11px;
+    }
+    // 添加标签按钮
+    .addTag-button {
+        width: 65px;
+        height: 30px;
+        font-size: 16px;
+    }
+    // 添加标签区域
+    .tag-area {
+        margin-top: 27px;
+    }
+    // 标签样式
+    .ant-tag {
+        height: 26px;
+        line-height: 26px;
+        padding: 0 10px;
+        background-color: transparent;
+        border-radius: 0;
+        font-size: 14px;
+        color: $theme-color;
+        border: 1px solid $theme-color;
+        margin-top: 8px;
+    }
+    // 单选按钮样式
+    .ant-radio-wrapper {
+        margin-right: 27px;
+    }
+    .ant-radio-inner {
+        width: 18px;
+        height: 18px;
+        background-color: #ebebeb;
+        border-radius: 4px;
+        &:after {
+            border-radius: 2px;
+            width: 10px;
+            height: 10px;
+        }
+    }
+    .ant-radio+span {
+        padding-right: 0px;
+        padding-left: 4px;
+        font-size: 16px;
+        color: #868686;
+    }
+    //职位申请
+    &.resume-reply-modal {
+        .ant-modal {
+            width: 500px !important;
+            
+        }
+    }
+    // 预约管理
+    &.resume-subscribe-modal {
+        .ant-modal {
+            width: 560px !important;
+        }
+    }
+}

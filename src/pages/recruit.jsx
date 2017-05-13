@@ -63,18 +63,16 @@ class RecruitPage extends Component {
     handleClickNav = (type) => {
         this.params.stageid = type;
         this.params.skip = 0;
-        this.setState({
-            paginationCurrent: 1
-        });
+        this.setPaginationCurrent(1);
         this._requestData();
     }
 
     handleFind = (params) => {
-        console.log(params);
         // 点击开始查找按钮
         if(isEqual(this.formData,params)) return ;
         this.formData = params;
         this.params.skip = 0;
+        this.setPaginationCurrent(1);
         this._requestData();
     }
 
@@ -82,9 +80,11 @@ class RecruitPage extends Component {
         // 点击分页器
         this.params.skip = (page - 1) * 20;
         this._requestData();
-        this.setState({
-            paginationCurrent: page
-        });
+        this.setPaginationCurrent(page);
+    }
+
+    setPaginationCurrent = paginationCurrent => {
+        this.setState({paginationCurrent});
     }
 
     render() {

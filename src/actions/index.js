@@ -5,6 +5,7 @@ import * as jobActions from './job';
 import * as UserActions from './user';
 import * as RecruitActions from './recruit';
 import * as TalentActions from './talent';
+import * as ResumeActions from './resume-info';
 
 module.exports =  {
     loginActions,
@@ -13,5 +14,6 @@ module.exports =  {
     jobActions,
     RecruitActions,
     TalentActions,
-    UserActions
+    UserActions,
+    ResumeActions
 }

@@ -21,36 +21,17 @@ class LeftNavComponent extends Component {
 
     state = {
         _selectedIndex: 0,
-        createLabelModalVisible: false,
         lablename: '',
-        createLableLoading: false,
-        deleteLabelModalVisible: false,
-        deleteLabelLoading: false,
         deleteLabelName: '',
         deleteLabelId: ''
     }
 
     componentWillUpdate(nextProps,nextState) {
-        if(nextProps.createLabelRes && nextState.createLableLoading){
+        const {createModal} = this.props;
+        if(!createModal.isLoading && !createModal.modalVisible && this.state.lablename !== ''){
             this.setState({
-                createLableLoading: false,
-                createLabelModalVisible: false,
                 lablename: ''
             });
-            setTimeout(()=>{
-                this.props.getTalentCategory();
-            },500);
-        }
-        if(nextProps.deleteLabelRes && nextState.deleteLabelLoading){
-            this.setState({
-                deleteLabelLoading: false,
-                deleteLabelModalVisible: false,
-                deleteLabelName: '',
-                deleteLabelId: ''
-            });
-            setTimeout(()=>{
-                this.props.getTalentCategory();
-            },500);
         }
     }
 
@@ -65,16 +46,6 @@ class LeftNavComponent extends Component {
         }
     }
 
-    setCreateLabelModalVisible = (createLabelModalVisible) => {
-        // 设置创建分类Modal的显示与隐藏
-        this.setState({createLabelModalVisible});
-    }
-
-    setDeleteLabelModalVisible = (deleteLabelModalVisible) => {
-        // 设置删除分类Modal的显示与隐藏
-        this.setState({deleteLabelModalVisible});
-    }
-
     createLabel = () => {
         // 创建分类标签
         const {lablename} = this.state;
@@ -83,33 +54,22 @@ class LeftNavComponent extends Component {
             this.setError(true);
             return ;
         } 
-        this.setState({
-            createLableLoading: true
-        });
-        this.props.createLabel({lablename});
+        this.props.createLabel({lablename},this.props.getTalentCategory);
     }
 
     deleteLabel = () => {
         // 删除分类标签
         const {deleteLabelName,deleteLabelId} = this.state;
         if(deleteLabelName === '' || deleteLabelId === '') return ;
-        this.setState({
-            deleteLabelLoading: true
-        }); 
         this.props.deleteLabel({
             lableid: deleteLabelId,
             lablename: deleteLabelName
-        });
+        },this.props.getTalentCategory);
     }
 
     setError = (error) => {
         // 设置是否显示错误文本
         this.setState({error});
-    }
-
-    showCreateLabelModal = () => {
-        // 显示创建分类标签Modal
-        this.setCreateLabelModalVisible(true);
     }
 
     showDeleteLabelModal = (record={},e) => {
@@ -121,7 +81,7 @@ class LeftNavComponent extends Component {
             deleteLabelName: lablename,
             deleteLabelId: id
         });
-        this.setDeleteLabelModalVisible(true);
+        this.props.showDeleteLabelModal();
     }
 
     handleChange = (e) => {
@@ -138,18 +98,16 @@ class LeftNavComponent extends Component {
     render() {
         const {
             _selectedIndex,
-            createLabelModalVisible,
             error,
             lablename,
-            createLableLoading,
-            deleteLabelModalVisible,
-            deleteLabelLoading,
             deleteLabelName
         } = this.state,
             {
                 title='',
                 data=[],
-                isLoading
+                isLoading,
+                createModal,
+                deleteModal
             } = this.props;
         return (
             <ul className="left-nav box-border">
@@ -192,7 +150,7 @@ class LeftNavComponent extends Component {
                     </dl>
                 </li>
                 <li>
-                    <div className="float-button" onClick={this.showCreateLabelModal}>
+                    <div className="float-button" onClick={()=>this.props.showCreateLabelModal()}>
                         <Button />
                         <span>新建类别</span>
                     </div>
@@ -201,10 +159,10 @@ class LeftNavComponent extends Component {
                 <Modal
                     title="新建分类"
                     wrapClassName="vertical-center-modal talent-modal"
-                    visible={createLabelModalVisible}
-                    confirmLoading={createLableLoading}
+                    visible={createModal.modalVisible}
+                    confirmLoading={createModal.isLoading}
                     onOk={this.createLabel}
-                    onCancel={() => this.setCreateLabelModalVisible(false)}
+                    onCancel={() => this.props.hideCreateLabelModal()}
                 >   
                     <div style={{
                         margin: '0 auto',
@@ -240,10 +198,10 @@ class LeftNavComponent extends Component {
                 <Modal 
                     title="删除分类"
                     wrapClassName="vertical-center-modal talent-modal"
-                    visible={deleteLabelModalVisible}
+                    visible={deleteModal.modalVisible}
                     onOk={this.deleteLabel}
-                    confirmLoading={deleteLabelLoading}
-                    onCancel={()=>{this.setDeleteLabelModalVisible(false)}}
+                    confirmLoading={deleteModal.isLoading}
+                    onCancel={()=>{this.props.hideDeleteLabelModal()}}
                 >
                     <p style={{
                         paddingLeft: 20
@@ -255,13 +213,18 @@ class LeftNavComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    createLabelRes: state.Talent.createLabelRes,
-    deleteLabelRes: state.Talent.deleteLabelRes
+    createModal: state.Talent.createModal,
+    deleteModal: state.Talent.deleteModal
 })
+
 const mapDispatchToProps = dispatch => ({
     createLabel: bindActionCreators(Actions.TalentActions.createLabel, dispatch),
     deleteLabel: bindActionCreators(Actions.TalentActions.deleteLabel, dispatch),
-    getTalentCategory: bindActionCreators(Actions.TalentActions.getTalentCategory, dispatch)
+    getTalentCategory: bindActionCreators(Actions.TalentActions.getTalentCategory, dispatch),
+    showCreateLabelModal: bindActionCreators(Actions.TalentActions.showCreateLabelModal, dispatch),
+    hideCreateLabelModal: bindActionCreators(Actions.TalentActions.hideCreateLabelModal, dispatch),
+    showDeleteLabelModal: bindActionCreators(Actions.TalentActions.showDeleteLabelModal, dispatch),
+    hideDeleteLabelModal: bindActionCreators(Actions.TalentActions.hideDeleteLabelModal, dispatch),
 })
 
 export default connect(

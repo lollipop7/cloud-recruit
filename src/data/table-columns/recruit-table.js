@@ -58,8 +58,8 @@ module.exports = [
         render: renderWithATag
     },
     {
-        "title": "进度",
-        "dataIndex": "stagename",
-        "key": "stagename"
+        "title": "前状态",
+        "dataIndex": "prestatusname",
+        "key": "prestatusname"
     }
 ]

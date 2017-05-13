@@ -7,6 +7,8 @@ import LoadingComponent from 'components/loading';
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content';
 
+import ModalComponents from 'components/resume-info/modal';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -21,9 +23,14 @@ class ResumeInfoPage extends Component {
     componentDidMount() {
         const {resumeId,logId} = this.props.routeParams;
         if(resumeId && logId){
-            this.props.getResumeInfo({
+            // 获取简历详情
+            this.props.getRecruitResume({
                 resumeId: resumeId,
                 logId: logId
+            });
+        }else if(resumeId){
+            this.props.getTalentResume({
+                resumeid: resumeId
             });
         }
     }
@@ -77,6 +84,7 @@ class ResumeInfoPage extends Component {
                                     邮件
                                 </div>
                             </div>
+                            <ModalComponents />
                         </div>
                 }
             </div>
@@ -89,7 +97,9 @@ const mapStateToProps = state => ({
     isLoading: state.Recruit.isInfoLoading
 })
 const mapDispatchToProps = dispatch => ({
-    getResumeInfo: bindActionCreators(Actions.RecruitActions.getResumeInfo, dispatch)
+    getRecruitResume: bindActionCreators(Actions.RecruitActions.getRecruitResume, dispatch),
+    getTalentResume: bindActionCreators(Actions.RecruitActions.getTalentResume, dispatch),
+    getStageLog: bindActionCreators(Actions.RecruitActions.getStageLog, dispatch)
 })
 
 export default connect(
