@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Radio,Input} from 'antd';
+import {Radio,Input,DatePicker} from 'antd';
 const RadioGroup = Radio.Group;
 
 import radioData from 'data/resume-radio.json';
@@ -9,6 +9,7 @@ import radioData from 'data/resume-radio.json';
 import chunk from 'lodash/chunk';
 
 import TagsComponent from './tags';
+import InputComponents from './input';
 
 export default class SubscribeComponents extends Component {
 
@@ -23,13 +24,22 @@ export default class SubscribeComponents extends Component {
     }
 
     getFormData = () => {
-        const {tags,statusid} = this.state;
+        let data = {},
+        thelable = '',
+        {tags} = this.refs.Tags.state,
+            {statusid} = this.state;
         if(tags.length > 0){
-            const thelable = tags.join(',');
-            return {thelable,statusid}
+            thelable = tags.join(',');
         }
-        return {statusid};
+        if(statusid === '10' || statusid === '11'){
+            data = this.refs.Event.getFormData();
+        }
+        if(!data){
+            return false;
+        }
+        return {statusid,thelable,...data};
     }
+    
 
     render() {
         const {statusid} = this.state;
@@ -58,26 +68,13 @@ export default class SubscribeComponents extends Component {
                     }
                 </RadioGroup>
                 {(statusid === '10' || statusid === '11') && 
-                    <div style={{
-                        marginTop: 28
-                    }}>
-                        <Input 
-                            placeholder={statusid === '10' ? '面试时间' : '预约时间'}
-                            style={{
-                                width: '209px',
-                                margin: 0
-                            }}
-                        />
-                        <Input 
-                            placeholder={statusid === '10' ? '面试地点' : '预约地点'}
-                            style={{
-                                width: '209px',
-                                marginLeft: 11
-                            }}
-                        />
-                    </div>
+                    <InputComponents 
+                        ref="Event"
+                        timePlaceholder={statusid === '10' ? '面试时间' : '预约时间'}
+                        addressPlaceholder={statusid === '10' ? '面试地点' : '预约地点'}
+                    />
                 }
-                <TagsComponent />
+                <TagsComponent ref='Tags' />
             </div>
         );
     }

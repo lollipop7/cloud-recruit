@@ -6,6 +6,14 @@ import {Modal} from 'antd';
 import ReplyComponents from './reply';
 // 预约管理
 import SubscribeComponents from './subscribe';
+// 面试管理
+import InterViewComponents from './interview';
+// 复试管理
+import RetestComponents from './retest';
+// 发送offer
+import OfferComponents from './offer';
+// 入职管理
+import EntryComponents from './entry';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -40,9 +48,9 @@ class ModalComponents extends Component {
             case 2:
                 return 'resume-subscribe-modal';
             case 3:
-                return 'resume-face-modal';
+                return 'resume-interview-modal';
             case 4:
-                return 'resume-reface-modal';
+                return 'resume-retest-modal';
             case 5:
                 return 'resume-offer-modal';
             case 6:
@@ -62,11 +70,12 @@ class ModalComponents extends Component {
         const {currentStage} = this.props,
             {stageid,id} = currentStage,
             formData = this.refs.modal.getFormData();
+        if(!formData) return ;
         this.props.changeStageStatus({...formData,stageid,id},this.props);
     }
 
     render() {
-        const {modalVisible,currentStage} = this.props,
+        const {modalVisible,currentStage,isLoading} = this.props,
             {stageid} = currentStage;
         return (
             <Modal
@@ -74,10 +83,15 @@ class ModalComponents extends Component {
                 wrapClassName={`vertical-center-modal resume-info-modal ${this._getWrapClassName(stageid)}`}
                 visible={modalVisible}
                 onOk={this.changeStageStatus}
-                onCancel={this.props.hideModal}
+                onCancel={isLoading ? ()=>{} : this.props.hideModal}
+                confirmLoading={isLoading}
             >
                 {stageid === '1' && <ReplyComponents ref="modal" />}
                 {stageid === '2' && <SubscribeComponents ref="modal" />}
+                {stageid === '3' && <InterViewComponents ref="modal" />}
+                {stageid === '4' && <RetestComponents ref="modal" />}
+                {stageid === '5' && <OfferComponents ref="modal" />}
+                {stageid === '6' && <EntryComponents ref="modal" />}
             </Modal>
         );
     }
@@ -85,12 +99,13 @@ class ModalComponents extends Component {
 
 const mapStateToProps = state => ({
     modalVisible: state.Resume.modalVisible,
-    currentStage: state.Resume.currentStage
+    currentStage: state.Resume.currentStage,
+    isLoading: state.Resume.isModalLoading
 })
 const mapDispatchToProps = dispatch => ({
     changeStageStatus: bindActionCreators(Actions.ResumeActions.changeStageStatus, dispatch),
     hideModal: bindActionCreators(Actions.ResumeActions.hideModal, dispatch),
-    getStageLog:bindActionCreators(Actions.RecruitActions.getStageLog, dispatch),
+    getStageLog:bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
 })
 
 export default connect(

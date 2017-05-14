@@ -10,8 +10,6 @@ import * as Actions from 'actions';
 class ResumeModalComponent extends Component {
 
     setModalVisible = () => {
-        // this.props.getRecruitCategory();
-        // this.props.getRecruitList();
         this.props.hideResumeModal();
     }
 
@@ -47,9 +45,7 @@ const mapStateToProps = state => ({
     uriParams: state.Recruit.uriParams
 })
 const mapDispatchToProps = dispatch => ({
-    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch),
-    getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),
-    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch)
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)
 })
 
 export default connect(

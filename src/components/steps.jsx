@@ -104,7 +104,7 @@ export default class StepsComponent extends Component {
             this.steps[currentStage.stageid-1].status = 'process';
         }
         return (
-            <div className="steps" style={{
+            <div className="steps noprint" style={{
                 position: 'absolute',
                 width: 608,
                 right: -41,

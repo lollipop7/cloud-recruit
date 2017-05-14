@@ -22,7 +22,7 @@ export default class TagsComponent extends Component {
 
     handleChange = (e) => {
         const {tag,error} = this.state;
-        if(tag.length > 0 && error){
+        if(error){
             this.setInputError(false);
         }
         this.setState({
@@ -30,7 +30,7 @@ export default class TagsComponent extends Component {
         });
     }
 
-    setInputError(error,errorMsg='必填') {
+    setInputError(error,errorMsg='标签名不能为空！') {
         this.setState({error,errorMsg});
     }
 

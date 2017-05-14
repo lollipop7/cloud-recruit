@@ -17,9 +17,11 @@ export default class ScrollPageContent extends Component {
     render() {
         const {height=0} = this.state;
         return (
-            <Scrollbars style={{ height: height}}>
-                {this.props.children}
-            </Scrollbars>
+            <div className="page">
+                <Scrollbars style={{ height: height}}>
+                    {this.props.children}
+                </Scrollbars>
+            </div>
         );
     }
 }

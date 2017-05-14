@@ -66,7 +66,8 @@ class HeaderInfoComponent extends Component {
                     <div className="info-right inline-block">
                         <ul>
                             <li style={{
-                                overflow: 'hidden'
+                                overflow: 'hidden',
+                                minHeight: 40
                             }}>
                                 <div className="pull-left">
                                     <span>{trim(username)}</span>
@@ -79,7 +80,7 @@ class HeaderInfoComponent extends Component {
                                         marginLeft: 17
                                     }}>{email}</span>
                                 </div>
-                                <div className="pull-right">
+                                <div className="pull-right noprint">
                                     <Button type="primary">
                                         简历下载
                                     </Button>
@@ -136,7 +137,7 @@ class HeaderInfoComponent extends Component {
                                 }
                             </ul>
                         </div>
-                        <div style={{
+                        <div className="noprint" style={{
                             position: 'absolute',
                             right: 0
                         }}

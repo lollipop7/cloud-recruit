@@ -5,7 +5,7 @@ const RadioGroup = Radio.Group;
 
 import TagsComponent from './tags';
 
-export default class ReplyComponents extends Component {
+export default class OfferComponents extends Component {
 
     state = {
         statusid: '1'
@@ -32,8 +32,8 @@ export default class ReplyComponents extends Component {
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={statusid}>
-                    <Radio value={'1'}>不适合</Radio>
-                    <Radio value={'2'}>适合</Radio>
+                    <Radio value={'1'}>已发送</Radio>
+                    <Radio value={'2'}>不发送</Radio>
                 </RadioGroup>
                 <TagsComponent ref='Tags' />
             </div>

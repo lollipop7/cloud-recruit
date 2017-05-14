@@ -35,10 +35,17 @@ class RecruitPage extends Component {
     };
 
     componentDidMount() {
-        const {resumeId,logId} = this.props.routeParams;
         NProgress.done();
         this.props.getRecruitCategory();
         this._requestData();
+        // 监听简历详情页面是否发生流程更改
+        window.addEventListener('message',e=>{
+            const {data} = e;
+            if(data === 'rerequest'){
+                this.props.getRecruitCategory();
+                this._requestData();
+            }
+        });
     }
 
     _requestData(){

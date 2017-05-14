@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 
-import { Scrollbars } from 'react-custom-scrollbars';
-import LoadingComponent from 'components/loading';
-
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content';
@@ -24,14 +21,14 @@ class ResumeInfoPage extends Component {
         const {resumeId,logId} = this.props.routeParams;
         if(resumeId && logId){
             // 获取简历详情
-            this.props.getRecruitResume({
+            this.props.getRecruitResumeInfo({
                 resumeId: resumeId,
                 logId: logId
             });
         }else if(resumeId){
-            this.props.getTalentResume({
-                resumeid: resumeId
-            });
+            // this.props.getTalentResume({
+            //     resumeid: resumeId
+            // });
         }
     }
 
@@ -41,7 +38,7 @@ class ResumeInfoPage extends Component {
 
     render() {
         const {type} = this.state,
-            {isLoading,recruitInfo} = this.props;
+            {isLoading,resumeInfo} = this.props;
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -58,7 +55,7 @@ class ResumeInfoPage extends Component {
                 {!isLoading &&
                         <div>
                             <HeaderInfoComponent 
-                                data={recruitInfo}
+                                data={resumeInfo}
                             />
                             <ul className="table tabs-container">
                                 <li className="table-cell empty"></li>
@@ -78,7 +75,7 @@ class ResumeInfoPage extends Component {
                             </ul>
                             <div className="main-content">
                                 <div className={`info-content ${!!type ? 'none' : ''}`}>
-                                    <MainContentComponent data={recruitInfo} />
+                                    <MainContentComponent data={resumeInfo} />
                                 </div>
                                 <div className={`email-content ${!!type ? '' : 'none'}`}>
                                     邮件
@@ -93,13 +90,12 @@ class ResumeInfoPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    recruitInfo: state.Recruit.recruitInfo,
-    isLoading: state.Recruit.isInfoLoading
+    resumeInfo: state.Resume.resumeInfo,
+    isLoading: state.Resume.isInfoLoading
 })
 const mapDispatchToProps = dispatch => ({
-    getRecruitResume: bindActionCreators(Actions.RecruitActions.getRecruitResume, dispatch),
-    getTalentResume: bindActionCreators(Actions.RecruitActions.getTalentResume, dispatch),
-    getStageLog: bindActionCreators(Actions.RecruitActions.getStageLog, dispatch)
+    getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
+    // getTalentResume: bindActionCreators(Actions.ResumeActions.getTalentResume, dispatch)
 })
 
 export default connect(

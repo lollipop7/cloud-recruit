@@ -15,12 +15,6 @@ const LOAD_LIST_START = {type:types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type:types.LOAD_LIST_DONE};
 // 招聘人员信息列表
 const RECRUIT_LIST = {type:types.RECRUIT_LIST};
-// 招聘人员详细信息
-const RECRUIT_INFO = {type:types.RECRUIT_INFO};
-// 开始获取招聘人员详细信息
-const LOAD_INFO_START = {type:types.LOAD_INFO_START};
-// 获取招聘人员详细信息结束
-const LOAD_INFO_DONE = {type:types.LOAD_INFO_DONE};
 // 显示详细信息MODAL
 const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
 // 隐藏详细信息MODAL
@@ -54,37 +48,6 @@ export const getRecruitList = (data=defaultData) => (dispatch,getState) => {
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
         dispatch({...RECRUIT_LIST,recruitList:res});
-    });
-}
-
-// 得到招聘流程人员详细信息(根据简历id和流程id)
-export const getRecruitResume = (data) => (dispatch,getState) => {
-    dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/getResumeById',{
-        head: {
-            transcode: 'L0017'
-        },
-        data: data
-    })
-    .then(res=>{
-        dispatch(LOAD_INFO_DONE);
-        dispatch({...RECRUIT_INFO,recruitInfo:res});
-    });
-}
-
-// 获取流程log(根据简历id和职位id)
-export const getStageLog = (data) => (dispatch,getState) => {
-    dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/detailsByPosition',{
-        head: {
-            transcode: 'L0019'
-        },
-        data: data
-    })
-    .then(res=>{
-        console.log(res);
-        dispatch(LOAD_INFO_DONE);
-        dispatch({...RECRUIT_INFO,recruitInfo:res});
     });
 }
 
