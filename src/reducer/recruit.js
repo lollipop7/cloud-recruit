@@ -6,7 +6,11 @@ import {
     LOAD_LIST_DONE,
     RECRUIT_LIST,
     SHOW_INFO_MODAL,
-    HIDE_INFO_MODAL
+    HIDE_INFO_MODAL,
+    SHOW_UPLOAD_MODAL,
+    HIDE_UPLOAD_MODAL,
+    SHOW_RECOMMEND_MODAL,
+    HIDE_RECOMMEND_MODAL
 } from 'constants/recruit';
 
 const initialState = {
@@ -19,6 +23,12 @@ const initialState = {
     recruitList: {
         list: [],
         count: 0
+    },
+    uploadModal:{
+        visible: false
+    },
+    recommendModal: {
+        visible: false
     }
 };
 
@@ -40,6 +50,14 @@ export default function recruit(state = initialState,actions){
             return {...state,visible: true,uriParams:actions.uriParams};
         case HIDE_INFO_MODAL:
             return {...state,visible: false};
+        case SHOW_UPLOAD_MODAL:
+            return {...state,uploadModal:{visible:true}};
+        case HIDE_UPLOAD_MODAL:
+            return {...state,uploadModal:{visible:false}};
+        case SHOW_RECOMMEND_MODAL:
+            return {...state,recommendModal:{visible:true}};
+        case HIDE_RECOMMEND_MODAL:
+            return {...state,recommendModal:{visible:false}};
         default: 
             return state;
     }

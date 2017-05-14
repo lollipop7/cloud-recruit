@@ -13,6 +13,9 @@ const SHOW_MODAL_LOADING ={type:types.SHOW_MODAL_LOADING};
 // 隐藏Modal 确定按钮loading
 const HIDE_MODAL_LOADING = {type:types.HIDE_MODAL_LOADING};
 
+// 下载简历
+const DOWNLOAD_RESUME = {type:types.DOWNLOAD_RESUME};
+
 const SHOW_MODAL = {type:types.SHOW_MODAL};
 const HIDE_MODAL = {type:types.HIDE_MODAL};
 
@@ -47,6 +50,32 @@ export const getStageLog = (data) => (dispatch,getState) => {
     .then(res=>{
         dispatch(LOAD_INFO_DONE);
         dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
+    });
+}
+
+export const getTalentResumeInfo = (data) => (dispatch,getState) => {
+    dispatch(LOAD_INFO_START);
+    AjaxByToken('/web/resumeView',{
+        head: {
+            transcode: 'L0036'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(LOAD_INFO_DONE);
+        dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
+    });
+}
+
+// 下载简历
+export const downloadResume = (data) => (dispatch,getState) => {
+    AjaxByToken('/web/downloadResume',{
+        head: {
+            transcode: 'L0023'
+        },
+        data: data
+    })
+    .then(res=>{
     });
 }
 

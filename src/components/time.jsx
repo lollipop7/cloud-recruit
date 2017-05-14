@@ -30,7 +30,7 @@ export default class TimeComponent extends Component {
 
     onChange = (field, value) => {
         this.setState({
-            [field]: value,
+            [field]: value
         });
     }
 
@@ -52,18 +52,22 @@ export default class TimeComponent extends Component {
 
     handleStartOpenChange = (open) => {
         const {_endValue} = this.state;
-        if (!open&&!_endValue) {
-            this.setState({ _endOpen: true });
-        }
+        this.setState({
+            _startOpen: open
+        });
     }  
 
     handleEndOpenChange = (open) => {
         this.setState({ _endOpen: open });
     }
 
+    handleStartOpen = (open) => {
+         this.setState({ _startOpen: open });
+    }
+
     render() {
         const {style={},showField=false} = this.props;
-        const { _startValue=null, _endValue=null, _endOpen=false  } = this.state;
+        const { _startValue=null, _endValue=null,_startOpen=false, _endOpen=false  } = this.state;
         return (
             <div style={{
                 display: "inline-block"
@@ -75,6 +79,7 @@ export default class TimeComponent extends Component {
                     value={_startValue}
                     placeholder="开始时间"
                     style={style}
+                    open={_startOpen}
                     onChange={this.onStartChange}
                     onOpenChange={this.handleStartOpenChange}
                 />

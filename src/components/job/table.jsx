@@ -66,7 +66,12 @@ class TableComponent extends Component {
                 height: 780
             }}>
                 <Table 
-                    dataSource={list} 
+                    dataSource={
+                        list.map((item,index)=>{
+                            item.key = index;
+                            return item;
+                        })
+                    } 
                     bordered
                     loading={isLoading}
                     columns={this.columns}

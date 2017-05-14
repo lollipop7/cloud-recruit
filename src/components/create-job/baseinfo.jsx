@@ -14,7 +14,9 @@ import salaryData from 'data/salary.json';
 const Option = Select.Option;
 
 export class ErrorInputComponent extends Component {
-    state = {}
+    state = {
+        error: false
+    }
     static propTypes = {
         name: PropTypes.string,
         field: PropTypes.string,
@@ -30,26 +32,42 @@ export class ErrorInputComponent extends Component {
     }
 
     handleChange = (field,event) => {
+        const {error} = this.state;
         const {onChange} = this.props;
+        if(error){
+           this.triggerError(false);
+        }
         if(onChange){
             onChange(field,event);
         }
     }
 
-    shouldComponentUpdate(nextProps,nextState){
-        return nextProps.value !== this.props.value
+    triggerError = (error) => {
+        this.setState({error});
+    }
+
+    handleBlur = () => {
+        const {value} = this.props;
+        if(value === ''){
+            this.triggerError(true);
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps.value !== this.props.value || nextState.error !== this.state.error;
     }
 
     render() {
-        const {
-            name='',
-            field='',
-            value,
-            placeholder,
-            disabled=false,
-            className='',
-            style={}
-        } = this.props;
+        const {error} = this.state,
+            {
+                name='',
+                field='',
+                value,
+                placeholder,
+                disabled=false,
+                className='',
+                style={}
+            } = this.props;
         return (
             <div className="inline-block">
                 <span>{name}</span>
@@ -58,17 +76,23 @@ export class ErrorInputComponent extends Component {
                     marginRight: 0
                 }}>
                     <Input 
+                        ref='input'
                         placeholder={placeholder} 
                         value={value}
                         onChange={this.handleChange.bind(this,field)} 
                         disabled={disabled}
                         className={className}
-                        className="error"
+                        className={error ? 'error' : ''}
                         style={style}
+                        onBlur={this.handleBlur}
                     />
-                    <div className="error-promote">
-                        <label className="error">必填</label>
-                    </div>
+                    {error &&
+                        <div className="error-promote" style={{
+                            paddingLeft: 0
+                        }}>
+                            <label className="error">必填</label>
+                        </div>
+                    }
                 </div>
             </div>
         )
@@ -87,45 +111,77 @@ class SelectComponent extends Component {
         onChange: PropTypes.func
     }
 
+    state = {
+        error: false
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.value !== this.props.value || nextState.error !== this.state.error;
+    }
+
     handleChange= (field,value) => {
+        const {error} = this.state;
         const {onChange} = this.props;
         if(onChange){
             onChange(field,value);
         }
+        if(error){
+            this.triggerError(false);
+        }
     }
 
-    shouldComponentUpdate(nextProps,nextState){
-        return nextProps.value !== this.props.value
+    handleBlur = value => {
+        if(!value){
+            this.triggerError(true);
+        }
+    }
+
+    triggerError = error => {
+        this.setState({error});
     }
 
     render() {
-        const {
-            name,
-            field,
-            placeholder,
-            data=[],
-            value,
-            dropdownMatchSelectWidth,
-            style={width: 155,height:40 }
-        } = this.props;
+        const {error} = this.state,
+            {
+                name,
+                field,
+                placeholder,
+                data=[],
+                value,
+                dropdownMatchSelectWidth,
+                style={width: 155,height:40 }
+            } = this.props;
         return (
             <div className="inline-block">
                 <span>{name}</span>
-                <Select
-                    value={value}
-                    placeholder={placeholder}
-                    onFocus={this.handleFocus}
-                    onChange={this.handleChange.bind(this,field)}
-                    allowClear
-                    dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-                    style={style}
-                >
-                    {
-                        data.map( (item,index)=>{
-                            return <Option key={index} value={item}>{item}</Option>
-                        })
+                <div className="inline-block" style={{
+                    margin: 0
+                }}>
+                    <Select
+                        className={error ? 'error' : ''}
+                        value={value}
+                        placeholder={placeholder}
+                        onFocus={this.handleFocus}
+                        onChange={this.handleChange.bind(this,field)}
+                        allowClear
+                        dropdownMatchSelectWidth={dropdownMatchSelectWidth}
+                        style={style}
+                        onBlur={this.handleBlur}
+                    >
+                        {
+                            data.map( (item,index)=>{
+                                return <Option key={index} value={item}>{item}</Option>
+                            })
+                        }
+                    </Select>
+                    {error &&
+                        <div className="error-promote" style={{
+                            paddingLeft: 0
+                        }}>
+                            <label className="error">{placeholder}</label>
+                        </div>
                     }
-                </Select>
+                </div>
             </div>
         )
     }
@@ -134,7 +190,7 @@ class SelectComponent extends Component {
 
 export default class BaseinfoComponent extends Component {
 
-    state = {}
+    state = {error:false}
 
     handleChange = (filed,e) => {
         if(typeof e === 'string' || typeof e === 'undefined'){
@@ -162,6 +218,73 @@ export default class BaseinfoComponent extends Component {
         });
     }
 
+    getFormData = () => {
+        const {
+            positionname='', // 职位名称
+            salary=undefined, // 薪资待遇
+            department='', // 用人部门
+            recruitreason='', // 招聘理由
+            headcount='', // 招聘人数
+            workcity='', // 工作地点
+            workyears=undefined, // 工作年限
+            specialty=undefined, // 专业
+            educationbackground=undefined //学历,
+        } = this.state;
+        const {
+            positionnameInput,
+            departmentInput,
+            recruitreasonInput,
+            headcountInput,
+            salarySelect,
+            workyearsSelect,
+            specialtySelect,
+            educationbackgroundSelect
+        } = this.refs;
+        if(positionname === ''){
+            positionnameInput.refs.input.focus();
+            positionnameInput.triggerError(true);
+            return false;
+        }
+        if(workcity === ''){
+            this.setState({
+                error: true
+            });
+            return false;
+        }
+        if(department === ''){
+            departmentInput.refs.input.focus();
+            departmentInput.triggerError(true);
+            return false;
+        }
+        if(recruitreason === ''){
+            recruitreasonInput.refs.input.focus();
+            recruitreasonInput.triggerError(true);
+            return false;
+        }
+        if(headcount === ''){
+            headcountInput.refs.input.focus();
+            headcountInput.triggerError(true);
+            return false;
+        }
+        if(!salary){
+            salarySelect.triggerError(true);
+            return false;
+        }
+        if(!workyears){
+            workyearsSelect.triggerError(true);
+            return false;
+        }
+        if(!specialty){
+            specialtySelect.triggerError(true);
+            return false;
+        }
+        if(!educationbackground){
+            educationbackgroundSelect.triggerError(true);
+            return false;
+        }
+        return {...this.state}
+    }
+
     handleCityChange = (val) => {
         this.setState({
             workcity: val.length > 0 ?  val[0] + '-' + val[1] : ''
@@ -185,7 +308,8 @@ export default class BaseinfoComponent extends Component {
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
             specialty=undefined, // 专业
-            educationbackground=undefined //学历,
+            educationbackground=undefined, //学历,
+            error
         } = this.state;
         return (
             <li className="base-info">
@@ -195,6 +319,7 @@ export default class BaseinfoComponent extends Component {
                 <ul>
                     <li>
                         <ErrorInputComponent
+                            ref="positionnameInput"
                             name="职位名称"
                             field="positionname"
                             placeholder="请输入职位名称"
@@ -203,16 +328,26 @@ export default class BaseinfoComponent extends Component {
                         />
                         <div className="inline-block">
                             <span>工作地点</span>
-                            <Cascader 
-                                options={city}
-                                onChange={this.handleCityChange}
-                                displayRender={label => label.join(' - ')}
-                                placeholder="请输入工作地点" 
-                                style={{
-                                    height: 40,
-                                    width: 279
-                                }}
-                            />
+                            <div className="inline-block">
+                                <Cascader 
+                                    options={city}
+                                    className={error ? "error" : ''}
+                                    onChange={this.handleCityChange}
+                                    displayRender={label => label.join(' - ')}
+                                    placeholder="请选择工作地点" 
+                                    style={{
+                                        height: 40,
+                                        width: 279
+                                    }}
+                                />
+                                {error &&
+                                    <div className="error-promote" style={{
+                                        paddingLeft: 0
+                                    }}>
+                                        <label className="error">请选择工作地点</label>
+                                    </div>
+                                }
+                            </div>
                         </div>
                         
                         {/*<InputComponent
@@ -224,14 +359,16 @@ export default class BaseinfoComponent extends Component {
                         />*/}
                     </li>
                     <li>
-                        <InputComponent
+                        <ErrorInputComponent
+                            ref="departmentInput"
                             name="用人部门"
                             placeholder="请输入用人部门"
                             field="department"
                             value={department}
                             onChange={this.handleChange}
                         />
-                        <InputComponent
+                        <ErrorInputComponent
+                            ref="recruitreasonInput"
                             name="招聘理由"
                             placeholder="请输入招聘理由"
                             field="recruitreason"
@@ -240,7 +377,8 @@ export default class BaseinfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <InputComponent
+                        <ErrorInputComponent
+                            ref="headcountInput"
                             name="招聘人数"
                             placeholder="请输入招聘人数"
                             field="headcount"
@@ -248,6 +386,7 @@ export default class BaseinfoComponent extends Component {
                             onChange={this.handleNumChange}
                         />
                         <SelectComponent 
+                            ref="salarySelect"
                             name="薪资待遇"
                             data={salaryData}
                             dropdownMatchSelectWidth={false}
@@ -264,6 +403,7 @@ export default class BaseinfoComponent extends Component {
                             onChange={this.handleChange}
                         />*/}
                         <SelectComponent 
+                            ref="workyearsSelect"
                             name="工作年限"
                             value={workyears}
                             data={WorkYears}
@@ -274,6 +414,7 @@ export default class BaseinfoComponent extends Component {
                     </li>
                     <li>
                         <SelectComponent 
+                            ref="specialtySelect"
                             name="专业"
                             data={Industry}
                             dropdownMatchSelectWidth={false}
@@ -283,6 +424,7 @@ export default class BaseinfoComponent extends Component {
                             onChange={this.handleChange}
                         />
                         <SelectComponent 
+                            ref="educationbackgroundSelect"
                             name="学历"
                             data={Education}
                             value={educationbackground}

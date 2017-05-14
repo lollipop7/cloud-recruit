@@ -35,7 +35,9 @@ export default class OtherInfoComponent extends Component {
 
     state = {
         // workType: 1,
-        isurgent: true
+        isurgent: true,
+        starttime: '',
+        endtime: ''
     }
 
     onChange=(field,e)=>{
@@ -60,6 +62,20 @@ export default class OtherInfoComponent extends Component {
         this.setState({
             [field]: value ? moment(value).format('YYYY-MM-DD') : ''
         });
+    }
+
+    getFormData = () => {
+        const {starttime,endtime} = this.state;
+        const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
+        if(starttime === ''){
+            handleStartOpen(true);
+            return false;
+        }
+        if(endtime === ''){
+            handleEndOpenChange(true);
+            return false;
+        }
+        return {...this.state}
     }
 
     render() {

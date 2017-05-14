@@ -13,8 +13,6 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class TableComponents extends Component { 
-    componentDidMount() {
-    }
 
     showResumeModal = (record) => {
         // 显示详情页面Modal 

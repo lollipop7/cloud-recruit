@@ -23,3 +23,14 @@ export const RECRUIT_LIST = "RECRUIT_LIST";
 export const SHOW_INFO_MODAL = "SHOW_INFO_MODAL";
 // 隐藏详细信息MODAL
 export const HIDE_INFO_MODAL = "HIDE_INFO_MODAL";
+
+// 上传简历MODAL
+// 显示上传简历MODAL
+export const SHOW_UPLOAD_MODAL = "SHOW_UPLOAD_MODAL";
+// 隐藏上传简历MODAL
+export const HIDE_UPLOAD_MODAL = "HIDE_UPLOAD_MODAL";
+
+// 显示推荐职位MODAL
+export const SHOW_RECOMMEND_MODAL = "SHOW_RECOMMEND_MODAL";
+// 隐藏推荐职位MODAL
+export const HIDE_RECOMMEND_MODAL = "HIDE_RECOMMEND_MODAL";

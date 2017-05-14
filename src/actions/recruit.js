@@ -20,6 +20,16 @@ const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
 // 隐藏详细信息MODAL
 const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
 
+// 显示上传简历MODAL
+const SHOW_UPLOAD_MODAL = {type:types.SHOW_UPLOAD_MODAL};
+// 隐藏上传简历MODAL
+const HIDE_UPLOAD_MODAL = {type:types.HIDE_UPLOAD_MODAL};
+
+// 显示推荐职位MODAL
+const SHOW_RECOMMEND_MODAL = {type:types.SHOW_RECOMMEND_MODAL};
+// 隐藏推荐职位MODAL
+const HIDE_RECOMMEND_MODAL = {type:types.HIDE_RECOMMEND_MODAL};
+
 export const getRecruitCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
     AjaxByToken('/web/jobclassCount',{
@@ -51,24 +61,28 @@ export const getRecruitList = (data=defaultData) => (dispatch,getState) => {
     });
 }
 
-export const getTalentResume = (data) => (dispatch,getState) => {
-    dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/resumeView',{
-        head: {
-            transcode: 'L0036'
-        },
-        data: data
-    })
-    .then(res=>{
-        dispatch(LOAD_INFO_DONE);
-        dispatch({...RECRUIT_INFO,recruitInfo:res});
-    });
-}
-
 export const showResumeModal = (data) => (dispatch,getState) => {
     dispatch({...SHOW_INFO_MODAL,uriParams:data});
 }
 
 export const hideResumeModal = () => (dispatch,getState) => {
     dispatch(HIDE_INFO_MODAL);
+}
+
+// 显示上传简历MODAL
+export const showUploadModal = () => (dispatch,getState) => {
+    dispatch(SHOW_UPLOAD_MODAL);
+}
+// 隐藏上传简历MODAL
+export const hideUploadModal = () => (dispatch,getState) => {
+    dispatch(HIDE_UPLOAD_MODAL);
+}
+
+// 显示推荐职位MODAL
+export const showRecommendModal = () => (dispatch,getState) => {
+    dispatch(SHOW_RECOMMEND_MODAL);
+}
+// 隐藏推荐职位MODAL
+export const hideRecommendModal = () => (dispatch,getState) => {
+    dispatch(HIDE_RECOMMEND_MODAL);
 }

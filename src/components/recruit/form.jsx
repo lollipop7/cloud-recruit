@@ -36,6 +36,7 @@ export default class FormComponents extends Component {
     }
 
     render() {
+        const {showUploadModal} = this.props;
         const {
             positionname,
             livecityid,
@@ -44,7 +45,7 @@ export default class FormComponents extends Component {
         } = this.state;
         return (
             <div className="form">
-                <div className="float-button" style={{
+                <div className="float-button" onClick={()=>showUploadModal()} style={{
                     bottom: 0
                 }}>
                     <Button type="primary"></Button>

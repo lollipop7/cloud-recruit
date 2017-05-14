@@ -14,6 +14,10 @@ import isEqual from 'lodash/isEqual';
 
 // 招聘人员详细信息Modal页面
 import ResumeModalComponent from 'components/resume-modal';
+// 上传简历Modal
+import UploadResumeModalComponents from 'components/recruit/upload-resume-modal';
+// 职位推荐Modal
+import RecommendResumeModalComponents from 'components/recruit/recommend-resume-modal'
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -112,7 +116,10 @@ class RecruitPage extends Component {
                         </div>
                         <div className="pull-right">
                             <div className="box-border right-panel">
-                                <FormComponents findEvent={this.handleFind} />
+                                <FormComponents 
+                                    findEvent={this.handleFind} 
+                                    showUploadModal={this.props.showUploadModal}
+                                />
                                 <TableComponents
                                     paginationChange={this.paginationChange}
                                     paginationCurrent={paginationCurrent}
@@ -123,6 +130,10 @@ class RecruitPage extends Component {
                 </div>
                 {/*招聘人员详细信息Modal页面*/}
                 <ResumeModalComponent />
+                {/*上传简历Modal*/}
+                <UploadResumeModalComponents />
+                {/*职位推荐Modal*/}
+                <RecommendResumeModalComponents />
             </ScrollPageContent>
         );
     }
@@ -134,7 +145,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),
-    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch)
+    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch),
+    showUploadModal: bindActionCreators(Actions.RecruitActions.showUploadModal, dispatch)
 })
 
 export default connect(

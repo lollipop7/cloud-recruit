@@ -29,7 +29,7 @@ class TableComponent extends Component {
                 <a 
                     href="javascript:;" 
                     className="hover"
-                    onClick={this.showResumeModal.bind(this,record)}
+                    onClick={()=>this.showResumeModal(record)}
                 >
                     {trim(text)}
                 </a>
@@ -38,7 +38,7 @@ class TableComponent extends Component {
 
         columns[columns.length - 2].render = (text,record,index) => {
             return (
-                <a href="javascript:;" className="highlight-text">
+                <a onClick={()=>this.showResumeModal(record)} href="javascript:;" className="highlight-text">
                    {text}
                 </a>
             )

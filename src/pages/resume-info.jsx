@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
+import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content';
 
 import ModalComponents from 'components/resume-info/modal';
@@ -18,27 +19,40 @@ class ResumeInfoPage extends Component {
     }
 
     componentDidMount() {
-        const {resumeId,logId} = this.props.routeParams;
-        if(resumeId && logId){
-            // 获取简历详情
-            this.props.getRecruitResumeInfo({
-                resumeId: resumeId,
-                logId: logId
-            });
-        }else if(resumeId){
-            // this.props.getTalentResume({
-            //     resumeid: resumeId
-            // });
-        }
+        const {location,routeParams} = this.props,
+            {resumeId,logId} = routeParams;
+            if(this.isInRecruitPage(location.pathname)) {
+                // 获取简历详情
+                this.props.getRecruitResumeInfo({
+                    resumeId: resumeId,
+                    logId: logId
+                });
+            }
+            if(this.isInTalentPage(location.pathname)){
+                this.props.getTalentResumeInfo({
+                    resumeid: resumeId
+                });
+            }
     }
 
     handleChangeType(type){
         this.setState({type});
     }
 
+    isInTalentPage(pathname) {
+        const patternTalent = /\/resumeInfo\/\d{1,}$/i;
+        return patternTalent.test(pathname);
+    }
+    isInRecruitPage(pathname) {
+        const patternRecruit = /\/resumeInfo\/\d{1,}\/\d{1,}$/i;
+        return patternRecruit.test(pathname);
+    }
+
     render() {
         const {type} = this.state,
-            {isLoading,resumeInfo} = this.props;
+            {isLoading,resumeInfo,location} = this.props;
+        const isTalent = this.isInTalentPage(location.pathname),
+            isRecruit = this.isInRecruitPage(location.pathname);
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -54,32 +68,45 @@ class ResumeInfoPage extends Component {
                 }
                 {!isLoading &&
                         <div>
-                            <HeaderInfoComponent 
-                                data={resumeInfo}
-                            />
-                            <ul className="table tabs-container">
-                                <li className="table-cell empty"></li>
-                                <li 
-                                    className={`tab-item table-cell boder-right-none ${!!type ? '' : 'active'}`}
-                                    onClick={this.handleChangeType.bind(this,0)}
-                                >
-                                    个人简历
-                                </li>
-                                <li 
-                                    className={`tab-item table-cell ${!!type ? 'active' : ''}`}
-                                    onClick={this.handleChangeType.bind(this,1)}
-                                >
-                                    邮件
-                                </li>
-                                <li className="table-cell empty"></li>
-                            </ul>
-                            <div className="main-content">
+                            {isTalent && 
+                                <TalentHeaderInfoComponent 
+                                    data={resumeInfo}
+                                />
+                            }
+                            {isRecruit &&
+                                <HeaderInfoComponent 
+                                    data={resumeInfo}
+                                />
+                            }
+                            {isRecruit &&
+                                <ul className="table tabs-container">
+                                    <li className="table-cell empty"></li>
+                                    <li 
+                                        className={`tab-item table-cell boder-right-none ${!!type ? '' : 'active'}`}
+                                        onClick={this.handleChangeType.bind(this,0)}
+                                    >
+                                        个人简历
+                                    </li>
+                                    <li 
+                                        className={`tab-item table-cell ${!!type ? 'active' : ''}`}
+                                        onClick={this.handleChangeType.bind(this,1)}
+                                    >
+                                        邮件
+                                    </li>
+                                    <li className="table-cell empty"></li>
+                                </ul>
+                            }
+                            <div className="main-content" style={{
+                                marginTop: isTalent ? 36 : 0
+                            }}>
                                 <div className={`info-content ${!!type ? 'none' : ''}`}>
                                     <MainContentComponent data={resumeInfo} />
                                 </div>
-                                <div className={`email-content ${!!type ? '' : 'none'}`}>
-                                    邮件
-                                </div>
+                                {isRecruit &&
+                                    <div className={`email-content ${!!type ? '' : 'none'}`}>
+                                        邮件
+                                    </div>
+                                }
                             </div>
                             <ModalComponents />
                         </div>
@@ -95,7 +122,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
-    // getTalentResume: bindActionCreators(Actions.ResumeActions.getTalentResume, dispatch)
+    getTalentResumeInfo: bindActionCreators(Actions.ResumeActions.getTalentResumeInfo, dispatch)
 })
 
 export default connect(

@@ -5,6 +5,12 @@
     &>li {
         padding-bottom: 36px;
     }
+    span {
+        font-size: 16px;
+    }
+    .error input {
+        border: 1px solid #ff3131;
+    }
     .title {
         background-image: url(/static/images/more.png);
         background-repeat: no-repeat;
@@ -23,7 +29,6 @@
     }
     .base-info {
         li {
-            // padding-bottom: 16px;
             padding-bottom: 20px;
             &:nth-child(3) {
                 input {
@@ -35,9 +40,9 @@
                 .inline-block>span {
                     letter-spacing: 2em;
                 }
-                .ant-select {
-                    left: -32px;
-                }
+                // .ant-select {
+                //     left: -32px;
+                // }
                 .inline-block:last-child {
                     position: relative;
                     left: -32px;
@@ -76,7 +81,6 @@
             &>span:last-child {
                 padding-right: 0px;
                 padding-left: 4px;
-                font-size: 16px;
             }
         }
         .ant-radio-inner {

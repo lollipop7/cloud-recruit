@@ -4,6 +4,7 @@ export default class PersonalInfoComponent extends Component {
     render() {
         const {data} = this.props;
         const {
+            accountcityid, // 户籍
             borndate, // 出生日期
             joblb, // 当前行业
             titlenow, // 当前职位
@@ -37,7 +38,7 @@ export default class PersonalInfoComponent extends Component {
                     </li>
                     <li>
                         <span className="space">户籍</span>
-                        <span> : 南京</span>
+                        <span> : {accountcityid}</span>
                     </li>
                     <li>
                         <span>婚姻状况</span>

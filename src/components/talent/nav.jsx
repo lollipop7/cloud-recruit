@@ -204,7 +204,8 @@ class LeftNavComponent extends Component {
                     onCancel={()=>{this.props.hideDeleteLabelModal()}}
                 >
                     <p style={{
-                        paddingLeft: 20
+                        paddingLeft: 20,
+                        fontSize: 16
                     }}>是否删除【{deleteLabelName}】此分类？</p>
                 </Modal>
             </ul>
