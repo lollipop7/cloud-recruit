@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 
 export default class SelfMarkComponent extends Component {
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps.data !== this.props.data;
+    }
+
     render() {
         const {data} = this.props;
         const {selfremark=''} = data;

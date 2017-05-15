@@ -21,6 +21,10 @@ export default class FormComponent extends Component {
         source: undefined // 简历来源
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     resetForm = () => {
         this.setState({
             // company: '', // 公司名称
@@ -30,6 +34,7 @@ export default class FormComponent extends Component {
             year: undefined, // 工作年限
             source: undefined // 简历来源
         });
+        this.props.findEvent({});
     }
     
     handleChange(field,e) {

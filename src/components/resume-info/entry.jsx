@@ -12,6 +12,10 @@ export default class EntryComponents extends Component {
         statusid: '1'
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState;
+    }
+
     onChange = (e) => {
         this.setState({
             statusid: e.target.value
@@ -41,8 +45,8 @@ export default class EntryComponents extends Component {
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={statusid}>
-                    <Radio value='1'>已按时到岗</Radio>
-                    <Radio value='2'>未按时到岗</Radio>
+                    <Radio value='2'>已按时到岗</Radio>
+                    <Radio value='3'>未按时到岗</Radio>
                 </RadioGroup>
                 {statusid === '1' &&
                     <InputComponents 
@@ -51,7 +55,7 @@ export default class EntryComponents extends Component {
                         addressPlaceholder='到岗地点'
                     />
                 }
-                <TagsComponent ref='Tags' />
+                <TagsComponent ref='Tags' currentStage={this.props.currentStage} />
             </div>
         );
     }

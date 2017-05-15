@@ -8,6 +8,9 @@ import columns from 'data/table-columns/index-table';
 
 import LoadingComponent from 'components/loading';
 
+// 招聘人员详细信息Modal页面
+import ResumeModalComponent from 'components/resume-modal';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -16,59 +19,45 @@ import * as Actions from 'actions';
 import {notification} from 'antd';
 
 class TableComponent extends Component {
-    state = {
-    }
-
+    isIframeRefresh = false;
     columns = this._getColumns();
-
     componentDidMount() {
-        this.setState({
-            isLoading: true
-        });
-        let data = [];
-        for(let i=0;i<10;i++){
-            data.push({
-                key: `${i}`,
-                username: '',
-                positionname: '',
-                eventtime: '',
-                telephone: ''
-            });
-        }
-        this.setState({
-            datasource: data
-        });
+        // let data = [];
+        // for(let i=0;i<10;i++){
+        //     data.push({
+        //         key: `${i}`,
+        //         username: '',
+        //         positionname: '',
+        //         eventtime: '',
+        //         telephone: ''
+        //     });
+        // }
+        // this.setState({
+        //     datasource: data
+        // });
         this.props.getEntryPerson();
+        // 监听简历详情页面是否发生流程更改
+        window.addEventListener('message',e=>{
+            console.log(e);
+            const {data} = e;
+            if(data === 'rerequest'){
+                this.isIframeRefresh = true;
+            }
+        });
     }
 
     componentWillUnmount() {
         this.props.resetEntryPerson();
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props.list !== nextProps.list || 
+            this.props.isLoading !== nextProps.isLoading;
+    }
+
     componentWillUpdate(nextProps,nextState) {
-        const list = nextProps.entryPersonList;
-        if(nextState.isLoading && list.length > 0){
-            let data = [];
-            data = list.map((item,index)=>{
-                /**
-                 * username 人员名称
-                 * positionname 申请职位
-                 * eventtime 时间出发时间
-                 * telephone 人员手机号码
-                 * resumeid 简历id
-                 * stagename 当前流程名称
-                 * id(Integer) 当前流程id
-                 */
-                return merge(
-                    {key:index},
-                    item,
-                    {entry: '入职管理'}
-                );
-            });
-            this.setState({
-                isLoading: false,
-                datasource: data
-            });
+        if(nextProps.visible !== this.props.visible || this.isIframeRefresh){
+            this.isIframeRefresh = false;
         }
     }
 
@@ -94,7 +83,6 @@ class TableComponent extends Component {
                 </a>
             )
         }  
-
         columns[columns.length - 1].render = (text,record,index) => {
             return  <a 
                         onClick={this.showResumeModal.bind(this,record)}
@@ -103,7 +91,6 @@ class TableComponent extends Component {
                         {text}
                     </a>
         }
-
         return columns;
     }
 
@@ -114,25 +101,40 @@ class TableComponent extends Component {
         });
     }
 
+    onModalChange = () => {
+        if(this.isIframeRefresh){
+            this.props.getEntryPerson();
+        }
+    }
+
     render() {
-        const {isLoading=false,datasource=[]} = this.state;
-        const {entryPersonList=[]} = this.props;
+        const {isLoading=false,list=[]} = this.props;
         return (
             <div className="entry-person box-border">
                 <div className="title" onClick={this.handleClick}>待入职人员</div>
                 <Table 
                     columns={this.columns}
-                    dataSource={datasource}
+                    dataSource={list.map((item,index)=>{
+                        return merge(
+                            {key:index},
+                            item,
+                            {entry: '入职管理'}
+                        );
+                    })}
                     pagination={false}
                     loading={isLoading}
                 />
+                {/*招聘人员详细信息Modal页面*/}
+                <ResumeModalComponent onChange={this.onModalChange} />
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    entryPersonList: state.Home.entryPersonList
+    visible: state.Recruit.visible,
+    list: state.Home.entryPersonList,
+    isLoading: state.Home.isEntryLoading
 })
 const mapDispatchToProps = dispatch => ({
     getEntryPerson: bindActionCreators(Actions.homeActions.getEntryPerson, dispatch),

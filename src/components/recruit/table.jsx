@@ -25,6 +25,10 @@ class TableComponents extends Component {
         this.props.showResumeModal({id,resumeid});
     }
 
+    shouldComponentUpdate(nextProps,nextState){
+        return this.props !== nextProps;
+    }
+
     getColumns = () => {
         columns[0].render = (text,record,index) => {
             return  <a 

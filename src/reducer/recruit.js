@@ -1,22 +1,27 @@
 import {
     LOAD_CATEGORY_START,
     LOAD_CATEGORY_DONE,
-    RECRUIT_CATEGORY,
+    LOAD_RECRUIT_CATEGORY,
     LOAD_LIST_START,
     LOAD_LIST_DONE,
-    RECRUIT_LIST,
+    LOAD_RECRUIT_LIST,
     SHOW_INFO_MODAL,
     HIDE_INFO_MODAL,
     SHOW_UPLOAD_MODAL,
     HIDE_UPLOAD_MODAL,
+    UPLOAD_RESUME_START,
+    UPLOAD_RESUME_DONE,
     SHOW_RECOMMEND_MODAL,
-    HIDE_RECOMMEND_MODAL
+    HIDE_RECOMMEND_MODAL,
+    LOAD_RECOMMEND_START,
+    LOAD_RECOMMEND_DONE,
+    LOAD_RECOMMEND_LIST,
+    SELECT_POSITION
 } from 'constants/recruit';
 
 const initialState = {
     visible: false,
     isCategoryLoading: false,
-    isInfoLoading: false,
     isListLoading:false,
     categoryData: [],
     uriParams: {},
@@ -25,11 +30,18 @@ const initialState = {
         count: 0
     },
     uploadModal:{
-        visible: false
+        visible: false,
+        isLoading: false 
     },
     recommendModal: {
-        visible: false
-    }
+        visible: false,
+        isLoading: false,
+        data:{
+            allRecords: 0,
+            list: []
+        }
+    },
+    position: {}
 };
 
 export default function recruit(state = initialState,actions){
@@ -38,26 +50,38 @@ export default function recruit(state = initialState,actions){
             return {...state,isCategoryLoading:true};
         case LOAD_CATEGORY_DONE:
             return {...state,isCategoryLoading:false};
-        case RECRUIT_CATEGORY: 
+        case LOAD_RECRUIT_CATEGORY: 
             return {...state,categoryData:actions.categoryData};
         case LOAD_LIST_START:
             return {...state,isListLoading: true};
         case LOAD_LIST_DONE:
             return {...state,isListLoading: false};
-        case RECRUIT_LIST:
+        case LOAD_RECRUIT_LIST:
             return {...state,recruitList:actions.recruitList};
         case SHOW_INFO_MODAL:
             return {...state,visible: true,uriParams:actions.uriParams};
         case HIDE_INFO_MODAL:
             return {...state,visible: false};
         case SHOW_UPLOAD_MODAL:
-            return {...state,uploadModal:{visible:true}};
+            return {...state,uploadModal:{...state.uploadModal,visible:true}};
         case HIDE_UPLOAD_MODAL:
-            return {...state,uploadModal:{visible:false}};
+            return {...state,uploadModal:{...state.uploadModal,visible:false}};
+        case UPLOAD_RESUME_START:
+            return {...state,uploadModal:{...state.uploadModal,isLoading:true}};
+        case UPLOAD_RESUME_DONE:
+            return {...state,uploadModal:{...state.uploadModal,isLoading:false}};
         case SHOW_RECOMMEND_MODAL:
-            return {...state,recommendModal:{visible:true}};
+            return {...state,recommendModal:{...state.recommendModal,visible:true}};
         case HIDE_RECOMMEND_MODAL:
-            return {...state,recommendModal:{visible:false}};
+            return {...state,recommendModal:{...state.recommendModal,visible:false}};
+        case LOAD_RECOMMEND_START:
+            return {...state,recommendModal:{...state.recommendModal,isLoading:true}};
+        case LOAD_RECOMMEND_DONE:
+            return {...state,recommendModal:{...state.recommendModal,isLoading:false}};
+        case LOAD_RECOMMEND_LIST:
+            return {...state,recommendModal:{...state.recommendModal,data:actions.data}};
+        case SELECT_POSITION:
+            return {...state,position:actions.position};
         default: 
             return state;
     }

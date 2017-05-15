@@ -36,11 +36,36 @@ class TalentPage extends Component {
     }
 
     componentDidMount() {
+        const {routeParams} = this.props,
+         {keywords} = routeParams;
         NProgress.done();
         // 请求分类数据
         this.props.getTalentCategory();
         // 请求列表数据
+        if(keywords){
+            this.formData = {keywords};
+            // this.setKeywords(keywords);
+        }
         this._requestData();
+    }
+
+    setKeywords(keywords) {
+        this.refs.FormComponent.handleChange('keywords',{
+            target: {value:keywords}
+        });
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || nextState !== this.state;
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        if(this.props.routeParams.keywords !== nextProps.routeParams.keywords){
+            const keywords = nextProps.routeParams.keywords;
+            this.formData = {keywords};
+            // this.setKeywords(keywords);
+            this._requestData();
+        }
     }
 
     _requestData() {
@@ -135,9 +160,9 @@ class TalentPage extends Component {
     }
 
     render() {
-        const {paginationCurrent} = this.state;
-        const {routes,isLoading} = this.props;
-        const customNavData = this._getCustomLabel();
+        const {paginationCurrent} = this.state,
+            {routes,isLoading} = this.props,
+            customNavData = this._getCustomLabel();
         return (
             <ScrollPageContent>
                 <div className="page-content talent-page">
@@ -154,7 +179,10 @@ class TalentPage extends Component {
                         </div>
                         <div className="pull-right">
                             <div className="box-border right-panel">
-                                <FormComponent findEvent={this.handleFind} />
+                                <FormComponent 
+                                    ref="FormComponent"
+                                    findEvent={this.handleFind} 
+                                />
                                 <TableComponent
                                     paginationCurrent={paginationCurrent}
                                     paginationChange={this.paginationChange}
@@ -165,7 +193,6 @@ class TalentPage extends Component {
                         <ResumeModalComponent />
                     </div>
                 </div>
-                
             </ScrollPageContent>
         );
     }

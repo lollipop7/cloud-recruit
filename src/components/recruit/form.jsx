@@ -13,6 +13,10 @@ export default class FormComponents extends Component {
         workyear: ''
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState;
+    }
+
     handleChange(field,e){
         this.setState({
             [field]: e.target.value
@@ -26,6 +30,7 @@ export default class FormComponents extends Component {
             username: '',
             workyear: ''
         });
+        this.props.findEvent({});
     }
 
     handleFind = () => {

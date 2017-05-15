@@ -11,6 +11,10 @@ export default class OfferComponents extends Component {
         statusid: '1'
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     onChange = (e) => {
         this.setState({
             statusid: e.target.value
@@ -35,7 +39,7 @@ export default class OfferComponents extends Component {
                     <Radio value={'1'}>已发送</Radio>
                     <Radio value={'2'}>不发送</Radio>
                 </RadioGroup>
-                <TagsComponent ref='Tags' />
+                <TagsComponent ref='Tags' currentStage={this.props.currentStage} />
             </div>
         );
     }

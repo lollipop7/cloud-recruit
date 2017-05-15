@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/web': {target:'http://printserver:66/hrmanage/api'}
-      // '/web': {target:'http://192.168.101.210:8080/hrmanage/api'}
+      // '/web': {target:'http://192.168.101.200:8080/hrmanage/api'}
     },
     // proxyTable: {
     //   '/web': {target:'http://h157228u39.iask.in:42789/hrmanage/api'}

@@ -30,6 +30,9 @@ class RecruitPage extends Component {
         paginationCurrent: 1
     }
 
+    // 子框架是否刷新
+    isIframeRefresh = false;
+
     params = {
         stageid: '0',
         skip: 0
@@ -46,10 +49,21 @@ class RecruitPage extends Component {
         window.addEventListener('message',e=>{
             const {data} = e;
             if(data === 'rerequest'){
-                this.props.getRecruitCategory();
-                this._requestData();
+                this.isIframeRefresh = true;
             }
         });
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        if(nextProps.visible !== this.props.visible || this.isIframeRefresh){
+            this.isIframeRefresh = false;
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props.isLoading !== nextProps.isLoading || 
+            this.props.categoryData !== nextProps.categoryData ||
+            this.state.paginationCurrent !== nextState.paginationCurrent;
     }
 
     _requestData(){
@@ -98,6 +112,13 @@ class RecruitPage extends Component {
         this.setState({paginationCurrent});
     }
 
+    onModalChange = () => {
+        if(this.isIframeRefresh){
+            this.props.getRecruitCategory();
+            this._requestData();
+        }
+    }
+
     render() {
         const {paginationCurrent} = this.state;
         const {routes,isLoading} = this.props;
@@ -129,7 +150,7 @@ class RecruitPage extends Component {
                     </div>
                 </div>
                 {/*招聘人员详细信息Modal页面*/}
-                <ResumeModalComponent />
+                <ResumeModalComponent onChange={this.onModalChange} />
                 {/*上传简历Modal*/}
                 <UploadResumeModalComponents />
                 {/*职位推荐Modal*/}
@@ -140,6 +161,7 @@ class RecruitPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    visible: state.Recruit.visible,
     isLoading: state.Recruit.isCategoryLoading,
     categoryData: state.Recruit.categoryData, // 统计列表数据
 })

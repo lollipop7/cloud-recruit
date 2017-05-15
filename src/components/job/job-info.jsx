@@ -10,6 +10,11 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class JobInfoComponent extends Component {
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps;
+    }
+
     render() {
         const {isLoading} = this.props;
         return (

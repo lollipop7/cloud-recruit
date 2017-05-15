@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 
 export default class TrainListComponent extends Component {
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps.data !== this.props.data;
+    }
+
     render() {
         const {data} = this.props;
         return (

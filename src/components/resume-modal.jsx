@@ -13,6 +13,13 @@ class ResumeModalComponent extends Component {
         this.props.hideResumeModal();
     }
 
+    modalAfterClose = () => {
+        const {onChange} = this.props;
+        if(onChange){
+            onChange();
+        }
+    }
+
     render() {
         const {visible,uriParams} = this.props,
             {resumeid=0,id=0} = uriParams;
@@ -21,9 +28,9 @@ class ResumeModalComponent extends Component {
                 title="简历"
                 wrapClassName="vertical-center-modal modal-recruit"
                 visible={visible}
-                onOk={() => this.setModalVisible(false)}
-                onCancel={() => this.setModalVisible(false)}
+                onCancel={() => this.setModalVisible()}
                 footer={null}
+                afterClose={()=>this.modalAfterClose()}
                 width={1100}
             >   
                 {visible &&

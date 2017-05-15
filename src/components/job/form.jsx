@@ -17,6 +17,10 @@ export default class FormComponent extends Component {
     state = {
     }
 
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps !== this.props;
+    }
+
     handleChange = (field,e) => {
         this.setState({
             [field]: e.target.value
@@ -46,6 +50,7 @@ export default class FormComponent extends Component {
         });
         onStartChange(null);
         onEndChange(null);
+        this.props.onSearch({});
     }
 
     handleSearch = () => {

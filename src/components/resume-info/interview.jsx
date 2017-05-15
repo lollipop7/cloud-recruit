@@ -12,6 +12,10 @@ export default class InterViewComponents extends Component {
         statusid: '4'
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     onChange = (e) => {
         this.setState({
             statusid: e.target.value
@@ -53,7 +57,7 @@ export default class InterViewComponents extends Component {
                         addressPlaceholder={statusid === '3' ? '复试地点' : '入职地点'}
                     />
                 }
-                <TagsComponent ref='Tags' />
+                <TagsComponent ref='Tags' currentStage={this.props.currentStage} />
             </div>
         );
     }

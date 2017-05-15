@@ -9,6 +9,8 @@ const RESUME = {type:types.RESUME};
 // 获取任务完成指数
 const TASK_PROGRESS = {type:types.TASK_PROGRESS};
 // 待入职人员列表
+const GET_ENTRY_START = {type:types.GET_ENTRY_START};
+const GET_ENTRY_DONE = {type:types.GET_ENTRY_DONE};
 const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
 
 // 获取紧急任务
@@ -56,6 +58,7 @@ export const getTaskProgress = (latestDays) => (dispatch,getState) => {
 
 // 获取待入职人员列表
 export const getEntryPerson = (data={}) => (dispatch,getState) => {
+    dispatch(GET_ENTRY_START);
     AjaxByToken('/web/home_personnelList',{
         head: {
             transcode: 'L0010'
@@ -63,6 +66,7 @@ export const getEntryPerson = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        dispatch(GET_ENTRY_DONE);
         dispatch({...GET_ENTRY_LIST,entryPersonList:res.content});
     });
 }

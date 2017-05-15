@@ -19,8 +19,8 @@ module.exports = [
     },
     {
         "title": "工作地点",
-        "dataIndex": "address",
-        "key": "address",
+        "dataIndex": "workcity",
+        "key": "workcity",
         "width": 111
     },
     {
@@ -37,8 +37,8 @@ module.exports = [
     },
     {
         "title": "招聘人数",
-        "dataIndex": "recruitnum",
-        "key": "recruitnum",
+        "dataIndex": "headcount",
+        "key": "headcount",
         "width": 111
     },
     {

@@ -5,37 +5,37 @@
         "num": 0
     },
     {
-        "title": "申请中",
+        "title": "职位申请",
         "type": "1",
         "num": 0
     },
     {
-        "title": "预约中",
+        "title": "预约管理",
         "type": "2",
         "num": 0
     },
     {
-        "title": "面试",
+        "title": "面试管理",
         "type": "3",
         "num": 0
     },
     {
-        "title": "复试",
+        "title": "复试管理",
         "type": "4",
         "num": 0
     },
     {
-        "title": "待入职人员",
+        "title": "发送offer",
         "type": "5",
         "num": 0
     },
     {
-        "title": "已入职",
+        "title": "入职管理",
         "type": "6",
         "num": 0
     },
     {
-        "title": "已结束",
+        "title": "结束管理",
         "type": "7",
         "num": 0
     }

@@ -17,6 +17,10 @@ export default class ReplyComponents extends Component {
         });
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     getFormData = () => {
         const {tags} = this.refs.Tags.state,
             {statusid} = this.state;

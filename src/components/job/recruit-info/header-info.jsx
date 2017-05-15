@@ -22,6 +22,17 @@ class HeaderInfoComponent extends Component {
         window.print();
     }
 
+    mapChannelToChinese(channel) {
+        switch(channel){
+            case '51job':
+                return '前程无忧';
+            case 'zhilian':
+                return '智联招聘';
+            case 'unknown':
+                return '其他';
+        }
+    }
+
     downloadResume = () => {
         // 下载简历
         const {data} = this.props;
@@ -53,6 +64,13 @@ class HeaderInfoComponent extends Component {
         this.props.showModal(currentStage);
     }
 
+    // 图片onError事件
+    imgOnError = event => {
+        const img = event.target;
+        img.src = './static/images/head.jpg';
+        img.onError = null;
+    }
+
     render() {
         const {data} = this.props,
             {
@@ -75,7 +93,11 @@ class HeaderInfoComponent extends Component {
             <div className="header-info">
                 <div>
                     <div className="inline-block">
-                        <img src={headimg && headimg !== '' ? headimg : "./static/images/head.jpg"} alt="默认头像" />
+                        <img 
+                            src={headimg && headimg !== '' ? headimg : "./static/images/head.jpg"} 
+                            alt="默认头像" 
+                            onError={this.imgOnError}
+                        />
                     </div>
                     <div className="info-right inline-block">
                         <ul>
@@ -115,7 +137,7 @@ class HeaderInfoComponent extends Component {
                             <li style={{
                                 marginTop: 14
                             }}>
-                                简历来源 : {channel === 'unknown' ? '其他' : channel}
+                                简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                             <li style={{
                                 marginTop: 15

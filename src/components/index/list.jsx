@@ -31,6 +31,10 @@ class ListComponent extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     handleClick(){
         notification.info({
             message: '提示',

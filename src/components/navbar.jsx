@@ -10,6 +10,8 @@ import * as Actions from 'actions';
 
 class NavBarComponents extends Component {
 
+    searchKeyWord = '';
+
     state = {
         isLoading: false,
         showSetting: false
@@ -67,6 +69,29 @@ class NavBarComponents extends Component {
         this.hideSettings();
     }
 
+    handleKeyUp = event => {
+        if(event.keyCode === 13){
+            this.searchKeyword();            
+        }
+    }
+
+    searchKeyword = () => {
+        const {location} = this.props;
+        const {pathname} = location;
+        const matchPath = /\/talent/i;
+        // if(this.searchKeyWord === ''){
+        //     return ;
+        // }
+        if(!matchPath.test(pathname)){
+            NProgress.start();
+        }
+        this.context.router.push(`/talent/${this.searchKeyWord}`);
+    }
+
+    handleChange = e => {
+        this.searchKeyWord = e.target.value;
+    }
+
     render() {
         const {isLoading} = this.state,
         {location,userInfo} = this.props,
@@ -91,17 +116,32 @@ class NavBarComponents extends Component {
                     <ul className="nav-list">
                         {
                             navData.map((item,index)=>{
+                                const {path,name} = item;
                                 return (
-                                    <li key={index} style={{backgroundColor: pathname === item.path ? '#00699f' : ''}}>
-                                        <Link onClick={this.showNprogress.bind(this,item.path)} to={item.path}>{item.name}</Link>
+                                    <li 
+                                        key={index} 
+                                        style={{
+                                            backgroundColor: pathname.indexOf(path) !== -1 ? '#00699f' : ''
+                                        }}
+                                    >
+                                        <Link onClick={this.showNprogress.bind(this,path)} to={path}>{name}</Link>
                                     </li>
                                 )
                             })
                         }
                     </ul>
                     <div className="search">
-                        <input type="text" placeholder="人才搜索" />
-                        <a href="javascript:void(0);" className="search-button"></a>
+                        <input 
+                            type="text" 
+                            placeholder="人才搜索" 
+                            onKeyUp={this.handleKeyUp} 
+                            onChange={this.handleChange}
+                        />
+                        <a 
+                            href="javascript:void(0);" 
+                            className="search-button"
+                            onClick={this.searchKeyword}
+                        ></a>
                     </div>
                     <div className="user">
                         {!isLoading &&

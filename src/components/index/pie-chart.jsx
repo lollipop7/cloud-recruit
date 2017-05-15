@@ -39,6 +39,10 @@ class PieChartComponent extends Component {
         this.props.getTaskProgress(this.tabList[this.state.activeTab]);
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     componentWillUnmount() {
         if(this.chartInstance){
             // 组件卸载后销毁echart实例
@@ -157,7 +161,9 @@ class PieChartComponent extends Component {
                         })
                     }
                 </div>
-                <div ref="echarts" className="pie-chart">
+                <div style={{
+                    top: -1
+                }} ref="echarts" className="pie-chart">
                 </div>
             </div>
         );

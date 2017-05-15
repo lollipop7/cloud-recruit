@@ -16,6 +16,10 @@ export default class TimeComponent extends Component {
         clearInterval(this.loopTime);
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState;
+    }
+
     _getBigLetter(num) {
         switch(parseInt(num)){
             case 1:

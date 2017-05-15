@@ -22,6 +22,10 @@ import * as Actions from 'actions';
 
 class ModalComponents extends Component {
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps;
+    }
+
     _getTitle(stageid) {
         switch(parseInt(stageid)){
             case 1:
@@ -87,11 +91,11 @@ class ModalComponents extends Component {
                 confirmLoading={isLoading}
             >
                 {stageid === '1' && <ReplyComponents ref="modal" />}
-                {stageid === '2' && <SubscribeComponents ref="modal" />}
-                {stageid === '3' && <InterViewComponents ref="modal" />}
-                {stageid === '4' && <RetestComponents ref="modal" />}
-                {stageid === '5' && <OfferComponents ref="modal" />}
-                {stageid === '6' && <EntryComponents ref="modal" />}
+                {stageid === '2' && <SubscribeComponents ref="modal" currentStage={currentStage} />}
+                {stageid === '3' && <InterViewComponents ref="modal" currentStage={currentStage} />}
+                {stageid === '4' && <RetestComponents ref="modal" currentStage={currentStage} />}
+                {stageid === '5' && <OfferComponents ref="modal" currentStage={currentStage} />}
+                {stageid === '6' && <EntryComponents ref="modal" currentStage={currentStage} />}
             </Modal>
         );
     }

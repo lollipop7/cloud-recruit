@@ -9,7 +9,7 @@ var proxyTable = config.dev.proxyTable
 app.use(compression());
 
 app.use('/static', express.static('./dist/static'))
-app.use('/test', express.static('./dist'))
+app.use('/', express.static('./dist'))
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {

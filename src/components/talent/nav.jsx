@@ -26,6 +26,10 @@ class LeftNavComponent extends Component {
         deleteLabelId: ''
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     componentWillUpdate(nextProps,nextState) {
         const {createModal} = this.props;
         if(!createModal.isLoading && !createModal.modalVisible && this.state.lablename !== ''){

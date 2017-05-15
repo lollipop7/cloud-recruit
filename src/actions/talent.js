@@ -85,7 +85,9 @@ export const createLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
             description: '新建类别成功'
         });
         dispatch(CREATE_LABEL_DONE);
-        dispatch(HIDE_CREATE_LABEL_MODAL);
+        setTimeout(()=>{
+            dispatch(HIDE_CREATE_LABEL_MODAL);
+        },500);
         // 重新获取左侧导航栏数据
         getTalentCategory();
     });
@@ -117,7 +119,9 @@ export const deleteLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
                 description: '删除类别成功'
             });
             dispatch(DELETE_LABEL_DONE);
-            dispatch(HIDE_DELETE_LABEL_MODAL);
+            setTimeout(()=>{
+                dispatch(HIDE_DELETE_LABEL_MODAL);
+            },500);
             getTalentCategory();
         }
     });
@@ -143,8 +147,8 @@ export const moveResume = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        dispatch(MOVE_RESUME_DONE);
         if(typeof res == 'object'){
-            dispatch(MOVE_RESUME_DONE);
             dispatch(HIDE_MOVE_RESUME_MODAL);
         }
     });

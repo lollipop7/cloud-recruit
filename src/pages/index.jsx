@@ -12,9 +12,6 @@ import TableComponent from 'components/index/table';
 
 import ScrollPageContent from 'components/scroll-page-content';
 
-// 招聘人员详细信息Modal页面
-import ResumeModalComponent from 'components/resume-modal';
-
 export default class IndexPage extends Component {
 
     componentDidMount() {
@@ -43,8 +40,6 @@ export default class IndexPage extends Component {
                         </div>
                     </div>
                 </div>
-                {/*招聘人员详细信息Modal页面*/}
-                <ResumeModalComponent />
             </ScrollPageContent>
         );
     }

@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 
-import {Modal,Input,Button,Table} from 'antd';
+import {Modal,Input,Button} from 'antd';
 
-import columns from 'data/table-columns/recommend-resume-table';
+import RecommendResumeTableComponent from './recommend-resume-table';
+
+// lodash
+import omit from 'lodash/omit';
+import pickBy from 'lodash/pickBy';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -12,72 +18,103 @@ import * as Actions from 'actions';
 class RecommendResumeModalComponents extends Component {
 
     state = {
-        dataSource: []
+        positionname: '',
+        city: '',
+        paginationCurrent: 1
     }
 
-    componentDidMount() {
-        let dataSource = [];
-        for(var i=0;i<10;i++){
-            dataSource.push({
-                key: i,
-                positionid: 'sw1925',
-                positionname: '营销推广专员',
-                department: '市场部',
-                address: '上海 浦东新区',
-                starttime: '2017-03-04',
-                endtime: '2017-04-21',
-                recruitnum: '10',
-                control: '选择'
-            });
-        }
+    skip = 0;
+
+    params = {
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps !== this.props || this.state !== nextState;
+    }
+
+    handleChange = (field,e) => {
         this.setState({
-            dataSource
+            [field]: e.target.value
         });
     }
 
-    _getColumns() {
-        columns[columns.length - 1].render = (text,record,index)=>{
-            return (
-                <a href="javascript:;" className="highlight-text">
-                    {text}
-                </a>
-            )
+    _requestData = () => {
+        this.props.getRecommendRecruit({...this.params,skip:this.skip});
+    }
+
+    handleSeach = () => {
+        const filterObj = pickBy(this.state,item=>{
+            return item !== '';
+        });
+        const omitObj = omit(filterObj,['paginationCurrent']);
+        if(!isEqual(this.params,omitObj)){
+            this.params = omitObj;
+            this.setPagination(1);
+            this._requestData();
         }
-        return columns;
+    }
+
+    resetForm = () => {
+        this.setState({
+            positionname: '',
+            city: ''
+        });
+        if(!isEmpty(this.params)){
+            this.params = {};
+            this.setPagination(1);
+            this._requestData();
+        }
+    }
+
+    setPagination = paginationCurrent => {
+        this.setState({paginationCurrent});
+        this.skip = (paginationCurrent - 1)*10;
+    }
+
+    paginationChange = (page,pageSize) => {
+        if(isEqual(page,this.state.paginationCurrent)) return ;
+        this.setPagination(page);
+        this._requestData();
     }
 
     render() {
-        const {dataSource} = this.state;
-        const {visible} = this.props.data;
+        const {hideModal,data} = this.props,
+            {positionname,city,paginationCurrent} = this.state,
+            {visible} = data;
         return (
             <Modal
                 title="职位推荐"
                 wrapClassName="vertical-center-modal recommend-resume-modal"
                 visible={visible}
-                onCancel={this.props.hideModal}
+                onCancel={hideModal}
                 footer={null}
             >
                 <div>
                     <div className="form">
                         <Input 
+                            value={positionname}
                             placeholder="职位名称"
+                            onChange={(e)=>this.handleChange('positionname',e)}
                         />
                         <Input 
+                            value={city}
                             placeholder="工作地点"
+                            onChange={(e)=>this.handleChange('city',e)}
                         />
-                        <Button type="primary">
+                        <Button type="primary" onClick={this.handleSeach}>
                             查询
                         </Button>
-                        <Button className="grey">
+                        <Button className="grey" onClick={this.resetForm}>
                             清空条件
                         </Button>
                     </div>
+                    <RecommendResumeTableComponent 
+                        hideModal={hideModal}
+                        requestData={this._requestData}
+                        paginationCurrent={paginationCurrent}
+                        paginationChange={this.paginationChange}
+                    />
                 </div>
-                <Table 
-                    columns={this._getColumns()}
-                    dataSource={dataSource}
-                    bordered
-                />
             </Modal>
         );
     }
@@ -87,7 +124,8 @@ const mapStateToProps = state => ({
     data: state.Recruit.recommendModal
 })
 const mapDispatchToProps = dispatch => ({
-    hideModal: bindActionCreators(Actions.RecruitActions.hideRecommendModal, dispatch)
+    hideModal: bindActionCreators(Actions.RecruitActions.hideRecommendModal, dispatch),
+    getRecommendRecruit: bindActionCreators(Actions.RecruitActions.getRecommendRecruit, dispatch)
 })
 
 export default connect(

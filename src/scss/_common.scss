@@ -82,3 +82,8 @@
         text-decoration: underline;
     }
 }
+
+.error-text {
+    color: $error-color;
+    font-size: 12px;
+}

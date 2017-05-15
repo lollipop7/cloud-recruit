@@ -75,7 +75,7 @@ const resumeInfo = {
 
 // 引入人才库路由组件
 const Talent = {
-    path:"talent",
+    path:"talent(/:keywords)",
     breadcrumbName:"人才库",
     onEnter:requireAuthHook,
     onLeave:onLeavePage,

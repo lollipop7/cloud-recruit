@@ -19,6 +19,10 @@ class TableComponent extends Component {
 
     columns = [];
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     showJobInfo = (record) => {
         const {positionid} = record;
         this.props.getJobInfo({positionid});

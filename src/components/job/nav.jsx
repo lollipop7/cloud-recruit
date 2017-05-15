@@ -13,6 +13,10 @@ export default class LeftNavComponent extends Component {
         _selectedIndex: 0
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState || nextProps !== this.props;
+    }
+
     handleClick(index,type) {
         if(this.state._selectedIndex === index) return;
         this.setState({

@@ -23,7 +23,12 @@ class TableComponent extends Component {
         paginationChange: PropTypes.func
     }
 
-    _getColumns() {
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
+    _getColumns = () => {
+        const {collectionResume,cancelCollectionResume} = this.props;
         columns[0].render = (text,record,index) => {
             return (
                 <a 
@@ -45,11 +50,15 @@ class TableComponent extends Component {
         }
 
         columns[columns.length - 1].render = (text,record,index) => {
+            const {resumeid} = record;
             return (
                 <a href="javascript:;">
                     <img 
                         src={`./static/images/talent/fav${parseInt(text) ? 1 : 2}.png`} 
                         alt={parseInt(text) ? '收藏' : '未收藏'} 
+                        onClick={
+                            parseInt(text) ? ()=>cancelCollectionResume({resumeid}) : ()=>collectionResume({resumeid})
+                        }
                         style={{
                             height: 17,
                             verticalAlign: 'middle',
@@ -72,16 +81,16 @@ class TableComponent extends Component {
     }
 
     render() {
-        const {selectedRowKeys} = this.state;
-        const {
+        const {selectedRowKeys} = this.state,
+        {
             talentList,
             paginationChange,
             isLoading,
             paginationCurrent,
             customNavData
         } = this.props,
-            {list,count} = talentList;
-        const hasSelected = selectedRowKeys.length > 0;
+            {list,count} = talentList,
+            hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
                 <MoveModalComponents 
@@ -123,7 +132,9 @@ const mapStateToProps = state => ({
     talentList: state.Talent.talentList // 列表数据
 })
 const mapDispatchToProps = dispatch => ({
-    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
+    collectionResume: bindActionCreators(Actions.ResumeActions.collectionResume, dispatch),
+    cancelCollectionResume: bindActionCreators(Actions.ResumeActions.cancelCollectionResume, dispatch)
 })
 
 export default connect(

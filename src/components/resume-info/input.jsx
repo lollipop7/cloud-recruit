@@ -13,6 +13,10 @@ export default class InputComponents extends Component {
         eventaddress: ''
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     disabledDate = date => {
         if(!date){
             return false;

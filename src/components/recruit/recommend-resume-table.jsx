@@ -1,0 +1,83 @@
+import React, {Component} from 'react';
+
+import {Table} from 'antd';
+
+import columns from 'data/table-columns/recommend-resume-table';
+
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class RecommendResumeTableComponent extends Component {
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps;
+    }
+
+    componentDidMount() {
+        // 获取导入简历选择职位列表
+        this.props.requestData();
+    }
+
+    selectPosition = record => {
+        const {selectPosition,hideModal} = this.props;
+        // 隐藏Modal
+        hideModal();
+        // 传递选中的职位名
+        selectPosition(record);
+    }
+
+    _getColumns() {
+        columns[columns.length - 1].render = (text,record,index)=>{
+            return (
+                <a 
+                    href="javascript:;" 
+                    className="highlight-text"
+                    onClick={()=>this.selectPosition(record)}
+                >
+                    {text}
+                </a>
+            )
+        }
+        return columns;
+    }
+
+    render() {
+        const {res,paginationCurrent,paginationChange} = this.props,
+            {isLoading,data} = res,
+            {allRecords,list} = data;
+        return (
+            <Table 
+                columns={this._getColumns()}
+                dataSource={
+                    list.map((item,index)=>{
+                        item.key = index;
+                        item.control = '选择';
+                        return item;
+                    })
+                }
+                loading={isLoading}
+                bordered
+                pagination={{
+                    defaultPageSize:10,
+                    total: allRecords,
+                    current: paginationCurrent,
+                    onChange:(page,pageSize)=> paginationChange(page,pageSize)
+                }}
+            />
+        );
+    }
+}
+
+const mapStateToProps = state => ({
+    res: state.Recruit.recommendModal
+})
+const mapDispatchToProps = dispatch => ({
+    selectPosition: bindActionCreators(Actions.RecruitActions.selectPosition, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RecommendResumeTableComponent);

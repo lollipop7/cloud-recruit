@@ -35,6 +35,10 @@ class ResumeInfoPage extends Component {
             }
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     handleChangeType(type){
         this.setState({type});
     }

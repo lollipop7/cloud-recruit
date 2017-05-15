@@ -14,6 +14,18 @@ export default class TagsComponent extends Component {
         error: false
     }
 
+    componentDidMount() {
+        const {currentStage={}} = this.props,
+            {thelable=''} = currentStage;
+        this.setState({
+            tags: thelable === ''? [] : thelable.split(',')
+        });
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState;
+    }
+
     handleKeyUp = (e) => {
         if(e.keyCode === 13){
             this.addTag();
@@ -36,14 +48,18 @@ export default class TagsComponent extends Component {
 
     addTag = () => {
         const {tag,tags,error} = this.state;
+        
+        // 判断标签是否为空
         if(tag === ''){
             this.setInputError(true);
             return ;
         }
+        // 判断已经添加标签的数量
         if(tags.length > 9){
             this.setInputError(true,'最多只能添加10个标签！');
             return ;
         }
+        // 判断标签是否已经存在
         const isHasTag = find(tags,item=>{
             return tag === item;
         });

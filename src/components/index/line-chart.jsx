@@ -38,6 +38,10 @@ class LineChartComponent extends Component {
         this.chartInstance.setOption(options);
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
+    }
+
     componentWillUpdate(nextProps,nextState) {
         const {data} = nextProps;
         const {pieSourceList,content} = data;

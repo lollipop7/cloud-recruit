@@ -5,6 +5,7 @@ const Option = Select.Option;
 
 import filter from 'lodash/filter';
 import indexOf from 'lodash/indexOf';
+import get from 'lodash/get';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -25,8 +26,11 @@ class MoveModalComponents extends Component {
         let filterArr = filter(data,(item,index)=>{
             return indexOf(selectedRowKeys,index) !== -1;
         });
+        let str = filterArr.map(item=>{
+            return get(item,['resumeid']);
+        }).join(',');
         this.props.moveResume({
-            resumeid: filterArr[0].resumeid,
+            resumeid: str,
             lableid: selectLabelId
         });
     }   

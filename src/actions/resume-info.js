@@ -91,7 +91,9 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
     .then(res=>{
         dispatch(HIDE_MODAL_LOADING);
         // 隐藏Modal
-        dispatch(HIDE_MODAL);
+        setTimeout(()=>{
+            dispatch(HIDE_MODAL);
+        },300);
         const {currentStage,getStageLog} = props;
         const {positionid,resumeid} = currentStage;
         getStageLog({
@@ -99,6 +101,32 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
             resumeId: resumeid
         });
         window.parent.postMessage('rerequest','*');
+    });
+}
+
+//企业收藏简历
+export const collectionResume = data => (dispatch,getState) => {
+    AjaxByToken('/web/CollectionResume',{
+        head: {
+            transcode: 'L0027'
+        },
+        data: data
+    })
+    .then(res=>{
+        console.log(res);
+    });
+}
+
+//企业取消收藏简历
+export const cancelCollectionResume = data => (dispatch,getState) => {
+    AjaxByToken('/web/cancelthecollection',{
+        head: {
+            transcode: 'L0037'
+        },
+        data: data
+    })
+    .then(res=>{
+        console.log(res);
     });
 }
 
