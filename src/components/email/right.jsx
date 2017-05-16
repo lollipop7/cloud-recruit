@@ -31,8 +31,13 @@ export default class RightComponents extends Component {
                         </div>
                     </div>
                     <div className="theme">
-                        <div className="field">
-                            主题
+                        <div className="table">
+                            <div className="table-cell">
+                                主题
+                            </div>
+                            <div className="table-cell">
+                                <input type="text" placeholder="请输入邮件主题" />
+                            </div>
                         </div>
                     </div>
                 </div>

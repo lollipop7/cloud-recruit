@@ -75,18 +75,20 @@
         .box-border {
             width: 850px;
         }
+        .table-cell {
+            font-size: 14px;
+            vertical-align: middle;
+            &:first-child {
+                width: 61px;
+            }
+        }
         .send-people {
             position: relative;
             padding: 15px 20px;
-            font-size: 14px;
             &:after {
                 @include border-bottom;
             }
             .table-cell {
-                vertical-align: middle;
-                &:first-child {
-                    width: 61px;
-                }
                 &:first-child+div {
                     width: 50px;
                 }
@@ -94,10 +96,26 @@
                     vertical-align: middle;
                     height: 40px;
                 }
+                &:last-child {
+                    width: 114px;
+                    button {
+                        width: 114px;
+                        height: 40px;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        // background-image: url(../../static/images/email/send.png);
+                        background-size: 20px 19px;
+                        background-repeat: no-repeat;
+                    }
+                }
             }
         }
         .theme {
             padding: 12px 20px;
+            input {
+                border: 0;
+                outline: 0;
+            }
         }
     }
 }
