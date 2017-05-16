@@ -60,7 +60,7 @@ export default class OtherInfoComponent extends Component {
 
     onTimeChange=(field,value)=> {
         this.setState({
-            [field]: value ? moment(value).format('YYYY-MM-DD') : ''
+            [field]: value ? moment(value).format('YYYY-MM-DD')+' 00:00:00' : ''
         });
     }
 

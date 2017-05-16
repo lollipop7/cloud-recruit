@@ -91,9 +91,7 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
     .then(res=>{
         dispatch(HIDE_MODAL_LOADING);
         // 隐藏Modal
-        setTimeout(()=>{
-            dispatch(HIDE_MODAL);
-        },300);
+        dispatch(HIDE_MODAL);
         const {currentStage,getStageLog} = props;
         const {positionid,resumeid} = currentStage;
         getStageLog({

@@ -36,7 +36,7 @@ class NavBarComponents extends Component {
         }
     }
 
-    showNprogress=(uri)=>{
+    showNprogress=(uri='')=>{
         const {location} = this.props,
             {pathname} = location;
         if(uri === pathname) return ;
@@ -124,7 +124,7 @@ class NavBarComponents extends Component {
                                             backgroundColor: pathname.indexOf(path) !== -1 ? '#00699f' : ''
                                         }}
                                     >
-                                        <Link onClick={this.showNprogress.bind(this,path)} to={path}>{name}</Link>
+                                        <Link onClick={()=>this.showNprogress(path)} to={path}>{name}</Link>
                                     </li>
                                 )
                             })
@@ -190,9 +190,13 @@ class NavBarComponents extends Component {
                             </div>
                         }
                     </div>
-                    <a href="javascript:void(0);" className="email">
+                    <Link 
+                        to="/email" 
+                        className={`email ${pathname==='/email' ? 'active' : ''}`} 
+                        onClick={()=>this.showNprogress()}
+                    >
                         <img src={`${prefix}email.png`} alt="邮箱" />
-                    </a>
+                    </Link>
                 </div>
             </div>
         );

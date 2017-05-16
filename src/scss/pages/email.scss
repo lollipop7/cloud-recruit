@@ -1,0 +1,103 @@
+.email-page {
+    .box-border {
+        background-color: #FFF;
+        height: 564px;
+    }
+    .pull-left {
+        .box-border {
+            width: 334px;
+            padding: 16px 20px 0px;
+        }
+    }
+    // 搜索框
+    .search {
+        height: 36px;
+        font-size:14px;
+        color: #868686;
+        padding: 4px 15px;
+        border-radius: 15px;
+    }
+    .ant-input-affix-wrapper {
+        .ant-input:not(:last-child) {
+            padding-right: 32px;
+        }
+        .ant-input-suffix {
+            right: 15px;
+        }
+    }
+    .search-icon {
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        background-image: url(../../static/images/email/search.png);
+        background-repeat: no-repeat;
+        background-size: 17px 17px;
+    }
+    // 历史邮件列表
+    .history-list {
+        li {
+            padding: 21px 0 20px;
+            position: relative;
+            &:after {
+                @include border-bottom;
+            }
+            &:last-child {
+                &:after {
+                    height: 0px;
+                }
+            }
+        }
+        img {
+            height: 40px;
+            vertical-align: middle;
+        }
+        div.table-cell {
+            vertical-align: middle;
+            font-size: 14px;
+            &:first-child {
+                width: 49px;
+            }
+            &:last-child {
+                color: #868686;
+                text-align: right;
+                font-weight: bold;
+            }
+        }
+        .name {
+            color: $theme-font-color;
+        }
+        .position-name {
+            color: #868686;
+        }
+    }
+    // 右边编辑器容器
+    .pull-right {
+        .box-border {
+            width: 850px;
+        }
+        .send-people {
+            position: relative;
+            padding: 15px 20px;
+            font-size: 14px;
+            &:after {
+                @include border-bottom;
+            }
+            .table-cell {
+                vertical-align: middle;
+                &:first-child {
+                    width: 61px;
+                }
+                &:first-child+div {
+                    width: 50px;
+                }
+                img {
+                    vertical-align: middle;
+                    height: 40px;
+                }
+            }
+        }
+        .theme {
+            padding: 12px 20px;
+        }
+    }
+}

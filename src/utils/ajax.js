@@ -59,11 +59,11 @@ export const AjaxByPost = (uri, data) => {
             const { returnCode, returnMsg } = data;
             if (returnCode !== 'AAAAAAA') {
                 // return code 0000005 登陆失效,重新登陆
-                if(returnCode === '0000005'){
-                    const {protocol,host} = location;
-                    store.remove('token');
-                    location.href = `${protocol}${host}/#/login`
-                }
+                // if(returnCode === '0000005'){
+                //     const {protocol,host} = location;
+                //     store.remove('token');
+                //     location.href = `${protocol}${host}/#/login`
+                // }
                 console.info(`${returnCode}:${returnMsg}`);
                 notification.error(returnMsg);
                 resolve(returnMsg);

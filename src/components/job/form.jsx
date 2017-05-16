@@ -18,7 +18,7 @@ export default class FormComponent extends Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        return nextProps !== this.props;
+        return nextProps !== this.props || this.state !== nextState;
     }
 
     handleChange = (field,e) => {

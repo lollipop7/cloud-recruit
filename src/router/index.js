@@ -99,6 +99,19 @@ const Task = {
     }
 }
 
+// 引入邮件路由组件
+const Email = {
+    path:"email",
+    breadcrumbName:"邮件管理",
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/email').default)
+        }, 'EmailPage')
+    }
+}
+
 //引入登陆路由组件
 const Login = {
     path:"login",
@@ -157,7 +170,8 @@ const RouteConfig = {
       Login,
       ChangePasswd,
       SettingEmail,
-      resumeInfo
+      resumeInfo,
+      Email
     ]
   } ]
 }

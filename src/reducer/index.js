@@ -6,6 +6,7 @@ import Recruit from './recruit';
 import Talent from './talent';
 import User from './user';
 import Resume from './resume-info';
+import Email from './email';
 
 const rootReducer = combineReducers({
     Login,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     Recruit,
     Talent,
     User,
-    Resume
+    Resume,
+    Email
 });
 
 export default rootReducer;

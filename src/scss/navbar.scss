@@ -123,9 +123,15 @@
         background-repeat: no-repeat;
     }
     .email {
-        right: 0;
-        height: 17px;
+        right: -12px;
+        height: 56px;
+        line-height: 56px;
+        padding: 0 12px;
+        &.active {
+            background-color: $navbar-active-color;
+        }
         img {
+            vertical-align: middle;
             height: 17px;
         }
     }
