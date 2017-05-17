@@ -18,7 +18,7 @@ class EmailListComponents extends Component {
     keyword = '';
 
     componentDidMount() {
-        // this.props.getEmailHistory();
+        this.props.getEmailHistory();
     }
 
     handleChange = e => {

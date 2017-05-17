@@ -14,7 +14,7 @@ import InputComponents from './input';
 export default class SubscribeComponents extends Component {
 
     state = {
-        statusid: '1'
+        statusid: '10'
     }
 
     shouldComponentUpdate(nextProps,nextState) {

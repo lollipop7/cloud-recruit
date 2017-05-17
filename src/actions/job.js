@@ -1,7 +1,7 @@
 import * as types from 'constants/job.js';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
-import {notification} from 'antd'; 
+import {message} from 'antd'; 
 
 import isNumber from 'lodash/isNumber';
 
@@ -83,10 +83,7 @@ export const createJob = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         if(typeof res === 'object'){
-            notification.success({
-                message: '提示',
-                description: '新建职位成功！'
-            });
+            message.success('新建职位成功！');
             // 回退页面
             setTimeout(() => {
                 history.back(-1);

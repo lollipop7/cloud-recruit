@@ -12,8 +12,7 @@ class UploadResumeModalComponents extends Component {
         fileList: [],
         source: 'zhilian',
         error: false,
-        errorMsg: '',
-        isResetForm: false
+        errorMsg: ''
     }
     tips = [
         '支持单个html,xls等格式的简历。',
@@ -84,13 +83,7 @@ class UploadResumeModalComponents extends Component {
 
     uploadResume = () => {
         let {fileList,source} = this.state,
-            {position,uploadResume} = this.props,
-            // 获取positionid
-            {positionid} = position;
-        // 判断是否选择了推荐职位
-        if(!positionid) {
-            return ;
-        }
+            {uploadResume} = this.props;
         // 判断是否上传了文件
         if(fileList.length === 0){
             this.triggerError(true,'请选择上传文件！');
@@ -104,15 +97,14 @@ class UploadResumeModalComponents extends Component {
         const {filePath} = response,
             fileNameJson = `{${name}:${filePath}}`;
         source = source.indexOf('basic') !== -1 ? 'basic' : source;
-        uploadResume({source,fileNameJson,positionid});
+        uploadResume({source,fileNameJson});
     }
 
     render() {
         const {fileList,source,error,errorMsg} = this.state,
             {NODE_ENV} = process.env,
-            {data,showRecommendModal,position,hideModal} = this.props,
-            {visible,isLoading} = data,
-            {positionname=''} = position;
+            {data,hideModal} = this.props,
+            {visible,isLoading} = data;
         return (
             <Modal
                 title="简历上传"
@@ -135,19 +127,6 @@ class UploadResumeModalComponents extends Component {
                             <Option value="basic1">51job</Option>
                             <Option value="basic2">通用</Option>
                         </Select>
-                    </li>
-                    <li>
-                        <span>
-                            推荐职位
-                        </span>
-                        <Input
-                            value={positionname}
-                            placeholder="请选择推荐职位"
-                            disabled
-                        />
-                        <Button type="primary" onClick={()=>showRecommendModal()}>
-                            选择
-                        </Button>
                     </li>
                     <li>
                         <span>
@@ -214,11 +193,9 @@ class UploadResumeModalComponents extends Component {
 }
 
 const mapStateToProps = state => ({
-    data: state.Recruit.uploadModal,
-    position: state.Recruit.position
+    data: state.Recruit.uploadModal
 })
 const mapDispatchToProps = dispatch => ({
-    showRecommendModal: bindActionCreators(Actions.RecruitActions.showRecommendModal, dispatch),
     uploadResume:  bindActionCreators(Actions.RecruitActions.uploadResume, dispatch),
     hideModal: bindActionCreators(Actions.RecruitActions.hideUploadModal, dispatch),
     setResetFormFalse: bindActionCreators(Actions.RecruitActions.setResetFormFalse, dispatch)

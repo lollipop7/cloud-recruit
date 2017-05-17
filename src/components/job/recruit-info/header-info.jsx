@@ -13,8 +13,18 @@ import * as Actions from 'actions';
 
 class HeaderInfoComponent extends Component {
 
+    isSetTitle = false;
+
     shouldComponentUpdate(nextProps,nextState) {
         return nextProps.data !== this.props.data;
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        const {resumeInfo={}} = nextProps.data;
+        // 设置简历页面的标题
+        if(resumeInfo.username&&!this.isSetTitle){
+            document.title = `${trim(resumeInfo.username)}的个人简历`;
+        }
     }
 
     printResume() {
@@ -41,9 +51,10 @@ class HeaderInfoComponent extends Component {
          * resumeid 简历id
          */
         const {resumeid} = data;
-        this.props.downloadResume({
-            resumeid
-        });
+        window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
+        // this.props.downloadResume({
+        //     resumeid
+        // });
     }
 
     getCurrentStage =()=> {
@@ -192,7 +203,7 @@ const mapStateToProps = state => ({
     isLoading: state.Recruit.isInfoLoading
 })
 const mapDispatchToProps = dispatch => ({
-    downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
+    // downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch)
 })
 

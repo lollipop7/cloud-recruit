@@ -7,10 +7,6 @@
         "title": "在职人员",
         "type": "office"
     },
-    "departure": {
-        "title": "离职人员",
-        "type": "departure"
-    },
     "talents": {
         "title": "社会人才",
         "type": "social"

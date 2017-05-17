@@ -14,9 +14,28 @@ class TalentHeaderInfoComponent extends Component {
         return nextProps.data !== this.props.data;
     }
 
+    componentWillUpdate(nextProps,nextState) {
+        const {resumeInfo={}} = nextProps.data;
+        // 设置简历页面的标题
+        if(resumeInfo.username&&!this.isSetTitle){
+            document.title = `${trim(resumeInfo.username)}的个人简历`;
+        }
+    }
+
     printResume() {
         // 打印简历
         window.print();
+    }
+
+    mapChannelToChinese(channel) {
+        switch(channel){
+            case '51job':
+                return '前程无忧';
+            case 'zhilian':
+                return '智联招聘';
+            case 'unknown':
+                return '其他';
+        }
     }
 
     downloadResume = () => {
@@ -27,9 +46,10 @@ class TalentHeaderInfoComponent extends Component {
          * resumeid 简历id
          */
         const {resumeid} = data;
-        this.props.downloadResume({
-            resumeid
-        });
+        window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
+        // this.props.downloadResume({
+        //     resumeid
+        // });
     }
 
     render() {
@@ -90,7 +110,7 @@ class TalentHeaderInfoComponent extends Component {
                             <li style={{
                                 marginTop: 14
                             }}>
-                                简历来源 : {channel === 'unknown' ? '其他' : channel}
+                                简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                         </ul>
                     </div>
@@ -103,7 +123,7 @@ class TalentHeaderInfoComponent extends Component {
 const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
-    downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
+    // downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
 })
 
 export default connect(

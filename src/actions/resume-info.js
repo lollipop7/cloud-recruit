@@ -1,4 +1,5 @@
 import * as types from 'constants/resume-info';
+
 import {AjaxByToken} from 'utils/ajax';
 
 // 招聘人员详细信息
@@ -68,16 +69,17 @@ export const getTalentResumeInfo = (data) => (dispatch,getState) => {
 }
 
 // 下载简历
-export const downloadResume = (data) => (dispatch,getState) => {
-    AjaxByToken('/web/downloadResume',{
-        head: {
-            transcode: 'L0023'
-        },
-        data: data
-    })
-    .then(res=>{
-    });
-}
+// export const downloadResume = (data) => (dispatch,getState) => {
+//     AjaxByToken('/web/downloadResume',{
+//         head: {
+//             transcode: 'L0023'
+//         },
+//         data: data
+//     })
+//     .then(res=>{
+//         console.log(res)
+//     });
+// }
 
 // 更改流程状态
 export const changeStageStatus = (data,props) => (dispatch,getState) => {
@@ -99,32 +101,6 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
             resumeId: resumeid
         });
         window.parent.postMessage('rerequest','*');
-    });
-}
-
-//企业收藏简历
-export const collectionResume = data => (dispatch,getState) => {
-    AjaxByToken('/web/CollectionResume',{
-        head: {
-            transcode: 'L0027'
-        },
-        data: data
-    })
-    .then(res=>{
-        console.log(res);
-    });
-}
-
-//企业取消收藏简历
-export const cancelCollectionResume = data => (dispatch,getState) => {
-    AjaxByToken('/web/cancelthecollection',{
-        head: {
-            transcode: 'L0037'
-        },
-        data: data
-    })
-    .then(res=>{
-        console.log(res);
     });
 }
 

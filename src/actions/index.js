@@ -6,6 +6,7 @@ import * as UserActions from './user';
 import * as RecruitActions from './recruit';
 import * as TalentActions from './talent';
 import * as ResumeActions from './resume-info';
+import * as TaskActions from './task';
 import * as EmailActions from './email';
 
 module.exports =  {
@@ -17,5 +18,6 @@ module.exports =  {
     TalentActions,
     UserActions,
     ResumeActions,
+    TaskActions,
     EmailActions
 }

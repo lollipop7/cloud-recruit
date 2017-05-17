@@ -22,18 +22,30 @@ class MoveModalComponents extends Component {
         // 移动简历操作
         const {selectLabelId} = this.state;
         if(!selectLabelId) return ;
-        const {data,selectedRowKeys} = this.props;
+        const {data,selectedRowKeys,moveResume,getTalentCategory} = this.props;
         let filterArr = filter(data,(item,index)=>{
             return indexOf(selectedRowKeys,index) !== -1;
         });
         let str = filterArr.map(item=>{
             return get(item,['resumeid']);
         }).join(',');
-        this.props.moveResume({
+        moveResume({
             resumeid: str,
             lableid: selectLabelId
-        });
+        },getTalentCategory);
     }   
+
+    componentWillUpdate(nextProps,nextState) {
+        const {customNavData} = nextProps;
+        if(customNavData.length === 0 && this.state.selectLabelId){
+            this.handleChange(undefined);
+        }
+        if(customNavData.length > 0 && !this.state.selectLabelId){
+            this.setState({
+                selectLabelId:customNavData[0].id
+            });
+        }
+    }
 
     setModalVisible(modalVisible) {
         // 设置Modal的显示与隐藏
@@ -52,8 +64,9 @@ class MoveModalComponents extends Component {
     }
 
     render() {
-        const {hasSelected,customNavData,moveModal} = this.props;
-        const {isLoading,modalVisible} = moveModal;
+        const {hasSelected,customNavData,moveModal} = this.props,
+            {selectLabelId} = this.state,
+            {isLoading,modalVisible} = moveModal;
         return (
             <div className="table-control">
                     {/*<Button type="primary">删除</Button>*/}
@@ -77,6 +90,7 @@ class MoveModalComponents extends Component {
                             placeholder="请选择要移动到的分类" 
                             style={{ width: 395 }}
                             onChange={this.handleChange}
+                            value={selectLabelId}
                         >
                             {
                                 customNavData.map((item,index)=>{
@@ -102,6 +116,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     moveResume: bindActionCreators(Actions.TalentActions.moveResume, dispatch),
+    getTalentCategory: bindActionCreators(Actions.TalentActions.getTalentCategory, dispatch),
     showMoveResumeModal: bindActionCreators(Actions.TalentActions.showMoveResumeModal, dispatch),
     hideMoveResumeModal: bindActionCreators(Actions.TalentActions.hideMoveResumeModal, dispatch)
 })

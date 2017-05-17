@@ -88,7 +88,7 @@ class LeftNavComponent extends Component {
         this.props.showDeleteLabelModal();
     }
 
-    handleChange = (e) => {
+    handleChange = e => {
         // 输入框onChange事件
         let val = trim(e.target.value);
         this.setState({
@@ -96,6 +96,12 @@ class LeftNavComponent extends Component {
         });
         if(val.length > 0){
             this.setError(false);
+        }
+    }
+
+    handleKeyUp = e => {
+        if(e.keyCode === 13){
+            this.createLabel();
         }
     }
 
@@ -184,6 +190,7 @@ class LeftNavComponent extends Component {
                             value={lablename}
                             placeholder="请输入分类名称" 
                             onChange={this.handleChange}
+                            onKeyUp={this.handleKeyUp}
                         />
                         {error &&
                             <div style={{

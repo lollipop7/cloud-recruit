@@ -1,6 +1,6 @@
 import * as types from 'constants/user';
 import {AjaxByToken} from 'utils/ajax';
-import { Notification } from 'antd';
+import { message } from 'antd';
 
 // 获取用户基本信息
 const GET_USER_INFO = {type:types.GET_USER_INFO};
@@ -10,6 +10,7 @@ const GET_USER_EMAIL_INFO = {type:types.GET_USER_EMAIL_INFO};
 
 // 用户修改密码
 const CHANGE_PASSWD = {type:types.CHANGE_PASSWD};
+const CHANGE_RES_FALSE = {type:types.CHANGE_RES_FALSE};
 
 // 获取用户基本信息
 export const getUserInfo = () => (dispatch,getState) => {
@@ -44,12 +45,8 @@ export const changeEmailSetting = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res);
         NProgress.done();
-        Notification.success({
-            message: '提示',
-            description: '配置邮箱成功!'
-        });
+        message.success('配置邮箱成功！');
         // dispatch({...GET_USER_EMAIL_INFO,userEmailInfo:res});
     });
 }
@@ -65,12 +62,14 @@ export const changePassWd = (data={}) => (dispatch,getState) => {
     })
     .then(res=>{
         if(typeof res === 'object'){
-            Notification.success({
-                message: '提示',
-                description: '修改密码成功！'
-            });
+            message.success('修改密码成功！');
             dispatch(CHANGE_PASSWD);
+        }else{
+            message.error('修改密码失败！');
         }
     });
 }
 
+export const changeResFalse = () => (dispatch,getState) => {
+    dispatch(CHANGE_RES_FALSE);
+}

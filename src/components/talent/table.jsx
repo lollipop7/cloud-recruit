@@ -111,7 +111,7 @@ class TableComponent extends Component {
                     dataSource={
                         list.map((item,index)=>{
                             item.key = index;
-                            item.control = '入职管理'
+                            item.control = '招聘管理'
                             return item;
                         })
                     }
@@ -133,8 +133,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
-    collectionResume: bindActionCreators(Actions.ResumeActions.collectionResume, dispatch),
-    cancelCollectionResume: bindActionCreators(Actions.ResumeActions.cancelCollectionResume, dispatch)
+    collectionResume: bindActionCreators(Actions.TalentActions.collectionResume, dispatch),
+    cancelCollectionResume: bindActionCreators(Actions.TalentActions.cancelCollectionResume, dispatch)
 })
 
 export default connect(

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 import merge from 'lodash/merge';
 import trim from 'lodash/trim';
@@ -19,26 +19,17 @@ import * as Actions from 'actions';
 import {notification} from 'antd';
 
 class TableComponent extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     isIframeRefresh = false;
     columns = this._getColumns();
     componentDidMount() {
-        // let data = [];
-        // for(let i=0;i<10;i++){
-        //     data.push({
-        //         key: `${i}`,
-        //         username: '',
-        //         positionname: '',
-        //         eventtime: '',
-        //         telephone: ''
-        //     });
-        // }
-        // this.setState({
-        //     datasource: data
-        // });
         this.props.getEntryPerson();
         // 监听简历详情页面是否发生流程更改
         window.addEventListener('message',e=>{
-            console.log(e);
             const {data} = e;
             if(data === 'rerequest'){
                 this.isIframeRefresh = true;
@@ -95,10 +86,7 @@ class TableComponent extends Component {
     }
 
     handleClick = () => {
-        notification.info({
-            message: '提示',
-            description: '功能正在开发中...'
-        });
+        this.context.router.push('/talent');
     }
 
     onModalChange = () => {

@@ -25,9 +25,15 @@
     // 时间
     .time {
         height: 64px;
-        padding-left: 13px;
-        padding-top: 17px;
         position: relative;
+        .left {
+            position: absolute;
+            left: 13px;
+            height: 38px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
         .top {
             color: $theme-font-color;
             font-size: 18px;

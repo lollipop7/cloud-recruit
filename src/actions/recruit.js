@@ -37,6 +37,8 @@ const HIDE_UPLOAD_MODAL = {type:types.HIDE_UPLOAD_MODAL};
 // 开始上传简历
 const UPLOAD_RESUME_START = {type:types.UPLOAD_RESUME_START};
 const UPLOAD_RESUME_DONE = {type:types.UPLOAD_RESUME_DONE};
+const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
+const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
 
 // 显示推荐职位MODAL
 const SHOW_RECOMMEND_MODAL = {type:types.SHOW_RECOMMEND_MODAL};
@@ -93,12 +95,17 @@ export const uploadResume = data => (dispatch,getState) => {
                 message: '提示',
                 description: '简历导入成功！'
             });
+            dispatch(SET_RESETFORM_TRUE);
             setTimeout(()=>{
                 dispatch(HIDE_UPLOAD_MODAL);
             },500);
         }
         // dispatch({...UPLOAD_RESUME,data:res});
     });
+}
+
+export const setResetFormFalse = () => (dispatch,getState) => {
+    dispatch(SET_RESETFORM_FALSE);
 }
 
 // 导入简历选择职位列表接口

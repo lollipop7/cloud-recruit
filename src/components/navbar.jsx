@@ -10,11 +10,10 @@ import * as Actions from 'actions';
 
 class NavBarComponents extends Component {
 
-    searchKeyWord = '';
-
     state = {
         isLoading: false,
-        showSetting: false
+        showSetting: false,
+        keyword: ''
     }
 
     static contextTypes = {
@@ -32,6 +31,16 @@ class NavBarComponents extends Component {
         if(!isEmpty(nextProps.userInfo) && nextState.isLoading ){
             this.setState({
                 isLoading: false
+            });
+        }
+        /**
+         * 切换页面清空搜索框
+         * this.props.location.pathname 为当前页面的路径
+         * nextProps.location.pathname 为要切换到哪个页面
+         */
+        if(this.state.keyword !== '' && this.props.location.pathname.indexOf('/talent') !== -1 && nextProps.location.pathname.indexOf('/talent') === -1){
+            this.setState({
+                keyword: ''
             });
         }
     }
@@ -79,21 +88,20 @@ class NavBarComponents extends Component {
         const {location} = this.props;
         const {pathname} = location;
         const matchPath = /\/talent/i;
-        // if(this.searchKeyWord === ''){
-        //     return ;
-        // }
         if(!matchPath.test(pathname)){
             NProgress.start();
         }
-        this.context.router.push(`/talent/${this.searchKeyWord}`);
+        this.context.router.push(`/talent/${this.state.keyword}`);
     }
 
     handleChange = e => {
-        this.searchKeyWord = e.target.value;
+        this.setState({
+            keyword: e.target.value
+        });
     }
 
     render() {
-        const {isLoading} = this.state,
+        const {isLoading,keyword} = this.state,
         {location,userInfo} = this.props,
             {pathname} = location,
             {username='',companyname=''} = userInfo,
@@ -132,6 +140,7 @@ class NavBarComponents extends Component {
                     </ul>
                     <div className="search">
                         <input 
+                            value={keyword}
                             type="text" 
                             placeholder="人才搜索" 
                             onKeyUp={this.handleKeyUp} 
@@ -171,7 +180,7 @@ class NavBarComponents extends Component {
                                             </li>
                                             <li>
                                                 <Link href="javascript:;" onClick={this.logout}>
-                                                    登出系统
+                                                    退出系统
                                                 </Link>
                                             </li>
                                         </ul>

@@ -15,6 +15,8 @@ import navData from 'data/nav/talent';
 
 // 招聘人员详细信息Modal页面
 import ResumeModalComponent from 'components/resume-modal';
+// 上传简历Modal
+import UploadResumeModalComponents from 'components/talent/upload-resume-modal';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -161,7 +163,7 @@ class TalentPage extends Component {
 
     render() {
         const {paginationCurrent} = this.state,
-            {routes,isLoading} = this.props,
+            {routes,isLoading,showUploadModal} = this.props,
             customNavData = this._getCustomLabel();
         return (
             <ScrollPageContent>
@@ -182,6 +184,7 @@ class TalentPage extends Component {
                                 <FormComponent 
                                     ref="FormComponent"
                                     findEvent={this.handleFind} 
+                                    showUploadModal={showUploadModal}
                                 />
                                 <TableComponent
                                     paginationCurrent={paginationCurrent}
@@ -190,6 +193,9 @@ class TalentPage extends Component {
                                 />
                             </div>
                         </div>
+                        {/*上传简历Modal*/}
+                        <UploadResumeModalComponents />
+                        {/*招聘人员详细信息Modal页面*/}
                         <ResumeModalComponent />
                     </div>
                 </div>
@@ -204,7 +210,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     getTalentCategory: bindActionCreators(Actions.TalentActions.getTalentCategory, dispatch),
-    getTalentList: bindActionCreators(Actions.TalentActions.getTalentList, dispatch)
+    getTalentList: bindActionCreators(Actions.TalentActions.getTalentList, dispatch),
+    showUploadModal: bindActionCreators(Actions.RecruitActions.showUploadModal, dispatch)
 })
 
 export default connect(

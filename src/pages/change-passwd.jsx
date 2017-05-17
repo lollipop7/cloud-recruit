@@ -32,6 +32,7 @@ class ChangePasswdPage extends Component {
     componentWillUpdate(nextProps,nextState) {
         if(nextProps.changeRes && this.validate()){
             this.resetForm();
+            this.props.changeResFalse();
         }
     }
 
@@ -165,7 +166,8 @@ const mapStateToProps = state => ({
     changeRes: state.User.changeRes
 })
 const mapDispatchToProps = dispatch => ({
-    changePassWd: bindActionCreators(Actions.UserActions.changePassWd, dispatch)
+    changePassWd: bindActionCreators(Actions.UserActions.changePassWd, dispatch),
+    changeResFalse: bindActionCreators(Actions.UserActions.changeResFalse, dispatch)
 })
 
 export default connect(

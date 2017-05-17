@@ -51,12 +51,14 @@ export default class TimeComponent extends Component {
         const {hourTime=''} = this.state;
         return (
             <div className="time box-border">
-                <p className="top">
-                    {hourTime}
-                </p>
-                <p className="bottom">
-                    {moment().format('YYYY-MM-DD')}
-                </p>
+                <div className="left">
+                    <p className="top">
+                        {hourTime}
+                    </p>
+                    <p className="bottom">
+                        {moment().format('YYYY-MM-DD')}
+                    </p>
+                </div>
                 <div className="right">
                     {`周${this._getBigLetter(moment().format('d'))}`}
                 </div>

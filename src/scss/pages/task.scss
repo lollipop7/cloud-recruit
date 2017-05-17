@@ -4,6 +4,15 @@
         padding: 16px 16px 124px;
     }
     tr {
+        &:first-child td:first-child {
+            padding-left: 0 !important;
+            span {
+                width: 60px;
+                white-space: normal;
+                margin: 0 auto;
+                display: block;
+            }
+        }
         &:last-child td {
             font-weight: bold;
             text-align: center;

@@ -9,7 +9,7 @@ import InputComponents from './input';
 export default class EntryComponents extends Component {
 
     state = {
-        statusid: '1'
+        statusid: '2'
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -48,7 +48,7 @@ export default class EntryComponents extends Component {
                     <Radio value='2'>已按时到岗</Radio>
                     <Radio value='3'>未按时到岗</Radio>
                 </RadioGroup>
-                {statusid === '1' &&
+                {statusid === '2' &&
                     <InputComponents 
                         ref="Event"
                         timePlaceholder='到岗时间'

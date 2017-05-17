@@ -7,6 +7,7 @@ import {onEnterLoginHook,requireAuthHook,onLeavePage} from '../hook';
 // 职位管理页面子路由
 const JobIndex = {
     path: 'index',
+    breadcrumbName:"职位管理",
     onEnter:requireAuthHook,
     onLeave:onLeavePage,
     getComponent(nextState,cb){
@@ -16,6 +17,7 @@ const JobIndex = {
     }
 }
 
+// 创建职位页面路由
 const NewJob = {
     path: 'newJob',
     breadcrumbName:"新建职位",
@@ -115,6 +117,7 @@ const Email = {
 //引入登陆路由组件
 const Login = {
     path:"login",
+    breadcrumbName:"登陆",
     onEnter:onEnterLoginHook,
     getComponent:(nextState,cb)=>{
         require.ensure([], (require) => {
@@ -127,6 +130,7 @@ const Login = {
 const ChangePasswd = {
     path:"changePasswd",
     breadcrumbName:"修改密码",
+    onEnter:requireAuthHook,
     onLeave:onLeavePage,
     getComponent:(nextState,cb)=>{
         require.ensure([], (require) => {
@@ -139,6 +143,7 @@ const ChangePasswd = {
 const SettingEmail = {
     path:"settingEmail",
     breadcrumbName:"配置邮箱(候选人管理)",
+    onEnter:requireAuthHook,
     onLeave:onLeavePage,
     getComponent:(nextState,cb)=>{
         require.ensure([], (require) => {

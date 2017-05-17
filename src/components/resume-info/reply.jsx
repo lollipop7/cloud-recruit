@@ -8,7 +8,7 @@ import TagsComponent from './tags';
 export default class ReplyComponents extends Component {
 
     state = {
-        statusid: '1'
+        statusid: '2'
     }
 
     onChange = (e) => {

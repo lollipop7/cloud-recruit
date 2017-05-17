@@ -8,7 +8,8 @@ import pickBy from 'lodash/pickBy';
 
 // 学历要求
 import education from 'data/select/education';
-import workyears from 'data/select/workyears';
+// 工作年限下拉数据
+import workyears from 'data/select/talent-workyears';
 
 export default class FormComponent extends Component {
 
@@ -57,16 +58,27 @@ export default class FormComponent extends Component {
     }
 
     render() {
-        const {
-            // company,
-            city,
-            keywords,
-            edu=undefined,
-            year=undefined,
-            source=undefined
-        } = this.state;
+        const {showUploadModal} = this.props,
+            {
+                // company,
+                city,
+                keywords,
+                edu=undefined,
+                year=undefined,
+                source=undefined
+            } = this.state;
         return (
-            <div className="form">
+            <div className="form" style={{
+                position: 'relative'
+            }}>
+                <div className="float-button" onClick={()=>showUploadModal()} style={{
+                    bottom: -35
+                }}>
+                    <Button type="primary" style={{
+                        backgroundImage: 'url(/static/images/recruit/import.png)'
+                    }}></Button>
+                    <span>导入简历</span>
+                </div>
                 <div className="bottom16">
                     {/*<Input 
                         placeholder="公司名称"
@@ -97,14 +109,12 @@ export default class FormComponent extends Component {
                             })
                         }
                     </Select>
-                    <Input 
+                    {/*<Input 
                         placeholder="工作年限"
                         value={year}
                         onChange={(e)=>this.handleChange('year',e)}
-                    />
-                </div>
-                <div>
-                    {/*<Select 
+                    />*/}
+                    <Select 
                         placeholder="工作年限" 
                         style={{width: 209}}
                         value={year}
@@ -117,7 +127,10 @@ export default class FormComponent extends Component {
                                 )
                             })
                         }
-                    </Select>*/}
+                    </Select>
+                </div>
+                <div>
+                    
                     <Select 
                         placeholder="简历来源" 
                         style={{width: 209}} 

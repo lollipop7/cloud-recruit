@@ -23,6 +23,7 @@ const initialState = {
    isListLoading: false,
    categoryData: {},
    talentList: {
+       count: 0,
        list: []
    },
    createModal: {isLoading:false,modalVisible:false},

@@ -32,9 +32,9 @@ export const cancelRequestByKey = function(key) {
 
 export const AjaxByPost = (uri, data) => {
     return new Promise(function(resolve, reject) {
+        const {NODE_ENV} = process.env;
         axios({
-            // url: '/hrmanage/api'+uri,
-            url: uri,
+            url: NODE_ENV === 'development' ? uri : `/hrmanage/api${uri}`,
             method: 'post',
             data: merge(data,{
                 head:{

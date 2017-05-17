@@ -1,7 +1,7 @@
 import * as types from 'constants/talent';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
-import {notification} from 'antd'; 
+import {message} from 'antd'; 
 
 const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
 const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
@@ -28,6 +28,7 @@ const HIDE_MOVE_RESUME_MODAL = {type:types.HIDE_MOVE_RESUME_MODAL};
 const MOVE_RESUME_START = {type:types.MOVE_RESUME_START};
 const MOVE_RESUME_DONE = {type:types.MOVE_RESUME_DONE};
 
+// 获取人才分类
 export const getTalentCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
     AjaxByToken('/web/TalentStatis',{
@@ -40,7 +41,7 @@ export const getTalentCategory = () => (dispatch,getState) => {
         dispatch({...LOAD_TALENT_CATEGORY,categoryData:res});
     });
 }
-
+// 获取人才列表
 export const getTalentList = (data) => (dispatch,getState) => {
     data.start = data.start + '';
     const uri = '/web/queryTalent';
@@ -57,6 +58,70 @@ export const getTalentList = (data) => (dispatch,getState) => {
         // 如果返回状态吗不是AAAAAA res为服务器返回的错误信息
         if(typeof res === 'string') res = {list: [],count: 0};
         dispatch({...LOAD_TALENT_LIST,talentList:res});
+    });
+}
+
+//企业收藏简历
+export const collectionResume = data => (dispatch,getState) => {
+    dispatch(LOAD_LIST_START);
+    AjaxByToken('/web/CollectionResume',{
+        head: {
+            transcode: 'L0027'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(LOAD_LIST_DONE);
+        if(typeof res === 'object'){
+            message.success('收藏成功！');
+            const {categoryData,talentList} = getState().Talent,
+                {list,count} = talentList;
+            list.forEach((item,index)=>{
+                if(item.resumeid === data.resumeid){
+                    list[index].iscollection = "1";
+                }
+            });
+            dispatch({
+                ...LOAD_TALENT_CATEGORY,
+                categoryData:{
+                    ...categoryData,
+                    collection:categoryData.collection + 1
+                }
+            });
+            dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
+        }
+    });
+}
+
+//企业取消收藏简历
+export const cancelCollectionResume = data => (dispatch,getState) => {
+    dispatch(LOAD_LIST_START);
+    AjaxByToken('/web/cancelthecollection',{
+        head: {
+            transcode: 'L0037'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(LOAD_LIST_DONE);
+        if(typeof res === 'object'){
+            message.success('取消收藏成功！');
+            const {categoryData,talentList} = getState().Talent,
+                {list,count} = talentList;
+            list.forEach((item,index)=>{
+                if(item.resumeid === data.resumeid){
+                    list[index].iscollection = "0";
+                }
+            });
+            dispatch({
+                ...LOAD_TALENT_CATEGORY,
+                categoryData:{
+                    ...categoryData,
+                    collection:categoryData.collection - 1
+                }
+            });
+            dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
+        }
     });
 }
 
@@ -80,10 +145,7 @@ export const createLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
         data: data
     })
     .then(res=>{
-        notification.success({
-            message: '提示',
-            description: '新建类别成功'
-        });
+        message.success('新建类别成功！');
         dispatch(CREATE_LABEL_DONE);
         setTimeout(()=>{
             dispatch(HIDE_CREATE_LABEL_MODAL);
@@ -114,10 +176,7 @@ export const deleteLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
     })
     .then(res=>{
         if(typeof res == 'object'){
-            notification.success({
-                message: '提示',
-                description: '删除类别成功'
-            });
+            message.success('删除类别成功！');
             dispatch(DELETE_LABEL_DONE);
             setTimeout(()=>{
                 dispatch(HIDE_DELETE_LABEL_MODAL);
@@ -138,7 +197,7 @@ export const hideMoveResumeModal = () => (dispatch,getState) => {
 }
 
 // 移动人员
-export const moveResume = (data) => (dispatch,getState) => {
+export const moveResume = (data,getTalentCategory=()=>{}) => (dispatch,getState) => {
     dispatch(MOVE_RESUME_START);
     AjaxByToken('/web/resumemobile',{
         head: {
@@ -149,6 +208,8 @@ export const moveResume = (data) => (dispatch,getState) => {
     .then(res=>{
         dispatch(MOVE_RESUME_DONE);
         if(typeof res == 'object'){
+            message.success('移动成功！');
+            getTalentCategory();
             dispatch(HIDE_MOVE_RESUME_MODAL);
         }
     });

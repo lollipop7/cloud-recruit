@@ -46,6 +46,7 @@
     "cross-env": "^3.1.4",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.26.4",
+    "draft-js": "^0.10.1",
     "echarts": "^3.5.3",
     "eslint": "^3.14.1",
     "eslint-config-airbnb-base": "^11.0.1",

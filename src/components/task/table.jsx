@@ -1,76 +1,93 @@
 import React, {Component} from 'react';
 
 import {Table} from 'antd';
-import extend from 'lodash/extend';
+
+// lodash
+import omit from 'lodash/omit';
 
 import columns from 'data/table-columns/task-table';
 
-export default class TableComponents extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class TableComponents extends Component {
+
+    keies = [
+        'loginNum',
+        'resumeCount',
+        'hand51Num',
+        'handZLNum',
+        'positionNum',
+        'applicationNum_todo',
+        'applicationNum',
+        'reservationNum',
+        'interviewNum',
+        'reexaminationNum',
+        'entryNum',
+        'processedNum'
+    ]
 
     state = {
-      data: []
-    }
-
-    reduce(list,key){
-        const obj = list.reduce((prevVal,curVal)=>{
-          return {[key]:prevVal[key]+curVal[key]}
-       },{[key]:0});
-       return obj[key];
-    }
-
-    generateRandom() {
-        return Math.floor(Math.random()*100)+10;
     }
 
     componentDidMount() {
-        let list = [];
-        for(let i=0;i<7;i++){
-            list.push({
-                key: Math.random(),
-                organization: '51金融圈',
-                name: '刘德华',
-                loginnum: this.generateRandom(),
-                resumenum: this.generateRandom(),
-                "51job": this.generateRandom(),
-                zhilian: this.generateRandom(),
-                focus: this.generateRandom(),
-                pending: this.generateRandom(),
-                cnt: this.generateRandom(),
-                subscribe: this.generateRandom(),
-                interview: this.generateRandom(),
-                sinterview: this.generateRandom(),
-                induction: this.generateRandom(),
-                complete: this.generateRandom()
-            });
-        }
-        list.push({
-            key: Math.random(),
-            name: '合计',
-            loginnum: this.reduce(list,'loginnum'),
-            resumenum: this.reduce(list,'resumenum'),
-            "51job": this.reduce(list,'51job'),
-            zhilian: this.reduce(list,'zhilian'),
-            focus: this.reduce(list,'focus'),
-            pending: this.reduce(list,'pending'),
-            cnt: this.reduce(list,'cnt'),
-            subscribe: this.reduce(list,'subscribe'),
-            interview: this.reduce(list,'interview'),
-            sinterview: this.reduce(list,'sinterview'),
-            induction: this.reduce(list,'induction'),
-            complete: this.reduce(list,'complete')
-        });
-        list.push({
-            key: Math.random(),
-            complete: '注：用户名为空的人，显示该用户的编号 ［数据来源日期 2014-05-23 至 2015-04-04］'
-        });
-        this.setState({
-            data: list
-        });
+        this.props.getTaskReport();
+        document.getElementsByTagName('table')[0].id = 'table';
+    }
+
+    calcTotal(data,key) {
+        return data.reduce((prevObj,currentObj)=>{
+                    return {[key]:prevObj[key] + currentObj[key]};
+                },{[key]:0})[key];
+    }
+
+    getDataSource = data => {
+        let dataSource = [];
+        Object.keys(data).forEach((key,index)=>{
+           // 添加机构名称
+           data[key][0].organization = key;
+           let totalObj = {userName:'合计'};
+           this.keies.map(item=>{
+                totalObj[item] = this.calcTotal(data[key],item);
+           });    
+           data[key].push(totalObj);
+           data[key].push({processedNum:'注：用户名为空的人，显示该用户的编号 ［数据来源日期 2014-05-23 至 2015-04-04］'});
+           if(index === 0){
+                dataSource = data[key];
+           }
+       });
+       dataSource.forEach((item,index)=>{
+           item.key = index;
+       });
+       return dataSource;
     }
 
     render() {
+        const {isLoading,data} = this.props;
+        const dataSource = this.getDataSource(data);
         return (
-            <Table columns={columns} dataSource={this.state.data} bordered />
+            <Table
+                columns={columns(dataSource&&dataSource.length)} 
+                loading={isLoading}
+                dataSource={dataSource} 
+                bordered
+                pagination={false}
+            />
         );
     }
 }
+
+const mapStateToProps = state => ({
+    data: state.Task.data, // 统计列表数据
+    isLoading: state.Task.isLoading
+})
+const mapDispatchToProps = dispatch => ({
+    getTaskReport: bindActionCreators(Actions.TaskActions.getTaskReport, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TableComponents);

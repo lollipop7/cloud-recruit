@@ -11,6 +11,8 @@ import {
     HIDE_UPLOAD_MODAL,
     UPLOAD_RESUME_START,
     UPLOAD_RESUME_DONE,
+    SET_RESETFORM_TRUE,
+    SET_RESETFORM_FALSE,
     SHOW_RECOMMEND_MODAL,
     HIDE_RECOMMEND_MODAL,
     LOAD_RECOMMEND_START,
@@ -31,7 +33,8 @@ const initialState = {
     },
     uploadModal:{
         visible: false,
-        isLoading: false 
+        isLoading: false,
+        resetForm: false
     },
     recommendModal: {
         visible: false,
@@ -70,6 +73,10 @@ export default function recruit(state = initialState,actions){
             return {...state,uploadModal:{...state.uploadModal,isLoading:true}};
         case UPLOAD_RESUME_DONE:
             return {...state,uploadModal:{...state.uploadModal,isLoading:false}};
+        case SET_RESETFORM_TRUE:
+            return {...state,uploadModal:{...state.uploadModal,resetForm:true},position:{}};
+        case SET_RESETFORM_FALSE:
+            return {...state,uploadModal:{...state.uploadModal,resetForm:false}};
         case SHOW_RECOMMEND_MODAL:
             return {...state,recommendModal:{...state.recommendModal,visible:true}};
         case HIDE_RECOMMEND_MODAL:
