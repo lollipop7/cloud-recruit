@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {message} from 'antd';
+
 import {Modal,Select,Input,Button,Upload} from 'antd';
 const Option = Select.Option;
 // redux
@@ -44,7 +46,7 @@ class UploadResumeModalComponents extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
-        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|.zip)$/i,
+        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|.zip|.mht)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
         // 判断是否已经上传过文件(单次只能上传一个文件)
@@ -89,6 +91,7 @@ class UploadResumeModalComponents extends Component {
             {positionid} = position;
         // 判断是否选择了推荐职位
         if(!positionid) {
+            message.info('推荐职位不能为空！');
             return ;
         }
         // 判断是否上传了文件

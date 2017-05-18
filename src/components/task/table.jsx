@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 
 import {Table} from 'antd';
 
+// moment
+import moment from 'moment';
+
 // lodash
 import omit from 'lodash/omit';
 
@@ -45,6 +48,9 @@ class TableComponents extends Component {
 
     getDataSource = data => {
         let dataSource = [];
+        let endtime = new Date().getTime(),
+            steptime = 7*24*60*60*1000,
+            starttime = endtime - steptime;
         Object.keys(data).forEach((key,index)=>{
            // 添加机构名称
            data[key][0].organization = key;
@@ -53,7 +59,9 @@ class TableComponents extends Component {
                 totalObj[item] = this.calcTotal(data[key],item);
            });    
            data[key].push(totalObj);
-           data[key].push({processedNum:'注：用户名为空的人，显示该用户的编号 ［数据来源日期 2014-05-23 至 2015-04-04］'});
+           data[key].push({processedNum:`注：用户名为空的人，显示该用户的编号 
+           ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
+           ${moment(endtime).format('YYYY-MM-DD')}］`});
            if(index === 0){
                 dataSource = data[key];
            }

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Radio,Input,DatePicker} from 'antd';
 const RadioGroup = Radio.Group;
 
+import TooltipComponents from './tooltip';
 import TagsComponent from './tags';
 import InputComponents from './input';
 

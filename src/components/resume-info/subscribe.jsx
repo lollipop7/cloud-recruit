@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Radio,Input,DatePicker} from 'antd';
+import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
 import radioData from 'data/resume-radio.json';
@@ -8,6 +8,7 @@ import radioData from 'data/resume-radio.json';
 // lodash 
 import chunk from 'lodash/chunk';
 
+import TooltipComponents from './tooltip';
 import TagsComponent from './tags';
 import InputComponents from './input';
 
@@ -57,13 +58,26 @@ export default class SubscribeComponents extends Component {
                                 <div key={index} className="table-row">
                                     {
                                         item.map((val,key)=>{
-                                            return (
-                                                <div key={key} className="table-cell">
-                                                    <Radio 
-                                                        value={val.value}
-                                                    >{val.name}</Radio>
-                                                </div>
-                                            )
+                                            const {value,name} = val;
+                                            if(value === '10' || value === '11'){
+                                                return (
+                                                        <div key={key} className="table-cell">
+                                                            <Radio 
+                                                                value={value}
+                                                            >{name}</Radio>
+                                                        </div>
+                                                    )
+                                            }else{
+                                                return (
+                                                    <TooltipComponents key={key}>
+                                                        <div className="table-cell">
+                                                            <Radio 
+                                                                value={value}
+                                                            >{name}</Radio>
+                                                        </div>
+                                                    </TooltipComponents>
+                                                )
+                                            }
                                         })
                                     }
                                 </div>

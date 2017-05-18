@@ -4,9 +4,8 @@ import LeftNav from 'components/job/nav';
 import RightComponent from './right';
 
 // lodash
-import merge from 'lodash/merge';
-import omit from 'lodash/omit';
 import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
@@ -56,13 +55,14 @@ class IndexPage extends Component {
     clickNav(type) {
         // 点击侧边栏分类
         this.params.type = type;
-        this.params.skip = 0;
-        this.setPaginationCurrent(1);
-        this._requestData();
+        // this.params.skip = 0;
+        // this.setPaginationCurrent(1);
+        // this._requestData();
+        this.refs.RightComponent.refs.FormComponent.resetForm(true);
     }
 
-    handleSearch = (params) => {
-        if(isEqual(this.formData,params)) return ;
+    handleSearch = (params,clickNav=false) => {
+        if(isEqual(this.formData,params)&&!clickNav) return ;
         // 点击搜索按钮
         this.params.skip = 0;
         this.formData = params;
@@ -80,12 +80,20 @@ class IndexPage extends Component {
         this.setState({paginationCurrent});
     }
 
+    getRoutes = routes => {
+        let routesCopy = [];
+        routes.forEach(item=>{
+            routesCopy.push(pick(item,['breadcrumbName','path']));
+        });
+        return routesCopy.slice(1,-1);
+    }
+
     render() {
-        const {paginationCurrent} = this.state;
-        const {routes,categoryData,isLoading} = this.props;
+        const {paginationCurrent} = this.state,
+            {routes,categoryData,isLoading} = this.props;
         return (
             <div className="page-content job-page">
-                <BreadCrumbComponent routes={routes} />
+                <BreadCrumbComponent routes={this.getRoutes(routes)} />
                 <div className="list-block">
                     <div className="pull-left">
                         <LeftNav 
@@ -97,6 +105,7 @@ class IndexPage extends Component {
                     </div>
                     <div className="pull-right">
                         <RightComponent 
+                            ref="RightComponent"
                             onSearch={this.handleSearch} 
                             paginationChange={this.paginationChange} 
                             paginationCurrent={paginationCurrent}

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Radio,Input,DatePicker} from 'antd';
 const RadioGroup = Radio.Group;
 
+import TooltipComponents from './tooltip';
 import TagsComponent from './tags';
 import InputComponents from './input';
 
@@ -45,8 +46,12 @@ export default class InterViewComponents extends Component {
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={statusid}>
-                    <Radio value='1'>未去面试</Radio>
-                    <Radio value='2'>淘汰</Radio>
+                    <TooltipComponents>
+                        <Radio value='1'>未去面试</Radio>
+                    </TooltipComponents>
+                    <TooltipComponents>
+                        <Radio value='2'>淘汰</Radio>
+                    </TooltipComponents>
                     <Radio value='3'>安排复试</Radio>
                     <Radio value='4'>建议入职</Radio>
                 </RadioGroup>

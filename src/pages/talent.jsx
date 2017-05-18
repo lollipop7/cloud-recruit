@@ -29,6 +29,9 @@ class TalentPage extends Component {
         paginationCurrent:1
     }
 
+    // labelid
+    labelid = '';
+
     // form 表单数据
     formData = {};
 
@@ -71,8 +74,9 @@ class TalentPage extends Component {
     }
 
     _requestData() {
+        const label = this.labelid === '' ? {lableid:''} : {lableid:this.labelid}
         this.props.getTalentList({
-            ...this.params,...this.formData
+            ...this.params,...this.formData,...label
         });
     }
 
@@ -126,24 +130,24 @@ class TalentPage extends Component {
         return data;
     }
 
-    handleClickNav(record) {
+    handleClickNav = (record) => {
         // 点击侧边栏导航
         const {type,id} = record;
         this.params.type = type;
-        this.params.start = 0;
-        this.setPaginationCurrent(1);
         if(type === 'custom'){
-            this.props.getTalentList({
-                ...this.params,...this.formData,...{lableid:id}
-            });
+            this.labelid = id;
         }else{
-            this._requestData();
+            this.labelid = '';
         }
+        // this.params.start = 0;
+        // this.setPaginationCurrent(1);
+        // this._requestData();
+        this.refs.FormComponent.resetForm(true);
     }
 
-    handleFind = (params) => {
+    handleFind = (params,clickNav=false) => {
         // 点击开始查找按钮
-        if(isEqual(this.formData,params)) return ;
+        if(isEqual(this.formData,params)&&!clickNav) return ;
         this.formData = params;
         this.params.start = 0;
         this.setPaginationCurrent(1);
@@ -172,11 +176,11 @@ class TalentPage extends Component {
                     <div className="list-block">
                         <div className="pull-left">
                             <LeftNav 
-                                title="人才分类" 
+                                title="人才分类"
                                 data={this._getNavData().concat(customNavData)}
                                 isLoading={isLoading}
-                                onClick={this.handleClickNav.bind(this)} 
-                                handleDelete={(record)=>this.showDeleteLabelModal(record)}
+                                onClick={this.handleClickNav} 
+                                handleDelete={record=>this.showDeleteLabelModal(record)}
                             />
                         </div>
                         <div className="pull-right">
@@ -187,6 +191,7 @@ class TalentPage extends Component {
                                     showUploadModal={showUploadModal}
                                 />
                                 <TableComponent
+                                    ref="TableComponent"
                                     paginationCurrent={paginationCurrent}
                                     paginationChange={this.paginationChange}
                                     customNavData={customNavData}

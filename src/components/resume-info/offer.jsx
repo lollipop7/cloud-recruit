@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
+import TooltipComponents from './tooltip';
 import TagsComponent from './tags';
 
 export default class OfferComponents extends Component {
@@ -37,7 +38,9 @@ export default class OfferComponents extends Component {
             <div>
                 <RadioGroup onChange={this.onChange} value={statusid}>
                     <Radio value={'1'}>已发送</Radio>
-                    <Radio value={'2'}>不发送</Radio>
+                    <TooltipComponents>
+                        <Radio value={'2'}>不发送</Radio>
+                    </TooltipComponents>
                 </RadioGroup>
                 <TagsComponent ref='Tags' currentStage={this.props.currentStage} />
             </div>

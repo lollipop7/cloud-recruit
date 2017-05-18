@@ -4,7 +4,10 @@ var compression = require('compression');
 var config = require('../config')
 var proxyMiddleware = require('http-proxy-middleware')
 
-var proxyTable = config.dev.proxyTable
+var proxyTable =  {
+      '/hrmanage': {target:'http://printserver:66'}
+      // '/web': {target:'http://192.168.101.200:8080/hrmanage/api'}
+    }
 
 app.use(compression());
 

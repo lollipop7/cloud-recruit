@@ -4,8 +4,10 @@ import {Table} from 'antd';
 
 import MoveModalComponents from './modal';
 
+// 表格列数据
 import columns from 'data/table-columns/talent-table';
 
+// lodash
 import trim from 'lodash/trim';
 
 // redux
@@ -76,7 +78,7 @@ class TableComponent extends Component {
         this.props.showResumeModal({resumeid});
     }
 
-    onSelectChange = (selectedRowKeys) => {
+    onSelectChange = selectedRowKeys => {
         this.setState({selectedRowKeys});
     }
 

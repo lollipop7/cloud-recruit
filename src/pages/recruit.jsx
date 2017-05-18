@@ -87,14 +87,15 @@ class RecruitPage extends Component {
 
     handleClickNav = (type) => {
         this.params.stageid = type;
-        this.params.skip = 0;
-        this.setPaginationCurrent(1);
-        this._requestData();
+        // this.params.skip = 0;
+        // this.setPaginationCurrent(1);
+        // this._requestData();
+        this.refs.FormComponents.resetForm(true);
     }
 
-    handleFind = (params) => {
+    handleFind = (params,clickNav=false) => {
         // 点击开始查找按钮
-        if(isEqual(this.formData,params)) return ;
+        if(isEqual(this.formData,params)&&!clickNav) return ;
         this.formData = params;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
@@ -137,7 +138,8 @@ class RecruitPage extends Component {
                         </div>
                         <div className="pull-right">
                             <div className="box-border right-panel">
-                                <FormComponents 
+                                <FormComponents
+                                    ref="FormComponents"
                                     findEvent={this.handleFind} 
                                     showUploadModal={this.props.showUploadModal}
                                 />

@@ -23,14 +23,14 @@ export default class FormComponents extends Component {
         });
     }
 
-    resetForm = () => {
+    resetForm = (clickNav=false) => {
         this.setState({
             positionname: '',
             livecityid: '',
             username: '',
             workyear: ''
         });
-        this.props.findEvent({});
+        this.props.findEvent({},clickNav);
     }
 
     handleFind = () => {

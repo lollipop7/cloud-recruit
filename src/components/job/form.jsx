@@ -41,7 +41,7 @@ export default class FormComponent extends Component {
         });
     }
 
-    resetForm=() => {
+    resetForm=(clickNav=false) => {
         // 重置表单
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
@@ -50,7 +50,7 @@ export default class FormComponent extends Component {
         });
         onStartChange(null);
         onEndChange(null);
-        this.props.onSearch({});
+        this.props.onSearch({},clickNav);
     }
 
     handleSearch = () => {

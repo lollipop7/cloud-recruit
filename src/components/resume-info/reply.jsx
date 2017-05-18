@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
+import TooltipComponents from './tooltip';
 import TagsComponent from './tags';
 
 export default class ReplyComponents extends Component {
@@ -36,7 +37,11 @@ export default class ReplyComponents extends Component {
         return (
             <div>
                 <RadioGroup onChange={this.onChange} value={statusid}>
-                    <Radio value={'1'}>不适合</Radio>
+                    <TooltipComponents>
+                        <Radio value={'1'}>
+                            不适合
+                        </Radio>
+                    </TooltipComponents>
                     <Radio value={'2'}>适合</Radio>
                 </RadioGroup>
                 <TagsComponent ref='Tags' />

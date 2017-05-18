@@ -26,7 +26,7 @@ export default class FormComponent extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
-    resetForm = () => {
+    resetForm = (clickNav=false) => {
         this.setState({
             // company: '', // 公司名称
             city: '', // 居住地
@@ -35,7 +35,7 @@ export default class FormComponent extends Component {
             year: undefined, // 工作年限
             source: undefined // 简历来源
         });
-        this.props.findEvent({});
+        this.props.findEvent({},clickNav);
     }
     
     handleChange(field,e) {
