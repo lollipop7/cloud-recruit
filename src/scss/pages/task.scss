@@ -20,9 +20,11 @@
     }
     .ant-table-wrapper  {
         margin-top: 16px;
-        .ant-table-pagination {
-            margin: 10px 0 0;
-            text-align: right;
+        &.no-margin-border {
+            margin: 0;
+            table {
+                border-top: 0;
+            }
         }
     }
     .download {

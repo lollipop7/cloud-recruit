@@ -45,6 +45,10 @@ class NavBarComponents extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || nextState !== this.state;
+    }
+
     showNprogress=(uri='')=>{
         const {location} = this.props,
             {pathname} = location;

@@ -40,6 +40,28 @@ export default class InterViewComponents extends Component {
         return {statusid,thelable,...data};
     }
     
+    getTimePlaceholder(statusid) {
+        switch(statusid){
+            case "1":
+                return '预约时间';
+            case "3":
+                return "复试时间";
+            case "4":
+                return "入职时间";
+        }
+    }
+
+    getAddressPlaceholder(statusid) {
+        switch(statusid){
+            case "1":
+                return '预约地点';
+            case "3":
+                return "复试地点";
+            case "4":
+                return "入职地点";
+        }
+    }
+
 
     render() {
         const {statusid} = this.state;
@@ -55,11 +77,11 @@ export default class InterViewComponents extends Component {
                     <Radio value='3'>安排复试</Radio>
                     <Radio value='4'>建议入职</Radio>
                 </RadioGroup>
-                {statusid !== '1' && statusid !== '2' && 
+                {statusid !== '2' && 
                     <InputComponents 
                         ref="Event"
-                        timePlaceholder={statusid === '3' ? '复试时间' : '入职时间'}
-                        addressPlaceholder={statusid === '3' ? '复试地点' : '入职地点'}
+                        timePlaceholder={this.getTimePlaceholder(statusid)}
+                        addressPlaceholder={this.getAddressPlaceholder(statusid)}
                     />
                 }
                 <TagsComponent ref='Tags' currentStage={this.props.currentStage} />

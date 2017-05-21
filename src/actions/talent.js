@@ -72,24 +72,25 @@ export const collectionResume = data => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
-        if(typeof res === 'object'){
-            message.success('收藏成功！');
-            const {categoryData,talentList} = getState().Talent,
-                {list,count} = talentList;
-            list.forEach((item,index)=>{
-                if(item.resumeid === data.resumeid){
-                    list[index].iscollection = "1";
-                }
-            });
-            dispatch({
-                ...LOAD_TALENT_CATEGORY,
-                categoryData:{
-                    ...categoryData,
-                    collection:categoryData.collection + 1
-                }
-            });
-            dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
-        }
+        message.success('收藏成功！');
+        const {categoryData,talentList} = getState().Talent,
+            {list,count} = talentList;
+        list.forEach((item,index)=>{
+            if(item.resumeid === data.resumeid){
+                list[index].iscollection = "1";
+            }
+        });
+        dispatch({
+            ...LOAD_TALENT_CATEGORY,
+            categoryData:{
+                ...categoryData,
+                collection:categoryData.collection + 1
+            }
+        });
+        dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
+    },err=>{
+        dispatch(LOAD_LIST_DONE);
+        message.success('收藏失败！');
     });
 }
 
@@ -104,24 +105,25 @@ export const cancelCollectionResume = data => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
-        if(typeof res === 'object'){
-            message.success('取消收藏成功！');
-            const {categoryData,talentList} = getState().Talent,
-                {list,count} = talentList;
-            list.forEach((item,index)=>{
-                if(item.resumeid === data.resumeid){
-                    list[index].iscollection = "0";
-                }
-            });
-            dispatch({
-                ...LOAD_TALENT_CATEGORY,
-                categoryData:{
-                    ...categoryData,
-                    collection:categoryData.collection - 1
-                }
-            });
-            dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
-        }
+        message.success('取消收藏成功！');
+        const {categoryData,talentList} = getState().Talent,
+            {list,count} = talentList;
+        list.forEach((item,index)=>{
+            if(item.resumeid === data.resumeid){
+                list[index].iscollection = "0";
+            }
+        });
+        dispatch({
+            ...LOAD_TALENT_CATEGORY,
+            categoryData:{
+                ...categoryData,
+                collection:categoryData.collection - 1
+            }
+        });
+        dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
+    },err=>{
+        dispatch(LOAD_LIST_DONE);
+        message.success('取消收藏失败！');
     });
 }
 
@@ -175,14 +177,15 @@ export const deleteLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
         data: data
     })
     .then(res=>{
-        if(typeof res == 'object'){
-            message.success('删除类别成功！');
-            dispatch(DELETE_LABEL_DONE);
-            setTimeout(()=>{
-                dispatch(HIDE_DELETE_LABEL_MODAL);
-            },500);
-            getTalentCategory();
-        }
+        message.success('删除类别成功！');
+        dispatch(DELETE_LABEL_DONE);
+        setTimeout(()=>{
+            dispatch(HIDE_DELETE_LABEL_MODAL);
+        },500);
+        getTalentCategory();
+    },err=>{
+        message.success('删除类别失败！');
+        dispatch(DELETE_LABEL_DONE);
     });
 }
 
@@ -207,10 +210,10 @@ export const moveResume = (data,getTalentCategory=()=>{}) => (dispatch,getState)
     })
     .then(res=>{
         dispatch(MOVE_RESUME_DONE);
-        if(typeof res == 'object'){
-            message.success('移动成功！');
-            getTalentCategory();
-            dispatch(HIDE_MOVE_RESUME_MODAL);
-        }
+        message.success('移动成功！');
+        getTalentCategory();
+        dispatch(HIDE_MOVE_RESUME_MODAL);
+    },err=>{
+        dispatch(MOVE_RESUME_DONE);
     });
 }

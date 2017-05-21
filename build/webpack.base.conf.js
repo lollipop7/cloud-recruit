@@ -43,6 +43,11 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+      'react': 'React',
+      'react-dom': 'ReactDOM',
+      antd: 'antd'
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {

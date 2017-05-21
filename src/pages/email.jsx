@@ -10,8 +10,16 @@ import RightComponents from 'components/email/right';
 
 export default class EmailPage extends Component {
 
+    state = {
+        addressee: {}
+    }
+
     componentDidMount() {
         NProgress.done();
+    }
+
+    selectAddressee = addressee => {
+        this.setState({addressee});
     }
 
     render() {
@@ -22,10 +30,15 @@ export default class EmailPage extends Component {
                     <BreadCrumbComponent routes={routes} />
                     <div className="list-block">
                         <div className="pull-left">
-                            <ListComponents />
+                            <ListComponents selectAddressee={this.selectAddressee} />
                         </div>
                         <div className="pull-right">
-                            <RightComponents />
+                            <RightComponents addressee={this.state.addressee} />
+                        </div>
+                    </div>
+                    <div className="list-block">
+                        <div className="pull-right">
+                            
                         </div>
                     </div>
                 </div>

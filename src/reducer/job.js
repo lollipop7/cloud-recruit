@@ -8,7 +8,8 @@ import {
     JOB_INFO,
     LOAD_INFO_START,
     LOAD_INFO_DONE,
-    CREATE_JOB
+    CREATE_JOB_START,
+    CREATE_JOB_DONE
 } from 'constants/job';
 
 const initialState = {
@@ -25,7 +26,8 @@ const initialState = {
     },
     jobInfo: {},
     isLoadingList: false,
-    isLoadingInfo: false
+    isLoadingInfo: false,
+    isCanCreateJob: true
 };
 
 export default function job(state = initialState,actions){
@@ -48,6 +50,10 @@ export default function job(state = initialState,actions){
             return {...state,isLoadingInfo:false};
         case JOB_INFO:
             return {...state,jobInfo:actions.jobInfo};
+        case CREATE_JOB_START:
+            return {...state,isCanCreateJob:false};
+        case CREATE_JOB_DONE:
+            return {...state,isCanCreateJob:true};
         default: 
             return state;
     }

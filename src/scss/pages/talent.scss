@@ -4,9 +4,6 @@
         position: relative;
     }
     .left-nav {
-        li:first-child {
-            overflow: auto;
-        }
         li:last-child {
             position: absolute;
             width: 100%;

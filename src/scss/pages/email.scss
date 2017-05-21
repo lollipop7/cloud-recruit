@@ -2,11 +2,15 @@
     .box-border {
         background-color: #FFF;
         height: 564px;
+        position: relative;
     }
     .pull-left {
         .box-border {
             width: 334px;
-            padding: 16px 20px 0px;
+            padding: 16px 0px;
+        }
+        .empty {
+            margin-top: 130px;
         }
     }
     // 搜索框
@@ -35,8 +39,11 @@
     }
     // 历史邮件列表
     .history-list {
+        position: absolute;
+        width: 100%;
+        left: 0;
         li {
-            padding: 21px 0 20px;
+            padding: 21px 20px 20px;
             position: relative;
             &:after {
                 @include border-bottom;
@@ -45,6 +52,12 @@
                 &:after {
                     height: 0px;
                 }
+            }
+            &.active {
+                border-left: 2px solid $theme-color;
+            }
+            &:hover {
+                cursor: pointer;
             }
         }
         img {
@@ -72,50 +85,6 @@
     }
     // 右边编辑器容器
     .pull-right {
-        .box-border {
-            width: 850px;
-        }
-        .table-cell {
-            font-size: 14px;
-            vertical-align: middle;
-            &:first-child {
-                width: 61px;
-            }
-        }
-        .send-people {
-            position: relative;
-            padding: 15px 20px;
-            &:after {
-                @include border-bottom;
-            }
-            .table-cell {
-                &:first-child+div {
-                    width: 50px;
-                }
-                img {
-                    vertical-align: middle;
-                    height: 40px;
-                }
-                &:last-child {
-                    width: 114px;
-                    button {
-                        width: 114px;
-                        height: 40px;
-                        border-radius: 8px;
-                        font-size: 16px;
-                        // background-image: url(../../static/images/email/send.png);
-                        background-size: 20px 19px;
-                        background-repeat: no-repeat;
-                    }
-                }
-            }
-        }
-        .theme {
-            padding: 12px 20px;
-            input {
-                border: 0;
-                outline: 0;
-            }
-        }
+        overflow: hidden;
     }
 }

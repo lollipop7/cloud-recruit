@@ -2,6 +2,9 @@ import React, {Component,PropTypes} from 'react';
 
 import {Button,Modal,Input} from 'antd';
 
+// scrollbars
+import { Scrollbars } from 'react-custom-scrollbars';
+
 // lodash
 import trim from 'lodash/trim';
 
@@ -121,43 +124,47 @@ class LeftNavComponent extends Component {
             } = this.props;
         return (
             <ul className="left-nav box-border">
-                <li style={{height: '842px'}}>
+                <li>
                     <a className="title" href="javascript:void(0);">{title}</a>
-                    <dl>
-                        {data.map((item,index)=>{
-                            const {type,title,num=0} = item;
-                            return (
-                                <dd 
-                                    key={index} 
-                                    onClick={this.handleClick.bind(this,index,item)}
-                                    className={_selectedIndex === index ? 'active' : ''}
-                                >
-                                    {title} 
-                                    ({isLoading ?
-                                        <div 
-                                            className={_selectedIndex === index ? 'preloader-white' : 'preloader'} 
-                                            style={{
-                                                position: 'relative',
-                                                top: 3,
-                                                width: 16,
-                                                height: 16
-                                            }}
-                                        >
-                                        </div> :
-                                        num
-                                    })
-                                    {type === 'custom' && _selectedIndex !== index &&
-                                        <a href="javascript:;" className="delete" onClick={(e)=>{this.showDeleteLabelModal(item,e)}}>
-                                            <img 
-                                                src="./static/images/talent/delete.png" 
-                                                alt="删除"
-                                            />
-                                        </a>
-                                    }
-                                </dd>
-                            )
-                        })}
-                    </dl>
+                    <Scrollbars style={{
+                        height: 802
+                    }} autoHide={true}>
+                        <dl>
+                            {data.map((item,index)=>{
+                                const {type,title,num=0} = item;
+                                return (
+                                    <dd 
+                                        key={index} 
+                                        onClick={this.handleClick.bind(this,index,item)}
+                                        className={_selectedIndex === index ? 'active' : ''}
+                                    >
+                                        {title} 
+                                        ({isLoading ?
+                                            <div 
+                                                className={_selectedIndex === index ? 'preloader-white' : 'preloader'} 
+                                                style={{
+                                                    position: 'relative',
+                                                    top: 3,
+                                                    width: 16,
+                                                    height: 16
+                                                }}
+                                            >
+                                            </div> :
+                                            num
+                                        })
+                                        {type === 'custom' && _selectedIndex !== index &&
+                                            <a href="javascript:;" className="delete" onClick={(e)=>{this.showDeleteLabelModal(item,e)}}>
+                                                <img 
+                                                    src="./static/images/talent/delete.png" 
+                                                    alt="删除"
+                                                />
+                                            </a>
+                                        }
+                                    </dd>
+                                )
+                            })}
+                        </dl>
+                    </Scrollbars>
                 </li>
                 <li>
                     <div className="float-button" onClick={()=>this.props.showCreateLabelModal()}>

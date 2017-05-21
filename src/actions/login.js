@@ -21,14 +21,13 @@ export const userLogin = (userInfo={},context) => (dispatch,getState) => {
         data: userInfo
     })
     .then(res=>{
-        if(typeof res === 'object'){
-            const data = pick(res,['token','tokenKey']);
-            store.set('token',data);
-            context.router.push('/');
-            // dispatch(extend({},USER_LOGIN,{token:data}));
-        }else{
-            dispatch(LOGIN_DONE);
-        }
+        dispatch(LOGIN_DONE);
+        const data = pick(res,['token','tokenKey']);
+        store.set('token',data);
+        context.router.push('/');
+    },err=>{
+        console.log(err);
+        dispatch(LOGIN_DONE);
     });
 }
 

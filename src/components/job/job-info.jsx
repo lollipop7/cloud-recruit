@@ -31,7 +31,7 @@ class JobInfoComponent extends Component {
                     <ul className="job-form" style={{
                         textAlign: 'left',
                         padding: 0,
-                        margin: '0 30px'
+                        margin: '16px 30px'
                     }}>
                         <BaseInfoComponent {...this.props} />
                         <OtherInfoComponent {...this.props} />

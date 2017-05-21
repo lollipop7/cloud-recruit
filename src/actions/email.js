@@ -1,11 +1,29 @@
 import * as types from 'constants/email';
+import axios from 'axios';
 import {AjaxByToken} from 'utils/ajax';
 
+import {message} from 'antd';
+
 // 获取历史邮件列表
+const GET_HISTORY_START = {type:types.GET_HISTORY_START};
+const GET_HISTORY_END = {type:types.GET_HISTORY_END};
 const GET_EMAIL_HISTORY = {type:types.GET_EMAIL_HISTORY};
+
+// 发送邮件
+const SEND_EMAIL_START = {type:types.SEND_EMAIL_START};
+const SEND_EMAIL_DONE = {type:types.SEND_EMAIL_DONE};
+
+// 上传附件MODAL
+const SHOW_UPLOAD_MODAL = {type:types.SHOW_UPLOAD_MODAL};
+const HIDE_UPLOAD_MODAL = {type:types.HIDE_UPLOAD_MODAL};
+
+// 重置附件列表
+const RESET_FILELIST_TRUE = {type:types.RESET_FILELIST_TRUE};
+const RESET_FILELIST_FALSE = {type:types.RESET_FILELIST_FALSE};
 
 // 获取历史邮件列表
 export const getEmailHistory = (data={}) => (dispatch,getState) => {
+    dispatch(GET_HISTORY_START);
     AjaxByToken('/web/talentStatis',{
         head: {
             transcode: 'L0028'
@@ -13,6 +31,73 @@ export const getEmailHistory = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        dispatch(GET_HISTORY_END);
         dispatch({...GET_EMAIL_HISTORY,list:res.list});
     });
+}
+
+// 查询人员信息邮件历史记录
+export const getEmailBoxDetail = data => (dispatch,getState) => {
+    AjaxByToken('/web/mailBoxDetail',{
+        head: {
+            transcode: 'L0029'
+        },
+        data: data
+    })
+    .then(res=>{
+        console.log(res);
+        // dispatch({...GET_EMAIL_HISTORY,list:res.list});
+    });
+}
+
+// 发送邮件
+export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (dispatch,getState) => {
+    dispatch(SEND_EMAIL_START);
+    AjaxByToken('/web/sendEmail',{
+        head: {
+            transcode: 'L0021'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(SEND_EMAIL_DONE);
+        message.success('发送邮件成功！');
+        // 重置邮件主题
+        reSetTitle('');
+        // 重置邮件内容
+        reSetHTML();
+        // 批量删除上传的附件
+        let requestArr = [];
+        fileList.forEach(item=>{
+            const {response} = item;
+            let fd = new FormData();
+            fd.append('fileName',response.filePath);
+            requestArr.push(
+                axios.post('/web/uploadremove',fd)
+            );
+        });
+        axios.all(requestArr)
+        .then(axios.spread(function () {
+            // 重置上传附件列表
+            dispatch(RESET_FILELIST_TRUE);
+            // 上面请求都完成后，才执行这个回调方法
+            console.log(arguments);
+        }));
+    },err=>{
+        dispatch(SEND_EMAIL_DONE);
+        message.error('发送邮件失败！');
+    });
+}
+
+export const resetFileListFalse = () => (dispatch,getState) => {
+    dispatch(RESET_FILELIST_FALSE);
+}
+
+// 显示上传附件MODAL
+export const showUploadModal = () => (dispatch,getState) => {
+    dispatch(SHOW_UPLOAD_MODAL);
+}
+// 隐藏上传附件MODAL
+export const hideUploadModal = () => (dispatch,getState) => {
+    dispatch(HIDE_UPLOAD_MODAL);
 }

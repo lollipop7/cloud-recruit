@@ -7,6 +7,11 @@ import 'rc-steps/assets/index.css';
 import 'static/css/normalize.css';
 import 'static/css/nprogress.css';
 
+// NProgress configure
+NProgress.configure({
+    className: 'top56'
+})
+
 // To add to window
 if (!window.Promise) {
   window.Promise = Promise;

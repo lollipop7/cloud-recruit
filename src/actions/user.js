@@ -61,12 +61,11 @@ export const changePassWd = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        if(typeof res === 'object'){
-            message.success('修改密码成功！');
-            dispatch(CHANGE_PASSWD);
-        }else{
-            message.error('修改密码失败！');
-        }
+        message.success('修改密码成功！');
+        dispatch(CHANGE_PASSWD);
+    },err=>{
+        message.error('修改密码失败！');
+        dispatch(CHANGE_PASSWD);
     });
 }
 

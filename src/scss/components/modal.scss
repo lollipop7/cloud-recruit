@@ -56,3 +56,13 @@
         height: 40px;
     }
 }
+// 上传附件弹框
+.upload-attchment-modal {
+    button:focus {
+        color: rgba(0,0,0,.65) !important;
+        border-color:#d9d9d9 !important;
+    }
+    .ant-modal-body {
+        padding-bottom: 40px;
+    }
+}

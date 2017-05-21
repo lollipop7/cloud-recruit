@@ -54,17 +54,20 @@ export const getStageLog = (data) => (dispatch,getState) => {
     });
 }
 
+// 根据简历id查询具体信息
 export const getTalentResumeInfo = (data) => (dispatch,getState) => {
     dispatch(LOAD_INFO_START);
     AjaxByToken('/web/resumeView',{
         head: {
-            transcode: 'L0036'
+            transcode: 'L0040'
         },
         data: data
     })
     .then(res=>{
         dispatch(LOAD_INFO_DONE);
         dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
+    },err=>{
+        console.log(err);
     });
 }
 

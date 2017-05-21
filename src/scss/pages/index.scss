@@ -65,6 +65,9 @@
         margin-top: 16px;
         height: 300px;
         padding: 12px 13px 38px;
+        .empty {
+            margin-top: 50px;
+        }
         .title {
             &:hover {
                 cursor: pointer;

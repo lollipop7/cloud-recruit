@@ -11,7 +11,7 @@ export default class OtherInfoComponent extends Component {
         const {starttime=0,endtime=0,urgent=true} = this.props.jobInfo;
         return (
             <li className="other-info" style={{
-                paddingBottom: 16
+                paddingBottom: 0
             }}>
                 <h2 className="title">
                     其他信息

@@ -17,7 +17,7 @@ export default class ScrollPageContent extends Component {
     render() {
         const {height=0} = this.state;
         return (
-            <div className="page">
+            <div className="page" autoHide={true}>
                 <Scrollbars style={{ height: height,minWidth: 1200}}>
                     {this.props.children}
                 </Scrollbars>

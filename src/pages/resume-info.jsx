@@ -7,6 +7,9 @@ import MainContentComponent from 'components/job/recruit-info/main-content';
 
 import ModalComponents from 'components/resume-info/modal';
 
+// 富文本编辑器
+import EmailEditorComponents from 'components/email/right';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -54,9 +57,11 @@ class ResumeInfoPage extends Component {
 
     render() {
         const {type} = this.state,
-            {isLoading,resumeInfo,location} = this.props;
+            {isLoading,data,location} = this.props;
         const isTalent = this.isInTalentPage(location.pathname),
             isRecruit = this.isInRecruitPage(location.pathname);
+        const {resumeid,currentPId,resumeInfo={}} = data;
+        const {username,email} = resumeInfo;
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -74,12 +79,12 @@ class ResumeInfoPage extends Component {
                         <div>
                             {isTalent && 
                                 <TalentHeaderInfoComponent 
-                                    data={resumeInfo}
+                                    data={data}
                                 />
                             }
                             {isRecruit &&
                                 <HeaderInfoComponent 
-                                    data={resumeInfo}
+                                    data={data}
                                 />
                             }
                             {isRecruit &&
@@ -104,11 +109,18 @@ class ResumeInfoPage extends Component {
                                 marginTop: isTalent ? 36 : 0
                             }}>
                                 <div className={`info-content ${!!type ? 'none' : ''}`}>
-                                    <MainContentComponent data={resumeInfo} />
+                                    <MainContentComponent data={data} />
                                 </div>
                                 {isRecruit &&
                                     <div className={`email-content ${!!type ? '' : 'none'}`}>
-                                        邮件
+                                        <EmailEditorComponents
+                                            addressee={{
+                                                resumeid,
+                                                ...{positionid: currentPId},
+                                                ...{resumename: username},
+                                                email
+                                            }}
+                                        />
                                     </div>
                                 }
                             </div>
@@ -121,7 +133,7 @@ class ResumeInfoPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    resumeInfo: state.Resume.resumeInfo,
+    data: state.Resume.resumeInfo,
     isLoading: state.Resume.isInfoLoading
 })
 const mapDispatchToProps = dispatch => ({

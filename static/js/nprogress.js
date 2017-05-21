@@ -218,10 +218,15 @@
 
   NProgress.render = function(fromStart) {
     if (NProgress.isRendered()) return document.getElementById('nprogress');
-
+    
     addClass(document.documentElement, 'nprogress-busy');
     
     var progress = document.createElement('div');
+
+    if(Settings.className){
+        progress.className = Settings.className;
+    }
+
     progress.id = 'nprogress';
     progress.innerHTML = Settings.template;
 

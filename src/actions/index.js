@@ -8,6 +8,7 @@ import * as TalentActions from './talent';
 import * as ResumeActions from './resume-info';
 import * as TaskActions from './task';
 import * as EmailActions from './email';
+import * as FileActions from './file';
 
 module.exports =  {
     loginActions,
@@ -19,5 +20,6 @@ module.exports =  {
     UserActions,
     ResumeActions,
     TaskActions,
-    EmailActions
+    EmailActions,
+    FileActions
 }

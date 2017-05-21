@@ -25,7 +25,7 @@ export default class TimeComponent extends Component {
         if (!endValue || !_startValue) {
             return false;
         }
-        return endValue.valueOf() <= _startValue.valueOf();
+        return endValue.valueOf() <= _startValue.valueOf() && endValue.valueOf() > new Date().getTime();
     }
 
     onChange = (field, value) => {

@@ -15,4 +15,5 @@ export const JOB_INFO = "JOB_INFO";
 export const LOAD_INFO_START = "LOAD_INFO_START";
 export const LOAD_INFO_DONE = "LOAD_INFO_DONE";
 // 创建职位
-export const CREATE_JOB = "CREATE_JOB";
+export const CREATE_JOB_START = "CREATE_JOB_START";
+export const CREATE_JOB_DONE = "CREATE_JOB_DONE";

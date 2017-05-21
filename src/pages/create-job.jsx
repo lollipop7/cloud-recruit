@@ -28,12 +28,14 @@ class CreateJobPage extends Component {
     }
 
     createJob=() => {
-        const {BaseInfoComponent,OtherInfoComponent} = this.refs,
+        if(this.props.isCanCreateJob){
+            const {BaseInfoComponent,OtherInfoComponent} = this.refs,
             baseinfoData = BaseInfoComponent.getFormData();
-        if(!baseinfoData) return ;
-        const otherInfoData = OtherInfoComponent.getFormData();
-        if(!otherInfoData) return ;
-        this.props.createJob({...BaseInfoComponent.state,...OtherInfoComponent.state});
+            if(!baseinfoData) return ;
+            const otherInfoData = OtherInfoComponent.getFormData();
+            if(!otherInfoData) return ;
+            this.props.createJob({...BaseInfoComponent.state,...OtherInfoComponent.state});
+        }
     }
 
     render() {
@@ -69,6 +71,7 @@ class CreateJobPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    isCanCreateJob: state.Job.isCanCreateJob
 })
 const mapDispatchToProps = dispatch => ({
     createJob: bindActionCreators(Actions.jobActions.createJob, dispatch)

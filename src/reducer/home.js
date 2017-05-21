@@ -22,7 +22,7 @@ function generateList() {
 }
 
 const initialState = {
-    urgentTasks: [], // 紧急任务列表
+    // urgentTasks: [], // 紧急任务列表
     resumeData: {}, //简历入库情况
     taskProgress: [], // 任务完成指数
     isEntryLoading: false,

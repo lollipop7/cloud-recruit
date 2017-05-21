@@ -23,8 +23,8 @@ class ListComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {urgentTasks=[]} = nextProps;
-        if(this.state.isLoading && urgentTasks.length > 0){
+        const {urgentTasks} = nextProps;
+        if(this.state.isLoading && urgentTasks){
             this.setState({
                 isLoading: false
             });
@@ -50,6 +50,9 @@ class ListComponent extends Component {
                 <div className="title" onClick={this.handleClick}>
                     紧急任务 
                 </div>
+                {!isLoading && urgentTasks.length ===0 &&
+                    <div className="empty-area">暂无数据</div>
+                }
                 {!isLoading && urgentTasks.length > 0 &&
                     <ul>
                         {urgentTasks.map((item,index)=>{

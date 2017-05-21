@@ -58,7 +58,7 @@ module.exports = [
         render: renderWithATag
     },
     {
-        "title": "前状态",
+        "title": "状态",
         "dataIndex": "prestatusname",
         "key": "prestatusname"
     }

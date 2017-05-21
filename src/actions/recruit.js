@@ -90,17 +90,16 @@ export const uploadResume = data => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(UPLOAD_RESUME_DONE);
-        if(typeof res === 'object'){
-            notification.success({
-                message: '提示',
-                description: '简历导入成功！'
-            });
-            dispatch(SET_RESETFORM_TRUE);
-            setTimeout(()=>{
-                dispatch(HIDE_UPLOAD_MODAL);
-            },500);
-        }
-        // dispatch({...UPLOAD_RESUME,data:res});
+        notification.success({
+            message: '提示',
+            description: '简历导入成功！'
+        });
+        dispatch(SET_RESETFORM_TRUE);
+        setTimeout(()=>{
+            dispatch(HIDE_UPLOAD_MODAL);
+        },500);
+    },err=>{
+        dispatch(UPLOAD_RESUME_DONE);
     });
 }
 
@@ -148,6 +147,7 @@ export const showUploadModal = () => (dispatch,getState) => {
 // 隐藏上传简历MODAL
 export const hideUploadModal = () => (dispatch,getState) => {
     dispatch(HIDE_UPLOAD_MODAL);
+    dispatch(SET_RESETFORM_TRUE);
 }
 
 // 显示推荐职位MODAL

@@ -37,7 +37,7 @@ class TableComponents extends Component {
 
     componentDidMount() {
         this.props.getTaskReport();
-        document.getElementsByTagName('table')[0].id = 'table';
+        // document.getElementsByTagName('table')[0].id = 'table';
     }
 
     calcTotal(data,key) {
@@ -46,11 +46,8 @@ class TableComponents extends Component {
                 },{[key]:0})[key];
     }
 
-    getDataSource = data => {
+    getDataSource = (data,starttime,endtime) => {
         let dataSource = [];
-        let endtime = new Date().getTime(),
-            steptime = 7*24*60*60*1000,
-            starttime = endtime - steptime;
         Object.keys(data).forEach((key,index)=>{
            // 添加机构名称
            data[key][0].organization = key;
@@ -62,27 +59,45 @@ class TableComponents extends Component {
            data[key].push({processedNum:`注：用户名为空的人，显示该用户的编号 
            ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
            ${moment(endtime).format('YYYY-MM-DD')}］`});
-           if(index === 0){
-                dataSource = data[key];
-           }
-       });
-       dataSource.forEach((item,index)=>{
-           item.key = index;
+           dataSource.push(data[key]);
        });
        return dataSource;
     }
 
     render() {
         const {isLoading,data} = this.props;
-        const dataSource = this.getDataSource(data);
+        const {starttime,endtime} = data;
+        const dataSource = !isLoading ? this.getDataSource(data.list,starttime,endtime) : [];
         return (
-            <Table
-                columns={columns(dataSource&&dataSource.length)} 
-                loading={isLoading}
-                dataSource={dataSource} 
-                bordered
-                pagination={false}
-            />
+            <div>
+                {isLoading ? 
+                    <Table
+                        columns={columns()} 
+                        loading={isLoading}
+                        dataSource={[]} 
+                        bordered
+                        pagination={false}
+                    /> : null
+                }
+                {
+                    !isLoading ? dataSource.map((item,index)=>{
+                        const showHeader = index === 0 ? true : false;
+                        const className = index === 0 ? '' : 'no-margin-border';
+                        return (
+                            <Table
+                                key={index}
+                                columns={columns(item&&item.length)} 
+                                loading={isLoading}
+                                dataSource={item} 
+                                className={className}
+                                bordered
+                                showHeader={showHeader}
+                                pagination={false}
+                            />
+                        )
+                    }) : null
+                }
+            </div>
         );
     }
 }

@@ -51,22 +51,22 @@ export const AjaxByPost = (uri, data) => {
             }),
             transformResponse(data,b){
                 NProgress.done();
-                return JSON.parse(data);
+                try{
+                    
+                    return JSON.parse(data);
+                }catch(err){
+                    console.log(err);
+                }
+                
             }
         })
         .then(response => {
             const {data} = response;
             const { returnCode, returnMsg } = data;
             if (returnCode !== 'AAAAAAA') {
-                // return code 0000005 登陆失效,重新登陆
-                // if(returnCode === '0000005'){
-                //     const {protocol,host} = location;
-                //     store.remove('token');
-                //     location.href = `${protocol}${host}/#/login`
-                // }
                 console.info(`${returnCode}:${returnMsg}`);
                 notification.error(returnMsg);
-                resolve(returnMsg);
+                reject(returnMsg);
             } else {
                 resolve(omit(data,['returnCode','returnMsg']));
             }
@@ -87,6 +87,7 @@ export const AjaxByPost = (uri, data) => {
                 console.log(response.headers);
                 console.log(response.config);
             }
+            reject(response);
         })
     });
     

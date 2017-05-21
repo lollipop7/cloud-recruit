@@ -41,9 +41,9 @@ class TalentPage extends Component {
     }
 
     componentDidMount() {
+        NProgress.done();
         const {routeParams} = this.props,
          {keywords} = routeParams;
-        NProgress.done();
         // 请求分类数据
         this.props.getTalentCategory();
         // 请求列表数据

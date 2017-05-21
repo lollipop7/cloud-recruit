@@ -22,7 +22,8 @@ const LOAD_INFO_START = {type:types.LOAD_INFO_START};
 const LOAD_INFO_DONE = {type:types.LOAD_INFO_DONE};
 
 // 创建职位
-const CREATE_JOB = {type:types.CREATE_JOB};
+const CREATE_JOB_START = {type:types.CREATE_JOB_START};
+const CREATE_JOB_DONE = {type:types.CREATE_JOB_DONE};
 
 // 获取职位分类统计
 export const getJobCategory = () => (dispatch,getState) => {
@@ -75,6 +76,7 @@ export const getJobInfo = (data) => (dispatch,getState) => {
 // 创建职位
 export const createJob = (data) => (dispatch,getState) => {
     NProgress.start();
+    dispatch(CREATE_JOB_START);
     AjaxByToken('/web/saveorupdateposition',{
         head: {
             transcode: 'L0013'
@@ -82,12 +84,12 @@ export const createJob = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        if(typeof res === 'object'){
-            message.success('新建职位成功！');
-            // 回退页面
-            setTimeout(() => {
-                history.back(-1);
-            }, 500);
-        }
+        message.success('新建职位成功！');
+        dispatch(CREATE_JOB_DONE);
+        // 回退页面
+        setTimeout(() => {
+            history.back(-1);
+        }, 500);
+    },err=>{
     });
 }

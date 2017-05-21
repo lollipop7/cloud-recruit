@@ -80,8 +80,14 @@ class UploadResumeModalComponents extends Component {
     }
 
     // 文件移除
-    onFileRemove = () => {
-        this.triggerError(false);
+    onFileRemove = file => {
+        // 文件移除
+        const {response} = file;
+        this.props.removeUploadFIle(response.filePath);
+        if(this.state.error){
+            this.triggerError(false);
+        }
+        return true;
     }
 
     uploadResume = () => {
@@ -224,7 +230,8 @@ const mapDispatchToProps = dispatch => ({
     showRecommendModal: bindActionCreators(Actions.RecruitActions.showRecommendModal, dispatch),
     uploadResume:  bindActionCreators(Actions.RecruitActions.uploadResume, dispatch),
     hideModal: bindActionCreators(Actions.RecruitActions.hideUploadModal, dispatch),
-    setResetFormFalse: bindActionCreators(Actions.RecruitActions.setResetFormFalse, dispatch)
+    setResetFormFalse: bindActionCreators(Actions.RecruitActions.setResetFormFalse, dispatch),
+    removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch)
 })
 
 export default connect(

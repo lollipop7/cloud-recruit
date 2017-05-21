@@ -1,12 +1,15 @@
 import {
     GET_TASK_START,
     GET_TASK_DONE,
-    GET_TASK_REPORT
+    GET_TASK_REPORT,
+    DOWNLOAD_TASK_START,
+    DOWNLOAD_TASK_DONE
 } from 'constants/task';
 
 const initialState = {
    isLoading: false,
-   data: {}
+   data: {list:{}},
+   downLoading: false
 };
 
 export default function user(state = initialState,actions){
@@ -17,6 +20,10 @@ export default function user(state = initialState,actions){
             return {...state,isLoading: false};
         case GET_TASK_REPORT:
             return {...state,data:actions.data};
+        case DOWNLOAD_TASK_START:
+            return {...state,downLoading:true};
+        case DOWNLOAD_TASK_DONE:
+            return {...state,downLoading:false};
         default: 
             return state;
     }
