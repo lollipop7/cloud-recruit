@@ -8,7 +8,8 @@ const REMOVE_UPLOAD_FILE = {type: types.REMOVE_UPLOAD_FILE};
 export const removeUploadFIle = fileName => (dispatch,getState) => {
     let fd = new FormData();
     fd.append('fileName',fileName);
-    axios.post('/web/uploadremove',fd)
+    let uri = process.env.NODE_ENV === 'development' ? '/web/uploadremove' : '/hrmanage/api/web/uploadremove';
+    axios.post(uri,fd)
     .then(response=>{
         const {data} = response;
         if(data.success) {

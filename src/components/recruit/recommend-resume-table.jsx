@@ -16,8 +16,9 @@ class RecommendResumeTableComponent extends Component {
     }
 
     componentDidMount() {
+        const {resumeid,requestData} = this.props;
         // 获取导入简历选择职位列表
-        this.props.requestData();
+        requestData({resumeid});
     }
 
     selectPosition = record => {
@@ -28,13 +29,24 @@ class RecommendResumeTableComponent extends Component {
         selectPosition(record);
     }
 
+    handleClick = record => {
+        if(location.hash.indexOf('resumeInfo') !== -1) {
+            const {resumeid,recommendPosition,recommendPositioning} = this.props,
+                {positionid} = record;
+            if(recommendPositioning) return ;
+            recommendPosition({resumeid,positionid});
+        }else{
+            this.selectPosition(record)
+        }
+    }
+
     _getColumns() {
         columns[columns.length - 1].render = (text,record,index)=>{
             return (
                 <a 
                     href="javascript:;" 
                     className="highlight-text"
-                    onClick={()=>this.selectPosition(record)}
+                    onClick={()=>this.handleClick(record)}
                 >
                     {text}
                 </a>
@@ -47,13 +59,14 @@ class RecommendResumeTableComponent extends Component {
         const {res,paginationCurrent,paginationChange} = this.props,
             {isLoading,data} = res,
             {allRecords,list} = data;
+        const {hash} = location;
         return (
             <Table 
                 columns={this._getColumns()}
                 dataSource={
                     list.map((item,index)=>{
                         item.key = index;
-                        item.control = '选择';
+                        item.control = hash.indexOf('resumeInfo') !== -1 ? '推荐' : '选择';
                         return item;
                     })
                 }
@@ -71,10 +84,12 @@ class RecommendResumeTableComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    res: state.Recruit.recommendModal
+    res: state.Recruit.recommendModal,
+    recommendPositioning: state.Talent.recommendPositioning
 })
 const mapDispatchToProps = dispatch => ({
-    selectPosition: bindActionCreators(Actions.RecruitActions.selectPosition, dispatch)
+    selectPosition: bindActionCreators(Actions.RecruitActions.selectPosition, dispatch),
+    recommendPosition: bindActionCreators(Actions.TalentActions.recommendPosition, dispatch)
 })
 
 export default connect(

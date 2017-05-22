@@ -73,15 +73,8 @@ class RecruitPage extends Component {
      _getNavData(){
         const {categoryData} = this.props;
         categoryData.forEach((item,index)=>{
-            return NavData[item.stageid].num = item.cnt;
+            return NavData[index].num = item[index];
         });
-        // 清空总数,防止叠加
-        NavData[0].num = 0;
-        // 求和获得总共的数量
-        const total = NavData.reduce((prevObj,nextObj)=>{
-            return {num:prevObj.num + nextObj.num}
-        },{num:0});
-        NavData[0].num = total.num;
         return NavData;
     }
 

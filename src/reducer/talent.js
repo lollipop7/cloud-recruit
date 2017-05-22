@@ -16,7 +16,9 @@ import {
     SHOW_MOVE_RESUME_MODAL,
     HIDE_MOVE_RESUME_MODAL,
     MOVE_RESUME_START,
-    MOVE_RESUME_DONE
+    MOVE_RESUME_DONE,
+    RECOMMEND_POSITION_START,
+    RECOMMEND_POSITION_DONE
 } from 'constants/talent';
 
 const initialState = {
@@ -28,7 +30,8 @@ const initialState = {
    },
    createModal: {isLoading:false,modalVisible:false},
    deleteModal: {isLoading:false,modalVisible:false},
-   moveModal: {isLoading: false,modalVisible:false}
+   moveModal: {isLoading: false,modalVisible:false},
+   recommendPositioning: false //推荐职位中
 };
 
 export default function talent(state = initialState,actions){
@@ -69,6 +72,10 @@ export default function talent(state = initialState,actions){
             return {...state,moveModal:{...state.moveModal,isLoading:true}};
         case MOVE_RESUME_DONE:
             return {...state,moveModal:{...state.moveModal,isLoading:false}};
+        case RECOMMEND_POSITION_START:   
+            return {...state,recommendPositioning: true};
+        case RECOMMEND_POSITION_DONE:   
+            return {...state,recommendPositioning: false};
         default: 
             return state;
     }

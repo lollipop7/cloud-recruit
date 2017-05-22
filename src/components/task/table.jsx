@@ -6,7 +6,8 @@ import {Table} from 'antd';
 import moment from 'moment';
 
 // lodash
-import omit from 'lodash/omit';
+import size from 'lodash/size';
+import omitBy from 'lodash/omitBy';
 
 import columns from 'data/table-columns/task-table';
 
@@ -16,6 +17,23 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class TableComponents extends Component {
+
+    descColumns = [{
+        "title": "说明",
+        "dataIndex": "desc",
+        "key": "desc",
+        "render": (text,record,index) => {
+            const obj = {
+                children: <span>{text}</span>,
+                props: {
+                }
+            }
+            // if(index === 0){
+            //     obj.props.rowSpan = totalRow;
+            // }
+            return obj;
+        }
+    }]
 
     keies = [
         'loginNum',
@@ -46,28 +64,36 @@ class TableComponents extends Component {
                 },{[key]:0})[key];
     }
 
-    getDataSource = (data,starttime,endtime) => {
+    getDataSource = (data) => {
+        data = data ? data : {};
         let dataSource = [];
-        Object.keys(data).forEach((key,index)=>{
+        let filterData = omitBy(data,item=>{
+            return item.length === 0;
+        }),
+        dataLength = size(filterData);
+        Object.keys(filterData).forEach((key,index)=>{
            // 添加机构名称
+           if(data[key].length === 0 ) return ;
            data[key][0].organization = key;
            let totalObj = {userName:'合计'};
            this.keies.map(item=>{
                 totalObj[item] = this.calcTotal(data[key],item);
            });    
            data[key].push(totalObj);
-           data[key].push({processedNum:`注：用户名为空的人，显示该用户的编号 
-           ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
-           ${moment(endtime).format('YYYY-MM-DD')}］`});
+        //    if( dataLength === 1 || (dataLength > 1 && (index === dataLength - 1)) ){
+        //         data[key].push({processedNum:`注：用户名为空的人，显示该用户的编号 
+        //         ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
+        //         ${moment(endtime).format('YYYY-MM-DD')}］`});
+        //    }
            dataSource.push(data[key]);
        });
-       return dataSource;
+       return dataSource.length === 0 ? [[]] : dataSource;
     }
 
     render() {
         const {isLoading,data} = this.props;
         const {starttime,endtime} = data;
-        const dataSource = !isLoading ? this.getDataSource(data.list,starttime,endtime) : [];
+        const dataSource = !isLoading ? this.getDataSource(data.list) : [];
         return (
             <div>
                 {isLoading ? 
@@ -87,15 +113,31 @@ class TableComponents extends Component {
                             <Table
                                 key={index}
                                 columns={columns(item&&item.length)} 
-                                loading={isLoading}
                                 dataSource={item} 
-                                className={className}
+                                className={`${className} data-table`}
                                 bordered
                                 showHeader={showHeader}
                                 pagination={false}
                             />
                         )
                     }) : null
+                }
+                {
+                    !isLoading ? 
+                        <Table
+                            columns={this.descColumns} 
+                            dataSource={[
+                                {
+                                    desc:`注：用户名为空的人，显示该用户的编号 
+                                        ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
+                                        ${moment(endtime).format('YYYY-MM-DD')}］`
+                                }
+                            ]} 
+                            className="no-margin-border desc-table"
+                            bordered
+                            showHeader={false}
+                            pagination={false}
+                        /> : null
                 }
             </div>
         );

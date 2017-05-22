@@ -27,7 +27,8 @@ class TaskPage extends Component {
     }
 
     downloadTaskReport = () => {
-        this.props.downloadTaskReport();
+        window.location = '/hrmanage/report/progress_report_down';
+        // this.props.downloadTaskReport();
     }
 
     onTimeChange = (field,val) => {

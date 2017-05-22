@@ -5,14 +5,17 @@ import {
     LOAD_INFO_START,
     LOAD_INFO_DONE,
     SHOW_MODAL_LOADING,
-    HIDE_MODAL_LOADING
+    HIDE_MODAL_LOADING,
+    DOWNLOAD_RESUME_START,
+    DOWNLOAD_RESUME_DONE
 } from 'constants/resume-info';
 
 const initialState = {
    modalVisible: false,
    currentStage:{},
    resumeInfo: {},
-   isModalLoading: false
+   isModalLoading: false,
+   isDownLoading: false
 };
 
 export default function resume(state = initialState,actions){
@@ -31,6 +34,10 @@ export default function resume(state = initialState,actions){
             return {...state,isModalLoading: true};
         case HIDE_MODAL_LOADING:
             return {...state,isModalLoading: false};
+        case DOWNLOAD_RESUME_START:
+            return {...state,isDownLoading: true};
+        case DOWNLOAD_RESUME_DONE:
+            return {...state,isDownLoading: false};
         default: 
             return state;
     }

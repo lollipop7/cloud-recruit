@@ -16,7 +16,7 @@ class HeaderInfoComponent extends Component {
     isSetTitle = false;
 
     shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.data !== this.props.data;
+        return nextProps !== this.props;
     }
 
     componentWillUpdate(nextProps,nextState) {
@@ -44,17 +44,20 @@ class HeaderInfoComponent extends Component {
     }
 
     downloadResume = () => {
+        if(this.props.isDownLoading) return ;
+        NProgress.configure({className:'top0'});
+        NProgress.start();
         // 下载简历
         const {data} = this.props;
         /**
          * currentPId 当前职位id
          * resumeid 简历id
          */
-        const {resumeid} = data;
-        window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
-        // this.props.downloadResume({
-        //     resumeid
-        // });
+        const {resumeid,resumeInfo} = data;
+        // window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
+        this.props.downloadResume({
+            resumeid
+        },resumeInfo.username);
     }
 
     getCurrentStage =()=> {
@@ -200,10 +203,10 @@ class HeaderInfoComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    isLoading: state.Recruit.isInfoLoading
+    isDownLoading: state.Resume.isDownLoading
 })
 const mapDispatchToProps = dispatch => ({
-    // downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
+    downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch)
 })
 

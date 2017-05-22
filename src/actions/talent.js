@@ -3,14 +3,19 @@ import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
 import {message} from 'antd'; 
 
+// 人才分类
 const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
 const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
 const LOAD_TALENT_CATEGORY = {type:types.LOAD_TALENT_CATEGORY};
 
-
+// 人才列表
 const LOAD_LIST_START = {type:types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type:types.LOAD_LIST_DONE};
 const LOAD_TALENT_LIST = {type:types.LOAD_TALENT_LIST};
+
+// 推荐职位
+const RECOMMEND_POSITION_START = {type:types.RECOMMEND_POSITION_START};
+const RECOMMEND_POSITION_DONE = {type:types.RECOMMEND_POSITION_DONE};
 
 // ==== 创建标签 ====
 const SHOW_CREATE_LABEL_MODAL = {type:types.SHOW_CREATE_LABEL_MODAL};
@@ -55,9 +60,32 @@ export const getTalentList = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
-        // 如果返回状态吗不是AAAAAA res为服务器返回的错误信息
-        if(typeof res === 'string') res = {list: [],count: 0};
         dispatch({...LOAD_TALENT_LIST,talentList:res});
+    },err=>{
+        dispatch(LOAD_LIST_DONE);
+        dispatch({...LOAD_TALENT_LIST,talentList:{list: [],count: 0}});
+    });
+}
+
+//  简历职位推荐接口开发
+export const recommendPosition = data => (dispatch,getState) => {
+    NProgress.configure({className:'top0'});
+    NProgress.start();
+    dispatch(RECOMMEND_POSITION_START);
+    AjaxByToken('/web/recommend',{
+        head: {
+            transcode: 'L0022'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch(RECOMMEND_POSITION_DONE);
+        message.success('职位推荐成功！');
+        // const {entity={}} =res;
+        // const {positionid,resumeid} = entity;
+        // location.href = `${location.origin}/#/resumeInfo/${resumeid}/${positionid}`;
+    },err=>{
+        message.error('职位推荐失败！');
     });
 }
 

@@ -18,8 +18,8 @@ if (!window.Promise) {
 }
 
 // React 性能分析工具
-import Perf from 'react-addons-perf';
-window.Perf = Perf;
+// import Perf from 'react-addons-perf';
+// window.Perf = Perf;
 
 // react-router
 import { Router , hashHistory } from 'react-router'
@@ -37,9 +37,9 @@ import routes from './router';
 // 创建一个store
 const store = createStore(
     reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
-        name: 'test'
-    }),
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
+    //     name: 'test'
+    // }),
     applyMiddleware(thunk)
 );
 

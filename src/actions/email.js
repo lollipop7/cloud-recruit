@@ -9,6 +9,9 @@ const GET_HISTORY_START = {type:types.GET_HISTORY_START};
 const GET_HISTORY_END = {type:types.GET_HISTORY_END};
 const GET_EMAIL_HISTORY = {type:types.GET_EMAIL_HISTORY};
 
+// 获取人员信息邮件历史记录
+const GET_PERSON_INFO_HISTORY_RECORD = {type:types.GET_PERSON_INFO_HISTORY_RECORD};
+
 // 发送邮件
 const SEND_EMAIL_START = {type:types.SEND_EMAIL_START};
 const SEND_EMAIL_DONE = {type:types.SEND_EMAIL_DONE};
@@ -45,9 +48,12 @@ export const getEmailBoxDetail = data => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res);
-        // dispatch({...GET_EMAIL_HISTORY,list:res.list});
+        dispatch({...GET_PERSON_INFO_HISTORY_RECORD,personHistoryList:res.list});
     });
+}
+
+export const resetEmailBoxDetail = () => (dispatch,getState) => {
+    dispatch({...GET_PERSON_INFO_HISTORY_RECORD,personHistoryList:[]});
 }
 
 // 发送邮件
@@ -72,8 +78,9 @@ export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (
             const {response} = item;
             let fd = new FormData();
             fd.append('fileName',response.filePath);
+            let uri = process.env.NODE_ENV === 'development' ? '/web/uploadremove' : '/hrmanage/api/web/uploadremove';
             requestArr.push(
-                axios.post('/web/uploadremove',fd)
+                axios.post(uri,fd)
             );
         });
         axios.all(requestArr)
@@ -81,7 +88,6 @@ export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (
             // 重置上传附件列表
             dispatch(RESET_FILELIST_TRUE);
             // 上面请求都完成后，才执行这个回调方法
-            console.log(arguments);
         }));
     },err=>{
         dispatch(SEND_EMAIL_DONE);

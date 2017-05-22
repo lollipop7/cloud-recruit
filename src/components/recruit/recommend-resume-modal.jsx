@@ -25,6 +25,7 @@ class RecommendResumeModalComponents extends Component {
 
     skip = 0;
 
+    resumeid = '';
     params = {
     }
 
@@ -38,7 +39,8 @@ class RecommendResumeModalComponents extends Component {
         });
     }
 
-    _requestData = () => {
+    _requestData = (resumeid='') => {
+        this.resumeid = resumeid;
         this.props.getRecommendRecruit({...this.params,skip:this.skip});
     }
 
@@ -78,7 +80,8 @@ class RecommendResumeModalComponents extends Component {
     }
 
     render() {
-        const {hideModal,data} = this.props,
+        // recommendPositioning 推荐职位中
+        const {hideModal,data,resumeid,recommendPositioning} = this.props,
             {positionname,city,paginationCurrent} = this.state,
             {visible} = data;
         return (
@@ -86,7 +89,7 @@ class RecommendResumeModalComponents extends Component {
                 title="职位推荐"
                 wrapClassName="vertical-center-modal recommend-resume-modal"
                 visible={visible}
-                onCancel={hideModal}
+                onCancel={recommendPositioning ? ()=>{} : hideModal}
                 footer={null}
             >
                 <div>
@@ -109,6 +112,7 @@ class RecommendResumeModalComponents extends Component {
                         </Button>
                     </div>
                     <RecommendResumeTableComponent 
+                        resumeid={resumeid}
                         hideModal={hideModal}
                         requestData={this._requestData}
                         paginationCurrent={paginationCurrent}
@@ -121,7 +125,8 @@ class RecommendResumeModalComponents extends Component {
 }
 
 const mapStateToProps = state => ({
-    data: state.Recruit.recommendModal
+    data: state.Recruit.recommendModal,
+    recommendPositioning: state.Talent.recommendPositioning
 })
 const mapDispatchToProps = dispatch => ({
     hideModal: bindActionCreators(Actions.RecruitActions.hideRecommendModal, dispatch),

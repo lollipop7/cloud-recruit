@@ -121,6 +121,7 @@
         background-size: 12px 8px;
         background-position: 100% 70%;
         background-repeat: no-repeat;
+        white-space: nowrap;
     }
     .email {
         right: -12px;
@@ -146,7 +147,6 @@
         font-size: 16px;
         transform: translateY(-219px);
         transition: transform .4s ease-in;
-        min-width: 64px;
         li {
             margin-bottom: 18px;
         }

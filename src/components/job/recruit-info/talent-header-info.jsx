@@ -3,6 +3,9 @@ import {Button} from 'antd';
 
 import trim from 'lodash/trim';
 
+// 职位推荐Modal
+import RecommendResumeModalComponents from 'components/recruit/recommend-resume-modal'
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -11,7 +14,7 @@ import * as Actions from 'actions';
 class TalentHeaderInfoComponent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.data !== this.props.data;
+        return nextProps !== this.props;
     }
 
     componentWillUpdate(nextProps,nextState) {
@@ -39,22 +42,26 @@ class TalentHeaderInfoComponent extends Component {
     }
 
     downloadResume = () => {
+        if(this.props.isDownLoading) return ;
+        NProgress.configure({className:'top0'});
+        NProgress.start();
         // 下载简历
         const {data} = this.props;
         /**
          * currentPId 当前职位id
          * resumeid 简历id
          */
-        const {resumeid} = data;
-        window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
-        // this.props.downloadResume({
-        //     resumeid
-        // });
+        const {resumeid,resumeInfo} = data;
+        // window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
+        this.props.downloadResume({
+            resumeid
+        },resumeInfo.username);
     }
 
     render() {
-        const {data} = this.props,
+        const {data,showRecommendModal} = this.props,
             {
+                resumeid,
                 resumeInfo={}
             } = data,
             {
@@ -113,17 +120,24 @@ class TalentHeaderInfoComponent extends Component {
                                 简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                         </ul>
+                        <Button type="orange" onClick={()=>showRecommendModal()}>职位推荐</Button>
                     </div>
                 </div>
+                {/*职位推荐Modal*/}
+                <RecommendResumeModalComponents
+                    resumeid={resumeid}
+                />
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
+    isDownLoading: state.Resume.isDownLoading
 })
 const mapDispatchToProps = dispatch => ({
-    // downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
+    showRecommendModal: bindActionCreators(Actions.RecruitActions.showRecommendModal, dispatch),
+    downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
 })
 
 export default connect(

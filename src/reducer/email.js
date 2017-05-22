@@ -7,7 +7,8 @@ import {
     SHOW_UPLOAD_MODAL,
     HIDE_UPLOAD_MODAL,
     RESET_FILELIST_TRUE,
-    RESET_FILELIST_FALSE
+    RESET_FILELIST_FALSE,
+    GET_PERSON_INFO_HISTORY_RECORD
 } from 'constants/email';
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
     },
     isSendEmailDone: true,
     modalVisible:false,
-    resetFileList: false
+    resetFileList: false,
+    personHistoryList: []
 };
 
 export default function email(state = initialState,actions){
@@ -40,6 +42,8 @@ export default function email(state = initialState,actions){
             return {...state,resetFileList:true};
         case RESET_FILELIST_FALSE:
             return {...state,resetFileList: false}
+        case GET_PERSON_INFO_HISTORY_RECORD:
+            return {...state,personHistoryList:actions.personHistoryList}
         default: 
             return state;
     }

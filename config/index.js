@@ -28,7 +28,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/web': {target:'http://printserver:66/hrmanage/api'}
+      '/web': {target:'http://printserver:66/hrmanage/api'},
+      '/hrmanage': {target:'http://printserver:66'}
       // '/web': {target:'http://192.168.101.200:8080/hrmanage/api'}
     },
     // proxyTable: {

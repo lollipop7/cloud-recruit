@@ -52,7 +52,6 @@ export const AjaxByPost = (uri, data) => {
             transformResponse(data,b){
                 NProgress.done();
                 try{
-                    
                     return JSON.parse(data);
                 }catch(err){
                     console.log(err);
@@ -64,9 +63,14 @@ export const AjaxByPost = (uri, data) => {
             const {data} = response;
             const { returnCode, returnMsg } = data;
             if (returnCode !== 'AAAAAAA') {
-                console.info(`${returnCode}:${returnMsg}`);
+                if(returnMsg === '登录已失效,请重新登录' && returnCode === '0000005'){
+                    cancelRequest();
+                    store.remove('token');
+                    location.href = `${location.origin}/#/login`;
+                }
+                // console.info(`${returnCode}:${returnMsg}`);
                 notification.error(returnMsg);
-                reject(returnMsg);
+                reject(response);
             } else {
                 resolve(omit(data,['returnCode','returnMsg']));
             }
@@ -76,6 +80,7 @@ export const AjaxByPost = (uri, data) => {
             if (response instanceof Error) {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', response.message);
+                reject(response);
                 notification.error('网络错误',response.message);
             } else if(axios.isCancel(response)) {
                 console.log(response.message);
@@ -87,7 +92,7 @@ export const AjaxByPost = (uri, data) => {
                 console.log(response.headers);
                 console.log(response.config);
             }
-            reject(response);
+            // reject(response);
         })
     });
     

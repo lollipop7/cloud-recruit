@@ -6,9 +6,9 @@ module.exports = function(totalRow=0){
             children: text,
             props: {}
         }
-        if(index === (totalRow - 1)){
-            obj.props.colSpan = 0;
-        }
+        // if(index === (totalRow - 1)){
+        //     obj.props.colSpan = 0;
+        // }
         return obj;
     }
     return [
@@ -123,9 +123,9 @@ module.exports = function(totalRow=0){
                         children: text,
                         props: {}
                     }
-                    if(index === (totalRow - 1)){
-                        obj.props.colSpan = 13;
-                    }
+                    // if(index === (totalRow - 1)){
+                    //     obj.props.colSpan = 13;
+                    // }
                     return obj;
                 }
             }

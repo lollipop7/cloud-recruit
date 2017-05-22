@@ -7,6 +7,8 @@ import BreadCrumbComponent from 'components/breadcrumb';
 // 列表组件
 import ListComponents from 'components/email/list';
 import RightComponents from 'components/email/right';
+// 人员信息历史邮件列表
+import PersonInfoListComponent from 'components/email/personInfo-list';
 
 export default class EmailPage extends Component {
 
@@ -36,11 +38,8 @@ export default class EmailPage extends Component {
                             <RightComponents addressee={this.state.addressee} />
                         </div>
                     </div>
-                    <div className="list-block">
-                        <div className="pull-right">
-                            
-                        </div>
-                    </div>
+                    {/*人员信息历史邮件列表*/}
+                    <PersonInfoListComponent />
                 </div>
             </ScrollPageContent>
         );

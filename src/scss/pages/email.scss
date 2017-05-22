@@ -87,4 +87,56 @@
     .pull-right {
         overflow: hidden;
     }
+
+    //人员信息历史记录列表
+    .personInfo-list {
+        width: 850px;
+        margin-top: 10px;
+        float:right;
+        .list {
+            li {
+                position: relative;
+                padding: 8px 0;
+            }
+        }
+    }
+    .ant-collapse {
+        border: 0;
+        background-color: transparent;
+        .ant-collapse-item {
+            margin-top: 10px;
+            background-color: #FFF;
+            border-bottom: 0;
+            .ant-collapse-header {
+                line-height: 66px;
+                height: 66px;
+                .arrow {
+                    line-height: 68px;
+                }
+            }
+        }
+    }
+    .ant-collapse-content {
+        padding: 0 32px;
+        .ant-collapse-content-box {
+            padding-top: 0;
+            padding-bottom: 10px;
+        }
+    }
+    .header {
+        .table-cell {
+            &:first-child {
+                width: 30px;
+                &+div{
+                    width: 48px;
+                }
+            }
+        }
+        img {
+            width:40px;
+            line-height: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+    }
 }

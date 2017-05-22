@@ -51,7 +51,7 @@ const Job = {
 
 // 引入招聘流程路由组件
 const Recruit = {
-    path: 'recruit', // resumeId:职位id logId:流程id
+    path: 'recruit',
     breadcrumbName:"招聘流程", 
     onEnter:requireAuthHook,
     onLeave:onLeavePage,
@@ -152,6 +152,17 @@ const SettingEmail = {
     } 
 }
 
+// 引入404页面路由
+const NotFoundPage = {
+    path:"*",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/404').default)
+        }, 'NotFoundPage')
+    } 
+}
+
 /*路由配置*/
 const RouteConfig = {
   childRoutes: [ {
@@ -176,7 +187,8 @@ const RouteConfig = {
       ChangePasswd,
       SettingEmail,
       resumeInfo,
-      Email
+      Email,
+      NotFoundPage
     ]
   } ]
 }

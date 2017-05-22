@@ -1,5 +1,10 @@
 import * as types from 'constants/resume-info';
 
+// download
+import axios from 'axios';
+import store from 'store';
+import FileSaver from 'file-saver';
+
 import {AjaxByToken} from 'utils/ajax';
 
 // 招聘人员详细信息
@@ -15,6 +20,8 @@ const SHOW_MODAL_LOADING ={type:types.SHOW_MODAL_LOADING};
 const HIDE_MODAL_LOADING = {type:types.HIDE_MODAL_LOADING};
 
 // 下载简历
+const DOWNLOAD_RESUME_START = {type:types.DOWNLOAD_RESUME_START};
+const DOWNLOAD_RESUME_DONE = {type:types.DOWNLOAD_RESUME_DONE};
 const DOWNLOAD_RESUME = {type:types.DOWNLOAD_RESUME};
 
 const SHOW_MODAL = {type:types.SHOW_MODAL};
@@ -72,17 +79,30 @@ export const getTalentResumeInfo = (data) => (dispatch,getState) => {
 }
 
 // 下载简历
-// export const downloadResume = (data) => (dispatch,getState) => {
-//     AjaxByToken('/web/downloadResume',{
-//         head: {
-//             transcode: 'L0023'
-//         },
-//         data: data
-//     })
-//     .then(res=>{
-//         console.log(res)
-//     });
-// }
+export const downloadResume = (data,username) => (dispatch,getState) => {
+    dispatch(DOWNLOAD_RESUME_START);
+    const token = store.get('token');
+    axios({
+        url: process.env.NODE_ENV === 'development' ? '/web/downloadResume' : '/hrmanage/api/web/downloadResume',
+        method: 'post',
+        data: {data:{...token,...data},...{
+            head:{
+                type:'h',
+                transcode: 'L0023'
+            }
+        }},
+        header: {
+            contentType: 'application/json;charset=utf-8'
+        },
+    })
+    .then(res=>{
+        NProgress.done();
+        const {data} = res;
+        var blob = new Blob([data],{type: "text/html;charset=utf-8"});
+        FileSaver.saveAs(blob ,`${username}的个人简历.html`);
+        dispatch(DOWNLOAD_RESUME_DONE);
+    });
+}
 
 // 更改流程状态
 export const changeStageStatus = (data,props) => (dispatch,getState) => {
