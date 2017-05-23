@@ -1,6 +1,18 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import Promise from 'promise-polyfill'; 
+import Promise from 'promise-polyfill';
+import figlet from 'figlet';
+
+figlet.defaults({fontPath: "/static/fonts"});
+
+figlet('51JRQ', 'Doh', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data)
+});
 
 // css文件
 import 'rc-steps/assets/index.css';
