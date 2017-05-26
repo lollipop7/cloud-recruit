@@ -3,7 +3,7 @@ import * as types from 'constants/task.js';
 // download
 import axios from 'axios';
 import store from 'store';
-import FileSaver from 'file-saver';
+// import FileSaver from 'file-saver';
 
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
@@ -15,13 +15,13 @@ const GET_TASK_REPORT = {type:types.GET_TASK_REPORT};
 const GET_TASK_DONE = {type:types.GET_TASK_DONE};
 
 // 下载任务报表
-const DOWNLOAD_TASK_START = {type:types.DOWNLOAD_TASK_START};
-const DOWNLOAD_TASK_DONE = {type:types.DOWNLOAD_TASK_DONE};
+// const DOWNLOAD_TASK_START = {type:types.DOWNLOAD_TASK_START};
+// const DOWNLOAD_TASK_DONE = {type:types.DOWNLOAD_TASK_DONE};
 
 // 获取任务报表
 export const getTaskReport = (data={},startDate,endDate) => (dispatch,getState) => {
     dispatch(GET_TASK_START);
-    AjaxByToken('/web/progress_report',{
+    AjaxByToken('progress_report',{
         head: {
             transcode: 'L0034',
         },
@@ -39,28 +39,28 @@ export const getTaskReport = (data={},startDate,endDate) => (dispatch,getState) 
 }
 
 // 下载任务报表
-export const downloadTaskReport = () => (dispatch,getState) => {
-    dispatch(DOWNLOAD_TASK_START);
-    // const token = store.get('token');
-    console.log('download');
-    axios({
-        url: '/hrmanage/report/progress_report_down',
-        method: 'post',
-        // data: {...{data:token},...{
-        //     head:{
-        //         type:'h',
-        //         transcode: 'L0039'
-        //     }
-        // }},
-        header: {
-            contentType: 'application/x-www-form-urlencoded'
-        },
-    })
-    .then(res=>{
-        console.log(res);
-        // dispatch(DOWNLOAD_TASK_DONE);
-        const {data} = res;
-        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-        // FileSaver.saveAs(blob, "任务报表.xls");
-    });
-}
+// export const downloadTaskReport = () => (dispatch,getState) => {
+//     dispatch(DOWNLOAD_TASK_START);
+//     // const token = store.get('token');
+//     console.log('download');
+//     axios({
+//         url: '/hrmanage/report/progress_report_down',
+//         method: 'post',
+//         // data: {...{data:token},...{
+//         //     head:{
+//         //         type:'h',
+//         //         transcode: 'L0039'
+//         //     }
+//         // }},
+//         header: {
+//             contentType: 'application/x-www-form-urlencoded'
+//         },
+//     })
+//     .then(res=>{
+//         console.log(res);
+//         // dispatch(DOWNLOAD_TASK_DONE);
+//         const {data} = res;
+//         var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+//         // FileSaver.saveAs(blob, "任务报表.xls");
+//     });
+// }

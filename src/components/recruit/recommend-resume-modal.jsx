@@ -25,7 +25,8 @@ class RecommendResumeModalComponents extends Component {
 
     skip = 0;
 
-    resumeid = '';
+    resumeid = ''
+
     params = {
     }
 
@@ -40,8 +41,11 @@ class RecommendResumeModalComponents extends Component {
     }
 
     _requestData = (resumeid='') => {
-        this.resumeid = resumeid;
-        this.props.getRecommendRecruit({...this.params,skip:this.skip});
+        let params = {...this.params,skip:this.skip};
+        if(resumeid !== ''){
+            this.resumeid = resumeid;
+        }
+        this.props.getRecommendRecruit({...params,resumeid:this.resumeid});
     }
 
     handleSeach = () => {
@@ -114,6 +118,7 @@ class RecommendResumeModalComponents extends Component {
                     <RecommendResumeTableComponent 
                         resumeid={resumeid}
                         hideModal={hideModal}
+                        visible={visible}
                         requestData={this._requestData}
                         paginationCurrent={paginationCurrent}
                         paginationChange={this.paginationChange}

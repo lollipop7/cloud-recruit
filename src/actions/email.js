@@ -27,7 +27,7 @@ const RESET_FILELIST_FALSE = {type:types.RESET_FILELIST_FALSE};
 // 获取历史邮件列表
 export const getEmailHistory = (data={}) => (dispatch,getState) => {
     dispatch(GET_HISTORY_START);
-    AjaxByToken('/web/talentStatis',{
+    AjaxByToken('talentStatis',{
         head: {
             transcode: 'L0028'
         },
@@ -41,7 +41,7 @@ export const getEmailHistory = (data={}) => (dispatch,getState) => {
 
 // 查询人员信息邮件历史记录
 export const getEmailBoxDetail = data => (dispatch,getState) => {
-    AjaxByToken('/web/mailBoxDetail',{
+    AjaxByToken('mailBoxDetail',{
         head: {
             transcode: 'L0029'
         },
@@ -59,7 +59,7 @@ export const resetEmailBoxDetail = () => (dispatch,getState) => {
 // 发送邮件
 export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (dispatch,getState) => {
     dispatch(SEND_EMAIL_START);
-    AjaxByToken('/web/sendEmail',{
+    AjaxByToken('sendEmail',{
         head: {
             transcode: 'L0021'
         },
@@ -72,23 +72,22 @@ export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (
         reSetTitle('');
         // 重置邮件内容
         reSetHTML();
+        // 重置上传附件列表
+        dispatch(RESET_FILELIST_TRUE);
         // 批量删除上传的附件
-        let requestArr = [];
-        fileList.forEach(item=>{
-            const {response} = item;
-            let fd = new FormData();
-            fd.append('fileName',response.filePath);
-            let uri = process.env.NODE_ENV === 'development' ? '/web/uploadremove' : '/hrmanage/api/web/uploadremove';
-            requestArr.push(
-                axios.post(uri,fd)
-            );
-        });
-        axios.all(requestArr)
-        .then(axios.spread(function () {
-            // 重置上传附件列表
-            dispatch(RESET_FILELIST_TRUE);
-            // 上面请求都完成后，才执行这个回调方法
-        }));
+        // let requestArr = [];
+        // fileList.forEach(item=>{
+        //     const {response} = item;
+        //     let fd = new FormData();
+        //     fd.append('fileName',response.filePath);
+        //     requestArr.push(
+        //         axios.post(`${prefixUri}/uploadremove`,fd)
+        //     );
+        // });
+        // axios.all(requestArr)
+        // .then(axios.spread(function () {
+        //     // 上面请求都完成后，才执行这个回调方法
+        // }));
     },err=>{
         dispatch(SEND_EMAIL_DONE);
         message.error('发送邮件失败！');

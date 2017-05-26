@@ -74,6 +74,7 @@ export default class TimeComponent extends Component {
             }}>
                 {showField&&<span className="calendar-field">开始时间</span>}
                 <DatePicker
+                    ref="starttime"
                     disabledDate={this.disabledStartDate}
                     format="YYYY-MM-DD"
                     value={_startValue}
@@ -85,6 +86,7 @@ export default class TimeComponent extends Component {
                 />
                 {showField&&<span className="calendar-field">结束时间</span>}
                 <DatePicker
+                    ref="endtime"
                     disabledDate={this.disabledEndDate}
                     format="YYYY-MM-DD"
                     value={_endValue}

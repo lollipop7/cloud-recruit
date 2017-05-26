@@ -138,7 +138,7 @@ class UploadResumeModalComponents extends Component {
                         />*/}
                         <Upload 
                             name='uploadify'
-                            action={NODE_ENV === 'development' ? '/web/upload' : '/hrmanage/api/web/upload'}
+                            action={`${prefixUri}/upload`}
                             fileList={fileList}
                             beforeUpload={this.onFilebeforeUpload}
                             onChange={this.onFileChange}

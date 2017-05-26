@@ -52,7 +52,6 @@ class TalentHeaderInfoComponent extends Component {
          * resumeid 简历id
          */
         const {resumeid,resumeInfo} = data;
-        // window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
         this.props.downloadResume({
             resumeid
         },resumeInfo.username);
@@ -120,7 +119,7 @@ class TalentHeaderInfoComponent extends Component {
                                 简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                         </ul>
-                        <Button type="orange" onClick={()=>showRecommendModal()}>职位推荐</Button>
+                        <Button className="noprint" type="orange" onClick={()=>showRecommendModal()}>职位推荐</Button>
                     </div>
                 </div>
                 {/*职位推荐Modal*/}

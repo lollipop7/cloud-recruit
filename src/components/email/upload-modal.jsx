@@ -73,7 +73,7 @@ class UploadModalComponent extends Component {
                 >
                     <Upload 
                         name='uploadify'
-                        action={process.env.NODE_ENV === 'development' ? '/web/upload' : '/hrmanage/api/web/upload'}
+                        action={`${prefixUri}/upload`}
                         beforeUpload={this.onFilebeforeUpload}
                         onChange={this.onFileChange}
                         onRemove={this.onFileRemove}

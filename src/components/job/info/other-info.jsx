@@ -3,12 +3,22 @@ import React, {Component} from 'react';
 import moment from 'moment';
 
 import {InputComponent} from 'components/input';
-import {Radio } from 'antd';
+import {Radio , Button } from 'antd';
 const RadioGroup = Radio.Group;
 
 export default class OtherInfoComponent extends Component {
+
     render() {
-        const {starttime=0,endtime=0,urgent=true} = this.props.jobInfo;
+        const {
+                data,
+                jobInfo,
+                isLoadingAbort,
+                abortJobInfo,
+                getJobList,
+                getJobCategory
+        } = this.props,
+            {starttime=0,endtime=0,urgent=true,positionid} = jobInfo,
+            { status } = data;
         return (
             <li className="other-info" style={{
                 paddingBottom: 0
@@ -37,6 +47,18 @@ export default class OtherInfoComponent extends Component {
                         </RadioGroup>
                     </li>
                 </ul>
+                {(status === '0' || status === '1') && 
+                    <Button 
+                        loading={isLoadingAbort}
+                        style={{
+                            marginLeft: 17,
+                            marginTop: 16,
+                            height: 34
+                        }}
+                        type="primary"
+                        onClick={()=>abortJobInfo({positionid},getJobList,getJobCategory)}
+                    >提前终止</Button>
+                }
             </li>
         );
     }

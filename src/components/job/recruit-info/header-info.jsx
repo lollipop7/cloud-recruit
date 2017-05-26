@@ -27,7 +27,8 @@ class HeaderInfoComponent extends Component {
         }
     }
 
-    printResume() {
+    printResume = () => {
+        // this.props.handleChangeType(0);
         // 打印简历
         window.print();
     }
@@ -54,7 +55,6 @@ class HeaderInfoComponent extends Component {
          * resumeid 简历id
          */
         const {resumeid,resumeInfo} = data;
-        // window.location = `/hrmanage/desktop/resumedownLoad/${resumeid}`;
         this.props.downloadResume({
             resumeid
         },resumeInfo.username);

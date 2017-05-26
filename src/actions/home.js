@@ -15,7 +15,7 @@ const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
 
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
-    AjaxByToken('/web/UrgentTasks',{
+    AjaxByToken('UrgentTasks',{
         head: {
             transcode: 'L0007'
         },
@@ -28,7 +28,7 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
 
 // 获取简历入库情况
 export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
-    AjaxByToken('/web/ResumeWareHousing',{
+    AjaxByToken('ResumeWareHousing',{
         head: {
             transcode: 'L0008'
         },
@@ -43,7 +43,7 @@ export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
 
 // 获取任务完成指数
 export const getTaskProgress = (latestDays) => (dispatch,getState) => {
-    AjaxByToken('/web/TaskCompletion',{
+    AjaxByToken('TaskCompletion',{
         head: {
             transcode: 'L0009'
         },
@@ -59,7 +59,7 @@ export const getTaskProgress = (latestDays) => (dispatch,getState) => {
 // 获取待入职人员列表
 export const getEntryPerson = (data={}) => (dispatch,getState) => {
     dispatch(GET_ENTRY_START);
-    AjaxByToken('/web/home_personnelList',{
+    AjaxByToken('home_personnelList',{
         head: {
             transcode: 'L0010'
         },

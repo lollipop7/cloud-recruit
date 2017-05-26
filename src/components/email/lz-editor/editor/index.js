@@ -174,15 +174,7 @@ var EditorConcist = function (_React$Component) {
         var rawContentState = that.state.editorState.getCurrentContent();
 
         var content = void 0;
-        var ConvertFormatProps = that.props.convertFormat;
-        if (ConvertFormatProps === 'html') {
-          content = (0, _utils.stateToHTML)(rawContentState);
-        } else if (ConvertFormatProps === 'markdown') {
-          content = (0, _utils.stateToMD)(rawContentState);
-        } else if (ConvertFormatProps === 'raw') {
-          var rawContent = (0, _draftJs.convertToRaw)(rawContentState);
-          content = JSON.stringify(rawContent);
-        }
+        content = (0, _utils.stateToHTML)(rawContentState);
         that.props.cbReceiver(content);
       }, 300);
     };
@@ -502,17 +494,8 @@ var EditorConcist = function (_React$Component) {
       var rawContentState = editorState.getCurrentContent();
       var content = "",
           newText = "";
-
-      var ConvertFormatProps = this.props.convertFormat;
-      if (ConvertFormatProps === 'html') {
-        content = (0, _utils.stateToHTML)(rawContentState);
-        newText = content.replace(/<[^>]*>|&[^;]*;/g, "");
-      } else if (ConvertFormatProps === 'markdown') {
-        content = (0, _utils.stateToMD)(rawContentState);
-      } else if (ConvertFormatProps === 'raw') {
-        var rawContent = (0, _draftJs.convertToRaw)(rawContentState);
-        content = JSON.stringify(rawContent);
-      }
+      content = (0, _utils.stateToHTML)(rawContentState);
+      newText = content.replace(/<[^>]*>|&[^;]*;/g, "");
 
       if (this.state.hasPasted === true || (0, _trim2.default)(newText).length > 0) {
         var blockMap = _draftJs.ContentState.createFromText(text.trim()).blockMap;
@@ -524,13 +507,7 @@ var EditorConcist = function (_React$Component) {
       var decorator = new _draftJs.CompositeDecorator([_LinkDecorator2.default, _ImageDecorator2.default]);
       var contentState = "";
 
-      if (ConvertFormatProps === 'html') {
-        contentState = (0, _utils.stateFromHTML)(sourceString);
-      } else if (ConvertFormatProps === 'markdown') {
-        contentState = (0, _utils.stateFromMD)(sourceString);
-      } else if (ConvertFormatProps === 'raw') {
-        contentState = (0, _draftJs.convertFromRaw)(sourceString);
-      }
+      contentState = (0, _utils.stateFromHTML)(sourceString);
 
       var values = _draftJs.EditorState.createWithContent(contentState, decorator);
       this.state.editorState = values;
@@ -557,10 +534,6 @@ var EditorConcist = function (_React$Component) {
     key: '_addMedia',
     value: function _addMedia(type, Object) {
       var src = Object.url;
-      if (!src) {
-        throw new Error("！！！！！！！！！！上传文件错误！！！！！！！！！！");
-        return false;
-      }
       var entityKey = _draftJs.Entity.create(type, 'IMMUTABLE', { src: src });
       return _draftJs.AtomicBlockUtils.insertAtomicBlock(this.state.editorState, entityKey, ' ');
     }

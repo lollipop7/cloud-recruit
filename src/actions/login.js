@@ -14,7 +14,7 @@ const LOGIN_DONE = {type:types.LOGIN_DONE};
 export const userLogin = (userInfo={},context) => (dispatch,getState) => {
     dispatch(LOGIN_START);
     userInfo.password = Md5(userInfo.password);
-    AjaxByPost('/web/login',{
+    AjaxByPost('login',{
         head: {
             transcode: 'L0001'
         },

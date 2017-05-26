@@ -22,7 +22,7 @@ class JobInfoComponent extends Component {
                 {isLoading &&
                     <div style={{
                         position: 'relative',
-                        height: 418
+                        height: 478
                     }}>
                         <LoadingComponent className="absolute-center" />
                     </div>
@@ -44,9 +44,11 @@ class JobInfoComponent extends Component {
 
 const mapStateToProps = state => ({
     jobInfo: state.Job.jobInfo,
-    isLoading: state.Job.isLoadingInfo
+    isLoading: state.Job.isLoadingInfo,
+    isLoadingAbort: state.Job.isLoadingAbort
 })
 const mapDispatchToProps = dispatch => ({
+    abortJobInfo: bindActionCreators(Actions.jobActions.abortJobInfo, dispatch)
 })
 
 export default connect(

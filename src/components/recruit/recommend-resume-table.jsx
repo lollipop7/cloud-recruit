@@ -18,7 +18,7 @@ class RecommendResumeTableComponent extends Component {
     componentDidMount() {
         const {resumeid,requestData} = this.props;
         // 获取导入简历选择职位列表
-        requestData({resumeid});
+        requestData(resumeid);
     }
 
     selectPosition = record => {
@@ -31,10 +31,10 @@ class RecommendResumeTableComponent extends Component {
 
     handleClick = record => {
         if(location.hash.indexOf('resumeInfo') !== -1) {
-            const {resumeid,recommendPosition,recommendPositioning} = this.props,
+            const {resumeid,recommendPosition,recommendPositioning,res} = this.props,
                 {positionid} = record;
             if(recommendPositioning) return ;
-            recommendPosition({resumeid,positionid});
+            recommendPosition({resumeid,positionid},res.data);
         }else{
             this.selectPosition(record)
         }
@@ -42,11 +42,12 @@ class RecommendResumeTableComponent extends Component {
 
     _getColumns() {
         columns[columns.length - 1].render = (text,record,index)=>{
+            const isFlag = text === '已申请' ? 0 : 1;
             return (
                 <a 
                     href="javascript:;" 
-                    className="highlight-text"
-                    onClick={()=>this.handleClick(record)}
+                    className={isFlag ? "highlight-text" : ''}
+                    onClick={isFlag ? ()=>this.handleClick(record) : null}
                 >
                     {text}
                 </a>
@@ -66,7 +67,7 @@ class RecommendResumeTableComponent extends Component {
                 dataSource={
                     list.map((item,index)=>{
                         item.key = index;
-                        item.control = hash.indexOf('resumeInfo') !== -1 ? '推荐' : '选择';
+                        item.control = hash.indexOf('resumeInfo') !== -1 ? item.isFlag : '选择';
                         return item;
                     })
                 }

@@ -99,7 +99,7 @@ class ChangePasswdPage extends Component {
     }
 
     render() {
-        const {routes} = this.props;
+        const {routes,isLoading} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content change-passwd-page">
@@ -150,8 +150,19 @@ class ChangePasswdPage extends Component {
                                     </div>
                                 </li>
                                 <li className="table">
-                                    <Button type="primary" onClick={this.changePasswd}>保存</Button>
-                                    <Button className="grey" onClick={this.resetForm}>重填</Button>
+                                    <Button 
+                                        loading={isLoading} 
+                                        type="primary" 
+                                        onClick={this.changePasswd}
+                                    >
+                                        保存
+                                    </Button>
+                                    <Button 
+                                        className="grey" 
+                                        onClick={isLoading ? ()=>{} : this.resetForm}
+                                    >
+                                        重填
+                                    </Button>
                                 </li>
                             </ul>
                         </div>
@@ -163,6 +174,7 @@ class ChangePasswdPage extends Component {
 }
 
 const mapStateToProps = state => ({
+    isLoading: state.User.isLoading,
     changeRes: state.User.changeRes
 })
 const mapDispatchToProps = dispatch => ({

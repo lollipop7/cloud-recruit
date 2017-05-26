@@ -3,7 +3,7 @@ import {AjaxByToken} from 'utils/ajax';
 import store from 'store';
 
 export const userLoginout = (context) => (dispatch,getState) => {
-    AjaxByToken('/web/loginout',{
+    AjaxByToken('loginout',{
         head: {
             transcode: 'L0000'
         }

@@ -1,4 +1,5 @@
 import * as types from 'constants/talent';
+import * as recruitTypes from 'constants/recruit';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
 import {message} from 'antd'; 
@@ -33,10 +34,13 @@ const HIDE_MOVE_RESUME_MODAL = {type:types.HIDE_MOVE_RESUME_MODAL};
 const MOVE_RESUME_START = {type:types.MOVE_RESUME_START};
 const MOVE_RESUME_DONE = {type:types.MOVE_RESUME_DONE};
 
+// 导入简历职位推荐列表
+const LOAD_RECOMMEND_LIST = {type:recruitTypes.LOAD_RECOMMEND_LIST};
+
 // 获取人才分类
 export const getTalentCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
-    AjaxByToken('/web/TalentStatis',{
+    AjaxByToken('TalentStatis',{
         head: {
             transcode: 'L0024'
         }
@@ -44,12 +48,14 @@ export const getTalentCategory = () => (dispatch,getState) => {
     .then(res=>{
         dispatch(LOAD_CATEGORY_DONE);
         dispatch({...LOAD_TALENT_CATEGORY,categoryData:res});
+    },err=>{
+        dispatch(LOAD_CATEGORY_DONE);
     });
 }
 // 获取人才列表
 export const getTalentList = (data) => (dispatch,getState) => {
     data.start = data.start + '';
-    const uri = '/web/queryTalent';
+    const uri = 'queryTalent';
     cancelRequestByKey(uri);
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri,{
@@ -68,11 +74,12 @@ export const getTalentList = (data) => (dispatch,getState) => {
 }
 
 //  简历职位推荐接口开发
-export const recommendPosition = data => (dispatch,getState) => {
+export const recommendPosition = (data,listData) => (dispatch,getState) => {
+    // listData原来的列表数据
     NProgress.configure({className:'top0'});
     NProgress.start();
     dispatch(RECOMMEND_POSITION_START);
-    AjaxByToken('/web/recommend',{
+    AjaxByToken('recommend',{
         head: {
             transcode: 'L0022'
         },
@@ -81,10 +88,14 @@ export const recommendPosition = data => (dispatch,getState) => {
     .then(res=>{
         dispatch(RECOMMEND_POSITION_DONE);
         message.success('职位推荐成功！');
-        // const {entity={}} =res;
-        // const {positionid,resumeid} = entity;
-        // location.href = `${location.origin}/#/resumeInfo/${resumeid}/${positionid}`;
+        listData.list.forEach(item=>{
+            if(item.positionid === data.positionid){
+                item.isFlag = '已申请';
+            }
+        });
+        dispatch({...LOAD_RECOMMEND_LIST,data:listData});
     },err=>{
+        dispatch(RECOMMEND_POSITION_DONE);
         message.error('职位推荐失败！');
     });
 }
@@ -92,7 +103,7 @@ export const recommendPosition = data => (dispatch,getState) => {
 //企业收藏简历
 export const collectionResume = data => (dispatch,getState) => {
     dispatch(LOAD_LIST_START);
-    AjaxByToken('/web/CollectionResume',{
+    AjaxByToken('CollectionResume',{
         head: {
             transcode: 'L0027'
         },
@@ -125,7 +136,7 @@ export const collectionResume = data => (dispatch,getState) => {
 //企业取消收藏简历
 export const cancelCollectionResume = data => (dispatch,getState) => {
     dispatch(LOAD_LIST_START);
-    AjaxByToken('/web/cancelthecollection',{
+    AjaxByToken('cancelthecollection',{
         head: {
             transcode: 'L0037'
         },
@@ -168,7 +179,7 @@ export const hideCreateLabelModal = () => (dispatch,getState) => {
 // 创建分类标签
 export const createLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState) => {
     dispatch(CREATE_LABEL_START);
-    AjaxByToken('/web/deleteOrSaveTheLable',{
+    AjaxByToken('deleteOrSaveTheLable',{
         head: {
             transcode: 'L0026'
         },
@@ -182,6 +193,8 @@ export const createLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState
         },500);
         // 重新获取左侧导航栏数据
         getTalentCategory();
+    },err=>{
+        dispatch(CREATE_LABEL_DONE);
     });
 }
 
@@ -198,7 +211,7 @@ export const hideDeleteLabelModal = () => (dispatch,getState) => {
 // 删除分类标签
 export const deleteLabel = (data,getTalentCategory=()=>{}) => (dispatch,getState) => {
     dispatch(DELETE_LABEL_START);
-    AjaxByToken('/web/deleteOrSaveTheLable',{
+    AjaxByToken('deleteOrSaveTheLable',{
         head: {
             transcode: 'L0026'
         },
@@ -230,7 +243,7 @@ export const hideMoveResumeModal = () => (dispatch,getState) => {
 // 移动人员
 export const moveResume = (data,getTalentCategory=()=>{}) => (dispatch,getState) => {
     dispatch(MOVE_RESUME_START);
-    AjaxByToken('/web/resumemobile',{
+    AjaxByToken('resumemobile',{
         head: {
             transcode: 'L0031'
         },

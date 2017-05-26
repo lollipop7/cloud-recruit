@@ -18,7 +18,10 @@ let cancel = [];
 export const cancelRequest = function() {
     cancel.forEach(item=>{
         Object.keys(item).forEach(key=>{
-            item[key]('cancel by change page!');
+            // /web/basicUserinfo请求不取消
+            if(key.indexOf('basicUserinfo') === -1){
+                item[key]('cancel request by change page!');
+            }
         });
     });
     cancel = [];
@@ -26,15 +29,14 @@ export const cancelRequest = function() {
 
 export const cancelRequestByKey = function(key) {
     cancel.forEach(item=>{
-        item[key] && item[key](`cancel uri:${key} request!`);
+        item[key] && item[key](`cancel request: ${key}!`);
     });
 }
 
 export const AjaxByPost = (uri, data) => {
     return new Promise(function(resolve, reject) {
-        const {NODE_ENV} = process.env;
         axios({
-            url: NODE_ENV === 'development' ? uri : `/hrmanage/api${uri}`,
+            url: `${prefixUri}/${uri}`,
             method: 'post',
             data: merge(data,{
                 head:{
@@ -54,7 +56,7 @@ export const AjaxByPost = (uri, data) => {
                 try{
                     return JSON.parse(data);
                 }catch(err){
-                    console.log(err);
+                    // console.log(err);
                 }
                 
             }
@@ -79,20 +81,20 @@ export const AjaxByPost = (uri, data) => {
             // console.log(response.config);
             if (response instanceof Error) {
                 // Something happened in setting up the request that triggered an Error
-                console.log('Error', response.message);
+                // console.log('Error', response.message);
                 reject(response);
+                // reject(response);
                 notification.error('网络错误',response.message);
             } else if(axios.isCancel(response)) {
-                console.log(response.message);
+                // console.info(response.message);
             } else {
                 // The request was made, but the server responded with a status code
                 // that falls out of the range of 2xx
-                console.log(response.data);
-                console.log(response.status);
-                console.log(response.headers);
-                console.log(response.config);
+                // console.log(response.data);
+                // console.log(response.status);
+                // console.log(response.headers);
+                // console.log(response.config);
             }
-            // reject(response);
         })
     });
     

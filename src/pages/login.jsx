@@ -17,9 +17,9 @@ class LoginPage extends Component {
     };
 
     state = {
-        companyname: '',
-        loginname: '',
-        password: '',
+        companyname: '51金融圈',
+        loginname: '51jrq',
+        password: '123456789',
         errMsg: '',
         isLoading: false
     }
@@ -40,6 +40,10 @@ class LoginPage extends Component {
         if(e.keyCode === 13){
             this.toLogin();
         }
+    }
+
+    componentDidMount () {
+        this.toLogin();
     }
 
     componentWillUnmount() {

@@ -64,11 +64,6 @@ export default class FormComponent extends Component {
             [field]: isNull(value) ? '' : moment(value).format('YYYY-MM-DD')
         });
     }
-
-    handleClick() {
-        // 切换创建职位页面显示进度条
-        NProgress.start();
-    }
    
     render() {
         const {department='',position=''} = this.state;
@@ -97,7 +92,7 @@ export default class FormComponent extends Component {
                         <Button className="grey" onClick={this.resetForm}>清空条件</Button>
                 </div>
                 <div className="float-button">
-                    <Link to="/job/newJob" onClick={this.handleClick}>
+                    <Link to="/job/newJob" onClick={()=>{NProgress.start()}}>
                         <Button type="primary"></Button>
                         <span>新建职位</span>
                     </Link>

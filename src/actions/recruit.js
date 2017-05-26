@@ -50,7 +50,7 @@ const SELECT_POSITION = {type: types.SELECT_POSITION};
 
 export const getRecruitCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
-    AjaxByToken('/web/jobclassCount',{
+    AjaxByToken('jobclassCount',{
         head: {
             transcode: 'L0015'
         }
@@ -58,13 +58,15 @@ export const getRecruitCategory = () => (dispatch,getState) => {
     .then(res=>{
         dispatch(LOAD_CATEGORY_DONE);
         dispatch({...LOAD_RECRUIT_CATEGORY,categoryData:res.list});
+    },err=>{
+        dispatch(LOAD_CATEGORY_DONE);
     });
 }
 
 export const getRecruitList = (data=defaultData) => (dispatch,getState) => {
     data.skip = data.skip + '';
     defaultData = {...data,count: '20'};
-    const uri = '/web/queryResume';
+    const uri = 'queryResume';
     cancelRequestByKey(uri);
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri,{
@@ -76,13 +78,16 @@ export const getRecruitList = (data=defaultData) => (dispatch,getState) => {
     .then(res=>{
         dispatch(LOAD_LIST_DONE);
         dispatch({...LOAD_RECRUIT_LIST,recruitList:res});
+    },err=>{
+        dispatch(LOAD_LIST_DONE);
+        // dispatch({...LOAD_RECRUIT_LIST,recruitList:{count:0,list:[]}});
     });
 }
 
 // 上传简历
 export const uploadResume = data => (dispatch,getState) => {
     dispatch(UPLOAD_RESUME_START);
-    AjaxByToken('/web/resumeUpload',{
+    AjaxByToken('resumeUpload',{
         head: {
             transcode: 'L0030',
         },
@@ -110,7 +115,7 @@ export const setResetFormFalse = () => (dispatch,getState) => {
 // 导入简历选择职位列表接口
 export const getRecommendRecruit= data => (dispatch,getState) => {
     data.skip = data.skip + '';
-    const uri = '/web/listPositioninfo';
+    const uri = 'listPositioninfo';
     cancelRequestByKey(uri);
     dispatch(LOAD_RECOMMEND_START);
     AjaxByToken(uri,{

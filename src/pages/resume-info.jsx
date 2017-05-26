@@ -42,7 +42,7 @@ class ResumeInfoPage extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
-    handleChangeType(type){
+    handleChangeType = (type) => {
         this.setState({type});
     }
 
@@ -92,13 +92,13 @@ class ResumeInfoPage extends Component {
                                     <li className="table-cell empty"></li>
                                     <li 
                                         className={`tab-item table-cell boder-right-none ${!!type ? '' : 'active'}`}
-                                        onClick={this.handleChangeType.bind(this,0)}
+                                        onClick={() => this.handleChangeType(0)}
                                     >
                                         个人简历
                                     </li>
                                     <li 
                                         className={`tab-item table-cell ${!!type ? 'active' : ''}`}
-                                        onClick={this.handleChangeType.bind(this,1)}
+                                        onClick={() => this.handleChangeType(1)}
                                     >
                                         邮件
                                     </li>

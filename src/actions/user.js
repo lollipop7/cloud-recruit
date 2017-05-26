@@ -9,12 +9,14 @@ const GET_USER_INFO = {type:types.GET_USER_INFO};
 const GET_USER_EMAIL_INFO = {type:types.GET_USER_EMAIL_INFO};
 
 // 用户修改密码
+const CHANGE_PASSWD_START = {type:types.CHANGE_PASSWD_START};
+const CHANGE_PASSWD_DONE = {type:types.CHANGE_PASSWD_DONE};
 const CHANGE_PASSWD = {type:types.CHANGE_PASSWD};
 const CHANGE_RES_FALSE = {type:types.CHANGE_RES_FALSE};
 
 // 获取用户基本信息
 export const getUserInfo = () => (dispatch,getState) => {
-    AjaxByToken('/web/basicUserinfo',{
+    AjaxByToken('basicUserinfo',{
         head: {
             transcode: 'L0006'
         }
@@ -26,7 +28,7 @@ export const getUserInfo = () => (dispatch,getState) => {
 
 // 获取用户邮箱信息
 export const getUserEmail = () => (dispatch,getState) => {
-    AjaxByToken('/web/toConnectMail',{
+    AjaxByToken('toConnectMail',{
         head: {
             transcode: 'L0003'
         }
@@ -38,7 +40,7 @@ export const getUserEmail = () => (dispatch,getState) => {
 
 // 修改邮箱配置
 export const changeEmailSetting = (data) => (dispatch,getState) => {
-    AjaxByToken('/web/changeMailPwd',{
+    AjaxByToken('changeMailPwd',{
         head: {
             transcode: 'L0004'
         },
@@ -53,19 +55,22 @@ export const changeEmailSetting = (data) => (dispatch,getState) => {
 
 // 修改密码
 export const changePassWd = (data={}) => (dispatch,getState) => {
-    NProgress.start();
-    AjaxByToken('/web/changepwd',{
+    // NProgress.start();
+    dispatch(CHANGE_PASSWD_START);
+    AjaxByToken('changepwd',{
         head: {
             transcode: 'L0002'
         },
         data: data
     })
     .then(res=>{
+        dispatch(CHANGE_PASSWD_DONE);
         message.success('修改密码成功！');
         dispatch(CHANGE_PASSWD);
     },err=>{
+        dispatch(CHANGE_PASSWD_DONE);
         message.error('修改密码失败！');
-        dispatch(CHANGE_PASSWD);
+        // dispatch(CHANGE_PASSWD);
     });
 }
 

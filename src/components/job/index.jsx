@@ -37,7 +37,7 @@ class IndexPage extends Component {
         this._requestData();
     }
 
-    _requestData() {
+    _requestData = () => {
         this.props.getJobList({...this.params,...this.formData});
     }
 
@@ -106,6 +106,7 @@ class IndexPage extends Component {
                     <div className="pull-right">
                         <RightComponent 
                             ref="RightComponent"
+                            getJobList={this._requestData}
                             onSearch={this.handleSearch} 
                             paginationChange={this.paginationChange} 
                             paginationCurrent={paginationCurrent}

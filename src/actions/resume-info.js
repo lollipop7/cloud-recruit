@@ -34,7 +34,7 @@ export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
      * logId: logId
      */
     dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/getResumeById',{
+    AjaxByToken('getResumeById',{
         head: {
             transcode: 'L0017'
         },
@@ -49,7 +49,7 @@ export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
 // 获取流程log(根据简历id和职位id)
 export const getStageLog = (data) => (dispatch,getState) => {
     dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/detailsByPosition',{
+    AjaxByToken('detailsByPosition',{
         head: {
             transcode: 'L0019'
         },
@@ -64,7 +64,7 @@ export const getStageLog = (data) => (dispatch,getState) => {
 // 根据简历id查询具体信息
 export const getTalentResumeInfo = (data) => (dispatch,getState) => {
     dispatch(LOAD_INFO_START);
-    AjaxByToken('/web/resumeView',{
+    AjaxByToken('resumeView',{
         head: {
             transcode: 'L0040'
         },
@@ -83,7 +83,7 @@ export const downloadResume = (data,username) => (dispatch,getState) => {
     dispatch(DOWNLOAD_RESUME_START);
     const token = store.get('token');
     axios({
-        url: process.env.NODE_ENV === 'development' ? '/web/downloadResume' : '/hrmanage/api/web/downloadResume',
+        url: `${prefixUri}/downloadResume`,
         method: 'post',
         data: {data:{...token,...data},...{
             head:{
@@ -107,7 +107,7 @@ export const downloadResume = (data,username) => (dispatch,getState) => {
 // 更改流程状态
 export const changeStageStatus = (data,props) => (dispatch,getState) => {
     dispatch(SHOW_MODAL_LOADING);
-    AjaxByToken('/web/changeStageStatus',{
+    AjaxByToken('changeStageStatus',{
         head: {
             transcode: 'L0020'
         },
@@ -124,6 +124,8 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
             resumeId: resumeid
         });
         window.parent.postMessage('rerequest','*');
+    },err=>{
+        dispatch(HIDE_MODAL_LOADING);
     });
 }
 

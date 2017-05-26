@@ -91,18 +91,6 @@ module.exports = [
     {
         "title": "状态",
         "dataIndex": "status",
-        "key": "status",
-        "render": (text, record, index)=>{
-            switch(parseInt(text)) {
-                case 0:
-                    return <button className="status-button plan">准备中</button>;
-                case 1:
-                    return <button className="status-button progress">进行中</button>;
-                case 2:
-                    return <button className="status-button complete">已完成</button>;
-                case 3:
-                    return <button className="status-button end">已终止</button>;
-            }
-        }
+        "key": "status"
     }
 ]

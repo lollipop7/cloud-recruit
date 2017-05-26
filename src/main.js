@@ -1,23 +1,29 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import Promise from 'promise-polyfill';
-import figlet from 'figlet';
+// import figlet from 'figlet';
 
-figlet.defaults({fontPath: "/static/fonts"});
+// figlet.defaults({fontPath: "/static/fonts"});
 
-figlet('51JRQ', 'Doh', function(err, data) {
-    if (err) {
-        console.log('Something went wrong...');
-        console.dir(err);
-        return;
-    }
-    console.log(data)
-});
+// figlet('51JRQ', 'Doh', function(err, data) {
+//     if (err) {
+//         console.log('Something went wrong...');
+//         console.dir(err);
+//         return;
+//     }
+//     console.log(data)
+// });
+
+// 全局uri注入
+// window.prefixUri = 'http://yun.51jrq.com/51hr/api/web';
+window.prefixUri = '/hrmanage/api/web';
+// window.prefixUri = '/hrmanage/api/web';
 
 // css文件
 import 'rc-steps/assets/index.css';
 import 'static/css/normalize.css';
 import 'static/css/nprogress.css';
+import './scss/main.scss';
 
 // NProgress configure
 NProgress.configure({
@@ -54,8 +60,6 @@ const store = createStore(
     // }),
     applyMiddleware(thunk)
 );
-
-import Styles from './scss/main.scss';
 
 ReactDom.render(
     <Provider store={store}>

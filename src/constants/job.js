@@ -14,6 +14,14 @@ export const LOAD_LIST_DONE = "LOAD_LIST_DONE";
 export const JOB_INFO = "JOB_INFO";
 export const LOAD_INFO_START = "LOAD_INFO_START";
 export const LOAD_INFO_DONE = "LOAD_INFO_DONE";
+// 提前终止职位信息
+export const ABORT_JOB_START = "ABORT_JOB_START";
+export const ABORT_JOB_DONE = "ABORT_JOB_DONE";
+export const ABORT_JOB_INFO = "ABORT_JOB_INFO";
 // 创建职位
 export const CREATE_JOB_START = "CREATE_JOB_START";
 export const CREATE_JOB_DONE = "CREATE_JOB_DONE";
+
+// 职位信息MODAL
+export const SHOW_JOB_MODAL = "SHOW_JOB_MODAL";
+export const HIDE_JOB_MODAL = "HIDE_JOB_MODAL";

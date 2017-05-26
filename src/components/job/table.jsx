@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Table,Modal} from 'antd';
+import {Table,Modal,Popover,Button} from 'antd';
 
 import columns from 'data/table-columns/job-table';
 import LoadingComponent from 'components/loading';
@@ -13,8 +13,7 @@ import * as Actions from 'actions';
 
 class TableComponent extends Component {
     state = {
-        dataSource:[],
-        modalVisible: false
+        currentClickJob:{}
     }
 
     columns = [];
@@ -24,9 +23,12 @@ class TableComponent extends Component {
     }
 
     showJobInfo = (record) => {
+        const {getJobInfo,showJobModal} = this.props;
         const {positionid} = record;
-        this.props.getJobInfo({positionid});
-        this.setModalVisible(true);
+        getJobInfo({positionid});
+        // 当前点的职位的详细信息
+        this.setState({currentClickJob:record});
+        showJobModal();
     }
 
     componentDidMount() {
@@ -35,6 +37,28 @@ class TableComponent extends Component {
 
     getColumns() {
         columns[2].render = this.renderWithAtag;
+        columns[columns.length - 1].render = (text,record,index) => {
+            switch(parseInt(text)) {
+                case 0:
+                    return <button className="status-button plan">准备中</button>;
+                case 1:
+                    return (
+                        /*<Popover 
+                            placement="top" 
+                            title='提前终止' 
+                            content={
+                                <Button type="primary">提前终止</Button>
+                            } 
+                        >*/
+                            <button className="status-button progress">进行中</button>
+                        // </Popover>
+                    );
+                case 2:
+                    return <button className="status-button complete">已完成</button>;
+                case 3:
+                    return <button className="status-button end">已终止</button>;
+            }
+        }
         return columns;
     }
 
@@ -44,23 +68,24 @@ class TableComponent extends Component {
                 className="positionname" 
                 href="javascript:;" 
                 title={text}
-                onClick={this.showJobInfo.bind(this,record)}
+                onClick={() => this.showJobInfo(record)}
             >
                 {text}
             </a>
         )
     }
 
-    setModalVisible = (modalVisible) => {
-        this.setState({modalVisible});
-    }
-
     render() {
         const {
             listData,
             isLoading,
+            isLoadingAbort,
             paginationCurrent,
-            paginationChange
+            paginationChange,
+            getJobList,
+            getJobCategory,
+            modalVisible,
+            hideJobModal
         } = this.props;
         const {list,count} = listData;
         return (
@@ -88,13 +113,17 @@ class TableComponent extends Component {
                 />
                 <Modal
                     wrapClassName="vertical-center-modal"
-                    visible={this.state.modalVisible}
-                    onOk={() => this.setModalVisible(false)}
-                    onCancel={() => this.setModalVisible(false)}
+                    visible={modalVisible}
+                    onCancel={!isLoadingAbort ? () => hideJobModal() : () => {}}
                     width={1100}
                     footer={null}
+                    
                 >
-                    <JobInfoComponent />
+                    <JobInfoComponent 
+                        data={this.state.currentClickJob} 
+                        getJobList={getJobList}
+                        getJobCategory={getJobCategory}
+                    />
                 </Modal>
             </div>
         );
@@ -103,10 +132,15 @@ class TableComponent extends Component {
 
 const mapStateToProps = state => ({
     listData: state.Job.listData, // 统计列表数据
-    isLoading: state.Job.isLoadingList
+    isLoading: state.Job.isLoadingList,
+    modalVisible: state.Job.modalVisible,
+    isLoadingAbort: state.Job.isLoadingAbort
 })
 const mapDispatchToProps = dispatch => ({
-    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch)
+    getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
+    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
+    showJobModal: bindActionCreators(Actions.jobActions.showJobModal, dispatch),
+    hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch)
 })
 
 export default connect(
