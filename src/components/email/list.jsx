@@ -34,10 +34,8 @@ class EmailListComponents extends Component {
     }
 
     handleKeyUp = e => {
-        const {keyword} = this.state;
-        if(e.keyCode === 13 &&  this.keyword !== keyword){
-            this.keyword = keyword;
-            this.props.getEmailHistory({keyword});
+        if(e.keyCode === 13){
+            this.handleSearch();            
         }
     }
 
@@ -59,6 +57,14 @@ class EmailListComponents extends Component {
         const {resumeid,positionid} = item;
         this.props.getEmailBoxDetail({resumeid,positionid});
     }
+    
+    handleSearch = () => {
+        const {keyword} = this.state;
+        if(this.keyword !== keyword){
+            this.keyword = keyword;
+            this.props.getEmailHistory({keyword});
+        }
+    }
 
     render() {
         const {keyword,activeTabIndex} = this.state,
@@ -76,7 +82,7 @@ class EmailListComponents extends Component {
                         onChange={this.handleChange}
                         onKeyUp = {this.handleKeyUp}
                         suffix={
-                            <span className="search-icon"></span>
+                            <span className="search-icon" onClick={this.handleSearch}></span>
                         }
                     />
                 </div>

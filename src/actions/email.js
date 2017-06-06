@@ -1,6 +1,6 @@
 import * as types from 'constants/email';
 import axios from 'axios';
-import {AjaxByToken} from 'utils/ajax';
+import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
 import {message} from 'antd';
 
@@ -41,7 +41,9 @@ export const getEmailHistory = (data={}) => (dispatch,getState) => {
 
 // 查询人员信息邮件历史记录
 export const getEmailBoxDetail = data => (dispatch,getState) => {
-    AjaxByToken('mailBoxDetail',{
+    let uri = 'mailBoxDetail';
+    cancelRequestByKey(uri);
+    AjaxByToken(uri,{
         head: {
             transcode: 'L0029'
         },
@@ -57,7 +59,7 @@ export const resetEmailBoxDetail = () => (dispatch,getState) => {
 }
 
 // 发送邮件
-export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (dispatch,getState) => {
+export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{},getEmailBoxDetail) => (dispatch,getState) => {
     dispatch(SEND_EMAIL_START);
     AjaxByToken('sendEmail',{
         head: {
@@ -72,22 +74,25 @@ export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{}) => (
         reSetTitle('');
         // 重置邮件内容
         reSetHTML();
-        // 重置上传附件列表
-        dispatch(RESET_FILELIST_TRUE);
+        // 重新获取个人信息邮件历史列表
+        const {resumeid,positionid} = data;
+        getEmailBoxDetail({resumeid,positionid});
         // 批量删除上传的附件
-        // let requestArr = [];
-        // fileList.forEach(item=>{
-        //     const {response} = item;
-        //     let fd = new FormData();
-        //     fd.append('fileName',response.filePath);
-        //     requestArr.push(
-        //         axios.post(`${prefixUri}/uploadremove`,fd)
-        //     );
-        // });
-        // axios.all(requestArr)
-        // .then(axios.spread(function () {
-        //     // 上面请求都完成后，才执行这个回调方法
-        // }));
+        let requestArr = [];
+        fileList.forEach(item=>{
+            const {response} = item;
+            let fd = new FormData();
+            fd.append('fileName',response.filePath);
+            requestArr.push(
+                axios.post(`${prefixUri}/uploadremove`,fd)
+            );
+        });
+        axios.all(requestArr)
+        .then(axios.spread(function () {
+            // 上面请求都完成后，才执行这个回调方法
+            // 重置上传附件列表
+            dispatch(RESET_FILELIST_TRUE);
+        }));
     },err=>{
         dispatch(SEND_EMAIL_DONE);
         message.error('发送邮件失败！');

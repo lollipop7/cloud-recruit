@@ -120,10 +120,12 @@ class NavBarComponents extends Component {
             <div className="navbar">
                 <div className="navbar-inner">
                     <div className="logo">
-                        <img src={`${prefix}logo.png`} alt="51云招聘"/>
+                        <Link to="/" onClick={()=>this.showNprogress('/')}>
+                            <img src={`${prefix}logo.png`} alt="51云招聘"/>
+                        </Link>
                     </div>
                     <div className="home" style={{backgroundColor: pathname === '/' ? '#00699f' : ''}}>
-                        <Link to='#/' onClick={this.showNprogress.bind(this,'/')}><img src={`${prefix}home.png`} alt="首页"/></Link>
+                        <Link to='#/' onClick={()=>this.showNprogress('/')}><img src={`${prefix}home.png`} alt="首页"/></Link>
                     </div>
                     <ul className="nav-list">
                         {

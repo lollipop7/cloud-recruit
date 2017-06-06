@@ -4,17 +4,18 @@ import {InputComponent} from 'components/input';
 
 export default class BaseInfoComponent extends Component {
     render() {
-        const {
-            positionname='',
-            salary='',
-            department='',
-            recruitreason='',
-            headcount=0,
-            workcity='',
-            workyears='',
-            specialty='',
-            educationbackground=''
-        } = this.props.jobInfo;
+        const {jobInfo={}} = this.props,
+            {
+                positionname='',
+                salary='',
+                department='',
+                recruitreason='',
+                headcount=0,
+                workcity='',
+                workyears='',
+                specialty='',
+                educationbackground=''
+            } = jobInfo;
         return (
             <li className="base-info">
                 <h2 className="title">

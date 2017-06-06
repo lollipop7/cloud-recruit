@@ -89,6 +89,8 @@ class HeaderInfoComponent extends Component {
         const {data} = this.props,
             {
                 resumeInfo={},
+                resumeid, //简历id
+                currentPId='', //当前职位id
                 currentPName='', // 申请职位名称
                 currentPworkcity='', // 申请区域
                 positions=[], // 当前简历同时申请的
@@ -164,36 +166,54 @@ class HeaderInfoComponent extends Component {
                                 职位区域 : {currentPworkcity}
                             </li>
                         </ul>
+                        {/*招聘流程*/}
                         <StepsComponent stagesMap={stagesMap} />
                     </div>
                     <div className="info-bottom">
-                        <div style={{
-                            position: 'absolute',
-                            left: 0,
-                            bottom: 0
-                        }}>
-                            <span>同时申请职位 :</span>
-                            <ul className="inline-block" style={{
-                                listStyleType: 'none'
-                            }}>
-                                {
-                                    positions.map((item,index)=>{
-                                        return (
-                                            <li key={index} className="inline-block">
-                                                &nbsp;{index+1}.{item.positionname}{index !== positions.length - 1 ? ' ;' : ''}
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                        </div>
-                        <div className="noprint" style={{
-                            position: 'absolute',
-                            right: 0
-                        }}
-                        onClick={this.changeStage}
-                        >
-                            <img src="./static/images/left-arrow.png" alt=""/>
+                        <div className="table">
+                            <div className="table-cell" width="120">
+                                <span>同时申请职位 :</span>
+                            </div>
+                            <div className="table-cell">
+                                <ul className="inline-block" style={{
+                                    listStyleType: 'none'
+                                }}>
+                                    {
+                                        positions.map((item,index)=>{
+                                            const {positionid,stageid,stagename} = item;
+                                            return (
+                                                <li key={index} className="inline-block">
+                                                    &nbsp;{index+1}.{item.positionname}
+                                                    (<a 
+                                                        href="javascript:;" 
+                                                        onClick={
+                                                            positionid === currentPId ? 
+                                                            () => {} :
+                                                            ()=>this.props.getStageLog({
+                                                                positionId: positionid,
+                                                                resumeId: resumeid
+                                                            })
+                                                        }
+                                                        style={{
+                                                            color: '#898989',
+                                                            textDecoration: 'underline'
+                                                        }}
+                                                    >{stagename}</a>)
+                                                    {index !== positions.length - 1 ? ' ;' : ''}
+                                                    <span>&nbsp;&nbsp;</span>
+                                                </li>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                            <div className="table-cell">
+                                <div className="noprint"
+                                    onClick={this.changeStage}
+                                >
+                                    <img src="./static/images/left-arrow.png" alt="more"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,6 +227,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
+    getStageLog: bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch)
 })
 

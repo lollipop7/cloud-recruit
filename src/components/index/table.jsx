@@ -86,7 +86,7 @@ class TableComponent extends Component {
     }
 
     handleClick = () => {
-        this.context.router.push('/talent');
+        this.context.router.push('/recruit/6');
     }
 
     onModalChange = () => {

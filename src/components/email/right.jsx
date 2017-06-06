@@ -34,7 +34,7 @@ class RightComponents extends Component {
         /**
          * isSendEmailDone 邮件是否发送完成,如果为false表示发送中,就不再发请求
          */
-        const {isSendEmailDone} = this.props,
+        const {isSendEmailDone,getEmailBoxDetail} = this.props,
             {
                 EmailInfoComponent,
                 EmailEditorComponents
@@ -80,7 +80,7 @@ class RightComponents extends Component {
             content,
             ...{toaddress:email},
             attachmentJson
-        },this.fileList,setTitle,EmailEditorComponents.resetHTML);
+        },this.fileList,setTitle,EmailEditorComponents.resetHTML,getEmailBoxDetail);
     }
 
     handleFileList = fileList => {
@@ -113,7 +113,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     sendEmail: bindActionCreators(Actions.EmailActions.sendEmail, dispatch),
-    showUploadModal: bindActionCreators(Actions.EmailActions.showUploadModal, dispatch)
+    showUploadModal: bindActionCreators(Actions.EmailActions.showUploadModal, dispatch),
+    getEmailBoxDetail: bindActionCreators(Actions.EmailActions.getEmailBoxDetail, dispatch)
 })
 
 export default connect(

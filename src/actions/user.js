@@ -70,7 +70,6 @@ export const changePassWd = (data={}) => (dispatch,getState) => {
     },err=>{
         dispatch(CHANGE_PASSWD_DONE);
         message.error('修改密码失败！');
-        // dispatch(CHANGE_PASSWD);
     });
 }
 

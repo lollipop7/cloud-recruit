@@ -35,10 +35,10 @@ class ResumeModalComponent extends Component {
             >   
                 {visible &&
                     <iframe 
-                        src={`/#/resumeInfo${resumeid ? '/' + resumeid : ''}${id ? '/' + id : ''}`}
                         frameBorder="0"
                         width='100%'
                         height='100%'
+                        src={`/#/resumeInfo${resumeid ? '/' + resumeid : ''}${id ? '/' + id : ''}`}
                     >
                     </iframe>
                 }

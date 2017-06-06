@@ -31,10 +31,22 @@ class IndexPage extends Component {
 
     componentDidMount() {
         NProgress.done();
+        const {params,getJobCategory} = this.props;
         // 获取职位分类统计
-        this.props.getJobCategory();
+        getJobCategory();
         // 获取职位列表
         this._requestData();
+        const {positionid} = params;
+        //打开弹出层
+        setTimeout(()=>{
+            if(positionid){
+                const {getJobInfo,showJobModal} = this.props;
+                getJobInfo({positionid});
+                // 当前点的职位的详细信息
+                // this.setState({currentClickJob:record});
+                showJobModal();
+            }
+        },500);
     }
 
     _requestData = () => {
@@ -123,6 +135,8 @@ const mapStateToProps = state => ({
     isLoading: state.Job.isLoadingCategory
 })
 const mapDispatchToProps = dispatch => ({
+    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
+    showJobModal: bindActionCreators(Actions.jobActions.showJobModal, dispatch),
     getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
     getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch)
 })

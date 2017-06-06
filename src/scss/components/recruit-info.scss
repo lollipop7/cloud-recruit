@@ -63,8 +63,16 @@
         .info-bottom {
             position: relative;
             font-size: 16px;
-            height: 40px;
-            margin-top: 5px;
+            margin-top: 29px;
+            .table-cell {
+                vertical-align: top;
+                &:first-child {
+                    width: 120px;
+                    &+div {
+                        min-width: 848px;
+                    }
+                }
+            }
             span {
                 color: $theme-color;
                 font-weight: bold;

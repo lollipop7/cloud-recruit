@@ -82,12 +82,13 @@ export const getJobInfo = data => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(LOAD_INFO_DONE);
-        dispatch({...JOB_INFO,jobInfo:res.entity});
+        dispatch({...JOB_INFO,jobInfo:res.entity || {}});
     });
 }
 
 // 提前终止职位信息
 export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getState) => {
+    if(!data.positionid) return ;
     /**
      * positionid 职位id
      */

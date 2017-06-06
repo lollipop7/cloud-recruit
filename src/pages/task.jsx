@@ -110,7 +110,8 @@ class TaskPage extends Component {
                         id="downloadTarget" 
                         name="downloadTarget" 
                         style={{display:'none'}} 
-                        src="" frameborder="0"
+                        src="" 
+                        frameborder="0"
                     ></iframe>
                 </div>
             </ScrollPageContent>

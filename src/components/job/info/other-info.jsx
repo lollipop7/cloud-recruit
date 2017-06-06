@@ -18,7 +18,7 @@ export default class OtherInfoComponent extends Component {
                 getJobCategory
         } = this.props,
             {starttime=0,endtime=0,urgent=true,positionid} = jobInfo,
-            { status } = data;
+            { status = '0' } = data;
         return (
             <li className="other-info" style={{
                 paddingBottom: 0

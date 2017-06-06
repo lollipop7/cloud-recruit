@@ -117,9 +117,8 @@ class TableComponent extends Component {
                     onCancel={!isLoadingAbort ? () => hideJobModal() : () => {}}
                     width={1100}
                     footer={null}
-                    
                 >
-                    <JobInfoComponent 
+                    <JobInfoComponent
                         data={this.state.currentClickJob} 
                         getJobList={getJobList}
                         getJobCategory={getJobCategory}
@@ -143,7 +142,7 @@ const mapDispatchToProps = dispatch => ({
     hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch)
 })
 
-export default connect(
+export default connect( 
     mapStateToProps,
     mapDispatchToProps
 )(TableComponent);

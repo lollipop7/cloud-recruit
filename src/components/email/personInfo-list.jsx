@@ -14,6 +14,15 @@ class PersonInfoListComponent extends Component {
         this.props.resetEmailBoxDetail();
     }
 
+    // 下载附件
+    downloadAttchment = file => {
+        const {filepath,filename} = file;
+        this.refs.filePath.value = filepath;
+        this.refs.fileName.value = filename;
+        // 表单提交
+        this.refs.form.submit();
+    }
+
     render() {
         const {list} = this.props;
         const text = 'test collapse panel';
@@ -29,7 +38,8 @@ class PersonInfoListComponent extends Component {
                                  toaddress,
                                  title,
                                  content,
-                                 srdateStr
+                                 srdateStr,
+                                 attachments // 附件列表(Array)
                                 } = item;
                              const header = (
                                 <div className="table header">
@@ -63,6 +73,25 @@ class PersonInfoListComponent extends Component {
                                         </li>
                                         <li dangerouslySetInnerHTML={{__html:content}}>
                                         </li>
+                                        {attachments.length > 0 &&
+                                            <li className="attachments">
+                                                <div>附件</div>
+                                                <ul>
+                                                    {
+                                                        attachments.map((file,key)=>{
+                                                            const {filename} = file;
+                                                            return (
+                                                                <li key={key}>
+                                                                    <a href="javascript:;" onClick={()=>this.downloadAttchment(file)}>
+                                                                        {filename}
+                                                                    </a>
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
                                     </ul>
                                 </Panel>
                              )
@@ -70,6 +99,22 @@ class PersonInfoListComponent extends Component {
                      }
                     </Collapse>
                 </div>
+                <form 
+                    ref="form"
+                    action="/hrmanage/api/web/download"
+                    method="post"
+                    target="downloadAttachment"
+                >
+                    <input ref="filePath" type="hidden" name="filePath"  />
+                    <input ref="fileName" type="hidden" name="fileName"  />
+                </form>
+                <iframe 
+                    id="downloadAttachment" 
+                    name="downloadAttachment" 
+                    style={{display:'none'}} 
+                    src="" 
+                    frameborder="0"
+                ></iframe>
             </div>
         );
     }

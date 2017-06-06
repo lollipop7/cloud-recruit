@@ -43,7 +43,13 @@ class RecruitPage extends Component {
 
     componentDidMount() {
         NProgress.done();
-        this.props.getRecruitCategory();
+        const {params,getRecruitCategory} = this.props,
+            {stageid} = params;
+        getRecruitCategory();
+        if(stageid){
+            this.params.stageid = stageid;
+            this.refs.LeftNav.setSelectedIndex(parseInt(stageid));
+        }
         this._requestData();
         // 监听简历详情页面是否发生流程更改
         window.addEventListener('message',e=>{
@@ -78,7 +84,7 @@ class RecruitPage extends Component {
         return NavData;
     }
 
-    handleClickNav = (type) => {
+    handleClickNav = type => {
         this.params.stageid = type;
         // this.params.skip = 0;
         // this.setPaginationCurrent(1);
@@ -122,7 +128,8 @@ class RecruitPage extends Component {
                     <BreadCrumbComponent routes={routes} />
                     <div className="list-block">
                         <div className="pull-left">
-                            <LeftNav 
+                            <LeftNav
+                                ref="LeftNav"
                                 title="招聘分类" 
                                 isLoading={isLoading}
                                 data={this._getNavData()}

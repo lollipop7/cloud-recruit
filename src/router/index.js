@@ -6,7 +6,7 @@ import {onEnterLoginHook,requireAuthHook,onLeavePage} from '../hook';
 
 // 职位管理页面子路由
 const JobIndex = {
-    path: 'index',
+    path: 'index(/:positionid)',
     breadcrumbName:"职位管理",
     onEnter:requireAuthHook,
     onLeave:onLeavePage,
@@ -51,7 +51,7 @@ const Job = {
 
 // 引入招聘流程路由组件
 const Recruit = {
-    path: 'recruit',
+    path: 'recruit(/:stageid)',
     breadcrumbName:"招聘流程", 
     onEnter:requireAuthHook,
     onLeave:onLeavePage,

@@ -10,7 +10,7 @@ import InputComponents from './input';
 export default class RetestComponents extends Component {
 
     state = {
-        statusid: '3'
+        statusid: '4'
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -39,6 +39,24 @@ export default class RetestComponents extends Component {
         }
         return {statusid,thelable,...data};
     }
+
+    getTimePlaceholder(statusid) {
+        switch(statusid){
+            case "3":
+                return "复试时间";
+            case "4":
+                return "入职时间";
+        }
+    }
+
+    getAddressPlaceholder(statusid) {
+        switch(statusid){
+            case "3":
+                return "复试地点";
+            case "4":
+                return "入职地点";
+        }
+    }
     
 
     render() {
@@ -52,13 +70,14 @@ export default class RetestComponents extends Component {
                     <TooltipComponents>
                         <Radio value='2'>淘汰</Radio>
                     </TooltipComponents>
-                    <Radio value='3'>建议入职</Radio>
+                    <Radio value='3'>安排复试</Radio>
+                    <Radio value='4'>建议入职</Radio>
                 </RadioGroup>
-                {statusid === '3' &&
-                    <InputComponents 
+                { (statusid === '3' || statusid === '4') &&
+                    <InputComponents
                         ref="Event"
-                        timePlaceholder='入职时间'
-                        addressPlaceholder='入职地点'
+                        timePlaceholder={this.getTimePlaceholder(statusid)}
+                        addressPlaceholder={this.getAddressPlaceholder(statusid)}
                     />
                 }
                 <TagsComponent ref='Tags' currentStage={this.props.currentStage} />

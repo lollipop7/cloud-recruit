@@ -82,6 +82,9 @@
             padding: 13px 0;
             position: relative;
             color: $assist-color;
+            &:hover {
+                cursor: pointer;
+            }
             &:after {
                 @include border-bottom;
             }
@@ -119,6 +122,9 @@
                 cursor: default;
             }
         }
+    }
+    .empty-area {
+        margin-top: 50px;
     }
     // 任务完成进度
     .task-progress {

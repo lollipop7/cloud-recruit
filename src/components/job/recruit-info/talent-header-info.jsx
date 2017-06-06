@@ -119,7 +119,15 @@ class TalentHeaderInfoComponent extends Component {
                                 简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                         </ul>
-                        <Button className="noprint" type="orange" onClick={()=>showRecommendModal()}>职位推荐</Button>
+                        <div className="noprint">
+                            <Button
+                                type="orange" 
+                                onClick={()=>showRecommendModal()}
+                                style={{
+                                    marginRight: 0
+                                }}
+                            >职位推荐</Button>
+                        </div>
                     </div>
                 </div>
                 {/*职位推荐Modal*/}

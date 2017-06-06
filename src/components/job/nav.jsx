@@ -17,11 +17,13 @@ export default class LeftNavComponent extends Component {
         return this.state !== nextState || nextProps !== this.props;
     }
 
-    handleClick(index,type) {
+    setSelectedIndex = _selectedIndex => {
+        this.setState({_selectedIndex});
+    }
+
+    handleClick = (index,type) => {
         if(this.state._selectedIndex === index) return;
-        this.setState({
-            _selectedIndex: index
-        });
+        this.setSelectedIndex(index);
         const {onClick} = this.props;
         if(onClick){
             onClick(type);

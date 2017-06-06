@@ -6,45 +6,6 @@ import find from 'lodash/find';
 import forIn from 'lodash/forIn';
 import omitBy from 'lodash/omitBy';
 
-
-const steps = [
-    {
-        status: 'wait',
-        title: '申请职位',
-        icon: 1
-    }, 
-    {
-        status: 'wait',
-        title: '预约',
-        icon: 2
-    }, 
-    {
-        status: 'wait',
-        title: '面试',
-        icon: 3
-    },
-    {
-        status: 'wait',
-        title: '复试',
-        icon: 4
-    },
-    {
-        status: 'wait',
-        title: 'offer',
-        icon: 5
-    },
-    {
-        status: 'wait',
-        title: '入职',
-        icon: 6
-    },
-    {
-        status: 'wait',
-        title: '结束',
-        icon: 7
-    }
-]
-
 export default class StepsComponent extends Component {
 
     steps = [
@@ -85,11 +46,8 @@ export default class StepsComponent extends Component {
         }
     ]
 
-    shouldComponentUpdate(nextProps,nextState) {
-        return this.props.stagesMap !== nextProps.stagesMap;
-    }
-
     render() {
+        let steps = JSON.parse(JSON.stringify(this.steps));
         const {stagesMap} = this.props;
         if(stagesMap){
             const currentStage = find(stagesMap,item=>{
@@ -99,9 +57,9 @@ export default class StepsComponent extends Component {
                 return item.iscurrentstage !== '0';
             });
             forIn(stagesMap,item=>{
-                this.steps[item.stageid-1].status = 'finish';
+                steps[item.stageid-1].status = 'finish';
             });
-            this.steps[currentStage.stageid-1].status = 'process';
+            steps[currentStage.stageid-1].status = 'process';
         }
         return (
             <div className="steps noprint" style={{
@@ -112,7 +70,7 @@ export default class StepsComponent extends Component {
             }}>
                 <Steps current={1} labelPlacement="vertical">
                     {
-                        this.steps.map((s, i) => {
+                        steps.map((s, i) => {
                             return (
                                 <Step
                                     key={i}

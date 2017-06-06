@@ -124,7 +124,13 @@ class PieChartComponent extends Component {
             <div className="task-progress box-border" style={{
                 position: 'relative'
             }}>
-                <div className="title" onClick={this.onCancelRequest}>任务完成指数</div>
+                <div 
+                    className="title" 
+                    onClick={this.onCancelRequest}
+                    style={{
+                        backgroundImage: 'url()'
+                    }}
+                >任务完成指数</div>
                 {isLoading &&
                     <div style={{
                         position: 'absolute',

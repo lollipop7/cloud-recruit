@@ -36,6 +36,9 @@
         background-image: url(../../static/images/email/search.png);
         background-repeat: no-repeat;
         background-size: 17px 17px;
+        &:hover {
+            cursor: pointer;
+        }
     }
     // 历史邮件列表
     .history-list {
@@ -83,6 +86,9 @@
             color: #868686;
         }
     }
+    .empty-area {
+        margin-top: 150px;
+    }
     // 右边编辑器容器
     .pull-right {
         overflow: hidden;
@@ -97,6 +103,13 @@
             li {
                 position: relative;
                 padding: 8px 0;
+            }
+            // 附件
+            .attachments {
+                border-top: 1px solid $border-color;
+                a {
+                    color: #a0a0a0;
+                }
             }
         }
     }

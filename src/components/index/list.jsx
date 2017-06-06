@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -10,6 +10,10 @@ import LoadingComponent from 'components/loading';
 import {notification} from 'antd';
 
 class ListComponent extends Component {
+
+     static contextTypes = {
+        router: PropTypes.object
+    }
 
     state = {
         isLoading: false
@@ -35,11 +39,9 @@ class ListComponent extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
-    handleClick(){
-        notification.info({
-            message: '提示',
-            description: '功能正在开发中...'
-        });
+    handleClick = item => {
+        const {positionid} = item;
+        this.context.router.push(`job/index${positionid ? '/'+positionid : ''}`);
     }
 
     render() {
@@ -48,7 +50,7 @@ class ListComponent extends Component {
         return (
             <div className="mission box-border">
                 <div className="title" onClick={this.handleClick}>
-                    紧急任务 
+                    紧急任务
                 </div>
                 {!isLoading && urgentTasks.length ===0 &&
                     <div className="empty-area">暂无数据</div>
@@ -69,7 +71,10 @@ class ListComponent extends Component {
                                 plan=0
                             } = item;
                             return (
-                                <li key={index}>
+                                <li 
+                                    key={index}
+                                    onClick={()=>this.handleClick(item)}
+                                >
                                     <div className="left">
                                         <div className="top">
                                             {positionname}
