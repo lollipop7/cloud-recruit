@@ -53,7 +53,7 @@ class PieChartComponent extends Component {
     componentWillUpdate(nextProps,nextState) {
         const {taskProgress} = nextProps,
             {isLoading} = nextState;
-        if(taskProgress.length && nextProps.taskProgress !== this.props.taskProgress && isLoading){
+        if( nextProps.taskProgress !== this.props.taskProgress && isLoading){
             // 去除loading
             this.setState({
                 isLoading: false
@@ -68,8 +68,11 @@ class PieChartComponent extends Component {
              * 6: 入职管理
              * 7: 结束管理
              */
-            const {data} = chartOptions.legend,
+            let {data} = chartOptions.legend,
             filterData = filter(taskProgress,item=>{
+                return typeof item.stageid === 'number';
+            });
+            filterData = filter(filterData,item=>{
                 return item.stageid !== 2 && item.stageid !== 7;
             });
             let result = [];

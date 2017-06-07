@@ -35,6 +35,9 @@ export const getTaskReport = (data={},startDate,endDate) => (dispatch,getState) 
         let endtime = endDate ? endDate : new Date().getTime(),
             starttime = startDate ? startDate :  endtime - 7*24*60*60*1000;
         dispatch({...GET_TASK_REPORT,data:{list:res.map,starttime,endtime}});
+    },err=>{
+        dispatch(GET_TASK_DONE);
+        dispatch({...GET_TASK_REPORT,data:{list:{}}});
     });
 }
 

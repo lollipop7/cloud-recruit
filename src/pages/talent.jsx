@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import BasicPage from './basic';
 import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/talent/nav';
 import FormComponent from 'components/talent/form';
@@ -23,10 +23,11 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class TalentPage extends Component {
+class TalentPage extends BasicPage {
 
     state = {
-        paginationCurrent:1
+        paginationCurrent: 1,
+        selectedRowKeys: []
     }
 
     // labelid
@@ -41,7 +42,7 @@ class TalentPage extends Component {
     }
 
     componentDidMount() {
-        NProgress.done();
+        this.hideNProgress();
         const {routeParams} = this.props,
          {keywords} = routeParams;
         // 请求分类数据
@@ -52,12 +53,6 @@ class TalentPage extends Component {
             // this.setKeywords(keywords);
         }
         this._requestData();
-    }
-
-    setKeywords(keywords) {
-        this.refs.FormComponent.handleChange('keywords',{
-            target: {value:keywords}
-        });
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -71,6 +66,12 @@ class TalentPage extends Component {
             // this.setKeywords(keywords);
             this._requestData();
         }
+    }
+
+    setKeywords(keywords) {
+        this.refs.FormComponent.handleChange('keywords',{
+            target: {value:keywords}
+        });
     }
 
     _requestData() {
@@ -139,10 +140,9 @@ class TalentPage extends Component {
         }else{
             this.labelid = '';
         }
-        // this.params.start = 0;
-        // this.setPaginationCurrent(1);
-        // this._requestData();
         this.refs.FormComponent.resetForm(true);
+        // 清空表格选择框
+        this.clearTableCheckbox();
     }
 
     handleFind = (params,clickNav=false) => {
@@ -152,6 +152,8 @@ class TalentPage extends Component {
         this.params.start = 0;
         this.setPaginationCurrent(1);
         this._requestData();
+        // 清空表格选择框
+        this.clearTableCheckbox();
     }
 
     paginationChange = (page,pageSize) => {
@@ -159,14 +161,26 @@ class TalentPage extends Component {
         this.params.start = (page - 1) * 20;
         this._requestData();
         this.setPaginationCurrent(page);
+        // 清空表格选择框
+        this.clearTableCheckbox();
     }
 
     setPaginationCurrent = paginationCurrent => {
         this.setState({paginationCurrent});
     }
+    
+    onSelectChange = selectedRowKeys => {
+        this.setState({selectedRowKeys});
+    }
+
+    clearTableCheckbox = () => {
+        const {selectedRowKeys} = this.state;
+        if(selectedRowKeys.length === 0) return ;
+        this.onSelectChange([]);
+    }
 
     render() {
-        const {paginationCurrent} = this.state,
+        const {paginationCurrent,selectedRowKeys} = this.state,
             {routes,isLoading,showUploadModal} = this.props,
             customNavData = this._getCustomLabel();
         return (
@@ -191,10 +205,11 @@ class TalentPage extends Component {
                                     showUploadModal={showUploadModal}
                                 />
                                 <TableComponent
-                                    ref="TableComponent"
+                                    selectedRowKeys={selectedRowKeys}
                                     paginationCurrent={paginationCurrent}
                                     paginationChange={this.paginationChange}
                                     customNavData={customNavData}
+                                    onSelectChange={this.onSelectChange}
                                 />
                             </div>
                         </div>

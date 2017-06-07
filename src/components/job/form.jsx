@@ -89,7 +89,7 @@ export default class FormComponent extends Component {
                         onChange={this.onTimeChange}
                         style={{width:'249px',marginRight:'16px'}} />
                         <Button type="primary" onClick={this.handleSearch}>职位筛选</Button>
-                        <Button className="grey" onClick={this.resetForm}>清空条件</Button>
+                        <Button className="grey" onClick={()=>this.resetForm(false)}>清空条件</Button>
                 </div>
                 <div className="float-button">
                     <Link to="/job/newJob" onClick={()=>{NProgress.start()}}>

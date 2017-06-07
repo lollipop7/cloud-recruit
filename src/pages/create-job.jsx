@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component,PropTypes } from 'react';
 
 import { Button } from 'antd';
 import BaseInfoComponent from 'components/create-job/baseinfo';
@@ -17,24 +17,31 @@ import * as Actions from 'actions';
 
 class CreateJobPage extends Component {
     
+     static contextTypes = {
+        router: PropTypes.object
+    }
+
     componentDidMount() {
         NProgress.done();
     }
 
     resetForm = () => {
+        if(!this.props.isCanCreateJob) return false;
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
         BaseInfoComponent.resetForm();
         OtherInfoComponent.resetForm();
     }
 
-    createJob=() => {
+    createJob =() => {
         if(this.props.isCanCreateJob){
             const {BaseInfoComponent,OtherInfoComponent} = this.refs,
             baseinfoData = BaseInfoComponent.getFormData();
             if(!baseinfoData) return ;
             const otherInfoData = OtherInfoComponent.getFormData();
             if(!otherInfoData) return ;
-            this.props.createJob({...BaseInfoComponent.state,...OtherInfoComponent.state});
+            this.props.createJob({
+                ...BaseInfoComponent.state,...OtherInfoComponent.state
+            },this.context);
         }
     }
 

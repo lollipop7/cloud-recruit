@@ -110,7 +110,7 @@ export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getSta
 }
 
 // 创建职位
-export const createJob = data => (dispatch,getState) => {
+export const createJob = (data,context) => (dispatch,getState) => {
     NProgress.start();
     dispatch(CREATE_JOB_START);
     AjaxByToken('saveorupdateposition',{
@@ -124,7 +124,7 @@ export const createJob = data => (dispatch,getState) => {
         dispatch(CREATE_JOB_DONE);
         // 回退页面
         setTimeout(() => {
-            history.back(-1);
+            context.router.push('job/index');
         }, 500);
     },err=>{
         dispatch(CREATE_JOB_DONE);

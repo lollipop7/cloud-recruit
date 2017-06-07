@@ -114,7 +114,9 @@ class NavBarComponents extends Component {
                 {name: '职位管理',path:'/job/index'},
                 {name: '招聘流程',path:'/recruit'},
                 {name: '人才库',path:'/talent'},
-                {name: '任务报表',path:'/task'}
+                {name: '任务报表',path:'/task'},
+                {name: '员工管理',path:'/manager'},
+                {name: '使用帮助',path:'/help'},
             ];
         return (
             <div className="navbar">
@@ -144,7 +146,7 @@ class NavBarComponents extends Component {
                             })
                         }
                     </ul>
-                    <div className="search">
+                    {/*<div className="search">
                         <input 
                             value={keyword}
                             type="text" 
@@ -157,7 +159,7 @@ class NavBarComponents extends Component {
                             className="search-button"
                             onClick={this.searchKeyword}
                         ></a>
-                    </div>
+                    </div>*/}
                     <div className="user">
                         {!isLoading &&
                             <div className="table">

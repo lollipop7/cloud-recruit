@@ -152,6 +152,30 @@ const SettingEmail = {
     } 
 }
 
+// 引入员工管理页面路由
+const ManagerPage = {
+    path:"manager",
+    breadcrumbName:"员工管理",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/manager').default)
+        }, 'ManagerPage')
+    }
+}
+
+// 引入使用帮助页面路由
+const HelpPage = {
+    path:"help",
+    breadcrumbName:"使用帮助",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/help').default)
+        }, 'HelpPage')
+    }
+}
+
 // 引入404页面路由
 const NotFoundPage = {
     path:"*",
@@ -179,16 +203,18 @@ const RouteConfig = {
         } 
     },
     childRoutes: [
-      Job,
-      Recruit,
-      Talent,
-      Task,
-      Login,
-      ChangePasswd,
-      SettingEmail,
-      resumeInfo,
+      Job, // 职位
+      Recruit, // 招聘
+      Talent, // 人才
+      Task, // 任务报表
+      Login, // 登陆
+      ChangePasswd, // 修改密码
+      SettingEmail, // 设置邮箱
+      resumeInfo, // 简历详情
       Email,
-      NotFoundPage
+      ManagerPage, // 员工管理
+      HelpPage, //使用帮助
+      NotFoundPage // 404
     ]
   } ]
 }

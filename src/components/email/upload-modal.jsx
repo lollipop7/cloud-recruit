@@ -56,7 +56,9 @@ class UploadModalComponent extends Component {
     // 文件移除
     onFileRemove = file => {
         const {response} = file;
-        this.props.removeUploadFIle(response.filePath);
+        if(response){
+            this.props.removeUploadFIle(response.filePath);
+        }
         return true;
     }
 

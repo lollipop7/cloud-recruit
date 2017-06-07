@@ -1,0 +1,129 @@
+$nav-bg-color: #fafafa;
+$nav-active-bg-color: #e8e8e8;
+
+$box-border-color: #ececec;
+$box-font-color: #868686;
+
+.manager-page {
+    // 左边导航栏
+    .left-nav {
+        width: 94px;
+        height: 970px;
+        background-color: $nav-bg-color;
+        padding-top: 20px;
+        border: 1px solid $border-color;
+        li {
+            background-size: 28px 28px;
+            background-repeat: no-repeat;
+            background-position: center 16px;
+            height: 80px;
+            text-align: center;
+            padding-top: 52px;
+            &.active{
+                background-color: $nav-active-bg-color;
+                color: $theme-color;
+            }
+            &:hover {
+                cursor: pointer;
+                background-color: darken($nav-bg-color, 5)
+            }
+        }
+    }
+    .right-panel {
+        width: 1104px;
+        height: 970px;
+        border: 1px solid $border-color;
+        border-left: none;
+        padding: 20px 20px 0;
+    }
+
+    .control {
+        button {
+            height: 30px;
+            font-size: 14px;
+            margin-left: 10px;
+            span {
+                margin-right: 3px;
+            }
+            img {
+                vertical-align: middle;
+            }
+        }
+        .ant-btn {
+            &:focus {
+                color: $theme-color !important;
+                background-color: #FFF;
+                border-color: $theme-color !important;
+            }
+        }
+        .ant-btn-primary {
+            &:focus {
+                background-color: $theme-color !important;
+                color: #FFF !important;
+            }
+        }
+    }
+    
+    // 员工搜索输入框
+    .ant-input-affix-wrapper input {
+        height: 36px;
+        border-radius: 30px;
+        font-size: 14px;
+        padding-left: 15px;
+        background-color: #f3f3f3;
+        color: #868686;
+        border: none;
+        &:focus {
+            border: none;
+            box-shadow: none;
+        }
+        img {
+            width: 17px;
+            height: 17px;
+        }
+    }
+
+    .box {
+        position: relative;
+        display: inline-block;
+        margin-right: 10px;
+        width: 140px;
+        height: 80px;
+        border: 1px solid $box-border-color;
+        text-align: center;
+        .table {
+            height: 100%;
+        }
+        .table-cell {
+            vertical-align: middle;
+        }
+        .num {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .desc {
+            font-size: 14px;
+            color: $box-font-color;
+        }
+        // 底部三角形
+        .triangle {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 0;
+            height: 0;
+            border-bottom: 10px solid #ef5672;
+            border-left: 10px solid transparent;
+        }
+        //圆形
+        .circle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            background-color: #c50813;
+            top: -3px;
+            right: -3px;
+        }
+    }
+}

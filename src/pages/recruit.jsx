@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import BasicPage from './basic';
 import ScrollPageContent from 'components/scroll-page-content';
 import LeftNav from 'components/job/nav';
 import BreadCrumbComponent from 'components/breadcrumb';
@@ -24,7 +24,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class RecruitPage extends Component {
+class RecruitPage extends BasicPage {
 
     state = {
         paginationCurrent: 1
@@ -42,7 +42,7 @@ class RecruitPage extends Component {
     };
 
     componentDidMount() {
-        NProgress.done();
+        this.hideNProgress();
         const {params,getRecruitCategory} = this.props,
             {stageid} = params;
         getRecruitCategory();

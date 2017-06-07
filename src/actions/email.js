@@ -36,6 +36,9 @@ export const getEmailHistory = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch(GET_HISTORY_END);
         dispatch({...GET_EMAIL_HISTORY,list:res.list});
+    },err=>{
+        dispatch(GET_HISTORY_END);
+        dispatch({...GET_EMAIL_HISTORY,list:[]});
     });
 }
 

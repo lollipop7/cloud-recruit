@@ -80,7 +80,7 @@ export default class FormComponents extends Component {
                         onChange={(e) => this.handleChange('workyear',e)}
                     />
                     <Button type="primary" onClick={this.handleFind}>查询</Button>
-                    <Button className="grey" onClick={this.resetForm}>清空条件</Button>
+                    <Button className="grey" onClick={()=>this.resetForm(false)}>清空条件</Button>
                 </div>
             </div>
         );

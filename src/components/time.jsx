@@ -1,5 +1,5 @@
 import React, {Component,PropTypes} from 'react';
-
+import moment from 'moment';
 import { DatePicker } from 'antd';
 
 export default class TimeComponent extends Component {
@@ -25,7 +25,8 @@ export default class TimeComponent extends Component {
         if (!endValue || !_startValue) {
             return false;
         }
-        return endValue.valueOf() <= _startValue.valueOf() && endValue.valueOf() > new Date().getTime();
+        // return endValue.valueOf() <= _startValue.valueOf() && endValue.valueOf() > new Date().getTime();
+        return endValue.valueOf() <= _startValue.valueOf();
     }
 
     onChange = (field, value) => {

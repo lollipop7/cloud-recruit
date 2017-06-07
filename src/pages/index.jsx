@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import BasicPage from './basic';
 import TimeComponent from 'components/index/time';
 // 列表
 import ListComponent from 'components/index/list';
@@ -12,10 +12,10 @@ import TableComponent from 'components/index/table';
 
 import ScrollPageContent from 'components/scroll-page-content';
 
-export default class IndexPage extends Component {
+export default class IndexPage extends BasicPage {
 
     componentDidMount() {
-        NProgress.done();
+        this.hideNProgress();
     }
     
     render() {

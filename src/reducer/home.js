@@ -7,26 +7,12 @@ import {
     TASK_PROGRESS
 } from 'constants/home';
 
-function generateList() {
-    let data = [];
-    for(let i=0;i<10;i++){
-        data.push({
-            key: `${i}`,
-            username: '',
-            positionname: '',
-            eventtime: '',
-            telephone: ''
-        });
-    }
-    return data;
-}
-
 const initialState = {
     // urgentTasks: [], // 紧急任务列表
     resumeData: {}, //简历入库情况
     taskProgress: [], // 任务完成指数
     isEntryLoading: false,
-    entryPersonList: generateList() //待入职人员列表
+    entryPersonList: [] //待入职人员列表
 };
 
 export default function home(state = initialState,actions){
@@ -35,7 +21,7 @@ export default function home(state = initialState,actions){
             return {...state,urgentTasks:actions.urgentTasks};
         case RESUME:
             return {...state,resumeData:actions.resumeData};
-        case TASK_PROGRESS: 
+        case TASK_PROGRESS:
             return {...state,taskProgress:actions.taskProgress};
         case GET_ENTRY_START:
             return {...state,isEntryLoading:true};

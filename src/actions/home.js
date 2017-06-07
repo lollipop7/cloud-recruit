@@ -23,6 +23,8 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch({...URGENT_TASKS,urgentTasks:res.list});
+    },err=>{
+        dispatch({...URGENT_TASKS,urgentTasks:[]});
     });
 }
 
@@ -38,6 +40,8 @@ export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch({...RESUME,resumeData:res});
+    },err=>{
+        dispatch({...RESUME,resumeData:{content:[]}});
     });
 }
 
@@ -53,6 +57,8 @@ export const getTaskProgress = (latestDays) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch({...TASK_PROGRESS,taskProgress:res.content});
+    },err=>{
+        dispatch({...TASK_PROGRESS,taskProgress:[1]});
     });
 }
 
@@ -68,6 +74,9 @@ export const getEntryPerson = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch(GET_ENTRY_DONE);
         dispatch({...GET_ENTRY_LIST,entryPersonList:res.content});
+    },err=>{
+        dispatch(GET_ENTRY_DONE);
+        dispatch({...GET_ENTRY_LIST,entryPersonList:[]});
     });
 }
 

@@ -16,11 +16,7 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class TableComponent extends Component {
-
-    state = {
-        selectedRowKeys: []
-    }
-
+    
     static propTypes = {
         paginationChange: PropTypes.func
     }
@@ -78,18 +74,15 @@ class TableComponent extends Component {
         this.props.showResumeModal({resumeid});
     }
 
-    onSelectChange = selectedRowKeys => {
-        this.setState({selectedRowKeys});
-    }
-
     render() {
-        const {selectedRowKeys} = this.state,
-        {
+        const {
             talentList,
             paginationChange,
             isLoading,
             paginationCurrent,
-            customNavData
+            customNavData,
+            selectedRowKeys,
+            onSelectChange 
         } = this.props,
             {list,count} = talentList,
             hasSelected = selectedRowKeys.length > 0;
@@ -105,7 +98,7 @@ class TableComponent extends Component {
                     rowSelection={{
                         type:'checkbox',
                         selectedRowKeys,
-                        onChange: this.onSelectChange
+                        onChange: onSelectChange
                     }}
                     bordered
                     loading={isLoading}

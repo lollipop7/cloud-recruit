@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import BasicPage from './basic';
 import store from 'store';
 
 import moment from 'moment';
@@ -17,7 +17,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class TaskPage extends Component {
+class TaskPage extends BasicPage {
 
     state = {
         starttime: '',
@@ -26,7 +26,7 @@ class TaskPage extends Component {
     }
 
     componentDidMount() {
-        NProgress.done();
+        this.hideNProgress();
     }
 
     downloadTaskReport = () => {
