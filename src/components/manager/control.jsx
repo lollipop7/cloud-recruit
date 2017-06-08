@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import { Button } from 'antd';
 
 export default class ControlComponent extends Component {
+
+    handleClick = () => {
+        console.log('添加员工!');
+    }
+
     render() {
         return (
             <div className="control">
@@ -14,6 +19,7 @@ export default class ControlComponent extends Component {
                         style={{
                             width: 100,
                         }}
+                        onClick={this.handleClick}
                     >
                         添加员工
                         <img src="static/images/manager/arrow-down.png" alt="选择"/>
