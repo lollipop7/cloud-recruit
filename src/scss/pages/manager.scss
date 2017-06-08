@@ -38,6 +38,13 @@ $box-font-color: #868686;
     }
 
     .control {
+        margin-top: 13px;
+        .pull-left {
+            line-height: 30px;
+        }
+        h2 {
+            font-size: 16px;
+        }
         button {
             height: 30px;
             font-size: 14px;
@@ -62,6 +69,22 @@ $box-font-color: #868686;
                 color: #FFF !important;
             }
         }
+    }
+
+    // 选择框所在的列
+    .ant-table-selection-column {
+        padding: 0 !important;
+        width: 33px !important;
+    }
+    .ant-checkbox-inner {
+        width: 18px;
+        height: 18px;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner:after {
+        left: 5px;
+        top: 3px;
+        width: 6px;
+        height: 9px;
     }
     
     // 员工搜索输入框

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { Button } from 'antd';
 
-export default class TableControlComponent extends Component {
+export default class ControlComponent extends Component {
     render() {
         return (
             <div className="control">
                 <div className="pull-left">
-                    <h3>全部人员</h3>
+                    <h2>全部人员</h2>
                 </div>
                 <div className="pull-right">
                     <Button
@@ -41,6 +41,7 @@ export default class TableControlComponent extends Component {
                         删除
                     </Button>
                 </div>
+                <div className="clearfix"></div>
             </div>
         );
     }

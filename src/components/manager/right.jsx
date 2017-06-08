@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 
 import TopComponent from './top';
-import TableControlComponent from './control';
+import ControlComponent from './control';
+import TableComponent from './table';
 
 export default class RightComponent extends Component {
     render() {
         return (
             <div className="right-panel">
                 <TopComponent />
-                <TableControlComponent />
+                <ControlComponent />
+                <TableComponent />
             </div>
         );
     }
