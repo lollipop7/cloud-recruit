@@ -101,7 +101,7 @@ class PersonInfoListComponent extends Component {
                 </div>
                 <form 
                     ref="form"
-                    action="/hrmanage/api/web/download"
+                    action={`${prefixUri}/download`}
                     method="post"
                     target="downloadAttachment"
                 >
