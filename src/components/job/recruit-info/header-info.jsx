@@ -5,7 +5,8 @@ import trim from 'lodash/trim';
 import find from 'lodash/find';
 
 import StepsComponent from 'components/steps';
-
+import EditableTagGroup from './tags';
+import ShareModalComponents from './share-modal';
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -85,8 +86,17 @@ class HeaderInfoComponent extends Component {
         img.onError = null;
     }
 
+    handleClick = () => {
+        console.log('添加评估表!');
+        this.setState({
+            width: '88px',
+            borderColor: '#26ae74',
+            color: '#26ae74'
+        })
+    }
+
     render() {
-        const {data} = this.props,
+        const {data,showShareModal} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -138,6 +148,14 @@ class HeaderInfoComponent extends Component {
                                     </Button>
                                     <Button type="primary" onClick={this.printResume} >
                                         打印简历
+                                    </Button>
+                                    <Button className="share" onClick={() => showShareModal()} >
+                                        <img 
+                                            style = {{
+                                                width: 40,
+                                                height: 40
+                                            }}
+                                            src="./static/images/resume/share.jpg" alt="分享"/>
                                     </Button>
                                 </div>
                             </li>
@@ -211,12 +229,46 @@ class HeaderInfoComponent extends Component {
                                 <div className="noprint"
                                     onClick={this.changeStage}
                                 >
-                                    <img src="./static/images/left-arrow.png" alt="more"/>
+                                    <img  src="./static/images/resume/right-arrow.png" alt="more"/>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="table">
+                            <div className="table-cell">
+                                <span>标签 :</span>
+                            </div>
+                            <div className="table-cell tags">
+                                <EditableTagGroup/>
+                            </div>
+                        </div>
+                        <div className="table">
+                            <div className="table-cell">
+                                <span>面试评估表 :</span> 
+                            </div>
+                            <div className="table-cell assess">
+                                <Button
+                                    style={{
+                                        width: 102, 
+                                        borderColor: '#b6b6b6',
+                                        color: '#b6b6b6'
+                                    }}
+                                    onClick={this.handleClick}
+                                >   
+                                        <img className="as"
+                                        style={{
+                                            width: 16,
+                                            height: 22
+                                        }}
+                                        src="./static/images/resume/as.png" a
+                                        lt="面试评估表"/>
+                                    点此添加
+                                </Button>
                             </div>
                         </div>
                     </div>
                 </div>
+                {/*简历分享Modal*/}
+                <ShareModalComponents/>
             </div>
         );
     }

@@ -114,7 +114,7 @@ export default class TagsComponent extends Component {
                     }}>
                         <p>标签 :</p>
                         <div className="tags-list" style={{
-                            whiteSpace: 'initial',
+                            whiteSpace: 'normal',
                             marginTop: 7
                         }}>
                             {

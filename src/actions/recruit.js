@@ -151,7 +151,7 @@ export const showUploadModal = () => (dispatch,getState) => {
 }
 // 隐藏上传简历MODAL
 export const hideUploadModal = () => (dispatch,getState) => {
-    dispatch(HIDE_UPLOAD_MODAL);
+ dispatch(HIDE_UPLOAD_MODAL);
     dispatch(SET_RESETFORM_TRUE);
 }
 

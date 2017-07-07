@@ -56,33 +56,80 @@
             width: 114px;
             height: 40px;
             font-size: 18px;
-            &:first-child {
-                margin-right: 16px;
+            margin-left: 16px;
+            &.share {
+                width: 40px;
+                padding: 0;
+                border: none !important;
+                background-color: #ffa93a !important;
+                img {
+                    vertical-align: middle;
+                }
+                &:focus {
+                    border: none !important;
+                    background-color: #ffa93a !important;
+                }
             }
         }
         .info-bottom {
             position: relative;
             font-size: 16px;
             margin-top: 29px;
+            .table {
+                margin-bottom: 16px;
+            }
             .table-cell {
-                vertical-align: top;
                 &:first-child {
-                    width: 120px;
+                    span{
+                        color: $theme-font-color;
+                    } 
                     &+div {
-                        min-width: 848px;
+                        min-width: 766px;
                     }
                 }
-            }
-            span {
-                color: $theme-color;
-                font-weight: bold;
+                &.tags span {
+                        color: $theme-color;
+                    }
+                // 标签样式
+                .ant-tag {
+                    height: 26px;
+                    line-height: 26px;
+                    padding: 0 10px;
+                    background-color: transparent;
+                    border-radius: 0;
+                    font-size: 14px;
+                    color: $theme-color;
+                    border: 1px solid $theme-color;
+                }
+                &.assess {
+                    button {
+                        height: 30px;
+                        font-size: 14px;
+                        padding: 0 11px;
+                        margin-left: 0;
+                    }
+                    span {
+                        margin-left: 6px;
+                    }
+                    img{
+                        vertical-align: middle;
+                    }
+                    .ant-btn {
+                        &:focus {
+                            color: #b6b6b6 !important;
+                            background-color: #FFF;
+                            border-color: #b6b6b6 !important;
+                        }
+                    }
+                    
+                }
             }
             ul {
                 color: #868686;
             }
             img {
-                width: 40px;
-                height: 40px;
+                width: 127px;
+                height: 35px;
             }
         }
         // 职位推荐按钮
