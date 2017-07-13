@@ -159,7 +159,7 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    loaddone: state.Login.loaddone
+    loaddone: state.Login.loaddone 
 })
 const mapDispatchToProps = dispatch => ({
     userLogin: bindActionCreators(Actions.loginActions.userLogin, dispatch),

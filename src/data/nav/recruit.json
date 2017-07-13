@@ -1,42 +1,50 @@
 [
-     {
-        "title": "全部",
-        "type": "0",
-        "num": 0
-    },
     {
         "title": "职位申请",
-        "type": "1",
+        "type": "0",
+        "bgcolor": "#67d36b",
         "num": 0
     },
     {
         "title": "预约管理",
-        "type": "2",
+        "type": "1",
+        "bgcolor": "#fbd03b",
         "num": 0
     },
     {
         "title": "面试管理",
-        "type": "3",
+        "type": "2",
+        "bgcolor": "#ff960d",
         "num": 0
     },
     {
         "title": "复试管理",
-        "type": "4",
+        "type": "3",
+        "bgcolor": "#ca7836",
         "num": 0
     },
     {
         "title": "发送offer",
+        "type": "4",
+        "bgcolor": "#b54947",
+        "num": 0
+    },
+    {
+        "title": "已入职",
         "type": "5",
+        "bgcolor": "#00cdc1",
         "num": 0
     },
     {
-        "title": "入职管理",
+        "title": "未入职",
         "type": "6",
+        "bgcolor": "#a9a9a9",
         "num": 0
     },
     {
-        "title": "结束管理",
+        "title": "全部",
         "type": "7",
+        "bgcolor": "#0186ca",
         "num": 0
     }
 ]

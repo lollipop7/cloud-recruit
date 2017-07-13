@@ -1,5 +1,7 @@
 import React, {Component,PropTypes} from 'react';
 
+import {Badge} from 'antd';
+
 export default class LeftNavComponent extends Component {
 
     static propTypes = {
@@ -41,7 +43,7 @@ export default class LeftNavComponent extends Component {
                 className={_selectedIndex === index ? 'active' : ''}
             >
                 {title} 
-                ({isLoading ?
+                {isLoading ?
                     <div 
                         className={_selectedIndex === index ? 'preloader-white' : 'preloader'} 
                         style={{
@@ -52,8 +54,8 @@ export default class LeftNavComponent extends Component {
                         }}
                     >
                     </div> :
-                    num
-                })
+                    <Badge count = {num} overflowCount = {num} style = {{backgroundColor: item.bgcolor,borderRadius: "5px",marginLeft: "11px"}}/>
+                }
             </dd>
         )
     }

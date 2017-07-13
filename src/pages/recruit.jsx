@@ -130,7 +130,7 @@ class RecruitPage extends BasicPage {
                         <div className="pull-left">
                             <LeftNav
                                 ref="LeftNav"
-                                title="招聘分类" 
+                                title="招聘流程管理" 
                                 isLoading={isLoading}
                                 data={this._getNavData()}
                                 onClick={this.handleClickNav} 

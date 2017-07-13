@@ -24,8 +24,8 @@
             font-size: 16px;
             color: #868686;
             &.active,&:hover {
-                background-color: $theme-color;
-                color: #FFF;
+                background-color: #efefef;
+                color: $theme-color;
             }
             &.active {
                 background-image: url(/static/images/arrow.png);

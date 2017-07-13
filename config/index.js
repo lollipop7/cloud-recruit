@@ -29,6 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/hrmanage': {target:'http://printserver:66'}
+      // '/hrmanage': {target:'http://192.168,101,211:66'}
       // '/hrmanage': {target:'http://192.168.101.158:8080'}
     },
     // proxyTable: {
