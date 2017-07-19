@@ -6,7 +6,7 @@ import find from 'lodash/find';
 
 import StepsComponent from 'components/steps';
 import EditableTagGroup from './tags';
-import ShareModalComponents from './share-modal';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -95,8 +95,13 @@ class HeaderInfoComponent extends Component {
         })
     }
 
+    handleShare = () => {
+        const data = this.props;
+        this.props.showShareModal(data);
+    }
+
     render() {
-        const {data,showShareModal} = this.props,
+        const {data,modalVisible} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -149,7 +154,7 @@ class HeaderInfoComponent extends Component {
                                     <Button type="primary" onClick={this.printResume} >
                                         打印简历
                                     </Button>
-                                    <Button className="share" onClick={() => showShareModal()} >
+                                    <Button className="share" onClick={this.handleShare} >
                                         <img 
                                             style = {{
                                                 width: 40,
@@ -267,20 +272,20 @@ class HeaderInfoComponent extends Component {
                         </div>
                     </div>
                 </div>
-                {/*简历分享Modal*/}
-                <ShareModalComponents/>
+                
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    isDownLoading: state.Resume.isDownLoading
+    isDownLoading: state.Resume.isDownLoading,
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
     getStageLog: bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
-    showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch)
+    showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch),
+    showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch)
 })
 
 export default connect(

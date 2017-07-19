@@ -82,3 +82,42 @@
         height: 40px;
     }
 }
+.shareModal {
+    .title {
+        font-size: 18px;
+        color: #515151;
+    }
+    .content {
+        font-size: 14px;
+        color: #868686;
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .phone {
+            width: 15px;
+            height: 24px;
+            background: url(/static/images/resume/phone.png);
+        }
+        .sweep {
+            width: 19px;
+            height: 19px;
+            background: url(/static/images/resume/sweep.png);
+        }
+    }
+    .hint {
+        margin-top: 32px;
+    }
+    .qrcode-body {
+        max-width: 430px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .qrcode-foot {
+        text-align: center;
+    }
+    .ant-tabs-tab {
+        font-size: 16px;
+    }
+}

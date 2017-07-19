@@ -1,6 +1,8 @@
 import {
     SHOW_MODAL,
     HIDE_MODAL,
+    SHOW_SHARE_MODAL,
+    HIDE_SHARE_MODAL, 
     LOAD_RESUME_INFO,
     LOAD_INFO_START,
     LOAD_INFO_DONE,
@@ -12,8 +14,10 @@ import {
 
 const initialState = {
    modalVisible: false,
+   shareModalVisible: false,
    currentStage:{},
    resumeInfo: {},
+   resumeData: {},
    isModalLoading: false,
    isDownLoading: false
 };
@@ -24,6 +28,10 @@ export default function resume(state = initialState,actions){
             return {...state,modalVisible:true,currentStage:actions.currentStage};
         case HIDE_MODAL:
             return {...state,modalVisible:false};
+        case SHOW_SHARE_MODAL:
+            return {...state,shareModalVisible:true,resumeData:actions.resumeData};
+        case HIDE_SHARE_MODAL:
+            return {...state,shareModalVisible:false};    
         case LOAD_RESUME_INFO:
             return {...state,resumeInfo:actions.resumeInfo};
         case LOAD_INFO_START:

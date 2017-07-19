@@ -109,7 +109,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     changeStageStatus: bindActionCreators(Actions.ResumeActions.changeStageStatus, dispatch),
     hideModal: bindActionCreators(Actions.ResumeActions.hideModal, dispatch),
-    getStageLog:bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
+    getStageLog:bindActionCreators(Actions.ResumeActions.getStageLog, dispatch)
 })
 
 export default connect(

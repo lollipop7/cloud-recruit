@@ -106,7 +106,7 @@ class TableComponent extends Component {
                     dataSource={
                         list.map((item,index)=>{
                             item.key = index;
-                            item.control = '招聘管理'
+                            item.control = '推荐'
                             return item;
                         })
                     }

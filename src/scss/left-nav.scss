@@ -5,9 +5,9 @@
         display: block;
         padding: 13px 0;
         width: 174px;
-        font-size: 16px;
-        color: $theme-font-color;
+        font-size: 14px;
         font-weight: bold;
+        color: $theme-font-color;
         position: relative;
         margin: 0 auto;
         &:after {
@@ -21,11 +21,12 @@
             height: 46px;
             line-height: 46px;
             padding-left: 13px;
-            font-size: 16px;
+            font-size: 14px;
             color: #868686;
             &.active,&:hover {
                 background-color: #efefef;
                 color: $theme-color;
+                font-weight: bold;
             }
             &.active {
                 background-image: url(/static/images/arrow.png);
@@ -35,6 +36,9 @@
             }
             &:hover {
                 cursor:pointer;
+            }
+            .ant-badge {
+                font-weight: normal;
             }
         }
     }

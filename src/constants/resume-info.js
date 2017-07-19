@@ -18,3 +18,7 @@ export const DOWNLOAD_RESUME_DONE = "DOWNLOAD_RESUME_DONE";
 
 export const SHOW_MODAL = "SHOW_MODAL";
 export const HIDE_MODAL = "HIDE_MODAL";
+
+//分享简历
+export const SHOW_SHARE_MODAL = "SHOW_SHARE_MODAL";
+export const HIDE_SHARE_MODAL = "HIDE_HARE_MODAL";

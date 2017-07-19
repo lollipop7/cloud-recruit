@@ -6,6 +6,7 @@ import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header
 import MainContentComponent from 'components/job/recruit-info/main-content';
 
 import ModalComponents from 'components/resume-info/modal';
+import ShareModalComponents from 'components/resume-info/share-modal';
 
 // 富文本编辑器
 import EmailEditorComponents from 'components/email/right';
@@ -125,6 +126,8 @@ class ResumeInfoPage extends Component {
                                 }
                             </div>
                             <ModalComponents />
+                            {/*简历分享Modal*/}
+                            <ShareModalComponents/>
                         </div>
                 }
             </div>

@@ -27,6 +27,9 @@ const DOWNLOAD_RESUME = {type:types.DOWNLOAD_RESUME};
 const SHOW_MODAL = {type:types.SHOW_MODAL};
 const HIDE_MODAL = {type:types.HIDE_MODAL};
 
+const SHOW_SHARE_MODAL = {type:types.SHOW_SHARE_MODAL};
+const HIDE_SHARE_MODAL = {type:types.HIDE_SHARE_MODAL};
+
 // 得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
     /**
@@ -135,4 +138,12 @@ export const showModal = (data) => (dispatch,getState) => {
 
 export const hideModal = () => (dispatch,getState) => {
     dispatch(HIDE_MODAL);
+}
+
+export const showShareModal = (data) => (dispatch,getState) => {
+    dispatch({...SHOW_SHARE_MODAL,resumeData:data});
+}
+
+export const hideShareModal = () => (dispatch,getState) => {
+    dispatch(HIDE_SHARE_MODAL);
 }
