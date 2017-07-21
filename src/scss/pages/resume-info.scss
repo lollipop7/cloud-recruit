@@ -120,4 +120,65 @@
     .ant-tabs-tab {
         font-size: 16px;
     }
+    .inputGroup {
+        margin: 20px 0 15px;
+        .ant-input {
+            height: 45px;
+            font-size: 14px;
+            color: #868686;
+        }
+        .ant-input-group-addon {
+            background-color: $theme-color;
+            padding: 4px 30px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+}
+.evaluationModal {
+    .ant-modal-header {
+        background-color: #f3f3f3;
+    }
+    .ant-modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .ant-modal-close-x {
+        background: url(/static/images/resume/close.png)   no-repeat;
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+        margin-top: 8px;
+        &:before {
+            content: "";
+        }
+    } 
+    .ant-modal-body {
+        .title {
+            font-size: 14px;
+            color: #4d4d4d;
+        }
+        input {
+            width: 150px;
+            height: 36px;
+            margin-right: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #868686;
+            padding-left: 13px;
+        }
+        .share {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none !important;
+            background-color: #ffa93a !important;
+            img {
+                vertical-align: middle;
+            }
+        }
+    }
 }

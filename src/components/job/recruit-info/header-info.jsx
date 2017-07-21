@@ -100,6 +100,10 @@ class HeaderInfoComponent extends Component {
         this.props.showShareModal(data);
     }
 
+    handleEvaluate = () => {
+        this.props.showEvaluationModal();
+    }
+
     render() {
         const {data,modalVisible} = this.props,
             {
@@ -257,7 +261,7 @@ class HeaderInfoComponent extends Component {
                                         borderColor: '#b6b6b6',
                                         color: '#b6b6b6'
                                     }}
-                                    onClick={this.handleClick}
+                                    onClick={this.handleEvaluate}
                                 >   
                                         <img className="as"
                                         style={{
@@ -285,7 +289,8 @@ const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
     getStageLog: bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch),
-    showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch)
+    showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch),
+    showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch)
 })
 
 export default connect(

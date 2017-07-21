@@ -30,6 +30,10 @@ const HIDE_MODAL = {type:types.HIDE_MODAL};
 const SHOW_SHARE_MODAL = {type:types.SHOW_SHARE_MODAL};
 const HIDE_SHARE_MODAL = {type:types.HIDE_SHARE_MODAL};
 
+//面试评估表
+const SHOW_INTERVIEW_EVALUATION_MODAL = {type:types.SHOW_INTERVIEW_EVALUATION_MODAL};
+const HIDE_INTERVIEW_EVALUATION_MODAL = {type:types.HIDE_INTERVIEW_EVALUATION_MODAL};
+
 // 得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
     /**
@@ -146,4 +150,12 @@ export const showShareModal = (data) => (dispatch,getState) => {
 
 export const hideShareModal = () => (dispatch,getState) => {
     dispatch(HIDE_SHARE_MODAL);
+}
+
+export const showEvaluationModal = (data) => (dispatch,getState) => {
+    dispatch({...SHOW_INTERVIEW_EVALUATION_MODAL,evaluationData:data});
+}
+
+export const hideEvaluationModal = () => (dispatch,getState) => {
+    dispatch(HIDE_INTERVIEW_EVALUATION_MODAL);
 }

@@ -9,6 +9,11 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class ShareModalComponents extends Component {
+
+    handlePressEnter = (event) => {
+        console.log(event.target .value);
+    }
+
     render(){
         const {shareModalVisible,resumeData,isLoading} = this.props,
         {data = {}} = resumeData,
@@ -49,7 +54,9 @@ class ShareModalComponents extends Component {
                             将链接通过QQ、微信等渠道分享给对方，对方即可查看该简历信息
                         </div>
                         <div className="inputGroup">
-                            <Input addonAfter={'复制链接'}/>
+                            <Input addonAfter={'复制链接'}
+                                   onPressEnter={this.handlePressEnter}
+                            />
                         </div>
                         <p className="content">
                                 温馨提示： 该公开链接可被任何收到该分享的人打开查看，请您谨慎转发。如意外泄漏，可<a href="javascript:void(0)">重新生成分享链接</a>。

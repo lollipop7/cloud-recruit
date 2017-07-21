@@ -3,6 +3,8 @@ import {
     HIDE_MODAL,
     SHOW_SHARE_MODAL,
     HIDE_SHARE_MODAL, 
+    SHOW_INTERVIEW_EVALUATION_MODAL,
+    HIDE_INTERVIEW_EVALUATION_MODAL,
     LOAD_RESUME_INFO,
     LOAD_INFO_START,
     LOAD_INFO_DONE,
@@ -15,9 +17,11 @@ import {
 const initialState = {
    modalVisible: false,
    shareModalVisible: false,
+   evaluationModalVisible: false,
    currentStage:{},
    resumeInfo: {},
    resumeData: {},
+   evaluationData: {},
    isModalLoading: false,
    isDownLoading: false
 };
@@ -32,6 +36,10 @@ export default function resume(state = initialState,actions){
             return {...state,shareModalVisible:true,resumeData:actions.resumeData};
         case HIDE_SHARE_MODAL:
             return {...state,shareModalVisible:false};    
+        case SHOW_INTERVIEW_EVALUATION_MODAL:
+            return {...state,evaluationModalVisible:true,evaluationData:actions.evaluationData};
+        case HIDE_INTERVIEW_EVALUATION_MODAL:
+            return {...state,evaluationModalVisible:false};  
         case LOAD_RESUME_INFO:
             return {...state,resumeInfo:actions.resumeInfo};
         case LOAD_INFO_START:
