@@ -180,5 +180,29 @@
                 vertical-align: middle;
             }
         }
+        .ant-table-thead>tr>th {
+            background: transparent;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #d5d5d5;
+        }
+        .ant-table-tbody > tr > td {
+            border-bottom: none;
+            text-align: center;
+            &:first-child {
+                text-align: right;
+                padding-right: 5px;
+            }
+        }
+        .ant-table-thead tr:nth-child(2n) td, 
+        .ant-table-tbody tr:nth-child(2n) td {
+            background: transparent;
+        }
+        .ant-table-tbody>tr.ant-table-row-hover>td,
+        .ant-table-tbody>tr:hover>td,
+        .ant-table-thead>tr.ant-table-row-hover>td,
+        .ant-table-thead>tr:hover>td {
+            background: transparent;
+        }
     }
 }

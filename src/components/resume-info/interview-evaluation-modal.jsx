@@ -5,6 +5,7 @@ const RadioGroup = Radio.Group;
 
 import radioData from 'data/evaluation-radio.json';
 import navData from 'data/nav/evaluation.json';
+import columns from 'data/table-columns/evaluate-table';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -12,13 +13,32 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class EvaluationModalComponents extends Component {
+    state = {
+        data: []
+    }
+
+    componentDidMount(){
+        let data = [];
+        for(let i=0;i<navData.length;i++){
+            data.push({
+                worse: '1',
+                normal: '2',
+                quitesatisfy: '3',
+                good: '4',
+                great: '5',
+                applicantstatus: navData[i].title
+            });
+        }
+        this.setState({data});
+    }
 
     handleShare = () => {
         console.log("显示二维码");
     }
 
     render(){
-        const {evaluationModalVisible,isLoading} = this.props;
+        const {evaluationModalVisible,isLoading} = this.props,
+        {data} = this.state;
         return(
             <Modal
                 title = "面试评估表"
@@ -54,8 +74,19 @@ class EvaluationModalComponents extends Component {
                          </Button>
                     </div>                    
                 </div>
+                <Table 
+                    columns={columns}
+                    loading={isLoading}
+                    pagination={false}
+                    dataSource={
+                        data.map((item,index)=>{
+                           item.key = index;
+                           return item;
+                        })
+                    }
+                />
                 <div className="table">
-                    <div className="table-cell">
+                    <div className="table-cell" style={{verticalAlign: "top"}}>
                         <span className="title">
                             评语：
                         </span>
