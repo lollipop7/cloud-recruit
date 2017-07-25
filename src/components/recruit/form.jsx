@@ -18,18 +18,15 @@ export default class FormComponents extends Component {
         workyear: '',
         year:undefined,
         time:"按申请时间升序",
-        edu:undefined
-        
+        edu:undefined,
     }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.state !== nextState;
     }
 
-    handleChange(field,e){
-        this.setState({
-            [field]: e.target.value
-        });
+    handleChange = e => {
+        console.log(e.target.value);
     }
 
     // resetForm = (clickNav=false) => {

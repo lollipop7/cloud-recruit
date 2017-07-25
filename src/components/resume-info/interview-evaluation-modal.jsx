@@ -37,14 +37,12 @@ class EvaluationModalComponents extends Component {
         this.setState({
             isShowQrcode: false
         });
-        console.log(this.state.isShowQrcode);
     }
 
     showQrcodeShare = () => {
         this.setState({
             isShowQrcode: true
         });
-         console.log(this.state.isShowQrcode);
     }
 
     render(){

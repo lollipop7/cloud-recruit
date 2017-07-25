@@ -56,10 +56,8 @@ export default class FormComponent extends Component {
         this.props.findEvent({},clickNav);
     }
     
-    handleChange(field,e) {
-        this.setState({
-            [field]: e.target.value
-        });
+    handleChange = e => {
+        console.log(e.target.value);
     }
 
     handleSelectChange = (field,value) => {
