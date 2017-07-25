@@ -14,26 +14,37 @@ import * as Actions from 'actions';
 
 class EvaluationModalComponents extends Component {
     state = {
-        data: []
+        data: [],
+        isShowQrcode: false
     }
 
     componentDidMount(){
-        let data = [];
+        const data = [];
         for(let i=0;i<navData.length;i++){
             data.push({
-                worse: '1',
-                normal: '2',
-                quitesatisfy: '3',
-                good: '4',
-                great: '5',
-                applicantstatus: navData[i].title
+                applicantstatus: navData[i].title,
+                worse: <Radio/>,
+                normal: <Radio/>,
+                quitesatisfy: <Radio/>,
+                good: <Radio/>,
+                great: <Radio/>
             });
         }
         this.setState({data});
     }
 
-    handleShare = () => {
-        console.log("显示二维码");
+    hideQrcodeShare = () => {
+        this.setState({
+            isShowQrcode: false
+        });
+        console.log(this.state.isShowQrcode);
+    }
+
+    showQrcodeShare = () => {
+        this.setState({
+            isShowQrcode: true
+        });
+         console.log(this.state.isShowQrcode);
     }
 
     render(){
@@ -47,7 +58,15 @@ class EvaluationModalComponents extends Component {
                 className = "evaluationModal"
                 onCancel={isLoading ? ()=>{} : this.props.hideEvaluationModal}
                 >
-                <div className="table">
+                <div className="qrcode-write" style = {{
+                    right: this.state.isShowQrcode ? '-156px' : '',
+                    display: this.state.isShowQrcode ? "block" : 'none'
+                }}>
+                    <b className="left-arrow inline-block vertical-center "></b>
+                    <img src="./static/images/resume/qrcode-share.png" alt="分享"/>
+                    <p>微信扫描分享填写</p>
+                </div>
+                <div className="table"  style={{marginBottom: 40}}>
                     <div className="table-cell">
                         <span className="title">候选人姓名:</span>
                     </div>
@@ -64,7 +83,9 @@ class EvaluationModalComponents extends Component {
                         <span className="title">邀请他人填写</span>
                     </div>
                     <div className="table-cell">
-                        <Button className="share" onClick={this.handleShare} >
+                        <Button className="share" 
+                                onMouseLeave={this.hideQrcodeShare} 
+                                onMouseOver={this.showQrcodeShare} >
                             <img 
                                 style = {{
                                     width: 40,
@@ -85,7 +106,7 @@ class EvaluationModalComponents extends Component {
                         })
                     }
                 />
-                <div className="table">
+                <div className="table" style={{marginTop: 40}}>
                     <div className="table-cell" style={{verticalAlign: "top"}}>
                         <span className="title">
                             评语：
@@ -95,7 +116,8 @@ class EvaluationModalComponents extends Component {
                         <Input type="textarea" rows="3" 
                             style={{
                                 width: 682,
-                                height: 130
+                                height: 130,
+                                resize: "none"
                             }}/>
                     </div>
                 </div>

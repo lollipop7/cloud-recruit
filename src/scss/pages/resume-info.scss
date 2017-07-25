@@ -137,6 +137,27 @@
     }
 }
 .evaluationModal {
+    position: relative;
+    .qrcode-write {
+        position: absolute;
+        display: none;
+        top: 0;
+        right:0;
+        transition: right .4s ease-in;
+        padding: 4px;
+        background-color: #fff;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+        color: #000;
+        .left-arrow {
+            width: 15px;
+            height: 25px;
+            left: -15px;
+            background: url(/static/images/resume/left-arrow.png) no-repeat;
+            box-shadow: 0 1px 3px rgba(0,37,55,.05);
+        }
+    }
     .ant-modal-header {
         background-color: #f3f3f3;
     }
@@ -156,6 +177,7 @@
         }
     } 
     .ant-modal-body {
+        padding-left: 50px;
         .title {
             font-size: 14px;
             color: #4d4d4d;
@@ -170,6 +192,8 @@
             color: #868686;
             padding-left: 13px;
         }
+       
+            
         .share {
             width: 40px;
             height: 40px;
@@ -180,6 +204,7 @@
                 vertical-align: middle;
             }
         }
+        //去除table背景色
         .ant-table-thead>tr>th {
             background: transparent;
             font-weight: bold;
@@ -204,5 +229,45 @@
         .ant-table-thead>tr:hover>td {
             background: transparent;
         }
+        // 单选按钮样式
+        .ant-radio-wrapper {
+        }
+        .ant-radio-inner {
+            width: 18px;
+            height: 18px;
+            background-color: #ebebeb;
+            border-radius: 0;
+            &:after {
+                border-radius: 0;
+                width: 10px;
+                height: 10px;
+            }
+        }
+        .ant-radio+span {
+            padding-right: 0px;
+            padding-left: 4px;
+            font-size: 16px;
+            color: #868686;
+        }
     }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        .ant-btn-lg {
+            padding: 0 80px;
+            font-size: 18px;
+        }
+        .ant-btn {
+            background-color: #c0c0c0; 
+            border-color: #c0c0c0;
+            color: #fff;
+        }
+        .ant-btn-primary {
+            background-color: #108ee9; 
+            border-color: #108ee9;
+        }
+        button+button {
+            margin-left: 16px;
+        }
+     }
 }
