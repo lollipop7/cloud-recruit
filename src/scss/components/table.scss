@@ -77,3 +77,30 @@
 .ant-table, .ant-table table {
     border-radius: 0 !important;
 }
+.span-move{
+    position:absolute;
+    left:845px;
+    top: 174px;
+    display: block;
+    border: 1px solid #a4c8e6;
+    border-radius: 5px;
+    height: 30px;
+    width: 100px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 22px;
+    color: #0086c9;
+    cursor: pointer
+}
+
+.action{
+    display: block;
+    width: 60px;
+    height: 25px;
+    background:#ffad37;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 5px
+}

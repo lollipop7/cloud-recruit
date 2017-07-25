@@ -52,10 +52,10 @@ class TableComponents extends Component {
             <div style={{
                 position: 'relative'
             }}>
-                <div className="table-control">
-                    {/*<Button type="primary">删除</Button>*/}
+                <div className="table-control" style={{width:200}}>
+                    <span style={{fontWeight:"bold",fontSize:16,color:"black"}}>职位申请</span>  
                 </div>
-                {/*rowSelection={{type:'checkbox'}}*/}
+              
                 <Table 
                     bordered
                     loading={isLoading}
@@ -63,6 +63,7 @@ class TableComponents extends Component {
                     dataSource={
                         recruitList.list.map((item,index)=>{
                             item.key = index;
+                           
                             return item;
                         })
                     }

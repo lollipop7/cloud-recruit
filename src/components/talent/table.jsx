@@ -1,6 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 
-import {Table} from 'antd';
+import {Table,Icon} from 'antd';
 
 import MoveModalComponents from './modal';
 
@@ -106,12 +106,12 @@ class TableComponent extends Component {
                     dataSource={
                         list.map((item,index)=>{
                             item.key = index;
-                            item.control = '推荐'
+                            item.control =<span className="action" >推荐&nbsp;<Icon type="caret-right"/></span>;
                             return item;
                         })
                     }
                     pagination={{
-                        defaultPageSize:20 ,
+                        defaultPageSize:18 ,
                         total: count,
                         current: paginationCurrent,
                         onChange:(page,pageSize)=> paginationChange(page,pageSize)

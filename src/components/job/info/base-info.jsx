@@ -64,12 +64,12 @@ export default class BaseInfoComponent extends Component {
                             disabled={true}
                             placeholder=''
                         />
-                        <InputComponent 
+                        {/*<InputComponent 
                             name="工作年限"
                             value={workyears}
                             disabled={true}
                             placeholder=''
-                        />
+                        />*/}
                     </li>
                     <li>
                         <InputComponent 
@@ -89,6 +89,20 @@ export default class BaseInfoComponent extends Component {
                             }}
                             className="wth155"
                             value={educationbackground}
+                            disabled={true}
+                            placeholder=''
+                        />
+                    </li>
+                    <li>
+                        <InputComponent 
+                            name="工作年限"
+                            value={workyears}
+                            disabled={true}
+                            placeholder=''
+                        />
+                        <InputComponent 
+                            name="年龄"
+                            value={workyears}
                             disabled={true}
                             placeholder=''
                         />

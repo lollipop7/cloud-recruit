@@ -69,12 +69,17 @@ class MoveModalComponents extends Component {
             {isLoading,modalVisible} = moveModal;
         return (
             <div className="table-control">
-                    {/*<Button type="primary">删除</Button>*/}
-                    <Button 
-                        type="primary" 
+                    <span 
+                        className="span-move"
                         onClick={()=>this.setModalVisible(true)}
                         disabled={!hasSelected}
-                    >移动</Button>
+                    >移动</span>
+                     <span 
+                        style={{
+                            fontWeight:"bold",
+                            fontSize:16,
+                            color:"black"}}
+                     >社会人才</span>
                     <Modal
                         title="移动"
                         wrapClassName="vertical-center-modal"
@@ -86,6 +91,7 @@ class MoveModalComponents extends Component {
                         <span style={{
                             marginRight: 16
                         }}>移动到</span>
+                       
                         <Select 
                             placeholder="请选择要移动到的分类" 
                             style={{ width: 395 }}

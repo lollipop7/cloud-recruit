@@ -75,6 +75,7 @@
 
 // text 
 .highlight-text {
+    text-decoration-line: none !important;
     color: $theme-color !important;
     text-decoration: underline;
     &:hover {
