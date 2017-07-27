@@ -1,6 +1,55 @@
+.back-zone {
+    padding:16px 170px 16px 27px;
+    background-color: #f5f5f5;
+    //热门职位
+    .hot-job {
+        margin-bottom: 12px;
+        position: relative;
+        height: 31px;
+        .back-btn {
+            position: absolute;
+            width: 79px;
+            height: 31px;
+            .ant-btn {
+                padding: 0 24px;
+            }
+        }
+        .hot-job-list {
+            position: absolute;
+            right: 0;
+            .hot-job-item {
+                font-size: 14px;
+                color: #ff971c;
+            }
+            b {
+                font-weight: normal;
+                margin: 0 10px;
+                color: #b9b9b9;
+            }
+        }
+    }
+    //最近发布职位：
+    .recent-job {
+        font-size: 16px;
+        color: $theme-font-color;
+    }
+    .ant-tag {
+        background: transparent;
+        border: none;
+        font-size: 14px;
+        .anticon-cross {
+            margin-left: 4px;
+            font-weight: normal;
+            font-size: 14px;
+        }
+    }
+    .ant-tag, .ant-tag a, .ant-tag a:hover {
+        color: #0086c9;
+    }
+}
 .job-form {
     padding-top: 18px;
-    padding-left: 21px;
+    padding-left: 27px;
     background-color: #FFF;
     &>li {
         padding-bottom: 36px;
@@ -30,22 +79,18 @@
     .base-info {
         li {
             padding-bottom: 20px;
-            &:nth-child(3) {
-                input {
-                    width: 155px;
-                }
-            }
+            
             &:last-child {
                 padding-bottom: 0px;
                 .inline-block>span {
-                    letter-spacing: 2em;
+                    // letter-spacing: 2em;
                 }
                 // .ant-select {
                 //     left: -32px;
                 // }
                 .inline-block:last-child {
-                    position: relative;
-                    left: -32px;
+                    // position: relative;
+                    // left: -32px;
                 }
             }
         }
@@ -53,11 +98,26 @@
     .inline-block {
         margin-right: 50px;
         &>span {
-            margin-right: 11px;
+            display: inline-block;
+            width: 217px;
+            margin-right: 37px;
+            text-align: right;
+        }
+        &.city-regions>span {
+            display: inline;
+            text-align: left;
+        }
+        .table-cell:first-child {
+            vertical-align: top; 
+            width: 219px;
+            text-align: right;
+            &+.table-cell {
+                padding-left: 37px;
+            }
         }
     }
     input {
-        width: 279px;
+        width: 229px;
         height: 40px;
         font-size: 16px;
         color: #868686;
@@ -66,6 +126,32 @@
             width: 155px;
         }
     }
+    .ant-cascader-input.ant-input {
+        width: 229px;
+    }
+
+    // 单选按钮样式
+    .ant-radio-wrapper {
+        margin-right: 25px;
+    }
+    .ant-radio-inner {
+        width: 18px;
+        height: 18px;
+        background-color: #ebebeb;
+        border-radius: 0;
+        &:after {
+            border-radius: 0;
+            width: 10px;
+            height: 10px;
+        }
+    }
+    .ant-radio+span {
+        padding-right: 0px;
+        padding-left: 4px;
+        font-size: 16px;
+        color: #868686;
+    }
+
     .other-info {
         ul>li {
             margin-bottom: 16px;
@@ -95,13 +181,24 @@
             }
         }
         .calendar-field {
-            margin-right: 11px;
+            display: inline-block;
+            width: 217px;
+            margin-right: 37px;
+            text-align: right;
         }
         .ant-calendar-picker {
             margin-right: 49px;
         }
         input {
             width: 185px;
+        }
+        .inline-block {
+            span {
+                display: inline-block;
+                width: 217px;
+                margin-right: 37px;
+                text-align: right;
+            }   
         }
     }
 }

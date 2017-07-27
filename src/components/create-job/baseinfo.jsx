@@ -1,6 +1,8 @@
 import React, {Component,PropTypes} from 'react';
 
-import { Input , Select , Cascader } from 'antd';
+import { Input , Select , Cascader , Radio } from 'antd';
+const RadioGroup = Radio.Group;
+const { TextArea } = Input;
 
 import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';
@@ -149,7 +151,7 @@ class SelectComponent extends Component {
                 data=[],
                 value,
                 dropdownMatchSelectWidth,
-                style={width: 155,height:40 }
+                style={width: 229,height:40 }
             } = this.props;
         return (
             <div className="inline-block">
@@ -214,7 +216,8 @@ export default class BaseinfoComponent extends Component {
             workcity:'',
             workyears: undefined,
             specialty: undefined,
-            educationbackground: undefined
+            educationbackground: undefined,
+            age: '' //年龄
         });
     }
 
@@ -228,7 +231,8 @@ export default class BaseinfoComponent extends Component {
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
             specialty=undefined, // 专业
-            educationbackground=undefined //学历,
+            educationbackground=undefined, //学历,
+            age='' //年龄
         } = this.state;
         const {
             positionnameInput,
@@ -238,7 +242,8 @@ export default class BaseinfoComponent extends Component {
             salarySelect,
             workyearsSelect,
             specialtySelect,
-            educationbackgroundSelect
+            educationbackgroundSelect,
+            ageInput //年龄
         } = this.refs;
         if(positionname === ''){
             positionnameInput.refs.input.focus();
@@ -298,6 +303,12 @@ export default class BaseinfoComponent extends Component {
         });
     }
 
+    handleRadio = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+    }
+
     render() {
         const {
             positionname='', // 职位名称
@@ -309,6 +320,7 @@ export default class BaseinfoComponent extends Component {
             workyears=undefined, // 工作年限
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
+            age='',//年龄
             error
         } = this.state;
         return (
@@ -320,15 +332,53 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <ErrorInputComponent
                             ref="positionnameInput"
-                            name="职位名称"
+                            name="职位名称："
                             field="positionname"
                             placeholder="请输入职位名称"
                             value={positionname}
                             onChange={this.handleChange}
                         />
+                        <SelectComponent 
+                            ref="salarySelect"
+                            name="薪资待遇："
+                            data={salaryData}
+                            dropdownMatchSelectWidth={false}
+                            value={salary}
+                            field="salary"
+                            placeholder="请选择薪资待遇"
+                            onChange={this.handleChange}
+                        />
+                    </li>
+                    <li>
+                        <ErrorInputComponent
+                            ref="departmentInput"
+                            name="用人部门："
+                            placeholder="请输入用人部门"
+                            field="department"
+                            value={department}
+                            onChange={this.handleChange}
+                        />
+                        <ErrorInputComponent
+                            ref="recruitreasonInput"
+                            name="招聘理由："
+                            placeholder="请输入招聘理由"
+                            field="recruitreason"
+                            value={recruitreason}
+                            onChange={this.handleChange}
+                        />
+                    </li>
+                    <li>
+                        <ErrorInputComponent
+                            ref="headcountInput"
+                            name="招聘人数："
+                            placeholder="请输入招聘人数"
+                            field="headcount"
+                            value={headcount}
+                            onChange={this.handleNumChange}
+                        />
                         <div className="inline-block">
-                            <span>工作地点</span>
-                            <div className="inline-block">
+                            <span>工作地点：</span>
+                            <div className="inline-block city-regions">
                                 <Cascader 
                                     options={city}
                                     className={error ? "error" : ''}
@@ -337,7 +387,7 @@ export default class BaseinfoComponent extends Component {
                                     placeholder="请选择工作地点" 
                                     style={{
                                         height: 40,
-                                        width: 279
+                                        width: 229
                                     }}
                                 />
                                 {error &&
@@ -349,73 +399,11 @@ export default class BaseinfoComponent extends Component {
                                 }
                             </div>
                         </div>
-                        
-                        {/*<InputComponent
-                            name="薪资待遇"
-                            placeholder="请输入薪资待遇"
-                            field="salary"
-                            value={salary}
-                            onChange={this.handleChange}
-                        />*/}
-                    </li>
-                    <li>
-                        <ErrorInputComponent
-                            ref="departmentInput"
-                            name="用人部门"
-                            placeholder="请输入用人部门"
-                            field="department"
-                            value={department}
-                            onChange={this.handleChange}
-                        />
-                        <ErrorInputComponent
-                            ref="recruitreasonInput"
-                            name="招聘理由"
-                            placeholder="请输入招聘理由"
-                            field="recruitreason"
-                            value={recruitreason}
-                            onChange={this.handleChange}
-                        />
-                    </li>
-                    <li>
-                        <ErrorInputComponent
-                            ref="headcountInput"
-                            name="招聘人数"
-                            placeholder="请输入招聘人数"
-                            field="headcount"
-                            value={headcount}
-                            onChange={this.handleNumChange}
-                        />
-                        <SelectComponent 
-                            ref="salarySelect"
-                            name="薪资待遇"
-                            data={salaryData}
-                            dropdownMatchSelectWidth={false}
-                            value={salary}
-                            field="salary"
-                            placeholder="请选择薪资待遇"
-                            onChange={this.handleChange}
-                        />
-                        {/*<InputComponent
-                            name="工作地点"
-                            placeholder="请输入工作地点"
-                            field="workcity"
-                            value={workcity}
-                            onChange={this.handleChange}
-                        />*/}
-                        <SelectComponent 
-                            ref="workyearsSelect"
-                            name="工作年限"
-                            value={workyears}
-                            data={WorkYears}
-                            field="workyears"
-                            placeholder="请选择工作年限"
-                            onChange={this.handleChange}
-                        />
                     </li>
                     <li>
                         <SelectComponent 
                             ref="specialtySelect"
-                            name="专业"
+                            name="专业："
                             data={Industry}
                             dropdownMatchSelectWidth={false}
                             value={specialty}
@@ -425,13 +413,76 @@ export default class BaseinfoComponent extends Component {
                         />
                         <SelectComponent 
                             ref="educationbackgroundSelect"
-                            name="学历"
+                            name="学历："
                             data={Education}
                             value={educationbackground}
                             field="educationbackground"
                             placeholder="请选择学历"
                             onChange={this.handleChange}
                         />
+                    </li>
+                    <li>
+                        <SelectComponent 
+                            ref="workyearsSelect"
+                            name="工作年限："
+                            value={workyears}
+                            data={WorkYears}
+                            field="workyears"
+                            placeholder="请选择工作年限"
+                            onChange={this.handleChange}
+                        />
+                        <ErrorInputComponent
+                            ref="ageInput"
+                            name="年龄："
+                            placeholder="请输入年龄"
+                            field="age"
+                            value={age}
+                            onChange={this.handleNumChange}
+                        />
+                    </li>
+                    <li>
+                        <div className="inline-block">
+                            <span>工作类型：</span>
+                            <RadioGroup onChange={this.handleRadio} value={this.state.value}>
+                                <Radio value={1}>全职</Radio>
+                                <Radio value={2}>兼职</Radio>
+                                <Radio value={3}>实习</Radio>
+                            </RadioGroup>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="inline-block table">
+                            <div className="table-cell">
+                                <span>工作职责：</span>
+                            </div>
+                            <div className="table-cell">
+                                <Input type="textarea" rows="3" 
+                                    style={{
+                                        minWidth: 494,
+                                        maxWidth: 760,
+                                        height: 130,
+                                        borderRadius: 10,
+                                        resize: "horizontal"
+                                }}/>
+                             </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="inline-block table">
+                            <div className="table-cell">
+                                <span>任职资格：</span>
+                            </div>
+                            <div className="table-cell">
+                                <Input type="textarea" rows="3" 
+                                    style={{
+                                        minWidth: 494,
+                                        maxWidth: 760,
+                                        height: 130,
+                                        borderRadius: 10,
+                                        resize: "horizontal"
+                                }}/>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </li>

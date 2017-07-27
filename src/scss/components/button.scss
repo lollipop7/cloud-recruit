@@ -3,12 +3,12 @@
         color: #FFF;
     }
     &:focus {
-        color: #FFF !important;
-        border-color: transparent !important;
+        // color: #FFF;
+        // border-color: transparent;
     }
     &[disabled] {
-        color: #FFF !important;
-        background-color: #d9d9d9 !important;
+        color: #FFF;
+        background-color: #d9d9d9;
     }
 }
 

@@ -51,24 +51,25 @@
     }
 }
 
+//移动
 .table-control {
+    height: 30px;
     margin-top: 11px;
     button {
         &:hover,&:focus {
             background-repeat: no-repeat;
-            background-position: 9px 50%;
+            background-position: 22px 50%;
             background-color: $theme-color;
         }
-        width: 66px;
-        height: 24px;
+        width: 100px;
+        height: 30px;
         font-size: 14px;
         padding-left: 26px;
-        text-align: inherit;
+        text-align: center;
         background-repeat: no-repeat;
-        background-position: 9px 50%; 
+        background-position: 22px 50%; 
         &:first-child {
-            margin-right: 12px;
-            background-image: url(/static/images/talent/delete.png);
+            background-image: url(/static/images/talent/move.png);
         }
     }
 }

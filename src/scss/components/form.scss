@@ -1,6 +1,6 @@
 .form {
-    .bottom16 {
-        margin-bottom: 16px;
+    .bottom10 {
+        margin-bottom: 10px;
     }
     input {
         margin-right: 16px;
@@ -12,44 +12,62 @@
         
     }
     
-    .ant-btn {
-        width: 114px;
-        height: 40px;
-        font-size: 18px;
-        color: #FFF;
-        border-radius: 8px;
-        &:hover {
-            border-color: transparent;
-            color: #FFF;
-        }
-        &.ant-btn-primary {
-            margin-right: 16px;
-        }
-        &.grey {
-            background-color: #c0c0c0;
+    // .ant-btn {
+    //     width: 114px;
+    //     height: 40px;
+    //     font-size: 18px;
+    //     color: #FFF;
+    //     &:hover {
+    //         border-color: transparent;
+    //         color: #FFF;
+    //     }
+    //     &.ant-btn-primary {
+    //         margin-right: 16px;
+    //     }
+    //     &.grey {
+    //         background-color: #c0c0c0;
+    //     }
+    // }
+    .bottom28 {
+        margin-bottom: 28px;
+        .ant-btn {
+            width: 100px;
+            height: 30px;
+            margin-right: 10px;
+            font-size: 14px;
+            &:hover {
+                border-color: #0186ca;
+                color: #0186ca;
+            }
         }
     }
+
+    .form-btn {
+        position: absolute;
+        right: 0;
+        top: 105px;
+        z-index: 999;
+        .ant-btn {
+            top: -6px;
+            width: 111px;
+            height: 30px;
+            line-height: 30px;
+            margin-right: 10px;
+            font-size: 14px;
+            span+.anticon {
+                margin-left: 0;
+            }
+            .import {
+                background: url(/static/images/talent/import.png) 50% 50% no-repeat;
+                width: 13px;
+                height: 12px;
+            }
+        }
+    }
+    
 }
-.form-btn {
-    width: 330px;
-    height: 40px;
-    position: absolute;
-    right: 0;
-    top: 110px;
-    cursor: pointer;
-    z-index: 50
-}
-.form-btn span:nth-child(1) {
-    display: block;
-    width: 120px;
-    height: 30px;
-    border: 1px solid #0186ca;
-    float: left;
-    border-radius: 5px;
-    text-align: center;
-    line-height: 30px;
-    margin-right: 20px
-}
+
+
 .form-btn select , .form-btn .ant-select-selection , .form-btn .ant-select-selection-selected-value ,
  .form-btn .ant-select-selection__rendered{
     height: 30px !important;

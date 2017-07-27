@@ -16,7 +16,6 @@ import industry from 'data/select/industry';
 //性别
 import sex from 'data/select/industry';
 
-
 export default class FormComponent extends Component {
 
     state = {
@@ -93,16 +92,18 @@ export default class FormComponent extends Component {
             <div className="form" style={{
                 position: 'relative'
             }}>
-                <div className="float-button-right"  style={{ bottom: -35}}>
-                    <span onClick={()=>showUploadModal()}>
-                        导入人才&nbsp;<Icon type="enter" />
-                    </span> 
-                    <span>
-                        按创建日期升序&nbsp;
-                        <Icon type="caret-down" />
-                    </span> 
+                <div className="form-btn" style={{top: 164, right: 100}}>
+                    <Button type="primary"
+                            onClick={()=>showUploadModal()}
+                            style={{width: 111}}>
+                        导入人才&nbsp;
+                        <i className="anticon import"></i>
+                    </Button> 
+                    <Button style={{width: 140}}>
+                        按创建日期升序&nbsp;<Icon type="caret-down"/>
+                    </Button>
                 </div>
-                <div className="bottom16">
+                <div className="bottom10">
                     <Select 
                         placeholder="工作年限" 
                         style={{width: 189}}
@@ -166,7 +167,7 @@ export default class FormComponent extends Component {
                 />
                     
                 </div>
-                <div className="bottom16">
+                <div className="bottom10">
                     
                     <Input 
                             placeholder="职位" 
@@ -202,9 +203,13 @@ export default class FormComponent extends Component {
                             }
                     </Select>
                 </div>
-                <div style={{height:40}}>
-                    <span className="btn"> 筛选</span> 
-                    <span className="btn" onClick={()=>this.resetForm(false)}> 重置</span>  
+                <div className = "bottom28">
+                    <div className="inline-block">
+                        <Button onClick={this.handleFind}>筛选</Button>
+                    </div>
+                    <div className="inline-block">
+                        <Button onClick={()=>this.resetForm(false)}>重置</Button>
+                    </div>
                 </div>
             </div>
         );

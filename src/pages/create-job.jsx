@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import BaseInfoComponent from 'components/create-job/baseinfo';
 // import TagsComponent from 'components/create-job/tags';
 import OtherInfoComponent from 'components/create-job/other-info';
+import TopComponent from 'components/create-job/top.jsx';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
@@ -59,19 +60,24 @@ class CreateJobPage extends Component {
         return (
             <div className="page-content new-job-page">
                 <BreadCrumbComponent routes={routesCopy} />
-                <ul className="job-form">
-                    <BaseInfoComponent ref="BaseInfoComponent" />
-                    {/*<TagsComponent />*/}
-                    <OtherInfoComponent ref="OtherInfoComponent" />
-                    <li className="control">
-                        <ul>
-                            <li>
-                                <Button type="primary" onClick={this.createJob}>发布</Button>
-                                <Button onClick={this.resetForm}>重置</Button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                <div style = {{border: '1px solid #d5d5d5'}}>
+                    <div className="back-zone">
+                        <TopComponent/> 
+                    </div>
+                    <ul className="job-form">
+                        <BaseInfoComponent ref="BaseInfoComponent" />
+                        {/*<TagsComponent />*/}
+                        <OtherInfoComponent ref="OtherInfoComponent" />
+                        <li className="control">
+                            <ul>
+                                <li>
+                                    <Button type="primary" onClick={this.createJob}>发布</Button>
+                                    <Button onClick={this.resetForm}>重置</Button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         );
     }
