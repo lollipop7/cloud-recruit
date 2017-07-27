@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 
 import { Tag, Input, Tooltip, Button } from 'antd';
 
-export default class EditableTagGroup extends Component {
-  state = {
-    tags: [],
-  };
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+ class EditableTagGroup extends Component {
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
@@ -14,11 +16,14 @@ export default class EditableTagGroup extends Component {
   }
 
   render() {
-    const { tags } = this.state;
+    const {data,modalVisible,currentStage} = this.props,
+          {thelable} = currentStage,
+          arr = thelable?thelable.split(","):[]
+    
     return (
       <div>
-         {
-            tags.map((item,index)=>{
+        {   
+          arr.map((item,index)=>{
                 const isLongTag = item.length > 20;
                 return (
                     <Tag 
@@ -31,8 +36,19 @@ export default class EditableTagGroup extends Component {
                 );
             })
         }
+         
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+    currentStage : state.Resume.currentStage
+})
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditableTagGroup);
 

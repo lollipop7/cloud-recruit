@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 // import { Input , Tag , Radio } from 'antd';
-import { Input  , Radio } from 'antd';
+import { Input  , Radio , Checkbox , Icon , Tooltip} from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
@@ -84,6 +84,7 @@ export default class OtherInfoComponent extends Component {
         // dicatate 工作资格
         // isUrgent 是否紧急
         const {isurgent} = this.state;
+        const text = "通过工作年限,学历,年龄智能筛选投递该职位的简历,匹配度低的简历转入人才库被过滤的人才分类.";
         return (
             <li className="other-info">
                 <h2 className="title">
@@ -122,6 +123,17 @@ export default class OtherInfoComponent extends Component {
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </RadioGroup>
+                    </li>
+                     <li >
+                        <Checkbox/>
+                        <span className="check-span">智能筛选投递该职位的简历</span>
+                        <Tooltip placement="right" title={text}>
+                            <Icon type="question-circle-o" style={{color:"#f49632"}} />
+                        </Tooltip>
+                        {/*<span></span>
+                        <span className="check-span">通过工作年限,学历,年龄智能筛选投递该职位的简历，匹配度低的简历
+                            转入人才库被过滤的人才分类。
+                        </span>*/}
                     </li>
                 </ul>
             </li>

@@ -105,7 +105,8 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {data,modalVisible} = this.props,
+        const {data,modalVisible,currentStage} = this.props,
+        {thelable} = currentStage,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -246,7 +247,7 @@ class HeaderInfoComponent extends Component {
                             <div className="table-cell">
                                 <span>标签 :</span>
                             </div>
-                            <div className="table-cell tags">
+                            <div className="table-cell tags">                   
                                 <EditableTagGroup/>
                             </div>
                         </div>
@@ -284,6 +285,7 @@ class HeaderInfoComponent extends Component {
 
 const mapStateToProps = state => ({
     isDownLoading: state.Resume.isDownLoading,
+    currentStage : state.Resume.currentStage
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),

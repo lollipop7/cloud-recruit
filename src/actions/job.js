@@ -34,6 +34,10 @@ const CREATE_JOB_DONE = {type:types.CREATE_JOB_DONE};
 const SHOW_JOB_MODAL = {type:types.SHOW_JOB_MODAL};
 const HIDE_JOB_MODAL = {type:types.HIDE_JOB_MODAL};
 
+//职位发布成功MODAL
+ const SHOW_SAVEJOB_MODAL = {type:types.SHOW_SAVEJOB_MODAL};
+ const HIDE_SAVEJOB_MODAL = {type:types.HIDE_SAVEJOB_MODAL};
+
 // 获取职位分类统计
 export const getJobCategory = () => (dispatch,getState) => {
     dispatch(LOAD_CATEGORY_START);
@@ -139,4 +143,14 @@ export const showJobModal = () => (dispatch,getState) => {
 // 隐藏职位信息MODAL
 export const hideJobModal = () => (dispatch,getState) => {
     dispatch(HIDE_JOB_MODAL);
+}
+
+// 显示保存职位信息MODAL
+export const showSaveJobModal = () => (dispatch,getState) => {
+    dispatch(SHOW_SAVEJOB_MODAL);
+}
+
+// 隐藏保存职位信息MODAL
+export const hideSaveJobModal = () => (dispatch,getState) => {
+    dispatch(HIDE_SAVEJOB_MODAL);
 }

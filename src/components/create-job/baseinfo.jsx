@@ -1,6 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 
-import { Input , Select , Cascader } from 'antd';
+import { Input , Select , Cascader , Checkbox , Row, Col} from 'antd';
 
 import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';
@@ -149,10 +149,10 @@ class SelectComponent extends Component {
                 data=[],
                 value,
                 dropdownMatchSelectWidth,
-                style={width: 155,height:40 }
+                style={width: 279,height:40 }
             } = this.props;
         return (
-            <div className="inline-block">
+            <div className="inline-block inline-block-select">
                 <span>{name}</span>
                 <div className="inline-block" style={{
                     margin: 0
@@ -227,6 +227,7 @@ export default class BaseinfoComponent extends Component {
             headcount='', // 招聘人数
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
+            age=undefined, // 年龄
             specialty=undefined, // 专业
             educationbackground=undefined //学历,
         } = this.state;
@@ -238,7 +239,8 @@ export default class BaseinfoComponent extends Component {
             salarySelect,
             workyearsSelect,
             specialtySelect,
-            educationbackgroundSelect
+            educationbackgroundSelect,
+            ageSelect
         } = this.refs;
         if(positionname === ''){
             positionnameInput.refs.input.focus();
@@ -297,6 +299,9 @@ export default class BaseinfoComponent extends Component {
             [field]: e.target.value.replace(pattern,'')
         });
     }
+    onChange = (e) => {
+        console.log(`checked = ${e.target.checked}`)
+    }
 
     render() {
         const {
@@ -307,6 +312,7 @@ export default class BaseinfoComponent extends Component {
             headcount='', // 招聘人数
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
+            age=undefined,//年龄
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
             error
@@ -320,14 +326,14 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <ErrorInputComponent
                             ref="positionnameInput"
-                            name="职位名称"
+                            name="职位名称："
                             field="positionname"
                             placeholder="请输入职位名称"
                             value={positionname}
                             onChange={this.handleChange}
                         />
                         <div className="inline-block">
-                            <span>工作地点</span>
+                            <span>工作地点：</span>
                             <div className="inline-block">
                                 <Cascader 
                                     options={city}
@@ -361,7 +367,7 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <ErrorInputComponent
                             ref="departmentInput"
-                            name="用人部门"
+                            name="用人部门："
                             placeholder="请输入用人部门"
                             field="department"
                             value={department}
@@ -369,7 +375,7 @@ export default class BaseinfoComponent extends Component {
                         />
                         <ErrorInputComponent
                             ref="recruitreasonInput"
-                            name="招聘理由"
+                            name="招聘理由："
                             placeholder="请输入招聘理由"
                             field="recruitreason"
                             value={recruitreason}
@@ -379,7 +385,7 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <ErrorInputComponent
                             ref="headcountInput"
-                            name="招聘人数"
+                            name="招聘人数："
                             placeholder="请输入招聘人数"
                             field="headcount"
                             value={headcount}
@@ -387,7 +393,7 @@ export default class BaseinfoComponent extends Component {
                         />
                         <SelectComponent 
                             ref="salarySelect"
-                            name="薪资待遇"
+                            name="薪资待遇："
                             data={salaryData}
                             dropdownMatchSelectWidth={false}
                             value={salary}
@@ -402,7 +408,7 @@ export default class BaseinfoComponent extends Component {
                             value={workcity}
                             onChange={this.handleChange}
                         />*/}
-                        <SelectComponent 
+                        {/*<SelectComponent 
                             ref="workyearsSelect"
                             name="工作年限"
                             value={workyears}
@@ -410,12 +416,12 @@ export default class BaseinfoComponent extends Component {
                             field="workyears"
                             placeholder="请选择工作年限"
                             onChange={this.handleChange}
-                        />
+                        />*/}
                     </li>
                     <li>
                         <SelectComponent 
                             ref="specialtySelect"
-                            name="专业"
+                            name="专业："
                             data={Industry}
                             dropdownMatchSelectWidth={false}
                             value={specialty}
@@ -425,13 +431,49 @@ export default class BaseinfoComponent extends Component {
                         />
                         <SelectComponent 
                             ref="educationbackgroundSelect"
-                            name="学历"
+                            name="学历："
                             data={Education}
                             value={educationbackground}
                             field="educationbackground"
                             placeholder="请选择学历"
                             onChange={this.handleChange}
                         />
+                    </li>
+                     <li>
+                        <SelectComponent 
+                            ref="workyearsSelect"
+                            name="工作年限："
+                            value={workyears}
+                            data={WorkYears}
+                            field="workyears"
+                            placeholder="请选择工作年限"
+                            onChange={this.handleChange}
+                        />
+                        <SelectComponent 
+                            ref="ageSelect"
+                            name="年龄："
+                            value={age}
+                            data={age}
+                            field="age"
+                            placeholder="请选择年龄"
+                            onChange={this.handleChange}
+                        />  
+                    </li>
+                    <li>
+                        <span style={{display:"block",float:'left'}}>工作类型：</span>
+                        <Row>
+                            <Col span={2}><Checkbox value="A">全职</Checkbox></Col>
+                            <Col span={2}><Checkbox value="B">兼职</Checkbox></Col>
+                            <Col span={2}><Checkbox value="C">实习</Checkbox></Col>
+                        </Row>
+                    </li>
+                    <li >
+                        <span style={{display:"block",float:'left'}}>工作职责：</span>
+                        <Input style={{width:600,height:150}} type="textarea"/>
+                    </li>
+                    <li >
+                        <span style={{display:"block",float:'left'}}>任职资格：</span>
+                        <Input style={{width:600,height:150}} type="textarea"/>
                     </li>
                 </ul>
             </li>

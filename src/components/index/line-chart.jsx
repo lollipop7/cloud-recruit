@@ -136,8 +136,9 @@ class LineChartComponent extends Component {
         return (
             <div style={{
                 position: 'relative',
-                width: 914,
-                height: 380
+                width: 600,
+                height: 380,
+                float:"left"
             }}>
                 {isLoading && 
                     <LoadingComponent style={{
@@ -174,7 +175,7 @@ class LineChartComponent extends Component {
                     }
                 </div>
                 <div ref="echarts" className="box-border" style={{
-                    width:'914px',
+                    width:'600px',
                     height:'380px'
                 }}>
                 </div>
