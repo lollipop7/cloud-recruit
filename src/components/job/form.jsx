@@ -71,7 +71,7 @@ export default class FormComponent extends Component {
             <div className="form" style={{
                 position: 'relative'
             }}>
-                <div className="bottom16">
+                <div className="bottom10">
                     <Input 
                         placeholder="职位" 
                         onChange={this.handlePositionName} 
@@ -88,7 +88,11 @@ export default class FormComponent extends Component {
                         ref="TimeComponent"
                         onChange={this.onTimeChange}
                         style={{width:'249px',marginRight:'16px'}} />
-                        <Button type="primary" onClick={this.handleSearch}>职位筛选</Button>
+                        <Button style={{marginRight: 10}}
+                                type="primary" 
+                                onClick={this.handleSearch}>
+                                职位筛选
+                        </Button>
                         <Button className="grey" onClick={()=>this.resetForm(false)}>清空条件</Button>
                 </div>
                 <div className="float-button">

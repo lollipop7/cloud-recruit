@@ -83,7 +83,7 @@
             &:last-child {
                 padding-bottom: 0px;
                 .inline-block>span {
-                    // letter-spacing: 2em;
+                    letter-spacing: 2em;
                 }
                 // .ant-select {
                 //     left: -32px;
@@ -96,7 +96,7 @@
         }
     }
     .inline-block {
-        margin-right: 50px;
+        // margin-right: 50px;
         &>span {
             display: inline-block;
             width: 217px;
@@ -156,7 +156,10 @@
         ul>li {
             margin-bottom: 16px;
             &>span {
-                margin-right: 11px;
+                display: inline-block;
+                width: 217px;
+                margin-right: 37px;
+                text-align: right;
             }
             &:last-child {
                 margin-bottom: 0px;
@@ -193,12 +196,29 @@
             width: 185px;
         }
         .inline-block {
-            span {
+            padding-left: 116px;
+            .help-icon {
                 display: inline-block;
-                width: 217px;
-                margin-right: 37px;
-                text-align: right;
-            }   
+                width: 14px;
+                height: 14px;
+                background: url(/static/images/job/help.png) 0 50% no-repeat;
+            }
         }
+    }
+}
+//tooltip
+.help-tooltip {
+    font-size: 14px;
+    .ant-tooltip-arrow {
+        // margin-top: -16px;
+        // left: -18px;
+        // border-width: 16px 26px 16px 0px;
+        // border-right-color: #ecebeb;
+    }
+    .ant-tooltip-inner {
+        // background-color: #ecebeb;
+        // color: #868686;
+        max-width: 666px;
+        min-height: 26px;
     }
 }

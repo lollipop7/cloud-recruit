@@ -40,9 +40,7 @@ export default class OtherInfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <div className="inline-block">
-                            <span>是否紧急：</span>
-                        </div>
+                        <span>是否紧急：</span>
                         <RadioGroup value={urgent ? 1 : 0}>
                             <Radio disabled={urgent ? false : true} value={1}>是</Radio>
                             <Radio disabled={urgent ? true : false} value={0}>否</Radio>
@@ -62,6 +60,7 @@ export default class OtherInfoComponent extends Component {
                     >提前终止</Button>
                 }
             </li>
+            
         );
     }
 }

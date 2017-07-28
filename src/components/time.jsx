@@ -73,7 +73,7 @@ export default class TimeComponent extends Component {
             <div style={{
                 display: "inline-block"
             }}>
-                {showField&&<span className="calendar-field">开始时间</span>}
+                {showField&&<span className="calendar-field">开始时间：</span>}
                 <DatePicker
                     ref="starttime"
                     disabledDate={this.disabledStartDate}
@@ -85,7 +85,7 @@ export default class TimeComponent extends Component {
                     onChange={this.onStartChange}
                     onOpenChange={this.handleStartOpenChange}
                 />
-                {showField&&<span className="calendar-field">结束时间</span>}
+                {showField&&<span className="calendar-field">结束时间：</span>}
                 <DatePicker
                     ref="endtime"
                     disabledDate={this.disabledEndDate}

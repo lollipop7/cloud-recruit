@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 // import { Input , Tag , Radio } from 'antd';
-import { Input  , Radio } from 'antd';
+import { Input, Radio, Tooltip, Button } from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
@@ -117,11 +117,21 @@ export default class OtherInfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <span>是否紧急</span>
+                        <span>是否紧急：</span>
                         <RadioGroup onChange={this.onChange.bind(this,'isurgent')} value={isurgent}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </RadioGroup>
+                    </li>
+                    <li>
+                        <div className="inline-block">
+                            <Radio>智能筛选投递该职位的简历</Radio>
+                            <Tooltip    overlayClassName="help-tooltip"
+                                        placement="right" 
+                                        title={"通过工作年限、学历、年龄智能筛选投递到该职位的简历，匹配度低的简历转入人才库被过滤的人才分类。"}>
+                                <i className="help-icon"></i>
+                            </Tooltip>
+                        </div>
                     </li>
                 </ul>
             </li>
