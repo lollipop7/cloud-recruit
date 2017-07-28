@@ -64,7 +64,7 @@ class CreateJobPage extends Component {
                     <div className="back-zone">
                         <TopComponent/> 
                     </div>
-                    <ul className="job-form">
+                    <ul className="new-job-form">
                         <BaseInfoComponent ref="BaseInfoComponent" />
                         {/*<TagsComponent />*/}
                         <OtherInfoComponent ref="OtherInfoComponent" />
