@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 // import { Input , Tag , Radio } from 'antd';
-import { Input, Radio, Tooltip, Button } from 'antd';
+import { Input, Radio, Tooltip } from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
