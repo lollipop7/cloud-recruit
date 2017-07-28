@@ -25,3 +25,8 @@ export const CREATE_JOB_DONE = "CREATE_JOB_DONE";
 // 职位信息MODAL
 export const SHOW_JOB_MODAL = "SHOW_JOB_MODAL";
 export const HIDE_JOB_MODAL = "HIDE_JOB_MODAL";
+
+
+//职位发布成功MODAL
+export const SHOW_SAVEJOB_MODAL = "SHOW_SAVEJOB_MODAL";
+export const HIDE_SAVEJOB_MODAL = "HIDE_SAVEJOB_MODAL"

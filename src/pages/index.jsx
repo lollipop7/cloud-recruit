@@ -9,6 +9,8 @@ import LineChartComponent from 'components/index/line-chart';
 import PieChartComponent from 'components/index/pie-chart';
 // 表格
 import TableComponent from 'components/index/table';
+//备忘日历
+import CalendarComponent from 'components/index/Memo-calendar';
 
 import ScrollPageContent from 'components/scroll-page-content';
 
@@ -27,8 +29,12 @@ export default class IndexPage extends BasicPage {
                             <TimeComponent />
                             <ListComponent />
                         </div>
-                        <div className="pull-right" style={{backgroundColor: '#FFF'}}>
-                            <LineChartComponent />
+                        <div className="pull-right" style={{backgroundColor: '#FFF',width:600,float:"left",
+                        marginLeft:18,marginRight:18}}>
+                            <LineChartComponent />                          
+                        </div>
+                        <div style={{backgroundColor: '#FFF',float:"left"}}>
+                            <CalendarComponent/>
                         </div>
                     </div>
                     <div className="list-block">

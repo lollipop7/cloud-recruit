@@ -14,7 +14,9 @@ import {
     ABORT_JOB_DONE,
     ABORT_JOB_INFO,
     SHOW_JOB_MODAL,
-    HIDE_JOB_MODAL
+    HIDE_JOB_MODAL,
+    SHOW_SAVEJOB_MODAL,
+    HIDE_SAVEJOB_MODAL
 } from 'constants/job';
 
 const initialState = {
@@ -34,7 +36,8 @@ const initialState = {
     isLoadingInfo: false,
     isCanCreateJob: true,
     isLoadingAbort: false,
-    modalVisible: false
+    modalVisible: false,
+    saveModalVisible:false
 };
 
 export default function job(state = initialState,actions){
@@ -69,6 +72,10 @@ export default function job(state = initialState,actions){
             return {...state,modalVisible: true};
         case HIDE_JOB_MODAL:
             return {...state,modalVisible: false};
+        case SHOW_SAVEJOB_MODAL:
+            return {...state,saveModalVisible: true};
+        case HIDE_SAVEJOB_MODAL:
+            return {...state,saveModalVisible: false};    
         default: 
             return state;
     }

@@ -78,7 +78,7 @@ class HeaderInfoComponent extends Component {
         if(currentStage.stageid === '7') return ;
         this.props.showModal(currentStage);
     }
-
+    
     // 图片onError事件
     imgOnError = event => {
         const img = event.target;
@@ -246,7 +246,7 @@ class HeaderInfoComponent extends Component {
                             <div className="table-cell">
                                 <span>标签 :</span>
                             </div>
-                            <div className="table-cell tags">
+                            <div className="table-cell tags">                   
                                 <EditableTagGroup/>
                             </div>
                         </div>
@@ -284,6 +284,7 @@ class HeaderInfoComponent extends Component {
 
 const mapStateToProps = state => ({
     isDownLoading: state.Resume.isDownLoading,
+    currentStage : state.Resume.currentStage
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),

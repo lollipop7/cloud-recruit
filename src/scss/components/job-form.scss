@@ -192,18 +192,39 @@
             
             &:last-child {
                 padding-bottom: 0px;
-                .inline-block>span {
-                    letter-spacing: 2em;
-                }
+                //.inline-block>span {
+                    // letter-spacing: 2em;
+                //}
                 // .ant-select {
                 //     left: -32px;
                 // }
-                .inline-block:last-child {
+                //.inline-block:last-child {
                     // position: relative;
                     // left: -32px;
-                }
+                //}
             }
         }
+        // li {
+        //     padding-bottom: 20px;
+        //     &:nth-child(3) {
+        //         input {
+        //             width: 279px;
+        //         }
+        //     }
+        //     &:last-child {
+        //         padding-bottom: 0px;
+        //         .inline-block>span {
+        //             letter-spacing: 2em;
+        //         }
+        //         // .ant-select {
+        //         //     left: -32px;
+        //         // }
+        //         .inline-block:last-child {
+        //             position: relative;
+        //             left: -32px;
+        //         }
+        //     }
+        // }
     }
     .inline-block {
         // margin-right: 50px;
@@ -332,5 +353,4 @@
         min-height: 26px;
     }
 }
-
 

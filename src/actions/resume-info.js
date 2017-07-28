@@ -128,7 +128,7 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
         const {positionid,resumeid} = currentStage;
         getStageLog({
             positionId: positionid,
-            resumeId: resumeid
+            resumeId: resumeid,
         });
         window.parent.postMessage('rerequest','*');
     },err=>{

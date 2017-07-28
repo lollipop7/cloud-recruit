@@ -2,10 +2,24 @@ import React, {Component} from 'react';
 
 import { Tag, Input, Tooltip, Button } from 'antd';
 
-export default class EditableTagGroup extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+ class EditableTagGroup extends Component {
+
   state = {
-    tags: [],
-  };
+     tags: [],
+  }
+
+  componentDidMount() {
+    const {currentStage={}} = this.props,
+       {thelable=''} = currentStage;
+    this.setState({
+       tags: thelable === ''? [] : thelable.split(',')
+    });
+  }
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
@@ -14,16 +28,20 @@ export default class EditableTagGroup extends Component {
   }
 
   render() {
-    const { tags } = this.state;
+    // const {currentStage} = this.props,
+    //       {thelable} = currentStage,
+    //       arr = thelable?thelable.split(","):[],
+    const  tags = this.state.tags
+
     return (
       <div>
-         {
-            tags.map((item,index)=>{
+        {   
+          tags.map((item,index)=>{
                 const isLongTag = item.length > 20;
                 return (
                     <Tag 
                         key={item} 
-                        closable
+                        closeable
                         onClose={()=>this.onTagClose(item)}
                     >
                         {isLongTag ? `${item.slice(0, 40)}...` : item}
@@ -31,8 +49,19 @@ export default class EditableTagGroup extends Component {
                 );
             })
         }
+         
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+    currentStage : state.Resume.currentStage
+})
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditableTagGroup);
 

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 
 import {InputComponent} from 'components/input';
-import {Radio , Button } from 'antd';
+import {Radio , Button ,Checkbox} from 'antd';
 const RadioGroup = Radio.Group;
 
 export default class OtherInfoComponent extends Component {
@@ -46,6 +46,7 @@ export default class OtherInfoComponent extends Component {
                             <Radio disabled={urgent ? true : false} value={0}>否</Radio>
                         </RadioGroup>
                     </li>
+                    
                 </ul>
                 {(status === '0' || status === '1') && 
                     <Button 

@@ -154,7 +154,7 @@ class SelectComponent extends Component {
                 style={width: 229,height:40 }
             } = this.props;
         return (
-            <div className="inline-block">
+            <div className="inline-block inline-block-select">
                 <span>{name}</span>
                 <div className="inline-block" style={{
                     margin: 0
@@ -300,6 +300,15 @@ export default class BaseinfoComponent extends Component {
         const pattern = /[^\d]/ig;
         this.setState({
             [field]: e.target.value.replace(pattern,'')
+        });
+    }
+    onChange = (e) => {
+        console.log(`checked = ${e.target.checked}`)
+    }
+
+    handleRadio = (e) => {
+        this.setState({
+            value: e.target.value
         });
     }
 
