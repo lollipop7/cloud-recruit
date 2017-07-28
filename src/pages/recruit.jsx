@@ -86,9 +86,9 @@ class RecruitPage extends BasicPage {
 
     handleClickNav = type => {
         this.params.stageid = type;
-        // this.params.skip = 0;
-        // this.setPaginationCurrent(1);
-        // this._requestData();
+        this.params.skip = 0;
+        this.setPaginationCurrent(1);
+        this._requestData();
         this.refs.FormComponents.resetForm(true);
     }
 

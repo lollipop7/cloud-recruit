@@ -118,22 +118,21 @@ export default class OtherInfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <span>是否紧急</span>
+                        <span>是否紧急：</span>
                         <RadioGroup onChange={this.onChange.bind(this,'isurgent')} value={isurgent}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </RadioGroup>
                     </li>
-                     <li >
-                        <Checkbox/>
-                        <span className="check-span">智能筛选投递该职位的简历</span>
-                        <Tooltip placement="right" title={text}>
-                            <Icon type="question-circle-o" style={{color:"#f49632"}} />
-                        </Tooltip>
-                        {/*<span></span>
-                        <span className="check-span">通过工作年限,学历,年龄智能筛选投递该职位的简历，匹配度低的简历
-                            转入人才库被过滤的人才分类。
-                        </span>*/}
+                    <li>
+                        <div className="inline-block">
+                            <Radio>智能筛选投递该职位的简历</Radio>
+                            <Tooltip    overlayClassName="help-tooltip"
+                                        placement="right" 
+                                        title={"通过工作年限、学历、年龄智能筛选投递到该职位的简历，匹配度低的简历转入人才库被过滤的人才分类。"}>
+                                <i className="help-icon"></i>
+                            </Tooltip>
+                        </div>
                     </li>
                 </ul>
             </li>

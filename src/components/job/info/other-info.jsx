@@ -29,18 +29,18 @@ export default class OtherInfoComponent extends Component {
                 <ul>
                     <li>
                         <InputComponent 
-                            name="开始时间"
+                            name="开始时间："
                             value={moment(starttime).format('YYYY-MM-DD')}
                             disabled={true}
                         />
                         <InputComponent 
-                            name="结束时间"
+                            name="结束时间："
                             value={moment(endtime).format('YYYY-MM-DD')}
                             disabled={true}
                         />
                     </li>
                     <li>
-                        <span>是否紧急</span>
+                        <span>是否紧急：</span>
                         <RadioGroup value={urgent ? 1 : 0}>
                             <Radio disabled={urgent ? false : true} value={1}>是</Radio>
                             <Radio disabled={urgent ? true : false} value={0}>否</Radio>
@@ -61,6 +61,7 @@ export default class OtherInfoComponent extends Component {
                     >提前终止</Button>
                 }
             </li>
+            
         );
     }
 }

@@ -69,12 +69,12 @@ class MoveModalComponents extends Component {
             {isLoading,modalVisible} = moveModal;
         return (
             <div className="table-control">
-                    <span 
-                        className="span-move"
+                    <Button className="pull-right"
                         onClick={()=>this.setModalVisible(true)}
                         disabled={!hasSelected}
-                    >移动</span>
+                    >移动</Button>
                      <span 
+                        className="pull-left"
                         style={{
                             fontWeight:"bold",
                             fontSize:16,

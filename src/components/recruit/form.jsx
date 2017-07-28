@@ -18,18 +18,15 @@ export default class FormComponents extends Component {
         workyear: '',
         year:undefined,
         time:"按申请时间升序",
-        edu:undefined
-        
+        edu:undefined,
     }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.state !== nextState;
     }
 
-    handleChange(field,e){
-        this.setState({
-            [field]: e.target.value
-        });
+    handleChange = e => {
+        console.log(e.target.value);
     }
 
     // resetForm = (clickNav=false) => {
@@ -74,12 +71,13 @@ export default class FormComponents extends Component {
         return (
             <div className="form">
                 <div className="form-btn">
-                    <span onClick={()=>showUploadModal()}>
-                        添加候选人&nbsp;+
-                    </span> 
+                    <Button type="primary"
+                            onClick={()=>showUploadModal()}>
+                            添加候选人+
+                    </Button>
                     <Select 
                         defaultValue="按申请时间升序" 
-                        style={{width: 180,height:30}}
+                        style={{width: 140,height:30}}
                         value={time}
                         onChange={(value)=>this.handleSelectChange('time',value)}
                     >
@@ -103,7 +101,7 @@ export default class FormComponents extends Component {
                     <Button type="primary"></Button>
                     <span>导入简历</span>
                 </div>*/}
-                <div className="bottom16">       
+                <div className="bottom10">       
                     <Select 
                             placeholder="工作年限" 
                             style={{width: 189,marginRight:16}}
@@ -153,11 +151,14 @@ export default class FormComponents extends Component {
                 />
                     
                 </div>
-                <div style={{height:40,marginBottom:20}}>
-                    <span className="btn" onClick={this.handleFind}> 筛选</span> 
-                    <span className="btn" onClick={()=>this.resetForm(false)}> 重置</span>  
+                <div className = "bottom28">
+                    <div className="inline-block">
+                        <Button onClick={this.handleFind}>筛选</Button>
+                    </div>
+                    <div className="inline-block">
+                        <Button onClick={()=>this.resetForm(false)}>重置</Button>
+                    </div>
                 </div>
-                
             </div>
         );
     }

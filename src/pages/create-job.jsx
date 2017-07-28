@@ -4,6 +4,7 @@ import { Button , Tag } from 'antd';
 import BaseInfoComponent from 'components/create-job/baseinfo';
 // import TagsComponent from 'components/create-job/tags';
 import OtherInfoComponent from 'components/create-job/other-info';
+import TopComponent from 'components/create-job/top.jsx';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
@@ -71,42 +72,24 @@ class CreateJobPage extends Component {
             <div className="page-content new-job-page">
                 
                 <BreadCrumbComponent routes={routesCopy} />
-                {/*<ul className="job-ul">
-                    <li>
-                        <Button style={{height:25}} onClick={this.handleClick}>&lt;&nbsp;返回</Button>
-                    </li>
-                    <li>
-                        <span>热招职位：</span>
-                        <ul>
-                            {
-                                this.state.job.map((item,index) => {
-                                    return <li><a href="javascript:;">{item}</a></li>
-                                })
-                            }
-                        </ul>
-                    </li>
-                </ul>
-                <div style={{paddingLeft:0,marginBottom:20}}>
-                    <span style={{fontSize:14}}>最近发布职位：</span>
-                    {
-                        this.state.Tags.map((item,index) => {
-                            return <Tag closable color="#62a6d5">{item}</Tag>
-                        })
-                    }
-                </div>*/}
-                <ul className="job-form">
-                    <BaseInfoComponent ref="BaseInfoComponent" />
-                    {/*<TagsComponent />*/}
-                    <OtherInfoComponent ref="OtherInfoComponent" />
-                    <li className="control">
-                        <ul>
-                            <li>
-                                <Button type="primary" onClick={this.createJob}>发布</Button>
-                                <Button onClick={this.resetForm}>重置</Button>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                <div style = {{border: '1px solid #d5d5d5'}}>
+                    <div className="back-zone">
+                        <TopComponent/> 
+                    </div>
+                    <ul className="new-job-form">
+                        <BaseInfoComponent ref="BaseInfoComponent" />
+                        {/*<TagsComponent />*/}
+                        <OtherInfoComponent ref="OtherInfoComponent" />
+                        <li className="control">
+                            <ul>
+                                <li>
+                                    <Button type="primary" onClick={this.createJob}>发布</Button>
+                                    <Button onClick={this.resetForm}>重置</Button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 <SaveModalComponent/>
             </div>
         );

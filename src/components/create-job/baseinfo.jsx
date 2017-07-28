@@ -1,6 +1,8 @@
 import React, {Component,PropTypes} from 'react';
 
-import { Input , Select , Cascader , Checkbox , Row, Col} from 'antd';
+import { Input , Select , Cascader , Radio } from 'antd';
+const RadioGroup = Radio.Group;
+const { TextArea } = Input;
 
 import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';
@@ -149,7 +151,7 @@ class SelectComponent extends Component {
                 data=[],
                 value,
                 dropdownMatchSelectWidth,
-                style={width: 279,height:40 }
+                style={width: 229,height:40 }
             } = this.props;
         return (
             <div className="inline-block inline-block-select">
@@ -214,7 +216,8 @@ export default class BaseinfoComponent extends Component {
             workcity:'',
             workyears: undefined,
             specialty: undefined,
-            educationbackground: undefined
+            educationbackground: undefined,
+            age: '' //年龄
         });
     }
 
@@ -227,9 +230,9 @@ export default class BaseinfoComponent extends Component {
             headcount='', // 招聘人数
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
-            age=undefined, // 年龄
             specialty=undefined, // 专业
-            educationbackground=undefined //学历,
+            educationbackground=undefined, //学历,
+            age='' //年龄
         } = this.state;
         const {
             positionnameInput,
@@ -240,7 +243,7 @@ export default class BaseinfoComponent extends Component {
             workyearsSelect,
             specialtySelect,
             educationbackgroundSelect,
-            ageSelect
+            ageInput //年龄
         } = this.refs;
         if(positionname === ''){
             positionnameInput.refs.input.focus();
@@ -303,6 +306,12 @@ export default class BaseinfoComponent extends Component {
         console.log(`checked = ${e.target.checked}`)
     }
 
+    handleRadio = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+    }
+
     render() {
         const {
             positionname='', // 职位名称
@@ -312,9 +321,9 @@ export default class BaseinfoComponent extends Component {
             headcount='', // 招聘人数
             workcity='', // 工作地点
             workyears=undefined, // 工作年限
-            age=undefined,//年龄
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
+            age='',//年龄
             error
         } = this.state;
         return (
@@ -332,37 +341,16 @@ export default class BaseinfoComponent extends Component {
                             value={positionname}
                             onChange={this.handleChange}
                         />
-                        <div className="inline-block">
-                            <span>工作地点：</span>
-                            <div className="inline-block">
-                                <Cascader 
-                                    options={city}
-                                    className={error ? "error" : ''}
-                                    onChange={this.handleCityChange}
-                                    displayRender={label => label.join(' - ')}
-                                    placeholder="请选择工作地点" 
-                                    style={{
-                                        height: 40,
-                                        width: 279
-                                    }}
-                                />
-                                {error &&
-                                    <div className="error-promote" style={{
-                                        paddingLeft: 0
-                                    }}>
-                                        <label className="error">请选择工作地点</label>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        
-                        {/*<InputComponent
-                            name="薪资待遇"
-                            placeholder="请输入薪资待遇"
-                            field="salary"
+                        <SelectComponent 
+                            ref="salarySelect"
+                            name="薪资待遇："
+                            data={salaryData}
+                            dropdownMatchSelectWidth={false}
                             value={salary}
+                            field="salary"
+                            placeholder="请选择薪资待遇"
                             onChange={this.handleChange}
-                        />*/}
+                        />
                     </li>
                     <li>
                         <ErrorInputComponent
@@ -391,32 +379,29 @@ export default class BaseinfoComponent extends Component {
                             value={headcount}
                             onChange={this.handleNumChange}
                         />
-                        <SelectComponent 
-                            ref="salarySelect"
-                            name="薪资待遇："
-                            data={salaryData}
-                            dropdownMatchSelectWidth={false}
-                            value={salary}
-                            field="salary"
-                            placeholder="请选择薪资待遇"
-                            onChange={this.handleChange}
-                        />
-                        {/*<InputComponent
-                            name="工作地点"
-                            placeholder="请输入工作地点"
-                            field="workcity"
-                            value={workcity}
-                            onChange={this.handleChange}
-                        />*/}
-                        {/*<SelectComponent 
-                            ref="workyearsSelect"
-                            name="工作年限"
-                            value={workyears}
-                            data={WorkYears}
-                            field="workyears"
-                            placeholder="请选择工作年限"
-                            onChange={this.handleChange}
-                        />*/}
+                        <div className="inline-block">
+                            <span>工作地点：</span>
+                            <div className="inline-block city-regions">
+                                <Cascader 
+                                    options={city}
+                                    className={error ? "error" : ''}
+                                    onChange={this.handleCityChange}
+                                    displayRender={label => label.join(' - ')}
+                                    placeholder="请选择工作地点" 
+                                    style={{
+                                        height: 40,
+                                        width: 229
+                                    }}
+                                />
+                                {error &&
+                                    <div className="error-promote" style={{
+                                        paddingLeft: 0
+                                    }}>
+                                        <label className="error">请选择工作地点</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </li>
                     <li>
                         <SelectComponent 
@@ -439,7 +424,7 @@ export default class BaseinfoComponent extends Component {
                             onChange={this.handleChange}
                         />
                     </li>
-                     <li>
+                    <li>
                         <SelectComponent 
                             ref="workyearsSelect"
                             name="工作年限："
@@ -449,31 +434,58 @@ export default class BaseinfoComponent extends Component {
                             placeholder="请选择工作年限"
                             onChange={this.handleChange}
                         />
-                        <SelectComponent 
-                            ref="ageSelect"
+                        <ErrorInputComponent
+                            ref="ageInput"
                             name="年龄："
-                            value={age}
-                            data={age}
+                            placeholder="请输入年龄"
                             field="age"
-                            placeholder="请选择年龄"
-                            onChange={this.handleChange}
-                        />  
+                            value={age}
+                            onChange={this.handleNumChange}
+                        />
                     </li>
                     <li>
-                        <span style={{display:"block",float:'left'}}>工作类型：</span>
-                        <Row>
-                            <Col span={2}><Checkbox value="A">全职</Checkbox></Col>
-                            <Col span={2}><Checkbox value="B">兼职</Checkbox></Col>
-                            <Col span={2}><Checkbox value="C">实习</Checkbox></Col>
-                        </Row>
+                        <div className="inline-block">
+                            <span>工作类型：</span>
+                            <RadioGroup onChange={this.handleRadio} value={this.state.value}>
+                                <Radio value={1}>全职</Radio>
+                                <Radio value={2}>兼职</Radio>
+                                <Radio value={3}>实习</Radio>
+                            </RadioGroup>
+                        </div>
                     </li>
-                    <li >
-                        <span style={{display:"block",float:'left'}}>工作职责：</span>
-                        <Input style={{width:600,height:150}} type="textarea"/>
+                    <li>
+                        <div className="inline-block table">
+                            <div className="table-cell">
+                                <span>工作职责：</span>
+                            </div>
+                            <div className="table-cell">
+                                <Input type="textarea" rows="3" 
+                                    style={{
+                                        minWidth: 494,
+                                        maxWidth: 760,
+                                        height: 130,
+                                        borderRadius: 10,
+                                        resize: "horizontal"
+                                }}/>
+                             </div>
+                        </div>
                     </li>
-                    <li >
-                        <span style={{display:"block",float:'left'}}>任职资格：</span>
-                        <Input style={{width:600,height:150}} type="textarea"/>
+                    <li>
+                        <div className="inline-block table">
+                            <div className="table-cell">
+                                <span>任职资格：</span>
+                            </div>
+                            <div className="table-cell">
+                                <Input type="textarea" rows="3" 
+                                    style={{
+                                        minWidth: 494,
+                                        maxWidth: 760,
+                                        height: 130,
+                                        borderRadius: 10,
+                                        resize: "horizontal"
+                                }}/>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </li>

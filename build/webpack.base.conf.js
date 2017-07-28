@@ -66,6 +66,7 @@ module.exports = {
         'static': resolve('static')
     }
   },
+  devtool: "source-map",
   module: {
     rules: [
         //https://github.com/bhovhannes/svg-url-loader
@@ -135,7 +136,9 @@ module.exports = {
                 {
                     loader: "sass-loader",
                     options: {
-                        sourceMap: true
+                        sourceMap: true,
+                        outputStyle: "expanded",
+                        sourceMapContents: true
                     }
                 }
             ],
@@ -143,8 +146,13 @@ module.exports = {
             fallback: "style-loader"
         })
       },
+    //   { 
+    //       test: /\.scss$/, 
+    //       loader: ExtractTextPlugin.extract('style-loader',
+    //             'css-loader?sourceMap!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true') 
+    //   },
       
-    {
+      {
         test: /\.less$/,
         use: extractLess.extract({
             use: [

@@ -78,7 +78,7 @@ class HeaderInfoComponent extends Component {
         if(currentStage.stageid === '7') return ;
         this.props.showModal(currentStage);
     }
-
+    
     // 图片onError事件
     imgOnError = event => {
         const img = event.target;
@@ -105,8 +105,7 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {data,modalVisible,currentStage} = this.props,
-        {thelable} = currentStage,
+        const {data,modalVisible} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
