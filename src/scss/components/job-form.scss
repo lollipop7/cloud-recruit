@@ -354,3 +354,48 @@
     }
 }
 
+//发布职位确认模态框
+.save-modal {
+    max-width: 510px;
+    .ant-modal-header {
+        background-color: #f3f3f3;
+    }
+    .ant-modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .ant-modal-close-x {
+        background: url(/static/images/resume/close.png)   no-repeat;
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+        margin-top: 8px;
+        &:before {
+            content: "";
+        }
+    }
+    .ant-modal-body {
+        .tick-text {
+            font-size: 14px;
+            line-height: 24px;
+            color: #000;
+        }
+    }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        .ant-btn {
+            background-color: #c0c0c0; 
+            border-color: #c0c0c0;
+            color: #fff;
+        }
+        .ant-btn-primary {
+            background-color: #108ee9; 
+            border-color: #108ee9;
+        }
+        button+button {
+            margin-left: 16px;
+        }
+    }
+}
