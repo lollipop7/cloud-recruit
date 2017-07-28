@@ -312,6 +312,12 @@ export default class BaseinfoComponent extends Component {
         });
     }
 
+    handleRadio = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+    }
+
     render() {
         const {
             positionname='', // 职位名称

@@ -144,7 +144,7 @@
         color: #868686;
         padding-left: 13px;
         &.wth155 {
-            width: 354px;
+            width: 155px;
         }
     }
     .ant-cascader-input.ant-input {
@@ -184,13 +184,6 @@
             }
             &:last-child {
                 margin-bottom: 0px;
-                .ant-tooltip-inner {
-                    width: 700px!important;
-                }
-               
-            }
-            .ant-calendar-picker .ant-calendar-picker-input {
-                width: 185px !important
             }
         }
         label {
@@ -249,7 +242,6 @@
         max-width: 666px;
         min-height: 26px;
     }
-
 }
 .job-form {
     padding-top: 18px;
