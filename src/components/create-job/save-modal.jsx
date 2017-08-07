@@ -14,7 +14,7 @@ class SaveModalComponent extends Component {
             <Modal
                 title="温馨提示"
                 visible = {saveModalVisible}
-                className = "save-modal"
+                className = "save-modal grey-close-header"
                 closable = {true}
                 okText = "保存"
                 cancelText = "返回职位管理"

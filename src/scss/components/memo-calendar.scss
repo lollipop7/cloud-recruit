@@ -1,0 +1,54 @@
+.memo-calendar {
+    overflow: hidden;
+    width: 270px;
+    height: 380px;
+    padding: 12px 13px 38px;
+    .memo-header {
+        background-image: url(/static/images/index/add.png);
+    }
+    .title {
+        &:hover {
+            cursor: pointer;
+        }
+        &:after {
+            @include border-bottom;
+        }
+    }
+    .memo-body {
+        p {
+            padding: 16px 0 32px;
+        }
+        .ant-fullcalendar-header {
+            padding: 0;
+            text-align: normal;
+        }
+        .ant-select-sm .ant-select-selection--single {
+            height: 18px !important;
+        }
+        .ant-select-selection {
+            border: none;
+        }
+        .ant-select-selection__rendered {
+            line-height: 18px !important;
+        }
+        .ant-radio-group-small .ant-radio-button-wrapper {
+            display: none;
+        }
+    }
+}
+.add-memo-modal {
+    .ant-modal-body {
+        padding: 30px 82px 20px;
+    }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        padding: 0 16px 30px 10px;
+        .ant-btn-lg {
+            padding: 0 34px;
+        }
+        button+button {
+            margin-left: 30px;
+        }
+    }
+}

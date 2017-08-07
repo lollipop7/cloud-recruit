@@ -13,6 +13,11 @@ const GET_ENTRY_START = {type:types.GET_ENTRY_START};
 const GET_ENTRY_DONE = {type:types.GET_ENTRY_DONE};
 const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
 
+//添加备忘录MODAL
+ const SHOW_MEMO_MODAL = {type:types.SHOW_MEMO_MODAL};
+ const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
+
+
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
     AjaxByToken('UrgentTasks',{
@@ -83,4 +88,14 @@ export const getEntryPerson = (data={}) => (dispatch,getState) => {
 // 重置待入职人员列表
 export const resetEntryPerson = () => (dispatch,getState) => {
     dispatch({...GET_ENTRY_LIST,entryPersonList:[]});
+}
+
+// 显示添加备忘录MODAL
+export const showMemoModal = () => (dispatch,getState) => {
+    dispatch(SHOW_MEMO_MODAL);
+}
+
+// 隐藏添加备忘录MODAL
+export const hideMemoModal = () => (dispatch,getState) => {
+    dispatch(HIDE_MEMO_MODAL);
 }

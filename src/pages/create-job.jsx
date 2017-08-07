@@ -8,7 +8,7 @@ import TopComponent from 'components/create-job/top.jsx';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
-import SaveModalComponent from 'components/create-job/save-modal'
+import SaveModalComponent from 'components/create-job/save-modal';
 
 import each from 'lodash/each';
 import pick from 'lodash/pick';

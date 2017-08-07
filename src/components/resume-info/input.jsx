@@ -12,7 +12,7 @@ export default class InputComponents extends Component {
         eventtime: null,
         eventaddress: ''
     }
-
+    
     shouldComponentUpdate(nextProps,nextState) {
         return this.props !== nextProps || this.state !== nextState;
     }
@@ -56,7 +56,7 @@ export default class InputComponents extends Component {
             return false;
         }
         if(eventaddress === '') {
-            this.refs.Input.refs.input.focus();
+            this.refs.Input.refs.input.focus(); 
             this.setError(true);
             return false;
         }

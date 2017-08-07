@@ -146,12 +146,6 @@ module.exports = {
             fallback: "style-loader"
         })
       },
-    //   { 
-    //       test: /\.scss$/, 
-    //       loader: ExtractTextPlugin.extract('style-loader',
-    //             'css-loader?sourceMap!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true') 
-    //   },
-      
       {
         test: /\.less$/,
         use: extractLess.extract({
