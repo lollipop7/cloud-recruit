@@ -3,7 +3,7 @@ import React, {Component,PropTypes} from 'react';
 import merge from 'lodash/merge';
 import trim from 'lodash/trim';
 
-import {Table} from 'antd';
+import {Table , Icon} from 'antd';
 import columns from 'data/table-columns/index-table';
 
 import LoadingComponent from 'components/loading';
@@ -106,7 +106,10 @@ class TableComponent extends Component {
                         return merge(
                             {key:index},
                             item,
-                            {entry: '入职管理'}
+                            {entry: 
+                                <span className="entry-manage">
+                                    管理&nbsp;<Icon type="caret-right" />
+                                </span>}
                         );
                     })}
                     pagination={false}

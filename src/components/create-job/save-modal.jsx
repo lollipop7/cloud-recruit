@@ -1,4 +1,4 @@
-import React , { Component } from "React"
+import React , { Component , PropTypes } from "React"
 import {Modal , Tabs , Input , Icon} from 'antd';
 
 //redux
@@ -7,6 +7,16 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class SaveModalComponent extends Component {
+
+    backResumeManager = ()=> {
+        this.props.hideSaveJobModal()
+        //this.context.push('job/index')
+        //返回职位管理
+        setTimeout(() => {
+            window.history.back()
+        },500)
+        
+    }
 
     render(){
        const {saveModalVisible , hideSaveJobModal} = this.props
@@ -17,15 +27,15 @@ class SaveModalComponent extends Component {
                 className = "saveModal"
                 closable = {true}
                 cancelText = "返回职位管理"
-                okText = "保存"
-                onCancel = {() => hideSaveJobModal()}
-                style = {{width:800,height:600}}
+                okText = "确定"
+                onCancel = {this.backResumeManager}
+                
             >
                 <Icon 
                     type="check-circle-o"
                 />
                 <p>职位发布成功</p>
-                <p>该职位要求是否保存到最近发布职位以便重复使用？</p>
+
             </Modal>
         )
     }

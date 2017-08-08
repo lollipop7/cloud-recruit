@@ -71,7 +71,7 @@ class RecruitPage extends BasicPage {
             this.props.categoryData !== nextProps.categoryData ||
             this.state.paginationCurrent !== nextState.paginationCurrent;
     }
-
+    //获取职位申请列表
     _requestData(){
         this.props.getRecruitList({...this.params,...this.formData});
     }
@@ -91,7 +91,7 @@ class RecruitPage extends BasicPage {
         this._requestData();
         this.refs.FormComponents.resetForm(true);
     }
-
+    //点击筛选按钮查找
     handleFind = (params,clickNav=false) => {
         // 点击开始查找按钮
         if(isEqual(this.formData,params)&&!clickNav) return ;

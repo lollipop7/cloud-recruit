@@ -6,13 +6,15 @@ import hotJobData from 'data/create-job/hot-job';
 import recentJobData from 'data/create-job/recent-job'; 
 
 export default class TopComponent extends Component {
-    
+    handleClick = () => {
+        window.history.back(-1)
+    }
     render() {
         return(
             <ul>
                 <li className="hot-job"> 
                     <div className="inline-block back-btn">
-                        <Button>&lt;&nbsp;返回</Button>
+                        <Button onClick={ this.handleClick}>&lt;&nbsp;返回</Button>
                     </div>
                     <div className="inline-block hot-job-list">
                         <span>热招职位：</span>

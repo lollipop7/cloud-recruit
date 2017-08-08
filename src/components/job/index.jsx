@@ -20,6 +20,7 @@ class IndexPage extends Component {
     state = {
         paginationCurrent: 1
     }
+    //显示条件
     params = {
         type: 'all',
         skip: 0
@@ -76,6 +77,11 @@ class IndexPage extends Component {
     handleSearch = (params,clickNav=false) => {
         if(isEqual(this.formData,params)&&!clickNav) return ;
         // 点击搜索按钮
+        //params:
+        //department:"12"
+        //position:"12"
+        //starttime:"2017-08-02"
+        //endtime:"2017-08-07"
         this.params.skip = 0;
         this.formData = params;
         this.setPaginationCurrent(1);

@@ -232,7 +232,10 @@ export default class BaseinfoComponent extends Component {
             workyears=undefined, // 工作年限
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
-            age='' //年龄
+            age='', //年龄
+            jobtype="",//工作类型
+            responsibility="",//工作职责
+            qualification="",//任职资格
         } = this.state;
         const {
             positionnameInput,
@@ -243,7 +246,8 @@ export default class BaseinfoComponent extends Component {
             workyearsSelect,
             specialtySelect,
             educationbackgroundSelect,
-            ageInput //年龄
+            ageInput ,//年龄
+            workstyleradio//工作类型
         } = this.refs;
         if(positionname === ''){
             positionnameInput.refs.input.focus();
@@ -287,6 +291,11 @@ export default class BaseinfoComponent extends Component {
             educationbackgroundSelect.triggerError(true);
             return false;
         }
+        if(jobtype === ''){
+            workstyleradio.refs.input.focus();
+            workstyleradio.triggerError(true);
+            return false;
+        }
         return {...this.state}
     }
 
@@ -310,12 +319,28 @@ export default class BaseinfoComponent extends Component {
         this.setState({
             value: e.target.value
         });
-    }
-
-    handleRadio = (e) => {
-        this.setState({
-            value: e.target.value
-        });
+         switch(e.target.value)
+            {
+                case 1:
+                    this.setState({
+                        jobtype: "全职"
+                    });
+                break;
+                case 2:
+                    this.setState({
+                        jobtype: "兼职"
+                    });
+                break;
+                 case 3:
+                    this.setState({
+                        jobtype: "实习"
+                    });
+                break;
+                default:
+                   this.setState({
+                        jobtype: ""
+                    });
+            }
     }
 
     render() {
@@ -330,6 +355,9 @@ export default class BaseinfoComponent extends Component {
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
             age='',//年龄
+            jobtype="",//工作类型
+            responsibility="",//工作职责
+            qualification="",//任职资格
             error
         } = this.state;
         return (
@@ -452,7 +480,7 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <div className="inline-block">
                             <span>工作类型：</span>
-                            <RadioGroup onChange={this.handleRadio} value={this.state.value}>
+                            <RadioGroup ref="workstyleradio" onChange={this.handleRadio} value={this.state.value}>
                                 <Radio value={1}>全职</Radio>
                                 <Radio value={2}>兼职</Radio>
                                 <Radio value={3}>实习</Radio>
@@ -466,6 +494,8 @@ export default class BaseinfoComponent extends Component {
                             </div>
                             <div className="table-cell">
                                 <Input type="textarea" rows="3" 
+                                    value={responsibility}
+                                    onChange={this.handleChange.bind(this,"responsibility")}
                                     style={{
                                         minWidth: 494,
                                         maxWidth: 760,
@@ -483,6 +513,8 @@ export default class BaseinfoComponent extends Component {
                             </div>
                             <div className="table-cell">
                                 <Input type="textarea" rows="3" 
+                                    value={qualification}
+                                    onChange={this.handleChange.bind(this,"qualification")}
                                     style={{
                                         minWidth: 494,
                                         maxWidth: 760,

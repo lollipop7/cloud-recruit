@@ -4,7 +4,9 @@ import {
     GET_ENTRY_LIST,
     GET_ENTRY_START,
     GET_ENTRY_DONE,
-    TASK_PROGRESS
+    TASK_PROGRESS,
+    SHOW_MEMO_MODAL,
+    HIDE_MEMO_MODAL
 } from 'constants/home';
 
 const initialState = {
@@ -12,7 +14,8 @@ const initialState = {
     resumeData: {}, //简历入库情况
     taskProgress: [], // 任务完成指数
     isEntryLoading: false,
-    entryPersonList: [] //待入职人员列表
+    entryPersonList: [] ,//待入职人员列表
+    memoModalVisible:false//添加备忘录状态
 };
 
 export default function home(state = initialState,actions){
@@ -29,6 +32,10 @@ export default function home(state = initialState,actions){
             return {...state,isEntryLoading:false};
         case GET_ENTRY_LIST:
             return {...state,entryPersonList:actions.entryPersonList};
+        case SHOW_MEMO_MODAL:
+            return {...state,memoModalVisible:true};
+        case HIDE_MEMO_MODAL:
+            return {...state,memoModalVisible:false};
         default: 
             return state;
     }

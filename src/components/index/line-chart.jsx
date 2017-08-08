@@ -140,6 +140,14 @@ class LineChartComponent extends Component {
                 height: 380,
                 float:"left"
             }}>
+                <div className="line-title" 
+                    style={{ 
+                        top:13,
+                        left:16
+                    }}
+                >
+                    简历入库情况
+                </div>
                 {isLoading && 
                     <LoadingComponent style={{
                         position: 'absolute',
@@ -174,9 +182,20 @@ class LineChartComponent extends Component {
                         })
                     }
                 </div>
+                <div style={{
+                        position:'absolute',
+                        top:45,
+                        left:16
+                    }}
+                >
+                    <p>截至今日（{moment(new Date().getTime()).format('MM月DD日')}）</p>
+                    <span>共入库：<span className="jianli-data">20532份</span></span>，
+                    <span>本年：<span className="jianli-data">1068份</span></span>，
+                    <span>本月：<span className="jianli-data">1032份</span></span>
+                </div>
                 <div ref="echarts" className="box-border" style={{
                     width:'600px',
-                    height:'380px'
+                    height:'380px',
                 }}>
                 </div>
             </div>
