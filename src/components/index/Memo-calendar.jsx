@@ -10,7 +10,7 @@ class MemoCalendarComponent extends Component {
 
     handleClick =() => {
         this.props.showMemoModal();
-        console.log('click');
+        // console.log('click');
     }
 
     onPanelChange = (value, mode) => {
