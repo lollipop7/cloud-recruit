@@ -10,16 +10,11 @@ import PieChartComponent from 'components/index/pie-chart';
 // 表格
 import TableComponent from 'components/index/table';
 //备忘日历
-<<<<<<< HEAD
-import CalendarComponent from 'components/index/Memo-calendar';
-//添加备忘录
-import MemoModalComponent from 'components/index/Memo-modal';
-import VideoComponent from 'components/index/video';
-=======
+
 import MemoCalendarComponent from 'components/index/memo-calendar';
 //备忘录modal
 import MemoModalComponent from 'components/index/memo-modal';
->>>>>>> 406718e1556f4ef09b0f06151c6bdd1e3d41be71
+
 
 import ScrollPageContent from 'components/scroll-page-content';
 
