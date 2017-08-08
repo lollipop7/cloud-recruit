@@ -10,10 +10,16 @@ import PieChartComponent from 'components/index/pie-chart';
 // 表格
 import TableComponent from 'components/index/table';
 //备忘日历
+<<<<<<< HEAD
 import CalendarComponent from 'components/index/Memo-calendar';
 //添加备忘录
 import MemoModalComponent from 'components/index/Memo-modal';
 import VideoComponent from 'components/index/video';
+=======
+import MemoCalendarComponent from 'components/index/memo-calendar';
+//备忘录modal
+import MemoModalComponent from 'components/index/memo-modal';
+>>>>>>> 406718e1556f4ef09b0f06151c6bdd1e3d41be71
 
 import ScrollPageContent from 'components/scroll-page-content';
 
@@ -32,13 +38,18 @@ export default class IndexPage extends BasicPage {
                             <TimeComponent />
                             <ListComponent />
                         </div>
-                        <div className="pull-right" style={{backgroundColor: '#FFF',width:600,float:"left",
-                        marginLeft:18,marginRight:18}}>
-                            <LineChartComponent />                          
+                        <div className="pull-right" style={{width: 914}}>
+                            <div style={{overflow: "auto"}}>
+                                <div style={{background: "#fff", float: "left"}}>
+                                    <LineChartComponent/>
+                                </div>
+                                <div className="pull-right" style={{background: "#fff"}}>
+                                    <MemoCalendarComponent/>
+                                </div>
+                            </div>
                         </div>
-                        <div style={{backgroundColor: '#FFF',float:"left"}}>
-                            <CalendarComponent/>
-                        </div>
+                        {/*添加备忘录modal*/}
+                        <MemoModalComponent/>
                     </div>
                     <div className="list-block">
                         <div className="pull-left">

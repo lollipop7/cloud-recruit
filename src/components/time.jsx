@@ -62,10 +62,6 @@ export default class TimeComponent extends Component {
         this.setState({ _endOpen: open });
     }
 
-    handleStartOpen = (open) => {
-         this.setState({ _startOpen: open });
-    }
-
     render() {
         const {style={},showField=false} = this.props;
         const { _startValue=null, _endValue=null,_startOpen=false, _endOpen=false  } = this.state;

@@ -12,6 +12,12 @@ export const TASK_PROGRESS = "TASK_PROGRESS";
 export const GET_ENTRY_START = "GET_ENTRY_START";
 export const GET_ENTRY_DONE = "GET_ENTRY_DONE";
 export const GET_ENTRY_LIST = "ENTRY_PERSON";
+<<<<<<< HEAD
 //备忘录modal
 export const SHOW_MEMO_MODAL = "SHOW_MEMO_MODAL";
 export const HIDE_MEMO_MODAL = "HIDE_MEMO_MODAL";
+=======
+//添加备忘录modal
+export const SHOW_MEMO_MODAL = "SHOW_MEMO_MODAL";
+export const HIDE_MEMO_MODAL = "HIDE_MEMO_MODAL";
+>>>>>>> 406718e1556f4ef09b0f06151c6bdd1e3d41be71

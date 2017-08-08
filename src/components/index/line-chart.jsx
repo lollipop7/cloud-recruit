@@ -136,9 +136,8 @@ class LineChartComponent extends Component {
         return (
             <div style={{
                 position: 'relative',
-                width: 600,
-                height: 380,
-                float:"left"
+                width: 629,
+                height: 380
             }}>
                 <div className="line-title" 
                     style={{ 
@@ -194,8 +193,8 @@ class LineChartComponent extends Component {
                     <span>本月：<span className="jianli-data">1032份</span></span>
                 </div>
                 <div ref="echarts" className="box-border" style={{
-                    width:'600px',
-                    height:'380px',
+                    width: 629,
+                    height: 380,
                 }}>
                 </div>
             </div>

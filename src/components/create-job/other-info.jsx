@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 // import { Input , Tag , Radio } from 'antd';
-import { Input, Radio, Tooltip, Button } from 'antd';
+import { Input, Radio, Tooltip } from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
@@ -89,9 +89,7 @@ export default class OtherInfoComponent extends Component {
         // workDuty 工作职责
         // dicatate 工作资格
         // isUrgent 是否紧急
-        //isintelligent 是否智能
-        const {isurgent,isintelligent,starttime,endtime} = this.state;
-        const text = "通过工作年限,学历,年龄智能筛选投递该职位的简历,匹配度低的简历转入人才库被过滤的人才分类.";
+        const {isurgent} = this.state;
         return (
             <li className="other-info">
                 <h2 className="title">

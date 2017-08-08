@@ -1,36 +1,49 @@
 import React, {Component} from 'react';
 import {Calendar , Icon} from 'antd';
 
-// redux
+//redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
- class CalendarComponent extends Component {
-    onPanelChange(value, mode) {
+
+class MemoCalendarComponent extends Component {
+
+    handleClick =() => {
+        this.props.showMemoModal();
+        console.log('click');
+    }
+
+    onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
-    memoModal = () => {
-        this.props.showmemomodal()
-    }
+
     render(){
         return(
-           <div style={{ width: 290, border: '1px solid #d9d9d9', borderRadius: 4,height:378 }}>
-               <div className="Calendar-title">
-                   备忘日历
-                   <Icon type="plus-circle-o" style={{cursor:'pointer'}} onClick={this.memoModal}  />
-               </div>
-                <Calendar fullscreen={false} onPanelChange={this.onPanelChange} />
-           </div>
+            <div className="memo-calendar box-border">
+                <div className="memo-header title" onClick={this.handleClick}>
+                    备忘日历
+                </div>
+                <div className="memo-body">
+                    <p>未记录今日需处理的事务！</p>
+                    <div className="calendar-wrap">
+                        <Calendar fullscreen={false}
+                        onPanelChange={this.onPanelChange}/>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
+
 const mapStateToProps = state => ({
-    memoModalVisible: state.Home.memoModalVisible,
+    
 })
 const mapDispatchToProps = dispatch => ({
-    showmemomodal: bindActionCreators(Actions.homeActions.showmemomodal, dispatch)
+    showMemoModal: bindActionCreators(Actions.homeActions.showMemoModal, dispatch),
 })
-export default connect (
+
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CalendarComponent)
+)(MemoCalendarComponent);
+

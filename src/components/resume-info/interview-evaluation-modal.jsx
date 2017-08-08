@@ -53,7 +53,7 @@ class EvaluationModalComponents extends Component {
                 title = "面试评估表"
                 width = {828}
                 visible = {evaluationModalVisible}
-                className = "evaluationModal"
+                className = "evaluation-modal grey-close-header"
                 onCancel={isLoading ? ()=>{} : this.props.hideEvaluationModal}
                 >
                 <div className="qrcode-write" style = {{

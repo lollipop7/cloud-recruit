@@ -136,7 +136,8 @@
         }
     }
 }
-.evaluationModal {
+//面试评估表
+.evaluation-modal {
     position: relative;
     .qrcode-write {
         position: absolute;
@@ -158,24 +159,6 @@
             box-shadow: 0 1px 3px rgba(0,37,55,.05);
         }
     }
-    .ant-modal-header {
-        background-color: #f3f3f3;
-    }
-    .ant-modal-title {
-        font-size: 18px;
-        font-weight: bold;
-    }
-    
-    .ant-modal-close-x {
-        background: url(/static/images/resume/close.png)   no-repeat;
-        width: 30px;
-        height: 30px;
-        margin-right: 8px;
-        margin-top: 8px;
-        &:before {
-            content: "";
-        }
-    } 
     .ant-modal-body {
         padding-left: 50px;
         .title {

@@ -54,7 +54,6 @@ export default class SubscribeComponents extends Component {
                 <RadioGroup style={{display:'table'}} onChange={this.onChange} value={statusid}>
                     {
                         data.map((item,index)=>{
-                            console.log(item);
                             return (
                                 <div key={index} className="table-row">
                                     {

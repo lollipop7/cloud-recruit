@@ -101,3 +101,24 @@
     text-align: center;
     margin: 0 auto;
 }
+//改版modal
+.grey-close-header {
+    .ant-modal-header {
+        background-color: #f3f3f3;
+    }
+    .ant-modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .ant-modal-close-x {
+        background: url(/static/images/resume/close.png)   no-repeat;
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+        margin-top: 8px;
+        &:before {
+            content: "";
+        }
+    } 
+}

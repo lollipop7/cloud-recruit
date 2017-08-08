@@ -1,3 +1,113 @@
+//显示已有职位
+.job-form {
+    padding-top: 18px;
+    padding-left: 21px;
+    background-color: #FFF;
+    &>li {
+        padding-bottom: 36px;
+    }
+    span {
+        font-size: 16px;
+    }
+    .error input {
+        border: 1px solid $error-color;
+    }
+    .title {
+        background-image: url(/static/images/more.png);
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+        background-size: 11px 13px;
+        padding-left: 17px;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 18px;
+        margin-bottom: 21px;
+    }
+    .base-info,.tags,.other-info {
+        &>ul {
+            padding-left: 17px;
+        }
+    }
+    .base-info {
+        li {
+            padding-bottom: 20px;
+            &:nth-child(3) {
+                input {
+                    width: 155px;
+                }
+            }
+            &:last-child {
+                padding-bottom: 0px;
+                .inline-block>span {
+                    letter-spacing: 2em;
+                }
+                // .ant-select {
+                //     left: -32px;
+                // }
+                .inline-block:last-child {
+                    position: relative;
+                    left: -32px;
+                }
+            }
+        }
+    }
+    .inline-block {
+        margin-right: 50px;
+        &>span {
+            margin-right: 11px;
+        }
+    }
+    input {
+        width: 279px;
+        height: 40px;
+        font-size: 16px;
+        color: #868686;
+        padding-left: 13px;
+        &.wth155 {
+            width: 155px;
+        }
+    }
+    .other-info {
+        ul>li {
+            margin-bottom: 16px;
+            &>span {
+                margin-right: 11px;
+            }
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
+        label {
+            margin-right: 11px;
+            &>span:last-child {
+                padding-right: 0px;
+                padding-left: 4px;
+            }
+        }
+        .ant-radio-inner {
+            width: 18px;
+            height: 18px;
+            background-color: #ebebeb;
+            border-radius: 4px;
+            &:after {
+                border-radius: 2px;
+                width: 10px;
+                height: 10px;
+            }
+        }
+        .calendar-field {
+            margin-right: 11px;
+        }
+        .ant-calendar-picker {
+            margin-right: 49px;
+        }
+        input {
+            width: 185px;
+        }
+    }
+}
+
+//新建职位
 .back-zone {
     padding:16px 170px 16px 27px;
     background-color: #f5f5f5;
@@ -243,102 +353,34 @@
         min-height: 26px;
     }
 }
-.job-form {
-    padding-top: 18px;
-    padding-left: 21px;
-    background-color: #FFF;
-    &>li {
-        padding-bottom: 36px;
-    }
-    span {
-        font-size: 16px;
-    }
-    .error input {
-        border: 1px solid $error-color;
-    }
-    .title {
-        background-image: url(/static/images/more.png);
-        background-repeat: no-repeat;
-        background-position: 0 50%;
-        background-size: 11px 13px;
-        padding-left: 17px;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 18px;
-        margin-bottom: 21px;
-    }
-    .base-info,.tags,.other-info {
-        &>ul {
-            padding-left: 17px;
+
+//发布职位确认模态框
+.save-modal {
+    max-width: 510px;
+    
+    .ant-modal-body {
+        .tick-text {
+            font-size: 14px;
+            line-height: 24px;
+            color: #000;
         }
     }
-    .base-info {
-        li {
-            padding-bottom: 20px;
-            &:nth-child(3) {
-                input {
-                    width: 155px;
-                }
-            }
-            &:last-child {
-                padding-bottom: 0px;
-                .inline-block>span {
-                    letter-spacing: 2em;
-                }
-                // .ant-select {
-                //     left: -32px;
-                // }
-                .inline-block:last-child {
-                    position: relative;
-                    left: -32px;
-                }
-            }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        .ant-btn {
+            background-color: #c0c0c0; 
+            border-color: #c0c0c0;
+            color: #fff;
         }
-    }
-    .inline-block {
-        margin-right: 50px;
-        &>span {
-            margin-right: 11px;
+        .ant-btn-primary {
+            background-color: #108ee9; 
+            border-color: #108ee9;
         }
-    }
-    input {
-        width: 279px;
-        height: 40px;
-        font-size: 16px;
-        color: #868686;
-        padding-left: 13px;
-        &.wth155 {
-            width: 155px;
+        button+button {
+            margin-left: 16px;
         }
-    }
-    .other-info {
-        ul>li {
-            margin-bottom: 16px;
-            &>span {
-                margin-right: 11px;
-            }
-            &:last-child {
-                margin-bottom: 0px;
-            }
-        }
-        label {
-            margin-right: 11px;
-            &>span:last-child {
-                padding-right: 0px;
-                padding-left: 4px;
-            }
-        }
-        .ant-radio-inner {
-            width: 18px;
-            height: 18px;
-            background-color: #ebebeb;
-            border-radius: 4px;
-            &:after {
-                border-radius: 2px;
-                width: 10px;
-                height: 10px;
-            }
-        }
+<<<<<<< HEAD
         .calendar-field {
             margin-right: 11px;
         }
@@ -351,3 +393,7 @@
     }
        
 }   
+=======
+    }
+}
+>>>>>>> 406718e1556f4ef09b0f06151c6bdd1e3d41be71
