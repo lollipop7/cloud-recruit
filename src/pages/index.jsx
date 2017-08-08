@@ -10,9 +10,11 @@ import PieChartComponent from 'components/index/pie-chart';
 // 表格
 import TableComponent from 'components/index/table';
 //备忘日历
+
 import MemoCalendarComponent from 'components/index/memo-calendar';
 //备忘录modal
 import MemoModalComponent from 'components/index/memo-modal';
+
 
 import ScrollPageContent from 'components/scroll-page-content';
 
@@ -47,12 +49,14 @@ export default class IndexPage extends BasicPage {
                     <div className="list-block">
                         <div className="pull-left">
                             <PieChartComponent />
+                            <VideoComponent/>
                         </div>
                         <div className="pull-right">
                             <TableComponent />
                         </div>
                     </div>
                 </div>
+                <MemoModalComponent/>
             </ScrollPageContent>
         );
     }

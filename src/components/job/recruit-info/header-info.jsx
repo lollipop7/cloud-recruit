@@ -78,7 +78,7 @@ class HeaderInfoComponent extends Component {
         if(currentStage.stageid === '7') return ;
         this.props.showModal(currentStage);
     }
-    
+
     // 图片onError事件
     imgOnError = event => {
         const img = event.target;
@@ -105,7 +105,7 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {data,modalVisible} = this.props,
+        const {data,modalVisible,currentStage} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -123,7 +123,7 @@ class HeaderInfoComponent extends Component {
                 workyears, //工作年限
                 educationbg, //学历
                 channel, // 简历来源
-            } = resumeInfo;
+            } = resumeInfo;    
         return (
             <div className="header-info">
                 <div>
@@ -246,8 +246,8 @@ class HeaderInfoComponent extends Component {
                             <div className="table-cell">
                                 <span>标签 :</span>
                             </div>
-                            <div className="table-cell tags">                   
-                                <EditableTagGroup/>
+                            <div className="table-cell tags">
+                                <EditableTagGroup data={stagesMap}/> 
                             </div>
                         </div>
                         <div className="table">

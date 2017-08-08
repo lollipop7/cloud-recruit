@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 
-import {Table,Button} from 'antd';
+import {Table,Button, Icon} from 'antd';
 
 import LoadingComponent from 'components/loading';
 
 import columns from 'data/table-columns/recruit-table';
 import trim from 'lodash/trim';
+import merge from 'lodash/merge';
 
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class TableComponents extends Component { 
-
+class TableComponents extends Component {
+    
     showResumeModal = (record) => {
         // 显示详情页面Modal 
         /**
@@ -55,16 +56,23 @@ class TableComponents extends Component {
                 <div className="table-control" style={{width:200}}>
                     <span style={{fontWeight:"bold",fontSize:16,color:"black"}}>职位申请</span>  
                 </div>
-              
+
                 <Table 
                     bordered
                     loading={isLoading}
                     columns={this.getColumns()} 
                     dataSource={
                         recruitList.list.map((item,index)=>{
-                            item.key = index;
-                           
-                            return item;
+                            {/*item.key = index;
+                            return item;*/}
+                             return merge(
+                                {key:index},
+                                item,
+                                {prestatusname: 
+                                    <span className="prestatusname-manage">
+                                        申请中&nbsp;<Icon type="caret-right" />
+                                    </span>}
+                            );
                         })
                     }
                     pagination={{

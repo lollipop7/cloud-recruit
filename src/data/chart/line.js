@@ -1,6 +1,6 @@
 module.exports = {
     title: {
-        text: '简历入库情况',
+        // text: '简历入库情况',
         textStyle: {
             color: '#4d4d4d',
             fontSize: 16,
@@ -23,8 +23,8 @@ module.exports = {
         containLabel: true
     },
     legend: {
-        top: 38,
-        left: 8,
+        top: 28,
+        right: 35,
         itemWidth: 15,
         data:[{
             name: '前程无忧',

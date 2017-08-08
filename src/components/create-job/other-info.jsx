@@ -35,14 +35,20 @@ export default class OtherInfoComponent extends Component {
 
     state = {
         // workType: 1,
-        isurgent: true,
-        starttime: '',
-        endtime: ''
+        isurgent: true,//是否紧急
+        isintelligent:false,//是否智能匹配
+        starttime: '',//开始时间
+        endtime: '',//结束时间
     }
 
-    onChange=(field,e)=>{
+    onChange = (field,e) => {
         this.setState({
             [field]: e.target.value,
+        });
+    }
+    onChangeIntelligent = () => {
+        this.setState({
+            isintelligent:!this.state.isintelligent
         });
     }
 
@@ -65,7 +71,7 @@ export default class OtherInfoComponent extends Component {
     }
 
     getFormData = () => {
-        const {starttime,endtime} = this.state;
+        const { starttime , endtime , isurgent , isintelligent } = this.state;
         const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
         if(starttime === ''){
             handleStartOpen(true);
@@ -90,24 +96,7 @@ export default class OtherInfoComponent extends Component {
                     其他信息
                 </h2>
                 <ul>
-                    {/*<li>
-                        <span>工作类型</span>
-                        <RadioGroup onChange={this.onChange.bind(this,'workType')} value={workType}>
-                            <Radio value={1}>全职</Radio>
-                            <Radio value={2}>兼职</Radio>
-                            <Radio value={3}>实习</Radio>
-                        </RadioGroup>
-                    </li>
-                    <TextAreaComponent 
-                        title="工作职责"
-                        value={workDuty}
-                        onChange={this.onChange.bind(this,'workDuty')}
-                    />
-                    <TextAreaComponent 
-                        title="任职资格"
-                        value={dictate}
-                        onChange={this.onChange.bind(this,'dictate')}
-                    />*/}
+
                     <li>
                         <TimeComponent 
                             showField={true} 
@@ -125,7 +114,12 @@ export default class OtherInfoComponent extends Component {
                     </li>
                     <li>
                         <div className="inline-block">
-                            <Radio>智能筛选投递该职位的简历</Radio>
+                            <Radio 
+                                onChange={this.onChangeIntelligent} 
+                                checked={isintelligent}
+                            >
+                                智能筛选投递该职位的简历
+                            </Radio>
                             <Tooltip    overlayClassName="help-tooltip"
                                         placement="right" 
                                         title={"通过工作年限、学历、年龄智能筛选投递到该职位的简历，匹配度低的简历转入人才库被过滤的人才分类。"}>

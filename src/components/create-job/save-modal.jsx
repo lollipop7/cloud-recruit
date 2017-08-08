@@ -1,4 +1,4 @@
-import React , { Component } from "React"
+import React , { Component , PropTypes } from "React"
 import {Modal , Tabs , Input , Icon} from 'antd';
 
 //redux
@@ -7,6 +7,16 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class SaveModalComponent extends Component {
+
+    backResumeManager = ()=> {
+        this.props.hideSaveJobModal()
+        //this.context.push('job/index')
+        //返回职位管理
+        setTimeout(() => {
+            window.history.back()
+        },500)
+        
+    }
 
     render(){
        const {saveModalVisible , hideSaveJobModal} = this.props

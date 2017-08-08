@@ -131,7 +131,7 @@
         height: 330px;
         padding: 13px;
         .pie-chart {
-            height: 276px;
+            height: 276px!important;
             width: 244px;
         }
     }
@@ -139,7 +139,7 @@
     .entry-person {
         // min-height: 413px;
         width: 914px;
-        height: 426px;
+        height: 540px;
         position: relative;
         padding-bottom: 10px;
         .title {
@@ -158,6 +158,17 @@
         th,td {
             padding-left: 13px !important;
         }
+        .entry-manage{
+            display: block;
+            width: 60px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background:#96d7fa;
+            color: white;
+            border-radius: 5px;
+            font-size: 12px 
+        }
     }
     //图表tab
     .chart-tab {
@@ -171,5 +182,82 @@
             margin-right: 9px;
         }
     }
+    .Corporate-video {
+        margin-top: 16px;
+        padding: 12px 13px 10px;
+        .box-border {
+            padding-bottom: 12px;
+            border: none;
+            border-bottom: 1px solid #e7eaf1;
+            height: 28px;
+            background: url(/static/images/index/more.png) no-repeat right top
+        }
+    }
+
+    .line-title{
+        position:absolute;
+        font-size: 16px;
+        line-height: 21px;
+        font-weight: bold;
+    }
+     .pull-right .box-border canvas{
+        height: 330px !important;
+        top:40px!important
+    }
+
+    .jianli-data {
+        font-weight: bold;
+        color: red
+    }
+
+    .Calendar-title{
+        margin: 10px;
+        padding-bottom: 10px;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: bold;
+        border-bottom: 1px solid #d5d5d5
+        
+    }
+    .Calendar-title .anticon-plus-circle-o{
+          background:#118ecd!important;
+          color:white!important;
+          float:right ;
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+          font-size: 21px;
+         
+      }
+
+      
+
+}
+.memomodal .ant-modal-footer {
+    text-align: center!important; 
+}
+.memomodal .ant-modal-footer .ant-btn-lg {
+    width:100px!important;
+    height: 35px!important 
+}
+ .memotime {
+    width: 400px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+ }
+ .memotime span {
+    font-size: 14px;
+    color: black
+ }
+ .addmemo {
+    width: 400px;
+    margin: 0 auto;   
+ }
+.addmemo span {
+    display: block;
+    height: 100px;
+    float: left;
+    font-size: 14px;
+    color: black
 }
 

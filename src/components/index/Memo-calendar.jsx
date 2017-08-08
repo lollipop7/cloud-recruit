@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Calendar} from 'antd';
+import {Calendar , Icon} from 'antd';
 
 //redux
 import {bindActionCreators} from 'redux';

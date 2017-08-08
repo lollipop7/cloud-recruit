@@ -1,67 +1,33 @@
 import React, {Component} from 'react';
 
 import { Tag, Input, Tooltip, Button } from 'antd';
+import find from 'lodash/find';
 
-// redux
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from 'actions';
-
- class EditableTagGroup extends Component {
-
-  state = {
-     tags: [],
-  }
-
-  componentDidMount() {
-    const {currentStage={}} = this.props,
-       {thelable=''} = currentStage;
-    this.setState({
-       tags: thelable === ''? [] : thelable.split(',')
-    });
-  }
-
-  handleClose = (removedTag) => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
-    this.setState({ tags });
-  }
-
+export default class EditableTagGroup extends Component {
   render() {
-    // const {currentStage} = this.props,
-    //       {thelable} = currentStage,
-    //       arr = thelable?thelable.split(","):[],
-    const  tags = this.state.tags
-
+    const  tags = this.props.data;
+    const data = find(tags,item=>{
+                //iscurrentstage值为1或者0，0表示已有的标签，1表示更新之后的所有标签
+                return item.iscurrentstage === '1';
+            })
     return (
       <div>
         {   
-          tags.map((item,index)=>{
+          tags!=undefined && (data.thelable ? data.thelable.split(","):[]).map((item,index)=>{
                 const isLongTag = item.length > 20;
                 return (
                     <Tag 
                         key={item} 
-                        closeable
+                        closable
                         onClose={()=>this.onTagClose(item)}
                     >
                         {isLongTag ? `${item.slice(0, 40)}...` : item}
                     </Tag>
-                );
+                )
             })
         }
-         
+        
       </div>
     );
-  }
-}
-const mapStateToProps = state => ({
-    currentStage : state.Resume.currentStage
-})
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EditableTagGroup);
-
+  };
+};

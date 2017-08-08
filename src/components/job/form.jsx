@@ -64,9 +64,23 @@ export default class FormComponent extends Component {
             [field]: isNull(value) ? '' : moment(value).format('YYYY-MM-DD')
         });
     }
+
+     getFormData = () => {
+        const { starttime , endtime , isurgent , isintelligent } = this.state;
+        const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
+        if(starttime === ''){
+            handleStartOpen(true);
+            return false;
+        }
+        if(endtime === ''){
+            handleEndOpenChange(true);
+            return false;
+        }
+        return {...this.state}
+    }
    
     render() {
-        const {department='',position=''} = this.state;
+        const {department='',position='',starttime,endtime} = this.state;
         return (
             <div className="form" style={{
                 position: 'relative'
@@ -87,13 +101,14 @@ export default class FormComponent extends Component {
                     <TimeComponent
                         ref="TimeComponent"
                         onChange={this.onTimeChange}
-                        style={{width:'249px',marginRight:'16px'}} />
-                        <Button style={{marginRight: 10}}
-                                type="primary" 
-                                onClick={this.handleSearch}>
-                                职位筛选
-                        </Button>
-                        <Button className="grey" onClick={()=>this.resetForm(false)}>清空条件</Button>
+                        style={{width:'249px',marginRight:'16px'}} 
+                    />
+                    <Button style={{marginRight: 10}}
+                            type="primary" 
+                            onClick={this.handleSearch}>
+                            职位筛选
+                    </Button>
+                    <Button className="grey" onClick={()=>this.resetForm(false)}>清空条件</Button>
                 </div>
                 <div className="float-button">
                     <Link to="/job/newJob" onClick={()=>{NProgress.start()}}>

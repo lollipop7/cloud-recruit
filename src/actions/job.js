@@ -124,12 +124,13 @@ export const createJob = (data,context) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        message.success('新建职位成功！');
+        dispatch(SHOW_SAVEJOB_MODAL);
+        // message.success('新建职位成功！');
         dispatch(CREATE_JOB_DONE);
         // 回退页面
-        setTimeout(() => {
-            context.router.push('job/index');
-        }, 500);
+        // setTimeout(() => {
+        //     context.router.push('job/index');
+        // }, 500);
     },err=>{
         dispatch(CREATE_JOB_DONE);
     })

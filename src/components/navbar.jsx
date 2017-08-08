@@ -187,6 +187,11 @@ class NavBarComponents extends Component {
                                                 </Link>
                                             </li>
                                             <li>
+                                                <Link to="/404" onClick={this.handleClickSetting.bind(this,'/settingEmail')}>
+                                                    企业图文简介
+                                                </Link>
+                                            </li>
+                                            <li>
                                                 <Link href="javascript:;" onClick={this.logout}>
                                                     退出系统
                                                 </Link>

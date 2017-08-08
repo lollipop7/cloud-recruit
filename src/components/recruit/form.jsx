@@ -15,30 +15,29 @@ export default class FormComponents extends Component {
         positionname: '',
         livecityid: '',
         username: '',
-        workyear: '',
-        year:undefined,
+        workyear: undefined,
         time:"按申请时间升序",
         edu:undefined,
+    }
+    //监听键盘Enter键
+    componentDidMount() {
+        const _this = this
+        window.addEventListener('keydown', function(e){
+            switch(e.keyCode){
+            case 13:
+                _this.handleSearch()
+            break
+            default:
+            break
+            }
+        })
     }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.state !== nextState;
     }
 
-    handleChange = e => {
-        console.log(e.target.value);
-    }
-
-    // resetForm = (clickNav=false) => {
-    //     this.setState({
-    //         positionname: '',
-    //         livecityid: '',
-    //         username: '',
-    //         workyear: ''
-    //     });
-    //     this.props.findEvent({},clickNav);
-    // }
-
+    //筛选
     handleFind = () => {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== '';
@@ -50,10 +49,22 @@ export default class FormComponents extends Component {
             [field]: value
         });
     }
+     //候选人
+    handleChange = e => {
+        this.setState({
+            username:e.target.value
+        })  
+    }
+    //候选人搜索
+    handleSearch = () => {
+       this.handleFind()
+    }
+    //重置
     resetForm = (clickNav=false) => {
         this.setState({
             edu: undefined, // 学历要求
-            year: undefined, // 工作年限
+            workyear: undefined, // 工作年限
+            username:undefined//姓名
         });
     }
 
@@ -64,7 +75,6 @@ export default class FormComponents extends Component {
             livecityid,
             username,
             workyear,
-            year,
             edu,
             time
         } = this.state;
@@ -105,8 +115,8 @@ export default class FormComponents extends Component {
                     <Select 
                             placeholder="工作年限" 
                             style={{width: 189,marginRight:16}}
-                            value={year}
-                            onChange={(value)=>this.handleSelectChange('year',value)}
+                            value={workyear}
+                            onChange={(value)=>this.handleSelectChange('workyear',value)}
                     >
                         {
                             workyears.map((item,index)=>{
@@ -132,6 +142,7 @@ export default class FormComponents extends Component {
                     </Select>
                     <Input 
                         placeholder="候选人搜索"
+                        value ={username}
                         style={{
                             position: 'absolute',
                             right: 0,
@@ -143,7 +154,7 @@ export default class FormComponents extends Component {
                         suffix={
                             <a 
                                 href="javascript:;"
-                                onClick={this.handleClick}
+                                onClick={this.handleSearch}
                             >
                                 <img src="static/images/manager/search.png" alt="搜索"/>
                             </a>
