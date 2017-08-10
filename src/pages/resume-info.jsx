@@ -27,6 +27,7 @@ class ResumeInfoPage extends Component {
         const {location,routeParams} = this.props,
             {resumeId,logId} = routeParams;    
             if(this.isInRecruitPage(location.pathname)) {
+                debugger;
                 // 获取简历详情
                 this.props.getRecruitResumeInfo({
                     resumeId: resumeId,

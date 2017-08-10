@@ -14,7 +14,8 @@ import TableComponent from 'components/index/table';
 import MemoCalendarComponent from 'components/index/memo-calendar';
 //备忘录modal
 import MemoModalComponent from 'components/index/memo-modal';
-
+//视频
+import VideoComponent from 'components/index/video';
 
 import ScrollPageContent from 'components/scroll-page-content';
 

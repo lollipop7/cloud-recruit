@@ -17,7 +17,6 @@ const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
  const SHOW_MEMO_MODAL = {type:types.SHOW_MEMO_MODAL};
  const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
 
-
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
     AjaxByToken('UrgentTasks',{
@@ -99,3 +98,5 @@ export const showMemoModal = () => (dispatch,getState) => {
 export const hideMemoModal = () => (dispatch,getState) => {
     dispatch(HIDE_MEMO_MODAL);
 }
+
+//获取备忘录
