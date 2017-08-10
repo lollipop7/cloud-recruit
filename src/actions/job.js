@@ -65,7 +65,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
         head: {
             transcode: 'L0012'
         },
-        data: {...data,count:'20'}
+        data: {...data}
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);

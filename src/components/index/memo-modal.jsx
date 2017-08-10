@@ -10,14 +10,51 @@ import * as Actions from 'actions';
 
 class MemoModalComponent extends Component {
     
-    // getFormData = () => {
-    //     let data = {};
-    //     data = this.refs.Memo.getFormData();
-    //     if(!data){
-    //         return false;
-    //     }
-    //     return {...data}; 
-    // }
+    state = {
+        memos:'',
+        memonsdate: null,
+        errorText: false,
+        errorTime: false
+    }
+    //备忘录内容
+    addMemo = (value) => {
+        this.setState({
+           memos:value
+        })
+    }
+    //时间
+    addTime = (value) => {
+        this.setState({
+           memonsdate:value
+        })
+    }
+    //添加备忘录
+    addMemoValue = () =>{
+         const {memonsdate, memos} = this.state;
+       //没有选择时间打开弹层
+        if(!memonsdate){
+            this.setState({
+                errorTime:true
+            })
+            return false
+        }else {
+            this.setState({
+                errorTime:false
+            })
+        }
+        if(memos === ''){
+             //this.refs.textarea.focus();
+            this.setState({
+                errorText:true
+            })
+            return false
+        }else {
+            this.setState({
+                errorText:false
+            })
+        }
+        console.log({...this.state})
+    }
 
     render(){
        const {memoModalVisible} = this.props
@@ -29,9 +66,13 @@ class MemoModalComponent extends Component {
                 onCancel = {() => this.props.hideMemoModal()}
                 width = {510}
                 okText = "添加"
+                onOk = {this.addMemoValue}
             >
                 <div className="memo-body">
                     <InputComponent
+                        getTime = {this.addTime}
+                        getValue = {this.addMemo}
+                        error = {{...this.state}}
                         timePlaceholder="请填写预处理时间"
                         memoPlaceholder="将文本添加到备忘录......"
                     />

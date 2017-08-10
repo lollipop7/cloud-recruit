@@ -89,7 +89,7 @@ export default class OtherInfoComponent extends Component {
         // workDuty 工作职责
         // dicatate 工作资格
         // isUrgent 是否紧急
-        const {isurgent} = this.state;
+        const {isurgent , isintelligent} = this.state;
         return (
             <li className="other-info">
                 <h2 className="title">

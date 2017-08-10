@@ -9,8 +9,7 @@ export default class InputComponent extends Component {
     state = {
         eventtime: null,
         eventmemo: '',
-        open: false,
-        error: false
+        open: false
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -30,6 +29,7 @@ export default class InputComponent extends Component {
         this.setState({
             eventtime: date
         });
+        this.props.getTime(moment(date._d).format('YYYY-MM-DD hh:mm'))
     }
 
     setError = error => {
@@ -44,27 +44,28 @@ export default class InputComponent extends Component {
         this.setState({
             eventmemo: e.target.value
         });
+         this.props.getValue(e.target.value)
     }
 
-    getFormDate = () => {
-        const {eventtime, eventmemo} = this.state;
-        //没有选择时间打开弹层
-        if(!eventtime){
-            this.handleOpenChange(true);
-            return false;
-        }
-        if(eventmemo === ''){
-            // this.refs.Textrea.focus();
-            this.setError(true);
-            return false;
-        }
-        const formatTime = moment(eventtime).format('YYYY-MM-DD h:mm');
-        return {...{eventtime: formatTime}, eventmemo};
-    }
+    // getFormDate = () => {
+    //     const {eventtime, eventmemo} = this.state;
+    //     //没有选择时间打开弹层
+    //     if(!eventtime){
+    //         this.handleOpenChange(true);
+    //         return false;
+    //     }
+    //     if(eventmemo === ''){
+    //         // this.refs.Textrea.focus();
+    //         this.setError(true);
+    //         return false;
+    //     }
+    //     const formatTime = moment(eventtime).format('YYYY-MM-DD hh:mm');
+    //     return {...{eventtime: formatTime}, eventmemo};
+    // }
 
     render() {
-        const {timePlaceholder='', memoPlaceholder=''} = this.props;
-        const {eventtime, open, eventmemo, error} = this.state;
+        const {timePlaceholder='', memoPlaceholder='', error} = this.props;
+        const {eventtime, open, eventmemo} = this.state;
         return (
             <ul>
                 <li className="table">
@@ -76,7 +77,7 @@ export default class InputComponent extends Component {
                             showTime
                             value={eventtime}
                             className="eventtime"
-                            format='YYYY-MM-DD h:mm:ss'
+                            format='YYYY-MM-DD hh:mm:ss'
                             showToday={false}
                             disabledDate={this.disabledDate}
                             placeholder={timePlaceholder}
@@ -88,6 +89,11 @@ export default class InputComponent extends Component {
                             }}
                             onChange={this.handleDateChange}
                         />
+                        {error.errorTime && 
+                            <div className="error-promote">
+                                <label className="error">&nbsp;&nbsp;请选择预处理日期</label>
+                            </div>
+                        }
                     </div>
                 </li>
                 <li className="table"
@@ -101,7 +107,7 @@ export default class InputComponent extends Component {
                     <div className="table-cell">  
                         <Input 
                             type="textarea"
-                            className={error ? 'error' : ''}
+                            className={error.errorText ? 'error.errorText' : ''}
                             placeholder={memoPlaceholder}
                             style={{
                                 width: 263, 
@@ -112,9 +118,9 @@ export default class InputComponent extends Component {
                             value={eventmemo}
                             onChange={this.handleTextChange}
                         />
-                        {error && 
+                        {error.errorText && 
                             <div className="error-promote">
-                                <label className="error">请输入{memoplaceholder}</label>
+                                <label className="error">&nbsp;&nbsp;请输入备忘录内容</label>
                             </div>
                         }
                     </div>

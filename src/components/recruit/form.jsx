@@ -16,8 +16,9 @@ export default class FormComponents extends Component {
         livecityid: '',
         username: '',
         workyear: undefined,
-        time:"按申请时间升序",
+        time:"",
         edu:undefined,
+        range:""
     }
     //监听键盘Enter键
     componentDidMount() {
@@ -48,6 +49,42 @@ export default class FormComponents extends Component {
         this.setState({
             [field]: value
         });
+        switch(value)
+            {
+                case "按申请时间升序":
+                    this.setState({
+                        range:"1"
+                    });
+                break;
+                case "按申请时间降序":
+                    this.setState({
+                        range:"2"
+                    });
+                break;
+                case "学历由高到低":
+                    this.setState({
+                        range:"3"
+                    });
+                break;
+                case "学历由低到高":
+                    this.setState({
+                        range:"4"
+                    });
+                break;
+                case "按部门排序":
+                    this.setState({
+                        range:"5"
+                    });
+                break;
+                default:
+                    this.setState({
+                        range:"1"
+                    });
+            }
+            setTimeout(()=>{
+                this.handleFind()
+            })
+            
     }
      //候选人
     handleChange = e => {
@@ -88,7 +125,6 @@ export default class FormComponents extends Component {
                     <Select 
                         defaultValue="按申请时间升序" 
                         style={{width: 140,height:30}}
-                        value={time}
                         onChange={(value)=>this.handleSelectChange('time',value)}
                     >
                         {
@@ -96,7 +132,7 @@ export default class FormComponents extends Component {
                             "按申请时间降序",
                             "学历由高到低",
                             "学历由低到高",
-                            "按部门排序（a-z）",
+                            "按部门排序",
                             ].map((item,index)=>{
                                 return (
                                     <Option key={index} value={item}>{item}</Option>
