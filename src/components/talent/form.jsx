@@ -10,7 +10,7 @@ import pickBy from 'lodash/pickBy';
 // 学历要求
 import education from 'data/select/education';
 // 工作年限下拉数据
-import workyears from 'data/select/talent-workyears';
+import workyears from 'data/select/workyears';
 //行业下拉数据
 import industry from 'data/select/industry';
 //性别
@@ -19,18 +19,26 @@ import sex from 'data/select/industry';
 export default class FormComponent extends Component {
 
     state = {
-        // company: '', // 公司名称
-        city: '', // 居住地
         keywords: '', // 关键字
         edu: undefined, // 学历要求
         year: undefined, // 工作年限
-        source: undefined, // 简历来源
-        indry:undefined,//行业
-        duty:undefined,//职责
-        job:undefined,//职位
-        status:undefined,//状态
+        jobpostids:undefined,//行业
+        functions:"",//职位
+        jobstatus:undefined,//状态
         sex:undefined,//性别
-        classify:undefined
+    }
+    //监听键盘Enter键
+    componentDidMount() {
+        const _this = this
+        window.addEventListener('keydown', function(e){
+            switch(e.keyCode){
+            case 13:
+                _this.handleFind()
+            break
+            default:
+            break
+            }
+        })
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -39,67 +47,78 @@ export default class FormComponent extends Component {
 
     resetForm = (clickNav=false) => {
         this.setState({
-            // company: '', // 公司名称
-            city: '', // 居住地
             keywords: '', // 关键字
             edu: undefined, // 学历要求
             year: undefined, // 工作年限
-            source: undefined,// 简历来源
-            indry:undefined,//行业
-            duty:undefined,//职责
-            job:undefined,//职位
-            status:undefined,//状态
+            jobpostids:undefined,//行业
+            functions:"",//职位
+            jobstatus:undefined,//状态
             sex:undefined,//性别
-            classify:undefined
         });
         this.props.findEvent({},clickNav);
     }
-    
+    //获取候选人搜索输入框值
     handleChange = e => {
-        console.log(e.target.value);
+        this.setState({
+            keywords:e.target.value
+        })
     }
-
+    //候选人搜索
+    handleClick = () => {
+        this.handleFind()
+    }
+    //条件选项值
     handleSelectChange = (field,value) => {
         this.setState({
             [field]: value
         });
     }
-
+    //筛选按钮搜索
     handleFind = () => {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== '' && val !== undefined
         });
         this.props.findEvent(filterObj);
     }
+    //获取职位输入框值
+    handInputChange = () =>{
+        this.setState({
+            functions:this.refs.InputValue.refs.input.value
+        })
+    }
+    //排序按钮
+    timeSort = () => {
+        this.handleFind()
+    }
 
     render() {
         const {showUploadModal} = this.props,
             {
-                // company,
-                city,
                 keywords,
                 edu=undefined,
                 year=undefined,
-                source=undefined,
-                indry=undefined,
-                duty=undefined,
-                job=undefined,
-                status=undefined,
+                jobpostids=undefined,
+                functions=undefined,
+                jobstatus=undefined,
                 sex=undefined,
-                classify=undefined
             } = this.state;
         return (
             <div className="form" style={{
                 position: 'relative'
             }}>
                 <div className="form-btn" style={{top: 164, right: 100}}>
-                    <Button type="primary"
-                            onClick={()=>showUploadModal()}
-                            style={{width: 111}}>
+                    <Button 
+                        type="primary"
+                        onClick={()=>showUploadModal()}
+                        style={{width: 111}}
+                    >
                         导入人才&nbsp;
                         <i className="anticon import"></i>
                     </Button> 
-                    <Button style={{width: 140}}>
+                    <Button 
+                        style={{width: 140}}
+                        onClick={this.timeSort}
+                    >
                         按创建日期升序&nbsp;<Icon type="caret-down"/>
                     </Button>
                 </div>
@@ -135,8 +154,8 @@ export default class FormComponent extends Component {
                     <Select 
                         placeholder="行业" 
                         style={{width: 189}}
-                        value={indry}
-                        onChange={(value)=>this.handleSelectChange('indry',value)}
+                        value={jobpostids}
+                        onChange={(value)=>this.handleSelectChange('jobpostids',value)}
                     >
                         {
                             industry.map((item,index)=>{
@@ -170,15 +189,17 @@ export default class FormComponent extends Component {
                 <div className="bottom10">
                     
                     <Input 
+                            ref = "InputValue"
                             placeholder="职位" 
+                            onChange ={this.handInputChange}
                             style={{width: 189}}  
                         >
                     </Input>
                     <Select 
                             placeholder="状态" 
                             style={{width: 189}}
-                            value={status}
-                            onChange={(value)=>this.handleSelectChange('status',value)}
+                            value={jobstatus}
+                            onChange={(value)=>this.handleSelectChange('jobstatus',value)}
                         >
                             {
                                 ["在职","离职"].map((item,index)=>{

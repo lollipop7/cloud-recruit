@@ -30,6 +30,11 @@ class CreateJobPage extends Component {
 
     componentDidMount() {
         NProgress.done();
+        this._requestData()
+    }
+    //获取最近发布职位数据
+    _requestData = () => {
+        this.props.getJobList({count:"8"});
     }
 
     resetForm = () => {
@@ -57,7 +62,8 @@ class CreateJobPage extends Component {
 
     render() {
         let routesCopy = [];
-        const {routes} = this.props;
+        let currentJob = [];//最近发布的职位
+        const {routes , listData} = this.props;
         each(routes,item=>{
             routesCopy.push(pick(item,['breadcrumbName','path']));
         });
@@ -66,13 +72,17 @@ class CreateJobPage extends Component {
                 routesCopy[index].path = '/job/index';
             }
         });
+        //最近发布职位数据处理
+        listData.list.length!=0 && listData.list.length<9 && each(listData.list,item=>{
+            currentJob.push(item.positionname)
+        })  
         return (
             <div className="page-content new-job-page">
-                
+
                 <BreadCrumbComponent routes={routesCopy} />
                 <div style = {{border: '1px solid #d5d5d5'}}>
                     <div className="back-zone">
-                        <TopComponent/> 
+                        <TopComponent recentJobData={currentJob}/> 
                     </div>
                     <ul className="new-job-form">
                         <BaseInfoComponent ref="BaseInfoComponent" />
@@ -95,11 +105,13 @@ class CreateJobPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    isCanCreateJob: state.Job.isCanCreateJob
+    isCanCreateJob: state.Job.isCanCreateJob,
+    listData: state.Job.listData, // 统计列表数据
 })
 const mapDispatchToProps = dispatch => ({
     createJob: bindActionCreators(Actions.jobActions.createJob, dispatch),
-    showSaveJobModal: bindActionCreators(Actions.jobActions.showSaveJobModal, dispatch)
+    showSaveJobModal: bindActionCreators(Actions.jobActions.showSaveJobModal, dispatch),
+    getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch)
 })
 
 export default connect(

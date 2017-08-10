@@ -35,7 +35,8 @@ class RecruitPage extends BasicPage {
 
     params = {
         stageid: '0',
-        skip: 0
+        skip: 0,
+        range:"1"
     };
 
     formData = {
@@ -74,6 +75,7 @@ class RecruitPage extends BasicPage {
     //获取职位申请列表
     _requestData(){
         this.props.getRecruitList({...this.params,...this.formData});
+        console.log({...this.formData})
     }
 
      _getNavData(){

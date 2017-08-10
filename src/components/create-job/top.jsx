@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { Button, Tag } from 'antd';
 
 import hotJobData from 'data/create-job/hot-job'; 
-import recentJobData from 'data/create-job/recent-job'; 
+// import recentJobData from 'data/create-job/recent-job'; 
 
 export default class TopComponent extends Component {
     handleClick = () => {
         window.history.back(-1)
     }
-    render() {
+    render(text,record,index) {
+        const { recentJobData } = this.props
         return(
             <ul>
                 <li className="hot-job"> 

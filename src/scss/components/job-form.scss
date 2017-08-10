@@ -340,16 +340,11 @@
 //tooltip
 .help-tooltip {
     font-size: 14px;
-    .ant-tooltip-arrow {
-        // margin-top: -16px;
-        // left: -18px;
-        // border-width: 16px 26px 16px 0px;
-        // border-right-color: #ecebeb;
-    }
+    
     .ant-tooltip-inner {
-        // background-color: #ecebeb;
-        // color: #868686;
-        max-width: 666px;
+        background-color: #ecebeb;
+        color: #868686;
+        max-width: 680px;
         min-height: 26px;
     }
 }

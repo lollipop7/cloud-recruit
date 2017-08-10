@@ -23,7 +23,8 @@ class IndexPage extends Component {
     //显示条件
     params = {
         type: 'all',
-        skip: 0
+        skip: 0,
+        count:"20"
     };
 
     // 表单数据
