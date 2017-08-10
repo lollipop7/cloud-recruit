@@ -56,7 +56,7 @@ export default class InputComponents extends Component {
             return false;
         }
         if(eventaddress === '') {
-            this.refs.Input.refs.input.focus(); 
+            this.refs.Input.refs.input.focus();  
             this.setError(true);
             return false;
         }

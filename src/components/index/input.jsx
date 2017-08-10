@@ -16,7 +16,7 @@ export default class InputComponent extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
-    disableDate = current => {
+    disabledDate = current => {
         // Can not select days before today and today
         return current && current.valueOf() < Date.now();
     }
