@@ -6,7 +6,9 @@ import {
     GET_ENTRY_DONE,
     TASK_PROGRESS,
     SHOW_MEMO_MODAL,
-    HIDE_MEMO_MODAL
+    HIDE_MEMO_MODAL,
+    ADD_MEMO_EVENT,
+    GET_MEMO_CONTENT
 } from 'constants/home';
 
 const initialState = {
@@ -16,13 +18,16 @@ const initialState = {
     isEntryLoading: false,
     entryPersonList: [], //待入职人员列表
     memoModalVisible: false,
-    isMemoLoading: false
+    isMemoLoading: false,
+    MemoContent:{}
 };
 
 export default function home(state = initialState,actions){
     switch(actions.type){
         case URGENT_TASKS: 
             return {...state,urgentTasks:actions.urgentTasks};
+        case GET_MEMO_CONTENT: 
+            return {...state,MemoContent:actions.MemoContent};
         case RESUME:
             return {...state,resumeData:actions.resumeData};
         case TASK_PROGRESS:

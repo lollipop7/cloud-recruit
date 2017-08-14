@@ -292,7 +292,6 @@ export default class BaseinfoComponent extends Component {
             return false;
         }
         if(jobtype === ''){
-            workstyleradio.refs.input.focus();
             workstyleradio.triggerError(true);
             return false;
         }
@@ -345,19 +344,19 @@ export default class BaseinfoComponent extends Component {
 
     render() {
         const {
-            positionname='', // 职位名称
-            salary=undefined, // 薪资待遇
-            department='', // 用人部门
-            recruitreason='', // 招聘理由
-            headcount='', // 招聘人数
-            workcity='', // 工作地点
-            workyears=undefined, // 工作年限
-            specialty=undefined, // 专业
-            educationbackground=undefined, //学历,
-            age='',//年龄
-            jobtype="",//工作类型
-            responsibility="",//工作职责
-            qualification="",//任职资格
+            positionname=this.props.data.positionname?this.props.data.positionname:"", // 职位名称
+            salary=this.props.data.salary?this.props.data.salary:undefined, // 薪资待遇
+            department=this.props.data.department?this.props.data.department:'', // 用人部门
+            recruitreason=this.props.data.recruitreason?this.props.data.recruitreason:'', // 招聘理由
+            headcount=this.props.data.headcount?this.props.data.headcount:'', // 招聘人数
+            workcity=this.props.data.workcity?this.props.data.workcity:'', // 工作地点
+            workyears=this.props.data.workyears?this.props.data.workyears:undefined, // 工作年限
+            specialty=this.props.data.specialty?this.props.data.specialty:undefined, // 专业
+            educationbackground=this.props.data.educationbackground?this.props.data.educationbackground:undefined, //学历,
+            age=this.props.data.age?this.props.data.age:'',//年龄
+            jobtype=this.props.data.jobtype?this.props.data.jobtype:'',//工作类型
+            responsibility=this.props.data.responsibility?this.props.data.responsibility:'',//工作职责
+            qualification=this.props.data.qualification?this.props.data.qualification:'',//任职资格
             error
         } = this.state;
         return (

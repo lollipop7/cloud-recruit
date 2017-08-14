@@ -2,6 +2,7 @@ import React , { Component } from "React"
 import {Modal , Tabs , Input , Icon} from 'antd';
 
 import InputComponent from './input';
+import pickBy from 'lodash/pickBy';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -30,7 +31,7 @@ class MemoModalComponent extends Component {
     }
     //添加备忘录
     addMemoValue = () =>{
-         const {memonsdate, memos} = this.state;
+        const {memonsdate, memos} = this.state;
        //没有选择时间打开弹层
         if(!memonsdate){
             this.setState({
@@ -53,7 +54,14 @@ class MemoModalComponent extends Component {
                 errorText:false
             })
         }
-        console.log({...this.state})
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return val !== false;
+        });
+        this.props.hideMemoModal()
+        this.props.addMemoContent({...this.state})
+        this.props.getMemoContent
+       
+        
     }
 
     render(){
@@ -85,7 +93,8 @@ const mapStateToProps = state => ({
     memoModalVisible: state.Home.memoModalVisible
 })
 const mapDispatchToProps = dispatch => ({
-    hideMemoModal: bindActionCreators(Actions.homeActions.hideMemoModal, dispatch)
+    hideMemoModal: bindActionCreators(Actions.homeActions.hideMemoModal, dispatch),
+    addMemoContent: bindActionCreators(Actions.homeActions.addMemoContent, dispatch),
 })
 export default connect (
     mapStateToProps,

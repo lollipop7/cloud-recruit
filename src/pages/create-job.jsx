@@ -52,9 +52,12 @@ class CreateJobPage extends Component {
             const otherInfoData = OtherInfoComponent.getFormData();
             if(!otherInfoData) return ;
             this.props.createJob({
-                ...BaseInfoComponent.state,...OtherInfoComponent.state
+                ...BaseInfoComponent.state,
+                ...OtherInfoComponent.state,
+                ...{positionid:this.props.jobInfo.positionid}
             },this.context);
-        }    
+        }
+        this.resetForm()    
     }
     handleClick =() => {
         window.history.back()
@@ -63,7 +66,7 @@ class CreateJobPage extends Component {
     render() {
         let routesCopy = [];
         let currentJob = [];//最近发布的职位
-        const {routes , listData} = this.props;
+        const {routes , listData , getJobInfo , jobInfo} = this.props;
         each(routes,item=>{
             routesCopy.push(pick(item,['breadcrumbName','path']));
         });
@@ -74,7 +77,7 @@ class CreateJobPage extends Component {
         });
         //最近发布职位数据处理
         listData.list.length!=0 && listData.list.length<9 && each(listData.list,item=>{
-            currentJob.push(item.positionname)
+            currentJob.push({positionname:item.positionname,positioid:item.positionid})
         })  
         return (
             <div className="page-content new-job-page">
@@ -82,12 +85,21 @@ class CreateJobPage extends Component {
                 <BreadCrumbComponent routes={routesCopy} />
                 <div style = {{border: '1px solid #d5d5d5'}}>
                     <div className="back-zone">
-                        <TopComponent recentJobData={currentJob}/> 
+                        <TopComponent 
+                            recentJobData={currentJob}
+                            getJobInfo={getJobInfo}
+                        /> 
                     </div>
                     <ul className="new-job-form">
-                        <BaseInfoComponent ref="BaseInfoComponent" />
+                        <BaseInfoComponent 
+                            ref="BaseInfoComponent"
+                            data = {jobInfo} 
+                        />
                         {/*<TagsComponent />*/}
-                        <OtherInfoComponent ref="OtherInfoComponent" />
+                        <OtherInfoComponent 
+                            ref="OtherInfoComponent" 
+                            data = {jobInfo}
+                        />
                         <li className="control">
                             <ul>
                                 <li>
@@ -107,11 +119,13 @@ class CreateJobPage extends Component {
 const mapStateToProps = state => ({
     isCanCreateJob: state.Job.isCanCreateJob,
     listData: state.Job.listData, // 统计列表数据
+    jobInfo: state.Job.jobInfo
 })
 const mapDispatchToProps = dispatch => ({
     createJob: bindActionCreators(Actions.jobActions.createJob, dispatch),
     showSaveJobModal: bindActionCreators(Actions.jobActions.showSaveJobModal, dispatch),
-    getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch)
+    getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch),
+    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch)
 })
 
 export default connect(

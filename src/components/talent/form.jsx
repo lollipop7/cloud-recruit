@@ -46,8 +46,10 @@ export default class FormComponent extends Component {
     }
 
     resetForm = (clickNav=false) => {
+        this.refs.InputValue.refs.input.value ="";
+        this.refs.selectPeople.refs.input.value ="";
         this.setState({
-            keywords: '', // 关键字
+            keywords: "", // 关键字
             edu: undefined, // 学历要求
             year: undefined, // 工作年限
             jobpostids:undefined,//行业
@@ -88,7 +90,7 @@ export default class FormComponent extends Component {
     }
     //排序按钮
     timeSort = () => {
-        this.handleFind()
+        this.props.findEvent({},clickNav);
     }
 
     render() {
@@ -166,6 +168,7 @@ export default class FormComponent extends Component {
                         }
                     </Select>
                     <Input 
+                        ref = "selectPeople"
                         placeholder="候选人搜索"
                         style={{
                             position: 'absolute',

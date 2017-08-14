@@ -22,14 +22,16 @@ export default class InputComponent extends Component {
     }
 
     handleOpenChange = open => {
-        this.setState({open});
+        this.setState({
+            open:!this.state.open
+        });
     }
 
     handleDateChange = date => {
         this.setState({
             eventtime: date
         });
-        this.props.getTime(moment(date._d).format('YYYY-MM-DD hh:mm'))
+        this.props.getTime(moment(date._d).format('YYYY-MM-DD hh:mm:ss'))
     }
 
     setError = error => {
@@ -45,6 +47,13 @@ export default class InputComponent extends Component {
             eventmemo: e.target.value
         });
          this.props.getValue(e.target.value)
+    }
+     resetForm = () => {
+         alert(111)
+        // this.setState({
+        //    memos:"",
+        //    memonsdate:""
+        // })
     }
 
     // getFormDate = () => {
@@ -79,9 +88,8 @@ export default class InputComponent extends Component {
                             className="eventtime"
                             format='YYYY-MM-DD hh:mm:ss'
                             showToday={false}
-                            disabledDate={this.disabledDate}
                             placeholder={timePlaceholder}
-                            open={open}
+                            open={error.errorTime?!open:open}
                             onOpenChange={this.handleOpenChange}
                             style={{
                                 width: 263,
@@ -89,11 +97,6 @@ export default class InputComponent extends Component {
                             }}
                             onChange={this.handleDateChange}
                         />
-                        {error.errorTime && 
-                            <div className="error-promote">
-                                <label className="error">&nbsp;&nbsp;请选择预处理日期</label>
-                            </div>
-                        }
                     </div>
                 </li>
                 <li className="table"
