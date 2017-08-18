@@ -192,7 +192,12 @@ class SelectComponent extends Component {
 
 export default class BaseinfoComponent extends Component {
 
-    state = {error:false}
+    state = {
+        error:false,
+        errorJobType:false,
+        errorresponsibility:false,
+        errorqualification:false
+    }
 
     handleChange = (filed,e) => {
         if(typeof e === 'string' || typeof e === 'undefined'){
@@ -203,6 +208,20 @@ export default class BaseinfoComponent extends Component {
             this.setState({
                 [filed]: e.target.value
             });
+        }
+        switch(filed){
+            case "responsibility":
+                this.setState({
+                    errorresponsibility:false
+                });
+                break;
+            case "qualification":
+                this.setState({
+                    errorqualification:false
+                });
+                break;
+            default:
+                break;
         }
     }
 
@@ -217,7 +236,10 @@ export default class BaseinfoComponent extends Component {
             workyears: undefined,
             specialty: undefined,
             educationbackground: undefined,
-            age: '' //年龄
+            age: '', //年龄
+            jobtype:"",//工作类型
+            responsibility:"",//工作职责
+            qualification:"",//任职资格
         });
     }
 
@@ -247,7 +269,9 @@ export default class BaseinfoComponent extends Component {
             specialtySelect,
             educationbackgroundSelect,
             ageInput ,//年龄
-            workstyleradio//工作类型
+            workstyleradio,//工作类型
+            responsibilityInput,
+            qualificationInput
         } = this.refs;
         if(positionname === ''){
             positionnameInput.refs.input.focus();
@@ -292,7 +316,23 @@ export default class BaseinfoComponent extends Component {
             return false;
         }
         if(jobtype === ''){
-            workstyleradio.triggerError(true);
+            this.setState({
+                errorJobType:true
+            });
+            return false;
+        }
+        if(responsibility === ''){
+            this.setState({
+                errorresponsibility:true
+            });
+            responsibilityInput.refs.input.focus();
+            return false;
+        }
+        if(qualification === ''){
+            this.setState({
+                errorqualification:true
+            });
+            qualificationInput.refs.input.focus();
             return false;
         }
         return {...this.state}
@@ -316,7 +356,8 @@ export default class BaseinfoComponent extends Component {
 
     handleRadio = (e) => {
         this.setState({
-            value: e.target.value
+            value: e.target.value,
+            errorJobType:false
         });
          switch(e.target.value)
             {
@@ -340,23 +381,62 @@ export default class BaseinfoComponent extends Component {
                         jobtype: ""
                     });
             }
+            
+    }
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+             const {
+                positionname, // 职位名称
+                salary, // 薪资待遇
+                department, // 用人部门
+                recruitreason, // 招聘理由
+                headcount, // 招聘人数
+                workcity, // 工作地点
+                workyears, // 工作年限
+                specialty, // 专业
+                educationbackground, //学历,
+                age, //年龄
+                jobtype,//工作类型
+                responsibility,//工作职责
+                qualification,//任职资格
+            } = this.props.data;
+            this.setState({
+                positionname:positionname, // 职位名称
+                salary:salary, // 薪资待遇
+                department:department, // 用人部门
+                recruitreason:recruitreason, // 招聘理由
+                headcount:headcount, // 招聘人数
+                workcity:workcity, // 工作地点
+                workyears:workyears, // 工作年限
+                specialty:specialty, // 专业
+                educationbackground:educationbackground, //学历,
+                age:age, //年龄
+                jobtype:jobtype,//工作类型
+                responsibility:responsibility,//工作职责
+                qualification:qualification,//任职资格
+                })
+          
+        })
     }
 
     render() {
         const {
-            positionname=this.props.data.positionname?this.props.data.positionname:"", // 职位名称
-            salary=this.props.data.salary?this.props.data.salary:undefined, // 薪资待遇
-            department=this.props.data.department?this.props.data.department:'', // 用人部门
-            recruitreason=this.props.data.recruitreason?this.props.data.recruitreason:'', // 招聘理由
-            headcount=this.props.data.headcount?this.props.data.headcount:'', // 招聘人数
-            workcity=this.props.data.workcity?this.props.data.workcity:'', // 工作地点
-            workyears=this.props.data.workyears?this.props.data.workyears:undefined, // 工作年限
-            specialty=this.props.data.specialty?this.props.data.specialty:undefined, // 专业
-            educationbackground=this.props.data.educationbackground?this.props.data.educationbackground:undefined, //学历,
-            age=this.props.data.age?this.props.data.age:'',//年龄
-            jobtype=this.props.data.jobtype?this.props.data.jobtype:'',//工作类型
-            responsibility=this.props.data.responsibility?this.props.data.responsibility:'',//工作职责
-            qualification=this.props.data.qualification?this.props.data.qualification:'',//任职资格
+            positionname="", // 职位名称
+            salary=undefined, // 薪资待遇
+            department='', // 用人部门
+            recruitreason='', // 招聘理由
+            headcount='', // 招聘人数
+            workcity='', // 工作地点
+            workyears=undefined, // 工作年限
+            specialty=undefined, // 专业
+            educationbackground=undefined, //学历,
+            age='',//年龄
+            jobtype='',//工作类型
+            responsibility='',//工作职责
+            qualification='',//任职资格
+            errorJobType,
+            errorresponsibility,
+            errorqualification,
             error
         } = this.state;
         return (
@@ -484,6 +564,13 @@ export default class BaseinfoComponent extends Component {
                                 <Radio value={2}>兼职</Radio>
                                 <Radio value={3}>实习</Radio>
                             </RadioGroup>
+                            {errorJobType && 
+                            <div className="error-promote"
+                                style={{marginLeft:240}}
+                            >
+                                <label className="error">&nbsp;&nbsp;请选择工作类型</label>
+                            </div>
+                            }
                         </div>
                     </li>
                     <li>
@@ -492,7 +579,8 @@ export default class BaseinfoComponent extends Component {
                                 <span>工作职责：</span>
                             </div>
                             <div className="table-cell">
-                                <Input type="textarea" rows="3" 
+                                <Input type="textarea" rows="3"
+                                    ref = "responsibilityInput" 
                                     value={responsibility}
                                     onChange={this.handleChange.bind(this,"responsibility")}
                                     style={{
@@ -502,6 +590,11 @@ export default class BaseinfoComponent extends Component {
                                         borderRadius: 10,
                                         resize: "horizontal"
                                 }}/>
+                                {errorresponsibility && 
+                                <div className="error-promote">
+                                    <label className="error">&nbsp;&nbsp;请输入工作职责</label>
+                                </div>
+                                }
                              </div>
                         </div>
                     </li>
@@ -511,7 +604,8 @@ export default class BaseinfoComponent extends Component {
                                 <span>任职资格：</span>
                             </div>
                             <div className="table-cell">
-                                <Input type="textarea" rows="3" 
+                                <Input type="textarea" rows="3"
+                                    ref = "qualificationInput" 
                                     value={qualification}
                                     onChange={this.handleChange.bind(this,"qualification")}
                                     style={{
@@ -521,6 +615,11 @@ export default class BaseinfoComponent extends Component {
                                         borderRadius: 10,
                                         resize: "horizontal"
                                 }}/>
+                                {errorqualification && 
+                                <div className="error-promote">
+                                    <label className="error">&nbsp;&nbsp;请输入任职资格</label>
+                                </div>
+                                }
                             </div>
                         </div>
                     </li>

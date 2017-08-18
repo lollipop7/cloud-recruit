@@ -59,9 +59,9 @@ class MemoModalComponent extends Component {
         });
         this.props.hideMemoModal()
         this.props.addMemoContent({...this.state})
-        this.props.getMemoContent
-       
-        
+        setTimeout(()=>{
+             this.props.getMemoContent() 
+        },500)  
     }
 
     render(){

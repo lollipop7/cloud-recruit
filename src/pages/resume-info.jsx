@@ -24,10 +24,9 @@ class ResumeInfoPage extends Component {
     }
 
     componentDidMount() {
-        const {location,routeParams} = this.props,
-            {resumeId,logId} = routeParams;    
+        const { location , routeParams } = this.props,
+              { resumeId , logId } = routeParams;    
             if(this.isInRecruitPage(location.pathname)) {
-                debugger;
                 // 获取简历详情
                 this.props.getRecruitResumeInfo({
                     resumeId: resumeId,
@@ -63,7 +62,7 @@ class ResumeInfoPage extends Component {
             {isLoading,data,location} = this.props;
         const isTalent = this.isInTalentPage(location.pathname),
             isRecruit = this.isInRecruitPage(location.pathname);
-        const {resumeid,currentPId,resumeInfo={}} = data;
+        const {resumeid,currentPId,resumeInfo={},evaluationId} = data;
         const {username,email} = resumeInfo;
         return (
             <div className="resume-info-container" style={{
@@ -131,7 +130,12 @@ class ResumeInfoPage extends Component {
                             {/*简历分享Modal*/}
                             <ShareModalComponents/>
                             {/*面试评估表*/}
-                            <EvaluationModalComponents/>
+                            <EvaluationModalComponents 
+                                resumeid={resumeid}
+                                jobid = {currentPId}
+                                data = {data}
+                                evaluationId={evaluationId}
+                            />
                         </div>
                 }
             </div>

@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {Modal,Input,Radio,Button,Table} from 'antd';
 const RadioGroup = Radio.Group;
 
+import pickBy from 'lodash/pickBy';
+
 import radioData from 'data/evaluation-radio.json';
 import navData from 'data/nav/evaluation.json';
 import columns from 'data/table-columns/evaluate-table';
@@ -14,25 +16,21 @@ import * as Actions from 'actions';
 
 class EvaluationModalComponents extends Component {
     state = {
-        data: [],
-        isShowQrcode: false
+        isShowQrcode: false,
+        errorinterviewer:false,
+        errorintername:false,
+        professional:"",//专业技能
+        workexperience:"",//业务能力
+        eduandtrain:"",//沟通能力
+        communication:"",//语言能力
+        initiative:"",//学习能力
+        grooming:"",//仪容仪表
+        attitude:"",//态度
+        intername:"",//候选人
+        interviewer:"",//面试官
+        comments:"",//评语
+        id :""//评估表ID
     }
-
-    componentDidMount(){
-        const data = [];
-        for(let i=0;i<navData.length;i++){
-            data.push({
-                applicantstatus: navData[i].title,
-                worse: <Radio/>,
-                normal: <Radio/>,
-                quitesatisfy: <Radio/>,
-                good: <Radio/>,
-                great: <Radio/>
-            });
-        }
-        this.setState({data});
-    }
-
     hideQrcodeShare = () => {
         this.setState({
             isShowQrcode: false
@@ -44,10 +42,110 @@ class EvaluationModalComponents extends Component {
             isShowQrcode: true
         });
     }
-
+    //应聘者情况   
+    onChange = (value,e) => {
+        this.setState({
+            [value]: e.target.value,
+        })
+    }
+    //候选人、面试主管
+    changeInput = (input,error,e) => {
+        this.setState({
+            [input]:e.target.value,
+            [error]:false
+        })
+    }
+    //评语内容
+    changeComments = (comments,e) => {
+           this.setState({
+            [comments]:e.target.value,
+        }) 
+    }
+    //重置表单
+    resetForm = () => {
+        this.setState({
+            professional:"",//专业技能
+            workexperience:"",//业务能力
+            eduandtrain:"",//沟通能力
+            communication:"",//语言能力
+            initiative:"",//学习能力
+            grooming:"",//仪容仪表
+            attitude:"",//态度
+            intername:"",//候选人
+            interviewer:"",//面试官
+            comments:"",//评语
+        })
+    }
+    //添加评估
+    addEvaluation = ()=>{
+        //判断候选人、面试官是否为空
+        if(this.state.intername==""){
+            this.setState({
+                errorintername:true
+            })
+            this.refs.intername.focus()
+            return false
+        }
+        if(this.state.interviewer==""){
+            this.setState({
+                errorinterviewer:true
+            })
+            this.refs.interviewer.focus()
+            return false
+        }
+        //筛选
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return val != "";
+        });
+        //重置
+        this.resetForm()
+        //隐藏
+        this.props.hideEvaluationModal()
+        //添加面试评估
+        this.props.addEvaluation({...filterObj,resumeid:this.props.resumeid,jobid:this.props.jobid},this.props)
+    }
+    //评估表内容赋值
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+            const evaluationId = this.props.evaluationId
+            const {intername,interviewer,comments,
+                    professional,//专业技能
+                    workexperience,//业务能力
+                    eduandtrain,//沟通能力
+                    communication,//语言能力
+                    initiative,//学习能力
+                    grooming,//仪容仪表
+                    attitude,//态度
+                } = this.props.evaluation
+           
+            if (this.props.evaluation.id){
+                this.setState({
+                    intername:intername,
+                    interviewer:interviewer,
+                    comments:comments,
+                    id :`${evaluationId}`,
+                    professional:professional,
+                    workexperience:workexperience,
+                    eduandtrain:eduandtrain,
+                    communication:communication,
+                    initiative:initiative,
+                    grooming:grooming,
+                    attitude:attitude
+                })
+            }
+        })
+    }
+   
     render(){
-        const {evaluationModalVisible,isLoading} = this.props,
-        {data} = this.state;
+         const options = [
+                { value: '较差' },
+                { value: '一般' },
+                { value: '基本满意'},
+                { value: '较好' },
+                { value: '优秀' }
+            ],
+            { evaluationModalVisible , isLoading ,evaluation } = this.props,
+            { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
         return(
             <Modal
                 title = "面试评估表"
@@ -55,7 +153,8 @@ class EvaluationModalComponents extends Component {
                 visible = {evaluationModalVisible}
                 className = "evaluation-modal grey-close-header"
                 onCancel={isLoading ? ()=>{} : this.props.hideEvaluationModal}
-                >
+                onOk = {this.addEvaluation}
+            >
                 <div className="qrcode-write" style = {{
                     right: this.state.isShowQrcode ? '-156px' : '',
                     display: this.state.isShowQrcode ? "block" : 'none'
@@ -69,13 +168,31 @@ class EvaluationModalComponents extends Component {
                         <span className="title">候选人姓名:</span>
                     </div>
                     <div className="table-cell">
-                        <Input/>
+                        <Input 
+                            ref = "intername"
+                            value={intername} 
+                            onChange={this.changeInput.bind(this,'intername',"errorintername")}
+                        />
+                        {errorintername && 
+                            <div className="error-promote">
+                                <label className="error">&nbsp;&nbsp;请输入候选人姓名</label>
+                            </div>
+                        }
                     </div>
                     <div className="table-cell">
                         <span className="title">面试主管:</span>
                     </div>
                     <div className="table-cell">
-                        <Input/>
+                        <Input 
+                            ref = "interviewer"
+                            value={interviewer} 
+                            onChange={this.changeInput.bind(this,'interviewer',"errorinterviewer")}
+                        />
+                        {errorinterviewer && 
+                            <div className="error-promote">
+                                <label className="error">&nbsp;&nbsp;请输入面试主管</label>
+                            </div>
+                        }
                     </div>
                     <div className="table-cell">
                         <span className="title">邀请他人填写</span>
@@ -93,17 +210,58 @@ class EvaluationModalComponents extends Component {
                          </Button>
                     </div>                    
                 </div>
-                <Table 
-                    columns={columns}
-                    loading={isLoading}
-                    pagination={false}
-                    dataSource={
-                        data.map((item,index)=>{
-                           item.key = index;
-                           return item;
-                        })
-                    }
-                />
+                 <div className='eva_div' style={{height:300}}>
+                        <ul className="eva-ul">
+                            <li>应聘者情况：</li>
+                            <li>较差</li>
+                            <li>一般</li>
+                            <li style={{marginRight:80}}>基本满意</li>
+                            <li>较好</li>
+                            <li>优秀</li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li >专业技能：</li>
+                            <li className="li-radio" >
+                                <RadioGroup  options={options} onChange={this.onChange.bind(this,'professional')} value={this.state.professional} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li >业务能力：</li>
+                            <li className="li-radio"  >
+                                <RadioGroup options={options} onChange={this.onChange.bind(this,'workexperience')} value={this.state.workexperience} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li >沟通能力：</li>
+                            <li className="li-radio" >
+                               <RadioGroup options={options} onChange={this.onChange.bind(this,'eduandtrain')} value={this.state.eduandtrain} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li>语言能力：</li>
+                            <li className="li-radio" >
+                                <RadioGroup options={options} onChange={this.onChange.bind(this,'communication')} value={this.state.communication} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li>学习能力：</li>
+                            <li className="li-radio" >
+                                <RadioGroup options={options} onChange={this.onChange.bind(this,'initiative')} value={this.state.initiative} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li>仪容仪表：</li>
+                            <li className="li-radio" >
+                                <RadioGroup options={options} onChange={this.onChange.bind(this,'grooming')} value={this.state.grooming} />
+                            </li>
+                        </ul>
+                        <ul className="eva-jn">
+                            <li style={{marginLeft:33}}>态度：</li>
+                            <li className="li-radio" >
+                                <RadioGroup options={options} onChange={this.onChange.bind(this,'attitude')} value={this.state.attitude} />
+                            </li>
+                        </ul>
+                    </div>
                 <div className="table" style={{marginTop: 40}}>
                     <div className="table-cell" style={{verticalAlign: "top"}}>
                         <span className="title">
@@ -112,11 +270,14 @@ class EvaluationModalComponents extends Component {
                     </div>
                     <div className="table-cell">
                         <Input type="textarea" rows="3" 
+                                value={comments} 
+                                onChange={this.changeComments.bind(this,'comments')}
                             style={{
-                                width: 682,
+                                width: 660,
                                 height: 130,
                                 resize: "none"
-                            }}/>
+                            }}
+                        />
                     </div>
                 </div>
             </Modal>
@@ -127,9 +288,13 @@ class EvaluationModalComponents extends Component {
 const mapStateToProps = state => ({
     evaluationModalVisible: state.Resume.evaluationModalVisible,
     isLoading: state.Resume.isModalLoading,
+    evaluation : state.Resume.evaluation
 })
 const mapDispatchToProps = dispatch => ({
-    hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch)
+    hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch),
+    addEvaluation: bindActionCreators(Actions.ResumeActions.addEvaluation, dispatch),
+    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
+    getEvaluationId: bindActionCreators(Actions.ResumeActions.getEvaluationId, dispatch)
 })
 
 export default connect(

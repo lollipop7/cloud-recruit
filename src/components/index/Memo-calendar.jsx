@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Calendar , Icon} from 'antd';
 import moment from 'moment';
+moment.locale('zh-cn');
 import each from 'lodash/each';
 
 //redux
@@ -18,12 +19,14 @@ class MemoCalendarComponent extends Component {
     onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
-
+    onSelect = () => {
+        alert(22)
+    }
     render(){
         let memos = []
         const {MemoContent} = this.props
-        const data = moment().format('YYYY-MM-DD')
-        MemoContent[data] && each(MemoContent[data],item=>{
+        const date = moment().format('YYYY-MM-DD')
+        MemoContent[date] && each(MemoContent[date],item=>{
             memos.push(item.memos)
         }) 
         return(
@@ -32,7 +35,7 @@ class MemoCalendarComponent extends Component {
                     备忘日历
                 </div>
                 <div className="memo-body">
-                    {/*<span>今日事项：</span>*/}
+                    <span>今日事项：</span>
                     <p>
                     {
                         memos.map((item,index)=>{
@@ -40,9 +43,12 @@ class MemoCalendarComponent extends Component {
                         })
                     }
                     </p>
-                    <div className="calendar-wrap">
-                        <Calendar fullscreen={false}
-                        onPanelChange={this.onPanelChange}/>
+                    <div className="calendar-wrap" style={{width:230,height:230}}>
+                        <Calendar 
+                            fullscreen={false}
+                            onPanelChange={this.onPanelChange}
+                            onSelect = {this.onSelect}
+                        />
                     </div>
                 </div>
             </div>

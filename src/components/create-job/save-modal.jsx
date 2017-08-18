@@ -14,8 +14,11 @@ class SaveModalComponent extends Component {
         //返回职位管理
         setTimeout(() => {
             window.history.back()
-        },500)
-        
+        },500)   
+    }
+    
+    handleModal = ()=> {
+        this.props.hideSaveJobModal()
     }
 
     render(){
@@ -26,9 +29,10 @@ class SaveModalComponent extends Component {
                 visible = {saveModalVisible}
                 className = "save-modal grey-close-header"
                 closable = {true}
-                okText = "保存"
+                okText = "确定"
                 cancelText = "返回职位管理"
                 onCancel = {this.backResumeManager}
+                onOk = {this.handleModal}
                 style = {{width:800,height:600}}
             >
                 <div className="tick-text" style={{textAlign: "center"}}>

@@ -24,14 +24,31 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
  class IndexPage extends BasicPage {
-
+    state = {
+        MemoContent:{}
+    }
     componentDidMount() {
         this.hideNProgress();
         this.props.getMemoContent()
     }
+    // shouldComponentUpdate(){
+    //     this.setState({
+    //         MemoContent:this.props.MemoContent
+    //     })
+        
+    // }
+    // componentWillUpdate(){
+        
+    // }
+    getContent = ()=>{
+        setTimeout(()=>{
+            this.props.getMemoContent()
+        });
+        
+    }
     
     render() {
-        const {MemoContent ,getMemoContent} = this.props
+        const {MemoContent, getMemoContent} = this.props
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">
@@ -48,13 +65,12 @@ import * as Actions from 'actions';
                                 <div className="pull-right" style={{background: "#fff"}}>
                                     <MemoCalendarComponent 
                                         MemoContent={MemoContent}
-                                        getMemoContent={getMemoContent()}
                                     />
                                 </div>
                             </div>
                         </div>
                         {/*添加备忘录modal*/}
-                        <MemoModalComponent/>
+                        <MemoModalComponent getMemoContent={this.getContent}/>
                     </div>
                     <div className="list-block">
                         <div className="pull-left">

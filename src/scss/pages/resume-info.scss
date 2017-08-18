@@ -230,6 +230,47 @@
             font-size: 16px;
             color: #868686;
         }
+
+        .eva_div .eva-ul{
+            width: 100%;
+            height: 30px;
+            margin-left: 30px;
+        }
+        .eva_div .eva-ul li {
+            float: left;
+            margin-right:90px;
+            font-weight: bold;
+           
+        }
+        .eva_div .eva-jn {
+            overflow: hidden;
+            width: 100%;
+            margin: 20px 0;
+           margin-left: 30px;
+        }
+       
+        .eva_div .eva-jn li:nth-child(1){  
+            float: left;
+            margin-right:70px;
+             margin-left: 10px
+        }
+        .eva_div .eva-jn li:nth-child(2){  
+            float: right;
+            //margin-right:70px 
+        }
+        .eva_div .eva-jn li::nth-child(1){
+            text-align: right
+        }
+        .eva_div .eva-jn .li-radio{
+            width: 600px
+        }
+         .eva_div .eva-jn .li-radio .ant-radio-group{
+             width: 600px
+         }
+         .eva_div .eva-jn .li-radio .ant-radio-group .ant-radio-wrapper {
+            margin-right:100px
+         }
+        
     }
     .ant-modal-footer {
         border-top: none;

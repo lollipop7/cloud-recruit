@@ -16,11 +16,17 @@
     }
     .memo-body {
         p {
-            padding: 16px 0 32px;
+            padding: 5px 0 15px;
         }
         .ant-fullcalendar-header {
             padding: 0;
-            text-align: normal;
+            text-align: center;
+        }
+        .calendar-wrap>div{
+            height: 232px
+        }
+        .ant-fullcalendar,.ant-fullcalendar-full,.ant-fullcalendar-table{ 
+            height: 210px
         }
         .ant-select-sm .ant-select-selection--single {
             height: 18px !important;
