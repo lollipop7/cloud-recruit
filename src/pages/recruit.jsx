@@ -75,7 +75,7 @@ class RecruitPage extends BasicPage {
     //获取职位申请列表
     _requestData(){
         this.props.getRecruitList({...this.params,...this.formData});
-        //console.log({...this.formData})
+        // console.log({...this.formData})
     }
 
      _getNavData(){

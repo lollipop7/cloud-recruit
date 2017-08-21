@@ -32,6 +32,8 @@ class LineChartComponent extends Component {
             isLoading: true
         });
         this.props.resumeWareHousing();
+        this.props.resumeAccount();
+        
         // 实例化图表
         this.chartInstance = echarts.init(this.refs.echarts);
         // 使用刚指定的配置项和数据显示图表。
@@ -43,7 +45,7 @@ class LineChartComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {data} = nextProps;
+        const {data,resumeCount} = nextProps;
         const {pieSourceList,content} = data;
         if(content !== this.props.data.content && nextState.isLoading) {
             this.setState({
@@ -133,6 +135,8 @@ class LineChartComponent extends Component {
 
     render() {
         const {isLoading,activeTab,isEmpty} = this.state;
+        const {resumeCount} = this.props;
+        const {resumeAll,resumeMonth,resumeYear} = resumeCount;
         return (
             <div style={{
                 position: 'relative',
@@ -187,10 +191,10 @@ class LineChartComponent extends Component {
                         left:16
                     }}
                 >
-                    <p>截至今日（{moment(new Date().getTime()).format('MM月DD日')}）</p>
-                    <span>共入库：<span className="jianli-data">20532份</span></span>，
-                    <span>本年：<span className="jianli-data">1068份</span></span>，
-                    <span>本月：<span className="jianli-data">1032份</span></span>
+                    <p>截至今日（{moment(Date.now()).format('MM月DD日')}）</p>
+                    <span>共入库：<span className="jianli-data">{resumeAll}份</span></span>，
+                    <span>本年：<span className="jianli-data">{resumeYear}份</span></span>，
+                    <span>本月：<span className="jianli-data">{resumeMonth}份</span></span>
                 </div>
                 <div ref="echarts" className="box-border" style={{
                     width: 629,
@@ -203,10 +207,12 @@ class LineChartComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    data: state.Home.resumeData
+    data: state.Home.resumeData,
+    resumeCount: state.Home.resumeCount
 })
 const mapDispatchToProps = dispatch => ({
     resumeWareHousing: bindActionCreators(Actions.homeActions.resumeWareHousing, dispatch),
+    resumeAccount: bindActionCreators(Actions.homeActions.resumeAccount, dispatch),
 })
 
 export default connect(

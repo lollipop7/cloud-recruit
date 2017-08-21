@@ -128,7 +128,7 @@ class ResumeInfoPage extends Component {
                             </div>
                             <ModalComponents />
                             {/*简历分享Modal*/}
-                            <ShareModalComponents/>
+                            <ShareModalComponents {...this.props}/>
                             {/*面试评估表*/}
                             <EvaluationModalComponents 
                                 resumeid={resumeid}

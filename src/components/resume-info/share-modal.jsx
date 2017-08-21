@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 
-import {Modal,Tabs,Input} from 'antd';
+import {Modal,Tabs,Input,Button} from 'antd';
 const TabPane = Tabs.TabPane;
+
+import QRCode from 'qrcode.react';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -11,7 +13,13 @@ import * as Actions from 'actions';
 class ShareModalComponents extends Component {
 
     handlePressEnter = (event) => {
-        console.log(event.target .value);
+        console.log(event.target.value);
+    }
+
+    handleClick = () => {
+        const copyLink = this.refs.CopyLink.refs.input.value;
+        console.log(this.props);
+        const {logId,resumeId}=this.props.params;
     }
 
     render(){
@@ -35,6 +43,7 @@ class ShareModalComponents extends Component {
                 educationbg, //学历
                 channel, // 简历来源
             } = resumeInfo;
+            const qrcodeLink = 'https://github.com/ReactTraining/react-router';
         return(
             <Modal
                 width = {784}
@@ -54,8 +63,14 @@ class ShareModalComponents extends Component {
                             将链接通过QQ、微信等渠道分享给对方，对方即可查看该简历信息
                         </div>
                         <div className="inputGroup">
-                            <Input addonAfter={'复制链接'}
-                                   onPressEnter={this.handlePressEnter}
+                            <Input  onPressEnter={this.handlePressEnter}
+                                    ref='CopyLink'
+                                    value={qrcodeLink}
+                                    addonAfter={<Button value='复制链接'
+                                                       className="copy-link"
+                                                       type="primary"
+                                                       onClick={this.handleClick}
+                                              >复制链接</Button>}
                             />
                         </div>
                         <p className="content">
@@ -69,7 +84,7 @@ class ShareModalComponents extends Component {
                                     width: 165,
                                     height: 165
                                 }}>
-                                <img src="./static/images/resume/qrcode.png" alt="二维码"/>
+                                <QRCode value={qrcodeLink}/>
                             </div>
                             <div className="qrcode-info pull-left">
                                 <p className="title">
