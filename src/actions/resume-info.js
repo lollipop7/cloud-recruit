@@ -5,6 +5,8 @@ import axios from 'axios';
 import store from 'store';
 import FileSaver from 'file-saver';
 
+import { message } from 'antd';
+
 import {AjaxByToken} from 'utils/ajax';
 
 // 招聘人员详细信息
@@ -33,6 +35,12 @@ const HIDE_SHARE_MODAL = {type:types.HIDE_SHARE_MODAL};
 //面试评估表
 const SHOW_INTERVIEW_EVALUATION_MODAL = {type:types.SHOW_INTERVIEW_EVALUATION_MODAL};
 const HIDE_INTERVIEW_EVALUATION_MODAL = {type:types.HIDE_INTERVIEW_EVALUATION_MODAL};
+
+//添加面试评估
+const GET_EVALUATION = {type:types.GET_EVALUATION}
+
+//添加面试评估ID
+const GET_EVALUATION_ID = {type:types.GET_EVALUATION_ID}
 
 // 得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
@@ -134,6 +142,60 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
         window.parent.postMessage('rerequest','*');
     },err=>{
         dispatch(HIDE_MODAL_LOADING);
+    });
+}
+
+//添加面试评估
+export const addEvaluation = (data,props) => (dispatch,getState) => {
+    AjaxByToken('evaluationEdit',{
+        head: {
+            transcode: 'L0063'
+        },
+        data: data
+    })
+    .then(res=>{
+        const {getEvaluationId,jobid,resumeid} = props;
+        getEvaluationId({
+            positionid: jobid,
+            resumeid: resumeid,
+        });
+        message.success('添加评估表成功！');
+    },err=>{
+        message.error('添加评估表失败！');
+    });
+}
+
+//获取评估表内容
+export const getEvaluation = (data) => (dispatch,getState) => {
+    AjaxByToken('employeeinfo/getResumeEvaluationById',{
+        head: {
+            transcode: 'L0066'
+        },
+        data: data,
+         header: {
+            contentType: 'application/json;charset=utf-8'
+        },
+    })
+    .then(res=>{
+        dispatch({...GET_EVALUATION,evaluation:res.evaluation})
+    },err=>{
+        message.error('获取评估表失败！');
+    });
+}
+
+//获取面试评估表id
+export const getEvaluationId = (data) => (dispatch,getState) => {
+    AjaxByToken('getInterviewForm',{
+        head: {
+            transcode: 'L0070'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
+    },err=>{
+        message.error('获取失败！');
     });
 }
 

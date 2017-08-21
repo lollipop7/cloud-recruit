@@ -18,14 +18,37 @@ import MemoModalComponent from 'components/index/memo-modal';
 import VideoComponent from 'components/index/video';
 
 import ScrollPageContent from 'components/scroll-page-content';
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
 
-export default class IndexPage extends BasicPage {
-
+ class IndexPage extends BasicPage {
+    state = {
+        MemoContent:{}
+    }
     componentDidMount() {
         this.hideNProgress();
+        this.props.getMemoContent()
+    }
+    // shouldComponentUpdate(){
+    //     this.setState({
+    //         MemoContent:this.props.MemoContent
+    //     })
+        
+    // }
+    // componentWillUpdate(){
+        
+    // }
+    getContent = ()=>{
+        setTimeout(()=>{
+            this.props.getMemoContent()
+        });
+        
     }
     
     render() {
+        const {MemoContent, getMemoContent} = this.props
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">
@@ -40,12 +63,14 @@ export default class IndexPage extends BasicPage {
                                     <LineChartComponent/>
                                 </div>
                                 <div className="pull-right" style={{background: "#fff"}}>
-                                    <MemoCalendarComponent/>
+                                    <MemoCalendarComponent 
+                                        MemoContent={MemoContent}
+                                    />
                                 </div>
                             </div>
                         </div>
                         {/*添加备忘录modal*/}
-                        <MemoModalComponent/>
+                        <MemoModalComponent getMemoContent={this.getContent}/>
                     </div>
                     <div className="list-block">
                         <div className="pull-left">
@@ -57,8 +82,18 @@ export default class IndexPage extends BasicPage {
                         </div>
                     </div>
                 </div>
-                <MemoModalComponent/>
             </ScrollPageContent>
         );
     }
 }
+const mapStateToProps = state => ({
+    MemoContent:state.Home.MemoContent
+})
+const mapDispatchToProps = dispatch => ({
+    getMemoContent: bindActionCreators(Actions.homeActions.getMemoContent, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(IndexPage);

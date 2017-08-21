@@ -17,3 +17,7 @@ export const GET_ENTRY_LIST = "ENTRY_PERSON";
 //添加备忘录modal
 export const SHOW_MEMO_MODAL = "SHOW_MEMO_MODAL";
 export const HIDE_MEMO_MODAL = "HIDE_MEMO_MODAL";
+//添加备忘录内容
+export const ADD_MEMO_EVENT = "ADD_MEMO_EVENT";
+//获取备忘录内容
+export const GET_MEMO_CONTENT = "GET_MEMO_CONTENT"

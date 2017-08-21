@@ -29,3 +29,9 @@ export const HIDE_INTERVIEW_EVALUATION_MODAL = "HIDE_INTERVIEW_EVALUATION_MODAL"
 
 //获取标签
 export const GET_TAGS = "GET_TAGS";
+
+//添加面试评估
+export const GET_EVALUATION = "GET_EVALUATION"
+
+//添加面试评估ID
+export const GET_EVALUATION_ID = "GET_EVALUATION_ID"

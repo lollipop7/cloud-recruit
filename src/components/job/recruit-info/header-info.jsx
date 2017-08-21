@@ -101,11 +101,17 @@ class HeaderInfoComponent extends Component {
     }
 
     handleEvaluate = () => {
+        const { evaluationId } = this.props.data
+        //显示评估表
         this.props.showEvaluationModal();
+        //获取评估表内容
+        if (evaluationId){
+            this.props.getEvaluation({evaluationId:`${evaluationId}`})
+        }   
     }
 
     render() {
-        const {data,modalVisible,currentStage} = this.props,
+        const {data,modalVisible,currentStage,evaluation ,evaluationid=""} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -113,7 +119,8 @@ class HeaderInfoComponent extends Component {
                 currentPName='', // 申请职位名称
                 currentPworkcity='', // 申请区域
                 positions=[], // 当前简历同时申请的
-                stagesMap // 流程状态列表
+                stagesMap, // 流程状态列表
+                evaluationId//评估表ID
             } = data,
             {
                 headimg, // 头像
@@ -259,18 +266,19 @@ class HeaderInfoComponent extends Component {
                                     style={{
                                         width: 102, 
                                         borderColor: '#b6b6b6',
-                                        color: '#b6b6b6'
+                                        fontWeight:'bold',
+                                        color:evaluationId?"#28ad78":'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
                                 >   
                                         <img className="as"
                                         style={{
                                             width: 16,
-                                            height: 22
+                                            height: 22,
                                         }}
-                                        src="./static/images/resume/as.png" a
+                                        src={evaluationId?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} a
                                         lt="面试评估表"/>
-                                    点此添加
+                                    {evaluationId?"已添加":'点此添加'}
                                 </Button>
                             </div>
                         </div>
@@ -284,14 +292,16 @@ class HeaderInfoComponent extends Component {
 
 const mapStateToProps = state => ({
     isDownLoading: state.Resume.isDownLoading,
-    currentStage : state.Resume.currentStage
+    currentStage : state.Resume.currentStage,
+    evaluationid: state.Resume.evaluationid
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
     getStageLog: bindActionCreators(Actions.ResumeActions.getStageLog, dispatch),
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch),
     showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch),
-    showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch)
+    showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch),
+    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch)
 })
 
 export default connect(

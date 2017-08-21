@@ -5,11 +5,19 @@ import { Button, Tag } from 'antd';
 import hotJobData from 'data/create-job/hot-job'; 
 // import recentJobData from 'data/create-job/recent-job'; 
 
-export default class TopComponent extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+ export default class TopComponent extends Component {
     handleClick = () => {
         window.history.back(-1)
     }
-    render(text,record,index) {
+    tagClick = (positionid) => {
+       this.props.getJobInfo({positionid})    
+    }
+    render() {
         const { recentJobData } = this.props
         return(
             <ul>
@@ -39,8 +47,10 @@ export default class TopComponent extends Component {
                             return (
                                 <Tag
                                     key = {index}
-                                    closable>
-                                    {isLongTag ? `${item.slice(0,20)}...` : item}
+                                    closable
+                                    onClick={this.tagClick.bind(this,item.positioid)}
+                                >
+                                    {isLongTag ? `${item.positionname.slice(0,20)}...` : item.positionname}
                                 </Tag>
                             )
                         })

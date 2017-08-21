@@ -1,5 +1,6 @@
 import * as types from 'constants/home';
 import {AjaxByToken} from 'utils/ajax';
+import { message } from "antd"
 import store from 'store';
 import notification from 'antd';
 
@@ -17,8 +18,12 @@ const GET_ENTRY_DONE = {type:types.GET_ENTRY_DONE};
 const GET_ENTRY_LIST = {type:types.GET_ENTRY_LIST};
 
 //添加备忘录MODAL
- const SHOW_MEMO_MODAL = {type:types.SHOW_MEMO_MODAL};
- const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
+const SHOW_MEMO_MODAL = {type:types.SHOW_MEMO_MODAL};
+const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
+//添加备忘录内容
+const ADD_MEMO_EVENT = {type:types.ADD_MEMO_EVENT};
+//获取备忘录内容
+const GET_MEMO_CONTENT = { type:types.GET_MEMO_CONTENT}
 
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
@@ -32,6 +37,37 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
         dispatch({...URGENT_TASKS,urgentTasks:res.list});
     },err=>{
         dispatch({...URGENT_TASKS,urgentTasks:[]});
+    });
+}
+
+//添加备忘录内容
+export const addMemoContent = (data={}) => (dispatch,getState) => {
+    AjaxByToken('employeeinfo/memosEdit',{
+        head: {
+            transcode: 'L0067'
+        },
+        data: data
+    })
+    .then(res=>{
+        message.success('添加备忘录成功',2);
+    },err=>{
+        message.error('添加备忘录失败');
+    });
+}
+//获取备忘录内容
+export const getMemoContent = (data={}) => (dispatch,getState) => {
+    AjaxByToken('employeeinfo/memosList',{
+        head: {
+            transcode: 'L0068'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        dispatch({...GET_MEMO_CONTENT,MemoContent:res.result});
+    },err=>{
+        message.error('获取备忘录失败');
+        dispatch({...GET_MEMO_CONTENT,MemoContent:[]});
     });
 }
 

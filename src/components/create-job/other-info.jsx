@@ -37,8 +37,8 @@ export default class OtherInfoComponent extends Component {
         // workType: 1,
         isurgent: true,//是否紧急
         isintelligent:false,//是否智能匹配
-        starttime: '',//开始时间
-        endtime: '',//结束时间
+        starttime:'',//开始时间
+        endtime:'',//结束时间
     }
 
     onChange = (field,e) => {
@@ -83,13 +83,35 @@ export default class OtherInfoComponent extends Component {
         }
         return {...this.state}
     }
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+             const {
+                isurgent,//是否紧急
+                intelligent,//是否智能匹配
+                starttime,//开始时间
+                endtime,//结束时间
+            } = this.props.data;
+            this.setState({
+                isurgent:isurgent?isurgent:false,//是否紧急
+                isintelligent:intelligent,//是否智能匹配
+                starttime:moment(starttime).format("YYYY-MM-DD")+' 00:00:00',//开始时间
+                endtime:moment(endtime).format("YYYY-MM-DD")+' 00:00:00',//结束时间
+          
+            })
+        })
+    };
 
     render() {
         // workType 工作类型
         // workDuty 工作职责
         // dicatate 工作资格
         // isUrgent 是否紧急
-        const {isurgent , isintelligent} = this.state;
+        const {
+            isurgent , 
+            isintelligent,
+            starttime=null ,
+            endtime=null,
+        } = this.state;
         return (
             <li className="other-info">
                 <h2 className="title">
@@ -103,6 +125,8 @@ export default class OtherInfoComponent extends Component {
                             style={{width:185}}
                             onChange={this.onTimeChange}
                             ref="TimeComponent"
+                            starttime = {starttime}
+                            endtime = {endtime}
                         />
                     </li>
                     <li>

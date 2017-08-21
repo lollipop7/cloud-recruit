@@ -75,7 +75,7 @@ export default class TimeComponent extends Component {
                     disabledDate={this.disabledStartDate}
                     format="YYYY-MM-DD"
                     value={_startValue}
-                    placeholder="开始时间"
+                    placeholder={this.props.starttime==moment().format("YYYY-MM-DD")?"开始时间":this.props.starttime}
                     style={style}
                     open={_startOpen}
                     onChange={this.onStartChange}
@@ -87,7 +87,7 @@ export default class TimeComponent extends Component {
                     disabledDate={this.disabledEndDate}
                     format="YYYY-MM-DD"
                     value={_endValue}
-                    placeholder="结束时间"
+                    placeholder={this.props.endtime==moment().format("YYYY-MM-DD")?"结束时间":this.props.endtime}
                     style={style}
                     onChange={this.onEndChange}
                     open={_endOpen}

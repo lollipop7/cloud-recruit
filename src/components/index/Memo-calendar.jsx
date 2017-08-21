@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Calendar , Icon} from 'antd';
+import moment from 'moment';
+moment.locale('zh-cn');
+import each from 'lodash/each';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -16,18 +19,36 @@ class MemoCalendarComponent extends Component {
     onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
-
+    onSelect = () => {
+        alert(22)
+    }
     render(){
+        let memos = []
+        const {MemoContent} = this.props
+        const date = moment().format('YYYY-MM-DD')
+        MemoContent[date] && each(MemoContent[date],item=>{
+            memos.push(item.memos)
+        }) 
         return(
             <div className="memo-calendar box-border">
                 <div className="memo-header title" onClick={this.handleClick}>
                     备忘日历
                 </div>
                 <div className="memo-body">
-                    <p>未记录今日需处理的事务！</p>
-                    <div className="calendar-wrap">
-                        <Calendar fullscreen={false}
-                        onPanelChange={this.onPanelChange}/>
+                    <span>今日事项：</span>
+                    <p>
+                    {
+                        memos.map((item,index)=>{
+                            return <span key={index}>{item}</span>
+                        })
+                    }
+                    </p>
+                    <div className="calendar-wrap" style={{width:230,height:230}}>
+                        <Calendar 
+                            fullscreen={false}
+                            onPanelChange={this.onPanelChange}
+                            onSelect = {this.onSelect}
+                        />
                     </div>
                 </div>
             </div>
@@ -36,7 +57,7 @@ class MemoCalendarComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    
+
 })
 const mapDispatchToProps = dispatch => ({
     showMemoModal: bindActionCreators(Actions.homeActions.showMemoModal, dispatch),
