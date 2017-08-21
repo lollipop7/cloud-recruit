@@ -31,24 +31,9 @@ import * as Actions from 'actions';
         this.hideNProgress();
         this.props.getMemoContent()
     }
-    // shouldComponentUpdate(){
-    //     this.setState({
-    //         MemoContent:this.props.MemoContent
-    //     })
-        
-    // }
-    // componentWillUpdate(){
-        
-    // }
-    getContent = ()=>{
-        setTimeout(()=>{
-            this.props.getMemoContent()
-        });
-        
-    }
     
     render() {
-        const {MemoContent, getMemoContent} = this.props
+        const {MemoContent} = this.props
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">
@@ -70,7 +55,7 @@ import * as Actions from 'actions';
                             </div>
                         </div>
                         {/*添加备忘录modal*/}
-                        <MemoModalComponent getMemoContent={this.getContent}/>
+                        <MemoModalComponent/>
                     </div>
                     <div className="list-block">
                         <div className="pull-left">

@@ -20,8 +20,7 @@ import * as Actions from 'actions';
 
 class CreateJobPage extends Component {
     state={
-        job:["金融理财师","合规","高级理财经理","出纳","营销专员"],
-        Tags:["金融理财师","合规","高级理财经理","营销专员","理财规划师","分公司副总经理"]
+        job:["金融理财师","合规","高级理财经理","出纳","营销专员"]
     }
     
      static contextTypes = {
@@ -56,8 +55,8 @@ class CreateJobPage extends Component {
                 ...OtherInfoComponent.state,
                 ...{positionid:this.props.jobInfo.positionid}
             },this.context);
-        }
-        this.resetForm()    
+         this.resetForm()    
+        }   
     }
     handleClick =() => {
         window.history.back()
@@ -100,6 +99,7 @@ class CreateJobPage extends Component {
                             ref="OtherInfoComponent" 
                             data = {jobInfo}
                         />
+                        {console.log(jobInfo)}
                         <li className="control">
                             <ul>
                                 <li>

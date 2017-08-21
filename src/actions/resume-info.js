@@ -191,7 +191,6 @@ export const getEvaluationId = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
     },err=>{
         message.error('获取失败！');

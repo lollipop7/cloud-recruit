@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import {Input, DatePicker} from 'antd';
 
-export default class InputComponent extends Component {
+export default class InputComponent extends React.Component {
 
     state = {
         eventtime: null,
@@ -12,9 +12,9 @@ export default class InputComponent extends Component {
         open: false
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props !== nextProps || this.state !== nextState;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return this.props !== nextProps || this.state !== nextState;
+    // }
 
     disabledDate = current => {
         // Can not select days before today and today
@@ -71,9 +71,8 @@ export default class InputComponent extends Component {
     //     const formatTime = moment(eventtime).format('YYYY-MM-DD hh:mm');
     //     return {...{eventtime: formatTime}, eventmemo};
     // }
-
     render() {
-        const {timePlaceholder='', memoPlaceholder='', error} = this.props;
+        const {timePlaceholder='', memoPlaceholder='', error } = this.props;
         const {eventtime, open, eventmemo} = this.state;
         return (
             <ul>

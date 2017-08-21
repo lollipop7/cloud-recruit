@@ -19,8 +19,9 @@ class MemoCalendarComponent extends Component {
     onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
+    //点击日期方法
     onSelect = () => {
-        alert(22)
+        //alert(22)
     }
     render(){
         let memos = []
@@ -39,7 +40,10 @@ class MemoCalendarComponent extends Component {
                     <p>
                     {
                         memos.map((item,index)=>{
-                            return <span key={index}>{item}</span>
+                            return <span key={index}>
+                                    {item}
+                                    { index === memos.length-1 ? "" : <b>、</b> }
+                                    </span>
                         })
                     }
                     </p>

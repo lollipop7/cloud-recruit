@@ -1,41 +1,15 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-// import { Input , Tag , Radio } from 'antd';
 import { Input, Radio, Tooltip } from 'antd';
 const RadioGroup = Radio.Group;
 import TimeComponent from 'components/time';
 
-/*class TextAreaComponent extends Component {
-
-    handleChange = (event) => {
-        this.props.onChange(event);
-    }
-
-    render() {
-        const {title,value=''} = this.props;
-        return (
-            <li>
-                <span>{title}</span>
-                <Input 
-                    type="textarea"
-                    value={value} 
-                    style={{
-                        width: 494,
-                        height: 130,
-                        verticalAlign: 'text-top'
-                    }} 
-                    onChange={this.handleChange}
-                />
-            </li>
-        )
-    }
-}*/
 
 export default class OtherInfoComponent extends Component {
 
     state = {
         // workType: 1,
-        isurgent: true,//是否紧急
+        isurgent: false,//是否紧急
         isintelligent:false,//是否智能匹配
         starttime:'',//开始时间
         endtime:'',//结束时间
@@ -55,10 +29,8 @@ export default class OtherInfoComponent extends Component {
     resetForm() {
         const {onStartChange,onEndChange} = this.refs.TimeComponent;
         this.setState({
-            // workType: 1,
-            isurgent: true,
-            // workDuty: '',
-            // dictate: ''
+            isurgent: false,
+            isintelligent:false,
         });
         onStartChange(null);
         onEndChange(null);
@@ -86,16 +58,16 @@ export default class OtherInfoComponent extends Component {
     componentWillReceiveProps(){
         setTimeout(()=>{
              const {
-                isurgent,//是否紧急
+                urgent,//是否紧急
                 intelligent,//是否智能匹配
                 starttime,//开始时间
                 endtime,//结束时间
             } = this.props.data;
             this.setState({
-                isurgent:isurgent?isurgent:false,//是否紧急
+                isurgent:urgent,//是否紧急
                 isintelligent:intelligent,//是否智能匹配
-                starttime:moment(starttime).format("YYYY-MM-DD")+' 00:00:00',//开始时间
-                endtime:moment(endtime).format("YYYY-MM-DD")+' 00:00:00',//结束时间
+                starttime:moment(starttime).format("YYYY-MM-DD 00:00:00"),//开始时间
+                endtime:moment(endtime).format("YYYY-MM-DD 00:00:00"),//结束时间
           
             })
         })

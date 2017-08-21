@@ -27,7 +27,7 @@ const initialState = {
    isModalLoading: false,
    isDownLoading: false,
    evaluation:{},//评估表
-   evaluationid:{}//评估表ID
+   evaluationid:""//评估表ID
 };
 
 export default function resume(state = initialState,actions){

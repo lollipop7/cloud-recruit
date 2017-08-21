@@ -7,7 +7,6 @@ export default class EditableTagGroup extends Component {
   render() {
     const  tags = this.props.data;
     const data = find(tags,item=>{
-                //iscurrentstage值为1或者0，0表示已有的标签，1表示更新之后的所有标签
                 return item.iscurrentstage === '1';
             })
     return (

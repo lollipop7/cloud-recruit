@@ -44,7 +44,6 @@ class MemoModalComponent extends Component {
             })
         }
         if(memos === ''){
-             //this.refs.textarea.focus();
             this.setState({
                 errorText:true
             })
@@ -57,13 +56,12 @@ class MemoModalComponent extends Component {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== false;
         });
-        this.props.hideMemoModal()
-        this.props.addMemoContent({...this.state})
-        setTimeout(()=>{
-             this.props.getMemoContent() 
-        },500)  
+        this.props.addMemoContent({...this.state},this.props)
+        this.props.hideMemoModal()  
     }
-
+    hideMemoModal = () => {
+        this.props.hideMemoModal()
+    }
     render(){
        const {memoModalVisible} = this.props
         return(
@@ -71,13 +69,15 @@ class MemoModalComponent extends Component {
                 title="添加备忘录"
                 visible = {memoModalVisible}
                 className = "add-memo-modal grey-close-header"
-                onCancel = {() => this.props.hideMemoModal()}
+                onCancel = {this.hideMemoModal}
                 width = {510}
                 okText = "添加"
                 onOk = {this.addMemoValue}
             >
                 <div className="memo-body">
                     <InputComponent
+                        //ref = "InputComponent"
+                        resetForm = {this.resetForm}
                         getTime = {this.addTime}
                         getValue = {this.addMemo}
                         error = {{...this.state}}
@@ -95,6 +95,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     hideMemoModal: bindActionCreators(Actions.homeActions.hideMemoModal, dispatch),
     addMemoContent: bindActionCreators(Actions.homeActions.addMemoContent, dispatch),
+    getMemoContent:bindActionCreators(Actions.homeActions.getMemoContent, dispatch)
 })
 export default connect (
     mapStateToProps,

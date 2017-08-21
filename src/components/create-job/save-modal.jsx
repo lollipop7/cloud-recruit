@@ -10,7 +10,6 @@ class SaveModalComponent extends Component {
 
     backResumeManager = ()=> {
         this.props.hideSaveJobModal()
-        //this.context.push('job/index')
         //返回职位管理
         setTimeout(() => {
             window.history.back()

@@ -10,6 +10,8 @@ export default class TimeComponent extends Component {
     }
 
     state = {
+        _startValue:"",
+        _endValue:""
     };
 
     disabledStartDate = (startValue) => {
@@ -42,6 +44,7 @@ export default class TimeComponent extends Component {
         }
         this.onChange('_startValue', value);
     }
+     
 
     onEndChange = (value) => {
         const {onChange} = this.props;
@@ -61,10 +64,24 @@ export default class TimeComponent extends Component {
     handleEndOpenChange = (open) => {
         this.setState({ _endOpen: open });
     }
+    //获取数据赋值
+    // componentWillReceiveProps(){
+    //     setTimeout(()=>{
+    //        const {starttime , endtime} = this.props;
+    //        const dateFormat = 'YYYY-MM-DD';
+    //        //过滤获取目前默认时间
+    //         if (starttime!=moment().format('YYYY-MM-DD')&& endtime!=moment().format('YYYY-MM-DD')){
+    //             this.setState({
+    //                 _startValue:moment(starttime, dateFormat),
+    //                 _endValue:moment(endtime, dateFormat)
+    //         })
+    //        } 
+    //     })
+    // };
 
     render() {
         const {style={},showField=false} = this.props;
-        const { _startValue=null, _endValue=null,_startOpen=false, _endOpen=false  } = this.state;
+        const { _startValue, _endValue,_startOpen=false, _endOpen=false  } = this.state;
         return (
             <div style={{
                 display: "inline-block"
@@ -75,7 +92,7 @@ export default class TimeComponent extends Component {
                     disabledDate={this.disabledStartDate}
                     format="YYYY-MM-DD"
                     value={_startValue}
-                    placeholder={this.props.starttime==moment().format("YYYY-MM-DD")?"开始时间":this.props.starttime}
+                    placeholder="开始时间"
                     style={style}
                     open={_startOpen}
                     onChange={this.onStartChange}
@@ -87,7 +104,7 @@ export default class TimeComponent extends Component {
                     disabledDate={this.disabledEndDate}
                     format="YYYY-MM-DD"
                     value={_endValue}
-                    placeholder={this.props.endtime==moment().format("YYYY-MM-DD")?"结束时间":this.props.endtime}
+                    placeholder="结束时间"
                     style={style}
                     onChange={this.onEndChange}
                     open={_endOpen}

@@ -99,7 +99,6 @@ class HeaderInfoComponent extends Component {
         const data = this.props;
         this.props.showShareModal(data);
     }
-
     handleEvaluate = () => {
         const { evaluationId } = this.props.data
         //显示评估表
@@ -111,7 +110,7 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {data,modalVisible,currentStage,evaluation ,evaluationid=""} = this.props,
+        const {data,modalVisible,currentStage,evaluation ,evaluationid} = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -130,7 +129,11 @@ class HeaderInfoComponent extends Component {
                 workyears, //工作年限
                 educationbg, //学历
                 channel, // 简历来源
-            } = resumeInfo;    
+            } = resumeInfo;   
+            const stage = find(stagesMap,item=>{
+                return item.iscurrentstage === '1';
+            })
+            
         return (
             <div className="header-info">
                 <div>
@@ -267,18 +270,20 @@ class HeaderInfoComponent extends Component {
                                         width: 102, 
                                         borderColor: '#b6b6b6',
                                         fontWeight:'bold',
-                                        color:evaluationId?"#28ad78":'#b6b6b6'
+                                        color:(evaluationid || evaluationId)?"#28ad78":'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
+                                    disabled={stage!=undefined && stage.stageid>2?false:true}
                                 >   
                                         <img className="as"
                                         style={{
                                             width: 16,
                                             height: 22,
                                         }}
-                                        src={evaluationId?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} a
-                                        lt="面试评估表"/>
-                                    {evaluationId?"已添加":'点此添加'}
+                                        src={
+                                            (evaluationid || evaluationId)?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} 
+                                            alt="面试评估表"/>
+                                    {(evaluationid || evaluationId)?"已添加":'点此添加'}
                                 </Button>
                             </div>
                         </div>
