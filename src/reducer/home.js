@@ -1,6 +1,7 @@
 import {
     URGENT_TASKS,
     RESUME,
+    RESUMEACCOUNT,
     GET_ENTRY_LIST,
     GET_ENTRY_START,
     GET_ENTRY_DONE,
@@ -12,6 +13,7 @@ import {
 const initialState = {
     // urgentTasks: [], // 紧急任务列表
     resumeData: {}, //简历入库情况
+    resumeCount: {}, //简历入库份数
     taskProgress: [], // 任务完成指数
     isEntryLoading: false,
     entryPersonList: [], //待入职人员列表
@@ -25,6 +27,8 @@ export default function home(state = initialState,actions){
             return {...state,urgentTasks:actions.urgentTasks};
         case RESUME:
             return {...state,resumeData:actions.resumeData};
+        case RESUMEACCOUNT:
+            return {...state,resumeCount:actions.resumeCount};    
         case TASK_PROGRESS:
             return {...state,taskProgress:actions.taskProgress};
         case GET_ENTRY_START:

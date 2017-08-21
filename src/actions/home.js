@@ -1,11 +1,14 @@
 import * as types from 'constants/home';
 import {AjaxByToken} from 'utils/ajax';
 import store from 'store';
+import notification from 'antd';
 
 // 紧急任务
 const URGENT_TASKS = {type:types.URGENT_TASKS};
 // 获取简历入库情况
 const RESUME = {type:types.RESUME};
+//获取简历份数
+const RESUMEACCOUNT = {type:types.RESUMEACCOUNT};
 // 获取任务完成指数
 const TASK_PROGRESS = {type:types.TASK_PROGRESS};
 // 待入职人员列表
@@ -45,8 +48,26 @@ export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...RESUME,resumeData:res});
     },err=>{
+        notification.error(returnMsg);
         dispatch({...RESUME,resumeData:{content:[]}});
     });
+}
+
+//获取简历入库份数
+export const resumeAccount = (keyTime) => (dispatch,getState) => {
+    AjaxByToken('ResumeAccount',{
+        head: {
+            transcode: 'L0069'
+        },
+        data: {
+            keyTime: "30" 
+        }
+    })
+    .then(res=>{
+        dispatch({...RESUMEACCOUNT,resumeCount:res});
+    },err=>{
+        dispatch({...RESUMEACCOUNT,resumeCount:{}});
+    })
 }
 
 // 获取任务完成指数

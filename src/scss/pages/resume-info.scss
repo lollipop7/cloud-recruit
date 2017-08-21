@@ -128,11 +128,15 @@
             color: #868686;
         }
         .ant-input-group-addon {
-            background-color: $theme-color;
-            padding: 4px 30px;
-            font-size: 14px;
-            color: #fff;
-            cursor: pointer;
+            padding: 0;
+            border: none;
+            .copy-link {
+                padding: 0;
+                height: 45px;
+                width: 115px;
+                font-size: 14px;
+                color: #fff;
+            }
         }
     }
 }

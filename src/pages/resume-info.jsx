@@ -27,7 +27,6 @@ class ResumeInfoPage extends Component {
         const {location,routeParams} = this.props,
             {resumeId,logId} = routeParams;    
             if(this.isInRecruitPage(location.pathname)) {
-                debugger;
                 // 获取简历详情
                 this.props.getRecruitResumeInfo({
                     resumeId: resumeId,
@@ -129,7 +128,7 @@ class ResumeInfoPage extends Component {
                             </div>
                             <ModalComponents />
                             {/*简历分享Modal*/}
-                            <ShareModalComponents/>
+                            <ShareModalComponents {...this.props}/>
                             {/*面试评估表*/}
                             <EvaluationModalComponents/>
                         </div>
