@@ -101,12 +101,12 @@ class HeaderInfoComponent extends Component {
     }
     handleEvaluate = () => {
         const { evaluationId } = this.props.data
-        //显示评估表
-        this.props.showEvaluationModal();
         //获取评估表内容
         if (evaluationId){
             this.props.getEvaluation({evaluationId:`${evaluationId}`})
-        }   
+        } 
+        //显示评估表
+        this.props.showEvaluationModal();  
     }
 
     render() {
@@ -270,10 +270,10 @@ class HeaderInfoComponent extends Component {
                                         width: 102, 
                                         borderColor: '#b6b6b6',
                                         fontWeight:'bold',
-                                        color:(evaluationid || evaluationId)?"#28ad78":'#b6b6b6'
+                                        color:(evaluationid || evaluationId)?'#28ad78':'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
-                                    disabled={stage!=undefined && stage.stageid>2?false:true}
+                                    disabled={stage!=undefined && stage.stageid>2 && stage.stageid<5?false:true}
                                 >   
                                         <img className="as"
                                         style={{

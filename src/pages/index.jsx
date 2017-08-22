@@ -51,11 +51,12 @@ import * as Actions from 'actions';
                                     <MemoCalendarComponent 
                                         MemoContent={MemoContent}
                                     />
+                                     {/*添加备忘录modal*/}
+                                    <MemoModalComponent/>
                                 </div>
                             </div>
                         </div>
-                        {/*添加备忘录modal*/}
-                        <MemoModalComponent/>
+                       
                     </div>
                     <div className="list-block">
                         <div className="pull-left">

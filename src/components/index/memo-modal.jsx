@@ -59,8 +59,15 @@ class MemoModalComponent extends Component {
         this.props.addMemoContent({...this.state},this.props)
         this.props.hideMemoModal()  
     }
+    //隐藏添加备忘录modal
     hideMemoModal = () => {
         this.props.hideMemoModal()
+    }
+    //重置添加备忘录内容
+    resetForm(e){
+        if (e!=undefined && e!=null){
+            e.resetForm()
+        }   
     }
     render(){
        const {memoModalVisible} = this.props
@@ -75,15 +82,16 @@ class MemoModalComponent extends Component {
                 onOk = {this.addMemoValue}
             >
                 <div className="memo-body">
+                    {memoModalVisible?
                     <InputComponent
-                        //ref = "InputComponent"
+                        ref = {this.resetForm} 
                         resetForm = {this.resetForm}
                         getTime = {this.addTime}
                         getValue = {this.addMemo}
                         error = {{...this.state}}
                         timePlaceholder="请填写预处理时间"
                         memoPlaceholder="将文本添加到备忘录......"
-                    />
+                    />:null}
                 </div>
             </Modal>
         )

@@ -49,11 +49,10 @@ export default class InputComponent extends React.Component {
          this.props.getValue(e.target.value)
     }
      resetForm = () => {
-         alert(111)
-        // this.setState({
-        //    memos:"",
-        //    memonsdate:""
-        // })
+        this.setState({
+           eventtime: null,
+           eventmemo: '',
+        })
     }
 
     // getFormDate = () => {

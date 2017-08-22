@@ -99,7 +99,6 @@ class CreateJobPage extends Component {
                             ref="OtherInfoComponent" 
                             data = {jobInfo}
                         />
-                        {console.log(jobInfo)}
                         <li className="control">
                             <ul>
                                 <li>
