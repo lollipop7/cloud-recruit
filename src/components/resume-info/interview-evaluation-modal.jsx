@@ -104,6 +104,11 @@ class EvaluationModalComponents extends Component {
         //添加面试评估
         this.props.addEvaluation({...filterObj,resumeid:this.props.resumeid,jobid:this.props.jobid},this.props)
     }
+    //隐藏评估表
+    hideEvaluationModal = () => {
+        this.resetForm()
+        this.props.hideEvaluationModal()    
+    }
     //评估表内容赋值
     componentWillReceiveProps(){
         setTimeout(()=>{
@@ -152,7 +157,7 @@ class EvaluationModalComponents extends Component {
                 width = {828}
                 visible = {evaluationModalVisible}
                 className = "evaluation-modal grey-close-header"
-                onCancel={isLoading ? ()=>{} : this.props.hideEvaluationModal}
+                onCancel={this.hideEvaluationModal}
                 onOk = {this.addEvaluation}
             >
                 <div className="qrcode-write" style = {{

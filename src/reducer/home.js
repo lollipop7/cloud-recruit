@@ -9,7 +9,8 @@ import {
     SHOW_MEMO_MODAL,
     HIDE_MEMO_MODAL,
     ADD_MEMO_EVENT,
-    GET_MEMO_CONTENT
+    GET_MEMO_CONTENT,
+    GET_DATE_MEMO_CONTENT
 } from 'constants/home';
 
 const initialState = {
@@ -21,7 +22,8 @@ const initialState = {
     entryPersonList: [], //待入职人员列表
     memoModalVisible: false,
     isMemoLoading: false,
-    MemoContent:{}
+    MemoContent:{},
+    DateMemoContent:{}
 };
 
 export default function home(state = initialState,actions){
@@ -30,6 +32,8 @@ export default function home(state = initialState,actions){
             return {...state,urgentTasks:actions.urgentTasks};
         case GET_MEMO_CONTENT: 
             return {...state,MemoContent:actions.MemoContent};
+        case GET_DATE_MEMO_CONTENT: 
+            return {...state,DateMemoContent:actions.DateMemoContent};
         case RESUME:
             return {...state,resumeData:actions.resumeData};
         case RESUMEACCOUNT:

@@ -10,8 +10,8 @@ export default class TimeComponent extends Component {
     }
 
     state = {
-        _startValue:"",
-        _endValue:""
+        _startValue:null,
+        _endValue:null
     };
 
     disabledStartDate = (startValue) => {
@@ -64,20 +64,26 @@ export default class TimeComponent extends Component {
     handleEndOpenChange = (open) => {
         this.setState({ _endOpen: open });
     }
+    componentDidMount(){
+        this.setState({    
+            _startValue:null,
+            _endValue:null
+        })
+    }
     //获取数据赋值
-    // componentWillReceiveProps(){
-    //     setTimeout(()=>{
-    //        const {starttime , endtime} = this.props;
-    //        const dateFormat = 'YYYY-MM-DD';
-    //        //过滤获取目前默认时间
-    //         if (starttime!=moment().format('YYYY-MM-DD')&& endtime!=moment().format('YYYY-MM-DD')){
-    //             this.setState({
-    //                 _startValue:moment(starttime, dateFormat),
-    //                 _endValue:moment(endtime, dateFormat)
-    //         })
-    //        } 
-    //     })
-    // };
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+           const {starttime , endtime} = this.props;
+           const dateFormat = 'YYYY-MM-DD 00:00:00';
+           //过滤获取目前默认时间
+            if (starttime!=moment().format('YYYY-MM-DD')&& endtime!=moment().format('YYYY-MM-DD')){
+                this.setState({
+                    _startValue:starttime?moment(starttime, dateFormat):"",
+                    _endValue:endtime?moment(endtime, dateFormat):""
+            })
+           } 
+        })
+    };
 
     render() {
         const {style={},showField=false} = this.props;

@@ -66,8 +66,8 @@ export default class OtherInfoComponent extends Component {
             this.setState({
                 isurgent:urgent,//是否紧急
                 isintelligent:intelligent,//是否智能匹配
-                starttime:moment(starttime).format("YYYY-MM-DD 00:00:00"),//开始时间
-                endtime:moment(endtime).format("YYYY-MM-DD 00:00:00"),//结束时间
+                starttime:starttime?moment(starttime).format("YYYY-MM-DD 00:00:00"):"",//开始时间
+                endtime:endtime?moment(endtime).format("YYYY-MM-DD 00:00:00"):"",//结束时间
           
             })
         })

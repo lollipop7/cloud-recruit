@@ -29,15 +29,22 @@ class TableComponents extends Component {
     shouldComponentUpdate(nextProps,nextState){
         return this.props !== nextProps;
     }
-
+    componentDidMount(){
+        this.getColumns()
+    }
     getColumns = () => {
-        columns[0].render = (text,record,index) => {
+        columns[0].render = (text,record,index) => {           
             return  <a 
                         className="hover" 
                         href="javascript:void(0)" 
                         title={text}
                         onClick={this.showResumeModal.bind(this,record)}
-                    >{trim(text)}</a>
+                    >
+                        {trim(text)}
+                    </a>
+        }
+        columns[columns.length-1].render = (text,record,index)=>{
+            return <span className="prestatusname-manage">{text}</span>;
         }
         return columns;
     }
@@ -63,16 +70,16 @@ class TableComponents extends Component {
                     columns={this.getColumns()} 
                     dataSource={
                         recruitList.list.map((item,index)=>{
-                            {/*item.key = index;
-                            return item;*/}
-                             return merge(
+                            item.key = index;
+                            return item;
+                             {/*return merge(
                                 {key:index},
                                 item,
                                 {prestatusname: 
                                     <span className="prestatusname-manage">
-                                        申请中&nbsp;<Icon type="caret-right" />
+                                        {item}&nbsp;<Icon type="caret-right" />
                                     </span>}
-                            );
+                            );*/}
                         })
                     }
                     pagination={{

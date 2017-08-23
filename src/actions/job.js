@@ -37,6 +37,8 @@ const HIDE_JOB_MODAL = {type:types.HIDE_JOB_MODAL};
 //职位发布成功MODAL
  const SHOW_SAVEJOB_MODAL = {type:types.SHOW_SAVEJOB_MODAL};
  const HIDE_SAVEJOB_MODAL = {type:types.HIDE_SAVEJOB_MODAL};
+//清空职位信息数据
+const RESET_FORM = {type:types.RESET_FORM}
 
 // 获取职位分类统计
 export const getJobCategory = () => (dispatch,getState) => {
@@ -88,6 +90,10 @@ export const getJobInfo = data => (dispatch,getState) => {
         dispatch(LOAD_INFO_DONE);
         dispatch({...JOB_INFO,jobInfo:res.entity || {}});
     });
+}
+// 清空职位详细信息
+export const resetForm = () => (dispatch,getState) => {
+    dispatch(RESET_FORM);
 }
 
 // 提前终止职位信息

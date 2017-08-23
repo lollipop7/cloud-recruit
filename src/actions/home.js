@@ -24,6 +24,8 @@ const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
 const ADD_MEMO_EVENT = {type:types.ADD_MEMO_EVENT};
 //获取备忘录内容
 const GET_MEMO_CONTENT = { type:types.GET_MEMO_CONTENT}
+//获取具体日期备忘录
+const GET_DATE_MEMO_CONTENT = {type:types.GET_DATE_MEMO_CONTENT}
 
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
@@ -58,7 +60,7 @@ export const addMemoContent = (data={},props) => (dispatch,getState) => {
     });
 }
 //获取备忘录内容
-export const getMemoContent = (data={}) => (dispatch,getState) => {
+export const getMemoContent = (data) => (dispatch,getState) => {
     AjaxByToken('employeeinfo/memosList',{
         head: {
             transcode: 'L0068'
@@ -66,11 +68,25 @@ export const getMemoContent = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch({...GET_MEMO_CONTENT,MemoContent:res.result});
     },err=>{
         message.error('获取备忘录失败');
         dispatch({...GET_MEMO_CONTENT,MemoContent:[]});
+    });
+}
+//获取具体日期备忘录
+export const getDateMemoContent = (data) => (dispatch,getState) => {
+    AjaxByToken('employeeinfo/memosList',{
+        head: {
+            transcode: 'L0068'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_DATE_MEMO_CONTENT,DateMemoContent:res.result});
+    },err=>{
+        message.error(`${data.onDate}备忘录获取失败`);
+        dispatch({...GET_DATE_MEMO_CONTENT,DateMemoContent:[]});
     });
 }
 

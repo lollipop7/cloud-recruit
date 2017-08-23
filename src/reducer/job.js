@@ -16,7 +16,8 @@ import {
     SHOW_JOB_MODAL,
     HIDE_JOB_MODAL,
     SHOW_SAVEJOB_MODAL,
-    HIDE_SAVEJOB_MODAL
+    HIDE_SAVEJOB_MODAL,
+    RESET_FORM
 } from 'constants/job';
 
 const initialState = {
@@ -60,6 +61,8 @@ export default function job(state = initialState,actions){
             return {...state,isLoadingInfo:false};
         case JOB_INFO:
             return {...state,jobInfo:actions.jobInfo};
+        case RESET_FORM:
+            return {...state,jobInfo:{}};
         case CREATE_JOB_START:
             return {...state,isCanCreateJob:false};
         case CREATE_JOB_DONE:

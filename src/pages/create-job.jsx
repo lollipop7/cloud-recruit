@@ -41,6 +41,8 @@ class CreateJobPage extends Component {
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
         BaseInfoComponent.resetForm();
         OtherInfoComponent.resetForm();
+        BaseInfoComponent.handleCityChange([])
+        this.props.resetForm()     
     }
 
     createJob =() => {
@@ -55,7 +57,7 @@ class CreateJobPage extends Component {
                 ...OtherInfoComponent.state,
                 ...{positionid:this.props.jobInfo.positionid}
             },this.context);
-         this.resetForm()    
+         this.props.resetForm()    
         }   
     }
     handleClick =() => {
@@ -124,7 +126,8 @@ const mapDispatchToProps = dispatch => ({
     createJob: bindActionCreators(Actions.jobActions.createJob, dispatch),
     showSaveJobModal: bindActionCreators(Actions.jobActions.showSaveJobModal, dispatch),
     getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch),
-    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch)
+    getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
+    resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
 })
 
 export default connect(

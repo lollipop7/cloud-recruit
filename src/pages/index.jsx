@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import BasicPage from './basic';
+import moment from 'moment';
 import TimeComponent from 'components/index/time';
 // 列表
 import ListComponent from 'components/index/list';
@@ -29,11 +30,12 @@ import * as Actions from 'actions';
     }
     componentDidMount() {
         this.hideNProgress();
-        this.props.getMemoContent()
+        const date = moment().format("YYYY-MM-01")
+        this.props.getMemoContent({onDateMM:date})
     }
     
     render() {
-        const {MemoContent} = this.props
+        const {MemoContent , getMemoContent , DateMemoContent ,getDateMemoContent} = this.props
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">
@@ -50,6 +52,8 @@ import * as Actions from 'actions';
                                 <div className="pull-right" style={{background: "#fff"}}>
                                     <MemoCalendarComponent 
                                         MemoContent={MemoContent}
+                                        DateMemoContent={DateMemoContent}
+                                        getDateMemoContent = {getDateMemoContent}
                                     />
                                      {/*添加备忘录modal*/}
                                     <MemoModalComponent/>
@@ -73,10 +77,12 @@ import * as Actions from 'actions';
     }
 }
 const mapStateToProps = state => ({
-    MemoContent:state.Home.MemoContent
+    MemoContent:state.Home.MemoContent,
+    DateMemoContent:state.Home.DateMemoContent
 })
 const mapDispatchToProps = dispatch => ({
-    getMemoContent: bindActionCreators(Actions.homeActions.getMemoContent, dispatch)
+    getMemoContent: bindActionCreators(Actions.homeActions.getMemoContent, dispatch),
+    getDateMemoContent: bindActionCreators(Actions.homeActions.getDateMemoContent, dispatch)
 })
 
 export default connect(

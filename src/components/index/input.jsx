@@ -54,22 +54,6 @@ export default class InputComponent extends React.Component {
            eventmemo: '',
         })
     }
-
-    // getFormDate = () => {
-    //     const {eventtime, eventmemo} = this.state;
-    //     //没有选择时间打开弹层
-    //     if(!eventtime){
-    //         this.handleOpenChange(true);
-    //         return false;
-    //     }
-    //     if(eventmemo === ''){
-    //         // this.refs.Textrea.focus();
-    //         this.setError(true);
-    //         return false;
-    //     }
-    //     const formatTime = moment(eventtime).format('YYYY-MM-DD hh:mm');
-    //     return {...{eventtime: formatTime}, eventmemo};
-    // }
     render() {
         const {timePlaceholder='', memoPlaceholder='', error } = this.props;
         const {eventtime, open, eventmemo} = this.state;
