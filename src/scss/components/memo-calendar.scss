@@ -41,6 +41,45 @@
         .ant-radio-group-small .ant-radio-button-wrapper {
             display: none;
         }
+        //选中日历单元格
+        .ant-fullcalendar-month-panel-selected-cell
+        ,.ant-fullcalendar-selected-day {
+            .ant-fullcalendar-value {
+                border-radius: 100%;
+            }
+        } 
+        .ant-fullcalendar-content {
+            width: 22px;
+            height: 22px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 100%;
+            .event-circle {
+                position: absolute;
+                width: 22px;
+                height: 22px;
+                border-width: 1px;
+                border-style: solid;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                border-radius: 100%;
+                &.expired {
+                    
+                }
+            }
+        }
+        .ant-fullcalendar-today {
+            .ant-fullcalendar-value  {
+                box-shadow: none;
+            }
+    
+        }
     }
 }
 .add-memo-modal {

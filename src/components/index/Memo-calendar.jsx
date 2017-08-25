@@ -14,42 +14,43 @@ class MemoCalendarComponent extends Component {
         memos :[]
     }
 
-    handleClick =() => {
-        this.props.showMemoModal();
-        // console.log('click');
-    }
-
-    onPanelChange = (value, mode) => {
-       alert(value, mode);
-    }
     componentWillReceiveProps(){
         setTimeout(()=>{
-            let memos=[]
-            const {MemoContent} = this.props
-            const date = moment().format('YYYY-MM-DD')
+            let memos=[];
+            const {MemoContent} = this.props;
+            const date = moment().format('YYYY-MM-DD');
            for (let i in MemoContent){
-               const arr =MemoContent[i]
-                memos.push(arr)
+               const arr =MemoContent[i];
+                memos.push(arr);
            }
            this.setState({
                 memos:memos
             }) 
         })   
     }
-    //渲染日期
+
+    handleClick =() => {
+        this.props.showMemoModal();
+    }
+
+    //自定义渲染日期单元格，返回内容会被追加到单元格
     dateCellRender = (value) => {
-        const memos = this.state.memos
-        const date = moment().format('DD')
+        const {memos} = this.state;
+        //页面显示的所有日期
+        const watchDate = parseInt(moment(value._d).format("YYYYMMDD"));
+        //今天的日期
+        const nowDates =parseInt(moment().format('YYYYMMDD'));
         if (memos.length!=0){
             for (let k=0;k<memos.length;k++){
                 //已添加备忘录的日期处理
-                let dater= memos[k].length!=0 ? parseInt(memos[k][0].labelname.slice(8,10)):[]
-                //条件过滤渲染
-                if (memos[k].length!=0 && dater>=parseInt(date) && value.date()==dater){
-                    return <span style={{color:"#0086c9"}}>●</span> 
-                }else if (memos[k].length!=0 && dater<parseInt(date) && value.date()==dater) {
-                    return <span style={{color:"#da9891"}}>●</span>
-                }
+                if (memos[k].length!=0){
+                  const eventDate = memos[k][0].labelname.replace(/-/g,"");
+                  if (watchDate>=nowDates && eventDate==watchDate){
+                        return <i className="event-circle pre" style={{borderColor: '#0689ca'}}></i>
+                     }else if (watchDate<nowDates && eventDate==watchDate) {
+                        return <i className="event-circle expired" style={{borderColor: '#ac4100'}}></i>
+                    }  
+                }   
             }      
         }  
     }
@@ -58,16 +59,18 @@ class MemoCalendarComponent extends Component {
         const date = moment(value).format("YYYY-MM-DD")
         this.props.getDateMemoContent({onDate:date})      
     }
+
     render(){
-        let memos = [] , dateArr = []
-        const {MemoContent , DateMemoContent} = this.props
-        const date = moment().format('YYYY-MM-DD')
+        let memos = [] , dateArr = [];
+        const {MemoContent , DateMemoContent} = this.props;
+        const date = moment().format('YYYY-MM-DD');
         MemoContent[date] && each(MemoContent[date],item=>{
             memos.push(item.memos)
         })
         for (let i in DateMemoContent) {
             dateArr=DateMemoContent[i]
         }
+        console.log(MemoContent[date],memos,dateArr);
         return(
             <div className="memo-calendar box-border">
                 <div className="memo-header title" onClick={this.handleClick}>
@@ -76,8 +79,8 @@ class MemoCalendarComponent extends Component {
                 <div className="memo-body">
                     {
                         dateArr.length!=0 &&  
-                        <div style={{height:80}}>
-                            <span>{dateArr[0].labelname}：</span>
+                        <div>
+                            <span>今日事项：</span>
                             <p>
                                 {
                                     dateArr.map((item,index)=>{
@@ -85,6 +88,7 @@ class MemoCalendarComponent extends Component {
                                                     {item.memos}
                                                     { index === dateArr.length-1 ? "" : <b>、</b> }
                                             </span>
+                                            
                                     })
                                 }
                             </p>
@@ -92,7 +96,7 @@ class MemoCalendarComponent extends Component {
                     }
                     {
                         dateArr.length==0 && 
-                        <div style={{height:80}}>
+                        <div>
                             <span>今日事项：</span>
                             <p>
                                 {
@@ -114,9 +118,9 @@ class MemoCalendarComponent extends Component {
                             onMousemove= {this.onSelect}
                         />
                         <div style={{marginTop:15,textAlign:"center",height:20}}>
-                            <span><span style={{color:"#da9891"}}>●</span>&nbsp;&nbsp;过期</span>
+                            <img src="static/images/index/expired.png" alt="过期"/>&nbsp;&nbsp;<span>过期</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span><span style={{color:"#0086c9"}}>●</span>&nbsp;&nbsp;预先记录</span>
+                            <img src="static/images/index/pre.png" alt="预先记录"/>&nbsp;&nbsp;<span>预先记录</span>
                         </div>
                     </div>
                 </div>

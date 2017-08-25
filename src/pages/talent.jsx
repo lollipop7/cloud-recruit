@@ -158,7 +158,7 @@ class TalentPage extends BasicPage {
 
     paginationChange = (page,pageSize) => {
         // 点击分页器
-        this.params.start = (page - 1) * 20;
+        this.params.start = (page - 1) * 18;
         this._requestData();
         this.setPaginationCurrent(page);
         // 清空表格选择框

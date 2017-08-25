@@ -7,7 +7,6 @@ import * as Actions from 'actions';
 
 import LoadingComponent from 'components/loading';
 
-import {notification} from 'antd';
 
 class ListComponent extends Component {
 

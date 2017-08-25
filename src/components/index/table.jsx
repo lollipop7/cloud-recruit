@@ -16,8 +16,6 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-import {notification} from 'antd';
-
 class TableComponent extends Component {
 
     static contextTypes = {

@@ -62,7 +62,7 @@ export const getTalentList = (data) => (dispatch,getState) => {
         head: {
             transcode: 'L0025'
         },
-        data: {...data,rows:20+''}
+        data: {...data,rows:18+''}
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);

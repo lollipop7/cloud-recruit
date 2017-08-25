@@ -111,7 +111,7 @@ class TableComponent extends Component {
                         })
                     }
                     pagination={{
-                        defaultPageSize:18 ,
+                        defaultPageSize:18,
                         total: count,
                         current: paginationCurrent,
                         onChange:(page,pageSize)=> paginationChange(page,pageSize)

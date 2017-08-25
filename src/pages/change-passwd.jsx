@@ -10,7 +10,6 @@ import BreadCrumbComponent from 'components/breadcrumb';
 
 import {ErrorInputComponents} from 'components/input';
 
-import { notification } from 'utils/antd';
 
 // redux
 import {bindActionCreators} from 'redux';

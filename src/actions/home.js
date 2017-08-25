@@ -2,7 +2,7 @@ import * as types from 'constants/home';
 import {AjaxByToken} from 'utils/ajax';
 import { message } from "antd"
 import store from 'store';
-import notification from 'antd';
+import {notification} from 'antd';
 
 // 紧急任务
 const URGENT_TASKS = {type:types.URGENT_TASKS};
@@ -54,9 +54,9 @@ export const addMemoContent = (data={},props) => (dispatch,getState) => {
         //添加成功后获取
         const {getMemoContent} = props;
         getMemoContent();
-        message.success('添加备忘录成功');
+        notification.success({message: '添加备忘录成功'});
     },err=>{
-        message.error('添加备忘录失败');
+        notification.error({message: '添加备忘录失败'});
     });
 }
 //获取备忘录内容
@@ -70,7 +70,7 @@ export const getMemoContent = (data) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...GET_MEMO_CONTENT,MemoContent:res.result});
     },err=>{
-        message.error('获取备忘录失败');
+        notification.error({message:'获取备忘录失败'});
         dispatch({...GET_MEMO_CONTENT,MemoContent:[]});
     });
 }
@@ -103,7 +103,7 @@ export const resumeWareHousing = (latestDays=7) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...RESUME,resumeData:res});
     },err=>{
-        notification.error(returnMsg);
+        notification.error({message:returnMsg});
         dispatch({...RESUME,resumeData:{content:[]}});
     });
 }
