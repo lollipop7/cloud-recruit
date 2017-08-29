@@ -1,7 +1,7 @@
 {
   "name": "cloud-recruit",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A React.js project",
   "author": "zhiyingzzhou <zhiyingzzhou@gmail.com>",
   "private": true,
   "scripts": {

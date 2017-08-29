@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Calendar , Icon ,Tooltip} from 'antd';
+import {Calendar , Icon ,Popover } from 'antd';
 import moment from 'moment';
 moment.locale('zh-cn');
 import each from 'lodash/each';
@@ -33,6 +33,7 @@ class MemoCalendarComponent extends Component {
         this.props.showMemoModal();
     }
 
+
     //自定义渲染日期单元格，返回内容会被追加到单元格
     dateCellRender = (value) => {
         const {memos} = this.state;
@@ -40,6 +41,7 @@ class MemoCalendarComponent extends Component {
         const watchDate = parseInt(moment(value._d).format("YYYYMMDD"));
         //今天的日期
         const nowDates =parseInt(moment().format('YYYYMMDD'));
+        
         if (memos.length!=0){
             for (let k=0;k<memos.length;k++){
                 //已添加备忘录的日期处理
@@ -61,7 +63,9 @@ class MemoCalendarComponent extends Component {
     }
 
     render(){
+        //memos现添加的事件，dateArr记录被点击当天的事件
         let memos = [] , dateArr = [];
+        //所有内容，某天内容
         const {MemoContent , DateMemoContent} = this.props;
         const date = moment().format('YYYY-MM-DD');
         MemoContent[date] && each(MemoContent[date],item=>{
@@ -70,7 +74,6 @@ class MemoCalendarComponent extends Component {
         for (let i in DateMemoContent) {
             dateArr=DateMemoContent[i]
         }
-        console.log(MemoContent[date],memos,dateArr);
         return(
             <div className="memo-calendar box-border">
                 <div className="memo-header title" onClick={this.handleClick}>
