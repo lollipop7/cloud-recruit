@@ -63,9 +63,7 @@ class MemoCalendarComponent extends Component {
     }
 
     render(){
-        //memos现添加的事件，dateArr记录被点击当天的事件
-        let memos = [] , dateArr = [];
-        //所有内容，某天内容
+        let memos = [] , dateArr = [], dateContent = [];
         const {MemoContent , DateMemoContent} = this.props;
         const date = moment().format('YYYY-MM-DD');
         MemoContent[date] && each(MemoContent[date],item=>{
@@ -73,6 +71,10 @@ class MemoCalendarComponent extends Component {
         })
         for (let i in DateMemoContent) {
             dateArr=DateMemoContent[i]
+        }
+        //遍历每日备忘录
+        for (let j=0;j<dateArr.length;j++){
+            dateContent.push(dateArr[j].memos)
         }
         return(
             <div className="memo-calendar box-border">
@@ -83,16 +85,10 @@ class MemoCalendarComponent extends Component {
                     {
                         dateArr.length!=0 &&  
                         <div>
-                            <span>今日事项：</span>
+                            <span>{dateArr[0].labelname}</span>
                             <p>
                                 {
-                                    dateArr.map((item,index)=>{
-                                        return <span key={index}>
-                                                    {item.memos}
-                                                    { index === dateArr.length-1 ? "" : <b>、</b> }
-                                            </span>
-                                            
-                                    })
+                                    dateContent.join("、")
                                 }
                             </p>
                         </div>
@@ -102,18 +98,11 @@ class MemoCalendarComponent extends Component {
                         <div>
                             <span>今日事项：</span>
                             <p>
-                                {
-                                    memos.length!=0?memos.map((item,index)=>{
-                                        return <span key={index}>
-                                                    {item}
-                                                    { index === memos.length-1 ? "" : <b>、</b> }
-                                               </span>
-                                    }):"未添加今日事项。。。"
-                                }
+                                {memos.length!=0?memos.join("、"):"未添加今日事项。。。"}
                             </p>
                         </div>
                     }
-                    <div className="calendar-wrap" style={{width:230,height:230}}>
+                    <div className="calendar-wrap" style={{width:230,height:230,marginTop:50}}>
                         <Calendar 
                             fullscreen={false}
                             dateCellRender={this.dateCellRender}

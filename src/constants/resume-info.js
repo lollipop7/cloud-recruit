@@ -35,3 +35,7 @@ export const GET_EVALUATION = "GET_EVALUATION";
 
 //添加面试评估ID
 export const GET_EVALUATION_ID = "GET_EVALUATION_ID";
+
+
+//简历信息分享
+export const RESUME_INFORMATION = "RESUME_INFORMATION";

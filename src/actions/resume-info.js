@@ -7,7 +7,7 @@ import FileSaver from 'file-saver';
 
 import { message } from 'antd';
 
-import {AjaxByToken,AjaxByDefaultToken} from 'utils/ajax';
+import {AjaxByToken } from 'utils/ajax';
 
 // 招聘人员详细信息
 const LOAD_RESUME_INFO = {type:types.LOAD_RESUME_INFO};
@@ -41,6 +41,9 @@ const GET_EVALUATION = {type:types.GET_EVALUATION}
 
 //添加面试评估ID
 const GET_EVALUATION_ID = {type:types.GET_EVALUATION_ID}
+
+//简历信息分享
+const RESUME_INFORMATION = {type:types.RESUME_INFORMATION}
 
 // 得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
@@ -142,6 +145,21 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
     },err=>{
         dispatch(HIDE_MODAL_LOADING);
     });
+}
+
+//简历分享参数
+export const getResumeUrl = (data,props) => (dispatch,getState) => {
+    AjaxByToken("employeeinfo/resumeUrl",{
+        head:{
+            transcode:"L0064"
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...RESUME_INFORMATION,resumeUrl:res.des_url})
+    },err=>{
+        message.error('获取简历参数失败！');
+    })
 }
 
 //添加面试评估

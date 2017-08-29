@@ -17,6 +17,9 @@ class LoginPage extends Component {
     };
 
     state = {
+        // companyname: '51金融圈',
+        // loginname: '51jrq',
+        // password: '123456789',
         companyname: '',
         loginname: '',
         password: '',
@@ -42,9 +45,9 @@ class LoginPage extends Component {
         }
     }
 
-    componentDidMount () {
-        // this.toLogin();
-    }
+    // componentDidMount () {
+    //     this.toLogin();
+    // }
 
     componentWillUnmount() {
         this.setState({
@@ -163,7 +166,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     userLogin: bindActionCreators(Actions.loginActions.userLogin, dispatch),
-    hideLoading: bindActionCreators(Actions.loginActions.hideLoading, dispatch)
+    hideLoading: bindActionCreators(Actions.loginActions.hideLoading, dispatch),
+    userLoginout:bindActionCreators(Actions.loginActions.hideLoading, dispatch)
 })
 
 export default connect(

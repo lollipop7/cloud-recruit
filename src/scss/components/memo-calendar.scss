@@ -18,13 +18,35 @@
         p {
             padding: 5px 0 15px;
             text-indent:2em;
+            width: 240px;
+            height: 45px;
+            position: absolute;
+            z-index: 10;
+            word-wrap: break-word;
+            white-space: nowrap;
+            overflow:hidden; 
+            text-overflow:ellipsis;
+            padding: 0 8px;
+        }   
+        p:hover{
+            cursor: pointer;
+            width: 240px; 
+            height: 200px;
+            border: 1px solid #d9d9d9;
+            background-color: white; 
+            white-space: pre-line;
+            text-overflow:inherit;
+            overflow:visible;
+            word-break:break-all;
+            word-wrap: break-word
         }
         .ant-fullcalendar-header {
             padding: 0;
             text-align: center;
         }
         .calendar-wrap>div{
-            height: 210px
+            height: 210px;
+            position: relative;
         }
         .ant-fullcalendar,.ant-fullcalendar-full,.ant-fullcalendar-table{ 
             height: 185px

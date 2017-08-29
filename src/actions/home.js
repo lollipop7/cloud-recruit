@@ -43,7 +43,7 @@ export const getUrgentTasks = (data={}) => (dispatch,getState) => {
 }
 
 //添加备忘录内容
-export const addMemoContent = (data={},props) => (dispatch,getState) => {
+export const addMemoContent = (data={},props,onDateMM) => (dispatch,getState) => {
     AjaxByToken('employeeinfo/memosEdit',{
         head: {
             transcode: 'L0067'
@@ -53,7 +53,7 @@ export const addMemoContent = (data={},props) => (dispatch,getState) => {
     .then(res=>{
         //添加成功后获取
         const {getMemoContent} = props;
-        getMemoContent();
+        getMemoContent(onDateMM);
         notification.success({message: '添加备忘录成功'});
     },err=>{
         notification.error({message: '添加备忘录失败'});

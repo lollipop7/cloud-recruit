@@ -1,28 +1,44 @@
 import React, {Component} from 'react';
 
-import {Modal,Tabs,Input,Button} from 'antd';
+import {Modal,Tabs,Input,Button,message} from 'antd';
 const TabPane = Tabs.TabPane;
 
 import QRCode from 'qrcode.react';
-
+import Clipboard from "clipboard";
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class ShareModalComponents extends Component {
+    constructor(){
+        super();
+        
+    }
+    
 
     handlePressEnter = (event) => {
         console.log(event.target.value);
     }
-
+    //复制简历分享地址
     handleClick = () => {
         const copyLink = this.refs.CopyLink.refs.input.value;
         const {logId,resumeId}=this.props.params;
     }
+    componentWillMount(){
+        const clipboard = new Clipboard('.btn');
+        clipboard.on('success', function() {
+            message.success('复制成功',3);
+        });
 
+        clipboard.on('error', function(e) {
+            message.error('复制失败，请在输入框内手动复制.',3);
+        });
+        
+    }
+    
     render(){
-        const {shareModalVisible,resumeData,isLoading} = this.props,
+        const {shareModalVisible,resumeData,isLoading,resumeUrl} = this.props,
         {data = {}} = resumeData,
         {
                 resumeInfo={},
@@ -42,7 +58,8 @@ class ShareModalComponents extends Component {
                 educationbg, //学历
                 channel, // 简历来源
             } = resumeInfo;
-            const qrcodeLink = 'https://github.com/ReactTraining/react-router';
+            const qrcodeLink = `${resumeUrl}`;
+           
         return(
             <Modal
                 width = {784}
@@ -66,9 +83,11 @@ class ShareModalComponents extends Component {
                                     ref='CopyLink'
                                     value={qrcodeLink}
                                     addonAfter={<Button value='复制链接'
-                                                       className="copy-link"
+                                                       className="copy-link btn"
                                                        type="primary"
-                                                       onClick={this.handleClick}
+                                                       onClick={this.handleClick} 
+                                                       data-clipboard-action="copy"
+                                                       data-clipboard-text={qrcodeLink}  
                                               >复制链接</Button>}
                             />
                         </div>
@@ -119,7 +138,8 @@ class ShareModalComponents extends Component {
 const mapStateToProps = state => ({
     shareModalVisible: state.Resume.shareModalVisible,
     isLoading: state.Resume.isModalLoading,
-    resumeData: state.Resume.resumeData
+    resumeData: state.Resume.resumeData,
+    resumeUrl: state.Resume.resumeUrl
 })
 const mapDispatchToProps = dispatch => ({
     hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch),

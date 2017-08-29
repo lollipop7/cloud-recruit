@@ -13,7 +13,8 @@ import {
     DOWNLOAD_RESUME_START,
     DOWNLOAD_RESUME_DONE,
     GET_EVALUATION,
-    GET_EVALUATION_ID
+    GET_EVALUATION_ID,
+    RESUME_INFORMATION
 } from 'constants/resume-info';
 
 const initialState = {
@@ -27,7 +28,8 @@ const initialState = {
    isModalLoading: false,
    isDownLoading: false,
    evaluation:{},//评估表
-   evaluationid:""//评估表ID
+   evaluationid:"",//评估表ID
+   resumeUrl:""
 };
 
 export default function resume(state = initialState,actions){
@@ -38,6 +40,8 @@ export default function resume(state = initialState,actions){
             return {...state,modalVisible:false};
         case SHOW_SHARE_MODAL:
             return {...state,shareModalVisible:true,resumeData:actions.resumeData};
+        case RESUME_INFORMATION:
+            return {...state,resumeUrl:actions.resumeUrl};
         case GET_EVALUATION:
             return {...state,evaluation:actions.evaluation};
         case GET_EVALUATION_ID:

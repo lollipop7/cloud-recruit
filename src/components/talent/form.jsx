@@ -90,7 +90,7 @@ export default class FormComponent extends Component {
     }
     //排序按钮
     timeSort = () => {
-        this.props.findEvent({},clickNav);
+        this.props.findEvent({});
     }
 
     render() {

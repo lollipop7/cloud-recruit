@@ -82,7 +82,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     getMemoContent: bindActionCreators(Actions.homeActions.getMemoContent, dispatch),
-    getDateMemoContent: bindActionCreators(Actions.homeActions.getDateMemoContent, dispatch)
+    getDateMemoContent: bindActionCreators(Actions.homeActions.getDateMemoContent, dispatch),
 })
 
 export default connect(
