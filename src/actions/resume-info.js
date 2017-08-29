@@ -148,7 +148,7 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
 }
 
 //简历分享参数
-export const getResumeUrl = (data,props) => (dispatch,getState) => {
+export const getResumeUrl = (data) => (dispatch,getState) => {
     AjaxByToken("employeeinfo/resumeUrl",{
         head:{
             transcode:"L0064"

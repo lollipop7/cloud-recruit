@@ -20,15 +20,12 @@ class ShareModalComponents extends Component {
     handlePressEnter = (event) => {
         console.log(event.target.value);
     }
-    //复制简历分享地址
-    handleClick = () => {
-        const copyLink = this.refs.CopyLink.refs.input.value;
-        const {logId,resumeId}=this.props.params;
-    }
-    componentWillMount(){
+
+    componentWillUnmount(){
+         //复制简历分享地址
         const clipboard = new Clipboard('.btn');
         clipboard.on('success', function() {
-            message.success('复制成功',3);
+            message.success('复制成功',2);
         });
 
         clipboard.on('error', function(e) {
@@ -85,7 +82,6 @@ class ShareModalComponents extends Component {
                                     addonAfter={<Button value='复制链接'
                                                        className="copy-link btn"
                                                        type="primary"
-                                                       onClick={this.handleClick} 
                                                        data-clipboard-action="copy"
                                                        data-clipboard-text={qrcodeLink}  
                                               >复制链接</Button>}
