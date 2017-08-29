@@ -44,7 +44,7 @@ class TableComponents extends Component {
                     </a>
         }
         columns[columns.length-1].render = (text,record,index)=>{
-            return <span className="prestatusname-manage">{text}</span>;
+            return <span className="prestatusname-manage">{text?text:"无"}</span>;
         }
         return columns;
     }

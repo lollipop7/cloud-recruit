@@ -142,7 +142,7 @@ class RecruitPage extends BasicPage {
                             <div className="box-border right-panel">
                                 <FormComponents
                                     ref="FormComponents"
-                                    findEvent={this.handleFind} 
+                                    handleFind={this.handleFind} 
                                     showUploadModal={this.props.showUploadModal}
                                 />
                                 <TableComponents

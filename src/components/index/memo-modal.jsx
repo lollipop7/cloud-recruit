@@ -3,6 +3,7 @@ import {Modal , Tabs , Input , Icon} from 'antd';
 
 import InputComponent from './input';
 import pickBy from 'lodash/pickBy';
+import moment from 'moment';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -32,6 +33,7 @@ class MemoModalComponent extends Component {
     //添加备忘录
     addMemoValue = () =>{
         const {memonsdate, memos} = this.state;
+        const onDateMM = moment().format("YYYY-MM-01")
        //没有选择时间打开弹层
         if(!memonsdate){
             this.setState({
@@ -56,7 +58,7 @@ class MemoModalComponent extends Component {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== false;
         });
-        this.props.addMemoContent({...this.state},this.props)
+        this.props.addMemoContent({...this.state},this.props,{onDateMM:onDateMM})
         this.props.hideMemoModal()  
     }
     //隐藏添加备忘录modal

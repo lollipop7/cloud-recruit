@@ -43,7 +43,7 @@ export default class FormComponents extends Component {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== '';
         });
-        this.props.findEvent(filterObj);
+        this.props.handleFind(filterObj);
     }
     handleSelectChange = (field,value) => {
         this.setState({
@@ -81,9 +81,6 @@ export default class FormComponents extends Component {
                         range:"1"
                     });
             }
-            setTimeout(()=>{
-                this.handleFind()
-            })
             
     }
      //候选人

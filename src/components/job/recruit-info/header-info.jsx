@@ -87,7 +87,6 @@ class HeaderInfoComponent extends Component {
     }
 
     handleClick = () => {
-        console.log('添加评估表!');
         this.setState({
             width: '88px',
             borderColor: '#26ae74',
@@ -97,7 +96,9 @@ class HeaderInfoComponent extends Component {
 
     handleShare = () => {
         const data = this.props;
+        const resumeid = data.data.resumeid
         this.props.showShareModal(data);
+        this.props.getResumeUrl({resumeid:`${resumeid}`})
     }
     handleEvaluate = () => {
         const { evaluationId } = this.props.data
@@ -306,7 +307,9 @@ const mapDispatchToProps = dispatch => ({
     showModal: bindActionCreators(Actions.ResumeActions.showModal, dispatch),
     showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch),
     showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch),
-    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch)
+    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
+    getResumeUrl: bindActionCreators(Actions.ResumeActions.getResumeUrl, dispatch),
+    //getResumeInformation : bindActionCreators(Actions.ResumeActions.getResumeInformation, dispatch)
 })
 
 export default connect(
