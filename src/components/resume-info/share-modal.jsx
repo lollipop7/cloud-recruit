@@ -18,7 +18,6 @@ class ShareModalComponents extends Component {
 
     handleClick = () => {
         const copyLink = this.refs.CopyLink.refs.input.value;
-        console.log(this.props);
         const {logId,resumeId}=this.props.params;
     }
 
@@ -123,7 +122,7 @@ const mapStateToProps = state => ({
     resumeData: state.Resume.resumeData
 })
 const mapDispatchToProps = dispatch => ({
-    hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch)
+    hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch),
 })
 
 export default connect(

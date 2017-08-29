@@ -7,7 +7,7 @@ import FileSaver from 'file-saver';
 
 import { message } from 'antd';
 
-import {AjaxByToken} from 'utils/ajax';
+import {AjaxByToken,AjaxByDefaultToken} from 'utils/ajax';
 
 // 招聘人员详细信息
 const LOAD_RESUME_INFO = {type:types.LOAD_RESUME_INFO};

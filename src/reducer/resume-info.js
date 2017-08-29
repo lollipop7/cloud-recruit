@@ -61,7 +61,7 @@ export default function resume(state = initialState,actions){
         case DOWNLOAD_RESUME_START:
             return {...state,isDownLoading: true};
         case DOWNLOAD_RESUME_DONE:
-            return {...state,isDownLoading: false};
+            return {...state,isDownLoading: false};  
         default: 
             return state;
     }

@@ -298,7 +298,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch),
     addEvaluation: bindActionCreators(Actions.ResumeActions.addEvaluation, dispatch),
-    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
     getEvaluationId: bindActionCreators(Actions.ResumeActions.getEvaluationId, dispatch)
 })
 
