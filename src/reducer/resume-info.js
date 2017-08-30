@@ -29,7 +29,7 @@ const initialState = {
    isDownLoading: false,
    evaluation:{},//评估表
    evaluationid:"",//评估表ID
-   resumeUrl:""
+   resumeUrl:{}
 };
 
 export default function resume(state = initialState,actions){

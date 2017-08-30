@@ -156,11 +156,13 @@ export const getResumeUrl = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch({...RESUME_INFORMATION,resumeUrl:res.des_url})
+        dispatch({...RESUME_INFORMATION,resumeUrl:res})
     },err=>{
         message.error('获取简历参数失败！');
     })
 }
+
+//生成简历页面
 
 //添加面试评估
 export const addEvaluation = (data,props) => (dispatch,getState) => {

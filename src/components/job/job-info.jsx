@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
 import LoadingComponent from 'components/loading';
-import BaseInfoComponent from './info/base-info';
-import OtherInfoComponent from './info/other-info';
+import BaseInfoComponent from './info/baseinfo';
+import OtherInfoComponent from './info/other-info'; 
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -28,7 +28,7 @@ class JobInfoComponent extends Component {
                     </div>
                 }
                 {!isLoading &&
-                    <ul className="job-form" style={{
+                    <ul className="new-job-form" style={{
                         textAlign: 'left',
                         padding: 0,
                         margin: '16px 30px'
