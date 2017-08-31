@@ -34,7 +34,7 @@ class RecruitPage extends BasicPage {
     isIframeRefresh = false;
 
     params = {
-        stageid: '0',
+        stageid: '1',
         skip: 0,
         range:"1"
     };
@@ -88,7 +88,6 @@ class RecruitPage extends BasicPage {
          navArr.forEach((item,index)=>{
             NavData[index].num = item;
         });        
-       
         return NavData;
     }
 

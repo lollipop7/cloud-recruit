@@ -40,10 +40,13 @@ export default class FormComponents extends Component {
 
     //筛选
     handleFind = () => {
-        const filterObj = pickBy(this.state,(val,key)=>{
-            return val !== '' && val !=undefined;
-        });
-        this.props.handleFind(filterObj);
+        setTimeout(()=>{
+            const filterObj = pickBy(this.state,(val,key)=>{
+                return val !== '' && val !=undefined;
+            });
+            this.props.handleFind(filterObj);
+        })
+       
     }
     handleSelectChange = (field,value) => {
         this.setState({
