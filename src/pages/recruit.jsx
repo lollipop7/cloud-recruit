@@ -46,7 +46,6 @@ class RecruitPage extends BasicPage {
         this.hideNProgress();
         const {params,getRecruitCategory} = this.props,
             {stageid} = params;
-            console.log(this.props);
         getRecruitCategory();
         if(stageid){
             this.params.stageid = stageid;
@@ -78,35 +77,20 @@ class RecruitPage extends BasicPage {
         this.props.getRecruitList({...this.params,...this.formData});
         // console.log({...this.formData})
     }
-    //排序
-    _getSort(arr, sortStr){
-         // 排序函数（用以返回次序关系）
-        var bySort = function() {
-            return function(o, p) {  // p 是 o 的下一项
-                var a = o[sortStr],
-                    b = p[sortStr];
-                if (isNaN(a)) {  // 非数字排序
-                    return a.localeCompare(b);  // 用本地特定顺序来比较(支持中文)
-                } else {
-                    if (a === b) {
-                        return 0;
-                    } else {
-                        return a > b ? 1 : -1;
-                    }
-                }
-            }
-        };
-        for (var i = 0; i < arr.length; i++) {
-            //console.log(arr[i][sortStr])
-            arr.sort(bySort(arr[i][sortStr]));
-        }
-    }
+    
     //获取leftnav数据
      _getNavData(data){
-        data.forEach((item,index)=>{
-            NavData[index].num = item[index];
+        const navArr = [];
+        for(let i in data){
+            navArr.push(data[i][i]);
+        }
+        let temp = navArr[0];
+        navArr.splice(0,1);
+        navArr.push(temp);
+        console.log(navArr);
+        NavData.foreach((item,index)=>{
+            item[index].num = navArr[index];
         });
-        // this._getSort(NavData,'key');
         return NavData;
     }
 
