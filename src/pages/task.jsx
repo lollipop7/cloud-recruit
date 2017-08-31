@@ -48,12 +48,14 @@ class TaskPage extends BasicPage {
         //     downLoading:true
         // });
         this.refs.form.submit();
+        console.log("download");
     }
 
     onTimeChange = (field,val) => {
         this.setState({
             [field]: val ? moment(val).format('YYYY-MM-DD') : ''
         });
+        console.log(this.state.field);
     }
 
     search = () => {
@@ -71,7 +73,7 @@ class TaskPage extends BasicPage {
     }
 
     render() {
-        const {downLoading} = this.state;
+        const {downLoading,starttime,endtime} = this.state;
         const {routes} = this.props;
         return (
             <ScrollPageContent>
@@ -93,6 +95,8 @@ class TaskPage extends BasicPage {
                                 ref="TimeComponent"
                                 style={{width:'249px',marginRight:'16px'}}
                                 onChange={this.onTimeChange}
+                                starttime={starttime}
+                                endtime={endtime}
                             />
                             <Button type="primary" onClick={
                                 this.search

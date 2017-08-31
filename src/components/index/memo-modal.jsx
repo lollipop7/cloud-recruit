@@ -1,5 +1,5 @@
 import React , { Component } from "React"
-import {Modal , Tabs , Input , Icon} from 'antd';
+import {Modal , Input , Icon} from 'antd';
 
 import InputComponent from './input';
 import pickBy from 'lodash/pickBy';

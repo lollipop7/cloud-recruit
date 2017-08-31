@@ -36,7 +36,7 @@ export default class StepsComponent extends Component {
         },
         {
             status: 'wait',
-            title: '入职',
+            title: '待入职',
             icon: 6
         },
         {

@@ -92,3 +92,21 @@
             height: 17px;
         }
 }
+.form-btns {
+    .ant-btn {
+        width: 114px;
+        height: 40px;
+        font-size: 18px;
+        color: #FFF;
+        &:hover {
+            border-color: transparent;
+            color: #FFF;
+        }
+        &.ant-btn-primary {
+            margin-right: 16px;
+        }
+        &.grey {
+            background-color: #c0c0c0;
+        }
+    }
+}

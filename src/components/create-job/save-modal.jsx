@@ -1,5 +1,5 @@
 import React , { Component , PropTypes } from "React"
-import {Modal , Tabs , Input , Icon} from 'antd';
+import {Modal , Input , Icon} from 'antd';
 
 //redux
 import {bindActionCreators} from 'redux';
