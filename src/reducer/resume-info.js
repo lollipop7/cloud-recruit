@@ -29,7 +29,7 @@ const initialState = {
    isDownLoading: false,
    evaluation:{},//评估表
    evaluationid:"",//评估表ID
-   resumeUrl:""
+   resumeUrl:{}
 };
 
 export default function resume(state = initialState,actions){
@@ -65,7 +65,7 @@ export default function resume(state = initialState,actions){
         case DOWNLOAD_RESUME_START:
             return {...state,isDownLoading: true};
         case DOWNLOAD_RESUME_DONE:
-            return {...state,isDownLoading: false};
+            return {...state,isDownLoading: false};  
         default: 
             return state;
     }

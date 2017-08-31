@@ -15,6 +15,7 @@ class ShareModalComponents extends Component {
     handlePressEnter = (event) => {
         console.log(event.target.value);
     }
+
     componentWillUnmount(){
          //复制简历分享地址
         const clipboard = new Clipboard('.btn');
@@ -49,8 +50,8 @@ class ShareModalComponents extends Component {
                 educationbg, //学历
                 channel, // 简历来源
             } = resumeInfo;
-            const qrcodeLink = `${resumeUrl}`;
-           
+            const qrcodeLink = `${resumeUrl.des_url}`;
+           console.log(resumeUrl);
         return(
             <Modal
                 width = {784}
@@ -132,7 +133,7 @@ const mapStateToProps = state => ({
     resumeUrl: state.Resume.resumeUrl
 })
 const mapDispatchToProps = dispatch => ({
-    hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch)
+    hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch),
 })
 
 export default connect(

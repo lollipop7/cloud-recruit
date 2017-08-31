@@ -98,7 +98,7 @@ class HeaderInfoComponent extends Component {
         const data = this.props;
         const resumeid = data.data.resumeid
         this.props.showShareModal(data);
-        this.props.getResumeUrl({resumeid:`${resumeid}`})
+        this.props.getResumeUrl({resumeid:`${resumeid}`});
     }
     handleEvaluate = () => {
         const { evaluationId } = this.props.data

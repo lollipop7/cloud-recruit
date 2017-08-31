@@ -11,7 +11,7 @@ export default class HelpPage extends BasicPage {
     render() {
         return (
             <ScrollPageContent>
-                <div className="page-content manager-page">
+                <div className="page-content">
                     使用帮助界面
                 </div>
             </ScrollPageContent>
