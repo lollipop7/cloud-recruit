@@ -80,7 +80,7 @@ class LoginPage extends Component {
         }
         if(nextState.errMsg !== ''){
             setTimeout(()=>{
-                this.setState({
+                this.setState({ 
                     errMsg: ''
                 });
             },1000);

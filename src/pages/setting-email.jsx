@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {Input,Button,Select} from 'antd';
+import {Input,Button,Select,Tabs} from 'antd';
 const Option = Select.Option;
+const TabPane = Tabs.TabPane;
 
 import ScrollPageContent from 'components/scroll-page-content';
 import BreadCrumbComponent from 'components/breadcrumb';
@@ -107,86 +108,99 @@ class SettingEmailPage extends Component {
         }
     }
 
+    
+
     render() {
         const {error=false,mailid,errorMsg='必填'} = this.state,
             {routes,userEmailInfo} = this.props,
             {mailServersList,userMail} = userEmailInfo;
         const userMailId = userMail.mailid;
+        const pane = (
+            <div className="email-panel-wrap">
+                <ul>
+                    <li className="table">
+                        <div className="table-cell">
+                            邮箱服务器
+                        </div>
+                        <div className="table-cell">
+                            <Select
+                                style={{
+                                    width: '100%'
+                                }}
+                                className={error ? 'error' : ''}
+                                value={mailid}
+                                placeholder="请选择邮箱服务器"
+                                onChange={this.handleSelectChange}
+                                onBlur={this.handleSelectBlur}
+                            >
+                            {
+                                mailServersList.map( (item,index)=>{
+                                    const {id,servername} = item;
+                                    return (
+                                        <Option key={index} value={id+''}>
+                                            {servername}
+                                            </Option>
+                                    );
+                                })
+                            }
+                            </Select>
+                            {error&&
+                                <div className="error-promote" style={{
+                                    paddingLeft: 0
+                                }}>
+                                    <label className="error">{errorMsg}</label>
+                                </div>
+                            }
+                        </div>
+                    </li>
+                    <li className="table">
+                        <div className="table-cell">
+                            邮箱名
+                        </div>
+                        <div className="table-cell">
+                            <ErrorInputComponents 
+                                ref="emailInput"
+                                placeholder="请输入邮箱名"
+                                onChange={this.handleChange.bind(this,'email')}
+                                onEnter={this.handleEnter.bind(this,'pwdInput')}
+                            />
+                        </div>
+                    </li>
+                    <li className="table">
+                        <div className="table-cell">
+                            密码
+                        </div>
+                        <div className="table-cell">
+                            <ErrorInputComponents 
+                                type="password"
+                                ref="pwdInput"
+                                placeholder="请输新密码"
+                                onChange={this.handleChange.bind(this,'pwd')}
+                                onEnter={this.handleEnter}
+                            />
+                        </div>
+                    </li>
+                    <li className="table form-btns">
+                        <Button type="primary" onClick={this.setEmail}>配置</Button>
+                        <Button className="grey" onClick={this.resetForm}>重填</Button>
+                    </li>
+                </ul>
+            </div>
+        )
+
         return (
             <ScrollPageContent>
                 <div className="page-content setting-email-page">
                     <BreadCrumbComponent routes={routes} />
                     <div className="settings-block box-border table form">
-                        <div className="table-cell">
-                            <ul>
-                                <li className="table">
-                                    <div className="table-cell">
-                                        邮箱服务器
-                                    </div>
-                                    <div className="table-cell">
-                                        <Select
-                                            style={{
-                                                width: '100%'
-                                            }}
-                                            className={error ? 'error' : ''}
-                                            value={mailid}
-                                            placeholder="请选择邮箱服务器"
-                                            onChange={this.handleSelectChange}
-                                            onBlur={this.handleSelectBlur}
-                                        >
-                                           {
-                                               mailServersList.map( (item,index)=>{
-                                                   const {id,servername} = item;
-                                                   return (
-                                                       <Option key={index} value={id+''}>
-                                                           {servername}
-                                                        </Option>
-                                                   );
-                                               })
-                                           }
-                                        </Select>
-                                        {error&&
-                                            <div className="error-promote" style={{
-                                                paddingLeft: 0
-                                            }}>
-                                                <label className="error">{errorMsg}</label>
-                                            </div>
-                                        }
-                                    </div>
-                                </li>
-                                <li className="table">
-                                    <div className="table-cell">
-                                        邮箱名
-                                    </div>
-                                    <div className="table-cell">
-                                        <ErrorInputComponents 
-                                            ref="emailInput"
-                                            placeholder="请输入邮箱名"
-                                            onChange={this.handleChange.bind(this,'email')}
-                                            onEnter={this.handleEnter.bind(this,'pwdInput')}
-                                        />
-                                    </div>
-                                </li>
-                                <li className="table">
-                                    <div className="table-cell">
-                                        密码
-                                    </div>
-                                    <div className="table-cell">
-                                        <ErrorInputComponents 
-                                            type="password"
-                                            ref="pwdInput"
-                                            placeholder="请输新密码"
-                                            onChange={this.handleChange.bind(this,'pwd')}
-                                            onEnter={this.handleEnter}
-                                        />
-                                    </div>
-                                </li>
-                                <li className="table">
-                                    <Button type="primary" onClick={this.setEmail}>配置</Button>
-                                    <Button className="grey" onClick={this.resetForm}>重填</Button>
-                                </li>
-                            </ul>
-                        </div>
+                        <Tabs type="card">
+                            <TabPane tab="发送邮箱" key="1">
+                                {pane}
+                            </TabPane>
+                            <TabPane tab="简历邮箱" key="2">
+                                {pane}
+                            </TabPane>
+                        </Tabs>
                     </div>
                 </div>
             </ScrollPageContent>

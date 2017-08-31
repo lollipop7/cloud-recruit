@@ -48,12 +48,14 @@ class TaskPage extends BasicPage {
         //     downLoading:true
         // });
         this.refs.form.submit();
+        console.log("download");
     }
 
     onTimeChange = (field,val) => {
         this.setState({
             [field]: val ? moment(val).format('YYYY-MM-DD') : ''
         });
+        console.log(this.state.field);
     }
 
     search = () => {
