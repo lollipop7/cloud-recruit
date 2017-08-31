@@ -78,19 +78,19 @@ class RecruitPage extends BasicPage {
         // console.log({...this.formData})
     }
     
-    //获取leftnav数据
+    
+    //获取leftnav数据 
      _getNavData(data){
-        const navArr = [];
-        for(let i in data){
-            navArr.push(data[i][i]);
-        }
-        let temp = navArr[0];
-        navArr.splice(0,1);
-        navArr.push(temp);
-        console.log(navArr);
-        NavData.foreach((item,index)=>{
-            item[index].num = navArr[index];
-        });
+         const navArr = []
+         for (let item in data){
+            navArr.push(data[item][item])
+         }
+         const dataAll = navArr[0];
+         navArr.splice(0,1)
+         navArr.push(dataAll)
+         navArr.forEach((item,index)=>{
+            NavData[index].num = item;
+        });        
         return NavData;
     }
 

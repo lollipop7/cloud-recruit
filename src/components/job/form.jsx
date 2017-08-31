@@ -17,7 +17,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
- class FormComponent extends Component {
+export default class FormComponent extends Component {
 
     state = {
     }
@@ -130,14 +130,14 @@ import * as Actions from 'actions';
         );
     }
 }
-const mapStateToProps = state => ({
+// const mapStateToProps = state => ({
    
-})
-const mapDispatchToProps = dispatch => ({
-    resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
-})
+// })
+// const mapDispatchToProps = dispatch => ({
+//     resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
+// })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FormComponent);
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(FormComponent);

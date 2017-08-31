@@ -73,7 +73,7 @@ class TaskPage extends BasicPage {
     }
 
     render() {
-        const {downLoading,starttime,endtime} = this.state;
+        const {downLoading,endtime,starttime} = this.state;
         const {routes} = this.props;
         return (
             <ScrollPageContent>
@@ -96,7 +96,7 @@ class TaskPage extends BasicPage {
                                 style={{width:'249px',marginRight:'16px'}}
                                 onChange={this.onTimeChange}
                                 starttime={starttime}
-                                endtime={endtime}
+                                endtime ={endtime}
                             />
                             <Button type="primary" onClick={
                                 this.search

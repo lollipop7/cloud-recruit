@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component , PropTypes} from 'react';
 
 import {Table,Modal,Popover,Button} from 'antd';
 
@@ -13,7 +13,11 @@ import * as Actions from 'actions';
 
 class TableComponent extends Component {
     state = {
-        currentClickJob:{}
+        currentClickJob:{},
+        positionname:""
+    }
+    static contextTypes = {
+        router: PropTypes.object
     }
 
     columns = [];
@@ -30,28 +34,26 @@ class TableComponent extends Component {
         this.setState({currentClickJob:record});
         showJobModal();
     }
-
+    //显示所有面试者的基本信息
+    showInterviewNum = (record) =>{
+        this.context.router.push(`recruit`);
+        //this.props.showInterviewModal()
+        //this.setState({positionname:record.positionname});
+    }
     componentDidMount() {
         this.columns = this.getColumns();
     }
 
     getColumns() {
         columns[2].render = this.renderWithAtag;
+        columns[6].render = this.renderWithInterview;
         columns[columns.length - 1].render = (text,record,index) => {
             switch(parseInt(text)) {
                 case 0:
                     return <button className="status-button plan">准备中</button>;
                 case 1:
                     return (
-                        /*<Popover 
-                            placement="top" 
-                            title='提前终止' 
-                            content={
-                                <Button type="primary">提前终止</Button>
-                            } 
-                        >*/
                             <button className="status-button progress">进行中</button>
-                        // </Popover>
                     );
                 case 2:
                     return <button className="status-button complete">已完成</button>;
@@ -74,6 +76,18 @@ class TableComponent extends Component {
             </a>
         )
     }
+    renderWithInterview = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={text}
+                onClick={() => this.showInterviewNum(record)}
+            >
+                {text}
+            </a>
+        )
+    }
 
     render() {
         const {
@@ -85,8 +99,11 @@ class TableComponent extends Component {
             getJobList,
             getJobCategory,
             modalVisible,
-            hideJobModal
+            hideJobModal,
+            interviewmodalVisible,
+            hideInterviewModal
         } = this.props;
+        const {positionname} = this.state
         const {list,count} = listData;
         return (
             <div style={{
@@ -124,6 +141,14 @@ class TableComponent extends Component {
                         getJobCategory={getJobCategory}
                     />
                 </Modal>
+                <Modal
+                    title ={positionname}
+                    visible={interviewmodalVisible}
+                    onCancel={!isLoadingAbort ? () => hideInterviewModal() : () => {}}
+                    width={1100}
+                    footer={null}
+                >
+                </Modal>
             </div>
         );
     }
@@ -133,13 +158,16 @@ const mapStateToProps = state => ({
     listData: state.Job.listData, // 统计列表数据
     isLoading: state.Job.isLoadingList,
     modalVisible: state.Job.modalVisible,
-    isLoadingAbort: state.Job.isLoadingAbort
+    isLoadingAbort: state.Job.isLoadingAbort,
+    interviewmodalVisible: state.Job.interviewmodalVisible,
 })
 const mapDispatchToProps = dispatch => ({
     getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
     getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
     showJobModal: bindActionCreators(Actions.jobActions.showJobModal, dispatch),
-    hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch)
+    hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch),
+    showInterviewModal: bindActionCreators(Actions.jobActions.showInterviewModal, dispatch),
+    hideInterviewModal: bindActionCreators(Actions.jobActions.hideInterviewModal, dispatch)
 })
 
 export default connect( 

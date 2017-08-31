@@ -51,7 +51,6 @@ class ShareModalComponents extends Component {
                 channel, // 简历来源
             } = resumeInfo;
             const qrcodeLink = `${resumeUrl.des_url}`;
-           console.log(resumeUrl);
         return(
             <Modal
                 width = {784}

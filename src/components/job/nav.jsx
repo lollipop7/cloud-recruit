@@ -54,7 +54,7 @@ export default class LeftNavComponent extends Component {
                         }}
                     >
                     </div> :
-                    <Badge count = {num} overflowCount = {num} style = {{backgroundColor: item.bgcolor,borderRadius: "5px",marginLeft: "11px"}}/>
+                    <Badge showZero count = {num} overflowCount = {num} style = {{backgroundColor: item.bgcolor,borderRadius: "5px",marginLeft: "11px"}}/>
                 }
             </dd>
         )
