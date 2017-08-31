@@ -41,39 +41,8 @@ export default class OtherInfoComponent extends Component {
             [field]: value ? moment(value).format('YYYY-MM-DD')+' 00:00:00' : ''
         });
     }
-
-    getFormData = () => {
-        const { starttime , endtime , isurgent , isintelligent } = this.state;
-        const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
-        if(starttime === ''){
-            handleStartOpen(true);
-            return false;
-        }
-        if(endtime === ''){
-            handleEndOpenChange(true);
-            return false;
-        }
-        return {...this.state}
-    }
     
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-             const {
-                urgent,//是否紧急
-                intelligent,//是否智能匹配
-                starttime,//开始时间
-                endtime,//结束时间
-            } = this.props.data;
-            this.setState({
-                isurgent:urgent,//是否紧急
-                isintelligent:intelligent,//是否智能匹配
-                starttime:starttime?moment(starttime).format("YYYY-MM-DD 00:00:00"):"",//开始时间
-                endtime:endtime?moment(endtime).format("YYYY-MM-DD 00:00:00"):"",//结束时间
-          
-            })
-        })
-    };
-
+    
     render() {
         // workType 工作类型
         // workDuty 工作职责
@@ -84,7 +53,7 @@ export default class OtherInfoComponent extends Component {
             isintelligent,
             starttime=null ,
             endtime=null,
-        } = this.state;
+        } = this.props.jobInfo;
         return (
             <li className="other-info">
                 <h2 className="title">

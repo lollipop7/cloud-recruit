@@ -109,7 +109,7 @@ class IndexPage extends Component {
 
     render() {
         const {paginationCurrent} = this.state,
-            {routes,categoryData,isLoading} = this.props;
+            {routes,categoryData,isLoading,resetForm} = this.props;
         return (
             <div className="page-content job-page">
                 <BreadCrumbComponent routes={this.getRoutes(routes)} />
@@ -129,6 +129,7 @@ class IndexPage extends Component {
                             onSearch={this.handleSearch} 
                             paginationChange={this.paginationChange} 
                             paginationCurrent={paginationCurrent}
+                            resetForm={resetForm}
                         />
                     </div>
                 </div>
@@ -145,7 +146,8 @@ const mapDispatchToProps = dispatch => ({
     getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
     showJobModal: bindActionCreators(Actions.jobActions.showJobModal, dispatch),
     getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
-    getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch)
+    getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch),
+    resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
 })
 
 export default connect(

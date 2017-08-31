@@ -1,11 +1,5 @@
 [
-    {
-        "title": "全部",
-        "type": "0",
-        "bgcolor": "#0186ca",
-        "num": 0,
-        "key":"7"
-    },
+   
     {
         "title": "职位申请",
         "type": "1",
@@ -54,5 +48,12 @@
         "bgcolor": "#a9a9a9",
         "num": 0,
         "key":"6"
+    },
+    {
+        "title": "全部",
+        "type": "0",
+        "bgcolor": "#0186ca",
+        "num": 0,
+        "key":"7"
     }
 ]

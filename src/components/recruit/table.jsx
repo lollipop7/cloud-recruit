@@ -72,14 +72,6 @@ class TableComponents extends Component {
                         recruitList.list.map((item,index)=>{
                             item.key = index;
                             return item;
-                             {/*return merge(
-                                {key:index},
-                                item,
-                                {prestatusname: 
-                                    <span className="prestatusname-manage">
-                                        {item}&nbsp;<Icon type="caret-right" />
-                                    </span>}
-                            );*/}
                         })
                     }
                     pagination={{

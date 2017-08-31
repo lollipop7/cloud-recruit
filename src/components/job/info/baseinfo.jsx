@@ -226,119 +226,6 @@ export default class BaseinfoComponent extends Component {
         }
     }
 
-    resetForm() {
-        this.setState({
-            positionname:'',
-            salary:undefined,
-            department:'',
-            recruitreason:'',
-            headcount:'',
-            workcity:'',
-            workyears: undefined,
-            specialty: undefined,
-            educationbackground: undefined,
-            age: '', //年龄
-            jobtype:"",//工作类型
-            responsibility:"",//工作职责
-            qualification:"",//任职资格
-        });
-    }
-
-    getFormData = () => {
-        const {
-            positionname='', // 职位名称
-            salary=undefined, // 薪资待遇
-            department='', // 用人部门
-            recruitreason='', // 招聘理由
-            headcount='', // 招聘人数
-            workcity='', // 工作地点
-            workyears=undefined, // 工作年限
-            specialty=undefined, // 专业
-            educationbackground=undefined, //学历,
-            age='', //年龄
-            jobtype="",//工作类型
-            responsibility="",//工作职责
-            qualification="",//任职资格
-        } = this.state;
-        const {
-            positionnameInput,
-            departmentInput,
-            recruitreasonInput,
-            headcountInput,
-            salarySelect,
-            workyearsSelect,
-            specialtySelect,
-            educationbackgroundSelect,
-            ageInput ,//年龄
-            workstyleradio,//工作类型
-            responsibilityInput,
-            qualificationInput
-        } = this.refs;
-        if(positionname === ''){
-            positionnameInput.refs.input.focus();
-            positionnameInput.triggerError(true);
-            return false;
-        }
-        if(workcity === ''){
-            this.setState({
-                error: true
-            });
-            return false;
-        }
-        if(department === ''){
-            departmentInput.refs.input.focus();
-            departmentInput.triggerError(true);
-            return false;
-        }
-        if(recruitreason === ''){
-            recruitreasonInput.refs.input.focus();
-            recruitreasonInput.triggerError(true);
-            return false;
-        }
-        if(headcount === ''){
-            headcountInput.refs.input.focus();
-            headcountInput.triggerError(true);
-            return false;
-        }
-        if(!salary){
-            salarySelect.triggerError(true);
-            return false;
-        }
-        if(!workyears){
-            workyearsSelect.triggerError(true);
-            return false;
-        }
-        if(!specialty){
-            specialtySelect.triggerError(true);
-            return false;
-        }
-        if(!educationbackground){
-            educationbackgroundSelect.triggerError(true);
-            return false;
-        }
-        if(jobtype === ''){
-            this.setState({
-                errorJobType:true
-            });
-            return false;
-        }
-        if(responsibility === ''){
-            this.setState({
-                errorresponsibility:true
-            });
-            responsibilityInput.refs.input.focus();
-            return false;
-        }
-        if(qualification === ''){
-            this.setState({
-                errorqualification:true
-            });
-            qualificationInput.refs.input.focus();
-            return false;
-        }
-        return {...this.state}
-    }
-
     handleCityChange = (val) => {
         this.setState({
             workcity: val.length > 0 ?  val[0] + '-' + val[1] : ''
@@ -350,9 +237,6 @@ export default class BaseinfoComponent extends Component {
         this.setState({
             [field]: e.target.value.replace(pattern,'')
         });
-    }
-    onChange = (e) => {
-        console.log(`checked = ${e.target.checked}`)
     }
 
     handleRadio = (e) => {
@@ -384,41 +268,7 @@ export default class BaseinfoComponent extends Component {
             }
             
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-             const {
-                positionname, // 职位名称
-                salary, // 薪资待遇
-                department, // 用人部门
-                recruitreason, // 招聘理由
-                headcount, // 招聘人数
-                workcity, // 工作地点
-                workyears, // 工作年限
-                specialty, // 专业
-                educationbackground, //学历,
-                age, //年龄
-                jobtype,//工作类型
-                responsibility,//工作职责
-                qualification,//任职资格
-            } = this.props.data;
-            this.setState({
-                positionname:positionname, // 职位名称
-                salary:salary, // 薪资待遇
-                department:department, // 用人部门
-                recruitreason:recruitreason, // 招聘理由
-                headcount:headcount, // 招聘人数
-                workcity:workcity, // 工作地点
-                workyears:workyears, // 工作年限
-                specialty:specialty, // 专业
-                educationbackground:educationbackground, //学历,
-                age:age, //年龄
-                jobtype:jobtype,//工作类型
-                responsibility:responsibility,//工作职责
-                qualification:qualification,//任职资格
-                })
-          
-        })
-    }
+   
 
     render() {
         const {
@@ -439,7 +289,7 @@ export default class BaseinfoComponent extends Component {
             errorresponsibility,
             errorqualification,
             error
-        } = this.state;
+        } = this.props.jobInfo;
         return (
             <li className="base-info">
                 <h2 className="title">
@@ -499,7 +349,7 @@ export default class BaseinfoComponent extends Component {
                                 <Cascader 
                                     options={city}
                                     value ={workcity?workcity.split("-"):''}
-                                    allowClear
+                                    disabled="true"
                                     className={error ? "error" : ''}
                                     onChange={this.handleCityChange}
                                     displayRender={label => label.join(' - ')}
