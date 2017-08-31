@@ -17,7 +17,7 @@ export default class FormComponents extends Component {
         username: '',
         workyear: undefined,
         time:"",
-        edu:undefined,
+        educationbg:undefined,
         range:""
     }
     //监听键盘Enter键
@@ -41,7 +41,7 @@ export default class FormComponents extends Component {
     //筛选
     handleFind = () => {
         const filterObj = pickBy(this.state,(val,key)=>{
-            return val !== '';
+            return val !== '' && val !=undefined;
         });
         this.props.handleFind(filterObj);
     }
@@ -98,7 +98,7 @@ export default class FormComponents extends Component {
     //重置
     resetForm = (clickNav=false) => {
         this.setState({
-            edu: undefined, // 学历要求
+            educationbg: undefined, // 学历要求
             workyear: undefined, // 工作年限
             username:undefined//姓名
         });
@@ -111,7 +111,7 @@ export default class FormComponents extends Component {
             livecityid,
             username,
             workyear,
-            edu,
+            educationbg,
             time
         } = this.state;
         return (
@@ -158,8 +158,8 @@ export default class FormComponents extends Component {
                     <Select 
                             placeholder="请选择学历" 
                             style={{width: 189}}
-                            value={edu}
-                            onChange={(value)=>this.handleSelectChange('edu',value)}
+                            value={educationbg}
+                            onChange={(value)=>this.handleSelectChange('educationbg',value)}
                         >
                             {
                                 education.map((item,index)=>{
