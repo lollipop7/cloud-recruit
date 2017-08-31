@@ -68,7 +68,7 @@ export default class InputComponent extends React.Component {
                             showTime
                             value={eventtime}
                             className="eventtime"
-                            format='YYYY-MM-DD hh:mm:ss'
+                            format='YYYY-MM-DD HH:mm:ss'
                             showToday={false}
                             placeholder={timePlaceholder}
                             open={error.errorTime?!open:open}

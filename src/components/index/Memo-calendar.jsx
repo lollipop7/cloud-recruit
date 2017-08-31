@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Calendar , Icon ,Popover } from 'antd';
 import moment from 'moment';
-moment.locale('zh-cn');
 import each from 'lodash/each';
 
 //redux

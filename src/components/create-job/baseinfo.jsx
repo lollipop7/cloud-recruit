@@ -165,7 +165,6 @@ class SelectComponent extends Component {
                         placeholder={placeholder}
                         onFocus={this.handleFocus}
                         onChange={this.handleChange.bind(this,field)}
-                        allowClear
                         dropdownMatchSelectWidth={dropdownMatchSelectWidth}
                         style={style}
                         onBlur={this.handleBlur}
@@ -437,7 +436,8 @@ export default class BaseinfoComponent extends Component {
             errorJobType,
             errorresponsibility,
             errorqualification,
-            error
+            error,
+            value=1
         } = this.state;
         return (
             <li className="base-info">
@@ -498,7 +498,6 @@ export default class BaseinfoComponent extends Component {
                                 <Cascader 
                                     options={city}
                                     value ={workcity?workcity.split("-"):''}
-                                    allowClear
                                     className={error ? "error" : ''}
                                     onChange={this.handleCityChange}
                                     displayRender={label => label.join(' - ')}
@@ -561,7 +560,7 @@ export default class BaseinfoComponent extends Component {
                     <li>
                         <div className="inline-block">
                             <span>工作类型：</span>
-                            <RadioGroup ref="workstyleradio" onChange={this.handleRadio} value={this.state.value}>
+                            <RadioGroup ref="workstyleradio" onChange={this.handleRadio} value={value}>
                                 <Radio value={1}>全职</Radio>
                                 <Radio value={2}>兼职</Radio>
                                 <Radio value={3}>实习</Radio>
