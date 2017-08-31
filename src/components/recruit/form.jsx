@@ -81,7 +81,9 @@ export default class FormComponents extends Component {
                         range:"1"
                     });
             }
-            
+            if ([field]=='time'){
+                this.handleFind()
+            }       
     }
      //候选人
     handleChange = e => {
@@ -138,12 +140,6 @@ export default class FormComponents extends Component {
                         }
                     </Select>
                 </div>
-                {/*<div className="float-button" onClick={()=>showUploadModal()} style={{
-                    bottom: 0
-                }}>
-                    <Button type="primary"></Button>
-                    <span>导入简历</span>
-                </div>*/}
                 <div className="bottom10">       
                     <Select 
                             placeholder="工作年限" 

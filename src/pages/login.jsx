@@ -17,9 +17,6 @@ class LoginPage extends Component {
     };
 
     state = {
-        // companyname: '51金融圈',
-        // loginname: '51jrq',
-        // password: '123456789',
         companyname: '',
         loginname: '',
         password: '',
@@ -44,10 +41,6 @@ class LoginPage extends Component {
             this.toLogin();
         }
     }
-
-    // componentDidMount () {
-    //     this.toLogin();
-    // }
 
     componentWillUnmount() {
         this.setState({

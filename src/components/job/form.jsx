@@ -12,7 +12,12 @@ import isEmpty from 'lodash/isEmpty';
 
 import TimeComponent from '../time';
 
-export default class FormComponent extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+ class FormComponent extends Component {
 
     state = {
     }
@@ -78,6 +83,9 @@ export default class FormComponent extends Component {
         }
         return {...this.state}
     }
+    resetFormResume = ()=>{
+        this.props.resetForm()
+    }
    
     render() {
         const {department='',position='',starttime,endtime} = this.state;
@@ -101,6 +109,8 @@ export default class FormComponent extends Component {
                     <TimeComponent
                         ref="TimeComponent"
                         onChange={this.onTimeChange}
+                        starttime = {starttime}
+                        endtime = {endtime}
                         style={{width:'249px',marginRight:'16px'}} 
                     />
                     <Button style={{marginRight: 10}}
@@ -112,7 +122,7 @@ export default class FormComponent extends Component {
                 </div>
                 <div className="float-button">
                     <Link to="/job/newJob" onClick={()=>{NProgress.start()}}>
-                        <Button type="primary"></Button>
+                        <Button type="primary" onClick= {this.resetFormResume}></Button>
                         <span>新建职位</span>
                     </Link>
                 </div>
@@ -120,3 +130,14 @@ export default class FormComponent extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+   
+})
+const mapDispatchToProps = dispatch => ({
+    resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FormComponent);

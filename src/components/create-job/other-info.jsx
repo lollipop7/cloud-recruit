@@ -90,7 +90,6 @@ export default class OtherInfoComponent extends Component {
                     其他信息
                 </h2>
                 <ul>
-
                     <li>
                         <TimeComponent 
                             showField={true} 

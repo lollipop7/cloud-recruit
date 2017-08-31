@@ -4,18 +4,13 @@ import {Modal,Tabs,Input,Button,message} from 'antd';
 const TabPane = Tabs.TabPane;
 
 import QRCode from 'qrcode.react';
-import Clipboard from "clipboard";
+import Clipboard from "clipboard"
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 class ShareModalComponents extends Component {
-    constructor(){
-        super();
-        
-    }
-    
 
     handlePressEnter = (event) => {
         console.log(event.target.value);

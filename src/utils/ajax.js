@@ -65,6 +65,7 @@ export const AjaxByPost = (uri, data) => {
             const {data} = response;
             const { returnCode, returnMsg } = data;
             if (returnCode !== 'AAAAAAA') {
+                console.log(returnMsg)
                 if(returnMsg === '登录已失效,请重新登录' && returnCode === '0000005'){
                     cancelRequest();
                     store.remove('token');
