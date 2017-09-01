@@ -38,15 +38,6 @@ class TableComponent extends Component {
         this.setState({currentClickJob:record});
         showJobModal();
     }
-<<<<<<< HEAD
-    //显示所有面试者的基本信息
-    showInterviewNum = (record) =>{
-        this.context.router.push(`recruit`);  
-        /**
-         * positionid 职位信息
-         */
-        const {positionid}=record;
-=======
     //跳转到招聘管理页面，并且传参数获取相应数据
     getInterviewNum = (record) =>{
         const {positionid} = record;
@@ -57,7 +48,6 @@ class TableComponent extends Component {
     }
     componentDidMount() {
         this.columns = this.getColumns();
->>>>>>> f0c4c25fc801371e5edfd95245fa517f95069da6
     }
 
     getColumns() {
