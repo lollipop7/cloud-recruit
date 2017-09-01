@@ -34,7 +34,7 @@ class RecruitPage extends BasicPage {
     isIframeRefresh = false;
 
     params = {
-        stageid: '0',
+        stageid: '1',
         skip: 0,
         range:"1"
     };
@@ -75,11 +75,8 @@ class RecruitPage extends BasicPage {
     //获取职位申请列表
     _requestData(){
         this.props.getRecruitList({...this.params,...this.formData});
-        // console.log({...this.formData})
-    }
-    
-    
-    //获取leftnav数据 
+    }   
+    //获取leftnav数据
      _getNavData(data){
          const navArr = []
          for (let item in data){
