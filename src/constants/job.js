@@ -31,4 +31,6 @@ export const HIDE_SAVEJOB_MODAL = "HIDE_SAVEJOB_MODAL";
 export const RESET_FORM = "RESET_FORM";
 // 职位ID
 export const RESUMEID = "RESUMEID";
+// 清空职位ID
+export const CANCELLRESUMEID = "CANCELLRESUMEID";
 

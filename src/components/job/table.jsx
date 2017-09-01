@@ -34,11 +34,27 @@ class TableComponent extends Component {
         this.setState({currentClickJob:record});
         showJobModal();
     }
-    //跳转到招聘管理页面，并且传参数获取相应数据
+    //跳转到招聘管理页面，通过传参数获取面试者数据
     getInterviewNum = (record) =>{
         const {positionid} = record;
         //3代表面试管理
         this.props.getResumeId({positionid:positionid,stageid:"3"})
+        //路由跳转
+        this.context.router.push(`recruit`);
+    }
+    //跳转到招聘管理页面，通过传参数获取复试者数据
+    getReInterviewNum = (record) =>{
+        const {positionid} = record;
+        //3代表面试管理
+        this.props.getResumeId({positionid:positionid,stageid:"4"})
+        //路由跳转
+        this.context.router.push(`recruit`);
+    }
+    //跳转到招聘管理页面，通过传参数获取收到offer者数据
+    getOfferNum = (record) =>{
+        const {positionid} = record;
+        //3代表面试管理
+        this.props.getResumeId({positionid:positionid,stageid:"5"})
         //路由跳转
         this.context.router.push(`recruit`);
     }
@@ -50,6 +66,7 @@ class TableComponent extends Component {
         columns[2].render = this.renderWithAtag;
         columns[6].render = this.renderWithInterview;
         columns[7].render = this.renderWithReInterview;
+        columns[8].render = this.renderWithgetOffer;
         columns[columns.length - 1].render = (text,record,index) => {
             switch(parseInt(text)) {
                 case 0:
@@ -99,7 +116,20 @@ class TableComponent extends Component {
                 className="positionname" 
                 href="javascript:;" 
                 title={text}
-                onClick={() => this.getInterviewNum(record)}
+                onClick={() => this.getReInterviewNum(record)}
+            >
+                {text}
+            </a>
+        )
+    }
+    //收到offer渲染
+    renderWithgetOffer = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={text}
+                onClick={() => this.getOfferNum(record)}
             >
                 {text}
             </a>

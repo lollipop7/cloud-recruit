@@ -18,7 +18,8 @@ import {
     SHOW_SAVEJOB_MODAL,
     HIDE_SAVEJOB_MODAL,
     RESET_FORM,
-    RESUMEID
+    RESUMEID,
+    CANCELLRESUMEID
 } from 'constants/job';
 
 const initialState = {
@@ -82,7 +83,9 @@ export default function job(state = initialState,actions){
         case HIDE_SAVEJOB_MODAL:
             return {...state,saveModalVisible: false};
         case RESUMEID:
-            return {...state,interview: actions.interview};    
+            return {...state,interview: actions.interview};
+        case CANCELLRESUMEID:
+            return {...state,interview: actions.interview};     
         default: 
             return state;
     }

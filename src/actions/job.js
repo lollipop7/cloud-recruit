@@ -39,8 +39,10 @@ const HIDE_JOB_MODAL = {type:types.HIDE_JOB_MODAL};
  const HIDE_SAVEJOB_MODAL = {type:types.HIDE_SAVEJOB_MODAL};
 //清空职位信息数据
 const RESET_FORM = {type:types.RESET_FORM}
-//面试者信息MODAL
+//职位ID
 const RESUMEID = {type:types.RESUMEID}
+//清空职位ID
+const CANCELLRESUMEID = {type:types.CANCELLRESUMEID}
 
 // 获取职位分类统计
 export const getJobCategory = () => (dispatch,getState) => {
@@ -164,7 +166,12 @@ export const hideSaveJobModal = () => (dispatch,getState) => {
     dispatch(HIDE_SAVEJOB_MODAL);
 }
 
-//显示面试者信息MODAL
+//获取职位ID
 export const getResumeId = (data) => (dispatch,getState) => {
     dispatch({...RESUMEID,interview:data})
+}
+
+//清空职位ID
+export const cancellResumeId = (data) => (dispatch,getState) => {
+    dispatch({...CANCELLRESUMEID,interview:data})
 }

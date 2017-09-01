@@ -48,6 +48,9 @@ class RecruitPage extends BasicPage {
         const {params,getRecruitCategory,interview} = this.props,
             {stageid} = params;
         getRecruitCategory();
+        //恢复positionid/stageid
+        this.props.cancellResumeId({positionid:"",stageid:"1"})
+        //通过职位ID判断是否要进行参数赋值  
         if (interview.positionid){
             this.params.positionid =interview.positionid;
             this.params.stageid =interview.stageid;
@@ -97,7 +100,7 @@ class RecruitPage extends BasicPage {
         return NavData;
     }
 
-    handleClickNav = type => {
+    handleClickNav = type => {        
         this.params.stageid = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
@@ -185,7 +188,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),
     getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch),
-    showUploadModal: bindActionCreators(Actions.RecruitActions.showUploadModal, dispatch)
+    showUploadModal: bindActionCreators(Actions.RecruitActions.showUploadModal, dispatch),
+    cancellResumeId: bindActionCreators(Actions.jobActions.cancellResumeId, dispatch)
 })
 
 export default connect(
