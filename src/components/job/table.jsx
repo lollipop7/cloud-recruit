@@ -38,6 +38,7 @@ class TableComponent extends Component {
         this.setState({currentClickJob:record});
         showJobModal();
     }
+<<<<<<< HEAD
     //显示所有面试者的基本信息
     showInterviewNum = (record) =>{
         this.context.router.push(`recruit`);  
@@ -45,11 +46,24 @@ class TableComponent extends Component {
          * positionid 职位信息
          */
         const {positionid}=record;
+=======
+    //跳转到招聘管理页面，并且传参数获取相应数据
+    getInterviewNum = (record) =>{
+        const {positionid} = record;
+        //3代表面试管理
+        this.props.getResumeId({positionid:positionid,stageid:"3"})
+        //路由跳转
+        this.context.router.push(`recruit`);
+    }
+    componentDidMount() {
+        this.columns = this.getColumns();
+>>>>>>> f0c4c25fc801371e5edfd95245fa517f95069da6
     }
 
     getColumns() {
         columns[2].render = this.renderWithAtag;
         columns[6].render = this.renderWithInterview;
+        columns[7].render = this.renderWithReInterview;
         columns[columns.length - 1].render = (text,record,index) => {
             switch(parseInt(text)) {
                 case 0:
@@ -79,13 +93,27 @@ class TableComponent extends Component {
             </a>
         )
     }
+    //面试列渲染
     renderWithInterview = (text, record, index) => {
         return (
             <a 
                 className="positionname" 
                 href="javascript:;" 
                 title={text}
-                onClick={() => this.showInterviewNum(record)}
+                onClick={() => this.getInterviewNum(record)}
+            >
+                {text}
+            </a>
+        )
+    }
+    //复试列渲染
+    renderWithReInterview = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={text}
+                onClick={() => this.getInterviewNum(record)}
             >
                 {text}
             </a>
@@ -103,8 +131,6 @@ class TableComponent extends Component {
             getJobCategory,
             modalVisible,
             hideJobModal,
-            interviewmodalVisible,
-            hideInterviewModal
         } = this.props;
         const {positionname} = this.state
         const {list,count} = listData;
@@ -144,14 +170,6 @@ class TableComponent extends Component {
                         getJobCategory={getJobCategory}
                     />
                 </Modal>
-                <Modal
-                    title ={positionname}
-                    visible={interviewmodalVisible}
-                    onCancel={!isLoadingAbort ? () => hideInterviewModal() : () => {}}
-                    width={1100}
-                    footer={null}
-                >
-                </Modal>
             </div>
         );
     }
@@ -161,16 +179,14 @@ const mapStateToProps = state => ({
     listData: state.Job.listData, // 统计列表数据
     isLoading: state.Job.isLoadingList,
     modalVisible: state.Job.modalVisible,
-    isLoadingAbort: state.Job.isLoadingAbort,
-    interviewmodalVisible: state.Job.interviewmodalVisible,
+    isLoadingAbort: state.Job.isLoadingAbort
 })
 const mapDispatchToProps = dispatch => ({
     getJobCategory: bindActionCreators(Actions.jobActions.getJobCategory, dispatch),
     getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
     showJobModal: bindActionCreators(Actions.jobActions.showJobModal, dispatch),
     hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch),
-    showInterviewModal: bindActionCreators(Actions.jobActions.showInterviewModal, dispatch),
-    hideInterviewModal: bindActionCreators(Actions.jobActions.hideInterviewModal, dispatch)
+    getResumeId: bindActionCreators(Actions.jobActions.getResumeId, dispatch)
 })
 
 export default connect( 

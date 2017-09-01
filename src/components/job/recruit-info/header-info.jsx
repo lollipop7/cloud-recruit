@@ -105,7 +105,7 @@ class HeaderInfoComponent extends Component {
         //获取评估表内容
         if (evaluationId){
             this.props.getEvaluation({evaluationId:`${evaluationId}`})
-        } 
+        }
         //显示评估表
         this.props.showEvaluationModal();  
     }
@@ -308,8 +308,7 @@ const mapDispatchToProps = dispatch => ({
     showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch),
     showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch),
     getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
-    getResumeUrl: bindActionCreators(Actions.ResumeActions.getResumeUrl, dispatch),
-    //getResumeInformation : bindActionCreators(Actions.ResumeActions.getResumeInformation, dispatch)
+    getResumeUrl: bindActionCreators(Actions.ResumeActions.getResumeUrl, dispatch)
 })
 
 export default connect(
