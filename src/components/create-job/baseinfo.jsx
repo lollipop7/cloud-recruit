@@ -385,34 +385,34 @@ export default class BaseinfoComponent extends Component {
     componentWillReceiveProps(){
         setTimeout(()=>{
              const {
-                positionname, // 职位名称
-                salary, // 薪资待遇
-                department, // 用人部门
-                recruitreason, // 招聘理由
-                headcount, // 招聘人数
-                workcity, // 工作地点
-                workyears, // 工作年限
-                specialty, // 专业
-                educationbackground, //学历,
-                age, //年龄
-                jobtype,//工作类型
-                responsibility,//工作职责
-                qualification,//任职资格
+                positionname,           // 职位名称
+                salary,                 // 薪资待遇
+                department,             // 用人部门
+                recruitreason,          // 招聘理由
+                headcount,              // 招聘人数
+                workcity,               // 工作地点
+                workyears,              // 工作年限
+                specialty,              // 专业
+                educationbackground,    //学历
+                age,                    //年龄
+                jobtype,                //工作类型
+                responsibility,         //工作职责
+                qualification,          //任职资格
             } = this.props.data;
             this.setState({
-                positionname:positionname, // 职位名称
-                salary:salary, // 薪资待遇
-                department:department, // 用人部门
-                recruitreason:recruitreason, // 招聘理由
-                headcount:headcount, // 招聘人数
-                workcity:workcity, // 工作地点
-                workyears:workyears, // 工作年限
-                specialty:specialty, // 专业
-                educationbackground:educationbackground, //学历,
-                age:age, //年龄
-                jobtype:jobtype,//工作类型
-                responsibility:responsibility,//工作职责
-                qualification:qualification,//任职资格
+                positionname,           // 职位名称
+                salary,                 // 薪资待遇
+                department,             // 用人部门
+                recruitreason,          // 招聘理由
+                headcount,              // 招聘人数
+                workcity,               // 工作地点
+                workyears,              // 工作年限
+                specialty,              // 专业
+                educationbackground,    //学历
+                age,                    //年龄
+                jobtype,                //工作类型
+                responsibility,         //工作职责
+                qualification,          //任职资格
                 })
           
         })
@@ -420,19 +420,19 @@ export default class BaseinfoComponent extends Component {
 
     render() {
         const {
-            positionname="", // 职位名称
-            salary=undefined, // 薪资待遇
-            department='', // 用人部门
-            recruitreason='', // 招聘理由
-            headcount='', // 招聘人数
-            workcity='', // 工作地点
-            workyears=undefined, // 工作年限
-            specialty=undefined, // 专业
-            educationbackground=undefined, //学历,
-            age='',//年龄
-            jobtype='',//工作类型
-            responsibility='',//工作职责
-            qualification='',//任职资格
+            positionname="",                // 职位名称
+            salary=undefined,               // 薪资待遇
+            department='',                  // 用人部门
+            recruitreason='',               // 招聘理由
+            headcount='',                   // 招聘人数
+            workcity='',                    // 工作地点
+            workyears=undefined,            // 工作年限
+            specialty=undefined,            // 专业
+            educationbackground=undefined,  //学历
+            age='',                         //年龄
+            jobtype='',                     //工作类型
+            responsibility='',              //工作职责
+            qualification='',               //任职资格
             errorJobType,
             errorresponsibility,
             errorqualification,

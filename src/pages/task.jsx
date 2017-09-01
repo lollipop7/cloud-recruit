@@ -16,7 +16,7 @@ import TableComponent from 'components/task/table';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
-
+ 
 class TaskPage extends BasicPage {
 
     state = {
@@ -55,7 +55,6 @@ class TaskPage extends BasicPage {
         this.setState({
             [field]: val ? moment(val).format('YYYY-MM-DD') : ''
         });
-        console.log(this.state.field);
     }
 
     search = () => {
