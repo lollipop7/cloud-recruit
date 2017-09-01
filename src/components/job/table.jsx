@@ -26,6 +26,10 @@ class TableComponent extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
+    componentDidMount() {
+        this.columns = this.getColumns();
+    }
+
     showJobInfo = (record) => {
         const {getJobInfo,showJobModal} = this.props;
         const {positionid} = record;
@@ -36,12 +40,11 @@ class TableComponent extends Component {
     }
     //显示所有面试者的基本信息
     showInterviewNum = (record) =>{
-        this.context.router.push(`recruit`);
-        //this.props.showInterviewModal()
-        //this.setState({positionname:record.positionname});
-    }
-    componentDidMount() {
-        this.columns = this.getColumns();
+        this.context.router.push(`recruit`);  
+        /**
+         * positionid 职位信息
+         */
+        const {positionid}=record;
     }
 
     getColumns() {
