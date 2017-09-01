@@ -36,18 +36,18 @@ class TableComponents extends Component {
     }]
 
     keies = [
-        'loginNum',
-        'resumeCount',
-        'hand51Num',
-        'handZLNum',
-        'positionNum',
-        'applicationNum_todo',
-        'applicationNum',
-        'reservationNum',
-        'interviewNum',
-        'reexaminationNum',
-        'entryNum',
-        'processedNum'
+        'loginNum',             //登录次数
+        'resumeCount',          //简历总数
+        'hand51Num',            //简历导入量51
+        'handZLNum',            //简历导入量zl
+        'positionNum',          //职位数
+        'applicationNum_todo',  //待处理申请者
+        'applicationNum',       //申请
+        'reservationNum',       //预约
+        'interviewNum',         //面试
+        'reexaminationNum',     //复试
+        'entryNum',             //入职
+        'processedNum'          //已处理
     ]
 
     state = {
@@ -68,7 +68,7 @@ class TableComponents extends Component {
         data = data ? data : {};
         let dataSource = [];
         let filterData = omitBy(data,item=>{
-            return item.length === 0;
+            return item.length === 0;//删除空对象
         }),
         dataLength = size(filterData);
         Object.keys(filterData).forEach((key,index)=>{

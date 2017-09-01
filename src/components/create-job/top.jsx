@@ -11,12 +11,15 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
  export default class TopComponent extends Component {
+
     handleClick = () => {
         window.history.back(-1)
     }
+
     tagClick = (positionid) => {
        this.props.getJobInfo({positionid})    
     }
+    
     render() {
         const { recentJobData } = this.props
         return(

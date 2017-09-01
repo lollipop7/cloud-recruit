@@ -26,6 +26,10 @@ class TableComponent extends Component {
         return this.props !== nextProps || this.state !== nextState;
     }
 
+    componentDidMount() {
+        this.columns = this.getColumns();
+    }
+
     showJobInfo = (record) => {
         const {getJobInfo,showJobModal} = this.props;
         const {positionid} = record;
