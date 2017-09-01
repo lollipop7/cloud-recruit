@@ -36,7 +36,8 @@ class RecruitPage extends BasicPage {
     params = {
         stageid: '1',
         skip: 0,
-        range:"1"
+        range:"1",
+        positionid:""
     };
 
     formData = {
@@ -44,10 +45,15 @@ class RecruitPage extends BasicPage {
 
     componentDidMount() {
         this.hideNProgress();
-        const {params,getRecruitCategory} = this.props,
+        const {params,getRecruitCategory,interview} = this.props,
             {stageid} = params;
         getRecruitCategory();
-        if(stageid){
+        if (interview.positionid){
+            this.params.positionid =interview.positionid;
+            this.params.stageid =interview.stageid;
+            this.refs.LeftNav.setSelectedIndex(parseInt(interview.stageid)-1);
+        }
+         if(stageid){
             this.params.stageid = stageid;
             this.refs.LeftNav.setSelectedIndex(parseInt(stageid));
         }
@@ -95,6 +101,7 @@ class RecruitPage extends BasicPage {
         this.params.stageid = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
+        this.params.positionid="";
         this._requestData();
         this.refs.FormComponents.resetForm(true);
     }
@@ -173,6 +180,7 @@ const mapStateToProps = state => ({
     visible: state.Recruit.visible,
     isLoading: state.Recruit.isCategoryLoading,
     categoryData: state.Recruit.categoryData, // 统计列表数据
+    interview: state.Job.interview
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitCategory: bindActionCreators(Actions.RecruitActions.getRecruitCategory, dispatch),

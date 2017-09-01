@@ -18,8 +18,7 @@ import {
     SHOW_SAVEJOB_MODAL,
     HIDE_SAVEJOB_MODAL,
     RESET_FORM,
-    SHOW_INTERVIEW_MODAL,
-    HIDE_INTERVIEW_MODAL
+    RESUMEID
 } from 'constants/job';
 
 const initialState = {
@@ -41,7 +40,7 @@ const initialState = {
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,
-    interviewmodalVisible:false
+    interview:""
 };
 
 export default function job(state = initialState,actions){
@@ -82,10 +81,8 @@ export default function job(state = initialState,actions){
             return {...state,saveModalVisible: true};
         case HIDE_SAVEJOB_MODAL:
             return {...state,saveModalVisible: false};
-        case SHOW_INTERVIEW_MODAL:
-            return {...state,interviewmodalVisible: true};
-        case HIDE_INTERVIEW_MODAL:
-            return {...state,interviewmodalVisible: false};     
+        case RESUMEID:
+            return {...state,interview: actions.interview};    
         default: 
             return state;
     }

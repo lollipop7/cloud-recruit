@@ -29,6 +29,6 @@ export const SHOW_SAVEJOB_MODAL = "SHOW_SAVEJOB_MODAL";
 export const HIDE_SAVEJOB_MODAL = "HIDE_SAVEJOB_MODAL";
 //清空职位信息数据
 export const RESET_FORM = "RESET_FORM";
-// 面试者信息MODAL
-export const SHOW_INTERVIEW_MODAL = "SHOW_INTERVIEW_MODAL";
-export const HIDE_INTERVIEW_MODAL = "HIDE_INTERVIEW_MODAL";
+// 职位ID
+export const RESUMEID = "RESUMEID";
+

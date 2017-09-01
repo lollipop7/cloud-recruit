@@ -66,10 +66,15 @@ class MemoModalComponent extends Component {
         this.props.hideMemoModal()
     }
     //重置添加备忘录内容
-    resetForm(e){
+    resetForm = (e) => {
         if (e!=undefined && e!=null){
             e.resetForm()
-        }   
+            this.setState({
+                memos:'',
+                memonsdate: null,
+                errorTime: false
+            }) 
+        }      
     }
     render(){
        const {memoModalVisible} = this.props
