@@ -58,7 +58,7 @@ class TaskPage extends BasicPage {
     }
 
     search = () => {
-        const {startDate,endDate} = this.state,
+        const {startDate,endDate,starttime,endtime} = this.state,
         {TimeComponent} = this.refs;
         if(startDate === ''){
             TimeComponent.handleStartOpen(true);
@@ -68,7 +68,7 @@ class TaskPage extends BasicPage {
             TimeComponent.handleEndOpenChange(true);
             return ;
         }
-        this.props.getTaskReport(this.state,startDate,endDate);
+        this.props.getTaskReport({startDate:starttime,endDate:endtime},startDate,endDate);
     }
 
     render() {

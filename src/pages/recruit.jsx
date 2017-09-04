@@ -105,8 +105,10 @@ class RecruitPage extends BasicPage {
         this.params.skip = 0;
         this.setPaginationCurrent(1);
         this.params.positionid="";
-        this._requestData();
-        this.refs.FormComponents.resetForm(true);
+        this.refs.FormComponents.resetForm(true); 
+        this.formData.workyear="";
+        this.formData.educationbg="";
+        this._requestData();   
     }
     //点击筛选按钮查找
     handleFind = (params,clickNav=false) => {
