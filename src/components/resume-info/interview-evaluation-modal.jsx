@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {Modal,Input,Radio,Button,Table} from 'antd';
 const RadioGroup = Radio.Group;
 
+import QRCode from 'qrcode.react';
+
 import pickBy from 'lodash/pickBy';
 
 import radioData from 'data/evaluation-radio.json';
@@ -19,17 +21,17 @@ class EvaluationModalComponents extends Component {
         isShowQrcode: false,
         errorinterviewer:false,
         errorintername:false,
-        professional:"",//专业技能
-        workexperience:"",//业务能力
-        eduandtrain:"",//沟通能力
-        communication:"",//语言能力
-        initiative:"",//学习能力
-        grooming:"",//仪容仪表
-        attitude:"",//态度
-        intername:"",//候选人
-        interviewer:"",//面试官
-        comments:"",//评语
-        id :""//评估表ID
+        professional:"",            //专业技能
+        workexperience:"",          //业务能力
+        eduandtrain:"",             //沟通能力
+        communication:"",           //语言能力
+        initiative:"",              //学习能力
+        grooming:"",                //仪容仪表
+        attitude:"",                //态度
+        intername:"",               //候选人
+        interviewer:"",             //面试官
+        comments:"",                //评语
+        id :""                      //评估表ID
     }
     hideQrcodeShare = () => {
         this.setState({
@@ -64,16 +66,16 @@ class EvaluationModalComponents extends Component {
     //重置表单
     resetForm = () => {
         this.setState({
-            professional:"",//专业技能
-            workexperience:"",//业务能力
-            eduandtrain:"",//沟通能力
-            communication:"",//语言能力
-            initiative:"",//学习能力
-            grooming:"",//仪容仪表
-            attitude:"",//态度
-            intername:"",//候选人
-            interviewer:"",//面试官
-            comments:"",//评语
+            professional:"",        //专业技能
+            workexperience:"",      //业务能力
+            eduandtrain:"",         //沟通能力
+            communication:"",       //语言能力
+            initiative:"",          //学习能力
+            grooming:"",            //仪容仪表
+            attitude:"",            //态度
+            intername:"",           //候选人
+            interviewer:"",         //面试官
+            comments:"",            //评语
         })
     }
     //添加评估
@@ -151,6 +153,7 @@ class EvaluationModalComponents extends Component {
             ],
             { evaluationModalVisible , isLoading ,evaluation } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
+            const {hash} = location;
         return(
             <Modal
                 title = "面试评估表"
@@ -161,11 +164,12 @@ class EvaluationModalComponents extends Component {
                 onOk = {this.addEvaluation}
             >
                 <div className="qrcode-write" style = {{
-                    right: this.state.isShowQrcode ? '-156px' : '',
-                    display: this.state.isShowQrcode ? "block" : 'none'
+                    right: this.state.isShowQrcode ? '-150px' : '',
+                    display:  this.state.isShowQrcode ? "block" : "none"
                 }}>
                     <b className="left-arrow inline-block vertical-center "></b>
-                    <img src="./static/images/resume/qrcode-share.png" alt="分享"/>
+                    {/* <img src="./static/images/resume/qrcode-share.png" alt="分享"/> */}
+                    <QRCode value={hash}/>
                     <p>微信扫描分享填写</p>
                 </div>
                 <div className="table"  style={{marginBottom: 40}}>

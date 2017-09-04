@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavBarComponents from 'components/navbar';
 
-export default class FrameworkView extends Component {
+export default class  extends Component {
     
     render() {
         const {location} = this.props,
