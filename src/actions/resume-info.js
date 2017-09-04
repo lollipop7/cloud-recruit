@@ -173,12 +173,14 @@ export const addEvaluation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res)
-        const {getEvaluationId,jobid,resumeid} = props; 
-        getEvaluationId({
-            positionid: jobid,
-            resumeid: resumeid,
-        });
+        const {getEvaluationId,jobid,resumeid,getEvaluation,evaluationid} = props; 
+        if (!evaluationid){
+                getEvaluationId({
+                positionid: jobid,
+                resumeid: resumeid,
+            },getEvaluation);
+        }
+        
         message.success('添加评估表成功！');
     },err=>{
         message.error('添加评估表失败！');
@@ -204,7 +206,7 @@ export const getEvaluation = (data) => (dispatch,getState) => {
 }
 
 //获取面试评估表id
-export const getEvaluationId = (data) => (dispatch,getState) => {
+export const getEvaluationId = (data,getEvaluation) => (dispatch,getState) => {
     AjaxByToken('getInterviewForm',{
         head: {
             transcode: 'L0070'
@@ -212,6 +214,7 @@ export const getEvaluationId = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        getEvaluation({evaluationId:`${res.evaluationId}`})
         dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
     },err=>{
         message.error('获取失败！');

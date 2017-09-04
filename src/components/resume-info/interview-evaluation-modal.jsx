@@ -78,6 +78,7 @@ class EvaluationModalComponents extends Component {
     }
     //添加评估
     addEvaluation = ()=>{
+        const {resumeid,jobid,evaluationid} = this.props
         //判断候选人、面试官是否为空
         if(this.state.intername==""){
             this.setState({
@@ -93,16 +94,24 @@ class EvaluationModalComponents extends Component {
             this.refs.interviewer.focus()
             return false
         }
-        //筛选
-        const filterObj = pickBy(this.state,(val,key)=>{
-            return val != "";
-        });
-        //重置
-        this.resetForm()
-        //隐藏
-        this.props.hideEvaluationModal()
-        //添加面试评估
-        this.props.addEvaluation({...filterObj,resumeid:this.props.resumeid,jobid:this.props.jobid},this.props)
+        if(evaluationid){
+            this.setState({
+                id:`${evaluationid}`
+            })
+        }
+        setTimeout(()=>{
+            //筛选
+            const filterObj = pickBy(this.state,(val,key)=>{
+                return val != "";
+            });
+            //重置
+            this.resetForm();
+            //隐藏
+            this.props.hideEvaluationModal();
+            //添加面试评估
+            this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
+        })
+        
     }
     //隐藏评估表
     hideEvaluationModal = () => {
@@ -293,12 +302,14 @@ class EvaluationModalComponents extends Component {
 const mapStateToProps = state => ({
     evaluationModalVisible: state.Resume.evaluationModalVisible,
     isLoading: state.Resume.isModalLoading,
-    evaluation : state.Resume.evaluation
+    evaluation : state.Resume.evaluation,
+    evaluationid: state.Resume.evaluationid
 })
 const mapDispatchToProps = dispatch => ({
     hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch),
     addEvaluation: bindActionCreators(Actions.ResumeActions.addEvaluation, dispatch),
-    getEvaluationId: bindActionCreators(Actions.ResumeActions.getEvaluationId, dispatch)
+    getEvaluationId: bindActionCreators(Actions.ResumeActions.getEvaluationId, dispatch),
+    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch)
 })
 
 export default connect(

@@ -41,7 +41,8 @@ export default function talent(state = initialState,actions){
         case LOAD_LIST_DONE:
             return {...state,isListLoading:false};
         case LOAD_TALENT_LIST: 
-            return {...state,talentList:actions.talentList};
+            return {...state,talentList:actions.talentList.list.length==0?{count: 0,
+       list: []}:actions.talentList};
         case LOAD_CATEGORY_START:
             return {...state,isCategoryLoading:true};
         case LOAD_CATEGORY_DONE:
