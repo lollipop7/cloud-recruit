@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {Table} from 'antd';
 
+import moment from 'moment';
+
 import columns from 'data/table-columns/recommend-resume-table';
 
 // redux
@@ -66,6 +68,8 @@ class RecommendResumeTableComponent extends Component {
                 columns={this._getColumns()}
                 dataSource={
                     list.map((item,index)=>{
+                        item.starttime = moment(item.starttime).format('YYYY-MM-DD');
+                        item.endtime = moment(item.endtime).format('YYYY-MM-DD');
                         item.key = index;
                         item.control = hash.indexOf('resumeInfo') !== -1 ? item.isFlag : '选择';
                         return item;
