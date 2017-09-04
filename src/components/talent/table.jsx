@@ -7,6 +7,7 @@ import MoveModalComponents from './modal';
 // 表格列数据
 import columns from 'data/table-columns/talent-table';
 
+
 // lodash
 import trim from 'lodash/trim';
 
