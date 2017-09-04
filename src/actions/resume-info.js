@@ -173,6 +173,7 @@ export const addEvaluation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        console.log(res)
         const {getEvaluationId,jobid,resumeid} = props; 
         getEvaluationId({
             positionid: jobid,
