@@ -74,6 +74,7 @@ export const getStageLog = (data) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        console.log(res)
         dispatch(LOAD_INFO_DONE);
         dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
     });

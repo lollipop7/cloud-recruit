@@ -95,7 +95,6 @@ class HeaderInfoComponent extends Component {
     }
 
     handleShare = () => {
-        console.log(this.props);
         const {data} = this.props;
         const {resumeid} = data;
         this.props.showShareModal(data);

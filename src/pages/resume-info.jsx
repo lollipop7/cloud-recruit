@@ -136,7 +136,7 @@ class ResumeInfoPage extends Component {
                             <EvaluationModalComponents 
                                 resumeid={resumeid}
                                 jobid = {currentPId}
-                                data = {data}
+                                username = {username}
                                 evaluationId={evaluationId}
                             />
                         </div>

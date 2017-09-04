@@ -160,7 +160,7 @@ class EvaluationModalComponents extends Component {
                 { value: '较好' },
                 { value: '优秀' }
             ],
-            { evaluationModalVisible , isLoading ,evaluation } = this.props,
+            { evaluationModalVisible , isLoading ,evaluation,username } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
         return(
@@ -188,7 +188,8 @@ class EvaluationModalComponents extends Component {
                     <div className="table-cell">
                         <Input 
                             ref = "intername"
-                            value={intername} 
+                            value={username}
+                            disabled="true" 
                             onChange={this.changeInput.bind(this,'intername',"errorintername")}
                         />
                         {errorintername && 
