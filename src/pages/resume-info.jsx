@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header-info';
-import MainContentComponent from 'components/job/recruit-info/main-content';
+import MainContentComponent from 'components/job/recruit-info/main-content'; 
 
 import ModalComponents from 'components/resume-info/modal';
 import ShareModalComponents from 'components/resume-info/share-modal';
@@ -89,6 +89,9 @@ class ResumeInfoPage extends Component {
                                     data={data}
                                 />
                             }
+                            {/* <ShareHeaderInfoComponent
+                                    data={data}
+                            /> */}
                             {isRecruit &&
                                 <ul className="table tabs-container">
                                     <li className="table-cell empty"></li>

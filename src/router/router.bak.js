@@ -35,14 +35,14 @@ export default function getRoutes () {
                     }}  
                 />
                 <Route 
-                path="newJob" 
-                breadcrumbName="新建职位" 
-                onEnter={requireAuthHook}
-                onLeave={onLeavePage}
-                getComponent={(nextState,cb)=>{
-                    require.ensure([], (require) => {
-                        cb(null, require('pages/create-job').default)
-                    }, 'NewJobPage')
+                    path="newJob" 
+                    breadcrumbName="新建职位" 
+                    onEnter={requireAuthHook}
+                    onLeave={onLeavePage}
+                    getComponent={(nextState,cb)=>{
+                        require.ensure([], (require) => {
+                            cb(null, require('pages/create-job').default)
+                        }, 'NewJobPage')
                 }}  
             />
         </Route>
