@@ -101,10 +101,11 @@ class HeaderInfoComponent extends Component {
         this.props.getResumeUrl({resumeid:`${resumeid}`});
     }
     handleEvaluate = () => {
-        const { evaluationId } = this.props.data
+        const { evaluationId} = this.props.data
+        const { evaluationid } = this.props
         //获取评估表内容
-        if (evaluationId){
-            this.props.getEvaluation({evaluationId:`${evaluationId}`})
+        if (evaluationId || evaluationid){
+            this.props.getEvaluation({evaluationId:evaluationId?`${evaluationId}`:`${evaluationid}`})
         }
         //显示评估表
         this.props.showEvaluationModal();  
