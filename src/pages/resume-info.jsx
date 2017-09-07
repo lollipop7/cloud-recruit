@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component , PropTypes} from 'react';
+import { Icon , Tooltip} from 'antd';
 
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
@@ -20,11 +21,18 @@ import * as Actions from 'actions';
 class ResumeInfoPage extends Component {
 
     state = {
-        type: 0
+        type: 0,
+        time:"",//当前流程约定时间
+        stage:"",//当前流程
+        thelable:"",//标签
+        emailState:"none"
+    }
+    static contextTypes = {
+        router: PropTypes.object
     }
 
     componentDidMount() {
-        const { location , routeParams } = this.props,
+        const { location , routeParams ,getEmailHistory} = this.props,
               { resumeId , logId } = routeParams;    
             if(this.isInRecruitPage(location.pathname)) {
                 // 获取简历详情
@@ -38,6 +46,7 @@ class ResumeInfoPage extends Component {
                     resumeid: resumeId
                 });
             }
+            getEmailHistory()
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -56,14 +65,37 @@ class ResumeInfoPage extends Component {
         const patternRecruit = /\/resumeInfo\/\d{1,}\/\d{1,}$/i;
         return patternRecruit.test(pathname);
     }
+    //点击查看已发送邮件
+    clickLookEmail = () => {
+        this.props.hideResumeModal()
+        //this.context.router.push(`/email`);
+    }
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+            const {historyEmail , data} = this.props,
+                  {list} = historyEmail;                 
+            if (list.length != 0 && data.resumeInfo){
+            const {resumeInfo} = data,
+                  {username} = resumeInfo;
+              for (let i=0;i<list.length;i++){
+                  if(list[i].resumename===username){
+                      this.setState({
+                        emailState:"block"
+                      })
+                  }
+              }
+          };            
+        },100)
+    };
 
     render() {
-        const {type} = this.state,
-            {isLoading,data,location} = this.props;
-        const isTalent = this.isInTalentPage(location.pathname),
-            isRecruit = this.isInRecruitPage(location.pathname);
-        const {resumeid,currentPId,resumeInfo={},evaluationId} = data;
-        const {username,email} = resumeInfo;
+        const {type , time , stage, thelable ,emailState} = this.state,
+            {isLoading,data,location,routeParams,getRecruitResumeInfo} = this.props,
+            { logId } = routeParams,   
+            isTalent = this.isInTalentPage(location.pathname),
+            isRecruit = this.isInRecruitPage(location.pathname),
+            {resumeid,currentPId,resumeInfo={},evaluationId,lastStageLog} = data,
+            {username,email} = resumeInfo;
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -89,13 +121,10 @@ class ResumeInfoPage extends Component {
                                     data={data}
                                 />
                             }
-                            {/* <ShareHeaderInfoComponent
-                                    data={data}
-                            /> */}
                             {isRecruit &&
                                 <ul className="table tabs-container">
                                     <li className="table-cell empty"></li>
-                                    <li 
+                                    {/* <li 
                                         className={`tab-item table-cell boder-right-none ${!!type ? '' : 'active'}`}
                                         onClick={() => this.handleChangeType(0)}
                                     >
@@ -107,13 +136,44 @@ class ResumeInfoPage extends Component {
                                     >
                                         邮件
                                     </li>
+                                    <li 
+                                        className={`tab-item table-cell ${!!type ? '' : ''}`}
+                                        onClick={() => this.handleChangeType(2)}
+                                    >
+                                        邮件
+                                    </li> */}
+                                    <li 
+                                        className={`tab-item table-cell boder-right-none ${type==0 ? 'active' : ''}`}
+                                        onClick={() => this.handleChangeType(0)}
+                                    >
+                                        个人简历
+                                    </li>
+                                    <li 
+                                        className={`tab-item table-cell ${type==1 ? 'active' : ''}`}
+                                        onClick={() => this.handleChangeType(1)}
+                                    >
+                                    <Tooltip title={<span onClick={this.clickLookEmail}>邮件已发送，请注意查看！</span>}>
+                                        <Icon 
+                                            type="check-circle-o" 
+                                            style={{display:emailState,float:"left",color:"#0086c9",position:'relative',top:-8.5,left:91}}
+                                            onClick={this.searchEmail}
+                                        />
+                                    </Tooltip> 
+                                        邮件
+                                    </li>
+                                    <li 
+                                        className={`tab-item table-cell ${type==2 ? 'active' : ''}`}
+                                        onClick={() => this.handleChangeType(2)}
+                                    >
+                                        其他信息
+                                    </li>
                                     <li className="table-cell empty"></li>
                                 </ul>
                             }
                             <div className="main-content" style={{
                                 marginTop: isTalent ? 36 : 0
                             }}>
-                                <div className={`info-content ${!!type ? 'none' : ''}`}>
+                                {/* <div className={`info-content ${!!type ? 'none' : ''}`}>
                                     <MainContentComponent data={data} />
                                 </div>
                                 {isRecruit &&
@@ -127,7 +187,26 @@ class ResumeInfoPage extends Component {
                                             }}
                                         />
                                     </div>
+                                } */}
+                                <div className={`info-content ${type==0? '' : 'none'}`}>
+                                    <MainContentComponent data={data} />
+                                </div>
+                                {isRecruit &&
+                                    <div className={`email-content ${type==1 ? '' : 'none'}`}>
+                                        <EmailEditorComponents
+                                            addressee={{
+                                                resumeid,
+                                                ...{positionid: currentPId},
+                                                ...{resumename: username},
+                                                ...{logId: logId},
+                                                email,
+                                            }}
+                                        />
+                                    </div>
                                 }
+                                <div className={`information-content ${type==2 ? '' : 'none'}`}>
+                                    待定。。。
+                                </div>
                             </div>
                             <ModalComponents />
                             {/*简历分享Modal*/}
@@ -148,11 +227,15 @@ class ResumeInfoPage extends Component {
 
 const mapStateToProps = state => ({
     data: state.Resume.resumeInfo,
-    isLoading: state.Resume.isInfoLoading
+    isLoading: state.Resume.isInfoLoading,
+    //历史邮件
+    historyEmail: state.Email.historyEmail
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
-    getTalentResumeInfo: bindActionCreators(Actions.ResumeActions.getTalentResumeInfo, dispatch)
+    getTalentResumeInfo: bindActionCreators(Actions.ResumeActions.getTalentResumeInfo, dispatch),
+    getEmailHistory: bindActionCreators(Actions.EmailActions.getEmailHistory, dispatch),
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)        
 })
 
 export default connect(

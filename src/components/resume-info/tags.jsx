@@ -72,7 +72,6 @@ export default class TagsComponent extends Component {
         }
         tags.push(tag);
         this.setState({tags,tag:''});
-        console.log(this.state.tags)
     }
 
     onTagClose(item) {

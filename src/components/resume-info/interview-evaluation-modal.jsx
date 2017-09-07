@@ -73,7 +73,6 @@ class EvaluationModalComponents extends Component {
             initiative:"",          //学习能力
             grooming:"",            //仪容仪表
             attitude:"",            //态度
-            intername:"",           //候选人
             interviewer:"",         //面试官
             comments:"",            //评语
         })
@@ -82,13 +81,13 @@ class EvaluationModalComponents extends Component {
     addEvaluation = ()=>{
         const {resumeid,jobid,evaluationid} = this.props
         //判断候选人、面试官是否为空
-        if(this.state.intername==""){
-            this.setState({
-                errorintername:true
-            })
-            this.refs.intername.focus()
-            return false
-        }
+        // if(this.state.intername==""){
+        //     this.setState({
+        //         errorintername:true
+        //     })
+        //     this.refs.intername.focus()
+        //     return false
+        // }
         if(this.state.interviewer==""){
             this.setState({
                 errorinterviewer:true
@@ -120,11 +119,21 @@ class EvaluationModalComponents extends Component {
         this.resetForm()
         this.props.hideEvaluationModal()    
     }
+    componentDidMount(){
+        setTimeout(()=>{
+            if(this.props.username!=undefined){
+                this.setState({
+                    intername:this.props.username,
+                })
+            }    
+        });     
+    }
     //评估表内容赋值
     componentWillReceiveProps(){
         setTimeout(()=>{
             const evaluationId = this.props.evaluationId
-            const {intername,interviewer,comments,
+            const {interviewer,//面试官
+                    comments,//评价
                     professional,//专业技能
                     workexperience,//业务能力
                     eduandtrain,//沟通能力
@@ -136,7 +145,7 @@ class EvaluationModalComponents extends Component {
            
             if (this.props.evaluation.id){
                 this.setState({
-                    intername:intername,
+                    //intername:this.props.username,
                     interviewer:interviewer,
                     comments:comments,
                     id :`${evaluationId}`,
@@ -160,7 +169,7 @@ class EvaluationModalComponents extends Component {
                 { value: '较好' },
                 { value: '优秀' }
             ],
-            { evaluationModalVisible , isLoading ,evaluation,username } = this.props,
+            { evaluationModalVisible , isLoading ,evaluation } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
         return(
@@ -188,7 +197,7 @@ class EvaluationModalComponents extends Component {
                     <div className="table-cell">
                         <Input 
                             ref = "intername"
-                            value={username}
+                            value={intername}
                             disabled="true" 
                             onChange={this.changeInput.bind(this,'intername',"errorintername")}
                         />

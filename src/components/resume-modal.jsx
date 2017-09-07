@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component , PropTypes} from 'react';
 
-import {Modal} from 'antd';
+import {Modal , Tooltip , Icon} from 'antd';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -19,10 +19,10 @@ class ResumeModalComponent extends Component {
             onChange();
         }
     }
-
+    
     render() {
         const {visible,uriParams} = this.props,
-            {resumeid=0,id=0} = uriParams;
+              {resumeid=0,id=0} = uriParams
         return (
             <Modal
                 title="简历"
@@ -32,7 +32,7 @@ class ResumeModalComponent extends Component {
                 footer={null}
                 afterClose={()=>this.modalAfterClose()}
                 width={1100}
-            >   
+            >    
                 {visible &&
                     <iframe 
                         frameBorder="0"
@@ -41,7 +41,7 @@ class ResumeModalComponent extends Component {
                         src={`/#/resumeInfo${resumeid ? '/' + resumeid : ''}${id ? '/' + id : ''}`}
                     >
                     </iframe>
-                }
+                }  
             </Modal>
         );
     }
@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
     uriParams: state.Recruit.uriParams
 })
 const mapDispatchToProps = dispatch => ({
-    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)   
 })
 
 export default connect(

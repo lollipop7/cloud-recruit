@@ -163,8 +163,6 @@ export const getResumeUrl = (data) => (dispatch,getState) => {
     })
 }
 
-//生成简历页面
-
 //添加面试评估
 export const addEvaluation = (data,props) => (dispatch,getState) => {
     AjaxByToken('evaluationEdit',{
@@ -174,17 +172,23 @@ export const addEvaluation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        const {getEvaluationId,jobid,resumeid,getEvaluation,evaluationid} = props; 
-        if (!evaluationid){
+        const {getEvaluationId,jobid,resumeid,getEvaluation,evaluationid,evaluationId} = props; 
+        if (!evaluationid && !evaluationId){
                 getEvaluationId({
                 positionid: jobid,
                 resumeid: resumeid,
             },getEvaluation);
-        }
-        
-        message.success('添加评估表成功！');
+            message.success('添加评估表成功！');
+        } else {
+            message.success('修改评估表成功！');
+        }       
     },err=>{
-        message.error('添加评估表失败！');
+        const {evaluationid,evaluationId} = props; 
+        if (!evaluationid && !evaluationId){
+            message.error('添加评估表失败！');
+        } else {
+            message.success('修改评估表失败！');
+        }  
     });
 }
 

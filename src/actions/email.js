@@ -61,6 +61,28 @@ export const resetEmailBoxDetail = () => (dispatch,getState) => {
     dispatch({...GET_PERSON_INFO_HISTORY_RECORD,personHistoryList:[]});
 }
 
+//修改简历邮箱
+export const updateResumeEmail = (data,props) => (dispatch,getState) => {
+    AjaxByToken("updateResumeEmail",{
+        head: {
+            transcode: 'L0073'
+        },
+        data: data
+    })
+    .then(res=>{
+        const {getRecruitResumeInfo , addressee} = props,
+            {logId , resumeid} = addressee;
+        // 得到招聘流程人员详细信息(根据简历resumeId和流程logId)
+        getRecruitResumeInfo({
+                    resumeId: resumeid,
+                    logId: logId
+                })
+        message.success('邮箱修改成功！')
+    },err=>{
+        message.error('邮箱修改失败！');
+    });
+}
+
 // 发送邮件
 export const sendEmail = (data,fileList,reSetTitle=()=>{},reSetHTML=()=>{},getEmailBoxDetail) => (dispatch,getState) => {
     dispatch(SEND_EMAIL_START);
