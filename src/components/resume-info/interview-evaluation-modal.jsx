@@ -79,15 +79,7 @@ class EvaluationModalComponents extends Component {
     }
     //添加评估
     addEvaluation = ()=>{
-        const {resumeid,jobid,evaluationid} = this.props
-        //判断候选人、面试官是否为空
-        // if(this.state.intername==""){
-        //     this.setState({
-        //         errorintername:true
-        //     })
-        //     this.refs.intername.focus()
-        //     return false
-        // }
+        const {resumeid,jobid,evaluationid} = this.props;
         if(this.state.interviewer==""){
             this.setState({
                 errorinterviewer:true
@@ -99,7 +91,7 @@ class EvaluationModalComponents extends Component {
             this.setState({
                 id:`${evaluationid}`
             })
-        }
+        };
         setTimeout(()=>{
             //筛选
             const filterObj = pickBy(this.state,(val,key)=>{
@@ -111,7 +103,7 @@ class EvaluationModalComponents extends Component {
             this.props.hideEvaluationModal();
             //添加面试评估
             this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
-        })
+        });
         
     }
     //隐藏评估表
@@ -186,7 +178,6 @@ class EvaluationModalComponents extends Component {
                     display:  this.state.isShowQrcode ? "block" : "none"
                 }}>
                     <b className="left-arrow inline-block vertical-center "></b>
-                    {/* <img src="./static/images/resume/qrcode-share.png" alt="分享"/> */}
                     <QRCode value={hash}/>
                     <p>微信扫描分享填写</p>
                 </div>
@@ -201,11 +192,6 @@ class EvaluationModalComponents extends Component {
                             disabled="true" 
                             onChange={this.changeInput.bind(this,'intername',"errorintername")}
                         />
-                        {errorintername && 
-                            <div className="error-promote">
-                                <label className="error">&nbsp;&nbsp;请输入候选人姓名</label>
-                            </div>
-                        }
                     </div>
                     <div className="table-cell">
                         <span className="title">面试主管:</span>

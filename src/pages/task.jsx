@@ -22,7 +22,9 @@ class TaskPage extends BasicPage {
     state = {
         starttime: '',
         endtime: '',
-        downLoading: false
+        downLoading: false,
+        stime :"",
+        etime :""
     }
 
     componentDidMount() {
@@ -48,7 +50,6 @@ class TaskPage extends BasicPage {
         //     downLoading:true
         // });
         this.refs.form.submit();
-        console.log("download");
     }
 
     onTimeChange = (field,val) => {
@@ -69,10 +70,16 @@ class TaskPage extends BasicPage {
             return ;
         }
         this.props.getTaskReport({startDate:starttime,endDate:endtime},startDate,endDate);
+        if(starttime && endtime){
+            this.setState({
+                stime:starttime,
+                etime:endtime
+            })
+        }
     }
 
     render() {
-        const {downLoading,endtime,starttime} = this.state;
+        const {downLoading,endtime,starttime,stime,etime} = this.state;
         const {routes} = this.props;
         return (
             <ScrollPageContent>
@@ -101,7 +108,7 @@ class TaskPage extends BasicPage {
                                 this.search
                             }>查询</Button>
                         </div>
-                        <TableComponent />
+                        <TableComponent/>
                         <Button 
                             className="download" 
                             onClick={this.downloadTaskReport} 

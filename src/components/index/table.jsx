@@ -92,7 +92,7 @@ class TableComponent extends Component {
     }
 
     handleClick = () => {
-        this.context.router.push('/recruit/6');
+        this.context.router.push('/recruit/6');     
     }
 
     onModalChange = () => {
@@ -136,7 +136,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getEntryPerson: bindActionCreators(Actions.homeActions.getEntryPerson, dispatch),
     resetEntryPerson: bindActionCreators(Actions.homeActions.resetEntryPerson, dispatch),
-    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)  
 })
 
 export default connect(

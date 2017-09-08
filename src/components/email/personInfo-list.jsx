@@ -63,10 +63,10 @@ class PersonInfoListComponent extends Component {
                                 <Panel header={header} key={index}>
                                     <ul className="list">
                                         <li>
-                                            收件人 : {fromaddress}
+                                            收件人 : {toaddress}
                                         </li>
                                         <li>
-                                            发件人 : {toaddress}
+                                            发件人 : {fromaddress}
                                         </li>
                                         <li>
                                             主题 : {title}

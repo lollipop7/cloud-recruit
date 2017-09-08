@@ -115,7 +115,7 @@ export default class EmailInfoComponent extends Component {
                                     style={{display:displayState}}
                                     onClick={this.handleMake}
                                 >
-                                    修改
+                                    修改邮箱
                                 </Button>
                             </div>
                         </div>

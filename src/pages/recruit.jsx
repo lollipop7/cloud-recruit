@@ -58,7 +58,7 @@ class RecruitPage extends BasicPage {
         }
          if(stageid){
             this.params.stageid = stageid;
-            this.refs.LeftNav.setSelectedIndex(parseInt(stageid));
+            this.refs.LeftNav.setSelectedIndex(parseInt(stageid)-1);
         }
         this._requestData();
         // 监听简历详情页面是否发生流程更改
@@ -100,7 +100,7 @@ class RecruitPage extends BasicPage {
         return NavData;
     }
 
-    handleClickNav = type => {        
+    handleClickNav = type => {
         this.params.stageid = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
@@ -108,6 +108,7 @@ class RecruitPage extends BasicPage {
         this.refs.FormComponents.resetForm(true); 
         this.formData.workyear="";
         this.formData.educationbg="";
+        this.formData.username="";
         this._requestData();   
     }
     //点击筛选按钮查找

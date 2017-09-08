@@ -254,7 +254,7 @@ export default class BaseinfoComponent extends Component {
             specialty=undefined, // 专业
             educationbackground=undefined, //学历,
             age='', //年龄
-            jobtype="",//工作类型
+            jobtype="全职",//工作类型
             responsibility="",//工作职责
             qualification="",//任职资格
         } = this.state;
@@ -375,10 +375,6 @@ export default class BaseinfoComponent extends Component {
                         jobtype: "实习"
                     });
                 break;
-                default:
-                   this.setState({
-                        jobtype: ""
-                    });
             }
             
     }
@@ -430,7 +426,7 @@ export default class BaseinfoComponent extends Component {
             specialty=undefined,            // 专业
             educationbackground=undefined,  //学历
             age='',                         //年龄
-            jobtype='',                     //工作类型
+            jobtype='全职',                     //工作类型
             responsibility='',              //工作职责
             qualification='',               //任职资格
             errorJobType,

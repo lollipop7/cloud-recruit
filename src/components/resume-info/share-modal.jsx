@@ -30,8 +30,7 @@ class ShareModalComponents extends Component {
     }
     
     render(){
-        const {shareModalVisible,resumeData,isLoading,resumeUrl} = this.props,
-        {data = {}} = resumeData,
+        const {shareModalVisible,resumeData,isLoading,resumeUrl,data} = this.props,
         {
                 resumeInfo={},
                 resumeid, //简历id

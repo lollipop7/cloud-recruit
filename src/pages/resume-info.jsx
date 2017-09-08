@@ -46,6 +46,7 @@ class ResumeInfoPage extends Component {
                     resumeid: resumeId
                 });
             }
+            //获取历史邮件
             getEmailHistory()
     }
 
@@ -152,10 +153,10 @@ class ResumeInfoPage extends Component {
                                         className={`tab-item table-cell ${type==1 ? 'active' : ''}`}
                                         onClick={() => this.handleChangeType(1)}
                                     >
-                                    <Tooltip title={<span onClick={this.clickLookEmail}>邮件已发送，请注意查看！</span>}>
+                                    <Tooltip title={<span onClick={this.clickLookEmail}>邮件已发送！</span>}>
                                         <Icon 
                                             type="check-circle-o" 
-                                            style={{display:emailState,float:"left",color:"#0086c9",position:'relative',top:-8.5,left:91}}
+                                            style={{display:emailState,float:"left",color:"#0086c9",position:'relative',top:-7.5,left:91}}
                                             onClick={this.searchEmail}
                                         />
                                     </Tooltip> 
