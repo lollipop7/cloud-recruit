@@ -5,37 +5,44 @@ import {Table} from 'antd';
 // 表格列数据
 import columns from 'data/table-columns/manager-table';
 
-export default class TableComponent extends Component {
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class TableComponent extends Component {
 
     state = {
-        data: [],
+        // data: [],
         selectedRowKeys: []
     }
 
-    componentDidMount(){
-        let data = [];
-        for(let i=0;i<20;i++){
-            data.push({
-                username: '张三',
-                num: 10001,
-                department: '测试部',
-                position: '软件工程师',
-                phonenum: '13564030785',
-                email: '13564030785@163.com',
-                entrytime: '2017-06-08',
-                status: '正式',
-                property: '全职'
-            });
-        }
-        this.setState({data});
+    getColumns = () => {
+        columns[columns.length-2].render = this.renderWithWorkstatus;
+        return columns;
     }
+
+    renderWithWorkstatus = (text,record,index) => {
+            switch(parseInt(text)){
+                case 0:
+                    return <span className="work-status trial">试用期</span>
+                case 1:
+                    return <span className="work-status formal">正式员工</span>  
+                case 2:
+                    return <span className="work-status depature">离职员工</span>   
+                default:
+                    return <span className="work-status hired">待入职</span>       
+            }
+        }
 
     onSelectChange = selectedRowKeys => {
         this.setState({selectedRowKeys});
     }
 
     render() {
-        const {data,selectedRowKeys} = this.state;
+        const {selectedRowKeys} = this.state,
+        {paginationCurrent, crewList} = this.props,
+        {list, count} = crewList;
         return (
             <Table 
                 rowSelection={{
@@ -44,18 +51,31 @@ export default class TableComponent extends Component {
                     onChange: this.onSelectChange
                 }}
                 bordered
-                columns={columns} 
+                columns={this.getColumns()} 
                 dataSource={
-                    data.map((item,index)=>{
+                    list.map((item,index)=>{
                         item.key = index;
                         return item;
                     })
                 }
                 pagination={{
                     defaultPageSize:20 ,
-                    total: 200
+                    total: count
                 }}
             />
         );
     }
 }
+
+const mapStateToProps = state => ({
+    crewList: state.Manage.crewList
+})
+
+const mapDispatchToProps = dispatch => ({
+
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TableComponent)

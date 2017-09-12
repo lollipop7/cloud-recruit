@@ -2,15 +2,76 @@ import React, {Component} from 'react';
 
 import { Input } from 'antd';
 
-import BoxComponent from './box';
-
 export default class TopComponent extends Component {
 
     state = {
-        keyWord: ''
+        keyWord: '',
+        _selectedIndex: 0
+    }
+
+    setSelectedIndex = _selectedIndex => {
+        this.setState({_selectedIndex});
+    }
+
+    getItem = (item, index) => {
+        const {_selectedIndex} = this.state,
+            {
+                num=0,
+                desc='',
+                circle=false,
+                numColor='',
+                type=''
+            } =item,
+            {isLoading} = this.props;
+            return(
+                <div 
+                    className={`box ${_selectedIndex === index ? 'active' : ''}`}
+                    style={{
+                        borderColor: _selectedIndex === index && numColor,
+                        marginRight: index === 2 && 40
+                    }}
+                    onClick={this.handleClickBox.bind(this,index,type)}
+                >
+                    <div className="table">
+                        <div className="table-cell">
+                            <p className="num" style={{
+                                color: numColor
+                            }}>
+                                {
+                                    isLoading ? 
+                                    <div 
+                                        className={_selectedIndex === index ? 'preloader-white' : 'preloader'} 
+                                    >
+                                    </div> : 
+                                    num
+                                }
+                            </p>
+                            <p className="desc">
+                                {desc}
+                            </p>
+                        </div>
+                    </div>
+                    {
+                        _selectedIndex === index && <div className="triangle" style={{borderBottomColor: _selectedIndex === index  ? numColor : ''}}></div>
+                    }
+                    {
+                        circle && <div className="circle"></div>
+                    }
+                </div>
+            )
+
+    }
+
+    handleClickBox = (index,type) => {
+        this.setSelectedIndex(index);
+        const {onClick} = this.props;
+        if(onClick){
+            onClick(type)
+        }
     }
 
     handleKeyUp = e => {
+
         if(e.keyCode === 13){
             console.log('回车搜索');
         }
@@ -26,8 +87,11 @@ export default class TopComponent extends Component {
         console.log(e);
     }
 
+    
+
     render() {
         const {keyWord} = this.state;
+        const {data=[],isLoading} = this.props;
         return (
             <div
                 style={{
@@ -35,36 +99,9 @@ export default class TopComponent extends Component {
                     fontSize: 0
                 }}
             >
-                <BoxComponent 
-                    num={188}
-                    desc="全部人员"
-                    triangle={true}
-                    numColor="#ef5672"
-                />
-                <BoxComponent 
-                    num={169}
-                    desc="正式员工"
-                    numColor="#bb76fb"
-                />
-                <BoxComponent 
-                    num={5}
-                    desc="试用期"
-                    circle={true}
-                    numColor="#fac23f"
-                    style={{
-                        marginRight: 40
-                    }}
-                />
-                <BoxComponent 
-                    num={9}
-                    desc="待入职人员"
-                    numColor="#489bf4"
-                />
-                <BoxComponent 
-                    num={2}
-                    desc="离职员工"
-                    numColor="#b2bac2"
-                />
+                {data.map((item,index) => {
+                    return this.getItem(item, index)
+                })}
                 <Input 
                     placeholder="员工搜索"
                     style={{
@@ -95,3 +132,4 @@ export default class TopComponent extends Component {
         );
     }
 }
+

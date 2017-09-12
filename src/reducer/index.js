@@ -9,6 +9,7 @@ import Resume from './resume-info';
 import Task from './task';
 import Email from './email';
 import File from './file';
+import Manage from './manage';
 
 const rootReducer = combineReducers({
     Login,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     Resume,
     Task,
     Email,
-    File
+    File,
+    Manage
 });
 
 export default rootReducer;
