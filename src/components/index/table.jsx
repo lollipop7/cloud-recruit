@@ -6,6 +6,8 @@ import trim from 'lodash/trim';
 import {Table , Icon} from 'antd';
 import columns from 'data/table-columns/index-table';
 
+import moment from 'moment'
+
 import LoadingComponent from 'components/loading';
 
 // 招聘人员详细信息Modal页面
@@ -80,11 +82,17 @@ class TableComponent extends Component {
                         {text}
                     </a>
         }
+        columns[columns.length - 2].render = (text,record,index) => {
+            return moment(text).format('YYYY-MM-DD')
+        }
+        columns[4].render = (text,record,index) => {
+            return moment(text).format('YYYY-MM-DD')
+        }
         return columns;
     }
 
     handleClick = () => {
-        this.context.router.push('/recruit/6');
+        this.context.router.push('/recruit/6');     
     }
 
     onModalChange = () => {
@@ -128,7 +136,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getEntryPerson: bindActionCreators(Actions.homeActions.getEntryPerson, dispatch),
     resetEntryPerson: bindActionCreators(Actions.homeActions.resetEntryPerson, dispatch),
-    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch)  
 })
 
 export default connect(

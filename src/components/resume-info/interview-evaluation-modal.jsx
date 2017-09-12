@@ -73,22 +73,13 @@ class EvaluationModalComponents extends Component {
             initiative:"",          //学习能力
             grooming:"",            //仪容仪表
             attitude:"",            //态度
-            intername:"",           //候选人
             interviewer:"",         //面试官
             comments:"",            //评语
         })
     }
     //添加评估
     addEvaluation = ()=>{
-        const {resumeid,jobid,evaluationid} = this.props
-        //判断候选人、面试官是否为空
-        if(this.state.intername==""){
-            this.setState({
-                errorintername:true
-            })
-            this.refs.intername.focus()
-            return false
-        }
+        const {resumeid,jobid,evaluationid} = this.props;
         if(this.state.interviewer==""){
             this.setState({
                 errorinterviewer:true
@@ -100,7 +91,7 @@ class EvaluationModalComponents extends Component {
             this.setState({
                 id:`${evaluationid}`
             })
-        }
+        };
         setTimeout(()=>{
             //筛选
             const filterObj = pickBy(this.state,(val,key)=>{
@@ -112,7 +103,7 @@ class EvaluationModalComponents extends Component {
             this.props.hideEvaluationModal();
             //添加面试评估
             this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
-        })
+        });
         
     }
     //隐藏评估表
@@ -120,11 +111,21 @@ class EvaluationModalComponents extends Component {
         this.resetForm()
         this.props.hideEvaluationModal()    
     }
+    componentDidMount(){
+        setTimeout(()=>{
+            if(this.props.username!=undefined){
+                this.setState({
+                    intername:this.props.username,
+                })
+            }    
+        });     
+    }
     //评估表内容赋值
     componentWillReceiveProps(){
         setTimeout(()=>{
             const evaluationId = this.props.evaluationId
-            const {intername,interviewer,comments,
+            const {interviewer,//面试官
+                    comments,//评价
                     professional,//专业技能
                     workexperience,//业务能力
                     eduandtrain,//沟通能力
@@ -136,7 +137,7 @@ class EvaluationModalComponents extends Component {
            
             if (this.props.evaluation.id){
                 this.setState({
-                    intername:intername,
+                    //intername:this.props.username,
                     interviewer:interviewer,
                     comments:comments,
                     id :`${evaluationId}`,
@@ -160,7 +161,7 @@ class EvaluationModalComponents extends Component {
                 { value: '较好' },
                 { value: '优秀' }
             ],
-            { evaluationModalVisible , isLoading ,evaluation,username } = this.props,
+            { evaluationModalVisible , isLoading ,evaluation } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
         return(
@@ -177,7 +178,6 @@ class EvaluationModalComponents extends Component {
                     display:  this.state.isShowQrcode ? "block" : "none"
                 }}>
                     <b className="left-arrow inline-block vertical-center "></b>
-                    {/* <img src="./static/images/resume/qrcode-share.png" alt="分享"/> */}
                     <QRCode value={hash}/>
                     <p>微信扫描分享填写</p>
                 </div>
@@ -188,15 +188,10 @@ class EvaluationModalComponents extends Component {
                     <div className="table-cell">
                         <Input 
                             ref = "intername"
-                            value={username}
+                            value={intername}
                             disabled="true" 
                             onChange={this.changeInput.bind(this,'intername',"errorintername")}
                         />
-                        {errorintername && 
-                            <div className="error-promote">
-                                <label className="error">&nbsp;&nbsp;请输入候选人姓名</label>
-                            </div>
-                        }
                     </div>
                     <div className="table-cell">
                         <span className="title">面试主管:</span>

@@ -114,7 +114,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     sendEmail: bindActionCreators(Actions.EmailActions.sendEmail, dispatch),
     showUploadModal: bindActionCreators(Actions.EmailActions.showUploadModal, dispatch),
-    getEmailBoxDetail: bindActionCreators(Actions.EmailActions.getEmailBoxDetail, dispatch)
+    getEmailBoxDetail: bindActionCreators(Actions.EmailActions.getEmailBoxDetail, dispatch),
+    updateResumeEmail: bindActionCreators(Actions.EmailActions.updateResumeEmail, dispatch),
+    getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
+    getEmailHistory: bindActionCreators(Actions.EmailActions.getEmailHistory, dispatch),
 })
 
 export default connect(

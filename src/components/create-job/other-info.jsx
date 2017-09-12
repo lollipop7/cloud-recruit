@@ -9,10 +9,9 @@ export default class OtherInfoComponent extends Component {
 
     state = {
         // workType: 1,
-        isurgent: false,//是否紧急
-        isintelligent:false,//是否智能匹配
+       
         starttime:'',//开始时间
-        endtime:'',//结束时间
+        endtime:''//结束时间
     }
 
     onChange = (field,e) => {
@@ -43,10 +42,10 @@ export default class OtherInfoComponent extends Component {
     }
 
     getFormData = () => {
-        const { starttime , endtime , isurgent , isintelligent } = this.state;
-        const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
+        const { starttime , endtime } = this.state;
+        const {handleStartOpenChange,handleEndOpenChange} = this.refs.TimeComponent;
         if(starttime === ''){
-            handleStartOpen(true);
+            handleStartOpenChange(true);
             return false;
         }
         if(endtime === ''){
@@ -64,8 +63,8 @@ export default class OtherInfoComponent extends Component {
                 endtime,//结束时间
             } = this.props.data;
             this.setState({
-                isurgent:urgent,//是否紧急
-                isintelligent:intelligent,//是否智能匹配
+                isurgent:urgent=='undefined'?true:false,//是否紧急
+                isintelligent:intelligent=='undefined'?true:false,//是否智能匹配
                 starttime:starttime?moment(starttime).format("YYYY-MM-DD 00:00:00"):"",//开始时间
                 endtime:endtime?moment(endtime).format("YYYY-MM-DD 00:00:00"):"",//结束时间
           
@@ -84,6 +83,7 @@ export default class OtherInfoComponent extends Component {
             starttime=null ,
             endtime=null,
         } = this.state;
+        console.log(this.props)
         return (
             <li className="other-info">
                 <h2 className="title">

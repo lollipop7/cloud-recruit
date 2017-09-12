@@ -37,6 +37,21 @@
                     background-repeat: no-repeat;
                 }
             }
+            .address {
+                Input{
+                    width: 200px;
+                    float: left;
+                    border: 0px solid white;
+                    &:hover{
+                        border-color:white !important;
+                    }
+                }
+                Button{
+                    display: none;
+                    float: left;
+                    margin-left: 20px
+                }
+            }
         }
     }
     .theme {

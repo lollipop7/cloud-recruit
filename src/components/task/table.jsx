@@ -91,7 +91,7 @@ class TableComponents extends Component {
     }
 
     render() {
-        const {isLoading,data} = this.props;
+        const {isLoading,data,time} = this.props;
         const {starttime,endtime} = data;
         const dataSource = !isLoading ? this.getDataSource(data.list) : [];
         return (
@@ -129,8 +129,7 @@ class TableComponents extends Component {
                             dataSource={[
                                 {
                                     desc:`注：用户名为空的人，显示该用户的编号 
-                                        ［数据来源日期 ${moment(starttime).format('YYYY-MM-DD')} 至 
-                                        ${moment(endtime).format('YYYY-MM-DD')}］`
+                                        ［数据来源日期${moment(starttime).format("YYYY-MM-DD")} 至 ${moment().format("YYYY-MM-DD")}］`
                                 }
                             ]} 
                             className="no-margin-border desc-table"

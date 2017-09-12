@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Steps,{Step} from 'rc-steps';
+import { Tooltip } from 'antd';
+import moment from 'moment'
 
 // lodash
 import find from 'lodash/find';
@@ -12,41 +14,49 @@ export default class StepsComponent extends Component {
         {
             status: 'wait',
             title: '申请职位',
-            icon: 1
+            icon: 1,
+            time:""
         }, 
         {
             status: 'wait',
             title: '预约',
-            icon: 2
+            icon: 2,
+            time:""
         }, 
         {
             status: 'wait',
             title: '面试',
-            icon: 3
+            icon: 3,
+            time:""
         },
         {
             status: 'wait',
             title: '复试',
-            icon: 4
+            icon: 4,
+            time:""
         },
         {
             status: 'wait',
             title: 'offer',
-            icon: 5
+            icon: 5,
+            time:""
         },
         {
             status: 'wait',
             title: '待入职',
-            icon: 6
+            icon: 6,
+            time:""
         },
         {
             status: 'wait',
             title: '结束',
-            icon: 7
+            icon: 7,
+            time:""
         }
     ]
-
+   
     render() {
+        let stagesMapArr = []
         let steps = JSON.parse(JSON.stringify(this.steps));
         const {stagesMap} = this.props;
         if(stagesMap){
@@ -56,10 +66,15 @@ export default class StepsComponent extends Component {
             let filterStageMap = omitBy(stagesMap,item=>{
                 return item.iscurrentstage !== '0';
             });
+            for (let item in stagesMap){
+                stagesMapArr.push(stagesMap[item])
+            }
             forIn(stagesMap,item=>{
                 steps[item.stageid-1].status = 'finish';
+                steps[item.stageid-1].time = stagesMapArr[item.stageid-1].eventtime?moment(stagesMapArr[item.stageid-1].eventtime).format('YYYY-MM-DD, hh:mm:ss'):stagesMapArr[item.stageid-1].deliverytime
             });
-            steps[currentStage.stageid-1].status = 'process';
+            steps[currentStage.stageid-1].status = 'process';  
+            
         }
         return (
             <div className="steps noprint" style={{
@@ -71,14 +86,24 @@ export default class StepsComponent extends Component {
                 <Steps current={1} labelPlacement="vertical">
                     {
                         steps.map((s, i) => {
-                            return (
-                                <Step
-                                    key={i}
-                                    status={s.status}
-                                    title={s.title}
-                                    icon={s.icon ? s.icon : null}
-                                />
-                            );
+                                return (                          
+                                    <Step
+                                        key={i}
+                                        status={s.status}
+                                        title={s.title}
+                                        icon={<Tooltip 
+                                                title={
+                                                    <div>
+                                                        <p>{s.time?'时间：'+ s.time : "" }</p> 
+                                                        <span>状态：{s.status}</span>
+                                                    </div>
+                                                    }
+                                            >
+                                            <span>{s.icon ? s.icon : null}</span>
+                                        </Tooltip>}
+                                    >            
+                                    </Step>
+                                );
                         })
                     }
                 </Steps>
