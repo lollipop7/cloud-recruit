@@ -72,7 +72,7 @@ export const updateResumeEmail = (data,props) => (dispatch,getState) => {
     .then(res=>{
         const {getRecruitResumeInfo , addressee} = props,
             {logId , resumeid} = addressee;
-        // 得到招聘流程人员详细信息(根据简历resumeId和流程logId)
+       // 得到招聘流程人员详细信息(根据简历resumeId和流程logId)
         getRecruitResumeInfo({
                     resumeId: resumeid,
                     logId: logId

@@ -22,9 +22,7 @@ class TaskPage extends BasicPage {
     state = {
         starttime: '',
         endtime: '',
-        downLoading: false,
-        stime :"",
-        etime :""
+        downLoading: false
     }
 
     componentDidMount() {
@@ -58,28 +56,22 @@ class TaskPage extends BasicPage {
         });
     }
 
-    search = () => {
-        const {startDate,endDate,starttime,endtime} = this.state,
+    taskSearch = () => {
+        const {starttime,endtime} = this.state,
         {TimeComponent} = this.refs;
-        if(startDate === ''){
-            TimeComponent.handleStartOpen(true);
+        if(starttime === ''){
+            TimeComponent.handleStartOpenChange(true);
             return ;
         }
-        if(endDate === ''){
+        if(endtime === ''){
             TimeComponent.handleEndOpenChange(true);
             return ;
         }
         this.props.getTaskReport({startDate:starttime,endDate:endtime},startDate,endDate);
-        if(starttime && endtime){
-            this.setState({
-                stime:starttime,
-                etime:endtime
-            })
-        }
     }
 
     render() {
-        const {downLoading,endtime,starttime,stime,etime} = this.state;
+        const {downLoading,endtime,starttime} = this.state;
         const {routes} = this.props;
         return (
             <ScrollPageContent>
@@ -104,9 +96,7 @@ class TaskPage extends BasicPage {
                                 starttime={starttime}
                                 endtime ={endtime}
                             />
-                            <Button type="primary" onClick={
-                                this.search
-                            }>查询</Button>
+                            <Button type="primary" onClick={this.taskSearch}>查询</Button>
                         </div>
                         <TableComponent/>
                         <Button 
@@ -116,13 +106,13 @@ class TaskPage extends BasicPage {
                             loading={downLoading}
                         >下载</Button>
                     </form>
-                    <iframe 
+                    {/* <iframe 
                         id="downloadTarget" 
                         name="downloadTarget" 
                         style={{display:'none'}} 
                         src="" 
                         frameborder="0"
-                    ></iframe>
+                    ></iframe> */}
                 </div>
             </ScrollPageContent>
         );

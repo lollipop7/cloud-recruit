@@ -45,7 +45,7 @@ const GET_EVALUATION_ID = {type:types.GET_EVALUATION_ID}
 //简历信息分享
 const RESUME_INFORMATION = {type:types.RESUME_INFORMATION}
 
-// 得到招聘流程人员详细信息(根据简历id和流程id)
+//得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
     /**
      * resumeId: resumeId,
@@ -63,6 +63,29 @@ export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
         dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
     });
 }
+
+// export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
+//         dispatch(LOAD_INFO_START);
+//         axios({
+//             url: '/hrmanage/api /web/getResumeById',
+//             method: 'post',
+//             data: {...data,...{
+//                 head:{
+//                     type:'h',
+//                     transcode: 'L0017'
+//                 }
+//             }},
+//             header: {
+//                 contentType: 'application/x-www-form-urlencoded'
+//             },
+//         })
+//         .then(res=>{
+//             console.log(res);
+//             dispatch(LOAD_INFO_DONE);
+//             dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
+//         });
+//     }
+
 
 // 获取流程log(根据简历id和职位id)
 export const getStageLog = (data) => (dispatch,getState) => {
@@ -96,6 +119,27 @@ export const getTalentResumeInfo = (data) => (dispatch,getState) => {
         console.log(err);
     });
 }
+
+// export const getTalentResumeInfo = (data) => (dispatch,getState) => {
+//         dispatch(LOAD_INFO_START);
+//         axios({
+//             url: '/hrmanage/api /web/resumeView',
+//             method: 'post',
+//             data: {...data,...{
+//                 head:{
+//                     type:'h',
+//                     transcode: 'L0040'
+//                 }
+//             }},
+//             header: {
+//                 contentType: 'application/x-www-form-urlencoded'
+//             },
+//         })
+//         .then(res=>{
+//             dispatch(LOAD_INFO_DONE);
+//             dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
+//         });
+//     }
 
 // 下载简历
 export const downloadResume = (data,username) => (dispatch,getState) => {

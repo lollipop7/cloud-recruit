@@ -68,13 +68,18 @@ export default class StepsComponent extends Component {
             });
             for (let item in stagesMap){
                 stagesMapArr.push(stagesMap[item])
-            }
+            }  
             forIn(stagesMap,item=>{
                 steps[item.stageid-1].status = 'finish';
-                steps[item.stageid-1].time = stagesMapArr[item.stageid-1].eventtime?moment(stagesMapArr[item.stageid-1].eventtime).format('YYYY-MM-DD, hh:mm:ss'):stagesMapArr[item.stageid-1].deliverytime
+                //  steps[item.stageid-1].time = stagesMapArr[item.stageid-1].eventtime ? moment(stagesMapArr[item.stageid-1].eventtime).format('YYYY-MM-DD, hh:mm:ss') : stagesMapArr[item.stageid-1].deliverytime;
+                 //console.log(steps[item.stageid-1].time,'000',stagesMapArr[item.stageid-1])
             });
             steps[currentStage.stageid-1].status = 'process';  
-            
+            for (let i=0;i<stagesMapArr.length;i++){
+                if (stagesMapArr[i].stageid==steps[i].icon){
+                    steps[i].time=stagesMapArr[i].eventtime ? stagesMapArr[i].eventtime : stagesMapArr[i].deliverytime
+                }
+            } 
         }
         return (
             <div className="steps noprint" style={{

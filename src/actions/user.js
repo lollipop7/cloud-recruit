@@ -7,6 +7,7 @@ const GET_USER_INFO = {type:types.GET_USER_INFO};
 
 // 获取用户邮箱配置基本信息
 const GET_USER_EMAIL_INFO = {type:types.GET_USER_EMAIL_INFO};
+const GET_USER_RESUMEEMAIL_INFO = {type:types.GET_USER_RESUMEEMAIL_INFO};
 
 // 用户修改密码
 const CHANGE_PASSWD_START = {type:types.CHANGE_PASSWD_START};
@@ -35,6 +36,32 @@ export const getUserEmail = () => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch({...GET_USER_EMAIL_INFO,userEmailInfo:res});
+    });
+}
+// 获取简历邮箱信息
+export const getResumeEmail = () => (dispatch,getState) => {
+    AjaxByToken('importEmail/API_AUTO_IMPORT_MAIL_RESUMEINFO_LIST',{
+        head: {
+            transcode: 'L0071'
+        }
+    })
+    .then(res=>{
+        dispatch({...GET_USER_RESUMEEMAIL_INFO,resumeEmailInfo:res});
+    });
+}
+
+//修改、添加简历邮箱配置
+export const changeResumeEmailSetting = (data) => (dispatch,getState) => {
+    AjaxByToken('importEmail/API_AUTO_IMPORT_MAIL_RESUMEINFOS_UPDATE',{
+        head: {
+            transcode: 'L0072'
+        },
+        data: data
+    })
+    .then(res=>{
+        NProgress.done();
+        message.success('配置邮箱成功！');
+        // dispatch({...GET_USER_EMAIL_INFO,userEmailInfo:res});
     });
 }
 
