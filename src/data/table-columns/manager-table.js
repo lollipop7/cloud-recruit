@@ -9,14 +9,14 @@ const renderWithATag = (text,record,index) => {
 module.exports = [
     {
         "title": "人员姓名",
-        "dataIndex": "username",
-        "key": "username",
+        "dataIndex": "name",
+        "key": "name",
         "width": 97
     },
     {
         "title": "工号",
-        "dataIndex": "num",
-        "key": "num",
+        "dataIndex": "worknumber",
+        "key": "worknumber",
         "width": 93
     },
     {
@@ -35,32 +35,32 @@ module.exports = [
     },
     {
         "title": "手机",
-        "dataIndex": "phonenum",
-        "key": "phonenum",
+        "dataIndex": "mobile",
+        "key": "mobile",
         "width": 119
     },
     {
         "title": "工作邮箱",
-        "dataIndex": "email",
-        "key": "email",
+        "dataIndex": "workemail",
+        "key": "workemail",
         "width": 142,
         render: renderWithATag
     },
     {
         "title": "入职时间",
-        "dataIndex": "entrytime",
-        "key": "entrytime",
+        "dataIndex": "inthetime",
+        "key": "inthetime",
         "width": 121
     },
     {
         "title": "工作状态",
-        "dataIndex": "status",
-        "key": "status",
+        "dataIndex": "workstatus",
+        "key": "workstatus",
         "width": 102
     },
     {
         "title": "工作性质",
-        "dataIndex": "property",
-        "key": "property"
+        "dataIndex": "worknature",
+        "key": "worknature"
     }
 ]

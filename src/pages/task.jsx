@@ -101,7 +101,7 @@ class TaskPage extends BasicPage {
                                 this.search
                             }>查询</Button>
                         </div>
-                        <TableComponent />
+                        <TableComponent/>
                         <Button 
                             className="download" 
                             onClick={this.downloadTaskReport} 

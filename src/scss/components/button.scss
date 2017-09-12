@@ -38,3 +38,24 @@
         background-color: #c0c0c0;
     }
 }
+.work-status {
+    display: block;
+    width: 70px;
+    height: 25px;
+    color: white;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 5px;
+    &.formal {
+        background-color: #bb76fb;
+    }
+    &.trial {
+        background-color: #fac23f;
+    }
+    &.hired {
+        background-color: #489bf4;
+    }
+    &.departure {
+        background-color: #b2bac2;
+    }
+}
