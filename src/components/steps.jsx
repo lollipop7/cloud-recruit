@@ -70,8 +70,11 @@ export default class StepsComponent extends Component {
                 stagesMapArr.push(stagesMap[item])
             }
             forIn(stagesMap,item=>{
-                steps[item.stageid-1].status = 'finish';
-                steps[item.stageid-1].time = stagesMapArr[item.stageid-1].eventtime?moment(stagesMapArr[item.stageid-1].eventtime).format('YYYY-MM-DD, hh:mm:ss'):stagesMapArr[item.stageid-1].deliverytime
+                //item.stageid值为 1-6
+                if(steps[item.stageid-1]>0){
+                    steps[item.stageid-1].status = 'finish';
+                    steps[item.stageid-1].time = stagesMapArr[item.stageid-1].eventtime ? moment(stagesMapArr[item.stageid-1].eventtime).format('YYYY-MM-DD, hh:mm:ss') : stagesMapArr[item.stageid-1].deliverytime
+                }
             });
             steps[currentStage.stageid-1].status = 'process';  
             
