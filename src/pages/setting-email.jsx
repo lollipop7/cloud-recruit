@@ -41,11 +41,12 @@ class SettingEmailPage extends Component {
                 this.resetForm();
                 const {mailinfo} = this.props.resumeEmailInfo;
                 if(mailinfo!=null){
-                  const {email, password , id} = mailinfo;
+                  const {email, password , id , mailid} = mailinfo;
                     this.setState({
                         resumeEmail:email,
                         resumePwd:password,
-                        id:id
+                        id:id,
+                        ResumeMailid:mailid
                     })
                 }     
             },0);
@@ -215,7 +216,7 @@ class SettingEmailPage extends Component {
         } = this.state,
             {routes,userEmailInfo , resumeEmailInfo} = this.props,
             {mailServersList,userMail} = userEmailInfo,
-            {list , mailinfo} = resumeEmailInfo;            
+            {list , mailinfo} = resumeEmailInfo;
         //const userMailId = userMail==null?"" : userMail.mailid;
         return (
             <ScrollPageContent>
@@ -308,7 +309,8 @@ class SettingEmailPage extends Component {
                                                         width: '100%'
                                                     }}
                                                     className={errorResume ? 'errorResume' : ''}
-                                                    value={ResumeMailid}
+                                                    //value={ResumeMailid}
+                                                    defaultValue='163企业邮箱'
                                                     ref = "resumeServerEmail"
                                                     placeholder="请选择邮箱服务器"
                                                     onChange={this.handleSelectResumeChange}
