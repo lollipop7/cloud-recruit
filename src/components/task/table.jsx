@@ -51,6 +51,8 @@ class TableComponents extends Component {
     ]
 
     state = {
+        searchStartTime:"",
+        searchEndTime:""
     }
 
     componentDidMount() {
@@ -127,7 +129,7 @@ class TableComponents extends Component {
                             dataSource={[
                                 {
                                     desc:`注：用户名为空的人，显示该用户的编号 
-                                        ［数据来源日期${moment(starttime).format("YYYY-MM-DD")} 至 ${moment().format("YYYY-MM-DD")}］`
+                                        ［数据来源日期${moment(starttime).format("YYYY-MM-DD")} 至 ${moment(endtime).format("YYYY-MM-DD")}］`
                                 }
                             ]} 
                             className="no-margin-border desc-table"

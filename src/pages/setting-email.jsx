@@ -39,16 +39,16 @@ class SettingEmailPage extends Component {
         if(!isEmpty(userEmailInfo.userMail) && ( userEmailInfo !== this.props.userEmailInfo)){
             setTimeout(()=>{
                 this.resetForm();
-                const {mailinfo} = this.props.resumeEmailInfo;
-                if(mailinfo!=null){
-                  const {email, password , id , mailid} = mailinfo;
-                    this.setState({
-                        resumeEmail:email,
-                        resumePwd:password,
-                        id:id,
-                        ResumeMailid:mailid
-                    })
-                }     
+                // const {mailinfo} = this.props.resumeEmailInfo;
+                // if(mailinfo!=null){
+                //   const {email, password , id , mailid} = mailinfo;
+                //     this.setState({
+                //         resumeEmail:email,
+                //         resumePwd:password,
+                //         id:id,
+                //         ResumeMailid:mailid
+                //     })
+                // }     
             },0);
         }
     };
@@ -309,8 +309,7 @@ class SettingEmailPage extends Component {
                                                         width: '100%'
                                                     }}
                                                     className={errorResume ? 'errorResume' : ''}
-                                                    //value={ResumeMailid}
-                                                    defaultValue='163企业邮箱'
+                                                    value={ResumeMailid}
                                                     ref = "resumeServerEmail"
                                                     placeholder="请选择邮箱服务器"
                                                     onChange={this.handleSelectResumeChange}
