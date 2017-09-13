@@ -67,7 +67,7 @@ class TaskPage extends BasicPage {
             TimeComponent.handleEndOpenChange(true);
             return ;
         }
-        this.props.getTaskReport({startDate:starttime,endDate:endtime},startDate,endDate);
+        this.props.getTaskReport({startDate:starttime,endDate:endtime},starttime,endtime);
     }
 
     render() {
