@@ -4,7 +4,8 @@ import {
     CHANGE_PASSWD,
     CHANGE_PASSWD_START,
     CHANGE_PASSWD_DONE,
-    CHANGE_RES_FALSE
+    CHANGE_RES_FALSE,
+    GET_USER_RESUMEEMAIL_INFO
 } from 'constants/user';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
         userMail: {},
         mailServersList: []
     },
+    resumeEmailInfo:{},
     isLoading: false,
     changeRes: false
 };
@@ -23,6 +25,8 @@ export default function user(state = initialState,actions){
             return {...state,userInfo:actions.userInfo};
         case GET_USER_EMAIL_INFO:
             return {...state,userEmailInfo:actions.userEmailInfo};
+        case GET_USER_RESUMEEMAIL_INFO:
+            return {...state,resumeEmailInfo:actions.resumeEmailInfo};
         case CHANGE_PASSWD_START:
             return {...state,isLoading: true};
         case CHANGE_PASSWD_DONE:

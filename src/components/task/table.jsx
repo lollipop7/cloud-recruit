@@ -91,7 +91,7 @@ class TableComponents extends Component {
     }
 
     render() {
-        const {isLoading,data,time} = this.props;
+        const {isLoading,data,dataTime} = this.props;
         const {starttime,endtime} = data;
         const dataSource = !isLoading ? this.getDataSource(data.list) : [];
         return (
@@ -105,8 +105,7 @@ class TableComponents extends Component {
                         pagination={false}
                     /> : null
                 }
-                {
-                    !isLoading ? dataSource.map((item,index)=>{
+                {!isLoading ? dataSource.map((item,index)=>{
                         const showHeader = index === 0 ? true : false;
                         const className = index === 0 ? '' : 'no-margin-border';
                         return (
@@ -122,8 +121,7 @@ class TableComponents extends Component {
                         )
                     }) : null
                 }
-                {
-                    !isLoading ? 
+                {!isLoading ? 
                         <Table
                             columns={this.descColumns} 
                             dataSource={[

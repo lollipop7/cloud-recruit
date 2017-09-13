@@ -63,8 +63,8 @@ export default class OtherInfoComponent extends Component {
                 endtime,//结束时间
             } = this.props.data;
             this.setState({
-                isurgent:urgent=='undefined'?true:false,//是否紧急
-                isintelligent:intelligent=='undefined'?true:false,//是否智能匹配
+                isurgent:urgent==undefined?false:urgent,//是否紧急
+                isintelligent:intelligent==undefined?false:intelligent,//是否智能匹配
                 starttime:starttime?moment(starttime).format("YYYY-MM-DD 00:00:00"):"",//开始时间
                 endtime:endtime?moment(endtime).format("YYYY-MM-DD 00:00:00"):"",//结束时间
           
@@ -83,7 +83,6 @@ export default class OtherInfoComponent extends Component {
             starttime=null ,
             endtime=null,
         } = this.state;
-        console.log(this.props)
         return (
             <li className="other-info">
                 <h2 className="title">
