@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {Table} from 'antd';
 
+import {Link} from 'react-router';
+
 // 表格列数据
 import columns from 'data/table-columns/manager-table';
 
@@ -18,10 +20,17 @@ class TableComponent extends Component {
     }
 
     getColumns = () => {
+        columns[0].render = this.renderWithClerkDetail;
         columns[columns.length-2].render = this.renderWithWorkstatus;
         return columns;
     }
-
+    renderWithClerkDetail = (text,record,index) => {
+        return (
+            <Link to="/manager/clerkDetail" onClick={()=>{NProgress.start()}}>
+                <span>{text}</span>
+            </Link>
+        )
+    }
     renderWithWorkstatus = (text,record,index) => {
             switch(parseInt(text)){
                 case 0:
@@ -47,6 +56,7 @@ class TableComponent extends Component {
             crewList
         } = this.props,
         {list, count, isLoading} = crewList;
+        console.log(list);
         return (
             <Table 
                 rowSelection={{

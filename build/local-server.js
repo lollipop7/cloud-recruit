@@ -6,7 +6,7 @@ var proxyMiddleware = require('http-proxy-middleware')
 
 var proxyTable =  {
       '/hrmanage': {target:'http://printserver:66'}
-      // '/web': {target:'http://192.168.101.200:8080/hrmanage/api'}
+      // '/web': {target:'http://192.168.101.57:66/hrmanage/api'}
     }
 
 app.use(compression());

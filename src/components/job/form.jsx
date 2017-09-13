@@ -12,11 +12,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import TimeComponent from '../time';
 
-// redux
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from 'actions';
-
 export default class FormComponent extends Component {
 
     state = {
@@ -70,7 +65,7 @@ export default class FormComponent extends Component {
         });
     }
 
-     getFormData = () => {
+    getFormData = () => {
         const { starttime , endtime , isurgent , isintelligent } = this.state;
         const {handleStartOpen,handleEndOpenChange} = this.refs.TimeComponent;
         if(starttime === ''){
@@ -130,14 +125,3 @@ export default class FormComponent extends Component {
         );
     }
 }
-// const mapStateToProps = state => ({
-   
-// })
-// const mapDispatchToProps = dispatch => ({
-//     resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)
-// })
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(FormComponent);
