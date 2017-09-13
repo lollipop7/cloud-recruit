@@ -41,12 +41,8 @@ class TableComponent extends Component {
 
     render() {
         const {selectedRowKeys} = this.state,
-        {
-            paginationCurrent,
-            paginationChange,
-            crewList
-        } = this.props,
-        {list, count, isLoading} = crewList;
+        {paginationCurrent, crewList} = this.props,
+        {list, count} = crewList;
         return (
             <Table 
                 rowSelection={{
@@ -55,7 +51,6 @@ class TableComponent extends Component {
                     onChange: this.onSelectChange
                 }}
                 bordered
-                loading={isLoading}
                 columns={this.getColumns()} 
                 dataSource={
                     list.map((item,index)=>{
@@ -65,9 +60,7 @@ class TableComponent extends Component {
                 }
                 pagination={{
                     defaultPageSize:20 ,
-                    total: count,
-                    current: paginationCurrent,
-                    onChange: (page,pageSize) => paginationChange(page,pageSize)
+                    total: count
                 }}
             />
         );
