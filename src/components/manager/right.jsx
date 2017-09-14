@@ -73,7 +73,7 @@ class RightComponent extends Component {
     //页码改变的回调，参数是改变后的页码及每页条数
     paginationChange = (page,pageSize) => {
         this.params.skip = (page-1)*20;
-        this._requestData();
+        this._requestCrewData();
         this.setPaginationCurrent(page);
     }
 

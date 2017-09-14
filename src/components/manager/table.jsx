@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {Table} from 'antd';
+import moment from 'moment';
 
 import {Link} from 'react-router';
 
@@ -15,32 +16,16 @@ import * as Actions from 'actions';
 class TableComponent extends Component {
 
     state = {
-        data: [],
         selectedRowKeys: []
     }
-
-    componentDidMount(){
-        const {data} = this.state;
-        for(let i=0; i<200; i++){
-            data.push({
-                "name": "name",
-                "worknumber": "worknumber",
-                "department": "department",
-                "position": "position",
-                "mobile": "13000000000",
-                "workemail": "766077827@qq.com",
-                "inthetime": Date.now(),
-                "workstatus": "0",
-                "worknature": "全职"
-            })
-        }
-    }
-
+    
     getColumns = () => {
         columns[0].render = this.renderWithClerkDetail;
+        columns[columns.length-3].render = this.renderWithInthetime;
         columns[columns.length-2].render = this.renderWithWorkstatus;
         return columns;
     }
+
     renderWithClerkDetail = (text,record,index) => {
         return (
             <Link to="/manager/clerkDetail" onClick={()=>{NProgress.start()}}>
@@ -48,6 +33,13 @@ class TableComponent extends Component {
             </Link>
         )
     }
+
+    renderWithInthetime = (text,record,index) => {
+        return (
+            <span>{moment(text).format('YYYY-MM-DD')}</span>
+        )
+    }
+
     renderWithWorkstatus = (text,record,index) => {
             switch(parseInt(text)){
                 case 0:
@@ -55,9 +47,9 @@ class TableComponent extends Component {
                 case 1:
                     return <span className="work-status formal">正式员工</span>  
                 case 2:
-                    return <span className="work-status depature">离职员工</span>   
+                    return <span className="work-status depature">离职员工</span>  
                 default:
-                    return <span className="work-status hired">待入职</span>       
+                    return <span className="work-status hired">待入职</span>        
             }
         }
 
@@ -73,8 +65,6 @@ class TableComponent extends Component {
             crewList
         } = this.props,
         {list, count, isLoading} = crewList;
-        console.log(list);
-        const {data} = this.state;
         return (
             <Table 
                 rowSelection={{
@@ -88,6 +78,7 @@ class TableComponent extends Component {
                 dataSource={
                     list.map((item,index)=>{
                         item.key = index;
+                        delete item.children;
                         return item;
                     })
                 }

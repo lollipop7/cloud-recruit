@@ -2,7 +2,6 @@ import React, {Component,PropTypes} from 'react';
 
 import { Input , Select , Cascader , Radio } from 'antd';
 const RadioGroup = Radio.Group;
-const { TextArea } = Input;
 
 import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';

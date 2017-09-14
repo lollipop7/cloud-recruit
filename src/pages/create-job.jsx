@@ -67,7 +67,14 @@ class CreateJobPage extends Component {
     render() {
         let routesCopy = [];
         let currentJob = [];//最近发布的职位
-        const {routes , listData , getJobInfo , jobInfo} = this.props;
+        const {
+            routes, 
+            listData, 
+            isLoadingList,
+            getJobInfo, 
+            jobInfo, 
+            isCanCreateJob
+        } = this.props;
         each(routes,item=>{
             routesCopy.push(pick(item,['breadcrumbName','path']));
         });
@@ -89,6 +96,7 @@ class CreateJobPage extends Component {
                         <TopComponent 
                             recentJobData={currentJob}
                             getJobInfo={getJobInfo}
+                            isLoading={isLoadingList}
                         /> 
                     </div>
                     <ul className="new-job-form">
@@ -119,6 +127,7 @@ class CreateJobPage extends Component {
 
 const mapStateToProps = state => ({
     isCanCreateJob: state.Job.isCanCreateJob,
+    isLoadingList: state.Job.isLoadingList,
     listData: state.Job.listData, // 统计列表数据
     jobInfo: state.Job.jobInfo
 })
