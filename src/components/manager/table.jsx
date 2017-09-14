@@ -15,8 +15,25 @@ import * as Actions from 'actions';
 class TableComponent extends Component {
 
     state = {
-        // data: [],
+        data: [],
         selectedRowKeys: []
+    }
+
+    componentDidMount(){
+        const {data} = this.state;
+        for(let i=0; i<200; i++){
+            data.push({
+                "name": "name",
+                "worknumber": "worknumber",
+                "department": "department",
+                "position": "position",
+                "mobile": "13000000000",
+                "workemail": "766077827@qq.com",
+                "inthetime": Date.now(),
+                "workstatus": "0",
+                "worknature": "全职"
+            })
+        }
     }
 
     getColumns = () => {
@@ -56,7 +73,8 @@ class TableComponent extends Component {
             crewList
         } = this.props,
         {list, count, isLoading} = crewList;
-        console.log(typeof list);
+        console.log(list);
+        const {data} = this.state;
         return (
             <Table 
                 rowSelection={{

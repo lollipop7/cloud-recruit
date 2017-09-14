@@ -36,7 +36,7 @@ const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 export const getCrewList = (data={}) => (dispatch, getState) => {
     if(isNumber(data.skip)) data.skip = data.skip + '';
     const uri = 'emp/crewquery';
-    cancelRequestByKey(uri);
+    // cancelRequestByKey(uri);
     NProgress.start();
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri, {
@@ -46,7 +46,6 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
         data: {...data}
     })
     .then(res=>{
-        // console.log(res);
         dispatch(LOAD_LIST_DONE);
         dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
     },err=>{

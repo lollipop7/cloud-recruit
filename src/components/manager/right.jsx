@@ -32,7 +32,6 @@ class RightComponent extends Component {
     };
 
     componentDidMount(){
-        console.log(this.props);
         //请求全部员工数据
         this.props.getCrewStatis();
         //员工管理人员信息列表
@@ -64,15 +63,18 @@ class RightComponent extends Component {
 
     //获取员工管理人员信息列表
     _requestCrewData = () => {
-        this.props.getCrewList();
+        this.props.getCrewList({...this.params});
     }
 
     setPaginationCurrent = paginationCurrent => {
         this.setState({paginationCurrent});
     }
 
-    paginationChange = () => {
-
+    //页码改变的回调，参数是改变后的页码及每页条数
+    paginationChange = (page,pageSize) => {
+        this.params.skip = (page-1)*20;
+        this._requestData();
+        this.setPaginationCurrent(page);
     }
 
     handleClickTop = type => {
