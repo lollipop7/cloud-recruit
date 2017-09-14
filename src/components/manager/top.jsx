@@ -6,7 +6,7 @@ export default class TopComponent extends Component {
 
     state = {
         keyWord: '',
-        _selectedIndex: 0
+        _selectedIndex: 0   //当前选中的
     }
 
     setSelectedIndex = _selectedIndex => {

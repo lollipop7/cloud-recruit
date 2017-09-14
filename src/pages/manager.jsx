@@ -8,7 +8,6 @@ export default class ManagerPage extends Component {
         return (
             <ScrollPageContent>
                 {this.props.children}
-                hhhhh
             </ScrollPageContent>
         );
     }

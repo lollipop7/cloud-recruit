@@ -65,7 +65,7 @@ export const getJobList = (data={}) => (dispatch,getState) => {
     if(isNumber(data.skip)) data.skip = data.skip + '';
     const uri = 'PositionQuery';
     cancelRequestByKey(uri);
-    // NProgress.start();
+    NProgress.start();
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri,{
         head: {

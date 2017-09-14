@@ -40,15 +40,15 @@ class IndexPage extends Component {
         this._requestData();
         const {positionid} = params;
         //打开弹出层
-        setTimeout(()=>{
-            if(positionid){
-                const {getJobInfo,showJobModal} = this.props;
-                getJobInfo({positionid});
-                // 当前点的职位的详细信息
-                // this.setState({currentClickJob:record});
-                showJobModal();
-            }
-        },500);
+        // setTimeout(()=>{
+        //     if(positionid){
+        //         const {getJobInfo,showJobModal} = this.props;
+        //         getJobInfo({positionid});
+        //         // 当前点的职位的详细信息
+        //         // this.setState({currentClickJob:record});
+        //         showJobModal();
+        //     }
+        // },500);
     }
 
     _requestData = () => {

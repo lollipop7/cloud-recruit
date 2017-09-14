@@ -11,7 +11,7 @@ import RightComponent from './right';
 export default class IndexPage extends Component {
 
     componentDidMount() {
-        this.hideNProgress();
+        NProgress.done();
     }
 
     render() {
@@ -24,7 +24,7 @@ export default class IndexPage extends Component {
                         <LeftNavComponent />
                     </div>
                     <div className="pull-right">
-                        <RightComponent />
+                        <RightComponent {...this.props}/>
                     </div>
                 </div>
             </div>

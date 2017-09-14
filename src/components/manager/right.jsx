@@ -20,23 +20,34 @@ class RightComponent extends Component {
         paginationCurrent: 1
     }
 
+    //显示条件
     params = {
         skip: 0,
-        workstatus: 0
+        count:"20",
+        type: "sum" //查询状态
     }
 
-    componentDidMount(){
+    // 表单数据
+    formData = {
+    };
 
+    componentDidMount(){
+        console.log(this.props);
         //请求全部员工数据
         this.props.getCrewStatis();
         //员工管理人员信息列表
         this._requestCrewData();
     }
 
-    _getNavData = () => {
+    _getNavData = list => {
         let data = [];
-        const {manageStastistics} = this.props,
-        {list} = manageStastistics;
+        // {
+        //     sum,        //总人数
+        //     formal,     //正式员工数量
+        //     trial,      //试用期人数
+        //     hired,      //待入职人数
+        //     departure,  //离职人员数量 
+        // } = list;
         if(!isEmpty(list)){
             Object.keys(navData).forEach((item)=>{
                 navData[item].num = list[item];
@@ -66,7 +77,7 @@ class RightComponent extends Component {
 
     handleClickTop = type => {
         console.log(type);
-        this.params.workstatus = type;
+        this.params.type = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
     }
@@ -74,18 +85,11 @@ class RightComponent extends Component {
     render() {
         const {paginationCurrent} = this.state,
         {manageStastistics} = this.props,
-        {list,isLoading} = manageStastistics,
-        {
-            sum,        //总人数
-            formal,     //正式员工数量
-            trial,      //试用期人数
-            hired,      //待入职人数
-            departure,  //离职人员数量 
-        } = list;
+        {isLoading, list} = manageStastistics;
         return (
             <div className="right-panel">
                 <TopComponent 
-                    data={this._getNavData()}
+                    data={this._getNavData(list)}
                     onClick={this.handleClickTop}
                     isLoading= {isLoading}
                 />

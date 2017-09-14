@@ -56,7 +56,7 @@ class TableComponent extends Component {
             crewList
         } = this.props,
         {list, count, isLoading} = crewList;
-        console.log(list);
+        console.log(typeof list);
         return (
             <Table 
                 rowSelection={{
@@ -77,7 +77,7 @@ class TableComponent extends Component {
                     defaultPageSize:20 ,
                     total: count,
                     current: paginationCurrent,
-                    onChange: (page,pageSize) => paginationChange(page,pageSize)
+                    onChange:(page,pageSize)=> paginationChange(page,pageSize)
                 }}
             />
         );
