@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Table} from 'antd';
+import {Table} from "antd";
 
 // 表格列数据
 import columns from 'data/table-columns/manager-table';
@@ -10,7 +10,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class TableComponent extends Component {
+ class TableComponent extends Component {
 
     state = {
         // data: [],
@@ -59,6 +59,7 @@ class TableComponent extends Component {
                 columns={this.getColumns()} 
                 dataSource={
                     list.map((item,index)=>{
+                        delete item.children;
                         item.key = index;
                         return item;
                     })

@@ -2,8 +2,6 @@ import * as types from 'constants/manage';
 import axios from 'axios';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
 
-import {notification} from 'antd';
-
  //获取员工管理人员统计信息
 const GET_MANAGE_START = {type: types.GET_MANAGE_START};
 const GET_MANAGE_END = {type: types.GET_MANAGE_END};
@@ -40,7 +38,6 @@ export const getCrewList = () => (dispatch, getState) => {
         }
     })
     .then(res=>{
-        // console.log(res);
         dispatch(LOAD_LIST_DONE);
         dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
     },err=>{

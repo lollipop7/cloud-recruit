@@ -65,7 +65,6 @@ class RightComponent extends Component {
     }
 
     handleClickTop = type => {
-        console.log(type);
         this.params.workstatus = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
@@ -100,8 +99,7 @@ class RightComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    manageStastistics: state.Manage.manageStastistics,
-    crewList: state.Manage.crewList
+    manageStastistics: state.Manage.manageStastistics
 })
 
 const mapDispatchToProps = dispatch => ({
