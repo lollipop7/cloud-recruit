@@ -88,6 +88,7 @@ class TableComponent extends Component {
                 dataSource={
                     list.map((item,index)=>{
                         item.key = index;
+                        delete item.children;
                         return item;
                     })
                 }
