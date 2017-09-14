@@ -20,23 +20,33 @@ class RightComponent extends Component {
         paginationCurrent: 1
     }
 
+    //显示条件
     params = {
         skip: 0,
-        workstatus: 0
+        count:"20",
+        type: "sum" //查询状态
     }
 
-    componentDidMount(){
+    // 表单数据
+    formData = {
+    };
 
+    componentDidMount(){
         //请求全部员工数据
         this.props.getCrewStatis();
         //员工管理人员信息列表
         this._requestCrewData();
     }
 
-    _getNavData = () => {
+    _getNavData = list => {
         let data = [];
-        const {manageStastistics} = this.props,
-        {list} = manageStastistics;
+        // {
+        //     sum,        //总人数
+        //     formal,     //正式员工数量
+        //     trial,      //试用期人数
+        //     hired,      //待入职人数
+        //     departure,  //离职人员数量 
+        // } = list;
         if(!isEmpty(list)){
             Object.keys(navData).forEach((item)=>{
                 navData[item].num = list[item];
@@ -53,19 +63,27 @@ class RightComponent extends Component {
 
     //获取员工管理人员信息列表
     _requestCrewData = () => {
-        this.props.getCrewList();
+        this.props.getCrewList({...this.params});
     }
 
     setPaginationCurrent = paginationCurrent => {
         this.setState({paginationCurrent});
     }
 
-    paginationChange = () => {
-
+    //页码改变的回调，参数是改变后的页码及每页条数
+    paginationChange = (page,pageSize) => {
+        this.params.skip = (page-1)*20;
+        this._requestCrewData();
+        this.setPaginationCurrent(page);
     }
 
     handleClickTop = type => {
+<<<<<<< HEAD
         this.params.workstatus = type;
+=======
+        console.log(type);
+        this.params.type = type;
+>>>>>>> f8f02b502ba80782b400f2924c3e9f5d7f57cd0e
         this.params.skip = 0;
         this.setPaginationCurrent(1);
     }
@@ -73,18 +91,11 @@ class RightComponent extends Component {
     render() {
         const {paginationCurrent} = this.state,
         {manageStastistics} = this.props,
-        {list,isLoading} = manageStastistics,
-        {
-            sum,        //总人数
-            formal,     //正式员工数量
-            trial,      //试用期人数
-            hired,      //待入职人数
-            departure,  //离职人员数量 
-        } = list;
+        {isLoading, list} = manageStastistics;
         return (
             <div className="right-panel">
                 <TopComponent 
-                    data={this._getNavData()}
+                    data={this._getNavData(list)}
                     onClick={this.handleClickTop}
                     isLoading= {isLoading}
                 />

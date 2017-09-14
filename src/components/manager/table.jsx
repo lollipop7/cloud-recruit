@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 
+<<<<<<< HEAD
 import {Table} from "antd";
+=======
+import {Table} from 'antd';
+import moment from 'moment';
+
+import {Link} from 'react-router';
+>>>>>>> f8f02b502ba80782b400f2924c3e9f5d7f57cd0e
 
 // 表格列数据
 import columns from 'data/table-columns/manager-table';
@@ -13,13 +20,28 @@ import * as Actions from 'actions';
  class TableComponent extends Component {
 
     state = {
-        // data: [],
         selectedRowKeys: []
     }
-
+    
     getColumns = () => {
+        columns[0].render = this.renderWithClerkDetail;
+        columns[columns.length-3].render = this.renderWithInthetime;
         columns[columns.length-2].render = this.renderWithWorkstatus;
         return columns;
+    }
+
+    renderWithClerkDetail = (text,record,index) => {
+        return (
+            <Link to="/manager/clerkDetail" onClick={()=>{NProgress.start()}}>
+                <span>{text}</span>
+            </Link>
+        )
+    }
+
+    renderWithInthetime = (text,record,index) => {
+        return (
+            <span>{moment(text).format('YYYY-MM-DD')}</span>
+        )
     }
 
     renderWithWorkstatus = (text,record,index) => {
@@ -29,9 +51,9 @@ import * as Actions from 'actions';
                 case 1:
                     return <span className="work-status formal">正式员工</span>  
                 case 2:
-                    return <span className="work-status depature">离职员工</span>   
+                    return <span className="work-status depature">离职员工</span>  
                 default:
-                    return <span className="work-status hired">待入职</span>       
+                    return <span className="work-status hired">待入职</span>        
             }
         }
 
@@ -61,6 +83,7 @@ import * as Actions from 'actions';
                     list.map((item,index)=>{
                         delete item.children;
                         item.key = index;
+                        delete item.children;
                         return item;
                     })
                 }
@@ -68,7 +91,7 @@ import * as Actions from 'actions';
                     defaultPageSize:20 ,
                     total: count,
                     current: paginationCurrent,
-                    onChange: (page,pageSize) => paginationChange(page,pageSize)
+                    onChange:(page,pageSize)=> paginationChange(page,pageSize)
                 }}
             />
         );

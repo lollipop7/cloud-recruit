@@ -2,6 +2,9 @@ import * as types from 'constants/manage';
 import axios from 'axios';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
 
+import {notification} from 'antd';
+import isNumber from 'lodash/isNumber';
+
  //获取员工管理人员统计信息
 const GET_MANAGE_START = {type: types.GET_MANAGE_START};
 const GET_MANAGE_END = {type: types.GET_MANAGE_END};
@@ -30,12 +33,17 @@ const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
  };
 
  //员工管理人员信息列表查询
-export const getCrewList = () => (dispatch, getState) => {
+export const getCrewList = (data={}) => (dispatch, getState) => {
+    if(isNumber(data.skip)) data.skip = data.skip + '';
+    const uri = 'emp/crewquery';
+    // cancelRequestByKey(uri);
+    NProgress.start();
     dispatch(LOAD_LIST_START);
-    AjaxByToken('emp/crewquery',{
+    AjaxByToken(uri, {
         head: {
             transcode: 'L0043'
-        }
+        },
+        data: {...data}
     })
     .then(res=>{
         dispatch(LOAD_LIST_DONE);

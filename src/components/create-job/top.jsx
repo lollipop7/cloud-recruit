@@ -12,6 +12,18 @@ import * as Actions from 'actions';
 
  export default class TopComponent extends Component {
 
+    state = {
+        isLoading: false
+    }
+    
+    componentWillMount(){
+
+    }
+
+    componentDidMount(){
+
+    }
+
     handleClick = () => {
         window.history.back(-1)
     }
@@ -21,7 +33,10 @@ import * as Actions from 'actions';
     }
     
     render() {
-        const { recentJobData } = this.props
+        const { 
+            recentJobData,
+            isLoading
+        } = this.props;
         return(
             <ul>
                 <li className="hot-job"> 
@@ -52,8 +67,20 @@ import * as Actions from 'actions';
                                     key = {index}
                                     closable
                                     onClick={this.tagClick.bind(this,item.positioid)}
-                                >
-                                    {isLongTag ? `${item.positionname.slice(0,20)}...` : item.positionname}
+                                >   
+                                    {
+                                        isLoading ? 
+                                            <div 
+                                                className='preloader'
+                                                style={{
+                                                    position: 'relative',
+                                                    width: 16,
+                                                    height: 16
+                                                }}
+                                            ></div> : 
+                                            isLongTag ? `${item.positionname.slice(0,20)}...` : item.positionname
+                                    }
+                                    
                                 </Tag>
                             )
                         })

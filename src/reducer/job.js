@@ -35,9 +35,9 @@ const initialState = {
         count: 0
     },
     jobInfo: {},
-    isLoadingList: false,
+    isLoadingList: true,
     isLoadingInfo: false,
-    isCanCreateJob: true,
+    isCanCreateJob: false,
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,

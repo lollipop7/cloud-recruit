@@ -43,7 +43,37 @@ export default function getRoutes () {
                         require.ensure([], (require) => {
                             cb(null, require('pages/create-job').default)
                         }, 'NewJobPage')
-                }}  
+                    }}  
+            />
+        </Route>
+        <Route
+            path="manager"
+            breadcrumbName="员工管理"
+            getComponent={(nextState,cb)=>{
+                require.ensure([],(require) => {
+                    cb(null,require('pages/manager').default)
+                }, 'ManagerPage')
+            }}
+        >    
+            <Route
+                path="index"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([],(require) => {
+                        cb(null, require('components/manager/index').default)
+                    }, 'ManageIndexPage')
+                }}
+            />
+            <Route
+                path="clerkDetail"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/clerk-detail').default)
+                    }, 'ClerkDetailPage')
+                }} 
             />
         </Route>
         <Route 
@@ -79,6 +109,7 @@ export default function getRoutes () {
                 }, 'TaskPage')
             }}   
         />
+        
         <Route 
             path="login" 
             onEnter={onEnterLoginHook}
