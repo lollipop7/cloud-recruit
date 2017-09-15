@@ -42,7 +42,6 @@ class ListComponent extends Component {
         NProgress.start();
         const {positionid} = item;
         this.context.router.push(`job/index${positionid ? '/'+positionid : ''}`);
-        
     }
 
     render() {
