@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router'
 
 export default class LeftNavComponent extends Component {
 
-    navData = ['员工名册','档案管理','组织架构','全员状况','人事动态'];
+    navData = [{name:'员工名册',linkName:'manager/index'},
+               {name:'档案管理',linkName:'manager/archives'},
+               {name:'组织架构',linkName:'manager/organize'},
+               {name:'全员状况',linkName:'manager/condition'},
+               {name:'人事动态',linkName:'manager/dynamics'}];
 
     state = {
         activeType: 0
@@ -20,16 +25,18 @@ export default class LeftNavComponent extends Component {
                     {
                         this.navData.map((item,index)=>{
                             return (
-                                <li 
-                                    key={index}
-                                    className={activeType === index ? 'active': ''}
-                                    style={{
-                                        backgroundImage: `url(static/images/manager/img-0${index+1}.png)`
-                                    }}
-                                    onClick={()=>this.handleClick(index)}
-                                >
-                                   {item} 
-                                </li>
+                                <Link to={item.linkName}>
+                                    <li 
+                                        key={index}
+                                        className={activeType === index ? 'active': ''}
+                                        style={{
+                                            backgroundImage: `url(static/images/manager/img-0${index+1}.png)`
+                                        }}
+                                        onClick={()=>this.handleClick(index)}
+                                    >
+                                    {item.name} 
+                                    </li>
+                                </Link>
                             )
                         })
                     }

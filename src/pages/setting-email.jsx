@@ -39,16 +39,6 @@ class SettingEmailPage extends Component {
         if(!isEmpty(userEmailInfo.userMail) && ( userEmailInfo !== this.props.userEmailInfo)){
             setTimeout(()=>{
                 this.resetForm();
-                // const {mailinfo} = this.props.resumeEmailInfo;
-                // if(mailinfo!=null){
-                //   const {email, password , id , mailid} = mailinfo;
-                //     this.setState({
-                //         resumeEmail:email,
-                //         resumePwd:password,
-                //         id:id,
-                //         ResumeMailid:mailid
-                //     })
-                // }     
             },0);
         }
     };

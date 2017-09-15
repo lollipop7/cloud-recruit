@@ -106,8 +106,7 @@ class RightComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    manageStastistics: state.Manage.manageStastistics,
-    crewList: state.Manage.crewList
+    manageStastistics: state.Manage.manageStastistics
 })
 
 const mapDispatchToProps = dispatch => ({

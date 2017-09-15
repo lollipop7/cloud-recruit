@@ -13,7 +13,7 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
-class TableComponent extends Component {
+ class TableComponent extends Component {
 
     state = {
         selectedRowKeys: []
@@ -77,6 +77,7 @@ class TableComponent extends Component {
                 columns={this.getColumns()} 
                 dataSource={
                     list.map((item,index)=>{
+                        delete item.children;
                         item.key = index;
                         delete item.children;
                         return item;
