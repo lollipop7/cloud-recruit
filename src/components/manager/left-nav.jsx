@@ -3,11 +3,13 @@ import { Link } from 'react-router'
 
 export default class LeftNavComponent extends Component {
 
-    navData = [{name:'员工名册',linkName:'manager/index'},
-               {name:'档案管理',linkName:'manager/archives'},
-               {name:'组织架构',linkName:'manager/organize'},
-               {name:'全员状况',linkName:'manager/condition'},
-               {name:'人事动态',linkName:'manager/dynamics'}];
+    navData = [
+        {name:'员工名册',path:'manager/clerk'},
+        {name:'档案管理',path:'manager/archives'},
+        {name:'组织架构',path:'manager/organize'},
+        {name:'全员状况',path:'manager/condition'},
+        {name:'人事动态',path:'manager/dynamics'}
+    ];
 
     state = {
         activeType: 0
@@ -19,6 +21,8 @@ export default class LeftNavComponent extends Component {
 
     render() {
         const {activeType} = this.state;
+        const {location} = this.props;
+        console.log(location);
         return (
             <div className="left-nav">
                 <ul>

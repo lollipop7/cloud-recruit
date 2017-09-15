@@ -55,14 +55,13 @@ export default function getRoutes () {
                 }, 'ManagerPage')
             }}
         >    
-            <Route
-                path="index"
+            <IndexRoute
                 onEnter={requireAuthHook}
                 onLeave={onLeavePage}
                 getComponent={(nextState,cb)=>{
                     require.ensure([],(require) => {
-                        cb(null, require('components/manager/index').default)
-                    }, 'ManageIndexPage')
+                        cb(null, require('components/manager/clerk').default)
+                    }, 'ClerkPage')
                 }}
             />
             <Route

@@ -1,13 +1,30 @@
 import React, {Component} from 'react';
 
+import BasicPage from './basic';
 import ScrollPageContent from 'components/scroll-page-content';
+import BreadCrumbComponent from 'components/breadcrumb';
+// 左侧导航栏
+import LeftNavComponent from 'components/manager/left-nav';
 
-export default class ManagerPage extends Component {
-
+export default class ManagerPage extends BasicPage {
+    
     render() {
+        const {location,routes} = this.props,
+            pathname = location.pathname,
+            patternManager = /\/manager/i; // 匹配manager路径
         return (
             <ScrollPageContent>
-                {this.props.children}
+                <div className="page-content manager-page">
+                    <BreadCrumbComponent routes={routes} />
+                    <div className="box-border list-block">
+                        <div className="pull-left">
+                            {patternManager.test(pathname) && <LeftNavComponent location={location} />}
+                        </div>
+                        <div className="pull-right">
+                            {this.props.children}
+                        </div>
+                    </div>
+                </div>
             </ScrollPageContent>
         );
     }

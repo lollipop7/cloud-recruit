@@ -49,49 +49,7 @@ const Job = {
     } 
 }
 
-//员工管理页面子路由
-const ManageIndex = {
-    path: 'index',
-    breadcrumbName:"员工管理",
-    onEnter:requireAuthHook,
-    onLeave:onLeavePage,
-    getComponent(nextState,cb){
-        require.ensure([], (require) => {
-            cb(null, require('components/manager/index').default)
-        }, 'ManageIndexPage')
-    }
-}
 
-//员工详情页面路由
-const ClerkDetail = {
-    path: 'clerkDetail',
-    onEnter:requireAuthHook,
-    onLeave:onLeavePage,
-    getComponent(nextState,cb){
-        require.ensure([], (require) => {
-            cb(null, require('components/manager/clerk-detail').default)
-        }, 'ClerkDetailPage')
-    } 
-}
-
-// 引入员工管理页面路由
-const ManagerPage = {
-    path:"manager",
-    breadcrumbName:"员工管理",
-    getChildRoutes(partialNextState, cb) {
-        require.ensure([], (require) => {
-            cb(null, [
-                ManageIndex,
-                ClerkDetail
-            ])
-        })
-    },
-    getComponent(nextState,cb){
-        require.ensure([], (require) => {
-            cb(null, require('pages/manager').default)
-        }, 'ManagerPage')
-    }
-}
 
 // 引入招聘流程路由组件
 const Recruit = {
@@ -221,7 +179,49 @@ const NotFoundPage = {
     } 
 }
 
+//员工管理页面子路由
+const ManageClerk = {
+    breadcrumbName:"员工管理",
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/clerk').default)
+        }, 'ClerkPage')
+    }
+}
 
+//员工详情页面路由
+const ClerkDetail = {
+    path: 'clerkDetail',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/clerk-detail').default)
+        }, 'ClerkDetailPage')
+    } 
+}
+
+// 引入员工管理页面路由
+const ManagerPage = {
+    path:"manager",
+    breadcrumbName:"员工管理",
+    indexRoute:ManageClerk,
+    getChildRoutes(partialNextState, cb) {
+        require.ensure([], (require) => {
+            cb(null, [
+                ManageClerk,
+                ClerkDetail
+            ])
+        })
+    },
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/manager').default)
+        }, 'ManagerPage')
+    }
+}
 
 /*路由配置*/
 const RouteConfig = {
