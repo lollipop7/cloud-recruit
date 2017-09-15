@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 // 右边控制面板
-import RightComponent from './right';
+import RightComponent from './clerk/right';
 
 export default class ClerkPage extends Component {
 

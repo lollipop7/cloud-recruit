@@ -198,7 +198,7 @@ const ClerkDetail = {
     onLeave:onLeavePage,
     getComponent(nextState,cb){
         require.ensure([], (require) => {
-            cb(null, require('components/manager/clerk-detail').default)
+            cb(null, require('components/manager/clerk/clerk-detail').default)
         }, 'ClerkDetailPage')
     } 
 }
