@@ -74,6 +74,46 @@ export default function getRoutes () {
                     }, 'ClerkDetailPage')
                 }} 
             />
+            <Route
+                path="archives"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/archives').default)
+                    }, 'ArchivesPage')
+                }} 
+            />
+            <Route
+                path="organize"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/organize').default)
+                    }, 'OrganizePage')
+                }} 
+            />
+            <Route
+                path="condition"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/condition').default)
+                    }, 'ConditionPage')
+                }} 
+            />
+            <Route
+                path="dynamics"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/dynamics').default)
+                    }, 'DynamicsPage')
+                }} 
+            />
         </Route>
         <Route 
             path="recruit" 

@@ -181,7 +181,6 @@ const NotFoundPage = {
 
 //员工管理页面子路由
 const ManageClerk = {
-    breadcrumbName:"员工管理",
     onEnter:requireAuthHook,
     onLeave:onLeavePage,
     getComponent(nextState,cb){
@@ -203,6 +202,54 @@ const ClerkDetail = {
     } 
 }
 
+//档案管理页面子路由
+const Crchives = {
+    path: 'archives',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/archives').default)
+        }, 'ArchivesPage')
+    } 
+}
+
+//组织架构页面子路由
+const Organize = {
+    path: 'organize',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/organize').default)
+        }, 'OrganizePage')
+    } 
+}
+
+//全员状况页面子路由
+const Condition = {
+    path: 'condition',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/condition').default)
+        }, 'ConditionPage')
+    } 
+}
+
+//人事动态页面子路由
+const Dynamics = {
+    path: 'dynamics',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/dynamics').default)
+        }, 'DynamicsPage')
+    } 
+}
+
 // 引入员工管理页面路由
 const ManagerPage = {
     path:"manager",
@@ -212,7 +259,11 @@ const ManagerPage = {
         require.ensure([], (require) => {
             cb(null, [
                 ManageClerk,
-                ClerkDetail
+                ClerkDetail,
+                Crchives,
+                Organize,
+                Condition,
+                Dynamics
             ])
         })
     },

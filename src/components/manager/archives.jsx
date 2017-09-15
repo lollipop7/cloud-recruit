@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
- export default class ClerkDetail extends Component {
+ export default class ArchivesPage extends Component {
 
      componentDidMount(){
         NProgress.done();

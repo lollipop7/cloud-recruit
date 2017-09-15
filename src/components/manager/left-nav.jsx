@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 export default class LeftNavComponent extends Component {
 
     navData = [
-        {name:'员工名册',path:'manager/clerk'},
+        {name:'员工名册',path:'manager'},
         {name:'档案管理',path:'manager/archives'},
         {name:'组织架构',path:'manager/organize'},
         {name:'全员状况',path:'manager/condition'},
@@ -21,15 +21,15 @@ export default class LeftNavComponent extends Component {
 
     render() {
         const {activeType} = this.state;
-        const {location} = this.props;
-        console.log(location);
+        const {location} = this.props,
+        {pathname} = location;
         return (
             <div className="left-nav">
                 <ul>
                     {
                         this.navData.map((item,index)=>{
                             return (
-                                <Link to={item.linkName}>
+                                <Link to={item.path}>
                                     <li 
                                         key={index}
                                         className={activeType === index ? 'active': ''}
