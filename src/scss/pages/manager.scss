@@ -12,6 +12,9 @@ $box-font-color: #868686;
         background-color: $nav-bg-color;
         padding-top: 20px;
         border: 1px solid $border-color;
+        a {
+            color:$box-font-color
+        };
         li {
             background-size: 28px 28px;
             background-repeat: no-repeat;
