@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 
-<<<<<<< HEAD
-import {Table} from "antd";
-=======
 import {Table} from 'antd';
 import moment from 'moment';
 
 import {Link} from 'react-router';
->>>>>>> f8f02b502ba80782b400f2924c3e9f5d7f57cd0e
 
 // 表格列数据
 import columns from 'data/table-columns/manager-table';

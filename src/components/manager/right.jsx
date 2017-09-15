@@ -78,12 +78,8 @@ class RightComponent extends Component {
     }
 
     handleClickTop = type => {
-<<<<<<< HEAD
-        this.params.workstatus = type;
-=======
         console.log(type);
         this.params.type = type;
->>>>>>> f8f02b502ba80782b400f2924c3e9f5d7f57cd0e
         this.params.skip = 0;
         this.setPaginationCurrent(1);
     }
