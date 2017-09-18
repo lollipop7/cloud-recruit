@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+// 员工性质分布饼图
+import FirstChartComponent from 'components/manager/condition/first-chart';
 
  export default class SearchComponent extends Component {
 
@@ -10,7 +12,14 @@ import React, {Component} from 'react';
         const {routes} = this.props;
         return (
             <div>
-                sssssss
+                <div className="pull-left">
+                    <FirstChartComponent/>
+                    <FirstChartComponent/>
+                </div>
+                <div className="pull-left">
+                    <FirstChartComponent/>
+                    <FirstChartComponent/>
+                </div>
             </div>
         );
      }

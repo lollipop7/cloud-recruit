@@ -29,7 +29,7 @@ const Search = Input.Search
                 </div>
                 <div className="bottom28 inline-block">
                     <div className="inline-block">
-                        <Button style={{'margin-left':'16px' }} >筛选</Button>
+                        <Button style={{'margin-left':'16px' }} >搜索</Button>
                     </div>
                 </div>
                 <div className="pull-right">
