@@ -1,8 +1,49 @@
-.clerk-detail {
+.clerk-detail-container {
     .control {
         margin-top: 0;
-        width: 1009px;
-        height: 36px;
+        padding-top: 16px;
+        height: 200px;
         background-color: #ebebeb;
+        .ctr-btns {
+            padding-right: 20px;
+            .inline-block {
+                margin-left: 36px;
+                margin-top: 4px;
+                &.hint {
+                    position: relative;
+                    .round {
+                        position: absolute;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 100%;
+                        background-color: #c50813;
+                        top: -3px;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
+    .header-info {
+        margin: 0 auto;
+        margin-top: -138px;
+        padding: 39px 30px;
+        width: 1033px;
+        height: 198px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(4,0,0,.13);
+        .prime-name {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+            background-color: #66bcec;
+            text-align: center;
+            line-height: 120px;
+            span {
+                font-size: 54px;
+                color: #fff;
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ import EmployeesOverview from './condition/overview';
         NProgress.done();
      }
      callback(key) {
-        console.log(key);
+        // console.log(key);
      }
      render(){
         const {routes} = this.props;

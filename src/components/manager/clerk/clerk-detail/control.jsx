@@ -3,8 +3,12 @@ import { Button } from 'antd';
 
 export default class ControlComponent extends Component {
 
+    state = {
+        round: true
+    }
 
     render() {
+        const {round} = this.state;
         return (
             <div className="control">
                 <div className="pull-left">
@@ -12,20 +16,23 @@ export default class ControlComponent extends Component {
                         style={{
                             width: 70,
                         }}
-                    ></Button>
+                    >&lt;&nbsp;返回</Button>
                 </div>
-                <div className="pull-right">
-                    <div className="hint">
+                <div className="ctr-btns pull-right">
+                    <div className="inline-block hint">
+                        {
+                            round && <div className="round"></div>
+                        }
                         <img src="static/images/manager/clerk/hint.png" alt="提示"/>
                     </div>
-                    <div className="ps">
+                    <div className="inline-block ps">
                         <img src="static/images/manager/clerk/ps.png" alt="备注"/>
                     </div>
-                    <div className="print"> 
+                    <div className="inline-block print"> 
                         <img src="static/images/manager/clerk/print.png" alt="打印"/>
                     </div>
                 </div>
-                {/* <div className="clearfix"></div> */}
+                <div className="clearfix"></div>
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {Table} from 'antd';
 import moment from 'moment';
+import trim from 'lodash/trim';
 
 import {Link} from 'react-router';
 
@@ -19,7 +20,7 @@ import * as Actions from 'actions';
         selectedRowKeys: [],
         data: []
     }
-    
+
     componentDidMount(){
         const {data} = this.state;
         for(let i=0; i<200; i++){
@@ -37,6 +38,11 @@ import * as Actions from 'actions';
         }
     }
 
+    showClerkDetail = (record) => {
+        NProgress.start();
+        this.props.showClerkDetail(record);
+    }
+
     getColumns = () => {
         columns[0].render = this.renderWithClerkDetail;
         columns[columns.length-3].render = this.renderWithInthetime;
@@ -45,9 +51,12 @@ import * as Actions from 'actions';
     }
 
     renderWithClerkDetail = (text,record,index) => {
+        const {rid} = record;
         return (
-            <Link to="/manager/clerkDetail" onClick={()=>{NProgress.start()}}>
-                <span>{text}</span>
+            <Link to={`/manager/clerkDetail/${rid}`} 
+                  onClick={()=>this.showClerkDetail(record)}
+            >
+                {trim(text)}
             </Link>
         )
     }
@@ -76,7 +85,7 @@ import * as Actions from 'actions';
     }
 
     render() {
-        const {selectedRowKeys} = this.state,
+        const {selectedRowKeys,data} = this.state,
         {
             paginationCurrent,
             paginationChange,
@@ -117,7 +126,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    showClerkDetail: bindActionCreators(Actions.ManageActions.showClerkDetail,dispatch)
 })
 
 export default connect(

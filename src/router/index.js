@@ -192,7 +192,7 @@ const ManageClerk = {
 
     //员工详情页面路由
     const ClerkDetail = {
-        path: 'clerkDetail',
+        path: 'clerkDetail/:rid',
         onEnter:requireAuthHook,
         onLeave:onLeavePage,
         getComponent(nextState,cb){

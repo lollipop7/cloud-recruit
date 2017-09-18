@@ -15,6 +15,9 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
+//员工名册-员工详情
+const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
+
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
     dispatch(GET_MANAGE_START);
@@ -52,5 +55,10 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
         // console.log(err);
         dispatch(LOAD_LIST_DONE);
     })
+}
+
+//员工名册-员工详情
+export const showClerkDetail = data => (dispatch, getState) => {
+    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
 }
  
