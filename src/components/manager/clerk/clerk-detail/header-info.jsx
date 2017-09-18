@@ -11,19 +11,19 @@ export default class HeaderInfoComponent extends Component {
     componentDidMount(){
     }
 
-    getAstro = (month,day) => {   
-        const s="魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
-        const arr=[20,19,21,21,21,22,23,23,23,23,22,22];
-        const astro = s.substr(month*2-(day<arr[month-1] ? 2 : 0),2);
-        return astro;
-    }
+    // getAstro = (month,day) => {   
+    //     const s="魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯";
+    //     const arr=[20,19,21,21,21,22,23,23,23,23,22,22];
+    //     const astro = s.substr(month*2-(day<arr[month-1] ? 2 : 0),2);
+    //     return astro;
+    // }
 
-    getConstellation = (birthday) => {
-        const month = moment(birthday).format("M"),
-        day = moment(birthday).format("D");
-        console.log(month,day);
-        this.getAstro(month,day);
-    }
+    // getConstellation = (birthday) => {
+    //     const month = moment(birthday).format("M"),
+    //     day = moment(birthday).format("D");
+    //     console.log(month,day);
+    //     this.getAstro(month,day);
+    // }
 
     render() {
         const {data}=this.props,        //？？？？
@@ -68,12 +68,7 @@ export default class HeaderInfoComponent extends Component {
                             {birthday && <span style={{
                                     marginLeft: 6,
                                     marginRight: 6
-                            }}>{birthday}岁</span>}
-                            {birthday && <span>|</span>}
-                            {birthday && <span style={{
-                                    marginLeft: 6,
-                                    marginRight: 6
-                            }}>{this.getConstellation(birthday)}座</span>}
+                            }}>{parseInt(moment(birthday,"YYYYMMDD").fromNow())}岁</span>}
                             {inthetime && <span>|</span>}
                             {inthetime && <span style={{ 
                                     marginLeft: 6,
