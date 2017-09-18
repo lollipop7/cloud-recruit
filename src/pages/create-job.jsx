@@ -29,7 +29,8 @@ class CreateJobPage extends Component {
 
     componentDidMount() {
         NProgress.done();
-        this._requestData()
+        this._requestData();
+        console.log(this.props.isCanCreateJob);
     }
     //获取最近发布职位数据
     _requestData = () => {
@@ -46,7 +47,7 @@ class CreateJobPage extends Component {
     }
 
     createJob =() => {
-        if(this.props.isCanCreateJob){
+        if(!this.props.isCanCreateJob){
             const {BaseInfoComponent,OtherInfoComponent} = this.refs;
             const baseinfoData = BaseInfoComponent.getFormData();
             if(!baseinfoData) return ;

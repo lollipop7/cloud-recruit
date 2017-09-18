@@ -134,8 +134,8 @@ export const createJob = (data,context) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch(SHOW_SAVEJOB_MODAL);
         dispatch(CREATE_JOB_DONE);
+        dispatch(SHOW_SAVEJOB_MODAL);
     },err=>{
         dispatch(CREATE_JOB_DONE);
     })
