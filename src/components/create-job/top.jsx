@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Button, Tag } from 'antd';
 
 import hotJobData from 'data/create-job/hot-job'; 
-// import recentJobData from 'data/create-job/recent-job'; 
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -16,14 +15,6 @@ import * as Actions from 'actions';
         isLoading: false
     }
     
-    componentWillMount(){
-
-    }
-
-    componentDidMount(){
-
-    }
-
     handleClick = () => {
         window.history.back(-1)
     }

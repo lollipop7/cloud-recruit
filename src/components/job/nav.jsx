@@ -23,12 +23,12 @@ export default class LeftNavComponent extends Component {
         this.setState({_selectedIndex});
     }
 
-    handleClick = (index,type) => {
+    handleClick = (index,type,title) => {
         if(this.state._selectedIndex === index) return;
         this.setSelectedIndex(index);
         const {onClick} = this.props;
         if(onClick){
-            onClick(type);
+            onClick(type,title);
         }
     }
 
@@ -39,7 +39,7 @@ export default class LeftNavComponent extends Component {
         return (
             <dd 
                 key={index} 
-                onClick={this.handleClick.bind(this,index,type)}
+                onClick={this.handleClick.bind(this,index,type,title)}
                 className={_selectedIndex === index ? 'active' : ''}
             >
                 {title} 

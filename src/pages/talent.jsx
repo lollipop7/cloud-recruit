@@ -27,7 +27,8 @@ class TalentPage extends BasicPage {
 
     state = {
         paginationCurrent: 1,
-        selectedRowKeys: []
+        selectedRowKeys: [],
+        tableHead: '全部人才'
     }
 
     // labelid
@@ -128,12 +129,13 @@ class TalentPage extends BasicPage {
                 data.push(navData[item]);
             });
         }
+
         return data;
     }
 
     handleClickNav = (record) => {
         // 点击侧边栏导航
-        const {type,id} = record;
+        const {type,id,title} = record;
         this.params.type = type;
         if(type === 'custom'){
             this.labelid = id;
@@ -143,6 +145,11 @@ class TalentPage extends BasicPage {
         this.refs.FormComponent.resetForm(true);
         // 清空表格选择框
         this.clearTableCheckbox();
+        this.setTableHead(title)
+    }
+
+    setTableHead = tableHead => {
+        this.setState({tableHead});
     }
 
     handleFind = (params,clickNav=false) => {
@@ -180,7 +187,11 @@ class TalentPage extends BasicPage {
     }
 
     render() {
-        const {paginationCurrent,selectedRowKeys} = this.state,
+        const {
+            paginationCurrent,
+            selectedRowKeys,
+            tableHead
+        } = this.state,
             {routes,isLoading,showUploadModal} = this.props,
             customNavData = this._getCustomLabel();
         return (
@@ -205,6 +216,7 @@ class TalentPage extends BasicPage {
                                     showUploadModal={showUploadModal}
                                 />
                                 <TableComponent
+                                    tableHead={tableHead}
                                     selectedRowKeys={selectedRowKeys}
                                     paginationCurrent={paginationCurrent}
                                     paginationChange={this.paginationChange}

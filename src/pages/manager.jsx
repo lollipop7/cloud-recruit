@@ -11,7 +11,6 @@ export default class ManagerPage extends Component {
         const {location,routes} = this.props,
             pathname = location.pathname,
             patternManager = /\/manager/i; // 匹配manager路径
-            console.log(pathname);
         return (
             <ScrollPageContent>
                 <div className="page-content manager-page">
@@ -23,9 +22,9 @@ export default class ManagerPage extends Component {
                         <div className="pull-right">
                             {this.props.children}
                         </div>
-                    </div>
+                    </div>    
                 </div>
             </ScrollPageContent>
         );
-    }
+    }    
 }

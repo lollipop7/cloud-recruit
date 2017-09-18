@@ -54,14 +54,15 @@ class TableComponents extends Component {
             recruitList,
             isLoading,
             paginationChange,
-            paginationCurrent
+            paginationCurrent,
+            title
         } = this.props;
         return (
             <div style={{
                 position: 'relative'
             }}>
                 <div className="table-control" style={{width:200}}>
-                    <span style={{fontWeight:"bold",fontSize:16,color:"black"}}>职位申请</span>  
+                    <span style={{fontWeight:"bold",fontSize:16,color:"black"}}>{title}</span>  
                 </div>
 
                 <Table 

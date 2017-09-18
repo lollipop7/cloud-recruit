@@ -17,7 +17,8 @@ import * as Actions from 'actions';
 class ClerkPage extends Component {
 
     state = {
-        paginationCurrent: 1
+        paginationCurrent: 1,
+        tableHead: '全部人员'
     }
 
     //显示条件
@@ -78,16 +79,22 @@ class ClerkPage extends Component {
         this.setPaginationCurrent(page);
     }
 
-    handleClickTop = type => {
-        console.log(type);
+    handleClickTop = (type,desc) => {
         this.params.type = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
+        this.setTableHead(desc);
     }
 
+    setTableHead = tableHead => {
+        this.setState({tableHead});
+    }
 
     render() {
-        const {paginationCurrent} = this.state,
+        const {
+            paginationCurrent,
+            tableHead
+        } = this.state,
         {manageStastistics} = this.props,
         {isLoading, list} = manageStastistics;
         return (
@@ -97,7 +104,9 @@ class ClerkPage extends Component {
                     onClick={this.handleClickTop}
                     isLoading= {isLoading}
                 />
-                <ControlComponent />
+                <ControlComponent 
+                    title={tableHead}
+                />
                 <TableComponent 
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}

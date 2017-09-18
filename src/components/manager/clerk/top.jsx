@@ -30,7 +30,7 @@ export default class TopComponent extends Component {
                         borderColor: _selectedIndex === index && numColor,
                         marginRight: index === 2 && 40
                     }}
-                    onClick={this.handleClickBox.bind(this,index,type)}
+                    onClick={this.handleClickBox.bind(this,index,type,desc)}
                 >
                     <div className="table">
                         <div className="table-cell">
@@ -62,11 +62,11 @@ export default class TopComponent extends Component {
 
     }
 
-    handleClickBox = (index,type) => {
+    handleClickBox = (index,type,desc) => {
         this.setSelectedIndex(index);
         const {onClick} = this.props;
         if(onClick){
-            onClick(type)
+            onClick(type,desc)
         }
     }
 

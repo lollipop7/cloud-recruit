@@ -16,9 +16,27 @@ import * as Actions from 'actions';
  class TableComponent extends Component {
 
     state = {
-        selectedRowKeys: []
+        selectedRowKeys: [],
+        data: []
     }
     
+    componentDidMount(){
+        const {data} = this.state;
+        for(let i=0; i<200; i++){
+            data.push({
+                "name": "name",
+                "worknumber": "worknumber",
+                "department": "department",
+                "position": "position",
+                "mobile": "13000000000",
+                "workemail": "766077827@qq.com",
+                "inthetime": Date.now(),
+                "workstatus": "0",
+                "worknature": "全职"
+            })
+        }
+    }
+
     getColumns = () => {
         columns[0].render = this.renderWithClerkDetail;
         columns[columns.length-3].render = this.renderWithInthetime;

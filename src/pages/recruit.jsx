@@ -27,7 +27,8 @@ import * as Actions from 'actions';
 class RecruitPage extends BasicPage {
 
     state = {
-        paginationCurrent: 1
+        paginationCurrent: 1,
+        tableHead: "职位申请"
     }
 
     // 子框架是否刷新
@@ -79,7 +80,8 @@ class RecruitPage extends BasicPage {
     shouldComponentUpdate(nextProps,nextState) {
         return this.props.isLoading !== nextProps.isLoading || 
             this.props.categoryData !== nextProps.categoryData ||
-            this.state.paginationCurrent !== nextState.paginationCurrent;
+            this.state.paginationCurrent !== nextState.paginationCurrent ||
+            this.state.tableHead !== nextState.tableHead
     }
     //获取职位申请列表
     _requestData(){
@@ -100,7 +102,7 @@ class RecruitPage extends BasicPage {
         return NavData;
     }
 
-    handleClickNav = type => {
+    handleClickNav = (type,title) => {
         this.params.stageid = type;
         this.params.skip = 0;
         this.setPaginationCurrent(1);
@@ -109,8 +111,14 @@ class RecruitPage extends BasicPage {
         this.formData.workyear="";
         this.formData.educationbg="";
         this.formData.username="";
-        this._requestData();   
+        this._requestData();  
+        this._setTableHead(title);
     }
+
+    _setTableHead = tableHead => {
+        this.setState({tableHead});
+    }
+
     //点击筛选按钮查找
     handleFind = (params,clickNav=false) => {
         // 点击开始查找按钮
@@ -140,7 +148,10 @@ class RecruitPage extends BasicPage {
     }
 
     render() {
-        const {paginationCurrent} = this.state;
+        const {
+            paginationCurrent,
+            tableHead
+        } = this.state;
         const {routes,isLoading,categoryData} = this.props;
         return (
             <ScrollPageContent>
@@ -164,6 +175,7 @@ class RecruitPage extends BasicPage {
                                     showUploadModal={this.props.showUploadModal}
                                 />
                                 <TableComponents
+                                    title={tableHead}
                                     paginationChange={this.paginationChange}
                                     paginationCurrent={paginationCurrent}
                                 />

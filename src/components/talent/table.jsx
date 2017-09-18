@@ -77,6 +77,7 @@ class TableComponent extends Component {
 
     render() {
         const {
+            tableHead,
             talentList,
             paginationChange,
             isLoading,
@@ -90,6 +91,7 @@ class TableComponent extends Component {
         return (
             <div>
                 <MoveModalComponents 
+                    title={tableHead}
                     hasSelected={hasSelected} 
                     customNavData={customNavData} 
                     data={list}

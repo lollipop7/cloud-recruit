@@ -64,7 +64,12 @@ class MoveModalComponents extends Component {
     }
 
     render() {
-        const {hasSelected,customNavData,moveModal} = this.props,
+        const {
+            hasSelected,
+            customNavData,
+            moveModal,
+            title
+        } = this.props,
             {selectLabelId} = this.state,
             {isLoading,modalVisible} = moveModal;
         return (
@@ -79,7 +84,7 @@ class MoveModalComponents extends Component {
                             fontWeight:"bold",
                             fontSize:16,
                             color:"black"}}
-                     >社会人才</span>
+                     >{title}</span>
                     <Modal
                         title="移动"
                         wrapClassName="vertical-center-modal"

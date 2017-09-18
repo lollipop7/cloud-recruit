@@ -8,10 +8,11 @@ export default class ControlComponent extends Component {
     }
 
     render() {
+        const { title } = this.props;
         return (
             <div className="control">
                 <div className="pull-left">
-                    <h2>全部人员</h2>
+                    <h2>{title}</h2>
                 </div>
                 <div className="pull-right">
                     <Button
