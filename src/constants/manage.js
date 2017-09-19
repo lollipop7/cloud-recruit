@@ -11,3 +11,6 @@
  export const LOAD_LIST_START = 'LOAD_LIST_START';
  export const LOAD_LIST_DONE = 'LOAD_LIST_DONE';
  export const LOAD_CREW_LIST = 'LOAD_CREW_LIST';
+
+//  全员概览-员工性质分布信息
+export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY'

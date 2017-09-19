@@ -15,6 +15,9 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
+// 获取全员概览-员工性质分布信息
+const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
+
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
     dispatch(GET_MANAGE_START);
@@ -54,3 +57,19 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
     })
 }
  
+// 获取全员概览-员工性质分布信息
+export const getTaskProgress = (latestDays) => (dispatch,getState) => {
+    AjaxByToken('TaskCompletion',{
+        head: {
+            transcode: 'L0009'
+        },
+        data: {
+            latestDays: latestDays + '' //将数字转化为字符串
+        }
+    })
+    .then(res=>{
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:res.content});
+    },err=>{
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+    });
+}

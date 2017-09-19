@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import echarts from 'static/js/echarts.min.js';
 import {Button} from 'antd';
+import store from 'store';
 // pie option
 import chartOptions from 'data/employees-overview/first-pie';
 
@@ -40,6 +41,9 @@ class FirstChartComponent extends Component {
         // 使用指定的配置项和数据显示图表。
         this.chartInstance.setOption(chartOptions);
         this.props.getTaskProgress(this.tabList[this.state.activeTab]);
+        const {token,tokenKey} = store.get('token') || {};
+        console.log(595959,token);
+        console.log(595959,tokenKey);
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -54,6 +58,7 @@ class FirstChartComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
+        console.log(66622222, nextState)
         const {taskProgress} = nextProps,
             {isLoading} = nextState;
         if( nextProps.taskProgress !== this.props.taskProgress && isLoading){
@@ -83,7 +88,7 @@ class FirstChartComponent extends Component {
                 const {cnt,stageid} = item;
                 result.push({
                     value: cnt,
-                    name:  data[index].name
+                    name:  index == 4 ?'':data[index].name
                 });
             });
             if(result.length === 0) {
@@ -92,9 +97,10 @@ class FirstChartComponent extends Component {
                     isEmpty: true
                 });
             }
+            console.log(filterData, result)
             this.chartInstance.setOption({
                 series: [{
-                    name: '任务完成指数',
+                    name: '员工性质分布',
                     data: result
                 }]
             });
@@ -114,7 +120,6 @@ class FirstChartComponent extends Component {
 
     render() {
         const {isLoading,activeTab,isEmpty} = this.state;
-        console.log(5555,isLoading,activeTab,isEmpty)
         return (
             <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
                 <div style={{ position: 'relative' }}>
@@ -123,7 +128,7 @@ class FirstChartComponent extends Component {
                     {isLoading &&
                         <div style={{
                             position: 'absolute',
-                            width: 522,
+                            width: 483,
                             height: 310,
                             zIndex: 1
                         }}>
@@ -136,7 +141,7 @@ class FirstChartComponent extends Component {
                     }
                     {isEmpty &&
                         <div className="canvas-mask" style={{
-                                lineHeight: '330px',
+                                lineHeight: '310px',
                                 left: 0
                             }}>
                                 暂无数据

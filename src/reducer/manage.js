@@ -4,7 +4,8 @@ import {
     GET_MANAGE_STATISTICS,
     LOAD_LIST_START,
     LOAD_LIST_DONE,
-    LOAD_CREW_LIST
+    LOAD_CREW_LIST,
+    GET_EMPLOYEE_QUALITY
 } from 'constants/manage'; 
 
 const initialState = {
@@ -32,7 +33,9 @@ export default function manage(state=initialState,actions){
         case LOAD_LIST_DONE:
             return {...state,crewList:{...state.crewList,isLoading:false}};
         case LOAD_CREW_LIST:
-            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};         
+            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};
+        case GET_EMPLOYEE_QUALITY:
+            return {...state,employeeQuality:actions.employeeQuality};         
         default:
             return state;
     }
