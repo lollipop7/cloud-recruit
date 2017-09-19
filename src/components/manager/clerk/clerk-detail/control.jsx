@@ -7,6 +7,10 @@ export default class ControlComponent extends Component {
         round: true
     }
 
+    handleClick = () => {
+        window.history.back(-1)
+    }
+    
     render() {
         const {round} = this.state;
         return (
@@ -16,6 +20,7 @@ export default class ControlComponent extends Component {
                         style={{
                             width: 70,
                         }}
+                        onClick={ this.handleClick}
                     >&lt;&nbsp;返回</Button>
                 </div>
                 <div className="ctr-btns pull-right">

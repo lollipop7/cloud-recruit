@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button } from 'antd';
+import { Button, Select } from 'antd';
 
 import trim from 'lodash/trim';
 import moment from 'moment';
@@ -25,8 +25,12 @@ export default class HeaderInfoComponent extends Component {
     //     this.getAstro(month,day);
     // }
 
+    creditInvestgation = () => {
+        console.log('人员征信');
+    }
+
     render() {
-        const {data}=this.props,        //？？？？
+        const {crewDetail}=this.props,        //？？？？
         {
             name,           //姓名
             englishname,    //英文名      
@@ -38,18 +42,22 @@ export default class HeaderInfoComponent extends Component {
         }=clerkInfo.headerInfo;
         return (
             <div className="header-info">
-                <div className="prime-name inline-block">
+                <div className="prime-name pull-left">
                     <span>{trim(name).substr(0,1)}</span>
                 </div>
-                <div className="base-info inline-block">
+                <div className="base-info pull-left"
+                     style={{
+                         marginLeft: 28
+                     }} 
+                >
                     <ul>
                         <li>
                             <div className="inline-block">
                                 {trim(name)}
                             </div>
-                            <div className="inline-block">
-                                <div className="en-name">{englishname}</div>
-                            </div>
+                            {englishname && <div className="inline-block en-name">
+                                {englishname}
+                            </div>}
                         </li>
                         <li>
                                 <span style={{
@@ -76,6 +84,30 @@ export default class HeaderInfoComponent extends Component {
                             }}>{moment(inthetime,"YYYYMMDD").fromNow()}</span>}
                         </li>
                     </ul>
+                </div>
+                <div className="ctr-btns pull-right">
+                    <Button onClick={this.creditInvestgation}>
+                        <img src="static/images/manager/clerk/test.png" alt="测试"/>
+                        人员征信
+                    </Button>
+                    <Button onClick={this.creditInvestgation}>
+                        查看简历
+                    </Button>
+                    <Button onClick={this.creditInvestgation}>
+                        人事调动
+                    </Button>
+                    <Select defaultValue="更多"  style={{ width: 153}}>
+                        {
+                            ["生成信息填写二维码",
+                            "办理离职",
+                            "删除员工",
+                            ].map((item,index)=>{
+                                return (
+                                    <Option  key={index} value={item}>{item}</Option>
+                                )
+                            })
+                        }
+                    </Select>      
                 </div>
             </div>
         );

@@ -4,6 +4,7 @@ import { Button } from 'antd';
 
 import ControlComponent from './clerk-detail/control';
 import HeaderInfoComponent from './clerk-detail/header-info';
+import MainContent from './clerk-detail/main-content';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -21,7 +22,8 @@ class ClerkDetail extends Component {
         return (
             <div className="right-panel clerk-detail-container">
                 <ControlComponent/>
-                <HeaderInfoComponent data={crewDetail}/>
+                <HeaderInfoComponent crewDetail={crewDetail}/>
+                <MainContent crewDetail={crewDetail}/>
             </div>
         );
      }

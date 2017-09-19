@@ -31,7 +31,7 @@
         width: 1033px;
         height: 198px;
         background-color: #fff;
-        box-shadow: 0 1px 3px rgba(4,0,0,.13);
+        box-shadow: 0 5px 13px rgba(4,0,0,.12);
         .prime-name {
             position: relative;
             width: 120px;
@@ -44,6 +44,100 @@
                 font-size: 54px;
                 color: #fff;
             }
+        }
+        .base-info {
+            ul {
+                li {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    color: $theme-font-color;
+                    &:first-child {
+                        margin-top: 5px;
+                        font-size: 30px;
+                        font-weight: bold;
+                        .en-name {
+                            margin-left: 10px;
+                            vertical-align: super;                            
+                            font-size: 16px;
+                            line-height: 16px;
+                        }
+                    }
+                }
+            }
+        }
+        .ctr-btns {
+            margin-top: 45px;
+            button {
+                width: 100px;
+                height: 30px;
+                font-size: 14px;
+                margin-left: 10px;
+                &:first-child {
+                    position: relative;
+                    color: #c74315;
+                    border-color: #c74315;
+                    img {
+                        position: absolute;
+                        top: -1px;
+                        right: 0;
+                    }
+                    &:focus {
+                        border-color: #c74315 !important;
+                        color: #c74315 !important;
+                    }
+                }
+                img {
+                    vertical-align: middle;
+                }
+                span {
+                    margin-right: 3px;
+                }
+            }
+            .ant-btn {
+                &:focus {
+                    color: $theme-color !important;
+                    background-color: #FFF;
+                    border-color: $theme-color !important;
+                }
+            }
+            .ant-select-selection {
+                height: 30px !important;
+                margin-left:10px !important;
+            }
+            .ant-select-selection__rendered {
+                line-height: 30px !important;
+            }
+        }
+    }
+    .clerk-nav-tabs {
+        margin-top: 35px;
+        .ant-tabs-ink-bar {
+            top: 0;
+        }
+    }
+    .position-info {
+        width: 1033px;
+        margin: 0 auto;
+        .clerk-list-item {
+            padding-top: 45px;
+        }
+        .title {
+            font-size: 18px;
+            line-height: 19px;
+            font-weight: bold;
+            background-image: url(/static/images/more.png);
+            background-size: 11px 13px;
+            background-position: 0% 50%;
+            background-repeat: no-repeat;
+            padding-left: 19px;
+            margin-bottom: 17px;
+        }
+        .info-field {
+            position:relative;
+            margin-left: 103px;
+            margin-top: -25px;
+            padding-top: 60px;
+            border-top: 1px solid #d5d5d5;
         }
     }
 }

@@ -11,10 +11,6 @@ import * as Actions from 'actions';
 
  export default class TopComponent extends Component {
 
-    state = {
-        isLoading: false
-    }
-    
     handleClick = () => {
         window.history.back(-1)
     }

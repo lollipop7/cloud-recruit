@@ -119,7 +119,7 @@ export default class FormComponents extends Component {
         } = this.state;
         return (
             <div className="form">
-                <div className="form-btn">
+                <div className="form-btn ">
                     <Button type="primary"
                             onClick={()=>showUploadModal()}>
                             添加候选人+
