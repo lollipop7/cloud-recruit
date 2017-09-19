@@ -30,7 +30,6 @@ export default class LeftNavComponent extends Component {
         const {activeType} = this.state;
         const {location} = this.props,
         {pathname} = location;
-        console.log(252525,location)
         return (
             <div className="left-nav">
                 <ul>
@@ -44,10 +43,10 @@ export default class LeftNavComponent extends Component {
                                 >
                                     <li 
                                         key={index}
-                                        className={location.pathname === item.path ? 'active': ''}
+                                        className={pathname === item.path ? 'active': ''}
                                         style={{
                                             backgroundImage: 
-                                            `url(static/images/manager/${location.pathname === item.path ? `active-` : ``}img-0${index+1}.png)` 
+                                            `url(static/images/manager/${pathname === item.path ? `active-` : ``}img-0${index+1}.png)` 
                                         }}
                                     >
                                         {item.name} 

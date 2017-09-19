@@ -68,7 +68,6 @@ export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        console.log(55555,res)
         dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
                                                            {cnt: 2, stagename: "兼职", stageid: 2},
                                                            {cnt: 2, stagename: "实习", stageid: 3},

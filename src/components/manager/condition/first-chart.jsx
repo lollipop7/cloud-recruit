@@ -80,7 +80,6 @@ class FirstChartComponent extends Component {
             let result = [];
             filterData.forEach( (item,index) => {
                 const {cnt,stageid} = item;
-                console.log(9999,filterData)
                 result.push({
                     value: cnt,
                     name:  data[index].name
