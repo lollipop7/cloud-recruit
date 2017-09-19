@@ -9,14 +9,14 @@ import EmployeesOverview from './condition/overview';
         NProgress.done();
      }
      callback(key) {
-        console.log(key);
+        // console.log(key);
      }
      render(){
         const {routes} = this.props;
         return (
-            <div className="right-panel">
+            <div className="right-panel condition-page">
                 <Tabs defaultActiveKey="1" onChange={this.callback}>
-                    <TabPane tab="员工概况" key="1">
+                    <TabPane tab="员工概览" key="1">
                         <EmployeesOverview/>
                     </TabPane>
                     <TabPane tab="趋势分析" key="2">趋势分析</TabPane>

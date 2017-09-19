@@ -15,10 +15,13 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
-//员工管理人员信息列表查询
-const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
-const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE};
-const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST};
+//员工管理档案管理
+const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START}
+const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE}
+const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST}
+
+//员工名册-员工详情
+const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
 
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
@@ -77,5 +80,9 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
         console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
+}
+//员工名册-员工详情
+export const showClerkDetail = data => (dispatch, getState) => {
+    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
 }
  

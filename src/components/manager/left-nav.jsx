@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 export default class LeftNavComponent extends Component {
 
     navData = [
-        {name:'员工名册',path:'/manager'},
+        {name:'员工名册',path:'/manager'},              //clerk
         {name:'档案管理',path:'/manager/archives'},
         {name:'组织架构',path:'/manager/organize'},
         {name:'全员概况',path:'/manager/condition'},
@@ -18,12 +18,13 @@ export default class LeftNavComponent extends Component {
     _showNprogress=(uri='')=>{
         const {location} = this.props,
             {pathname} = location;
-        if(uri === pathname) return ;
+        if(uri === pathname) return ;  //  /manager/...
         NProgress.start();
     }
 
     handleClick = (activeType, path) => {
         this.setState({activeType});
+        this._showNprogress(path)
     }
 
     render() {
@@ -39,7 +40,6 @@ export default class LeftNavComponent extends Component {
                             return (
                                 <Link 
                                     to={path}
-                                    onClick={()=>this._showNprogress(path)}
                                 >
                                     <li 
                                         key={index}
@@ -48,7 +48,7 @@ export default class LeftNavComponent extends Component {
                                             backgroundImage: 
                                             `url(static/images/manager/${activeType === index ? `active-` : ``}img-0${index+1}.png)` 
                                         }}
-                                        onClick={()=>this.handleClick(index)}
+                                        onClick={()=>this.handleClick(index,path)}
                                     >
                                     {item.name} 
                                     </li>

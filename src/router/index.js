@@ -190,17 +190,17 @@ const ManageClerk = {
     }
 }
 
-//员工详情页面路由
-const ClerkDetail = {
-    path: 'clerkDetail',
-    onEnter:requireAuthHook,
-    onLeave:onLeavePage,
-    getComponent(nextState,cb){
-        require.ensure([], (require) => {
-            cb(null, require('components/manager/clerk/clerk-detail').default)
-        }, 'ClerkDetailPage')
-    } 
-}
+    //员工详情页面路由
+    const ClerkDetail = {
+        path: 'clerkDetail/:rid',
+        onEnter:requireAuthHook,
+        onLeave:onLeavePage,
+        getComponent(nextState,cb){
+            require.ensure([], (require) => {
+                cb(null, require('components/manager/clerk/clerk-detail').default)
+            }, 'ClerkDetailPage')
+        } 
+    }
 
 //档案管理页面子路由
 const Crchives = {
