@@ -4,11 +4,11 @@ import { Link } from 'react-router'
 export default class LeftNavComponent extends Component {
 
     navData = [
-        {name:'员工名册',path:'manager'},
-        {name:'档案管理',path:'manager/archives'},
-        {name:'组织架构',path:'manager/organize'},
-        {name:'全员概况',path:'manager/condition'},
-        {name:'人事动态',path:'manager/dynamics'}
+        {name:'员工名册',path:'/manager'},
+        {name:'档案管理',path:'/manager/archives'},
+        {name:'组织架构',path:'/manager/organize'},
+        {name:'全员概况',path:'/manager/condition'},
+        {name:'人事动态',path:'/manager/dynamics'}
     ];
 
     state = {

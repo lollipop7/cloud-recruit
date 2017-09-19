@@ -4,7 +4,10 @@ import {
     GET_MANAGE_STATISTICS,
     LOAD_LIST_START,
     LOAD_LIST_DONE,
-    LOAD_CREW_LIST
+    LOAD_CREW_LIST,
+    GET_ARCHIVES_START ,
+    GET_ARCHIVES_DONE ,
+    GET_ARCHIVES_LIST ,
 } from 'constants/manage'; 
 
 const initialState = {
@@ -16,6 +19,11 @@ const initialState = {
         isLoading: false,
         list: [],
         count: 0
+    },
+    archivesList:{
+        isLoading: false,
+        count:0,
+        list:[]
     }
 };
 
@@ -32,7 +40,13 @@ export default function manage(state=initialState,actions){
         case LOAD_LIST_DONE:
             return {...state,crewList:{...state.crewList,isLoading:false}};
         case LOAD_CREW_LIST:
-            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};         
+            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}}; 
+        case GET_ARCHIVES_START:
+            return {...state,archivesList:{...state.archivesList,isLoading:true}};
+        case GET_ARCHIVES_DONE:
+            return {...state,archivesList:{...state.archivesList,isLoading:false}};
+        case GET_ARCHIVES_LIST:
+            return {...state,archivesList:{...state.archivesList,list:actions.list,count:actions.count}};        
         default:
             return state;
     }

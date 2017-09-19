@@ -126,7 +126,7 @@ export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getSta
 // 创建职位
 export const createJob = (data,context) => (dispatch,getState) => {
     NProgress.start();
-    dispatch(CREATE_JOB_START);
+    //dispatch(CREATE_JOB_START);
     AjaxByToken('saveorupdateposition',{
         head: {
             transcode: 'L0013'
@@ -135,7 +135,7 @@ export const createJob = (data,context) => (dispatch,getState) => {
     })
     .then(res=>{
         dispatch(SHOW_SAVEJOB_MODAL);
-        dispatch(CREATE_JOB_DONE);
+        //dispatch(CREATE_JOB_DONE);
     },err=>{
         dispatch(CREATE_JOB_DONE);
     })

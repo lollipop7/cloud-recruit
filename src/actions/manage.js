@@ -15,6 +15,11 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
+//员工管理人员信息列表查询
+const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
+const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE};
+const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST};
+
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
     dispatch(GET_MANAGE_START);
@@ -51,6 +56,26 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
     },err=>{
         // console.log(err);
         dispatch(LOAD_LIST_DONE);
+    })
+}
+
+//获取档案管理列表信息
+export const getArchivesList = (data={}) => (dispatch,getState) => {
+    NProgress.start();
+    dispatch(GET_ARCHIVES_START);
+    AjaxByToken('archives/resume_statis_List_Job', {
+        head: {
+            transcode: 'L0075'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        dispatch(GET_ARCHIVES_DONE);
+        dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
+    },err=>{
+        console.log(err);
+        dispatch(GET_ARCHIVES_DONE);
     })
 }
  

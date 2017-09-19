@@ -11,3 +11,8 @@
  export const LOAD_LIST_START = 'LOAD_LIST_START';
  export const LOAD_LIST_DONE = 'LOAD_LIST_DONE';
  export const LOAD_CREW_LIST = 'LOAD_CREW_LIST';
+
+ //员工管理档案管理信息列表
+ export const GET_ARCHIVES_START = 'GET_ARCHIVES_START';
+ export const GET_ARCHIVES_DONE = 'GET_ARCHIVES_DONE';
+ export const GET_ARCHIVES_LIST = 'GET_ARCHIVES_LIST'

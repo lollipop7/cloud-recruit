@@ -27,8 +27,8 @@ class PersonInfoListComponent extends Component {
         const {list} = this.props;
         const text = 'test collapse panel';
         return (
-            <div className="list-block">
-                <div className="personInfo-list">
+            <div className="list-block" >
+                <div className="personInfo-list" >
                      <Collapse accordion>
                      {
                          list.map((item,index)=>{
@@ -108,13 +108,13 @@ class PersonInfoListComponent extends Component {
                     <input ref="filePath" type="hidden" name="filePath"  />
                     <input ref="fileName" type="hidden" name="fileName"  />
                 </form>
-                <iframe 
+                {/* <iframe 
                     id="downloadAttachment" 
                     name="downloadAttachment" 
                     style={{display:'none'}} 
                     src="" 
                     frameborder="0"
-                ></iframe>
+                ></iframe> */}
             </div>
         );
     }
