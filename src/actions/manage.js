@@ -58,7 +58,7 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
 }
  
 // 获取全员概览-员工性质分布信息
-export const getTaskProgress = (latestDays) => (dispatch,getState) => {
+export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
     AjaxByToken('TaskCompletion',{
         head: {
             transcode: 'L0009'
@@ -68,7 +68,12 @@ export const getTaskProgress = (latestDays) => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:res.content});
+        console.log(55555,res)
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
+                                                           {cnt: 2, stagename: "兼职", stageid: 2},
+                                                           {cnt: 2, stagename: "实习", stageid: 3},
+                                                           {cnt: 2, stagename: "未填写", stageid: 4},
+                                                          ]});
     },err=>{
         dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
     });

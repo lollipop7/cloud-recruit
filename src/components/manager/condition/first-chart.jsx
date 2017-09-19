@@ -19,6 +19,7 @@ import filter from 'lodash/filter';
 // 饼图下载分享
 import OperateEmployeesPie from './operate';
 
+// 第一个饼图-员工性质分布
 class FirstChartComponent extends Component {
 
     state = {
@@ -40,10 +41,7 @@ class FirstChartComponent extends Component {
         // 渲染图表
         // 使用指定的配置项和数据显示图表。
         this.chartInstance.setOption(chartOptions);
-        this.props.getTaskProgress(this.tabList[this.state.activeTab]);
-        const {token,tokenKey} = store.get('token') || {};
-        console.log(595959,token);
-        console.log(595959,tokenKey);
+        this.props.getEmployeeQuality(this.tabList[this.state.activeTab]);
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -58,10 +56,9 @@ class FirstChartComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        console.log(66622222, nextState)
-        const {taskProgress} = nextProps,
+        const {employeeQuality} = nextProps,
             {isLoading} = nextState;
-        if( nextProps.taskProgress !== this.props.taskProgress && isLoading){
+        if( nextProps.employeeQuality !== this.props.employeeQuality && isLoading){
             // 去除loading
             this.setState({
                 isLoading: false
@@ -77,18 +74,16 @@ class FirstChartComponent extends Component {
              * 7: 结束管理
              */
             let {data} = chartOptions.legend,
-            filterData = filter(taskProgress,item=>{
+            filterData = filter(employeeQuality,item=>{
                 return typeof item.stageid === 'number';
-            });
-            filterData = filter(filterData,item=>{
-                return item.stageid !== 2 && item.stageid !== 7;
             });
             let result = [];
             filterData.forEach( (item,index) => {
                 const {cnt,stageid} = item;
+                console.log(9999,filterData)
                 result.push({
                     value: cnt,
-                    name:  index == 4 ?'':data[index].name
+                    name:  data[index].name
                 });
             });
             if(result.length === 0) {
@@ -97,7 +92,6 @@ class FirstChartComponent extends Component {
                     isEmpty: true
                 });
             }
-            console.log(filterData, result)
             this.chartInstance.setOption({
                 series: [{
                     name: '员工性质分布',
@@ -109,7 +103,7 @@ class FirstChartComponent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
         const {isLoading,activeTab} = this.state;
-        return nextProps.taskProgress !== this.props.taskProgress 
+        return nextProps.employeeQuality !== this.props.employeeQuality 
         || nextState.isLoading !== isLoading 
         || nextState.activeTab !== activeTab;
     }
@@ -158,10 +152,10 @@ class FirstChartComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    taskProgress: state.Home.taskProgress
+    employeeQuality: state.Manage.employeeQuality
 })
 const mapDispatchToProps = dispatch => ({
-    getTaskProgress: bindActionCreators(Actions.homeActions.getTaskProgress, dispatch),
+    getEmployeeQuality: bindActionCreators(Actions.ManageActions.getEmployeeQuality, dispatch),
 })
 
 export default connect(
