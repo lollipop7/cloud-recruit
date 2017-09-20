@@ -12,7 +12,7 @@ export default class LeftNavComponent extends Component {
     ];
 
     state = {
-        // activeType: 0
+        activeType: 0
     }
 
     _showNprogress=(uri='')=>{
@@ -43,14 +43,14 @@ export default class LeftNavComponent extends Component {
                                 >
                                     <li 
                                         key={index}
-                                        className={pathname === item.path ? 'active': ''}
+                                        className={activeType === index ? 'active': ''}
                                         style={{
                                             backgroundImage: 
-                                            `url(static/images/manager/${pathname === item.path ? `active-` : ``}img-0${index+1}.png)` 
+                                            `url(static/images/manager/${activeType === index ? `active-` : ``}img-0${index+1}.png)` 
                                         }}
                                         onClick={()=>this.handleClick(index,path)}
                                     >
-                                        {item.name} 
+                                    {item.name} 
                                     </li>
                                 </Link>
                             )

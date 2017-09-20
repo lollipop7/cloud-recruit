@@ -14,6 +14,11 @@ import FirstChartComponent from 'components/manager/condition/first-chart';
             <div>
                 <div className="pull-left">
                     <FirstChartComponent/>
+                    <FirstChartComponent/>
+                </div>
+                <div className="pull-left">
+                    <FirstChartComponent/>
+                    <FirstChartComponent/>
                 </div>
             </div>
         );

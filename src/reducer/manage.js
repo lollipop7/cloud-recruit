@@ -5,7 +5,6 @@ import {
     LOAD_LIST_START,
     LOAD_LIST_DONE,
     LOAD_CREW_LIST,
-    GET_EMPLOYEE_QUALITY,
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
@@ -45,9 +44,7 @@ export default function manage(state=initialState,actions){
         case LOAD_LIST_DONE:
             return {...state,crewList:{...state.crewList,isLoading:false}};
         case LOAD_CREW_LIST:
-            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};
-        case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:actions.employeeQuality};         
+            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}}; 
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:
