@@ -16,9 +16,12 @@ const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
 //员工管理档案管理
-const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START}
-const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE}
-const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST}
+const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
+const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE};
+const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST};
+
+//档案管理员工数据
+const GET_ARCHIVES_DATA = {type: types.GET_ARCHIVES_DATA}
 
 //员工名册-员工详情
 const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
@@ -81,6 +84,25 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
         dispatch(GET_ARCHIVES_DONE);
     })
 }
+
+//档案管理在职、离职人员数据
+export const getArchivesData = (data={}) => (dispatch,getState) => {
+    AjaxByToken('archives/resume_statis', {
+        head: {
+            transcode: 'L0074'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        //dispatch(GET_ARCHIVES_DONE);
+        dispatch({...GET_ARCHIVES_DATA,archivesData:res});
+    },err=>{
+        console.log(err);
+        dispatch(GET_ARCHIVES_DONE);
+    })
+}
+
 //员工名册-员工详情
 export const showClerkDetail = data => (dispatch, getState) => {
     dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});

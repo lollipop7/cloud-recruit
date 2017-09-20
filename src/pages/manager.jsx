@@ -42,7 +42,7 @@ export default class ManagerPage extends Component {
             //     <div className="page-content not-found-page">
             //         {/* <div className="opening-img error-img"></div> */}
             //         <div className="error-text">
-            //             <p>页面待开发,敬请期待！</p>
+            //             <p>页面待开发，敬请期待！</p>
             //         </div>
             //         <Button type="primary" onClick={this.goHome}>返回首页</Button>
             //     </div>

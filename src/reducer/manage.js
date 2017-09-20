@@ -8,7 +8,8 @@ import {
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
-    SHOW_CLERK_DETAIL
+    SHOW_CLERK_DETAIL,
+    GET_ARCHIVES_DATA
 } from 'constants/manage'; 
 
 const initialState = {
@@ -26,7 +27,8 @@ const initialState = {
         count:0,
         list:[]
     },
-    crewDetail: {}
+    crewDetail: {},
+    archivesData: {}
 };
 
 export default function manage(state=initialState,actions){
@@ -48,8 +50,9 @@ export default function manage(state=initialState,actions){
         case GET_ARCHIVES_DONE:
             return {...state,archivesList:{...state.archivesList,isLoading:false}};
         case GET_ARCHIVES_LIST:
-            return {...state,archivesList:{...state.archivesList,list:actions.list,count:actions.count}};        
-            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};  
+            return {...state,archivesList:{...state.archivesList,list:actions.list,count:actions.count}};
+        case GET_ARCHIVES_DATA:
+            return {...state,archivesData:actions.archivesData};         
         case SHOW_CLERK_DETAIL:
             return {...state,crewDetail:actions.crewDetail};           
         default:

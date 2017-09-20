@@ -46,7 +46,7 @@ class CreateJobPage extends Component {
     }
 
     createJob =() => {
-        if(!this.props.isCanCreateJob){ 
+        //if(!this.props.isCanCreateJob){ 
             const {BaseInfoComponent,OtherInfoComponent} = this.refs;
             const baseinfoData = BaseInfoComponent.getFormData();
             if(!baseinfoData) return ;
@@ -58,7 +58,7 @@ class CreateJobPage extends Component {
                 ...{positionid:this.props.jobInfo.positionid}
             },this.context);
          this.props.resetForm()    
-        }   
+        //}   
     }
     handleClick =() => {
         window.history.back()

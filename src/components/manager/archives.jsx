@@ -10,18 +10,19 @@ import * as Actions from 'actions';
  class ArchivesPage extends Component {
 
      componentDidMount(){
-        this.props.getArchivesList()
+        this.props.getArchivesList();
+        this.props.getArchivesData();
         NProgress.done();
         
      }
 
      render(){
-        const {routes , archivesList} = this.props;
+        const {routes , archivesList , archivesData} = this.props;    
         return (
             <div className="archives-right">
                 <div className="box-border right-panel">
-                    <ProgressComponent/>
-                    <div style={{marginTop:20}}>
+                    <ProgressComponent archivesData={archivesData}/>
+                    <div>
                         <TableComponent archivesList={archivesList}/>
                     </div>
                     
@@ -32,11 +33,12 @@ import * as Actions from 'actions';
  }
 
  const mapStateToProps = state => ({
-    archivesList: state.Manage.archivesList
-
+    archivesList: state.Manage.archivesList,
+    archivesData: state.Manage.archivesData
  })
  const mapDispatchToProps = dispatch => ({
-    getArchivesList:bindActionCreators(Actions.ManageActions.getArchivesList, dispatch)
+    getArchivesList:bindActionCreators(Actions.ManageActions.getArchivesList, dispatch),
+    getArchivesData:bindActionCreators(Actions.ManageActions.getArchivesData, dispatch)
  })
  export default connect(
      mapStateToProps,
