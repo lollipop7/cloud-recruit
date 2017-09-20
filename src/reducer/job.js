@@ -37,7 +37,7 @@ const initialState = {
     jobInfo: {},
     isLoadingList: true,
     isLoadingInfo: false,
-    isCanCreateJob: false,
+    isCanCreateJob: true,
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,

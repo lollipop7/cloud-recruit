@@ -14,3 +14,9 @@
 
 //  全员概览-员工性质分布信息
 export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY'
+ //员工管理档案管理信息列表
+ export const GET_ARCHIVES_START = 'GET_ARCHIVES_START';
+ export const GET_ARCHIVES_DONE = 'GET_ARCHIVES_DONE';
+ export const GET_ARCHIVES_LIST = 'GET_ARCHIVES_LIST'
+ //员工详情
+ export const SHOW_CLERK_DETAIL = 'SHOW_CLERK_DETAIL';

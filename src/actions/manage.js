@@ -17,6 +17,13 @@ const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
 // 获取全员概览-员工性质分布信息
 const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
+//员工管理档案管理
+const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START}
+const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE}
+const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST}
+
+//员工名册-员工详情
+const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
 
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
@@ -77,3 +84,28 @@ export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
         dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
     });
 }
+
+//获取档案管理列表信息
+export const getArchivesList = (data={}) => (dispatch,getState) => {
+    NProgress.start();
+    dispatch(GET_ARCHIVES_START);
+    AjaxByToken('archives/resume_statis_List_Job', {
+        head: {
+            transcode: 'L0075'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        dispatch(GET_ARCHIVES_DONE);
+        dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
+    },err=>{
+        console.log(err);
+        dispatch(GET_ARCHIVES_DONE);
+    })
+}
+//员工名册-员工详情
+export const showClerkDetail = data => (dispatch, getState) => {
+    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
+}
+ 

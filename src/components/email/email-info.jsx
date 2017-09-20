@@ -133,6 +133,7 @@ export default class EmailInfoComponent extends Component {
                         </div>
                         <div className="table-cell">
                             <input 
+                                style={{fontSize:12}}
                                 type="text" 
                                 placeholder="请输入邮件主题"
                                 value={title}

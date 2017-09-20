@@ -377,6 +377,11 @@ export default class BaseinfoComponent extends Component {
             }
             
     }
+
+    setDangerouslySetInnerHTML = (rawHtml) => {
+        return dangersouslySetInnerHtml = {rawHtml};
+    }
+
     componentWillReceiveProps(){
         setTimeout(()=>{
              const {
@@ -394,6 +399,7 @@ export default class BaseinfoComponent extends Component {
                 responsibility,         //工作职责
                 qualification,          //任职资格
             } = this.props.data;
+            
             this.setState({
                 positionname,           // 职位名称
                 salary,                 // 薪资待遇

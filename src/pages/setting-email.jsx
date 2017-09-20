@@ -35,13 +35,26 @@ class SettingEmailPage extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {userEmailInfo} = nextProps;
+        const {userEmailInfo} = nextProps;    
         if(!isEmpty(userEmailInfo.userMail) && ( userEmailInfo !== this.props.userEmailInfo)){
             setTimeout(()=>{
                 this.resetForm();
             },0);
         }
     };
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+            const { resumeEmailInfo} = this.props,
+                {list , mailinfo} = resumeEmailInfo,
+                {email,password,mailid,id} = mailinfo;
+            this.setState({
+                resumeEmail : email,
+                resumePwd : password,
+                ResumeMailid : mailid+'',
+                id : id
+            })
+        },0);
+    }
     //邮箱、密码onchange事件
     handleChange=(field,e)=>{
         if (field=='resumeEmail'){
@@ -136,7 +149,7 @@ class SettingEmailPage extends Component {
             resumeEmailPwd.refs.input.focus();
             return false;
         }
-        //NProgress.start();
+        NProgress.done();
         this.props.changeResumeEmailSetting({email:resumeEmail,pwd:resumePwd,mailid:ResumeMailid,id:id})
     }
     handleEnter = (field) => {
@@ -207,6 +220,7 @@ class SettingEmailPage extends Component {
             {routes,userEmailInfo , resumeEmailInfo} = this.props,
             {mailServersList,userMail} = userEmailInfo,
             {list , mailinfo} = resumeEmailInfo;
+            //console.log(this.state)
         //const userMailId = userMail==null?"" : userMail.mailid;
         return (
             <ScrollPageContent>

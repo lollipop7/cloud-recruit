@@ -24,6 +24,19 @@ const HIDE_UPLOAD_MODAL = {type:types.HIDE_UPLOAD_MODAL};
 const RESET_FILELIST_TRUE = {type:types.RESET_FILELIST_TRUE};
 const RESET_FILELIST_FALSE = {type:types.RESET_FILELIST_FALSE};
 
+// 发送邮件弹框
+const SHOW_EMAIL_MODAL = {type:types.SHOW_EMAIL_MODAL};
+const HIDE_EMAIL_MODAL = {type:types.HIDE_EMAIL_MODAL};
+
+// 显示发送邮件MODAL
+export const showEmailModal = () => (dispatch,getState) => {
+    dispatch(SHOW_EMAIL_MODAL);
+}
+// 隐藏发送邮件MODAL
+export const hideEmailModal = () => (dispatch,getState) => {
+    dispatch(HIDE_EMAIL_MODAL);
+}
+
 // 获取历史邮件列表
 export const getEmailHistory = (data={}) => (dispatch,getState) => {
     dispatch(GET_HISTORY_START);

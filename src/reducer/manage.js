@@ -5,7 +5,11 @@ import {
     LOAD_LIST_START,
     LOAD_LIST_DONE,
     LOAD_CREW_LIST,
-    GET_EMPLOYEE_QUALITY
+    GET_EMPLOYEE_QUALITY,
+    GET_ARCHIVES_START ,
+    GET_ARCHIVES_DONE ,
+    GET_ARCHIVES_LIST ,
+    SHOW_CLERK_DETAIL
 } from 'constants/manage'; 
 
 const initialState = {
@@ -17,7 +21,13 @@ const initialState = {
         isLoading: false,
         list: [],
         count: 0
-    }
+    },
+    archivesList:{
+        isLoading: false,
+        count:0,
+        list:[]
+    },
+    crewDetail: {}
 };
 
 export default function manage(state=initialState,actions){
@@ -36,6 +46,15 @@ export default function manage(state=initialState,actions){
             return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};
         case GET_EMPLOYEE_QUALITY:
             return {...state,employeeQuality:actions.employeeQuality};         
+        case GET_ARCHIVES_START:
+            return {...state,archivesList:{...state.archivesList,isLoading:true}};
+        case GET_ARCHIVES_DONE:
+            return {...state,archivesList:{...state.archivesList,isLoading:false}};
+        case GET_ARCHIVES_LIST:
+            return {...state,archivesList:{...state.archivesList,list:actions.list,count:actions.count}};        
+            return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}};  
+        case SHOW_CLERK_DETAIL:
+            return {...state,crewDetail:actions.crewDetail};           
         default:
             return state;
     }
