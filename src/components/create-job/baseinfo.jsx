@@ -583,7 +583,7 @@ export default class BaseinfoComponent extends Component {
                             <div className="table-cell">
                                 <Input type="textarea" rows="3"
                                     ref = "responsibilityInput" 
-                                    value={responsibility}
+                                    value={responsibility.replace(/<br\/>/ig,"\r\n")}
                                     onChange={this.handleChange.bind(this,"responsibility")}
                                     style={{
                                         minWidth: 494,
@@ -608,7 +608,7 @@ export default class BaseinfoComponent extends Component {
                             <div className="table-cell">
                                 <Input type="textarea" rows="3"
                                     ref = "qualificationInput" 
-                                    value={qualification}
+                                    value={qualification.replace(/<br\/>/ig,"\r\n")}
                                     onChange={this.handleChange.bind(this,"qualification")}
                                     style={{
                                         minWidth: 494,

@@ -15,6 +15,8 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
+// 获取全员概览-员工性质分布信息
+const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
 //员工管理档案管理
 const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
 const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE};
@@ -63,6 +65,27 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
         // console.log(err);
         dispatch(LOAD_LIST_DONE);
     })
+}
+ 
+// 获取全员概览-员工性质分布信息
+export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
+    AjaxByToken('TaskCompletion',{
+        head: {
+            transcode: 'L0009'
+        },
+        data: {
+            latestDays: latestDays + '' //将数字转化为字符串
+        }
+    })
+    .then(res=>{
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
+                                                           {cnt: 2, stagename: "兼职", stageid: 2},
+                                                           {cnt: 2, stagename: "实习", stageid: 3},
+                                                           {cnt: 2, stagename: "未填写", stageid: 4},
+                                                          ]});
+    },err=>{
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+    });
 }
 
 //获取档案管理列表信息
