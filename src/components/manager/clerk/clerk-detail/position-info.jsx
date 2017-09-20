@@ -33,16 +33,20 @@ export default class PositionInfo extends Component {
         } = clerkInfo.positionInfo,
         {isQualified} = this.state;
         return (
-            <div className="position-info">
+            <div className="position-info clerk-tab-container">
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}
                     >
-                        <h3 className="title">
-                            在职信息
-                        </h3>
                         <div className="info-field">
-                            <ul className="field-list inline-block">
+                            <h3 className="title">
+                                在职信息
+                            </h3>
+                            <div className="editor-wrap inline-block">   
+                                <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
+                                <span>编辑</span>
+                            </div>
+                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
                                 <li>
                                     <span>工号 : </span>
                                     <span>{worknumber}</span>
@@ -64,10 +68,7 @@ export default class PositionInfo extends Component {
                                     <span>{cemail}</span>
                                 </li>
                             </ul>
-                            <ul className="field-list inline-block"style={{
-                                position: 'absolute',
-                                left: 349
-                            }}>
+                            <ul className="field-list inline-block">
                                 <li>
                                     <span>工作性质 : </span>
                                     <span>{worknature}</span>
@@ -93,11 +94,15 @@ export default class PositionInfo extends Component {
                     </li>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}>
-                        <h3 className="title">
-                            员工动态
-                        </h3>
                         <div className="info-field">
-                            <ul className="field-list inline-block">
+                            <h3 className="title">
+                                员工动态
+                            </h3>
+                            <div className="editor-wrap inline-block">   
+                                <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
+                                <span>编辑</span>
+                            </div>
+                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
                                 <li>
                                     <span>入职时间 : </span>
                                     <span>{moment(inthetime).format("YYYY-MM-DD")}</span>
@@ -107,10 +112,7 @@ export default class PositionInfo extends Component {
                                     <span>{theleng}</span>
                                 </li>
                             </ul>  
-                            <ul className="field-list inline-block"style={{
-                                position: 'absolute',
-                                left: 349
-                            }}>
+                            <ul className="field-list inline-block">
                                 <li>
                                     <span>转正时间 : </span>
                                     <span>{moment(positivedate).format("YYYY-MM-DD")}</span>

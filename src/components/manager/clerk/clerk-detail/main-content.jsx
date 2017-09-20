@@ -13,7 +13,7 @@ import CreditInvestgation from './credit-investgation';
 export default class MainContent extends Component {
 
     callback = key => {
-        console.log(key);
+        // console.log(key);
     }  
 
     componentDidMount(){
@@ -23,12 +23,11 @@ export default class MainContent extends Component {
     render() {
         return (
             <div className="clerk-nav-tabs">
-                <Tabs defaultActiveKey="1" 
+                <Tabs defaultActiveKey="7" 
                       onChange={this.callback}
                       tabBarStyle = {{
                         width: 870,
                         borderBottom: "none",
-                        margin: "0 auto",
                         fontSize: '16',
                         fontWeight: "bold"
                       }}
