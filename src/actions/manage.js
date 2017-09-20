@@ -15,6 +15,14 @@ const LOAD_LIST_START = {type: types.LOAD_LIST_START};
 const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
 const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
+//员工管理档案管理
+const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
+const GET_ARCHIVES_DONE = {type: types.GET_ARCHIVES_DONE};
+const GET_ARCHIVES_LIST = {type: types.GET_ARCHIVES_LIST};
+
+//档案管理员工数据
+const GET_ARCHIVES_DATA = {type: types.GET_ARCHIVES_DATA}
+
 //员工名册-员工详情
 const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
 
@@ -54,6 +62,44 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
     },err=>{
         // console.log(err);
         dispatch(LOAD_LIST_DONE);
+    })
+}
+
+//获取档案管理列表信息
+export const getArchivesList = (data={}) => (dispatch,getState) => {
+    NProgress.start();
+    dispatch(GET_ARCHIVES_START);
+    AjaxByToken('archives/resume_statis_List_Job', {
+        head: {
+            transcode: 'L0075'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        dispatch(GET_ARCHIVES_DONE);
+        dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
+    },err=>{
+        console.log(err);
+        dispatch(GET_ARCHIVES_DONE);
+    })
+}
+
+//档案管理在职、离职人员数据
+export const getArchivesData = (data={}) => (dispatch,getState) => {
+    AjaxByToken('archives/resume_statis', {
+        head: {
+            transcode: 'L0074'
+        },
+        data: data
+    })
+    .then(res=>{
+        //console.log(res)
+        //dispatch(GET_ARCHIVES_DONE);
+        dispatch({...GET_ARCHIVES_DATA,archivesData:res});
+    },err=>{
+        console.log(err);
+        dispatch(GET_ARCHIVES_DONE);
     })
 }
 

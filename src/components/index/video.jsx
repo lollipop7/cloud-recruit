@@ -2,7 +2,7 @@ import React , { Component } from "react"
 
 export default class VideoComponent extends Component {
     state = {
-        videoUrl:"http://systemcove-10037104.cossh.myqcloud.com/51jrqcorp/1010113/%E6%B1%87%E4%BB%98%E5%A4%A9%E4%B8%8B%E4%BC%81%E4%B8%9A%E5%AE%A3%E4%BC%A0%E7%89%87-854x480.mp4"
+        videoUrl:"http://systemcove-10037104.cossh.myqcloud.com/51jrqcorp/1010113/51%E9%87%91%E8%9E%8D%E5%9C%88%E5%AE%A3%E4%BC%A0%E7%89%87%E6%9C%80%E7%BB%88%E7%89%88%2820170802%29-1920x1080.mp4"
     }
     render () {
         return (

@@ -96,8 +96,11 @@
 
     //人员信息历史记录列表
     .personInfo-list {
+        overflow:auto;
+        height:505px;
+        border: 1px solid white;
         width: 850px;
-        margin-top: 10px;
+        //margin-top: 10px;
         float:right;
         .list {
             li {

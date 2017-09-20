@@ -46,7 +46,7 @@ class UploadResumeModalComponents extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
-        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|.zip|.mht)$/i,
+        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|.zip|.mht|.htm|.dot|.dotx)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
         // 判断是否已经上传过文件(单次只能上传一个文件)
@@ -92,7 +92,7 @@ class UploadResumeModalComponents extends Component {
 
     uploadResume = () => {
         let {fileList,source} = this.state,
-            {position,uploadResume} = this.props,
+            {position,uploadResume,getRecruitList} = this.props,
             // 获取positionid
             {positionid} = position;
         // 判断是否选择了推荐职位
@@ -113,7 +113,7 @@ class UploadResumeModalComponents extends Component {
         const {filePath} = response,
             fileNameJson = `{${name}:${filePath}}`;
         source = source.indexOf('basic') !== -1 ? 'basic' : source;
-        uploadResume({source,fileNameJson,positionid});
+        uploadResume({source,fileNameJson,positionid},this.props);
     }
 
     render() {
@@ -231,7 +231,8 @@ const mapDispatchToProps = dispatch => ({
     uploadResume:  bindActionCreators(Actions.RecruitActions.uploadResume, dispatch),
     hideModal: bindActionCreators(Actions.RecruitActions.hideUploadModal, dispatch),
     setResetFormFalse: bindActionCreators(Actions.RecruitActions.setResetFormFalse, dispatch),
-    removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch)
+    removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch),
+    getRecruitList: bindActionCreators(Actions.RecruitActions.getRecruitList, dispatch)
 })
 
 export default connect(

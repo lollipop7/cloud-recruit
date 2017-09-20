@@ -15,7 +15,7 @@ import Promise from 'promise-polyfill';
 // });
 
 // 全局uri注入
-// window.prefixUri = 'http://yun.51jrq.com/51hr/api/web';
+//window.prefixUri = 'http://yun.51jrq.com/51hr/api/web';
 window.prefixUri = '/hrmanage/api/web';
 
 // css文件

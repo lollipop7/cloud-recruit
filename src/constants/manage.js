@@ -12,5 +12,12 @@
  export const LOAD_LIST_DONE = 'LOAD_LIST_DONE';
  export const LOAD_CREW_LIST = 'LOAD_CREW_LIST';
 
+ //档案管理信息列表
+ export const GET_ARCHIVES_START = 'GET_ARCHIVES_START';
+ export const GET_ARCHIVES_DONE = 'GET_ARCHIVES_DONE';
+ export const GET_ARCHIVES_LIST = 'GET_ARCHIVES_LIST';
+
+ //档案管理在职、离职人员数据
+ export const GET_ARCHIVES_DATA = 'GET_ARCHIVES_DATA';
  //员工详情
  export const SHOW_CLERK_DETAIL = 'SHOW_CLERK_DETAIL';
