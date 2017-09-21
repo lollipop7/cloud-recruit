@@ -38,7 +38,11 @@ export default class ProgressComponent extends Component{
             }
     }
     handleSelectChange = (value) => {
-        const {getArchivesList,archivesTableData,getLeaveArchivesList} = this.props;
+        const {
+            archivesTableData,
+            getArchivesList,
+            getLeaveArchivesList
+        } = this.props;
         if (archivesTableData=='1'){
             switch(value)
             {

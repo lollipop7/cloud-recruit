@@ -117,6 +117,11 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     })
 }
 
+//员工名册-员工详情
+export const showClerkDetail = data => (dispatch, getState) => {
+    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
+}
+
 //档案管理在职、离职人员数据
 export const getArchivesData = (data={}) => (dispatch,getState) => {
     AjaxByToken('archives/resume_statis', {
@@ -133,11 +138,6 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
         console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
-}
-
-//员工名册-员工详情
-export const showClerkDetail = data => (dispatch, getState) => {
-    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
 }
 
 //档案管理table数据
