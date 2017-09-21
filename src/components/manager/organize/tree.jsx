@@ -71,8 +71,9 @@ export default class LeftTreePage extends Component {
           )
         } else {
           return (
-                <TreeNode title={menu.title}>
-                </TreeNode>)
+              <TreeNode title={menu.title}>
+              </TreeNode>
+          )
         }
       })
     )
@@ -84,13 +85,17 @@ export default class LeftTreePage extends Component {
     console.log('onCheck', checkedKeys, info);
   }
   render() {
-      const {treeData} = this.state;
+    const {treeData} = this.state;
     return (
         <div>
             {
-                <Tree
+              <Tree 
+                    multiple
+                    draggable
+                    defaultExpandAll
                     onSelect={this.onSelect}
-                    onCheck={this.onCheck}>
+                    onCheck={this.onCheck}
+              >
                 {this.recursion(treeData)}
               </Tree>
               }
