@@ -9,7 +9,11 @@ import {
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
     SHOW_CLERK_DETAIL,
-    GET_ARCHIVES_DATA
+    GET_ARCHIVES_DATA,
+    ARCHIVES_TABLE_DATA,
+    GET_LEAVEARCHIVES_START ,
+    GET_LEAVEARCHIVES_DONE ,
+    GET_LEAVEARCHIVES_LIST 
 } from 'constants/manage'; 
 
 const initialState = {
@@ -27,8 +31,14 @@ const initialState = {
         count:0,
         list:[]
     },
+    leaveArchivesList:{
+        isLoading: false,
+        count:0,
+        list:[]
+    },
     crewDetail: {},
-    archivesData: {}
+    archivesData: {},
+    archivesTableData:'1'
 };
 
 export default function manage(state=initialState,actions){
@@ -51,10 +61,18 @@ export default function manage(state=initialState,actions){
             return {...state,archivesList:{...state.archivesList,isLoading:false}};
         case GET_ARCHIVES_LIST:
             return {...state,archivesList:{...state.archivesList,list:actions.list,count:actions.count}};
+        case GET_LEAVEARCHIVES_START:
+            return {...state,leaveArchivesList:{...state.leaveArchivesList,isLoading:true}};
+        case GET_LEAVEARCHIVES_DONE:
+            return {...state,leaveArchivesList:{...state.leaveArchivesList,isLoading:false}};
+        case GET_LEAVEARCHIVES_LIST:
+            return {...state,leaveArchivesList:{...state.leaveArchivesList,list:actions.list,count:actions.count}};
         case GET_ARCHIVES_DATA:
             return {...state,archivesData:actions.archivesData};         
         case SHOW_CLERK_DETAIL:
-            return {...state,crewDetail:actions.crewDetail};           
+            return {...state,crewDetail:actions.crewDetail}; 
+        case ARCHIVES_TABLE_DATA:
+            return {...state,archivesTableData:actions.archivesTableData}          
         default:
             return state;
     }
