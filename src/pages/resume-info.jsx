@@ -162,12 +162,12 @@ class ResumeInfoPage extends Component {
                                     </Tooltip> 
                                         邮件
                                     </li>
-                                    <li 
+                                    {/* <li 
                                         className={`tab-item table-cell ${type==2 ? 'active' : ''}`}
                                         onClick={() => this.handleChangeType(2)}
                                     >
                                         其他信息
-                                    </li>
+                                    </li> */}
                                     <li className="table-cell empty"></li>
                                 </ul>
                             }
@@ -205,9 +205,9 @@ class ResumeInfoPage extends Component {
                                         />
                                     </div>
                                 }
-                                <div className={`information-content ${type==2 ? '' : 'none'}`}>
+                                {/* <div className={`information-content ${type==2 ? '' : 'none'}`}>
                                     待定。。。
-                                </div>
+                                </div> */}
                             </div>
                             <ModalComponents />
                             {/*简历分享Modal*/}
