@@ -95,8 +95,8 @@
             }
             .ant-btn {
                 &:focus {
-                    color: $theme-color !important;
                     background-color: #FFF;
+                    color: $theme-color !important;
                     border-color: $theme-color !important;
                 }
             }
@@ -115,6 +115,7 @@
         }
         .ant-tabs-ink-bar {
             top: 0;
+            height: 3px;
         }
     }
     .clerk-tab-container {
@@ -122,6 +123,7 @@
         margin: 0 auto;
         .title {
             position: absolute;
+            z-index: 20;
             top: -10px;
             left: 0;
             padding-right: 12px;
@@ -138,6 +140,7 @@
         }
         .editor-wrap {
             position: absolute;
+            z-index: 20;
             right: 0;
             top: -12px;
             padding-left: 12px;
@@ -154,7 +157,9 @@
         .info-field {
             position:relative;
             padding: 60px 0;
-            border-top: 1px solid #d5d5d5;
+            &:before {
+                @include border-top;
+            }
         }
         .field-list {
             &+ul {
@@ -189,7 +194,7 @@
             margin-left: 16px;
             width: 190px;
             height: 130px;
-            border: 1px solid #d5d5d5;
+            border: 1px solid $border-color;
             border-radius: 5px;
             background-color: $nav-bg-color;
             text-align: center;
@@ -223,11 +228,11 @@
         .ant-timeline-item-head {
             width: 14px;
             height: 14px;                
-            background-color: #d5d5d5;
+            background-color: $border-color;
         }
         .ant-timeline-item-head-blue {
-            border-color: #d5d5d5;
-            color: #d5d5d5;
+            border-color: $border-color;
+            color: $border-color;
         }
         .ant-timeline-item:first-child {
             .ant-timeline-item-head {
@@ -240,6 +245,67 @@
         }
         .ant-timeline-item-tail {
             display: none;
+        }
+    }
+    //人员征信
+    .credit-investgation {
+        padding-left: 100px;
+        .inverst-item {
+            position: relative;
+            margin-bottom: 30px;
+            width: 890px;
+            .top-title {
+                position: relative;
+                padding: 13px 0 7px 8px;
+                line-height: 16px;
+                font-size: 16px;
+                span {
+                    font-size: 14px;
+                }
+                &:after {
+                    @include border-bottom;
+                }
+            }
+        }
+        .identify-tel {
+            .inverst-item {
+                padding-right: 18px;
+                margin-right: 52px;
+                width: 381px;
+                height: 131px;
+            } 
+        }
+        .superior-content {
+            padding: 22px 0 0 49px;
+            .info-bar {
+                margin-right: 46px;
+                span {
+                    color: #868686;
+                    &:first-child {
+                        color: #4d4d4d;
+                        font-size: 16px;
+                    }
+                }
+            }
+            .info-right {
+                vertical-align: top;
+                margin-left: 15px;
+                .list-item {
+                    line-height: 16px;
+                    &:first-child {
+                        margin-bottom: 16px;
+                    }
+                    span {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+        .consquence {
+            position: absolute;
+            bottom: -19px;
+            right: -10px;
+            height: 77px;
         }
     }
 }

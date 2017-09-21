@@ -25,9 +25,7 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
  class IndexPage extends BasicPage {
-    state = {
-        MemoContent:{}
-    }
+    
     componentDidMount() {
         this.hideNProgress();
         const date = moment().format("YYYY-MM-01")
@@ -35,7 +33,7 @@ import * as Actions from 'actions';
     }
     
     render() {
-        const {MemoContent , getMemoContent , DateMemoContent ,getDateMemoContent} = this.props
+        const {MemoContent , getMemoContent , DateMemoContent ,getDateMemoContent} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">

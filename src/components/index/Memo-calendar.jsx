@@ -12,19 +12,15 @@ class MemoCalendarComponent extends Component {
     state = {
         memos :[]
     }
-
+    
     componentWillReceiveProps(){
         setTimeout(()=>{
-            let memos=[];
-            const {MemoContent} = this.props;
-            const date = moment().format('YYYY-MM-DD');
-           for (let i in MemoContent){
-               const arr =MemoContent[i];
-                memos.push(arr);
+           let memos=[];
+           const {MemoContent} = this.props;
+           for(let i in MemoContent){
+            memos.push(MemoContent[i])
            }
-           this.setState({
-                memos:memos
-            }) 
+           this.setState({memos}) 
         })   
     }
 
@@ -36,7 +32,7 @@ class MemoCalendarComponent extends Component {
     //自定义渲染日期单元格，返回内容会被追加到单元格
     dateCellRender = (value) => {
         const {memos} = this.state;
-        //页面显示的所有日期
+        //当前查看的日期
         const watchDate = parseInt(moment(value._d).format("YYYYMMDD"));
         //今天的日期
         const nowDates =parseInt(moment().format('YYYYMMDD'));
@@ -63,13 +59,16 @@ class MemoCalendarComponent extends Component {
 
     render(){
         let memos = [] , dateArr = [], dateContent = [];
-        const {MemoContent , DateMemoContent} = this.props;
+        const {
+            MemoContent, 
+            DateMemoContent         //产看被选当天的事件
+        } = this.props;
         const date = moment().format('YYYY-MM-DD');
         MemoContent[date] && each(MemoContent[date],item=>{
             memos.push(item.memos)
         })
-        for (let i in DateMemoContent) {
-            dateArr=DateMemoContent[i]
+        for (let key in DateMemoContent) {
+            dateArr=DateMemoContent[key]
         }
         //遍历每日备忘录
         for (let j=0;j<dateArr.length;j++){
