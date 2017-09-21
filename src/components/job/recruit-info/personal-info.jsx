@@ -28,6 +28,7 @@ export default class PersonalInfoComponent extends Component {
                 <h3 className="title">
                     个人基本信息
                 </h3>
+                
                 <ul className="field-list inline-block">
                     <li>
                         <span>出生日期</span>
