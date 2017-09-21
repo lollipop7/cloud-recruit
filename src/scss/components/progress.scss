@@ -97,3 +97,16 @@
     color: #1587c7 !important;
     border:1px solid #1587c7 !important;
 }
+
+.personnelMaterials{
+    .ant-progress-bg{
+        background-color: #f68f6b
+    }
+    .ant-progress-text{
+        display: none
+    }
+    .ant-progress-inner{
+        background-color:#e6e6e6;
+        width: 90px
+    }
+}

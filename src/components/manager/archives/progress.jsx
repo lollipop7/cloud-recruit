@@ -1,6 +1,5 @@
 import React , {Component}from 'react';
-import { Progress } from 'antd';
-import { Table , Select , Button } from 'antd';
+import { Progress , Table , Select , Button } from 'antd';
 import archivesData from 'data/select/archives';
 import archivesLeave from 'data/select/archivesLeave'
 
@@ -9,7 +8,8 @@ export default class ProgressComponent extends Component{
         leftStyleState:'block',
         rightStyleState:'none',
         leftStyleColor:'#1587c7',
-        rightStyleColor:''
+        rightStyleColor:'',
+        sort:'1'
     };
     handleClick = (value) => {
         switch(value)
@@ -21,6 +21,7 @@ export default class ProgressComponent extends Component{
                     leftStyleColor:'#1587c7',
                     rightStyleColor:''
                 });
+                this.props.changeTableData('1')
                 break;
             case '2':
                 this.setState({
@@ -29,10 +30,86 @@ export default class ProgressComponent extends Component{
                     leftStyleColor:'',
                     rightStyleColor:'#1587c7'
                 });
+                this.props.changeTableData('2')
+                this.props.getLeaveArchivesList({sort:'1'})
                 break;
             default:
                 break
             }
+    }
+    handleSelectChange = (value) => {
+        const {getArchivesList,archivesTableData,getLeaveArchivesList} = this.props;
+        if (archivesTableData=='1'){
+            switch(value)
+            {
+            case '人事材料存档率升序':
+                this.setState({
+                    sort:'1'
+                });
+                break;
+            case '人事材料存档率降序':
+                this.setState({
+                    sort:'2'
+                });
+                break;
+            case '人员信息完整度升序':
+                this.setState({
+                    sort:'3'
+                });
+                break; 
+            case '人员信息完整度降序':
+                this.setState({
+                    sort:'4'
+                });
+                break;
+            case '最后更新时间升序':
+                this.setState({
+                    sort:'5'
+                });
+                break;
+            case '最后更新时间降序':
+                this.setState({
+                    sort:'6'
+                });
+                break;    
+            default:
+                break ;  
+            };
+            setTimeout(()=>{
+                const {sort} = this.state;
+                getArchivesList({sort:sort});
+            })
+        }else if (archivesTableData=='2'){
+            switch(value)
+            {
+            case '人事材料存档率升序':
+                this.setState({
+                    sort:'1'
+                });
+                break;
+            case '人事材料存档率降序':
+                this.setState({
+                    sort:'2'
+                });
+                break;
+            case '最后更新时间升序':
+                this.setState({
+                    sort:'3'
+                });
+                break;
+            case '最后更新时间降序':
+                this.setState({
+                    sort:'4'
+                });
+                break;    
+            default:
+                break ;  
+            };
+            setTimeout(()=>{
+                const {sort} = this.state;
+                getLeaveArchivesList({sort:sort});
+            })
+        }       
     }
 
     render() {
@@ -54,11 +131,11 @@ export default class ProgressComponent extends Component{
                             >
                                 在职人员存档情况：
                             </span>
-                            <Progress style={{color:'#f68f6b'}} percent={PercentageResume} strokeWidth={25} />
+                            <Progress style={{color:'#f68f6b'}} percent={PercentageResume?PercentageResume:'0'} strokeWidth={25} />
                             <div style={{marginTop:5,color:'#1587c7'}}>
-                                <span>当前员工数：{resumeCount}</span>&nbsp;&nbsp;
+                                <span>当前员工数：{resumeCount?resumeCount:'0'}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
-                                <span>已完整存档：{material}</span>
+                                <span>已完整存档：{material?material:'0'}</span>
                             </div>  
                         </div>
                         <div className="left-progress-information">
@@ -81,11 +158,11 @@ export default class ProgressComponent extends Component{
                             >
                                 离职人员存档情况：
                             </span>
-                            <Progress style={{color: '#f6cd6b'}} percent={PercentageLeave} strokeWidth={25}  />
+                            <Progress style={{color: '#f6cd6b'}} percent={PercentageLeave?PercentageLeave:'0'} strokeWidth={25}  />
                             <div style={{marginTop:5,color:'#1587c7'}}>
-                                <span>离职员工数：{leaveCount}</span>&nbsp;&nbsp;
+                                <span>离职员工数：{leaveCount?leaveCount:'0'}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
-                                <span>已完整存档：{departure}</span>
+                                <span>已完整存档：{departure?departure:'0'}</span>
                             </div>
                             <div 
                                 className="right-triangle"

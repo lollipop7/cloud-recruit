@@ -38,6 +38,14 @@ $box-font-color: #868686;
         border: 1px solid $border-color;
         border-left: none;
         padding: 20px 20px 0;
+        .organize-tree {
+            width: 440px;
+            height: 500px;
+            border: red 1px solid;
+            .li-type {
+                padding-left: 30px;
+            }
+        }
     }
 
     .control {
