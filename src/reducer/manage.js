@@ -15,7 +15,9 @@ import {
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
     GET_EMPLOYEE_QUALITY,
-    GET_DEPARTMENT_LIST 
+    GET_DEPARTMENT_LIST,
+    SHOW_PERSONALMATERIAL_MODAL,
+    HIDE_PERSONALMATERIAL_MODAL
 } from 'constants/manage'; 
 
 const initialState = {
@@ -45,7 +47,8 @@ const initialState = {
         isLoading: false,
         list: [],
         count: 0
-    }
+    },
+    personalMaterialVisible:false
 };
 
 export default function manage(state=initialState,actions){
@@ -84,6 +87,10 @@ export default function manage(state=initialState,actions){
             return {...state,employeeQuality:actions.employeeQuality};
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
+        case SHOW_PERSONALMATERIAL_MODAL:
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible};
+        case HIDE_PERSONALMATERIAL_MODAL:
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible};          
         default:
             return state;
     }
