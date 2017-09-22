@@ -41,7 +41,8 @@ const initialState = {
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
-    personalMaterialVisible:false
+    personalMaterialVisible:false,
+    personalMaterialData:{}
 };
 
 export default function manage(state=initialState,actions){
@@ -77,7 +78,7 @@ export default function manage(state=initialState,actions){
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
         case SHOW_PERSONALMATERIAL_MODAL:
-            return {...state,personalMaterialVisible:actions.personalMaterialVisible};
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible,personalMaterialData:actions.data};
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};          
         default:

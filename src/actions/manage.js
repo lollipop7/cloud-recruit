@@ -125,8 +125,8 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
 }
 
 //显示档案管理个人材料Modal
-export const showPersonalMaterialModal = () => (dispatch,getState) => {
-    dispatch({...SHOW_PERSONALMATERIAL_MODAL,personalMaterialVisible:true})
+export const showPersonalMaterialModal = (data) => (dispatch,getState) => {
+    dispatch({...SHOW_PERSONALMATERIAL_MODAL,personalMaterialVisible:true,data:data})
 }
 export const hidePersonalMaterialModal = () => (dispatch,getState) => {
     dispatch({...HIDE_PERSONALMATERIAL_MODAL,personalMaterialVisible:false})

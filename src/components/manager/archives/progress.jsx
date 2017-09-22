@@ -118,9 +118,9 @@ export default class ProgressComponent extends Component{
 
     render() {
        const {departure , info , leaveCount , material , resumeCount} = this.props.archivesData,
-            {leftStyleState , rightStyleState , leftStyleColor , rightStyleColor} = this.state;
-       const PercentageResume = ((material/resumeCount)*100).toFixed(2);
-       const PercentageLeave = ((departure/leaveCount)*100).toFixed(2);
+            {leftStyleState , rightStyleState , leftStyleColor , rightStyleColor} = this.state;          
+       const PercentageResume = ((parseInt(material)/parseInt(resumeCount))*100).toFixed(2);
+       const PercentageLeave = ((parseInt(departure)/parseInt(leaveCount))*100).toFixed(2);
         return (
             <div>
                 <div className="archives-progress">
@@ -135,11 +135,14 @@ export default class ProgressComponent extends Component{
                             >
                                 在职人员存档情况：
                             </span>
-                            <Progress style={{color:'#f68f6b'}} percent={PercentageResume?PercentageResume:'0'} strokeWidth={25} />
+                            <Progress 
+                                style={{color:'#f68f6b'}} 
+                                percent={(resumeCount==0 || material==0 || !resumeCount|| !material) ?0:PercentageResume} strokeWidth={25} 
+                            />
                             <div style={{marginTop:5,color:'#1587c7'}}>
-                                <span>当前员工数：{resumeCount?resumeCount:'0'}</span>&nbsp;&nbsp;
+                                <span>当前员工数：{resumeCount?resumeCount:0}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
-                                <span>已完整存档：{material?material:'0'}</span>
+                                <span>已完整存档：{material?material:0}</span>
                             </div>  
                         </div>
                         <div className="left-progress-information">
@@ -162,7 +165,10 @@ export default class ProgressComponent extends Component{
                             >
                                 离职人员存档情况：
                             </span>
-                            <Progress style={{color: '#f6cd6b'}} percent={PercentageLeave?PercentageLeave:'0'} strokeWidth={25}  />
+                            <Progress 
+                                style={{color: '#f6cd6b'}} 
+                                percent={(leaveCount==0 || departure==0 || !leaveCount || !departure) ?0:PercentageLeave} strokeWidth={25}  
+                            />
                             <div style={{marginTop:5,color:'#1587c7'}}>
                                 <span>离职员工数：{leaveCount?leaveCount:'0'}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
@@ -225,10 +231,8 @@ export default class ProgressComponent extends Component{
                                     return(
                                         <Option key={index} value={item}>{item}</Option>
                                         )
-                                })
-                           
-                            }
-                            
+                               })
+                            }    
                         </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         <Button>下载材料附件</Button>

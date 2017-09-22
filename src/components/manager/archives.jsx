@@ -30,7 +30,8 @@ import * as Actions from 'actions';
             getLeaveArchivesList,//获取离职人员列表数据
             showPersonalMaterialModal,
             hidePersonalMaterialModal,
-            personalMaterialVisible
+            personalMaterialVisible,
+            personalMaterialData
         } = this.props; 
         return (
             <div className="archives-right">
@@ -50,6 +51,7 @@ import * as Actions from 'actions';
                             showPersonalMaterialModal={showPersonalMaterialModal}
                             hidePersonalMaterialModal={hidePersonalMaterialModal}
                             personalMaterialVisible={personalMaterialVisible}
+                            personalMaterialData={personalMaterialData}
                         />
                     </div>
                    
@@ -64,7 +66,8 @@ import * as Actions from 'actions';
     archivesData: state.Manage.archivesData,
     archivesTableData: state.Manage.archivesTableData,
     leaveArchivesList: state.Manage.leaveArchivesList,
-    personalMaterialVisible: state.Manage.personalMaterialVisible
+    personalMaterialVisible: state.Manage.personalMaterialVisible,
+    personalMaterialData: state.Manage.personalMaterialData
  })
  const mapDispatchToProps = dispatch => ({
     getArchivesList:bindActionCreators(Actions.ManageActions.getArchivesList, dispatch),
