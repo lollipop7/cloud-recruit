@@ -13,10 +13,12 @@
     position: relative;
     &:hover {
         background-color: #ecf6fd;
+        width: calc(100% - 18px);
     }
 }
 .ant-tree-node-selected {
     background-color: #d2eafb;
+    width: calc(100% - 18px);
 }
 
 // 组织架构-部门管理-树形控件
