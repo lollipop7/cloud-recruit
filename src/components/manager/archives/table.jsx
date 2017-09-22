@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
-import { Table , Progress , Icon } from 'antd';
+import { Table , Progress , Icon , Modal ,Select,Input } from 'antd';
+const Option = Select.Option;
 import moment from 'moment';
 import resumeColumns from 'data/table-columns/archives-table';
 import LeaveColumns from 'data/table-columns/archives-leaveTable';
@@ -8,9 +9,20 @@ export default class TableComponent extends Component{
     state = {
 
     };
+    setPersonnelMaterials = (record) => {
+        //console.log(record);
+        const {showPersonalMaterialModal,hidePersonalMaterialModal} = this.props;
+        showPersonalMaterialModal()
+    }
+    hidePersonalMaterilModal = () =>{
+        this.props.hidePersonalMaterialModal()
+    }
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
         if (archivesTableData=='1'){
+            resumeColumns[0].render = (text,record,index) => {
+                return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>              
+            };
             resumeColumns[1].render = (text,record,index) => {
                 return <Icon 
                             type='qrcode'
@@ -109,7 +121,8 @@ export default class TableComponent extends Component{
         const { 
             archivesList , 
             leaveArchivesList , 
-            archivesTableData
+            archivesTableData,
+            personalMaterialVisible
         } = this.props;
         return (
             <div > 
@@ -128,6 +141,69 @@ export default class TableComponent extends Component{
                     }
                     pagination={false}
                 />
+                <Modal
+                    className='grey-close-header'
+                    title='员工重要信息'
+                    okText='保存'
+                    visible={personalMaterialVisible}
+                    onCancel={this.hidePersonalMaterilModal}
+                > 
+                    <ul className="personalMaterial">
+                        <li style={{overflow:'hidden',marginBottom:24}}>
+                            <div className="left-div">
+                                <span className="name">&nbsp;&nbsp;&nbsp;证件类型：</span>
+                                <Select
+                                    placeholder='请选择证件类型'
+                                >
+                                    {
+                                        [
+                                            '身份证件',
+                                            '工作证件',
+                                            '其他证件'
+                                        ].map((item , index)=>{
+                                            return <Option value={index}>{item}</Option>
+                                        })
+                                    }
+                                    
+                                </Select>
+                            </div>
+                            <div className="right-div">
+                                <span>证件号：</span>
+                                <Input placeholder='请输入证件号'/>
+                            </div>  
+                        </li>
+                        <li style={{overflow:'hidden',marginBottom:24}}>
+                            <div className="left-div">
+                                <span className="name">&nbsp;&nbsp;&nbsp;居住地址：</span>
+                                <Input placeholder='请输入居住地址'/>
+                            </div>
+                            <div className="right-div">
+                                <span>社保账号：</span>
+                                <Input placeholder='请输入社保账号'/>
+                            </div>  
+                        </li>
+                        <li style={{overflow:'hidden',marginBottom:24}}>
+                            <div className="left-div">
+                                <span className="name">公积金账号：</span>
+                                <Input placeholder='请输入公积金账号'/>
+                            </div>
+                            <div className="right-div">
+                                <span>工资卡卡号：</span>
+                                <Input placeholder='请输入工资卡号'/>
+                            </div>  
+                        </li>
+                        <li style={{overflow:'hidden',marginBottom:24}}>
+                            <div className="left-div">
+                                <span className="name">紧急联系人：</span>
+                                <Input placeholder='请输入紧急联系人'/>
+                            </div>
+                            <div className="right-div">
+                                <span>紧急联系人电话：</span>
+                                <Input placeholder='紧急联系人电话'/>
+                            </div>  
+                        </li>
+                    </ul>     
+                </Modal>
             </div>
         )
     }

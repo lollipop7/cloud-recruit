@@ -26,7 +26,11 @@ const GET_LEAVEARCHIVES_DONE = {type: types.GET_LEAVEARCHIVES_DONE};
 const GET_LEAVEARCHIVES_LIST = {type: types.GET_LEAVEARCHIVES_LIST};
 
 //档案管理员工数据
-const GET_ARCHIVES_DATA = {type: types.GET_ARCHIVES_DATA}
+const GET_ARCHIVES_DATA = {type: types.GET_ARCHIVES_DATA};
+
+//档案管理个人材料Modal
+const SHOW_PERSONALMATERIAL_MODAL = {type:types.SHOW_PERSONALMATERIAL_MODAL};
+const HIDE_PERSONALMATERIAL_MODAL = {type:types.HIDE_PERSONALMATERIAL_MODAL};
 
 //员工名册-员工详情
 const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
@@ -115,6 +119,14 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
         console.log(err);
         dispatch(GET_LEAVEARCHIVES_DONE);
     })
+}
+
+//显示档案管理个人材料Modal
+export const showPersonalMaterialModal = () => (dispatch,getState) => {
+    dispatch({...SHOW_PERSONALMATERIAL_MODAL,personalMaterialVisible:true})
+}
+export const hidePersonalMaterialModal = () => (dispatch,getState) => {
+    dispatch({...HIDE_PERSONALMATERIAL_MODAL,personalMaterialVisible:false})
 }
 
 //员工名册-员工详情

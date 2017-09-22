@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ProgressComponent from './archives/progress';
 import TableComponent from './archives/table';
+import { Modal} from 'antd';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -10,11 +11,12 @@ import * as Actions from 'actions';
  class ArchivesPage extends Component {
 
      componentDidMount(){
-        this.props.getArchivesList();
+        this.props.getArchivesList({sort:'1'});
         this.props.getArchivesData();
         NProgress.done();
         
      }
+     
 
      render(){
         const { 
@@ -26,8 +28,10 @@ import * as Actions from 'actions';
             leaveArchivesList,//离职人员table列表
             getArchivesList,//获取在职人员列表数据
             getLeaveArchivesList,//获取离职人员列表数据
+            showPersonalMaterialModal,
+            hidePersonalMaterialModal,
+            personalMaterialVisible
         } = this.props; 
-        //console.log(leaveArchivesList)   
         return (
             <div className="archives-right">
                 <div className="box-border right-panel">
@@ -43,9 +47,12 @@ import * as Actions from 'actions';
                             archivesList={archivesList}
                             leaveArchivesList={leaveArchivesList}
                             archivesTableData={archivesTableData}
+                            showPersonalMaterialModal={showPersonalMaterialModal}
+                            hidePersonalMaterialModal={hidePersonalMaterialModal}
+                            personalMaterialVisible={personalMaterialVisible}
                         />
                     </div>
-                    
+                   
                 </div>
             </div>
         );
@@ -56,13 +63,16 @@ import * as Actions from 'actions';
     archivesList: state.Manage.archivesList,
     archivesData: state.Manage.archivesData,
     archivesTableData: state.Manage.archivesTableData,
-    leaveArchivesList: state.Manage.leaveArchivesList
+    leaveArchivesList: state.Manage.leaveArchivesList,
+    personalMaterialVisible: state.Manage.personalMaterialVisible
  })
  const mapDispatchToProps = dispatch => ({
     getArchivesList:bindActionCreators(Actions.ManageActions.getArchivesList, dispatch),
     getArchivesData:bindActionCreators(Actions.ManageActions.getArchivesData, dispatch),
     changeTableData:bindActionCreators(Actions.ManageActions.changeTableData, dispatch),
-    getLeaveArchivesList:bindActionCreators(Actions.ManageActions.getLeaveArchivesList, dispatch)
+    getLeaveArchivesList:bindActionCreators(Actions.ManageActions.getLeaveArchivesList, dispatch),
+    showPersonalMaterialModal:bindActionCreators(Actions.ManageActions.showPersonalMaterialModal, dispatch),
+    hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch)
  })
  export default connect(
      mapStateToProps,

@@ -13,7 +13,9 @@ import {
     ARCHIVES_TABLE_DATA,
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
-    GET_LEAVEARCHIVES_LIST 
+    GET_LEAVEARCHIVES_LIST ,
+    SHOW_PERSONALMATERIAL_MODAL,
+    HIDE_PERSONALMATERIAL_MODAL
 } from 'constants/manage'; 
 
 const initialState = {
@@ -38,7 +40,8 @@ const initialState = {
     },
     crewDetail: {},
     archivesData: {},
-    archivesTableData:'1'
+    archivesTableData:'1',
+    personalMaterialVisible:false
 };
 
 export default function manage(state=initialState,actions){
@@ -72,7 +75,11 @@ export default function manage(state=initialState,actions){
         case SHOW_CLERK_DETAIL:
             return {...state,crewDetail:actions.crewDetail}; 
         case ARCHIVES_TABLE_DATA:
-            return {...state,archivesTableData:actions.archivesTableData}          
+            return {...state,archivesTableData:actions.archivesTableData};
+        case SHOW_PERSONALMATERIAL_MODAL:
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible};
+        case HIDE_PERSONALMATERIAL_MODAL:
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible};          
         default:
             return state;
     }

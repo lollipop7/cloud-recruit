@@ -112,3 +112,53 @@
         width: 90px
     }
 }
+
+.grey-close-header {
+    width: 830px !important;
+    .ant-modal-body {
+        padding: 30px 50px 20px;
+        .personalMaterial{
+            overflow: hidden;
+            .left-div{
+                float: left;
+            }
+            .right-div{
+                float: right;
+            }
+            .name{
+                line-height: 36px
+            }
+            .ant-select, .ant-select-enabled{
+                width: 230px;
+                height: 36px;
+                .ant-select-selection,
+                .ant-select-selection--single{
+                    height: 36px !important;
+                    top: 3px;
+                    .ant-select-selection__rendered{
+                        height: 36px !important;
+                    }
+                }
+            }
+            .ant-input{
+                width: 230px;
+                height: 36px;
+            }
+        }
+    }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        padding: 0 16px 30px 10px;
+        .ant-btn-lg {
+            padding: 0 34px;
+            width: 194px;
+            height: 40px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button+button {
+            margin-left: 30px;
+        }
+    }
+}
