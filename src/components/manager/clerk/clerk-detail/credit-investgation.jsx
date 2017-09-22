@@ -90,13 +90,132 @@ export default class CreditInvestgation extends Component {
                                     <span>上海市杨浦区邯郸路220号</span>
                                 </div>
                             </div>
-                            <div>
+                            <div style={{marginTop: 26, position: "relative"}}>
                                 <div className="inline-block">
                                     <div className="inline-block">
-                                        <img src="/static/images/clerk/logo.png" alt="学校logo" style={{width: 120, height: 120}}/>
+                                        <img src="/static/images/manager/clerk/logo.png" alt="学校logo" style={{width: 120, height: 120}}/>
+                                    </div>
+                                    <div className="inline-block remark">
+                                        <ul>
+                                            <li>
+                                                <i className="inline-block" style={{
+                                                    backgroundColor: "#ff0000"
+                                                }}></i>
+                                                <span>本科</span>
+                                            </li>
+                                            <li>
+                                                <i className="inline-block" style={{
+                                                    backgroundColor: "#517fa0"
+                                                }}></i>
+                                                <span>985、211大学</span>
+                                            </li>
+                                            <li>
+                                                <i className="inline-block" style={{
+                                                    backgroundColor: "#61aa61"
+                                                }}></i>
+                                                <span>全国热度排名 : </span>
+                                                <span>13</span>
+                                            </li>
+                                            <li>
+                                                <i className="inline-block" style={{
+                                                    backgroundColor: "#efcb5b"
+                                                }}></i>
+                                                <span>学校人气值 : </span>
+                                                <span>10401185</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="duration inline-block" style={{
+                                    position: "absolute",
+                                    top: 10,
+                                    left: 410
+                                }}>
+                                    <div className="inline-block">
+                                        <ul>
+                                            <li>
+                                                <span>开始时间</span>
+                                            </li>
+                                            <li>
+                                                <span>2012/09/01</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="inline-block"style={{textAlign: "center", margin: "0 20px"}}>
+                                        <h3 style={{marginBottom: 15}}>上海复旦大学</h3>
+                                        <img src="/static/images/manager/clerk/time.png" alt="time"
+                                             style={{
+                                                 width: 136,
+                                                 height: 70
+                                             }}
+                                        />
+                                    </div>
+                                    <div className="inline-block">
+                                        <ul>
+                                            <li>
+                                                <span>毕业时间</span>
+                                            </li>
+                                            <li>
+                                                <span>2016/06/01</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            职业证书信息核查
+                            <span className="pull-right">数据源自国家人力资源和社会保障部</span>
+                        </div>
+                        <div className="superior-content">
+                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
+                                <li>
+                                    <span>姓名</span>
+                                    <span>刘德华</span>
+                                </li>
+                                <li>
+                                    <span>性别</span>
+                                    <span>男</span>
+                                </li>
+                                <li>
+                                    <span>文化程度</span>
+                                    <span>本科</span>
+                                </li>
+                                <li>
+                                    <span>身份证号</span>
+                                    <span>411721199305177744</span>
+                                </li>
+                                <li>
+                                    <span>数据上报单位</span>
+                                    <span>卫生部职业技能鉴定指导中心</span>
+                                </li>
+                            </ul>  
+                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
+                                <li>
+                                    <span>职业名称</span>
+                                    <span>高级理财师</span>
+                                </li>
+                                <li>
+                                    <span>评定级别</span>
+                                    <span>三级/高级技能</span>
+                                </li>
+                                <li>
+                                    <span>评定成绩</span>
+                                    <span>合格</span>
+                                </li>
+                                <li>
+                                    <span>证书编号</span>
+                                    <span>15454515421456412</span>
+                                </li>
+                                <li>
+                                    <span>发证日期</span>
+                                    <span>2016-04-12</span>
+                                </li>
+                            </ul>  
                         </div>
                     </div>
                 </div>

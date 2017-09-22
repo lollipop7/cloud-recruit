@@ -13,7 +13,9 @@ import {
     ARCHIVES_TABLE_DATA,
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
-    GET_LEAVEARCHIVES_LIST ,
+    GET_LEAVEARCHIVES_LIST,
+    GET_EMPLOYEE_QUALITY,
+    GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL
 } from 'constants/manage'; 
@@ -77,6 +79,10 @@ export default function manage(state=initialState,actions){
             return {...state,crewDetail:actions.crewDetail}; 
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
+        case GET_EMPLOYEE_QUALITY:
+            return {...state,employeeQuality:actions.employeeQuality};
+        case GET_DEPARTMENT_LIST:
+            return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible,personalMaterialData:actions.data};
         case HIDE_PERSONALMATERIAL_MODAL:

@@ -1,77 +1,32 @@
 import React, {Component} from 'react';
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+// antd
 import { Tree } from 'antd';
 const TreeNode = Tree.TreeNode;
 
-export default class LeftTreePage extends Component {
+class LeftTreePage extends Component {
   state = {
-    treeData: [
-        {
-          "key": 1,
-          "icon": "appstore",
-          "title": "软件测试科",
-          "url": "",
-          "children": [
-            {
-              "key": 4,
-              "title": "广电组",
-              "url": "",
-              "children": [
-                {
-                  "key": 8,
-                  "title": "客制化",
-                  "url": "",
-                  "children": [
-                    {
-                      "key": 19,
-                      "title": "版本测试",
-                      "url": ""
-                    }
-                  ]
-                }, {
-                  "key": 9,
-                  "title": "客供",
-                  "url": ""
-                }
-              ]
-            }, {
-              "key": 5,
-              "title": "光通组",
-              "url": "",
-              "children": [
-                {
-                    "key": 16,
-                    "text": "版本测试",
-                    "title": "",
-                    "url": ""
-                }
-              ]
-            }
-          ]
-        }, {
-          "key": 2,
-          "icon": "setting",
-          "title": "硬件测试科",
-          "url": ""
-        }, {
-          "key": 3,
-          "icon": "mail",
-          "title": "EMC测试科",
-          "url": ""
-        }
-      ]
+   
+  }
+  componentDidMount(){
+    this.props.getDepartMentList()
   }
   recursion(dataSource) {
     return (
-      dataSource.map((menu, index) => {
-        if (menu.children) {
+      dataSource.map((tree, index) => {
+        if (tree.list) {
           return (
-            <TreeNode title={menu.title}>
-                {this.recursion(menu.children)}
+            <TreeNode title={tree.name}>
+                {this.recursion(tree.list)}
             </TreeNode>
           )
         } else {
           return (
-              <TreeNode title={menu.title}>
+              <TreeNode title={tree.name}>
               </TreeNode>
           )
         }
@@ -85,9 +40,9 @@ export default class LeftTreePage extends Component {
     console.log('onCheck', checkedKeys, info);
   }
   render() {
-    const {treeData} = this.state;
+    const { departmentList:{list} } = this.props;
     return (
-        <div>
+        <div className='pull-left tree-type'>
             {
               <Tree 
                     multiple
@@ -96,12 +51,22 @@ export default class LeftTreePage extends Component {
                     onSelect={this.onSelect}
                     onCheck={this.onCheck}
               >
-                {this.recursion(treeData)}
+                {this.recursion(list)}
               </Tree>
               }
         </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  departmentList: state.Manage.departmentList
+})
+const mapDispatchToProps = dispatch => ({
+  getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
+})
 
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LeftTreePage);
  

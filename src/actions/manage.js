@@ -41,6 +41,9 @@ const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
 // 获取全员概览-员工性质分布信息
 const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
 
+// 获取全员概览-员工性质分布信息
+const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
+
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
     dispatch(GET_MANAGE_START);
@@ -119,7 +122,6 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
         dispatch({...GET_LEAVEARCHIVES_LIST,list:res.list,count:res.count});
         
     },err=>{
-        console.log(err);
         dispatch(GET_LEAVEARCHIVES_DONE);
     })
 }
@@ -173,6 +175,22 @@ export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
                                                           ]});
     },err=>{
         dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+    });
+}
+
+//  组织架构-部门列表查询
+export const getDepartMentList = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/resume_statis_List_Department',{
+        head: {
+            transcode: 'L0078',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
+    },err=>{
+        dispatch({...GET_DEPARTMENT_LIST});
     });
 }
 

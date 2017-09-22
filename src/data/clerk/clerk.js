@@ -69,5 +69,8 @@ module.exports = {
         toEffect: Date.now(),
         startDepartment: "市场部",
         endDepartment: "产品部"
+    },
+    creditInvestgation: {
+        
     }   
 }
