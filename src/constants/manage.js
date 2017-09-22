@@ -29,3 +29,6 @@
 
  //table数据切换
  export const ARCHIVES_TABLE_DATA = 'ARCHIVES_TABLE_DATA';
+
+ //  全员概览-员工性质分布信息
+export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY'

@@ -13,7 +13,8 @@ import {
     ARCHIVES_TABLE_DATA,
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
-    GET_LEAVEARCHIVES_LIST 
+    GET_LEAVEARCHIVES_LIST,
+    GET_EMPLOYEE_QUALITY 
 } from 'constants/manage'; 
 
 const initialState = {
@@ -72,7 +73,9 @@ export default function manage(state=initialState,actions){
         case SHOW_CLERK_DETAIL:
             return {...state,crewDetail:actions.crewDetail}; 
         case ARCHIVES_TABLE_DATA:
-            return {...state,archivesTableData:actions.archivesTableData}          
+            return {...state,archivesTableData:actions.archivesTableData};
+        case GET_EMPLOYEE_QUALITY:
+            return {...state,employeeQuality:actions.employeeQuality};            
         default:
             return state;
     }
