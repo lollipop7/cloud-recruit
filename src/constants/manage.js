@@ -31,4 +31,7 @@
  export const ARCHIVES_TABLE_DATA = 'ARCHIVES_TABLE_DATA';
 
  //  全员概览-员工性质分布信息
-export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY'
+export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY';
+
+//  组织架构-部门列表查询
+export const GET_DEPARTMENT_LIST = 'GET_DEPARTMENT_LIST';
