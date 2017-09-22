@@ -137,9 +137,9 @@ export default class ProgressComponent extends Component{
                             </span>
                             <Progress style={{color:'#f68f6b'}} percent={PercentageResume?PercentageResume:'0'} strokeWidth={25} />
                             <div style={{marginTop:5,color:'#1587c7'}}>
-                                <span>当前员工数：{resumeCount?resumeCount:'0'}</span>&nbsp;&nbsp;
+                                <span>当前员工数：{resumeCount ? resumeCount : '0'}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
-                                <span>已完整存档：{material?material:'0'}</span>
+                                <span>已完整存档：{material ? material : '0'}</span>
                             </div>  
                         </div>
                         <div className="left-progress-information">

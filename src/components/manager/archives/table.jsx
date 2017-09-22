@@ -122,6 +122,7 @@ export default class TableComponent extends Component{
                     columns={this.getColumns()} 
                     dataSource={
                         (archivesTableData=='1'?archivesList.list:leaveArchivesList.list).map((item , index)=>{
+                            console.log(leaveArchivesList.list);
                             item.key=index;
                             return item
                         })
