@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import echarts from 'static/js/echarts.min.js';
 import {Button} from 'antd';
+import store from 'store';
 // pie option
 import chartOptions from 'data/employees-overview/first-pie';
 
@@ -18,6 +19,7 @@ import filter from 'lodash/filter';
 // 饼图下载分享
 import OperateEmployeesPie from './operate';
 
+// 第一个饼图-员工性质分布
 class FirstChartComponent extends Component {
 
     state = {
@@ -39,7 +41,7 @@ class FirstChartComponent extends Component {
         // 渲染图表
         // 使用指定的配置项和数据显示图表。
         this.chartInstance.setOption(chartOptions);
-        this.props.getTaskProgress(this.tabList[this.state.activeTab]);
+        this.props.getEmployeeQuality(this.tabList[this.state.activeTab]);
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -54,9 +56,9 @@ class FirstChartComponent extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {taskProgress} = nextProps,
+        const {employeeQuality} = nextProps,
             {isLoading} = nextState;
-        if( nextProps.taskProgress !== this.props.taskProgress && isLoading){
+        if( nextProps.employeeQuality !== this.props.employeeQuality && isLoading){
             // 去除loading
             this.setState({
                 isLoading: false
@@ -72,11 +74,8 @@ class FirstChartComponent extends Component {
              * 7: 结束管理
              */
             let {data} = chartOptions.legend,
-            filterData = filter(taskProgress,item=>{
+            filterData = filter(employeeQuality,item=>{
                 return typeof item.stageid === 'number';
-            });
-            filterData = filter(filterData,item=>{
-                return item.stageid !== 2 && item.stageid !== 7;
             });
             let result = [];
             filterData.forEach( (item,index) => {
@@ -94,7 +93,7 @@ class FirstChartComponent extends Component {
             }
             this.chartInstance.setOption({
                 series: [{
-                    name: '任务完成指数',
+                    name: '员工性质分布',
                     data: result
                 }]
             });
@@ -103,7 +102,7 @@ class FirstChartComponent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
         const {isLoading,activeTab} = this.state;
-        return nextProps.taskProgress !== this.props.taskProgress 
+        return nextProps.employeeQuality !== this.props.employeeQuality 
         || nextState.isLoading !== isLoading 
         || nextState.activeTab !== activeTab;
     }
@@ -114,7 +113,6 @@ class FirstChartComponent extends Component {
 
     render() {
         const {isLoading,activeTab,isEmpty} = this.state;
-        console.log(5555,isLoading,activeTab,isEmpty)
         return (
             <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
                 <div style={{ position: 'relative' }}>
@@ -123,7 +121,7 @@ class FirstChartComponent extends Component {
                     {isLoading &&
                         <div style={{
                             position: 'absolute',
-                            width: 522,
+                            width: 483,
                             height: 310,
                             zIndex: 1
                         }}>
@@ -136,7 +134,7 @@ class FirstChartComponent extends Component {
                     }
                     {isEmpty &&
                         <div className="canvas-mask" style={{
-                                lineHeight: '330px',
+                                lineHeight: '310px',
                                 left: 0
                             }}>
                                 暂无数据
@@ -153,10 +151,10 @@ class FirstChartComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    taskProgress: state.Home.taskProgress
+    employeeQuality: state.Manage.employeeQuality
 })
 const mapDispatchToProps = dispatch => ({
-    getTaskProgress: bindActionCreators(Actions.homeActions.getTaskProgress, dispatch),
+    getEmployeeQuality: bindActionCreators(Actions.ManageActions.getEmployeeQuality, dispatch),
 })
 
 export default connect(
