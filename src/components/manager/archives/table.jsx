@@ -7,15 +7,46 @@ import LeaveColumns from 'data/table-columns/archives-leaveTable';
 
 export default class TableComponent extends Component{
     state = {
-
+        name:'',//姓名
+        documenttype:'',//证件类型
+        card:'',//证件号
+        tolive:'',//居住地址
+        soci_card:'',//社保账号
+        fund_card:'',//公积金账号
+        wage_card:'',//工资卡账号
+        contactname:'',//紧急联系人
+        mobile:'',//紧急联系人电话
     };
     setPersonnelMaterials = (record) => {
-        //console.log(record);
-        const {showPersonalMaterialModal,hidePersonalMaterialModal} = this.props;
-        showPersonalMaterialModal()
+        const {showPersonalMaterialModal,hidePersonalMaterialModal, personalMaterialData} = this.props;
+        showPersonalMaterialModal(record);
+        
     }
     hidePersonalMaterilModal = () =>{
         this.props.hidePersonalMaterialModal()
+    }
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+            const {personalMaterialData} = this.props,
+                {name,documenttype,card,tolive,soci_card,fund_card,wage_card,contactname,mobile} = personalMaterialData;
+            this.setState({
+                name:name,//姓名
+                documenttype:documenttype,//证件类型
+                card:card,//证件号
+                tolive:tolive,//居住地址
+                soci_card:soci_card,//社保账号
+                fund_card:fund_card,//公积金账号
+                wage_card:wage_card,//工资卡账号
+                contactname:contactname,//紧急联系人
+                mobile:mobile,//紧急联系人电话
+            })
+        })
+       
+    }
+    handleSelectChange =(field,e)=> {
+        this.setState({
+            [field]:e.target.value
+        })
     }
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
@@ -76,6 +107,9 @@ export default class TableComponent extends Component{
             };
             return resumeColumns
         }else if(archivesTableData=='2'){
+            LeaveColumns[0].render = (text,record,index) => {
+                return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a> 
+            };
             LeaveColumns[1].render = (text,record,index) => {
                 return <Icon 
                             type='qrcode'
@@ -122,8 +156,20 @@ export default class TableComponent extends Component{
             archivesList , 
             leaveArchivesList , 
             archivesTableData,
-            personalMaterialVisible
+            personalMaterialVisible,
+            personalMaterialData
         } = this.props;
+        const {
+            name,
+            documenttype,
+            card,
+            tolive,
+            soci_card,
+            fund_card,
+            wage_card,
+            contactname,
+            mobile
+        } = this.state;
         return (
             <div > 
                 <Table
@@ -135,7 +181,6 @@ export default class TableComponent extends Component{
                     columns={this.getColumns()} 
                     dataSource={
                         (archivesTableData=='1'?archivesList.list:leaveArchivesList.list).map((item , index)=>{
-                            console.log(leaveArchivesList.list);
                             item.key=index;
                             return item
                         })
@@ -144,7 +189,7 @@ export default class TableComponent extends Component{
                 />
                 <Modal
                     className='grey-close-header'
-                    title='员工重要信息'
+                    title={<span>{name}&nbsp;员工重要信息</span>}
                     okText='保存'
                     visible={personalMaterialVisible}
                     onCancel={this.hidePersonalMaterilModal}
@@ -152,17 +197,18 @@ export default class TableComponent extends Component{
                     <ul className="personalMaterial">
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
-                                <span className="name">&nbsp;&nbsp;&nbsp;证件类型：</span>
+                                <span className="name">&nbsp;&nbsp;&nbsp; 证件类型：</span>
                                 <Select
                                     placeholder='请选择证件类型'
+                                    value={documenttype}
+                                    onChange={this.handleSelectChange.bind(this,'documenttype')}
                                 >
                                     {
                                         [
                                             '身份证件',
-                                            '工作证件',
-                                            '其他证件'
+                                            '工作证件'
                                         ].map((item , index)=>{
-                                            return <Option value={index}>{item}</Option>
+                                            return <Option key={index} value={item}>{item}</Option>
                                         })
                                     }
                                     
@@ -170,37 +216,65 @@ export default class TableComponent extends Component{
                             </div>
                             <div className="right-div">
                                 <span>证件号：</span>
-                                <Input placeholder='请输入证件号'/>
+                                <Input 
+                                    placeholder='请输入证件号'
+                                    value={card}
+                                    onChange={this.handleSelectChange.bind(this,'card')}
+                                />
                             </div>  
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
-                                <span className="name">&nbsp;&nbsp;&nbsp;居住地址：</span>
-                                <Input placeholder='请输入居住地址'/>
+                                <span className="name">&nbsp;&nbsp;&nbsp; 居住地址：</span>
+                                <Input 
+                                    placeholder='请输入居住地址'
+                                    value={tolive}
+                                    onChange={this.handleSelectChange.bind(this,'tolive')}
+                                />
                             </div>
                             <div className="right-div">
                                 <span>社保账号：</span>
-                                <Input placeholder='请输入社保账号'/>
+                                <Input 
+                                    placeholder='请输入社保账号'
+                                    value={soci_card}
+                                    onChange={this.handleSelectChange.bind(this,'soci_card')}
+                                />
                             </div>  
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
                                 <span className="name">公积金账号：</span>
-                                <Input placeholder='请输入公积金账号'/>
+                                <Input 
+                                    placeholder='请输入公积金账号'
+                                    value={fund_card}
+                                    onChange={this.handleSelectChange.bind(this,'fund_card')}
+                                />
                             </div>
                             <div className="right-div">
                                 <span>工资卡卡号：</span>
-                                <Input placeholder='请输入工资卡号'/>
+                                <Input 
+                                    placeholder='请输入工资卡号'
+                                    value={wage_card}
+                                    onChange={this.handleSelectChange.bind(this,'wage_card')}
+                                />
                             </div>  
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
                                 <span className="name">紧急联系人：</span>
-                                <Input placeholder='请输入紧急联系人'/>
+                                <Input 
+                                    placeholder='请输入紧急联系人'
+                                    value={contactname}
+                                    onChange={this.handleSelectChange.bind(this,'contactname')}
+                                />
                             </div>
                             <div className="right-div">
                                 <span>紧急联系人电话：</span>
-                                <Input placeholder='紧急联系人电话'/>
+                                <Input 
+                                    placeholder='紧急联系人电话'
+                                    value={mobile}
+                                    onChange={this.handleSelectChange.bind(this,'mobile')}
+                                />
                             </div>  
                         </li>
                     </ul>     
