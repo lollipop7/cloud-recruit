@@ -4,6 +4,7 @@ import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
 
 import {notification} from 'antd';
 import isNumber from 'lodash/isNumber';
+import store from 'store';
 
  //获取员工管理人员统计信息
 const GET_MANAGE_START = {type: types.GET_MANAGE_START};
@@ -99,6 +100,9 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
     .then(res=>{
         //console.log(res)
         dispatch(GET_ARCHIVES_DONE);
+        for(let i=0;i<res.list.length;i++){
+            delete res.list[i].children;  
+        };
         dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
     },err=>{
         console.log(err);
@@ -127,6 +131,27 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     },err=>{
         dispatch(GET_LEAVEARCHIVES_DONE);
     })
+}
+
+//下载材料附件
+export const downloadMaterial = (data) => (dispatch,getState) => { 
+    const token = store.get('token');
+    const rid = data.join(',');
+    axios({
+        url: `${prefixUri}/archives/DOWNLOAD_RESUME_METERIAL`,
+        method: 'get',
+        params: {
+            token:token.token,
+            tokenKey:token.tokenKey,
+            rid:rid,
+            transcode: 'L0077'
+        }
+    })
+    .then(res=>{
+        console.log(res);
+    }).catch(error=>{
+        console.log(res)
+    });
 }
 
 //显示档案管理个人材料Modal

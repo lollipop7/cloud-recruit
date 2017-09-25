@@ -9,13 +9,20 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
  class ArchivesPage extends Component {
-
+    state = {
+        rid :[]
+    }
      componentDidMount(){
         this.props.getArchivesList({sort:'1'});
         this.props.getArchivesData();
         NProgress.done();
         
      }
+     getRid = (value) => {
+        this.setState({
+            rid:value
+        })
+    }
      
 
      render(){
@@ -28,10 +35,11 @@ import * as Actions from 'actions';
             leaveArchivesList,//离职人员table列表
             getArchivesList,//获取在职人员列表数据
             getLeaveArchivesList,//获取离职人员列表数据
-            showPersonalMaterialModal,
-            hidePersonalMaterialModal,
-            personalMaterialVisible,
-            personalMaterialData
+            showPersonalMaterialModal,//显示个人材料Modal
+            hidePersonalMaterialModal,//隐藏个人材料Modal
+            personalMaterialVisible,//个人材料状态
+            personalMaterialData,//个人材料数据
+            downloadMaterial//下载材料附件
         } = this.props; 
         return (
             <div className="archives-right">
@@ -42,6 +50,8 @@ import * as Actions from 'actions';
                         getArchivesList={getArchivesList}
                         getLeaveArchivesList={getLeaveArchivesList}
                         archivesTableData={archivesTableData}
+                        downloadMaterial={downloadMaterial}
+                        rid = {this.state.rid}
                     />
                     <div>
                         <TableComponent 
@@ -52,6 +62,9 @@ import * as Actions from 'actions';
                             hidePersonalMaterialModal={hidePersonalMaterialModal}
                             personalMaterialVisible={personalMaterialVisible}
                             personalMaterialData={personalMaterialData}
+                            getRid = {this.getRid}
+                            getArchivesList={getArchivesList}
+                            getLeaveArchivesList={getLeaveArchivesList}
                         />
                     </div>
                    
@@ -75,7 +88,8 @@ import * as Actions from 'actions';
     changeTableData:bindActionCreators(Actions.ManageActions.changeTableData, dispatch),
     getLeaveArchivesList:bindActionCreators(Actions.ManageActions.getLeaveArchivesList, dispatch),
     showPersonalMaterialModal:bindActionCreators(Actions.ManageActions.showPersonalMaterialModal, dispatch),
-    hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch)
+    hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch),
+    downloadMaterial:bindActionCreators(Actions.ManageActions.downloadMaterial, dispatch)
  })
  export default connect(
      mapStateToProps,
