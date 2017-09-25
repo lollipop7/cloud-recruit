@@ -24,13 +24,50 @@
 // 组织架构-部门管理-树形控件
 .tree-type {
     width: 440px;
-    height: 300px;
     border-right: 1px solid #eeeeee;
+    .operate-button {
+        float: right;
+        margin-top: 5px;
+        .icon {
+            margin: auto 6px;
+            cursor: pointer;
+            &:hover { 
+                color: #61b0dc;
+                font-size: 16px;
+            }
+        }
+    }
+    .tree-box {
+        margin-top: 20px;
+    }
+}
+// 添加子部门
+.sub {
+    font-size: 14px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    .sub-title {
+        color: #959595;
+    }
+    .sub-content {
+        color: #555555;
+    }
+}
+.department {
+    font-size: 14px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    .name {
+        color: #959595;
+        display: inline-block;
+    }
+    .input-type {
+        display: inline-block;
+    }
 }
 // 组织架构-部门管理-右侧内容
 .organize-tree-right {
     width: 590px;
-    height: 600px;
     margin-left: 13px;
     // 抬头
     .department-title {
