@@ -4,6 +4,7 @@ import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
 
 import {notification} from 'antd';
 import isNumber from 'lodash/isNumber';
+import store from 'store';
 
  //获取员工管理人员统计信息
 const GET_MANAGE_START = {type: types.GET_MANAGE_START};
@@ -43,6 +44,9 @@ const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
 
 // 获取全员概览-员工性质分布信息
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
+
+// 根据部门id查询子部门及人员
+const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
@@ -96,6 +100,9 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
     .then(res=>{
         //console.log(res)
         dispatch(GET_ARCHIVES_DONE);
+        for(let i=0;i<res.list.length;i++){
+            delete res.list[i].children;  
+        };
         dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
     },err=>{
         console.log(err);
@@ -124,6 +131,27 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     },err=>{
         dispatch(GET_LEAVEARCHIVES_DONE);
     })
+}
+
+//下载材料附件
+export const downloadMaterial = (data) => (dispatch,getState) => { 
+    const token = store.get('token');
+    const rid = data.join(',');
+    axios({
+        url: `${prefixUri}/archives/DOWNLOAD_RESUME_METERIAL`,
+        method: 'get',
+        params: {
+            token:token.token,
+            tokenKey:token.tokenKey,
+            rid:rid,
+            transcode: 'L0077'
+        }
+    })
+    .then(res=>{
+        console.log(res);
+    }).catch(error=>{
+        console.log(res)
+    });
 }
 
 //显示档案管理个人材料Modal
@@ -199,3 +227,18 @@ export const changeTableData = (data) => (dispatch, getState) => {
     dispatch({...ARCHIVES_TABLE_DATA,archivesTableData:data})
 }
  
+//  组织架构-根据部门id查询子部门及人员
+export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
+        head: {
+            transcode: 'L0079',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res});
+    },err=>{
+        dispatch({...GET_DEPARTMENT_STAFF});
+    });
+}

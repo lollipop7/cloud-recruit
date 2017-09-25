@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
-
-export default class Demo extends Component {
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+class DepartmentStaff extends Component {
   
   render() {
+    const { departmentStaff } = this.props;
     return (
       <div className='pull-left organize-tree-right'>
           <div className='department-title'><div></div>客户服务售前售后部门</div>
@@ -17,14 +21,14 @@ export default class Demo extends Component {
                 <span>部门名称</span>
                 <span className='left-width'>部门人数</span>
               </div>
-              <div className='sub-depart-table-lab'>
-                <span className='left'>客户服务售前售后部门</span>
-                <span className='right'>1人</span>
-              </div>
-              <div className='sub-depart-table-lab'>
-                <span className='left'>客户服务售前售后部门</span>
-                <span className='right'>1人</span>
-              </div>
+              {
+                departmentStaff.departmentList && departmentStaff.departmentList.map((item,index)=>(
+                  <div className='sub-depart-table-lab'>
+                    <span className='left'>{item.name}</span>
+                    <span className='right'>{item.isManagement}</span>
+                  </div>
+                ))
+              }
             </div>
           </div>
 
@@ -39,21 +43,30 @@ export default class Demo extends Component {
                 <span className='three'>岗位</span>
                 <span className='four'>操作</span>
               </div>
-              <div className='sub-depart-table-lab'>
-                <span className='one'>张三</span>
-                <span className='two'>客户服务售前售后部门</span>
-                <span className='three'>前端工程师</span>
-                <span className='four'>调换部门</span>
-              </div>
-              <div className='sub-depart-table-lab'>
-                <span className='one'>张三</span>
-                <span className='two'>客户服务售前售后部门</span>
-                <span className='three'>前端工程师</span>
-                <span className='four'>调换部门</span>
-              </div>
+              {
+                departmentStaff.resumeoffList && departmentStaff.resumeoffList.map((item,index)=>(
+                  <div className='sub-depart-table-lab'>
+                    <span className='one'>{item.name}</span>
+                    <span className='two'>{item.departmentid}</span>
+                    <span className='three'>{item.companyid}</span>
+                    <span className='four'>调换部门</span>
+                  </div>
+                ))
+              }
             </div>
           </div>
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  departmentStaff: state.Manage.departmentStaff
+})
+const mapDispatchToProps = dispatch => ({
+  
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DepartmentStaff);
