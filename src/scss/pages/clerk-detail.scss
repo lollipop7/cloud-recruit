@@ -171,7 +171,6 @@
                 span {
                     display: inline-block;
                     font-weight: bold;
-                    // max-width: 210px;
                     white-space: pre-line;
                     word-break: break-all;
                     word-wrap: break-word;
@@ -267,16 +266,7 @@
                 }
             }
         }
-        .identify-tel {
-            .inverst-item {
-                padding-right: 18px;
-                margin-right: 52px;
-                width: 381px;
-                height: 131px;
-            } 
-        }
         .superior-content {
-            padding: 22px 0 0 49px;
             .info-bar {
                 margin-right: 46px;
                 span {
@@ -318,12 +308,28 @@
                     text-align: center;
                 }
             }
+            .field-list {
+                li {
+                    span {
+                        font-weight: normal;
+                    }
+                }
+            }
         }
         .consquence {
             position: absolute;
             bottom: -19px;
             right: -10px;
             height: 77px;
+        }
+        //身份证，手机号实名
+        .inverst-field:first-child {
+            .inverst-item {
+                padding-right: 18px;
+                margin-right: 52px;
+                width: 381px;
+                height: 131px;
+            }
         }
     }
 }

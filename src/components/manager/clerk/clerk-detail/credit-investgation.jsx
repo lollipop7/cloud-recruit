@@ -1,24 +1,129 @@
 import React, {Component} from 'react';
 
+import {Table} from 'antd';
+
 import LoadingComponent from 'components/loading';
+
+import columns from 'data/table-columns/defaulter-table';
 
 export default class CreditInvestgation extends Component {
 
     state = {
         isSuit: true
     }
-
+    
     render() {
+        // In the fifth row, other columns are merged into first column
+// by setting it's colSpan to be 0
+const renderContent = (value, row, index) => {
+    const obj = {
+      children: value,
+      props: {},
+    };
+    if (index === 4) {
+      obj.props.colSpan = 0;
+    }
+    return obj;
+  };
+  
+  const columns = [{
+    title: 'Name',
+    dataIndex: 'name',
+    render: (text, row, index) => {
+      if (index < 4) {
+        return <a href="#">{text}</a>;
+      }
+      return {
+        children: <a href="#">{text}</a>,
+        props: {
+          colSpan: 5,
+        },
+      };
+    },
+  }, {
+    title: 'Age',
+    dataIndex: 'age',
+    render: renderContent,
+  }, {
+    title: 'Home phone',
+    colSpan: 2,
+    dataIndex: 'tel',
+    render: (value, row, index) => {
+      const obj = {
+        children: value,
+        props: {},
+      };
+      if (index === 2) {
+        obj.props.rowSpan = 2;
+      }
+      // These two are merged into above cell
+      if (index === 3) {
+        obj.props.rowSpan = 0;
+      }
+      if (index === 4) {
+        obj.props.colSpan = 0;
+      }
+      return obj;
+    },
+  }, {
+    title: 'Phone',
+    colSpan: 0,
+    dataIndex: 'phone',
+    render: renderContent,
+  }, {
+    title: 'Address',
+    dataIndex: 'address',
+    render: renderContent,
+  }];
+  
+  const data = [{
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    tel: '0571-22098909',
+    phone: 18889898989,
+    address: 'New York No. 1 Lake Park',
+  }, {
+    key: '2',
+    name: 'Jim Green',
+    tel: '0571-22098333',
+    phone: 18889898888,
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  }, {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'Sidney No. 1 Lake Park',
+  }, {
+    key: '4',
+    name: 'Jim Red',
+    age: 18,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'London No. 2 Lake Park',
+  }, {
+    key: '5',
+    name: 'Jake White',
+    age: 18,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'Dublin No. 2 Lake Park',
+  }];
         const {isSuit} = this.state;
         return (
             <div className="credit-investgation clerk-tab-container">
-                <div className="identify-tel inverst-field">
+                <div className="inverst-field">
                     <div className="inverst-item inline-block box-border">
                         <div className="top-title">
                             身份证核查
                             <span className="pull-right" style={{color: "#48df81"}}>信息源自中国公安部</span>
                         </div>
-                        <div className="superior-content">
+                        <div className="superior-content" style={{
+                            padding: "27px 0 0 49px"
+                        }}>
                             <div className="inline-block">
                                 <img src={`/static/images/manager/clerk/${isSuit ? `gou` : `cha`}.png`} alt="勾差" style={{height: 44}}/>
                             </div>
@@ -45,7 +150,9 @@ export default class CreditInvestgation extends Component {
                             身份证核查
                             <span className="pull-right" style={{color: "#c25255"}}>信息源自运营商</span>
                         </div>
-                        <div className="superior-content">
+                        <div className="superior-content" style={{
+                            padding: "27px 0 0 49px"
+                        }}>
                             <div className="inline-block">
                                 <img src={`/static/images/manager/clerk/${!isSuit ? `gou` : `cha`}.png`} 
                                     alt="勾差"
@@ -75,7 +182,9 @@ export default class CreditInvestgation extends Component {
                             学历信息核查
                             <span className="pull-right">数据源自学信网</span>
                         </div>
-                        <div className="superior-content">
+                        <div className="superior-content" style={{
+                            padding: "27px 0 0 49px"
+                        }}>
                             <div>
                                 <div className="inline-block info-bar">
                                     <span>毕业证书编号 : </span>
@@ -171,8 +280,10 @@ export default class CreditInvestgation extends Component {
                             职业证书信息核查
                             <span className="pull-right">数据源自国家人力资源和社会保障部</span>
                         </div>
-                        <div className="superior-content">
-                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
+                        <div className="superior-content" style={{
+                            padding: "27px 0 0 78px"
+                        }}>
+                            <ul className="field-list inline-block">
                                 <li>
                                     <span>姓名</span>
                                     <span>刘德华</span>
@@ -194,7 +305,7 @@ export default class CreditInvestgation extends Component {
                                     <span>卫生部职业技能鉴定指导中心</span>
                                 </li>
                             </ul>  
-                            <ul className="field-list inline-block" style={{marginLeft: 90}}>
+                            <ul className="field-list inline-block" style={{left: 490}}>
                                 <li>
                                     <span>职业名称</span>
                                     <span>高级理财师</span>
@@ -216,6 +327,19 @@ export default class CreditInvestgation extends Component {
                                     <span>2016-04-12</span>
                                 </li>
                             </ul>  
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            失信被执行信息核查
+                            <span className="pull-right">数据源自最高人民法院</span>
+                        </div>
+                        <div className="superior-content" style={{
+                            padding: "10px 0 0 8px"
+                        }}>
+                            <Table columns={columns} dataSource={data} bordered/>
                         </div>
                     </div>
                 </div>

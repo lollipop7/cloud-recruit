@@ -1,11 +1,3 @@
-import React from 'react';
-
-import moment from 'moment';
-
-const renderWithATag = (text,record,index) => {
-    return <a href="javascript:;" title={text}>{text}</a>;
-}
-
 module.exports = [
     {
         "title": "人员姓名",
@@ -23,15 +15,13 @@ module.exports = [
         "title": "部门",
         "dataIndex": "department", 
         "key": "department",
-        "width": 115,
-        render: renderWithATag
+        "width": 115
     },
     {
         "title": "职位",
         "dataIndex": "position",
         "key": "position",
-        "width": 135,
-        render: renderWithATag
+        "width": 135
     },
     {
         "title": "手机",
@@ -43,8 +33,7 @@ module.exports = [
         "title": "工作邮箱",
         "dataIndex": "workemail",
         "key": "workemail",
-        "width": 142,
-        render: renderWithATag
+        "width": 142
     },
     {
         "title": "入职时间",

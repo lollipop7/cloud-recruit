@@ -41,16 +41,17 @@ const initialState = {
         count:0,
         list:[]
     },
-    crewDetail: {},
-    archivesData: {},
-    archivesTableData:'1',
-    personalMaterialVisible:false,
     departmentList: {
         isLoading: false,
         list: [],
         count: 0
     },
-    departmentStaff: {}
+    departmentStaff: {},
+    crewDetail: {},
+    archivesData: {},
+    archivesTableData:'1',
+    personalMaterialVisible:false,
+    personalMaterialData:{}
 };
 
 export default function manage(state=initialState,actions){
@@ -90,7 +91,7 @@ export default function manage(state=initialState,actions){
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:
-            return {...state,personalMaterialVisible:actions.personalMaterialVisible};
+            return {...state,personalMaterialVisible:actions.personalMaterialVisible,personalMaterialData:actions.data};
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
