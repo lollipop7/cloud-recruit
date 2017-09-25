@@ -150,6 +150,24 @@ export default class TableComponent extends Component{
             return LeaveColumns
         }  
     }
+    onSelectChange = (selectedRowKeys, selectedRows) => {
+        const ridArr = [];
+        if (selectedRows){
+            for (let i=0;i<selectedRows.length;i++){
+                const rid = selectedRows[i].rid;
+                ridArr.push(rid);
+            }
+        }
+        this.props.getRid(ridArr)   
+    }
+    onChangPage = (page, pageSize) => {
+        const archivesTableData = this.props.archivesTableData;
+        if (archivesTableData=='1'){
+            this.props.getArchivesList({sort:'1',pageNo:(page-1)*18+1+''})
+        }else if(archivesTableData=='2'){
+            this.props.getLeaveArchivesList({sort:'1',pageNo:(page-1)*18+1+''})
+        }
+    }
 
     render(){
         const { 
@@ -170,12 +188,14 @@ export default class TableComponent extends Component{
             contactname,
             mobile
         } = this.state;
+        const rowSelection = {
+            type:'radio',
+            onChange: this.onSelectChange 
+          };
         return (
             <div > 
                 <Table
-                    rowSelection={{
-                            type:'checkbox',
-                        }}
+                    rowSelection={rowSelection}
                     bordered
                     loading={archivesTableData=='1'?archivesList.isLoading:leaveArchivesList.isLoading}
                     columns={this.getColumns()} 
@@ -185,7 +205,12 @@ export default class TableComponent extends Component{
                             return item
                         })
                     }
-                    pagination={false}
+                    pagination={{
+                        defaultCurrent:1,
+                        defaultPageSize:18,
+                        total:archivesTableData=='1'?archivesList.count:leaveArchivesList.count,
+                        onChange:this.onChangPage
+                    }}
                 />
                 <Modal
                     className='grey-close-header'
