@@ -44,7 +44,12 @@ const initialState = {
     archivesData: {},
     archivesTableData:'1',
     personalMaterialVisible:false,
-    personalMaterialData:{}
+    personalMaterialData:{},
+    departmentList: {
+        isLoading: false,
+        list: [],
+        count: 0
+    },
 };
 
 export default function manage(state=initialState,actions){

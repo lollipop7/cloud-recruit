@@ -49,11 +49,7 @@ export default function getRoutes () {
         <Route
             path="manager"
             breadcrumbName="员工管理"
-            getComponent={(nextState,cb)=>{
-                require.ensure([],(require) => {
-                    cb(null,require('pages/manager').default)
-                }, 'ManagerPage')
-            }}
+            
         >    
             <IndexRoute
                 onEnter={requireAuthHook}

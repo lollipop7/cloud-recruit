@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Table} from 'antd';
 
 import LoadingComponent from 'components/loading';
+import BarChartComponent from './bar-chart';
 
 import columns from 'data/table-columns/defaulter-table';
 
@@ -13,105 +14,6 @@ export default class CreditInvestgation extends Component {
     }
     
     render() {
-        // In the fifth row, other columns are merged into first column
-// by setting it's colSpan to be 0
-const renderContent = (value, row, index) => {
-    const obj = {
-      children: value,
-      props: {},
-    };
-    if (index === 4) {
-      obj.props.colSpan = 0;
-    }
-    return obj;
-  };
-  
-  const columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    render: (text, row, index) => {
-      if (index < 4) {
-        return <a href="#">{text}</a>;
-      }
-      return {
-        children: <a href="#">{text}</a>,
-        props: {
-          colSpan: 5,
-        },
-      };
-    },
-  }, {
-    title: 'Age',
-    dataIndex: 'age',
-    render: renderContent,
-  }, {
-    title: 'Home phone',
-    colSpan: 2,
-    dataIndex: 'tel',
-    render: (value, row, index) => {
-      const obj = {
-        children: value,
-        props: {},
-      };
-      if (index === 2) {
-        obj.props.rowSpan = 2;
-      }
-      // These two are merged into above cell
-      if (index === 3) {
-        obj.props.rowSpan = 0;
-      }
-      if (index === 4) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    },
-  }, {
-    title: 'Phone',
-    colSpan: 0,
-    dataIndex: 'phone',
-    render: renderContent,
-  }, {
-    title: 'Address',
-    dataIndex: 'address',
-    render: renderContent,
-  }];
-  
-  const data = [{
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    tel: '0571-22098909',
-    phone: 18889898989,
-    address: 'New York No. 1 Lake Park',
-  }, {
-    key: '2',
-    name: 'Jim Green',
-    tel: '0571-22098333',
-    phone: 18889898888,
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  }, {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    tel: '0575-22098909',
-    phone: 18900010002,
-    address: 'Sidney No. 1 Lake Park',
-  }, {
-    key: '4',
-    name: 'Jim Red',
-    age: 18,
-    tel: '0575-22098909',
-    phone: 18900010002,
-    address: 'London No. 2 Lake Park',
-  }, {
-    key: '5',
-    name: 'Jake White',
-    age: 18,
-    tel: '0575-22098909',
-    phone: 18900010002,
-    address: 'Dublin No. 2 Lake Park',
-  }];
         const {isSuit} = this.state;
         return (
             <div className="credit-investgation clerk-tab-container">
@@ -339,7 +241,72 @@ const renderContent = (value, row, index) => {
                         <div className="superior-content" style={{
                             padding: "10px 0 0 8px"
                         }}>
-                            <Table columns={columns} dataSource={data} bordered/>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            职业稳定性分析
+                            <span className="pull-right">数据源自51金融圈大数据</span>
+                        </div>
+                        <div className="superior-content" style={{
+                            padding: "10px 0 0 8px"
+                        }}> 
+                            <BarChartComponent/>
+                            <div className="summary">
+                                <div className="inline-block above-all" style={{position: 'relative'}}>
+                                    数据有话说
+                                </div>
+                                <div className="inline-block" style={{backgroundColor: '#fff', width: 1}}></div>
+                                <div className="inline-block above-all" style={{width: 787}}>结合求职者提供的工作经验，基于云招聘大数据智能分析进行分析测评，该求职者工作较为稳定。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            网贷黑名单核查
+                            <span className="pull-right">网贷黑名单核查</span>
+                        </div>
+                        <div className="superior-content" style={{
+                            padding: "10px 0 0 8px"
+                        }}>
+                            <p className='above-all'>
+                            基于51招聘云大数据及网贷黑名单匹配核查，未发现该被调人信息。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            职场信用核查
+                            <span className="pull-right">数据来源职场黑名单</span>
+                        </div>
+                        <div className="superior-content" style={{
+                            padding: "10px 0 0 8px"
+                        }}>
+                            <p className='above-all'>
+                            基于51招聘云大数据及职场黑名单匹配核查，未发现该被调人信息。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            企业经营核查
+                            <span className="pull-right">数据来源中国工商局</span>
+                        </div>
+                        <div className="superior-content" style={{
+                            padding: "10px 0 0 8px"
+                        }}>
+                            <p className='above-all'>
+                            基于51招聘云大数据及工商局信息匹配核查，未发现该被调人企业注册经营信息。
+                            </p>
                         </div>
                     </div>
                 </div>

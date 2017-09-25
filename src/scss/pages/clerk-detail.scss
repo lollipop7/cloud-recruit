@@ -315,6 +315,32 @@
                     }
                 }
             }
+            .above-all {
+                height: 44px;
+                padding-left: 14px;
+                line-height: 44px;
+                background-color: #eee;
+            }
+            .summary {
+                margin-top: 42px;
+                .above-all {
+                    padding:0 12px;
+                    background-color: #eee;
+                    &:first-child:before {
+                        content: '';
+                        position: absolute;
+                        top: -21px; 
+                        right: 0px;
+                        left: 0;
+                        margin: auto;
+                        width: 20px;
+                        height: 20px;
+                        border: 10px solid #eee;
+                        clip-path: polygon(0 100%, 50% 0, 100% 100%);
+                    }
+                }
+                
+            }
         }
         .consquence {
             position: absolute;
