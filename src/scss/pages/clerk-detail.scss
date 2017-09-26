@@ -440,6 +440,43 @@
                     }
                 }
             }
+
+            //卡片列表
+            .card-list {
+                .ant-card {
+                    height: 163px;
+                    cursor: pointer;
+                    font-size: 22px;
+                    border-radius:0;
+                    background: inherit;
+                    &:hover{
+                        box-shadow:1px 1px 7px rgba(21,135,199,.3);
+                    }    
+                }
+                .ant-card-body {
+                    padding-top: 33px;
+                    text-align: center;
+                }
+                .custom-image {
+                    text-align: center;
+                }
+
+                .ant-row {
+                    &:first-child {
+                        .ant-col-8 {
+                            &:first-child+.ant-col-8 {
+                                .ant-card {
+                                    font-size: 14px;
+                                }
+                                .ant-card-body {
+                                    padding-top: 23px;
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

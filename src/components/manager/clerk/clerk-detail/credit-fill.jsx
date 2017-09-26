@@ -1,8 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Input, Button, Card, Row, Col } from 'antd';
-
-import clerkInfo from 'data/clerk/clerk';
-const {cardList} = clerkInfo.creditInvestgation.cardList;
+import { Input, Button, Card, Row, Col} from 'antd';
 
 import {InputComponent} from 'components/input';
 
@@ -99,11 +96,7 @@ export default class CreditFillComponent extends Component {
         candidatename: '刘德华',
         phonenum: '15126450564',
         idnum: '4114242424224242',
-        diplomanum: '',
-        gridStyle: {
-            width: '30%',
-            textAlign: 'center',
-        } 
+        diplomanum: ''
      }
 
      handleChange = (filed,e) => {
@@ -116,9 +109,11 @@ export default class CreditFillComponent extends Component {
             phonenum,
             idnum,
             diplomanum,
-            gridStyle
          } = this.state;
-         console.log(gridStyle)
+         const gridStyle = {
+            width: '25%',
+            textAlign: 'center',
+        };
          return(
              <li>
                  <div className="fill-field" style={{paddingLeft: 82}}>
@@ -192,25 +187,106 @@ export default class CreditFillComponent extends Component {
                      </div>
                  </div>
                  <div className="fill-field">
-                    <div className="hint-field">
+                    <div className="hint-field" style={{ marginTop: 70}}>
                         <div className="hint-title">
                             <span>可查内容展示</span>
                         </div>
                         <div className="card-list">
                             <Row>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/01.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>身份证信息核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/02.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>根据被调人的姓名、身份证号、手机号，匹配运营商数据，对个人手机号实名信息进行核查，降低欺诈风险。</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/02.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>学历信息核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
                             </Row>
                             <Row>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/04.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>失信被执行核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/05.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>网贷黑名单核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/06.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>职业证书核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
                             </Row>
                             <Row>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
-                                <Col span={8}><Card></Card></Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/07.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>职场稳定性分析</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/08.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>司法犯罪核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card>
+                                        <div className="custom-image">
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/09.png" />
+                                        </div>
+                                        <div className="custom-card">
+                                            <p>商业利益冲突核查</p>
+                                        </div>
+                                    </Card>
+                                </Col>
                             </Row>
                         </div>
                     </div>
