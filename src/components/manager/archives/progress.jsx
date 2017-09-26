@@ -1,5 +1,5 @@
 import React , {Component}from 'react';
-import { Progress , Table , Select , Button } from 'antd';
+import { Progress , Table , Select , Button , notification } from 'antd';
 import archivesData from 'data/select/archives';
 import archivesLeave from 'data/select/archivesLeave'
 
@@ -116,9 +116,17 @@ export default class ProgressComponent extends Component{
             })
         }       
     }
+
     //下载材料附件
     downloadMaterial = () => {
-        this.props.downloadMaterial(this.props.rid)
+        const ridName = this.props.ridName;
+        if (ridName.rid){
+            this.props.downloadMaterial(ridName)
+        }else{
+            notification.info({
+                message: '请先选择具体人员！'
+            });
+        }    
     }
 
     render() {

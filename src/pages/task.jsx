@@ -32,7 +32,7 @@ class TaskPage extends BasicPage {
     downloadTaskReport = () => {
         const {starttime,endtime} = this.state;
         if(starttime === ''){
-            this.refs.TimeComponent.handleStartOpen(true);
+            this.refs.TimeComponent.handleStartOpenChange(true);
             return false;
         }
         if(endtime === ''){
@@ -106,13 +106,13 @@ class TaskPage extends BasicPage {
                             loading={downLoading}
                         >下载</Button>
                     </form>
-                    {/* <iframe 
+                    <iframe 
                         id="downloadTarget" 
                         name="downloadTarget" 
                         style={{display:'none'}} 
                         src="" 
                         frameborder="0"
-                    ></iframe> */}
+                    ></iframe>
                 </div>
             </ScrollPageContent>
         );

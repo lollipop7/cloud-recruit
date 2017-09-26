@@ -10,7 +10,7 @@ import * as Actions from 'actions';
 
  class ArchivesPage extends Component {
     state = {
-        rid :[]
+        ridName :{}
     }
      componentDidMount(){
         this.props.getArchivesList({sort:'1'});
@@ -20,7 +20,7 @@ import * as Actions from 'actions';
      }
      getRid = (value) => {
         this.setState({
-            rid:value
+            ridName:value
         })
     }
      
@@ -39,7 +39,8 @@ import * as Actions from 'actions';
             hidePersonalMaterialModal,//隐藏个人材料Modal
             personalMaterialVisible,//个人材料状态
             personalMaterialData,//个人材料数据
-            downloadMaterial//下载材料附件
+            downloadMaterial,//下载材料附件
+            editEmployeeInformation//添加、编辑员工信息
         } = this.props; 
         return (
             <div className="archives-right">
@@ -51,7 +52,7 @@ import * as Actions from 'actions';
                         getLeaveArchivesList={getLeaveArchivesList}
                         archivesTableData={archivesTableData}
                         downloadMaterial={downloadMaterial}
-                        rid = {this.state.rid}
+                        ridName = {this.state.ridName}
                     />
                     <div>
                         <TableComponent 
@@ -65,6 +66,7 @@ import * as Actions from 'actions';
                             getRid = {this.getRid}
                             getArchivesList={getArchivesList}
                             getLeaveArchivesList={getLeaveArchivesList}
+                            editEmployeeInformation={editEmployeeInformation}
                         />
                     </div>
                    
@@ -89,7 +91,8 @@ import * as Actions from 'actions';
     getLeaveArchivesList:bindActionCreators(Actions.ManageActions.getLeaveArchivesList, dispatch),
     showPersonalMaterialModal:bindActionCreators(Actions.ManageActions.showPersonalMaterialModal, dispatch),
     hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch),
-    downloadMaterial:bindActionCreators(Actions.ManageActions.downloadMaterial, dispatch)
+    downloadMaterial:bindActionCreators(Actions.ManageActions.downloadMaterial, dispatch),
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch)
  })
  export default connect(
      mapStateToProps,
