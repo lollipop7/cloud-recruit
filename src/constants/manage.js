@@ -38,3 +38,5 @@ export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY';
 
 //  组织架构-部门列表查询
 export const GET_DEPARTMENT_LIST = 'GET_DEPARTMENT_LIST';
+//  组织架构-根据部门id查询子部门及人员
+export const GET_DEPARTMENT_STAFF = 'GET_DEPARTMENT_STAFF';
