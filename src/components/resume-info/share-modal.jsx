@@ -4,7 +4,7 @@ import {Modal,Tabs,Input,Button,message} from 'antd';
 const TabPane = Tabs.TabPane;
 
 import QRCode from 'qrcode.react';
-import Clipboard from "clipboard"
+import Clipboard from "clipboard";
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';

@@ -2,9 +2,10 @@ import * as types from 'constants/manage';
 import axios from 'axios';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
 
-import {notification} from 'antd';
+import {notification , message} from 'antd';
 import isNumber from 'lodash/isNumber';
 import store from 'store';
+import FileSaver from 'file-saver';
 
  //获取员工管理人员统计信息
 const GET_MANAGE_START = {type: types.GET_MANAGE_START};
@@ -133,7 +134,7 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
 //下载材料附件
 export const downloadMaterial = (data) => (dispatch,getState) => { 
     const token = store.get('token');
-    const rid = data.join(',');
+    const {rid,name} = data;
     axios({
         url: `${prefixUri}/archives/DOWNLOAD_RESUME_METERIAL`,
         method: 'get',
@@ -145,10 +146,50 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
         }
     })
     .then(res=>{
-        console.log(res);
+        const {data} = res;
+        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+        FileSaver.saveAs(blob, `${name}个人材料附件.xls`);
     }).catch(error=>{
-        console.log(res)
+        console.log(error)
     });
+}
+
+//添加、编辑员工信息
+export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
+    AjaxByToken('employeeinfo/addEmployee', {
+        head: {
+            transcode: 'L0045'
+        },
+        data: data
+    })
+    .then(res=>{
+        const {
+            getArchivesList , 
+            getLeaveArchivesList,
+            archivesTableData
+        } = props;
+        if(data.rid){
+            message.success('编辑信息成功！')
+            if(archivesTableData=='1'){
+                getArchivesList({sort:'1'}) 
+            }else if (archivesTableData=='2'){
+                getLeaveArchivesList({sort:'1'})
+            }       
+        }else{
+            message.success('添加信息成功！');
+            if(archivesTableData=='1'){
+                getArchivesList({sort:'1'}) 
+            }else if (archivesTableData=='2'){
+                getLeaveArchivesList({sort:'1'})
+            }   
+        }      
+    },err=>{
+        if(data.rid){
+            message.error('编辑信息失败！')
+        }else{
+            message.error('添加信息失败！')
+        }
+    })
 }
 
 //显示档案管理个人材料Modal

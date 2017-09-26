@@ -16,6 +16,8 @@ export default class TableComponent extends Component{
         wage_card:'',//工资卡账号
         contactname:'',//紧急联系人
         mobile:'',//紧急联系人电话
+        rid:'',//人员ID
+        selectedRowKeys:[]
     };
     setPersonnelMaterials = (record) => {
         const {showPersonalMaterialModal,hidePersonalMaterialModal, personalMaterialData} = this.props;
@@ -27,8 +29,18 @@ export default class TableComponent extends Component{
     }
     componentWillReceiveProps(){
         setTimeout(()=>{
-            const {personalMaterialData} = this.props,
-                {name,documenttype,card,tolive,soci_card,fund_card,wage_card,contactname,mobile} = personalMaterialData;
+            const {personalMaterialData} = this.props;
+            const {
+                    name,
+                    documenttype,
+                    card,tolive,
+                    soci_card,
+                    fund_card,
+                    wage_card,
+                    contactname,
+                    mobile,
+                    rid
+                } = personalMaterialData;
             this.setState({
                 name:name,//姓名
                 documenttype:documenttype,//证件类型
@@ -39,6 +51,7 @@ export default class TableComponent extends Component{
                 wage_card:wage_card,//工资卡账号
                 contactname:contactname,//紧急联系人
                 mobile:mobile,//紧急联系人电话
+                rid:rid+''
             })
         })
        
@@ -150,23 +163,58 @@ export default class TableComponent extends Component{
             return LeaveColumns
         }  
     }
+    //表格选择框选择
     onSelectChange = (selectedRowKeys, selectedRows) => {
-        const ridArr = [];
-        if (selectedRows){
-            for (let i=0;i<selectedRows.length;i++){
-                const rid = selectedRows[i].rid;
-                ridArr.push(rid);
-            }
-        }
-        this.props.getRid(ridArr)   
+        this.props.getRid({rid:selectedRows[0].rid,name:selectedRows[0].name}); 
+        this.setState({selectedRowKeys});
     }
+    //清空表格选择框
+    clearTableCheckbox = () => {
+        const {selectedRowKeys} = this.state;
+        if(selectedRowKeys.length === 0) return ;
+        this.setState({
+            selectedRowKeys:[]
+        }) 
+    }
+    //页码回调
     onChangPage = (page, pageSize) => {
         const archivesTableData = this.props.archivesTableData;
         if (archivesTableData=='1'){
-            this.props.getArchivesList({sort:'1',pageNo:(page-1)*18+1+''})
+            this.props.getArchivesList({sort:'1',pageNo:(page-1)*18+1+''});
         }else if(archivesTableData=='2'){
-            this.props.getLeaveArchivesList({sort:'1',pageNo:(page-1)*18+1+''})
+            this.props.getLeaveArchivesList({sort:'1',pageNo:(page-1)*18+1+''});
         }
+        this.clearTableCheckbox();
+    }
+    //添加、编辑员工信息
+    editEmployeeInformation = () => {
+        const {
+                editEmployeeInformation , 
+                hidePersonalMaterialModal ,
+                personalMaterialData
+            } = this.props;
+        const {
+                name,
+                documenttype,
+                card,
+                tolive,
+                soci_card,
+                fund_card,
+                wage_card,
+                contactname,
+                mobile,
+                rid
+            } = personalMaterialData;
+            //判断所有输入框是否有改变，有改变则编辑员工信息
+            if (name!=this.state.name ||documenttype!=this.state.documenttype
+                ||card!=this.state.card||tolive!=this.state.tolive||soci_card!=this.state.soci_card
+                ||fund_card!=this.state.fund_card||wage_card!=this.state.wage_card
+                ||contactname!=this.state.contactname||mobile!=this.state.mobile
+            ){
+                editEmployeeInformation({...this.state},this.props);
+            }
+        //隐藏Modal
+        hidePersonalMaterialModal();         
     }
 
     render(){
@@ -186,16 +234,18 @@ export default class TableComponent extends Component{
             fund_card,
             wage_card,
             contactname,
-            mobile
+            mobile,
+            selectedRowKeys
         } = this.state;
-        const rowSelection = {
-            type:'radio',
-            onChange: this.onSelectChange 
-          };
         return (
             <div > 
                 <Table
-                    rowSelection={rowSelection}
+                    className='personnelMaterilTable'
+                    rowSelection={{
+                        type:'radio',
+                        selectedRowKeys,
+                        onChange: this.onSelectChange
+                        }}
                     bordered
                     loading={archivesTableData=='1'?archivesList.isLoading:leaveArchivesList.isLoading}
                     columns={this.getColumns()} 
@@ -218,6 +268,7 @@ export default class TableComponent extends Component{
                     okText='保存'
                     visible={personalMaterialVisible}
                     onCancel={this.hidePersonalMaterilModal}
+                    onOk={this.editEmployeeInformation}
                 > 
                     <ul className="personalMaterial">
                         <li style={{overflow:'hidden',marginBottom:24}}>
