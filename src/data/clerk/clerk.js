@@ -71,6 +71,16 @@ module.exports = {
         endDepartment: "产品部"
     },
     creditInvestgation: {
-        
+        cardList: [
+            { src: '/static/images/manager/clerk/01.png', txt: '身份证信息核查' ,style: {width:72, height: 54}},
+            { src: '/static/images/manager/clerk/02.png', txt: '根据被调人的姓名、身份证号、手机号，匹配运营商数据，对个人手机号实名信息进行核查，降低欺诈风险。',style: {width:184, height: 36}},
+            { src: '/static/images/manager/clerk/03.png', txt: '学历信息核查',style: {width:67, height: 58}},
+            { src: '/static/images/manager/clerk/04.png', txt: '失信被执行核查',style: {width:74, height: 59}},
+            { src: '/static/images/manager/clerk/05.png', txt: '网贷黑名单核查',style: {width:57, height: 57}},
+            { src: '/static/images/manager/clerk/06.png', txt: '职业证书核查',style: {width:59, height: 59}},
+            { src: '/static/images/manager/clerk/07.png', txt: '职场稳定性分析',style: {width:56, height: 56}},
+            { src: '/static/images/manager/clerk/08.png', txt: '司法犯罪核查',style: {width:55, height: 55}},
+            { src: '/static/images/manager/clerk/09.png', txt: '商业利益冲突核查',style: {width:62, height: 48}},
+        ]
     }   
 }
