@@ -1,10 +1,12 @@
 import {
+    //**员工名册 ------------------------------------------------*/
     GET_MANAGE_START,
     GET_MANAGE_END,
     GET_MANAGE_STATISTICS,
     LOAD_LIST_START,
     LOAD_LIST_DONE,
     LOAD_CREW_LIST,
+    //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
@@ -14,10 +16,12 @@ import {
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
+    //**全员概览 ------------------------------------------------*/
     GET_EMPLOYEE_QUALITY,
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
+    //**组织架构 ------------------------------------------------*/
     GET_DEPARTMENT_STAFF
 } from 'constants/manage'; 
 

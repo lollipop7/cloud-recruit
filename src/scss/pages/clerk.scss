@@ -80,6 +80,17 @@ $box-font-color: #868686;
                 color: #FFF !important;
             }
         }
+
+        .ant-select {
+            font-size: 14px !important;
+        }
+        .ant-select-selection {
+            height: 30px !important;
+        }
+        .ant-select-selection__rendered {
+            line-height: 30px !important;
+            margin-left: 10px !important;
+        }
     }
 
     // 选择框所在的列

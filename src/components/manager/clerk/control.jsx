@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { Button } from 'antd';
+import { Button, Select  } from 'antd';
 
 export default class ControlComponent extends Component {
 
-    handleClick = () => {
-        console.log('添加员工!');
+    handleAddClerk = (value) => {
+        console.log(value);
     }
 
     render() {
@@ -15,16 +15,22 @@ export default class ControlComponent extends Component {
                     <h2>{title}</h2>
                 </div>
                 <div className="pull-right">
-                    <Button
-                        type="primary"
-                        style={{
-                            width: 100,
-                        }}
-                        onClick={this.handleClick}
-                    >
-                        添加员工
-                        <img src="static/images/manager/arrow-down.png" alt="选择"/>
-                    </Button>
+                    <Select defaultValue="添加员工"  
+                            style={{ width: 100}}
+                            dropdownMatchSelectWidth={false}
+                            onChange = {this.handleAddClerk}
+                    >          
+                        {
+                            ["导入Excel人员信息",
+                            "办理离职",
+                            ].map((item,index)=>{
+                                return (
+                                    <Option  key={index} value={item}>{item}</Option>
+                                )
+                            })
+                        }
+                      
+                    </Select>    
                     <Button
                         style={{
                             width: 170,

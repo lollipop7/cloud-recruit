@@ -96,7 +96,10 @@ export default class HeaderInfoComponent extends Component {
                     <Button onClick={this.creditInvestgation}>
                         人事调动
                     </Button>
-                    <Select defaultValue="更多"  style={{ width: 153}}>
+                    <Select defaultValue="更多"  
+                            style={{ width: 100}}
+                            dropdownMatchSelectWidth={false}
+                    >
                         {
                             ["生成信息填写二维码",
                             "办理离职",

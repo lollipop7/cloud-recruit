@@ -1,5 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import { Input, Button, Card, Row, Col} from 'antd';
+import { Input, Button, Card, Row, Col } from 'antd';
+
+import clerkInfo from 'data/clerk/clerk';
+const {cardList} = clerkInfo.creditInvestgation.cardList;
 
 import {InputComponent} from 'components/input';
 
@@ -110,10 +113,6 @@ export default class CreditFillComponent extends Component {
             idnum,
             diplomanum,
          } = this.state;
-         const gridStyle = {
-            width: '25%',
-            textAlign: 'center',
-        };
          return(
              <li>
                  <div className="fill-field" style={{paddingLeft: 82}}>
@@ -123,7 +122,7 @@ export default class CreditFillComponent extends Component {
                                 <ErrorInputComponent
                                     ref="candidatenameInput"
                                     name="姓名"
-                                    field="candidatename"
+                                    field="candidatename"d
                                     value={candidatename}
                                     onChange={this.handleChange}
                                     disabled
@@ -216,7 +215,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/02.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/03.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>学历信息核查</p>

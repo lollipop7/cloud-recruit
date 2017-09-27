@@ -7,15 +7,69 @@ import isNumber from 'lodash/isNumber';
 import store from 'store';
 import FileSaver from 'file-saver';
 
- //获取员工管理人员统计信息
-const GET_MANAGE_START = {type: types.GET_MANAGE_START};
-const GET_MANAGE_END = {type: types.GET_MANAGE_END};
-const GET_MANAGE_STATISTICS = {type: types.GET_MANAGE_STATISTICS};
 
-//员工管理人员信息列表查询
-const LOAD_LIST_START = {type: types.LOAD_LIST_START};
-const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
-const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
+//**员工名册 ------------------------------------------------*/
+
+    //获取员工管理人员统计信息
+    const GET_MANAGE_START = {type: types.GET_MANAGE_START};
+    const GET_MANAGE_END = {type: types.GET_MANAGE_END};
+    const GET_MANAGE_STATISTICS = {type: types.GET_MANAGE_STATISTICS};
+
+    //员工管理人员信息列表查询
+    const LOAD_LIST_START = {type: types.LOAD_LIST_START};
+    const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
+    const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
+
+    //员工名册-员工详情
+    const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
+    
+
+    //获取员工管理人员统计信息
+    export const getCrewStatis = () => (dispatch,getState) => {
+        dispatch(GET_MANAGE_START);
+        AjaxByToken('emp/crewstatis',{
+            head: {
+                transcode: 'L0042'
+            }
+        })
+        .then(res=>{
+            dispatch(GET_MANAGE_END);
+            dispatch({...GET_MANAGE_STATISTICS,list:res});
+        },err=>{
+            dispatch(GET_MANAGE_END);
+            dispatch({...GET_MANAGE_STATISTICS,list:[]});
+        })
+    };
+
+    //员工管理人员信息列表查询
+    export const getCrewList = (data={}) => (dispatch, getState) => {
+        if(isNumber(data.skip)) data.skip = data.skip + '';
+        const uri = 'emp/crewquery';
+        // cancelRequestByKey(uri);
+        NProgress.start();
+        dispatch(LOAD_LIST_START);
+        AjaxByToken(uri, {
+            head: {
+                transcode: 'L0043'
+            },
+            data: {...data}
+        })
+        .then(res=>{
+            dispatch(LOAD_LIST_DONE);
+            dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
+        },err=>{
+            // console.log(err);
+            dispatch(LOAD_LIST_DONE);
+        })
+    }
+
+    //员工名册-员工详情
+    export const showClerkDetail = data => (dispatch, getState) => {
+        dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
+    }
+
+
+//**档案管理 ------------------------------------------------*/
 
 //员工管理档案管理在职人员信息
 const GET_ARCHIVES_START = {type: types.GET_ARCHIVES_START};
@@ -34,59 +88,22 @@ const GET_ARCHIVES_DATA = {type: types.GET_ARCHIVES_DATA};
 const SHOW_PERSONALMATERIAL_MODAL = {type:types.SHOW_PERSONALMATERIAL_MODAL};
 const HIDE_PERSONALMATERIAL_MODAL = {type:types.HIDE_PERSONALMATERIAL_MODAL};
 
-//员工名册-员工详情
-const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
-
 //档案管理table数据
 const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
 
-// 获取全员概览-员工性质分布信息
+//**全员概览 ------------------------------------------------*/
+
+//获取全员概览-员工性质分布信息
 const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
 
-// 获取全员概览-员工性质分布信息
+//获取全员概览-员工性质分布信息
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
 
-// 根据部门id查询子部门及人员
+//**组织架构 ------------------------------------------------*/
+
+//根据部门id查询子部门及人员
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 
- //获取员工管理人员统计信息
- export const getCrewStatis = () => (dispatch,getState) => {
-    dispatch(GET_MANAGE_START);
-    AjaxByToken('emp/crewstatis',{
-        head: {
-            transcode: 'L0042'
-        }
-    })
-    .then(res=>{
-        dispatch(GET_MANAGE_END);
-        dispatch({...GET_MANAGE_STATISTICS,list:res});
-    },err=>{
-        dispatch(GET_MANAGE_END);
-        dispatch({...GET_MANAGE_STATISTICS,list:[]});
-    })
- };
-
- //员工管理人员信息列表查询
-export const getCrewList = (data={}) => (dispatch, getState) => {
-    if(isNumber(data.skip)) data.skip = data.skip + '';
-    const uri = 'emp/crewquery';
-    // cancelRequestByKey(uri);
-    NProgress.start();
-    dispatch(LOAD_LIST_START);
-    AjaxByToken(uri, {
-        head: {
-            transcode: 'L0043'
-        },
-        data: {...data}
-    })
-    .then(res=>{
-        dispatch(LOAD_LIST_DONE);
-        dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
-    },err=>{
-        // console.log(err);
-        dispatch(LOAD_LIST_DONE);
-    })
-}
 
 //获取档案管理在职人员列表信息
 export const getArchivesList = (data={}) => (dispatch,getState) => {
@@ -203,10 +220,7 @@ export const hidePersonalMaterialModal = () => (dispatch,getState) => {
     dispatch({...HIDE_PERSONALMATERIAL_MODAL,personalMaterialVisible:false})
 }
 
-//员工名册-员工详情
-export const showClerkDetail = data => (dispatch, getState) => {
-    dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
-}
+
 
 //档案管理在职、离职人员数据
 export const getArchivesData = (data={}) => (dispatch,getState) => {

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import TopComponent from './clerk/top';
 import ControlComponent from './clerk/control';
 import TableComponent from './clerk/table';
+import UploadClerkModal from './clerk/upload-clerk-modal';
 
 //top navdata
 import navData from 'data/nav/crewstatis';
@@ -18,14 +19,15 @@ class ClerkPage extends Component {
 
     state = {
         paginationCurrent: 1,
-        tableHead: '全部人员'
+        tableHead: '全部人员',
+                     
     }
 
     //显示条件
     params = {
         skip: 0,
         count:"20",
-        type: "sum" //查询状态
+        type: "sum",  //查询状态
     }
 
     // 表单数据
@@ -82,6 +84,7 @@ class ClerkPage extends Component {
     handleClickTop = (type,desc) => {
         this.params.type = type;
         this.params.skip = 0;
+        this._requestCrewData();
         this.setPaginationCurrent(1);
         this.setTableHead(desc);
     }
