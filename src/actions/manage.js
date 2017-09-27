@@ -48,6 +48,12 @@ const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
 // 根据部门id查询子部门及人员
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 
+// 添加或者修改部门
+const ADD_EDIT_DEPARTMENT = {type:types.ADD_EDIT_DEPARTMENT};
+
+// 添加或者修改部门
+const DELETE_DEPARTMENT = {type:types.DELETE_DEPARTMENT};
+
  //获取员工管理人员统计信息
  export const getCrewStatis = () => (dispatch,getState) => {
     dispatch(GET_MANAGE_START);
@@ -240,5 +246,55 @@ export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
         dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
+    });
+}
+
+//  组织架构-添加或者修改部门
+export const addEditDepartment = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/resume_statis_operation_Department',{
+        head: {
+            transcode: 'L0080',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        console.log(res)
+        dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:'success'});
+    },err=>{
+        dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:''});
+    });
+}
+//  组织架构-添加或者修改部门成功后执行操作
+export const refreshDepartmentInfo = (data={}) => (dispatch,getState) => {
+    dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:''});
+    AjaxByToken('structure/resume_statis_List_Department',{
+        head: {
+            transcode: 'L0078',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
+    },err=>{
+        dispatch({...GET_DEPARTMENT_LIST});
+    });
+}
+
+//  组织架构-删除部门
+export const deleteDepartment = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/resume_statis_del_Department',{
+        head: {
+            transcode: 'L0081',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...DELETE_DEPARTMENT,departmentInfo:'success'});
+    },err=>{
+        console.log(err)
+        dispatch({...DELETE_DEPARTMENT});
     });
 }

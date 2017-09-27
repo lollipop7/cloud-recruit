@@ -20,6 +20,10 @@
     background-color: #d2eafb;
     width: calc(100% - 18px);
 }
+// 隐藏显示
+.hide {
+    display: none;
+}
 
 // 组织架构-部门管理-树形控件
 .tree-type {
@@ -50,6 +54,14 @@
         color: #959595;
     }
     .sub-content {
+        color: #555555;
+    }
+}
+.sub2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-left: 58px;
+    .sub-title {
         color: #555555;
     }
 }

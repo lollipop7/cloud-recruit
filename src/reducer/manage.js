@@ -18,7 +18,9 @@ import {
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
-    GET_DEPARTMENT_STAFF
+    GET_DEPARTMENT_STAFF,
+    ADD_EDIT_DEPARTMENT,
+    DELETE_DEPARTMENT
 } from 'constants/manage'; 
 
 const initialState = {
@@ -51,7 +53,8 @@ const initialState = {
     archivesData: {},
     archivesTableData:'1',
     personalMaterialVisible:false,
-    personalMaterialData:{}
+    personalMaterialData:{},
+    departmentInfo:""
 };
 
 export default function manage(state=initialState,actions){
@@ -95,7 +98,11 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff};          
+            return {...state,departmentStaff:actions.departmentStaff}
+        case ADD_EDIT_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};
+        case DELETE_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};          
         default:
             return state;
     }
