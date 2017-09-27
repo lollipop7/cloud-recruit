@@ -8,8 +8,6 @@ import WorkYears from 'data/select/workyears';
 import Industry from 'data/select/industry';
 import Education from 'data/select/education';
 
-import {InputComponent} from 'components/input';
-
 import city from 'data/city.json';
 import salaryData from 'data/salary.json';
 

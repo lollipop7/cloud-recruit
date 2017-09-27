@@ -192,7 +192,9 @@
             height: 28px;
             background: url(/static/images/index/more.png) no-repeat right top
         }
+        
     }
+    
 
     .line-title{
         position:absolute;
@@ -260,4 +262,11 @@
     font-size: 14px;
     color: black
 }
-
+.Corporate-video-Tooltip{
+    .ant-tooltip-inner{
+        background-color:#cccccc!important;
+        input{
+            height: 40px!important
+        }
+    }
+}

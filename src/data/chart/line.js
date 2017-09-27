@@ -15,18 +15,18 @@ module.exports = {
     tooltip: {
         trigger: 'axis'
     },
-    grid: {
+    grid: {//直角坐标系内绘图网格
         left: 23,
         top: 78,
         right: 43,
         bottom: 15,
-        containLabel: true
+        containLabel: true //防止标签溢出
     },
-    legend: {
+    legend: {//图例组件
         top: 28,
         right: 35,
         itemWidth: 15,
-        data:[{
+        data:[{//图例的数据数组
             name: '前程无忧',
             icon: `image://static/images/index/rect-1.png`,
             textStyle: {
@@ -49,7 +49,7 @@ module.exports = {
             }
         }]
     },
-    toolbox: {
+    toolbox: {//工具栏
         show: true,
         feature: {
             magicType: {show: true, type: ['stack', 'tiled']},
@@ -57,8 +57,8 @@ module.exports = {
         }
     },
     xAxis: {
-        type: 'category',
-        boundaryGap: false,
+        type: 'category', //类目轴，适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+        boundaryGap: false, //坐标轴两边留白策略
         // min: 'dataMin',
         // max: 'dataMax',
         data: [],
@@ -73,7 +73,7 @@ module.exports = {
                 align: 'left'
             }
         },
-        splitLine: {
+        splitLine: { //坐标轴在 grid 区域中的分隔线
             show: true
         }
     },
@@ -81,7 +81,7 @@ module.exports = {
         axisTick: {
             show: false // 不显示刻度
         },
-        axisLabel: {
+        axisLabel: { //坐标轴刻度标签的相关设置
             show: true,
             textStyle: {
                 color: '#4d4d4d',
@@ -93,7 +93,7 @@ module.exports = {
             show: true
         }
     },
-    series: [
+    series: [   //这里三个系列共用一个平行坐标系
         {
             name: '前程无忧',
             type: 'line',

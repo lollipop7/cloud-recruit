@@ -246,9 +246,9 @@
             display: none;
         }
     }
-    //人员征信
+
     .credit-investgation {
-        padding-left: 100px;
+        //人员征信返回界面
         .inverst-item {
             position: relative;
             margin-bottom: 30px;
@@ -315,6 +315,32 @@
                     }
                 }
             }
+            .above-all {
+                height: 44px;
+                padding-left: 14px;
+                line-height: 44px;
+                background-color: #eee;
+            }
+            .summary {
+                margin-top: 42px;
+                .above-all {
+                    padding:0 12px;
+                    background-color: #eee;
+                    &:first-child:before {
+                        content: '';
+                        position: absolute;
+                        top: -19px; 
+                        right: 0px;
+                        left: 0;
+                        margin: auto;
+                        width: 20px;
+                        height: 20px;
+                        border: 10px solid #eee;
+                        clip-path: polygon(0 100%, 50% 0, 100% 100%);
+                    }
+                }
+                
+            }
         }
         .consquence {
             position: absolute;
@@ -329,6 +355,127 @@
                 margin-right: 52px;
                 width: 381px;
                 height: 131px;
+            }
+        }
+
+
+        //填写信息页面
+        .fill-field {
+            position: relative;
+            font-size: 16px;
+            li {
+                padding-bottom: 25px;
+                .inline-block {
+                    &>span {
+                        display: inline-block;
+                        width: 133px;
+                        padding-right: 18px;
+                        text-align: right;
+                        &:before {
+                            content: ' *';
+                            color: #fc4444;
+                            font-size: 120%;
+                        } 
+                    }
+                    input {
+                        width: 262px;
+                        height: 36px;
+                        font-size: 16px;
+                        color: #868686;
+                        padding-left: 14px;
+                        &[disabled] {
+                            background-color: #eee !important;
+                        }
+                    }
+                }
+                &:last-child {
+                    .inline-block{
+                        &>span:before {
+                            content: '';    
+                        }
+                    }
+                }
+            }
+            .hint-field {
+                position: relative;
+                margin-top: 24px;
+                padding-top: 16px;
+                &:before {
+                    @include border-top;
+                }
+                .hint-title {
+                    position: absolute;
+                    padding: 1px 5px;
+                    z-index: 20;
+                    top: -22px;
+                    left: 0;
+                    background-color: #fff;
+                    span {
+                        font-size: 18px;
+                        color: #f9973f;
+                        padding: 5px 32px 5px 0;
+                        background: url(/static/images/manager/clerk/overlook.png) no-repeat 100% 50%;
+                    }
+                }
+                .hint-list {
+                    li {
+                        padding-bottom: 10px;
+                        line-height: 24px;
+                        span {
+                            color: $theme-color;
+                        }
+                    }
+                }
+                .card-list {
+                    padding: 53px 0 53px 37px;
+                }
+            }
+            &:first-child {
+                .hint-field {
+                    .hint-title {
+                        span {
+                            padding: 5px 25px 5px 0;
+                            background-image: url(/static/images/manager/clerk/bell.png);
+                        }
+                    }
+                }
+            }
+
+            //卡片列表
+            .card-list {
+                .ant-card {
+                    height: 163px;
+                    cursor: pointer;
+                    font-size: 22px;
+                    border-radius:0;
+                    background: inherit;
+                    &:hover{
+                        box-shadow:1px 1px 7px rgba(21,135,199,.3);
+                    }    
+                }
+                .ant-card-body {
+                    padding-top: 33px;
+                    text-align: center;
+                }
+                .custom-image {
+                    text-align: center;
+                }
+
+                .ant-row {
+                    &:first-child {
+                        .ant-col-8 {
+                            &:first-child+.ant-col-8 {
+                                .ant-card {
+                                    font-size: 14px;
+                                }
+                                .ant-card-body {
+                                    padding-top: 23px;
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
