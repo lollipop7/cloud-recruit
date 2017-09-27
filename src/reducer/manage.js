@@ -22,7 +22,9 @@ import {
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
     //**组织架构 ------------------------------------------------*/
-    GET_DEPARTMENT_STAFF
+    GET_DEPARTMENT_STAFF,
+    ADD_EDIT_DEPARTMENT,
+    DELETE_DEPARTMENT
 } from 'constants/manage'; 
 
 const initialState = {
@@ -56,6 +58,7 @@ const initialState = {
     archivesTableData:'1',
     personalMaterialVisible:false,
     personalMaterialData:{},
+    departmentInfo:"",
     departmentList: {
         isLoading: false,
         list: [],
@@ -104,7 +107,11 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff};          
+            return {...state,departmentStaff:actions.departmentStaff}
+        case ADD_EDIT_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};
+        case DELETE_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};          
         default:
             return state;
     }

@@ -65,3 +65,7 @@ export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY';
 export const GET_DEPARTMENT_LIST = 'GET_DEPARTMENT_LIST';
 //  组织架构-根据部门id查询子部门及人员
 export const GET_DEPARTMENT_STAFF = 'GET_DEPARTMENT_STAFF';
+//  组织架构-添加或者修改部门
+export const ADD_EDIT_DEPARTMENT = 'ADD_EDIT_DEPARTMENT';
+//  组织架构-删除部门
+export const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT';
