@@ -20,6 +20,8 @@
  //导入excel人员modal
  export const SHOW_UPLOAD_CLERK_MODAL = 'SHOW_UPLOAD_CLERK_MODAL';
  export const HIDE_UPLOAD_CLERK_MODAL = 'HIDE_UPLOAD_CLERK_MODAL';
+ export const UPLOAD_CLERK_START = 'UPLOAD_CLERK_START';
+ export const UPLOAD_CLERK_DONE = 'UPLOAD_CLERK_DONE';
 
  /**
  * ===档案管理===

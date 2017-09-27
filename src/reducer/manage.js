@@ -6,6 +6,10 @@ import {
     LOAD_LIST_START,
     LOAD_LIST_DONE,
     LOAD_CREW_LIST,
+    SHOW_UPLOAD_CLERK_MODAL,
+    HIDE_UPLOAD_CLERK_MODAL,
+    UPLOAD_CLERK_START,
+    UPLOAD_CLERK_DONE,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -28,6 +32,7 @@ import {
 } from 'constants/manage'; 
 
 const initialState = {
+//**员工名册 ------------------------------------------------*/
     manageStastistics: {
         isLoading: false,
         list: []
@@ -36,6 +41,10 @@ const initialState = {
         isLoading: false,
         list: [],
         count: 0
+    },
+    uploadClerkModal: {
+        isLoading: false,
+        visible: false,
     },
     archivesList:{
         isLoading: false,
@@ -80,6 +89,14 @@ export default function manage(state=initialState,actions){
             return {...state,crewList:{...state.crewList,isLoading:false}};
         case LOAD_CREW_LIST:
             return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}}; 
+        case SHOW_UPLOAD_CLERK_MODAL:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,visible:true}};  
+        case HIDE_UPLOAD_CLERK_MODAL:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,visible:false}};
+        case UPLOAD_CLERK_START:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:true}};  
+        case UPLOAD_CLERK_DONE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}};             
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

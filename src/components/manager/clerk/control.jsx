@@ -4,11 +4,13 @@ import { Button, Select  } from 'antd';
 export default class ControlComponent extends Component {
 
     handleAddClerk = (value) => {
-        console.log(value);
+        this.props.showUploadClerkModal();
     }
 
     render() {
-        const { title } = this.props;
+        const { 
+            title,
+        } = this.props;
         return (
             <div className="control">
                 <div className="pull-left">

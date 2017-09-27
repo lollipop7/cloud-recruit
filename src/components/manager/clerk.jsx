@@ -98,10 +98,13 @@ class ClerkPage extends Component {
             paginationCurrent,
             tableHead
         } = this.state,
-        {manageStastistics} = this.props,
+        {
+            manageStastistics,
+            showUploadClerkModal
+        } = this.props,
         {isLoading, list} = manageStastistics;
         return (
-            <div className="right-panel">
+            <div className="right-panel clerk-page">
                 <TopComponent 
                     data={this._getNavData(list)}
                     onClick={this.handleClickTop}
@@ -109,11 +112,13 @@ class ClerkPage extends Component {
                 />
                 <ControlComponent 
                     title={tableHead}
+                    showUploadClerkModal={showUploadClerkModal}
                 />
                 <TableComponent 
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}
                 />
+                <UploadClerkModal/>
             </div>
         );
     }
@@ -125,7 +130,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
-    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch)
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
+    showUploadClerkModal: bindActionCreators(Actions.ManageActions.showUploadClerkModal,dispatch)
 })
 
 export default connect(

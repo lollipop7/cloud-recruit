@@ -22,7 +22,12 @@ import FileSaver from 'file-saver';
 
     //员工名册-员工详情
     const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
-    
+
+    //导入excel人员modal
+    const SHOW_UPLOAD_CLERK_MODAL = {type: types.SHOW_UPLOAD_CLERK_MODAL};
+    const HIDE_UPLOAD_CLERK_MODAL = {type: types.HIDE_UPLOAD_CLERK_MODAL};
+    const UPLOAD_CLERK_START = {type: types.UPLOAD_CLERK_START};
+    const UPLOAD_CLERK_DONE = {type: types.UPLOAD_CLERK_DONE};
 
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
@@ -66,6 +71,37 @@ import FileSaver from 'file-saver';
     //员工名册-员工详情
     export const showClerkDetail = data => (dispatch, getState) => {
         dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
+    }
+
+    //导入excel人员modal
+    export const showUploadClerkModal = () => (dispatch,getState) => {
+        dispatch(SHOW_UPLOAD_CLERK_MODAL);
+    }
+    // 隐藏导入excel人员MODAL
+    export const hideUploadClerkModal = () => (dispatch,getState) => {
+        dispatch(HIDE_UPLOAD_CLERK_MODAL);
+    }
+
+    //上传excel
+    export const uploadClerkExcel = (data,props) => (dispatch,getState) => {
+        dispatch(UPLOAD_CLERK_START);
+        AjaxByToken('employeeinfo/excelSave',{
+            head: {
+                transcode: 'L0044',
+            },
+            data: data
+        })
+        .then(res=>{
+            dispatch(UPLOAD_CLERK_DONE);
+            notification.success({
+                message: '提示',
+                description: '导入Excel人员成功！'
+            });
+            dispatch(HIDE_UPLOAD_CLERK_MODAL);
+        },err=>{
+            console.log(err);
+            dispatch(UPLOAD_CLERK_DONE);
+        });
     }
 
 
