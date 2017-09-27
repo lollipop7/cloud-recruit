@@ -202,6 +202,18 @@ const ManageClerk = {
         } 
     }
 
+    //添加员工页面路由
+    const NewClerkForm = {
+        path: 'newClerkForm',
+        onEnter:requireAuthHook,
+        onLeave:onLeavePage,
+        getComponent(nextState,cb){
+            require.ensure([], (require) => {
+                cb(null, require('components/manager/clerk/new-clerk-form').default)
+            }, 'NewClerkForm')
+        } 
+    }
+
 //档案管理页面子路由
 const Crchives = {
     path: 'archives',
@@ -260,6 +272,7 @@ const ManagerPage = {
             cb(null, [
                 ManageClerk,
                 ClerkDetail,
+                NewClerkForm,
                 Crchives,
                 Organize,
                 Condition,

@@ -10,7 +10,7 @@ import LoadingComponent from 'components/loading';
 
 class ListComponent extends Component {
 
-     static contextTypes = {
+    static contextTypes = {
         router: PropTypes.object
     }
 

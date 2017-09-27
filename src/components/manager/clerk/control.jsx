@@ -1,10 +1,22 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import { Button, Select  } from 'antd';
 
 export default class ControlComponent extends Component {
 
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
+    handleLinkTo = () => {
+        this.context.router.push(`manager/newClerkForm`);
+        NProgress.start();
+    }
+
     handleAddClerk = (value) => {
-        this.props.showUploadClerkModal();
+        switch(value){
+            case '导入Excel人员信息': this.props.showUploadClerkModal(); break;
+            case '办理离职': this.handleLinkTo(); break;
+        }
     }
 
     render() {
