@@ -17,7 +17,7 @@ export default class MainContent extends Component {
     }  
 
     componentDidMount(){
-       console.log(this.props.crewDetail);
+    //    console.log(this.props.crewDetail);
     }
 
     render() {

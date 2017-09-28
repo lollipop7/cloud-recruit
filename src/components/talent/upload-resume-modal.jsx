@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Modal,Select,Input,Button,Upload} from 'antd';
+import {Modal,Select,Input,Button,Upload,notification} from 'antd';
 const Option = Select.Option;
 // redux
 import {bindActionCreators} from 'redux';

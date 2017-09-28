@@ -20,8 +20,18 @@
  //导入excel人员modal
  export const SHOW_UPLOAD_CLERK_MODAL = 'SHOW_UPLOAD_CLERK_MODAL';
  export const HIDE_UPLOAD_CLERK_MODAL = 'HIDE_UPLOAD_CLERK_MODAL';
+
+ //开始上传员工excel
  export const UPLOAD_CLERK_START = 'UPLOAD_CLERK_START';
  export const UPLOAD_CLERK_DONE = 'UPLOAD_CLERK_DONE';
+ export const SET_RESETFORM_TRUE = "SET_RESETFORM_TRUE";
+ export const SET_RESETFORM_FALSE = "SET_RESETFORM_FALSE";
+
+ //入职人员基本信息查询
+export const QUERY_EMPLOYEE_START = 'QUERY_EMPLOYEE_START';
+export const QUERY_EMPLOYEE_DONE = 'QUERY_EMPLOYEE_DONE';
+export const QUERY_EMPLOYEE_LIST = 'QUERY_EMPLOYEE_LIST';
+
 
  /**
  * ===档案管理===

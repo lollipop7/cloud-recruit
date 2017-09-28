@@ -496,7 +496,7 @@ export default class BaseinfoComponent extends Component {
                             <div className="inline-block city-regions">
                                 <Cascader 
                                     options={city}
-                                    value ={workcity?workcity.split("-"):''}
+                                    value ={workcity ? workcity.split("-"):''}
                                     className={error ? "error" : ''}
                                     onChange={this.handleCityChange}
                                     displayRender={label => label.join(' - ')}

@@ -1,18 +1,24 @@
 import React, {Component} from 'react';
-import { Modal, Upload, Button } from 'antd';
+import { Modal, Upload, Button, notification } from 'antd';
 const Dragger = Upload.Dragger;
 
-//redux
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from 'actions';
 
-class UploadClerkModal extends Component {
+export default class UploadClerkModal extends Component {
 
     state = {
         fileList: [],
         error: false,
         errorMsg: '',
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        const {resetForm}=nextProps.uploadClerkModal;
+        if(resetForm){
+            this.setState({
+                fileList: []
+            });
+            this.props.setResetFormFalse();
+        }
     }
 
     triggerError = (error,errorMsg='文件类型不支持！') => {
@@ -21,6 +27,7 @@ class UploadClerkModal extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
+        console.log('进入');
         const matchName = /(\.xls|\.xlsx|\.xlsm)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
@@ -31,7 +38,7 @@ class UploadClerkModal extends Component {
         }
         // 匹配文件类型
         if(!matchName.test(name)){
-            this.triggerError(true);
+            this.triggerError(true,'文件类型不匹配');
             return false;
         }
         // 判断文件大小最大支持100M的文件
@@ -39,6 +46,7 @@ class UploadClerkModal extends Component {
             this.triggerError(true,'文件大小不能超过100MB！');
             return false;
         }
+        console.log(error);
         if(error){
             this.triggerError(false);
         }
@@ -80,7 +88,6 @@ class UploadClerkModal extends Component {
         if(!response){
             return ;
         }
-        console.log(response);
         const {filePath} = response,
             fileNameJson = `{${name}:${filePath}}`; //上传文件名为键，保存名为值的json对象
         uploadClerkExcel({fileNameJson},this.props);
@@ -88,7 +95,12 @@ class UploadClerkModal extends Component {
 
     //下载模板
     handleDownloadTemp = () => {
-        console.log('下载模板');
+        this.props.downloadTememployees();
+    }
+
+    hideUploadClerkModal = () => {
+        this.props.hideUploadClerkModal();
+        this.props.handleContext('添加员工')
     }
 
     render(){
@@ -102,7 +114,9 @@ class UploadClerkModal extends Component {
             isLoading
         } = uploadClerkModal,
         {
-            fileList
+            fileList,
+            error,
+            errorMsg
         } = this.state;
 
         return(
@@ -110,7 +124,7 @@ class UploadClerkModal extends Component {
                 title="导入excel人员"
                 wrapClassName="grey-close-header vertical-center-modal dragger-wrap"
                 visible={visible}
-                onCancel={isLoading ? () => {} : hideUploadClerkModal}
+                onCancel={isLoading ? () => {} : this.hideUploadClerkModal}
                 footer={null}
             >
                 <Dragger
@@ -123,9 +137,16 @@ class UploadClerkModal extends Component {
                 >
                         把文件拖拽至此，或点击此处<span>上传文件</span>
                 </Dragger>
+                {error &&
+                    notification.error({
+                        message: '错误',
+                        description: errorMsg
+                    })
+                }
                 <div
                     className="upload-footer"
                 >
+                    
                     <Button 
                         className="ant-btn-lg"
                         onClick={hideUploadClerkModal}
@@ -147,17 +168,3 @@ class UploadClerkModal extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    uploadClerkModal: state.Manage.uploadClerkModal
-})
-
-const mapDispatchToProps = dispatch => ({
-    hideUploadClerkModal: bindActionCreators(Actions.ManageActions.hideUploadClerkModal,dispatch),
-    removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch),
-    uploadClerkExcel: bindActionCreators(Actions.ManageActions.uploadClerkExcel, dispatch),
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UploadClerkModal)

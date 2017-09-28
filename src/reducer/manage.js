@@ -10,6 +10,11 @@ import {
     HIDE_UPLOAD_CLERK_MODAL,
     UPLOAD_CLERK_START,
     UPLOAD_CLERK_DONE,
+    SET_RESETFORM_TRUE,
+    SET_RESETFORM_FALSE,
+    QUERY_EMPLOYEE_START,
+    QUERY_EMPLOYEE_DONE,
+    QUERY_EMPLOYEE_LIST,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -45,6 +50,11 @@ const initialState = {
     uploadClerkModal: {
         isLoading: false,
         visible: false,
+        resetForm: false
+    },
+    queryEmployee: {
+        isLoading: false,
+        queryEmployeeData: {}
     },
     //**档案管理 ------------------------------------------------*/
     archivesList:{
@@ -97,7 +107,17 @@ export default function manage(state=initialState,actions){
         case UPLOAD_CLERK_START:
             return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:true}};  
         case UPLOAD_CLERK_DONE:
-            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}};             
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}}; 
+        case SET_RESETFORM_TRUE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:true}};
+        case SET_RESETFORM_FALSE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:false}};
+        case QUERY_EMPLOYEE_START:
+            return {...state,queryEmployee:{...state.queryEmployee,isLoading:true}};    
+        case QUERY_EMPLOYEE_DONE:
+            return {...state,queryEmployee:{...state.queryEmployee,isLoading:false}}; 
+        case QUERY_EMPLOYEE_LIST:
+            return {...state,queryEmployee:{...state.queryEmployee,queryEmployeeData:actions.queryEmployeeData}};                    
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

@@ -28,6 +28,13 @@ import FileSaver from 'file-saver';
     const HIDE_UPLOAD_CLERK_MODAL = {type: types.HIDE_UPLOAD_CLERK_MODAL};
     const UPLOAD_CLERK_START = {type: types.UPLOAD_CLERK_START};
     const UPLOAD_CLERK_DONE = {type: types.UPLOAD_CLERK_DONE};
+    const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
+    const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
+
+    //入职人员基本信息查询
+    const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
+    const QUERY_EMPLOYEE_DONE = {type:types.QUERY_EMPLOYEE_DONE};
+    const QUERY_EMPLOYEE_LIST = {type:types.QUERY_EMPLOYEE_LIST};
 
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
@@ -82,6 +89,24 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_UPLOAD_CLERK_MODAL);
     }
 
+    //下载人员excel模板
+    export const downloadTememployees = () => (dispatch,getState) => {
+        const token = store.get('token');
+        axios({
+            url: `${prefixUri}/employeeinfo/downloadTememployees`,
+            method: 'get',
+        })
+        .then(res=>{
+            const {data,headers} = res;
+            const filename = headers['content-disposition'].split(';')[1].trim().substr('filename='.length);
+            console.log(filename);
+            var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+            // FileSaver.saveAs(blob,filename);
+        }).catch(error=>{
+            console.log(error)
+        });
+    }
+
     //上传excel
     export const uploadClerkExcel = (data,props) => (dispatch,getState) => {
         dispatch(UPLOAD_CLERK_START);
@@ -97,11 +122,34 @@ import FileSaver from 'file-saver';
                 message: '提示',
                 description: '导入Excel人员成功！'
             });
+            dispatch(SET_RESETFORM_TRUE);
             dispatch(HIDE_UPLOAD_CLERK_MODAL);
         },err=>{
             console.log(err);
             dispatch(UPLOAD_CLERK_DONE);
         });
+    }
+
+
+    export const setResetFormFalse = () => (dispatch,getState) => {
+        dispatch(SET_RESETFORM_FALSE);
+    }
+
+    //入职人员基本信息查询
+    export const queryEmployee = (data={}) => (dispatch,getState) => {
+        dispatch(QUERY_EMPLOYEE_START);
+        AjaxByToken('employeeinfo/queryEmployee', {
+            head: {
+                transcode: 'L0062'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res)
+        },err=>{
+            console.log(err)
+            dispatch(QUERY_EMPLOYEE_DONE);
+        })
     }
 
 
@@ -311,6 +359,7 @@ export const getDepartMentList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        console.log(res.list);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST});
