@@ -101,11 +101,12 @@ class HeaderInfoComponent extends Component {
         this.props.getResumeUrl({resumeid:`${resumeid}`});
     }
     handleEvaluate = () => {
-        const { evaluationId} = this.props.data
-        const { evaluationid } = this.props
+        const { evaluationId} = this.props.data;
+        const { evaluationid } = this.props;
         //获取评估表内容
-        if (evaluationId || evaluationid){
-            this.props.getEvaluation({evaluationId:evaluationId?`${evaluationId}`:`${evaluationid}`})
+        if (evaluationId.length!=0 || evaluationid){
+            //this.props.getEvaluation({evaluationId:evaluationId?`${evaluationId}`:`${evaluationid}`})
+            this.props.getEvaluation({evaluationId:evaluationId})
         }
         //显示评估表
         this.props.showEvaluationModal();  
@@ -135,7 +136,6 @@ class HeaderInfoComponent extends Component {
             const stage = find(stagesMap,item=>{
                 return item.iscurrentstage === '1';
             })
-            
         return (
             <div className="header-info">
                 <div>
@@ -272,7 +272,7 @@ class HeaderInfoComponent extends Component {
                                         width: 102, 
                                         borderColor: '#b6b6b6',
                                         fontWeight:'bold',
-                                        color:(evaluationid || evaluationId)?'#28ad78':'#b6b6b6'
+                                        color:(evaluationid || (evaluationId!=undefined && evaluationId.length!=0))?'#28ad78':'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
                                     disabled={stage!=undefined && stage.stageid>2 && stage.stageid<5?false:true}
@@ -283,9 +283,9 @@ class HeaderInfoComponent extends Component {
                                             height: 22,
                                         }}
                                         src={
-                                            (evaluationid || evaluationId)?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} 
+                                           (evaluationid || evaluationId!=undefined && evaluationId.length!=0)?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} 
                                             alt="面试评估表"/>
-                                    {(evaluationid || evaluationId)?"已添加":'点此添加'}
+                                    {(evaluationid || (evaluationId!=undefined && evaluationId.length!=0))?"已添加":'点此添加'}
                                 </Button>
                             </div>
                         </div>

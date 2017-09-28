@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Table , Progress , Icon , Modal ,Select,Input } from 'antd';
+import { Table , Progress , Icon , Modal ,Select,Input , Tooltip } from 'antd';
 const Option = Select.Option;
 import moment from 'moment';
 import resumeColumns from 'data/table-columns/archives-table';
@@ -61,6 +61,7 @@ export default class TableComponent extends Component{
             [field]:e.target.value
         })
     }
+    //表格列渲染
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
         if (archivesTableData=='1'){
@@ -68,10 +69,12 @@ export default class TableComponent extends Component{
                 return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>              
             };
             resumeColumns[1].render = (text,record,index) => {
-                return <Icon 
-                            type='qrcode'
-                            style={{fontSize:18}}
-                       />  
+                return <Tooltip title={<span>{record.name}</span>}>
+                            <Icon 
+                                    type='qrcode'
+                                    style={{fontSize:18}}
+                            />
+                        </Tooltip>  
             };
             resumeColumns[2].render = (text,record,index) => {
                 return <Progress 
@@ -81,38 +84,43 @@ export default class TableComponent extends Component{
                        />
             };
             resumeColumns[3].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle'
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                             type={type}
-                            style={{color:'#b0b0b0'}}
+                            style={{color:color}}
                        /> 
             }
             resumeColumns[5].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle'
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                             type={type}
-                            style={{color:'#86e27c'}}
+                            style={{color:color}}
                        /> 
             }
             resumeColumns[6].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle'
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                             type={type}
-                            style={{color:'#86e27c'}}
+                            style={{color:color}}
                        /> 
             }
             resumeColumns[7].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle'
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                             type={type}
-                            style={{color:'#86e27c'}}
+                            style={{color:color}}
                        /> 
             }
             resumeColumns[8].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle'
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                             type={type}
-                            style={{color:'#86e27c'}}
+                            style={{color:color}}
                        /> 
             }
             resumeColumns[resumeColumns.length-1].render = (text,record,index) => {
@@ -124,10 +132,12 @@ export default class TableComponent extends Component{
                 return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a> 
             };
             LeaveColumns[1].render = (text,record,index) => {
-                return <Icon 
-                            type='qrcode'
-                            style={{fontSize:18}}
-                       />  
+                return <Tooltip title={<span>{record.name}</span>}>
+                            <Icon 
+                                    type='qrcode'
+                                    style={{fontSize:18}}
+                            />
+                       </Tooltip>  
             };
             LeaveColumns[2].render = (text,record,index) => {
                 return <Progress 
@@ -137,24 +147,27 @@ export default class TableComponent extends Component{
                        />
             };
             LeaveColumns[3].render = (text,record,index) => {
-                const type = text == '1'?'check-circle':'question-circle'
+                const type = text == '1'?'check-circle':'question-circle';
+                const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                     type={type}
-                    style={{color:'#86e27c'}}
+                    style={{color:color}}
                 />     
             };
             LeaveColumns[4].render = (text,record,index) => {
-                const type = text == '1'?'check-circle':'question-circle'
+                const type = text == '1'?'check-circle':'question-circle';
+                const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                     type={type}
-                    style={{color:'#86e27c'}}
+                    style={{color:color}}
                 />     
             };
             LeaveColumns[5].render = (text,record,index) => {
-                const type = text == '1'?'check-circle':'question-circle'
+                const type = text == '1'?'check-circle':'question-circle';
+                const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
                     type={type}
-                    style={{color:'#86e27c'}}
+                    style={{color:color}}
                 />     
             };
             LeaveColumns[6].render = (text,record,index) => {
@@ -178,11 +191,11 @@ export default class TableComponent extends Component{
     }
     //页码回调
     onChangPage = (page, pageSize) => {
-        const archivesTableData = this.props.archivesTableData;
+        const {archivesTableData , sort} = this.props;
         if (archivesTableData=='1'){
-            this.props.getArchivesList({sort:'1',pageNo:(page-1)*18+1+''});
+            this.props.getArchivesList({sort:sort,pageNo:(page-1)*18+1+''});
         }else if(archivesTableData=='2'){
-            this.props.getLeaveArchivesList({sort:'1',pageNo:(page-1)*18+1+''});
+            this.props.getLeaveArchivesList({sort:sort,pageNo:(page-1)*18+1+''});
         }
         this.clearTableCheckbox();
     }
@@ -282,7 +295,7 @@ export default class TableComponent extends Component{
                                     {
                                         [
                                             '身份证件',
-                                            '工作证件'
+                                            '其他证件'
                                         ].map((item , index)=>{
                                             return <Option key={index} value={item}>{item}</Option>
                                         })

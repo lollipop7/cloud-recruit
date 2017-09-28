@@ -7,7 +7,6 @@ export default class VideoComponent extends Component {
         videoUrl:"http://systemcove-10037104.cossh.myqcloud.com/51jrqcorp/1010113/51%E9%87%91%E8%9E%8D%E5%9C%88%E5%AE%A3%E4%BC%A0%E7%89%87%E6%9C%80%E7%BB%88%E7%89%88%2820170802%29-1920x1080.mp4"
     }
     componentDidMount(){
-         //复制简历分享地址
         const clipboard = new Clipboard('.btn');
         clipboard.on('success', function() {
             message.success('复制链接成功',3);
@@ -35,7 +34,8 @@ export default class VideoComponent extends Component {
                                 className="btn"
                                 type="primary"
                                 data-clipboard-action="copy"
-                                data-clipboard-text={videoUrl}  
+                                data-clipboard-text={videoUrl}
+                                onClick = {this.clickBtn}
                             >
                                 复制链接
                             </Button>}

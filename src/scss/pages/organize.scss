@@ -1,3 +1,9 @@
+
+// 隐藏显示
+.hide {
+    display: none;
+}
+
 // 组织架构-部门管理-树形控件
 .tree-type {
     width: 440px;
@@ -59,6 +65,28 @@
             color: $theme-color;
         }
     }
+    //组织架构
+    .ant-tree-node-content-wrapper {
+        display: inline-block;
+        padding: 3px 5px;
+        border-radius: 2px;
+        margin: 0;
+        cursor: pointer;
+        text-decoration: none;
+        vertical-align: top;
+        color: rgba(0,0,0,.65);
+        -webkit-transition: all .3s;
+        transition: all .3s;
+        position: relative;
+        &:hover {
+            background-color: #ecf6fd;
+            width: calc(100% - 18px);
+        }
+    }
+    .ant-tree-node-selected {
+        background-color: #d2eafb;
+        width: calc(100% - 18px);
+    }
 }
 // 添加子部门
 .sub {
@@ -84,12 +112,37 @@
     font-size: 14px;
     margin-bottom: 20px;
     margin-left: 100px;
+    position: relative;
     .name {
         color: #959595;
         display: inline-block;
     }
     .input-type {
         display: inline-block;
+    }
+    .option-div-box {
+        position:absolute;
+        background-color: white;
+        box-shadow: 0px 0px 5px #d1d1c9;
+        width:145px;
+        border-radius: 5px;
+        top: 29px;
+        left: 71px;
+        .option-div {
+            width: 100%;
+            text-indent: 8px;
+            line-height: 28px;
+            cursor: pointer;
+        }
+        .option-div2 {
+            width: 100%;
+            text-indent: 8px;
+            line-height: 28px;
+            cursor: pointer;
+            &:hover {
+                background-color: #ecf6fd;
+            }
+        }
     }
 }
 // 组织架构-部门管理-右侧内容
@@ -131,7 +184,7 @@
                 width: 100%;
                 background-color: #f5be79;
                 color: white;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
                 span {
                     display: inline-block;
                     font-size: 14px;
@@ -145,7 +198,7 @@
             .sub-depart-table-lab {
                 font-size: 14px;
                 color: #666666;
-                margin-bottom: 15px;
+                padding: 8px 0;
                 .left {
                     width: 348px;
                     margin-left:10px;
@@ -155,6 +208,28 @@
                     width: 230px;
                     display: inline-block;
                 }
+                &:hover {
+                    background-color: #fef1e1;
+                }
+            }
+        }
+        img {
+            display: block;
+            padding-top: 90px;
+            width: 93px;
+            margin: auto;
+            cursor: pointer;
+        }
+        .text {
+            font-size:16px;
+            color: #cccccc;
+            letter-spacing: 2px;
+            width: 271px;
+            margin: auto;
+            margin-top: 20px;
+            .one {
+                color: #61b3e3;
+                cursor: pointer;
             }
         }
     }
@@ -179,7 +254,7 @@
                 width: 100%;
                 background-color: #878ef2;
                 color: white;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
                 span {
                     display: inline-block;
                     font-size: 14px;
@@ -202,7 +277,7 @@
             .sub-depart-table-lab {
                 font-size: 14px;
                 color: #666666;
-                margin-bottom: 15px;
+                padding: 8px 0;
                 span {
                     display: inline-block;
                     margin-left: 10px;
@@ -221,6 +296,10 @@
                     color: #1587c7;
                     cursor: pointer;
                 }
+                &:hover {
+                    background-color: #e7e8fc;
+                }
+                
             }
         }
     }

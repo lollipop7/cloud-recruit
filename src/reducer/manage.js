@@ -73,6 +73,7 @@ const initialState = {
         count: 0
     },
     departmentStaff: {},
+    currentUid:'',
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
@@ -145,7 +146,7 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff}
+            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid}
         case ADD_EDIT_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case DELETE_DEPARTMENT:

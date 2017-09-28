@@ -137,12 +137,7 @@ class ResumeInfoPage extends Component {
                                     >
                                         邮件
                                     </li>
-                                    <li 
-                                        className={`tab-item table-cell ${!!type ? '' : ''}`}
-                                        onClick={() => this.handleChangeType(2)}
-                                    >
-                                        邮件
-                                    </li> */}
+                                    */}
                                     <li 
                                         className={`tab-item table-cell boder-right-none ${type==0 ? 'active' : ''}`}
                                         onClick={() => this.handleChangeType(0)}
