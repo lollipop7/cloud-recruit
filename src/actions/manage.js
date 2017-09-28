@@ -89,7 +89,6 @@ export const getCrewList = (data={}) => (dispatch, getState) => {
         dispatch(LOAD_LIST_DONE);
         dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
     },err=>{
-        // console.log(err);
         dispatch(LOAD_LIST_DONE);
     })
 }
@@ -105,14 +104,12 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch(GET_ARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
             delete res.list[i].children;  
         };
         dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
     },err=>{
-        console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
 }
@@ -128,7 +125,6 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch(GET_LEAVEARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
             delete res.list[i].children;  
@@ -172,26 +168,34 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        const {
-            getArchivesList , 
-            getLeaveArchivesList,
-            archivesTableData
-        } = props;
-        if(data.rid){
-            message.success('编辑信息成功！')
-            if(archivesTableData=='1'){
-                getArchivesList({sort:'1'}) 
-            }else if (archivesTableData=='2'){
-                getLeaveArchivesList({sort:'1'})
-            }       
+            if(props){
+                const {
+                getArchivesList , 
+                getLeaveArchivesList,
+                archivesTableData,
+                getDepartMentStaff,
+                currentUid
+            } = props;
+            if(data.rid){
+                message.success('编辑信息成功！')
+                if(archivesTableData=='1'){
+                    getArchivesList({sort:'1'}) 
+                }else if (archivesTableData=='2'){
+                    getLeaveArchivesList({sort:'1'})
+                }
+                getDepartMentStaff({departmentId:currentUid},currentUid);       
+            }else{
+                message.success('添加信息成功！');
+                if(archivesTableData=='1'){
+                    getArchivesList({sort:'1'}) 
+                }else if (archivesTableData=='2'){
+                    getLeaveArchivesList({sort:'1'})
+                }   
+            }
         }else{
-            message.success('添加信息成功！');
-            if(archivesTableData=='1'){
-                getArchivesList({sort:'1'}) 
-            }else if (archivesTableData=='2'){
-                getLeaveArchivesList({sort:'1'})
-            }   
-        }      
+            message.success('编辑信息成功！')
+        }
+              
     },err=>{
         if(data.rid){
             message.error('编辑信息失败！')
@@ -227,7 +231,6 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
         //dispatch(GET_ARCHIVES_DONE);
         dispatch({...GET_ARCHIVES_DATA,archivesData:res});
     },err=>{
-        console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
 }
@@ -275,7 +278,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -284,7 +287,7 @@ export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });
@@ -300,7 +303,6 @@ export const addEditDepartment = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res)
         dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:'success'});
     },err=>{
         dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:''});
@@ -335,7 +337,6 @@ export const deleteDepartment = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...DELETE_DEPARTMENT,departmentInfo:'success'});
     },err=>{
-        console.log(err)
         dispatch({...DELETE_DEPARTMENT});
     });
 }

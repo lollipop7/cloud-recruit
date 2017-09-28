@@ -49,9 +49,9 @@ class LeftTreePage extends Component {
 
   // 选中菜单
   onSelect = (selectedKeys, info) => {
-    console.log(selectedKeys, info)
     if(selectedKeys[0]){
-      this.props.getDepartMentStaff({departmentId:selectedKeys[0]});
+      const { uid } = this.state;
+      this.props.getDepartMentStaff({departmentId:selectedKeys[0]},uid);
       this.setState({uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
     }else{
       this.setState({
@@ -93,7 +93,6 @@ class LeftTreePage extends Component {
     });
   }
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -125,6 +124,7 @@ class LeftTreePage extends Component {
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2} = this.state;
     const { departmentList:{list}, departmentInfo } = this.props;
+    console.log(list)
     if(departmentInfo == 'success'){
       this.afterSuccess()
       this.setState({departmentName:''});
