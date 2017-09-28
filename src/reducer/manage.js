@@ -1,10 +1,16 @@
 import {
+    //**员工名册 ------------------------------------------------*/
     GET_MANAGE_START,
     GET_MANAGE_END,
     GET_MANAGE_STATISTICS,
     LOAD_LIST_START,
     LOAD_LIST_DONE,
     LOAD_CREW_LIST,
+    SHOW_UPLOAD_CLERK_MODAL,
+    HIDE_UPLOAD_CLERK_MODAL,
+    UPLOAD_CLERK_START,
+    UPLOAD_CLERK_DONE,
+    //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
@@ -14,14 +20,19 @@ import {
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
+    //**全员概览 ------------------------------------------------*/
     GET_EMPLOYEE_QUALITY,
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
-    GET_DEPARTMENT_STAFF
+    //**组织架构 ------------------------------------------------*/
+    GET_DEPARTMENT_STAFF,
+    ADD_EDIT_DEPARTMENT,
+    DELETE_DEPARTMENT
 } from 'constants/manage'; 
 
 const initialState = {
+//**员工名册 ------------------------------------------------*/
     manageStastistics: {
         isLoading: false,
         list: []
@@ -31,6 +42,11 @@ const initialState = {
         list: [],
         count: 0
     },
+    uploadClerkModal: {
+        isLoading: false,
+        visible: false,
+    },
+    //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,
         count:0,
@@ -52,6 +68,7 @@ const initialState = {
     archivesTableData:'1',
     personalMaterialVisible:false,
     personalMaterialData:{},
+    departmentInfo:"",
     departmentList: {
         isLoading: false,
         list: [],
@@ -73,6 +90,14 @@ export default function manage(state=initialState,actions){
             return {...state,crewList:{...state.crewList,isLoading:false}};
         case LOAD_CREW_LIST:
             return {...state,crewList:{...state.crewList,list:actions.list,count:actions.count}}; 
+        case SHOW_UPLOAD_CLERK_MODAL:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,visible:true}};  
+        case HIDE_UPLOAD_CLERK_MODAL:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,visible:false}};
+        case UPLOAD_CLERK_START:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:true}};  
+        case UPLOAD_CLERK_DONE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}};             
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:
@@ -100,7 +125,11 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff};          
+            return {...state,departmentStaff:actions.departmentStaff}
+        case ADD_EDIT_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};
+        case DELETE_DEPARTMENT:
+            return {...state,departmentInfo:actions.departmentInfo};          
         default:
             return state;
     }

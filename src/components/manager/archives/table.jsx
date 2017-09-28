@@ -276,7 +276,7 @@ export default class TableComponent extends Component{
                     }}
                 />
                 <Modal
-                    className='personnelModal'
+                    className='grey-close-header personnelModal'
                     title={<span>{name}&nbsp;员工重要信息</span>}
                     okText='保存'
                     visible={personalMaterialVisible}

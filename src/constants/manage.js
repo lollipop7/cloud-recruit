@@ -2,6 +2,11 @@
  * ===员工管理===
  */
 
+
+/**
+ * ===员工名册===
+ */
+
  //获取员工管理人员统计信息
  export const GET_MANAGE_START = 'GET_MANAGE_START';
  export const GET_MANAGE_END = 'GET_MANAGE_END';
@@ -11,6 +16,16 @@
  export const LOAD_LIST_START = 'LOAD_LIST_START';
  export const LOAD_LIST_DONE = 'LOAD_LIST_DONE';
  export const LOAD_CREW_LIST = 'LOAD_CREW_LIST';
+
+ //导入excel人员modal
+ export const SHOW_UPLOAD_CLERK_MODAL = 'SHOW_UPLOAD_CLERK_MODAL';
+ export const HIDE_UPLOAD_CLERK_MODAL = 'HIDE_UPLOAD_CLERK_MODAL';
+ export const UPLOAD_CLERK_START = 'UPLOAD_CLERK_START';
+ export const UPLOAD_CLERK_DONE = 'UPLOAD_CLERK_DONE';
+
+ /**
+ * ===档案管理===
+ */
 
  //档案管理在职人员信息列表
  export const GET_ARCHIVES_START = 'GET_ARCHIVES_START';
@@ -33,10 +48,26 @@
  //档案管理个人材料Modal
  export const SHOW_PERSONALMATERIAL_MODAL = 'SHOW_PERSONALMATERIAL_MODAL';
  export const HIDE_PERSONALMATERIAL_MODAL = 'HIDE_PERSONALMATERIAL_MODAL';
+
+
+ /**
+ * ===全员概览===
+ */
+
+
  //  全员概览-员工性质分布信息
 export const GET_EMPLOYEE_QUALITY = 'GET_EMPLOYEE_QUALITY';
+
+
+ /**
+ * ===组织架构===
+ */
 
 //  组织架构-部门列表查询
 export const GET_DEPARTMENT_LIST = 'GET_DEPARTMENT_LIST';
 //  组织架构-根据部门id查询子部门及人员
 export const GET_DEPARTMENT_STAFF = 'GET_DEPARTMENT_STAFF';
+//  组织架构-添加或者修改部门
+export const ADD_EDIT_DEPARTMENT = 'ADD_EDIT_DEPARTMENT';
+//  组织架构-删除部门
+export const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT';

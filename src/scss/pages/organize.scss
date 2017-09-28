@@ -1,26 +1,3 @@
-//组织架构
-.ant-tree-node-content-wrapper {
-    display: inline-block;
-    padding: 3px 5px;
-    border-radius: 2px;
-    margin: 0;
-    cursor: pointer;
-    text-decoration: none;
-    vertical-align: top;
-    color: rgba(0,0,0,.65);
-    -webkit-transition: all .3s;
-    transition: all .3s;
-    position: relative;
-    &:hover {
-        background-color: #ecf6fd;
-        width: calc(100% - 18px);
-    }
-}
-.ant-tree-node-selected {
-    background-color: #d2eafb;
-    width: calc(100% - 18px);
-}
-
 // 组织架构-部门管理-树形控件
 .tree-type {
     width: 440px;
@@ -39,6 +16,48 @@
     }
     .tree-box {
         margin-top: 20px;
+        .ant-tree-node-content-wrapper {
+            display: inline-block;
+            padding: 3px 5px;
+            border-radius: 2px;
+            margin: 0;
+            cursor: pointer;
+            text-decoration: none;
+            vertical-align: top;
+            color: rgba(0,0,0,.65);
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            position: relative;
+            &:hover {
+                background-color: #ecf6fd;
+                width: calc(100% - 18px);
+            }
+        }
+        .ant-tree-node-selected {
+            background-color: #d2eafb;
+            width: calc(100% - 18px);
+        }
+        .ant-tree-title {
+            font-size: 14px;
+        }
+        .ant-tree li span.ant-tree-iconEle, 
+        .ant-tree li span.ant-tree-switcher {
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+        }
+        .ant-tree li span.ant-tree-switcher.ant-tree-bottom_close:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-center_close:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-noline_close:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-roots_close:after,
+        .ant-tree li span.ant-tree-switcher.ant-tree-bottom_open:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-center_open:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-noline_open:after, 
+        .ant-tree li span.ant-tree-switcher.ant-tree-roots_open:after {
+            content: '\E6CE';
+            font-size: 24px;
+            color: $theme-color;
+        }
     }
 }
 // 添加子部门
@@ -50,6 +69,14 @@
         color: #959595;
     }
     .sub-content {
+        color: #555555;
+    }
+}
+.sub2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-left: 58px;
+    .sub-title {
         color: #555555;
     }
 }
