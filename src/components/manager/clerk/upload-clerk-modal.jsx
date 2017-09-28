@@ -100,7 +100,7 @@ export default class UploadClerkModal extends Component {
 
     hideUploadClerkModal = () => {
         this.props.hideUploadClerkModal();
-        this.props.handleContext('添加员工')
+        this.props.handleContext('添加员工');
     }
 
     render(){

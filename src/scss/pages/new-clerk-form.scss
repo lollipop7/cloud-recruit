@@ -71,13 +71,6 @@
     }
     .form-field {
         padding-top: 60px;
-        .required-span {
-            &:before {
-                content: '*';
-                font-size: 120%;
-                color:  #ff3131;
-            }
-        }
         span {
             font-size: 16px;
             

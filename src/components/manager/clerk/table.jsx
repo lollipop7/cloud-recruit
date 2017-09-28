@@ -103,7 +103,7 @@ import * as Actions from 'actions';
                 loading={isLoading}
                 columns={this.getColumns()} 
                 dataSource={
-                    list.map((item,index)=>{ 
+                    data.map((item,index)=>{ 
                         delete item.children;
                         item.key = index;
                         delete item.children;

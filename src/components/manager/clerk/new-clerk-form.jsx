@@ -1,322 +1,22 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 
-import { Input , Select , Cascader , Button, DatePicker } from 'antd';
+import { Input, Select, Cascader, Button, DatePicker } from 'antd';
 const Option = Select.Option;
+import moment from 'moment';
 
-import Sex from 'data/select/sex';
 import city from 'data/city.json';
 import salaryData from 'data/salary.json';
-import thelengData from 'data/select/theleng.json';
-import workstatusData from 'data/select/workstatus.json';
 
-export class ErrorInputComponent extends Component {
-    state = {
-        error: false
-    }
-    static propTypes = {
-        name: PropTypes.string,
-        field: PropTypes.string,
-        value: PropTypes.oneOfType([ // 输入框的值
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        placeholder: PropTypes.string,
-        onChange: PropTypes.func,
-        disabled: PropTypes.bool, //是否禁用输入框
-        className: PropTypes.string, // 输入框类名
-        style: PropTypes.object // 输入框内联样式
-    }
-
-    handleChange = (field,event) => {
-        const {error} = this.state;
-        const {onChange} = this.props;
-        if(error){
-           this.triggerError(false);
-        }
-        if(onChange){
-            onChange(field,event);
-        }
-    }
-
-    triggerError = (error) => {
-        this.setState({error});
-    }
-
-    handleBlur = () => {
-        const {value} = this.props;
-        if(value === ''){
-            this.triggerError(true);
-        }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.value !== this.props.value || nextState.error !== this.state.error;
-    }
-
-    render() {
-        const {error} = this.state,
-            {
-                name='',
-                field='',
-                value,
-                placeholder,
-                disabled=false,
-                className='',
-                style={}
-            } = this.props;
-        return (
-            <div className="inline-block" >
-                <span className="required-span">{name}</span>
-                <div className="inline-block" style={{
-                    position: 'relative',
-                    marginRight: 0
-                }}>
-                    <Input 
-                        ref='input'
-                        placeholder={placeholder} 
-                        value={value}
-                        onChange={this.handleChange.bind(this,field)} 
-                        disabled={disabled}
-                        className={error ? 'error' : ''}
-                        style={style}
-                        onBlur={this.handleBlur}
-                    />
-                    {error &&
-                        <div className="error-promote" style={{
-                            paddingLeft: 0
-                        }}>
-                            <label className="error">必填</label>
-                        </div>
-                    }
-                </div>
-            </div>
-        )
-    }
-}
-
-class InputComponent extends Component {
-    state = {
-
-    }
-    static propTypes = {
-        name: PropTypes.string,
-        field: PropTypes.string,
-        value: PropTypes.oneOfType([ // 输入框的值
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        placeholder: PropTypes.string,
-        onChange: PropTypes.func,
-        disabled: PropTypes.bool, //是否禁用输入框
-        className: PropTypes.string, // 输入框类名
-        style: PropTypes.object // 输入框内联样式
-    }
-
-    handleChange = (field,event) => {
-        const {onChange} = this.props;
-        if(onChange){
-            onChange(field,event);
-        }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.value !== this.props.value;
-    }
-
-    render() {
-        const 
-            {
-                name='',
-                field='',
-                value,
-                placeholder,
-                disabled=false,
-                className='',
-                style={}
-            } = this.props;
-        return (
-            <div className="inline-block">
-                <span>{name}</span>
-                <div className="inline-block" style={{
-                    position: 'relative',
-                    marginRight: 0
-                }}>
-                    <Input 
-                        ref='input'
-                        placeholder={placeholder} 
-                        value={value}
-                        onChange={this.handleChange.bind(this,field)} 
-                        disabled={disabled}
-                        className={className}
-                        style={style}
-                        onBlur={this.handleBlur}
-                    />
-                </div>
-            </div>
-        )
-    }
-}
-
-class ErrorSelectComponent extends Component {
-
-    static PropTypes = {
-        name: PropTypes.string,
-        field: PropTypes.string,
-        value: PropTypes.string,
-        data: PropTypes.array,
-        placeholder: PropTypes.string,
-        dropdownMatchSelectWidth: PropTypes.bool,
-        onChange: PropTypes.func
-    }
-
-    state = {
-        error: false
-    }
-
-    shouldComponentUpdate(nextProps,nextState){
-        return nextProps.value !== this.props.value || nextState.error !== this.state.error;
-    }
-
-    handleChange= (field,value) => {
-        const {error} = this.state;
-        const {onChange} = this.props;
-        if(onChange){
-            onChange(field,value);
-        }
-        if(error){
-            this.triggerError(false);
-        }
-    }
-
-    handleBlur = value => {
-        if(!value){
-            this.triggerError(true);
-        }
-    }
-
-    triggerError = error => {
-        this.setState({error});
-    }
-
-    render() {
-        const {error} = this.state,
-            {
-                name,
-                field,
-                placeholder,
-                data=[],
-                value,
-                dropdownMatchSelectWidth,
-                style={width: 229,height:40 }
-            } = this.props;
-        return (
-            <div className="inline-block inline-block-select">
-                <span className="required-span">{name}</span>
-                <div className="inline-block" style={{
-                    margin: 0
-                }}>
-                    <Select
-                        className={error ? 'error' : ''}
-                        value={value}
-                        placeholder={placeholder}
-                        onFocus={this.handleFocus}
-                        onChange={this.handleChange.bind(this,field)}
-                        dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-                        style={style}
-                        onBlur={this.handleBlur}
-                    >
-                        {
-                            data.map( (item,index)=>{
-                                return <Option key={index} value={item}>{item}</Option>
-                            })
-                        }
-                    </Select>
-                    {error &&
-                        <div className="error-promote" style={{
-                            paddingLeft: 0
-                        }}>
-                            <label className="error">{placeholder}</label>
-                        </div>
-                    }
-                </div>
-            </div>
-        )
-    }
-}
-
-class SelectComponent extends Component {
-    
-        static PropTypes = {
-            name: PropTypes.string,
-            field: PropTypes.string,
-            value: PropTypes.string,
-            data: PropTypes.array,
-            placeholder: PropTypes.string,
-            dropdownMatchSelectWidth: PropTypes.bool,
-            onChange: PropTypes.func
-        }
-    
-        state = {
-           
-        }
-    
-        shouldComponentUpdate(nextProps,nextState){
-            return nextProps.value !== this.props.value;
-        }
-    
-        handleChange= (field,value) => {
-            const {onChange} = this.props;
-            if(onChange){
-                onChange(field,value);
-            }
-        }
-    
-        render() {
-            const 
-                {
-                    name,
-                    field,
-                    placeholder,
-                    data=[],
-                    value,
-                    dropdownMatchSelectWidth,
-                    style={width: 229,height:40 }
-                } = this.props;
-            return (
-                <div className="inline-block inline-block-select">
-                    <span>{name}</span>
-                    <div className="inline-block" style={{
-                        margin: 0
-                    }}>
-                        <Select
-                            value={value}
-                            placeholder={placeholder}
-                            onFocus={this.handleFocus}
-                            onChange={this.handleChange.bind(this,field)}
-                            dropdownMatchSelectWidth={dropdownMatchSelectWidth}
-                            style={style}
-                            onBlur={this.handleBlur}
-                        >
-                            {
-                                data.map( (item,index)=>{
-                                    return <Option key={index} value={item}>{item}</Option>
-                                })
-                            }
-                        </Select>
-                    </div>
-                </div>
-            )
-        }
-    }
+import {ErrorInputComponent,SelectComponent} from './input-select';
 
 export default class NewClerkForm extends Component {
-    
-    state={
-        open: false,
-        error:false
+
+    state = {
+        isOpen: false,
+        error: false
     }
 
-    componentDidMount(){
+    componentDidMount() {
         NProgress.done();
     }
 
@@ -324,12 +24,12 @@ export default class NewClerkForm extends Component {
         window.history.back(-1)
     }
 
-    handleChange = (filed,e) => {
-        if(typeof e === 'string' || typeof e === 'undefined'){
+    handleChange = (filed, e) => {
+        if (typeof e === 'string' || typeof e === 'undefined') {
             this.setState({
                 [filed]: e
             });
-        }else{
+        } else {
             this.setState({
                 [filed]: e.target.value
             });
@@ -338,49 +38,69 @@ export default class NewClerkForm extends Component {
 
     handleCityChange = (val) => {
         this.setState({
-            workcity: val.length > 0 ?  val[0] + '-' + val[1] : ''
+            workcity: val.length > 0 ? val[0] + '-' + val[1] : ''
         });
     }
 
-    handleOpenChange = open => {
+    triggerIsOpen = (isOpen) => {
+        this.setState({isOpen});
     }
 
-    handleDateChange = date => {
-        
+    handleOpenChange = isOpen => {
+        this.triggerIsOpen(isOpen);
     }
 
-    render(){
+    triggerError = error => {
+        this.setState({ error });
+    }
+
+    onChange = (field, value) => {
+        this.setState({
+            [field]: value
+        });
+    }
+
+    handleDateChange = (value) => {
+        console.log('进入');
+        const {error} = this.state;
+        this.onChange('inthetime',value);
+        error && this.triggerError(false);
+        !value && this.triggerError(true);
+    }
+
+    render() {
         const {
-            name='',                    //姓名
-            englishname='',             //英文名
-            worknumber='',              //工号
-            sex='男',                   //性别
-            mobile='',                  //手机号
-            workemail='',               //个人邮箱
-            documenttype='身份证',       //证件类型
-            card='',                    //card
-            worknature='全职',           //工作性质
-            inthetime='',               //入职日期
-            workstatus='试用',          //员工状态
-            theleng='选择试用期',       //试用期
-            
-            workcity=undefined,          //工作地点
-            department='请选择部门',    //
-            position='',
-            salary='',                   //薪资
-            cemail='',                   //企业邮箱
-            contactname='',               //紧急联系人
-            contactphone='' ,               //紧急联系人电话
-            error
+            name = '',                   //姓名
+            englishname = '',            //英文名
+            worknumber = '',             //工号
+            sex = undefined,                  //性别
+            mobile = '',                 //手机号
+            workemail = '',              //个人邮箱
+            documenttype = undefined,     //证件类型
+            card = '',                   //card
+            worknature = undefined,         //工作性质
+            inthetime = undefined,              //入职日期
+            workstatus = undefined,         //员工状态
+            theleng = undefined,       //试用期
+
+            workcity = undefined,        //工作地点
+            department = undefined,    //部门
+            position = '',
+            salary = '',                 //薪资
+            cemail = '',                 //企业邮箱
+            contactname = '',            //紧急联系人
+            contactphone = '',           //紧急联系人电话
+            error,
+            isOpen
         } = this.state;
-        return(
+        return (
             <div className="right-panel new-clerk-form">
                 <div className="control">
                     <Button
                         style={{
                             width: 70,
                         }}
-                        onClick={ this.handleClick}
+                        onClick={this.handleClick}
                     >&lt;&nbsp;返回</Button>
                     <span className="breadName">添加员工</span>
                 </div>
@@ -394,8 +114,9 @@ export default class NewClerkForm extends Component {
                                 placeholder="请输姓名"
                                 value={name}
                                 onChange={this.handleChange}
+                                asterisk={true}
                             />
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="englishnameInput"
                                 name="英文名："
                                 field="englishname"
@@ -405,7 +126,7 @@ export default class NewClerkForm extends Component {
                             />
                         </li>
                         <li>
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="worknumberInput"
                                 name="工号："
                                 field="worknumber"
@@ -413,10 +134,10 @@ export default class NewClerkForm extends Component {
                                 value={worknumber}
                                 onChange={this.handleChange}
                             />
-                            <SelectComponent 
+                            <SelectComponent
                                 ref="sexSelect"
                                 name="性别："
-                                data={Sex}
+                                data={["男","女"]}
                                 dropdownMatchSelectWidth={false}
                                 value={sex}
                                 field="sex"
@@ -432,8 +153,9 @@ export default class NewClerkForm extends Component {
                                 placeholder="请输手机号"
                                 value={mobile}
                                 onChange={this.handleChange}
+                                asterisk={true}
                             />
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="workemailInput"
                                 name="个人邮箱："
                                 field="workemail"
@@ -443,10 +165,10 @@ export default class NewClerkForm extends Component {
                             />
                         </li>
                         <li>
-                            <SelectComponent 
+                            <SelectComponent
                                 ref="documenttypeSelect"
                                 name="证件类型："
-                                data={['身份证件','工作证件']}
+                                data={['身份证件', '工作证件']}
                                 dropdownMatchSelectWidth={false}
                                 value={documenttype}
                                 field="documenttype"
@@ -460,105 +182,117 @@ export default class NewClerkForm extends Component {
                                 placeholder="请输入证件号码"
                                 value={card}
                                 onChange={this.handleChange}
+                                asterisk={true}
                             />
                         </li>
                         <li>
-                            <ErrorSelectComponent 
+                            <SelectComponent
                                 ref="worknatureSelect"
                                 name="工作性质："
-                                data={['全职','兼职']}
+                                data={[ "兼职","全职"]}
                                 dropdownMatchSelectWidth={false}
                                 value={worknature}
                                 field="worknature"
                                 placeholder="请选择工作性质"
                                 onChange={this.handleChange}
+                                asterisk={true}
                             />
                             <div className="inline-block">
-                                <span>入职日期：</span>
+                                <span className="required-asterisk">入职日期：</span>
                                 <div className="inline-block" style={{
                                     position: 'relative',
                                     marginRight: 0
                                 }}>
                                     <DatePicker
-                                        showTime
+                                        ref="inthetimeSelect"
+                                        className={"error ? 'error' : ''"}
+                                        allowClear
+                                        placeholder="请选择入职日期"
+                                        format="YYYY-MM-DD"
+                                        value={inthetime}
                                         style={{
                                             width: 217
                                         }}
+                                        open={isOpen}
+                                        onOpenChange={this.handleOpenChange}
                                         onChange={this.handleDateChange}
-                                    />
-                                </div>    
-                            </div>
-                        </li>
-                        <li>
-                            <ErrorSelectComponent 
-                                ref="workstatusSelect"
-                                name="员工状态："
-                                data={workstatusData}
-                                dropdownMatchSelectWidth={false}
-                                value={workstatus}
-                                field="workstatus"
-                                placeholder="请选择员工状态"
-                                onChange={this.handleChange}
-                            />
-                            <ErrorSelectComponent 
-                                ref="thelengSelect"
-                                name="试用期："
-                                data={thelengData}
-                                dropdownMatchSelectWidth={false}
-                                value={theleng}
-                                field="theleng"
-                                placeholder="请选择试用期"
-                                onChange={this.handleChange}
-                            />
-                        </li>
-                        <li>
-                            <ErrorSelectComponent 
-                                ref="documenttypeSelect"
-                                name="合同公司："
-                                data={['身份证件','工作证件']}
-                                dropdownMatchSelectWidth={false}
-                                value={documenttype}
-                                field="documenttype"
-                                placeholder="请选择合同公司"
-                                onChange={this.handleChange}
-                            />
-                            <div className="inline-block">
-                                <span>工作地点：</span>
-                                <div className="inline-block city-regions">
-                                    <Cascader 
-                                        options={city}
-                                        value ={workcity ? workcity.split("-"):''}
-                                        className={error ? "error" : ''}
-                                        onChange={this.handleCityChange}
-                                        displayRender={label => label.join(' - ')}
-                                        placeholder="请选择工作地点" 
-                                        style={{
-                                            height: 40,
-                                            width: 229
-                                        }}
                                     />
                                     {error &&
                                         <div className="error-promote" style={{
                                             paddingLeft: 0
                                         }}>
-                                            <label className="error">请选择工作地点</label>
+                                            <label className="error">请选择入职日期</label>
                                         </div>
                                     }
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <SelectComponent 
+                            <SelectComponent
+                                ref="workstatusSelect"
+                                name="员工状态："
+                                data={["试用", "正式"]}
+                                dropdownMatchSelectWidth={false}
+                                value={workstatus}
+                                field="workstatus"
+                                placeholder="请选择员工状态"
+                                onChange={this.handleChange}
+                                asterisk={true}
+                            />
+                            <SelectComponent
+                                ref="thelengSelect"
+                                name="试用期："
+                                data={["三个月","六个月"]}
+                                dropdownMatchSelectWidth={false}
+                                value={theleng}
+                                field="theleng"
+                                placeholder="请选择试用期"
+                                onChange={this.handleChange}
+                                asterisk={true}
+                            />
+                        </li>
+                        <li>
+                            <SelectComponent
+                                ref="documenttypeSelect"
+                                name="合同公司："
+                                data={['身份证件', '工作证件']}
+                                dropdownMatchSelectWidth={false}
+                                value={documenttype}
+                                field="documenttype"
+                                placeholder="请选择合同公司"
+                                onChange={this.handleChange}
+                                asterisk={true}
+                            />
+                            <div className="inline-block">
+                                <span>工作地点：</span>
+                                <div className="inline-block city-regions">
+                                    <Cascader
+                                        options={city}
+                                        value={workcity ? workcity.split("-") : ''}
+                                        onChange={this.handleCityChange}
+                                        displayRender={label => label.join(' - ')}
+                                        placeholder="请选择工作地点"
+                                        style={{
+                                            height: 40,
+                                            width: 229
+                                        }}
+                                    />
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <SelectComponent
                                 ref="departmentSelect"
                                 name="部门："
-                                data={['身份证件','工作证件']}
+                                data={['身份证件', '工作证件']}
                                 dropdownMatchSelectWidth={false}
                                 value={department}
                                 field="department"
                                 placeholder="请选择部门"
                                 onChange={this.handleChange}
                             />
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="positionInput"
                                 name="岗位："
                                 field="position"
@@ -568,7 +302,7 @@ export default class NewClerkForm extends Component {
                             />
                         </li>
                         <li>
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="salaryInput"
                                 name="薪资："
                                 field="salary"
@@ -576,7 +310,7 @@ export default class NewClerkForm extends Component {
                                 value={salary}
                                 onChange={this.handleChange}
                             />
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="cemailInput"
                                 name="企业邮箱："
                                 field="cemail"
@@ -586,7 +320,7 @@ export default class NewClerkForm extends Component {
                             />
                         </li>
                         <li>
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="contactnameInput"
                                 name="紧急联系人："
                                 field="contactname"
@@ -594,7 +328,7 @@ export default class NewClerkForm extends Component {
                                 value={contactname}
                                 onChange={this.handleChange}
                             />
-                            <InputComponent
+                            <ErrorInputComponent
                                 ref="contactphoneInput"
                                 name="紧急联系人电话："
                                 field="contactphone"
