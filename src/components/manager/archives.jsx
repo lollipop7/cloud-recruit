@@ -10,7 +10,8 @@ import * as Actions from 'actions';
 
  class ArchivesPage extends Component {
     state = {
-        ridName :{}
+        ridName :{},
+        sort:'1'
     }
      componentDidMount(){
         this.props.getArchivesList({sort:'1'});
@@ -21,6 +22,11 @@ import * as Actions from 'actions';
      getRid = (value) => {
         this.setState({
             ridName:value
+        })
+    }
+    sortMethod = (value) => {
+        this.setState({
+            sort:value
         })
     }
      
@@ -53,6 +59,7 @@ import * as Actions from 'actions';
                         archivesTableData={archivesTableData}
                         downloadMaterial={downloadMaterial}
                         ridName = {this.state.ridName}
+                        sortMethod={this.sortMethod}
                     />
                     <div>
                         <TableComponent 
@@ -67,6 +74,7 @@ import * as Actions from 'actions';
                             getArchivesList={getArchivesList}
                             getLeaveArchivesList={getLeaveArchivesList}
                             editEmployeeInformation={editEmployeeInformation}
+                            sort={this.state.sort}
                         />
                     </div>
                    

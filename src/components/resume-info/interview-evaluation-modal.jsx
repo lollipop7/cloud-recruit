@@ -102,7 +102,8 @@ class EvaluationModalComponents extends Component {
             //隐藏
             this.props.hideEvaluationModal();
             //添加面试评估
-            this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
+            console.log({...filterObj,resumeid:resumeid,jobid:jobid})
+            //this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
         });
         
     }
@@ -120,11 +121,12 @@ class EvaluationModalComponents extends Component {
             }    
         });     
     }
-    //评估表内容赋值
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const evaluationId = this.props.evaluationId
-            const {interviewer,//面试官
+    getEvaluation = (value) => {
+        const {evaluation} = this.props;
+        for (let i=0;i<evaluation.length;i++){
+            if (evaluation[i].id==value){
+                const {
+                    interviewer,//面试官
                     comments,//评价
                     professional,//专业技能
                     workexperience,//业务能力
@@ -133,14 +135,13 @@ class EvaluationModalComponents extends Component {
                     initiative,//学习能力
                     grooming,//仪容仪表
                     attitude,//态度
-                } = this.props.evaluation
-           
-            if (this.props.evaluation.id){
+                    id
+                } = evaluation[i];
                 this.setState({
                     //intername:this.props.username,
                     interviewer:interviewer,
                     comments:comments,
-                    id :`${evaluationId}`,
+                    id :id+'',
                     professional:professional,
                     workexperience:workexperience,
                     eduandtrain:eduandtrain,
@@ -150,8 +151,43 @@ class EvaluationModalComponents extends Component {
                     attitude:attitude
                 })
             }
-        })
+        }
+
+        
+        //this.props.getEvaluation()
     }
+    //评估表内容赋值
+    // componentWillReceiveProps(){
+    //     setTimeout(()=>{
+    //         const evaluationId = this.props.evaluationId
+    //         const {interviewer,//面试官
+    //                 comments,//评价
+    //                 professional,//专业技能
+    //                 workexperience,//业务能力
+    //                 eduandtrain,//沟通能力
+    //                 communication,//语言能力
+    //                 initiative,//学习能力
+    //                 grooming,//仪容仪表
+    //                 attitude,//态度
+    //             } = this.props.evaluation
+           
+    //         if (this.props.evaluation.id){
+    //             this.setState({
+    //                 //intername:this.props.username,
+    //                 interviewer:interviewer,
+    //                 comments:comments,
+    //                 id :`${evaluationId}`,
+    //                 professional:professional,
+    //                 workexperience:workexperience,
+    //                 eduandtrain:eduandtrain,
+    //                 communication:communication,
+    //                 initiative:initiative,
+    //                 grooming:grooming,
+    //                 attitude:attitude
+    //             })
+    //         }
+    //     })
+    // }
    
     render(){
          const options = [
@@ -164,6 +200,7 @@ class EvaluationModalComponents extends Component {
             { evaluationModalVisible , isLoading ,evaluation } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
+            //console.log(evaluation)
         return(
             <Modal
                 title = "面试评估表"
@@ -173,10 +210,22 @@ class EvaluationModalComponents extends Component {
                 onCancel={this.hideEvaluationModal}
                 onOk = {this.addEvaluation}
             >
-                <div className="qrcode-write" style = {{
-                    right: this.state.isShowQrcode ? '-150px' : '',
-                    display:  this.state.isShowQrcode ? "block" : "none"
-                }}>
+                <div className="evaluation-list">
+                    <h3>面试主管：</h3>
+                    <ul className="evaluation-ul">
+                    {
+                        Array.isArray(evaluation) && evaluation.map((item,index)=>{
+                                return <li><a onClick={this.getEvaluation.bind(this,item.id)}>{item.interviewer}</a></li>
+                            })
+                        }  
+                    </ul>
+                </div>
+                <div className="qrcode-write" 
+                    style = {{
+                        right: this.state.isShowQrcode ? '-150px' : '',
+                        display:  this.state.isShowQrcode ? "block" : "none"
+                    }}
+                >
                     <b className="left-arrow inline-block vertical-center "></b>
                     <QRCode value={hash}/>
                     <p>微信扫描分享填写</p>
@@ -224,7 +273,7 @@ class EvaluationModalComponents extends Component {
                          </Button>
                     </div>                    
                 </div>
-                 <div className='eva_div' style={{height:300}}>
+                <div className='eva_div' style={{height:300}}>
                         <ul className="eva-ul">
                             <li>应聘者情况：</li>
                             <li>较差</li>

@@ -1,30 +1,50 @@
-import React, {Component} from 'react';
-import { Button } from 'antd';
+import React, {Component, PropTypes} from 'react';
+import { Button, Select  } from 'antd';
 
 export default class ControlComponent extends Component {
 
-    handleClick = () => {
-        console.log('添加员工!');
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
+    handleLinkTo = () => {
+        this.context.router.push(`manager/newClerkForm`);
+        NProgress.start();
+    }
+
+    handleAddClerk = (value) => {
+        switch(value){
+            case '导入Excel人员信息': this.props.showUploadClerkModal(); break;
+            case '办理离职': this.handleLinkTo(); break;
+        }
     }
 
     render() {
-        const { title } = this.props;
+        const { 
+            title,
+        } = this.props;
         return (
             <div className="control">
                 <div className="pull-left">
                     <h2>{title}</h2>
                 </div>
                 <div className="pull-right">
-                    <Button
-                        type="primary"
-                        style={{
-                            width: 100,
-                        }}
-                        onClick={this.handleClick}
-                    >
-                        添加员工
-                        <img src="static/images/manager/arrow-down.png" alt="选择"/>
-                    </Button>
+                    <Select defaultValue="添加员工"  
+                            style={{ width: 100}}
+                            dropdownMatchSelectWidth={false}
+                            onChange = {this.handleAddClerk}
+                    >          
+                        {
+                            ["导入Excel人员信息",
+                            "办理离职",
+                            ].map((item,index)=>{
+                                return (
+                                    <Option  key={index} value={item}>{item}</Option>
+                                )
+                            })
+                        }
+                      
+                    </Select>    
                     <Button
                         style={{
                             width: 170,

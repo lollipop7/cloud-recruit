@@ -71,6 +71,16 @@ export default function getRoutes () {
                 }} 
             />
             <Route
+                path="newClerkForm"
+                onEnter={requireAuthHook}
+                onLeave={onLeavePage}
+                getComponent={(nextState,cb)=>{
+                    require.ensure([], (require) => {
+                        cb(null, require('components/manager/clerk/new-clerk-form').default)
+                    }, 'NewClerkForm')
+                }} 
+            />
+            <Route
                 path="archives"
                 onEnter={requireAuthHook}
                 onLeave={onLeavePage}

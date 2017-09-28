@@ -42,7 +42,8 @@ export default class ProgressComponent extends Component{
         const {
             archivesTableData,
             getArchivesList,
-            getLeaveArchivesList
+            getLeaveArchivesList,
+            sortMethod
         } = this.props;
         if (archivesTableData=='1'){
             switch(value)
@@ -82,6 +83,7 @@ export default class ProgressComponent extends Component{
             };
             setTimeout(()=>{
                 const {sort} = this.state;
+                sortMethod(sort)
                 getArchivesList({sort:sort});
             })
         }else if (archivesTableData=='2'){
@@ -120,14 +122,14 @@ export default class ProgressComponent extends Component{
     //下载材料附件
     downloadMaterial = () => {
         const ridName = this.props.ridName;
-        if (ridName.rid){
-            this.props.downloadMaterial(ridName)
-        }else{
-            notification.info({
-                message: '请先选择具体人员！'
-            });
-        }    
-    }
+            if (ridName.rid){ 
+                    this.props.downloadMaterial(ridName)   
+            }else{
+                notification.info({
+                    message: '请先选择具体人员！'
+                });
+            }     
+        }
 
     render() {
        const {
@@ -143,8 +145,8 @@ export default class ProgressComponent extends Component{
                 leftStyleColor , 
                 rightStyleColor
             } = this.state;          
-       const PercentageResume = ((parseInt(material)/parseInt(resumeCount))*100).toFixed(2);
-       const PercentageLeave = ((parseInt(departure)/parseInt(leaveCount))*100).toFixed(2);
+       const PercentageResume = ((parseInt(material)/parseInt(resumeCount))*100).toFixed(0);
+       const PercentageLeave = ((parseInt(departure)/parseInt(leaveCount))*100).toFixed(0);
         return (
             <div>
                 <div className="archives-progress">
