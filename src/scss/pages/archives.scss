@@ -113,7 +113,25 @@
     }
 }
 
-.grey-close-header {
+.personnelModal {
+    .ant-modal-header {
+        background-color: #f3f3f3;
+    }
+    .ant-modal-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .ant-modal-close-x {
+        background: url(/static/images/resume/close.png)   no-repeat;
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+        margin-top: 8px;
+        &:before {
+            content: "";
+        }
+    } 
     width: 830px !important;
     .ant-select-dropdown-menu-item-selected,.ant-select-dropdown-menu-item{
         font-size: 12px;
