@@ -38,7 +38,8 @@ class RecruitPage extends BasicPage {
         stageid: '1',
         skip: 0,
         range:"1",
-        positionid:""
+        positionid:"",
+        degree:''
     };
 
     formData = {
@@ -55,7 +56,16 @@ class RecruitPage extends BasicPage {
         if (interview.positionid){
             this.params.positionid =interview.positionid;
             this.params.stageid =interview.stageid;
-            this.refs.LeftNav.setSelectedIndex(parseInt(interview.stageid)-1);
+            this.params.degree =interview.degree;
+            this.setState({
+                tableHead:interview.title
+            })
+            if(interview.stageid=='0'){
+                this.refs.LeftNav.setSelectedIndex(parseInt(interview.stageid)+7);
+            }else{
+                this.refs.LeftNav.setSelectedIndex(parseInt(interview.stageid)-1);
+            }
+            
         }
          if(stageid){
             this.params.stageid = stageid;
@@ -107,6 +117,7 @@ class RecruitPage extends BasicPage {
         this.params.skip = 0;
         this.setPaginationCurrent(1);
         this.params.positionid="";
+        this.params.degree="";
         this.refs.FormComponents.resetForm(true); 
         this.formData.workyear="";
         this.formData.educationbg="";

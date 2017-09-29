@@ -215,22 +215,21 @@ export const addEvaluation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        const {getEvaluationId,jobid,resumeid,getEvaluation,evaluationid,evaluationId} = props; 
-        if (!evaluationid && !evaluationId){
-                getEvaluationId({
-                positionid: jobid,
-                resumeid: resumeid,
-            },getEvaluation);
-            message.success('添加评估表成功！');
-        } else {
+        const {getRecruitResumeInfo,resumeid,logId} = props;
+        getRecruitResumeInfo({
+            resumeId: resumeid,
+            logId: logId
+        })
+        if (data.id){
             message.success('修改评估表成功！');
+        } else {
+            message.success('添加评估表成功！');
         }       
     },err=>{
-        const {evaluationid,evaluationId} = props; 
-        if (!evaluationid && !evaluationId){
-            message.error('添加评估表失败！');
+        if (data.id){
+            message.error('修改评估表失败！');
         } else {
-            message.success('修改评估表失败！');
+            message.success('添加评估表失败！');
         }  
     });
 }
@@ -254,20 +253,20 @@ export const getEvaluation = (data) => (dispatch,getState) => {
 }
 
 //获取面试评估表id
-export const getEvaluationId = (data,getEvaluation) => (dispatch,getState) => {
-    AjaxByToken('getInterviewForm',{
-        head: {
-            transcode: 'L0070'
-        },
-        data: data
-    })
-    .then(res=>{
-        getEvaluation({evaluationId:`${res.evaluationId}`})
-        dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
-    },err=>{
-        message.error('获取失败！');
-    });
-}
+// export const getEvaluationId = (data,getEvaluation) => (dispatch,getState) => {
+//     AjaxByToken('getInterviewForm',{
+//         head: {
+//             transcode: 'L0070'
+//         },
+//         data: data
+//     })
+//     .then(res=>{
+//         getEvaluation({evaluationId:`${res.evaluationId}`})
+//         dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
+//     },err=>{
+//         message.error('获取失败！');
+//     });
+// }
 
 export const showModal = (data) => (dispatch,getState) => {
     dispatch({...SHOW_MODAL,currentStage:data});

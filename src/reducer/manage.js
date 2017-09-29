@@ -80,6 +80,7 @@ const initialState = {
     },
     departmentStaff: {},
     currentUid:'',
+    departmentName:'',
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
@@ -91,6 +92,10 @@ const initialState = {
         list: [],
         count: 0
     },
+    employeeQuality:{
+        chart1:[],
+        chart2:[]
+    }
 };
 
 export default function manage(state=initialState,actions){
@@ -148,7 +153,7 @@ export default function manage(state=initialState,actions){
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
         case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:actions.employeeQuality};
+            return {...state,employeeQuality:{...state.employeeQuality,chart1:actions.chart1,chart2:actions.chart2} };
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:
@@ -156,7 +161,7 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid}
+            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid, departmentName:actions.departmentName}
         case ADD_EDIT_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case DELETE_DEPARTMENT:

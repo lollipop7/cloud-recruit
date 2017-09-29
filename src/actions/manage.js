@@ -346,23 +346,19 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
 }
 
 // 获取全员概览-员工性质分布信息
-export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
-    AjaxByToken('TaskCompletion',{
+export const getEmployeeQuality = (type) => (dispatch,getState) => {
+    AjaxByToken('empoverview/singleclumn',{
         head: {
-            transcode: 'L0009'
+            transcode: 'L0085'
         },
-        data: {
-            latestDays: latestDays + '' //将数字转化为字符串
-        }
+        data: type
     })
     .then(res=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
-                                                           {cnt: 2, stagename: "兼职", stageid: 2},
-                                                           {cnt: 2, stagename: "实习", stageid: 3},
-                                                           {cnt: 2, stagename: "未填写", stageid: 4},
-                                                          ]});
+        console.log(16161616,res.content)
+        dispatch({...GET_EMPLOYEE_QUALITY,chart1:res.content})
     },err=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+        console.log(err)
+        dispatch({...GET_EMPLOYEE_QUALITY})
     });
 }
 
@@ -376,7 +372,6 @@ export const getDepartMentList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res.list);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST});
@@ -389,7 +384,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -398,7 +393,7 @@ export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) =>
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid,departmentName:departmentName});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });

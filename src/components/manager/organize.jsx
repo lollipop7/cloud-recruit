@@ -26,7 +26,7 @@ class OrganizePage extends Component {
                     <TabPane tab="部门管理" key="2">
                         <LeftTree/>
                         {
-                            departmentStaff.resumeoffList && departmentStaff.resumeoffList.length>0?<RightContent/>:<NoSubDepartment/>
+                            departmentStaff.resumeoffList && departmentStaff.resumeoffList.length>0 ?<RightContent/>:<NoSubDepartment/>
                         }
                     </TabPane>
                 </Tabs>

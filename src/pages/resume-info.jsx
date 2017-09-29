@@ -213,6 +213,7 @@ class ResumeInfoPage extends Component {
                                 jobid = {currentPId}
                                 username = {username}
                                 evaluationId={evaluationId}
+                                logId={logId}
                             />
                         </div>
                 }

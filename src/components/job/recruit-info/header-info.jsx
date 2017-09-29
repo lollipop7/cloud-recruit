@@ -102,10 +102,8 @@ class HeaderInfoComponent extends Component {
     }
     handleEvaluate = () => {
         const { evaluationId} = this.props.data;
-        const { evaluationid } = this.props;
         //获取评估表内容
-        if (evaluationId.length!=0 || evaluationid){
-            //this.props.getEvaluation({evaluationId:evaluationId?`${evaluationId}`:`${evaluationid}`})
+        if (evaluationId.length!=0 ){
             this.props.getEvaluation({evaluationId:evaluationId})
         }
         //显示评估表
@@ -113,7 +111,7 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {data,modalVisible,currentStage,evaluation ,evaluationid} = this.props,
+        const {data,modalVisible,currentStage,evaluation } = this.props,
             {
                 resumeInfo={},
                 resumeid, //简历id
@@ -272,7 +270,7 @@ class HeaderInfoComponent extends Component {
                                         width: 102, 
                                         borderColor: '#b6b6b6',
                                         fontWeight:'bold',
-                                        color:(evaluationid || (evaluationId!=undefined && evaluationId.length!=0))?'#28ad78':'#b6b6b6'
+                                        color:((evaluationId!=undefined && evaluationId.length!=0))?'#28ad78':'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
                                     disabled={stage!=undefined && stage.stageid>2 && stage.stageid<5?false:true}
@@ -283,9 +281,9 @@ class HeaderInfoComponent extends Component {
                                             height: 22,
                                         }}
                                         src={
-                                           (evaluationid || evaluationId!=undefined && evaluationId.length!=0)?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} 
+                                           (evaluationId!=undefined && evaluationId.length!=0)?"./static/images/resume/as-table.png":"./static/images/resume/as.png"} 
                                             alt="面试评估表"/>
-                                    {(evaluationid || (evaluationId!=undefined && evaluationId.length!=0))?"已添加":'点此添加'}
+                                    {(evaluationId!=undefined && evaluationId.length!=0)?"已添加":'点此添加'}
                                 </Button>
                             </div>
                         </div>
@@ -300,7 +298,6 @@ class HeaderInfoComponent extends Component {
 const mapStateToProps = state => ({
     isDownLoading: state.Resume.isDownLoading,
     currentStage : state.Resume.currentStage,
-    evaluationid: state.Resume.evaluationid
 })
 const mapDispatchToProps = dispatch => ({
     downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
