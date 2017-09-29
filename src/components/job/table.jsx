@@ -38,27 +38,34 @@ class TableComponent extends Component {
         this.setState({currentClickJob:record});
         showJobModal();
     }
-    //跳转到招聘管理页面，通过传参数获取面试者数据
+    //跳转到招聘流程页面，通过传参数获取面试者数据
     getInterviewNum = (record) =>{
         const {positionid} = record;
         //3代表面试管理
-        this.props.getResumeId({positionid:positionid,stageid:"3"})
+        this.props.getResumeId({positionid:positionid,stageid:"3",title:'面试管理'})
         //路由跳转
         this.context.router.push(`recruit`);
     }
-    //跳转到招聘管理页面，通过传参数获取复试者数据
+    //跳转到招聘流程页面，通过传参数获取复试者数据
     getReInterviewNum = (record) =>{
         const {positionid} = record;
-        //3代表面试管理
-        this.props.getResumeId({positionid:positionid,stageid:"4"})
+        //4代表复试管理
+        this.props.getResumeId({positionid:positionid,stageid:"4",title:'复试管理'})
         //路由跳转
         this.context.router.push(`recruit`);
     }
-    //跳转到招聘管理页面，通过传参数获取收到offer者数据
+    //跳转到招聘流程页面，通过传参数获取收到offer者数据
     getOfferNum = (record) =>{
         const {positionid} = record;
-        //3代表面试管理
-        this.props.getResumeId({positionid:positionid,stageid:"5"})
+        //5代表offer管理
+        this.props.getResumeId({positionid:positionid,stageid:"5",title:'发送offer'})
+        //路由跳转
+        this.context.router.push(`recruit`);
+    }
+    getDegreeNum = (record) => {
+        const {positionid} = record;
+        //0代表全部
+        this.props.getResumeId({positionid:positionid,stageid:"0",degree:'1',title:'智能筛选'})
         //路由跳转
         this.context.router.push(`recruit`);
     }
@@ -71,6 +78,7 @@ class TableComponent extends Component {
         columns[6].render = this.renderWithInterview;
         columns[7].render = this.renderWithReInterview;
         columns[8].render = this.renderWithgetOffer;
+        columns[10].render = this.renderWithgetDegree;
         columns[columns.length - 1].render = (text,record,index) => {
             switch(parseInt(text)) {
                 case 0:
@@ -126,7 +134,7 @@ class TableComponent extends Component {
             </a>
         )
     }
-    //收到offer渲染
+    //offer列渲染
     renderWithgetOffer = (text, record, index) => {
         return (
             <a 
@@ -134,6 +142,18 @@ class TableComponent extends Component {
                 href="javascript:;" 
                 title={text}
                 onClick={() => this.getOfferNum(record)}
+            >
+                {text}
+            </a>
+        )
+    }
+    renderWithgetDegree = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={text}
+                onClick={() => this.getDegreeNum(record)}
             >
                 {text}
             </a>

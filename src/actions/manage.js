@@ -36,6 +36,10 @@ import FileSaver from 'file-saver';
     const QUERY_EMPLOYEE_DONE = {type:types.QUERY_EMPLOYEE_DONE};
     const QUERY_EMPLOYEE_LIST = {type:types.QUERY_EMPLOYEE_LIST};
 
+    //办理离职modal
+    const SHOW_DISMISSION_MODAL = {type:types.SHOW_DISMISSION_MODAL};
+    const HIDE_DISMISSION_MODAL = {type:types.HIDE_DISMISSION_MODAL};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -150,6 +154,15 @@ import FileSaver from 'file-saver';
             console.log(err)
             dispatch(QUERY_EMPLOYEE_DONE);
         })
+    }
+
+    //显示办理离职modal
+    export const showDismissionModal = () => (dispatch,getState) => {
+        dispatch(SHOW_DISMISSION_MODAL);
+    }
+    //显示办理离职modal
+    export const hideDismissionModal = () => (dispatch,getState) => {
+        dispatch(HIDE_DISMISSION_MODAL);
     }
 
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select } from 'antd';
+import { Input, Select, DatePicker } from 'antd';
 const Option = Select.Option;
 
 
@@ -180,3 +180,95 @@ export class SelectComponent extends Component {
     }
 }
 
+export class DatePickerComponent extends Component {
+
+    static propTypes = {
+        name: PropTypes.string,         //输入框前名称
+        field: PropTypes.string,
+        value: PropTypes.oneOfType([    //输入框的值
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        placeholder: PropTypes.string,  //输入框提示信息
+        onChange: PropTypes.func,       //输入框方法
+        disabled: PropTypes.bool,       //是否禁用输入框
+        className: PropTypes.string,    // 输入框类名
+        style: PropTypes.object,        // 输入框内联样式
+        asterisk: PropTypes.bool,        //是否是必填项
+    }
+
+    state = {
+        error: false,
+        open: false,
+    }
+    //弹出日历和关闭日历的回调
+    handleOpenChange = open => {
+        this.setState({open});
+    }
+
+    triggerError = error => {
+        this.setState({ error });
+    }
+
+        onChange = (field, value) => {
+            this.setState({
+                [field]: value
+            });
+        }
+
+    //时间发生变化时的回调
+    onDateChange = (value) => {
+        const {onChange,field} = this.props;
+        if(onChange){
+            onChange(field,value);
+        }
+        if(!value){
+            this.triggerError(true);
+        }
+    }
+
+    render(){
+        const {error,open} = this.state,
+        {
+            name,
+            field,
+            value,
+            placeholder,
+            style,
+            asterisk = false,
+            className = '',
+            disabled=false
+        } = this.props;
+        console.log()
+        return(
+            <div className="inline-block">
+                <span className={ asterisk ? "required-asterisk" : ""}>{name}</span>
+                <div className="inline-block" style={{
+                    position: 'relative',
+                    marginRight: 0
+                }}>
+                    <DatePicker
+                        ref='datepicker'
+                        className={error&&asterisk ? 'error' : ''}
+                        allowClear
+                        placeholder={placeholder}
+                        format="YYYY-MM-DD"
+                        value={value}
+                        style={style}
+                        open={open}
+                        disabled={disabled}
+                        onOpenChange={this.handleOpenChange}
+                        onChange={this.onDateChange}
+                    />
+                    {error&&asterisk &&
+                        <div className="error-promote" style={{
+                            paddingLeft: 0
+                        }}>
+                            <label className="error">{placeholder}</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        )
+    }
+}

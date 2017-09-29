@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
-import { Button, Select } from 'antd';
+import { Button, Select, Menu, Dropdown } from 'antd';
 
 import trim from 'lodash/trim';
 import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
 
-export default class HeaderInfoComponent extends Component {
+import DismissionModal from './dismission-modal'; 
+
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class HeaderInfoComponent extends Component {
 
     componentDidMount(){
+        this.props.showDismissionModal();
     }
 
     // getAstro = (month,day) => {   
@@ -29,6 +37,14 @@ export default class HeaderInfoComponent extends Component {
         console.log('人员征信');
     }
 
+    handleMoreOthersClick = (e) => {
+        switch(e.key){
+            case '1': console.log('生成信息填写二维码'); break;
+            case '2': this.props.showDismissionModal(); break;
+            case '3': console.log('删除员工'); break;
+        }
+    }
+
     render() {
         const {crewDetail}=this.props,        //？？？？
         {
@@ -40,6 +56,15 @@ export default class HeaderInfoComponent extends Component {
             birthday,       //出生日期
             inthetime       //入职时间
         }=clerkInfo.headerInfo;
+
+        const moreOthers = (
+            <Menu onClick={this.handleMoreOthersClick}>
+              <Menu.Item key="1">生成信息填写二维码</Menu.Item>
+              <Menu.Item key="2">办理离职</Menu.Item>
+              <Menu.Item key="3">删除员工</Menu.Item>
+            </Menu>
+        );
+
         return (
             <div className="header-info">
                 <div className="prime-name pull-left">
@@ -96,23 +121,29 @@ export default class HeaderInfoComponent extends Component {
                     <Button onClick={this.creditInvestgation}>
                         人事调动
                     </Button>
-                    <Select defaultValue="更多"  
-                            style={{ width: 100}}
-                            dropdownMatchSelectWidth={false}
-                    >
-                        {
-                            ["生成信息填写二维码",
-                            "办理离职",
-                            "删除员工",
-                            ].map((item,index)=>{
-                                return (
-                                    <Option  key={index} value={item}>{item}</Option>
-                                )
-                            })
-                        }
-                    </Select>      
+                    <Dropdown overlay={moreOthers}>
+                        <Button style={{ width: 100 }}>
+                            更多
+                            <img src="static/images/manager/arrow-up.png" alt="选择"/>
+                        </Button>
+                    </Dropdown>
                 </div>
+                <DismissionModal {...this.props}/>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    dismissionModal: state.Manage.dismissionModal
+})
+
+const mapDispatchToProps = dispatch => ({
+    showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
+    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderInfoComponent)

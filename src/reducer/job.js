@@ -41,7 +41,7 @@ const initialState = {
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,
-    interview:""
+    interview:{}
 };
 
 export default function job(state = initialState,actions){

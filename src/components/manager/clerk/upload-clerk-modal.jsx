@@ -98,11 +98,6 @@ export default class UploadClerkModal extends Component {
         this.props.downloadTememployees();
     }
 
-    hideUploadClerkModal = () => {
-        this.props.hideUploadClerkModal();
-        this.props.handleContext('添加员工');
-    }
-
     render(){
         const {
             uploadClerkModal,
@@ -124,7 +119,7 @@ export default class UploadClerkModal extends Component {
                 title="导入excel人员"
                 wrapClassName="grey-close-header vertical-center-modal dragger-wrap"
                 visible={visible}
-                onCancel={isLoading ? () => {} : this.hideUploadClerkModal}
+                onCancel={isLoading ? () => {} : hideUploadClerkModal}
                 footer={null}
             >
                 <Dragger

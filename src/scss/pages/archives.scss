@@ -14,6 +14,9 @@
         position: relative;
         padding: 10px;
         border: 1px solid #f0f0f0;
+        .ant-progress-inner{
+            background-color:#e6e6e6;
+        }
         .left-progress-archives{
             width: 345px;
             float: left;
@@ -53,6 +56,9 @@
         border: 1px solid #f0f0f0;
         .ant-progress-bg{
             background-color:#f6cd6b
+        }
+        .ant-progress-inner{
+            background-color:#e6e6e6;
         }
         .right-triangle{
             font-size: 0;  
