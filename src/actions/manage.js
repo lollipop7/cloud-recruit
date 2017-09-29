@@ -40,6 +40,10 @@ import FileSaver from 'file-saver';
     const SHOW_DISMISSION_MODAL = {type:types.SHOW_DISMISSION_MODAL};
     const HIDE_DISMISSION_MODAL = {type:types.HIDE_DISMISSION_MODAL};
 
+    //办理转正modal
+    const SHOW_FORMAL_MODAL = {type:types.SHOW_FORMAL_MODAL};
+    const HIDE_FORMAL_MODAL = {type:types.HIDE_FORMAL_MODAL};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -160,9 +164,19 @@ import FileSaver from 'file-saver';
     export const showDismissionModal = () => (dispatch,getState) => {
         dispatch(SHOW_DISMISSION_MODAL);
     }
-    //显示办理离职modal
+    //隐藏办理离职modal
     export const hideDismissionModal = () => (dispatch,getState) => {
         dispatch(HIDE_DISMISSION_MODAL);
+    }
+
+    //显示办理转正modal
+    export const showPermanentModal = () => (dispatch,getState) => {
+        console.log('SHOW_FORMAL_MODAL');
+        dispatch(SHOW_FORMAL_MODAL);
+    }
+    //隐藏办理离职转正modal
+    export const hidePermanentModal = () => (dispatch,getState) => {
+        dispatch(HIDE_FORMAL_MODAL);
     }
 
 

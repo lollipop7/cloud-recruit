@@ -2,9 +2,32 @@ import React, {Component} from 'react';
 import { Modal, Tag , Button } from 'antd';
 
 import {DatePickerComponent} from '../input-select-time';
+import trim from 'lodash/trim';
+import moment from 'moment';
+
+import clerkInfo from 'data/clerk/clerk';
 
 export default class PermanentModal extends Component {
+    componentDidMount(){
+        console.log(this.props)
+    }
+
     render(){
+        const {
+            permanentModal,
+            hidePermanentModal
+        } = this.props,
+        {visible} = permanentModal,
+        {
+            name,           //姓名
+            englishname,    //英文名      
+            department,     //部门
+            position,       //职位
+            sex,            //性别
+            birthday,       //出生日期
+            inthetime       //入职时间
+        }=clerkInfo.headerInfo;
+
         return(
             <Modal
                 title="办理离职"

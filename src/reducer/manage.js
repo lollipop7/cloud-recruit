@@ -17,6 +17,8 @@ import {
     QUERY_EMPLOYEE_LIST,
     SHOW_DISMISSION_MODAL,
     HIDE_DISMISSION_MODAL,
+    SHOW_FORMAL_MODAL,
+    HIDE_FORMAL_MODAL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -59,6 +61,10 @@ const initialState = {
         queryEmployeeData: {}
     },
     dismissionModal: {
+        isLoading: false,
+        visible: false,
+    },
+    permanentModal: {
         isLoading: false,
         visible: false,
     },
@@ -133,7 +139,11 @@ export default function manage(state=initialState,actions){
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:
-            return {...state,dismissionModal:{...state.dismissionModal,visible:false}};                         
+            return {...state,dismissionModal:{...state.dismissionModal,visible:false}};  
+        case SHOW_FORMAL_MODAL:
+            return {...state,permanentModal:{...state.permanentModal,visible:true}};  
+        case HIDE_FORMAL_MODAL:
+            return {...state,permanentModal:{...state.permanentModal,visible:false}};                            
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

@@ -7,6 +7,7 @@ import moment from 'moment';
 import clerkInfo from 'data/clerk/clerk';
 
 import DismissionModal from './dismission-modal'; 
+import PermanentModal from './permanent-modal'; 
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -16,7 +17,7 @@ import * as Actions from 'actions';
 class HeaderInfoComponent extends Component {
 
     componentDidMount(){
-        
+        this.props.showPermanentModal();
     }
 
     // getAstro = (month,day) => {   
@@ -40,8 +41,9 @@ class HeaderInfoComponent extends Component {
     handleMoreOthersClick = (e) => {
         switch(e.key){
             case '1': console.log('生成信息填写二维码'); break;
-            case '2': this.props.showDismissionModal(); break;
-            case '3': console.log('删除员工'); break;
+            case '2': this.props.showPermanentModal(); break;
+            case '3': this.props.showDismissionModal(); break;
+            case '4': console.log('删除员工'); break;
         }
     }
 
@@ -56,12 +58,12 @@ class HeaderInfoComponent extends Component {
             birthday,       //出生日期
             inthetime       //入职时间
         }=clerkInfo.headerInfo;
-
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
               <Menu.Item key="1">生成信息填写二维码</Menu.Item>
-              <Menu.Item key="2">办理离职</Menu.Item>
-              <Menu.Item key="3">删除员工</Menu.Item>
+              <Menu.Item key="2">转正</Menu.Item>
+              <Menu.Item key="3">办理离职</Menu.Item>
+              <Menu.Item key="4">删除员工</Menu.Item>
             </Menu>
         );
 
@@ -129,18 +131,22 @@ class HeaderInfoComponent extends Component {
                     </Dropdown>
                 </div>
                 <DismissionModal {...this.props}/>
+                <PermanentModal {...this.props}/>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    dismissionModal: state.Manage.dismissionModal
+    dismissionModal: state.Manage.dismissionModal,
+    permanentModal: state.Manage.permanentModal
 })
 
 const mapDispatchToProps = dispatch => ({
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
-    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch)
+    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
+    showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
+    hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
 })
 
 export default connect(

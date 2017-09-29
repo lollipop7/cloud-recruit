@@ -36,6 +36,10 @@ export const QUERY_EMPLOYEE_LIST = 'QUERY_EMPLOYEE_LIST';
  export const SHOW_DISMISSION_MODAL = 'SHOW_DISMISSION_MODAL';
  export const HIDE_DISMISSION_MODAL = 'HIDE_DISMISSION_MODAL';
 
+ //办理转正modal
+ export const SHOW_FORMAL_MODAL = 'SHOW_FORMAL_MODAL';
+ export const HIDE_FORMAL_MODAL = 'HIDE_FORMAL_MODAL';
+
  /**
  * ===档案管理===
  */
