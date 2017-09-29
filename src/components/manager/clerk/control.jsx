@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Select  } from 'antd';
+import { Button, Menu, Dropdown,Icon } from 'antd';
 
 import UploadClerkModal from './upload-clerk-modal';
 
@@ -8,14 +8,11 @@ import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
+
 class ControlComponent extends Component {
 
     static contextTypes = {
         router: PropTypes.object
-    }
-
-    state={
-        context: '添加员工'
     }
 
     handleLinkTo = () => {
@@ -23,47 +20,37 @@ class ControlComponent extends Component {
         NProgress.start();
     }
 
-    handleAddClerk = (value) => {
-        switch(value){
-            case '导入Excel人员信息': this.props.showUploadClerkModal(); break;
-            case '手动添加': this.handleLinkTo(); break;
+    handlePlusClerkClick = (e) => {
+        switch(e.key){
+            case '1': this.props.showUploadClerkModal(); break;
+            case '2': this.handleLinkTo(); break;
         }
-    }
-
-    handleContext =(context) =>{
-        this.setState({
-            context
-        })
     }
 
     render() {
         const { 
             title,
-        } = this.props,
-        {context} = this.state;
+        } = this.props;
+
+        const plusClerkMenu = (
+            <Menu onClick={this.handlePlusClerkClick}>
+              <Menu.Item key="1">导入Excel人员信息</Menu.Item>
+              <Menu.Item key="2">手动添加</Menu.Item>
+            </Menu>
+        );
+
         return (
             <div className="control">
                 <div className="pull-left">
                     <h2>{title}</h2>
                 </div>
                 <div className="pull-right">
-                    <Select   
-                            style={{ width: 100}}
-                            value={context}
-                            dropdownMatchSelectWidth={false}
-                            onChange = {this.handleAddClerk}
-                    >          
-                        {
-                            ["导入Excel人员信息",
-                            "手动添加",
-                            ].map((item,index)=>{
-                                return (
-                                    <Option  key={index} value={item}>{item}</Option>
-                                )
-                            })
-                        }
-                      
-                    </Select>    
+                    <Dropdown overlay={plusClerkMenu}>
+                        <Button style={{ width: 100 }} type="primary">
+                            添加员工
+                            <img src="static/images/manager/arrow-down.png" alt="选择"/>
+                        </Button>
+                    </Dropdown>
                     <Button
                         style={{
                             width: 170,
@@ -88,10 +75,7 @@ class ControlComponent extends Component {
                     </Button>
                 </div>
                 <div className="clearfix"></div>
-                <UploadClerkModal 
-                    {...this.props}
-                    handleContext={this.handleContext}
-                />
+                <UploadClerkModal {...this.props}/>
             </div>
         );
     }

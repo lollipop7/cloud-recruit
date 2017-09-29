@@ -4,7 +4,7 @@ import { Input, Button, Card, Row, Col } from 'antd';
 import clerkInfo from 'data/clerk/clerk';
 const {cardList} = clerkInfo.creditInvestgation.cardList;
 
-import {ErrorInputComponent} from '../input-select';
+import {ErrorInputComponent} from '../input-select-time';
 
 export default class CreditFillComponent extends Component {
 

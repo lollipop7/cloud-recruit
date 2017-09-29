@@ -1,19 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select, Cascader, Button, DatePicker } from 'antd';
+import { Input, Select, Cascader, Button, Icon, notification } from 'antd';
 const Option = Select.Option;
 import moment from 'moment';
 
 import city from 'data/city.json';
 import salaryData from 'data/salary.json';
 
-import {ErrorInputComponent,SelectComponent} from './input-select';
+import {ErrorInputComponent,SelectComponent,DatePickerComponent} from './input-select-time'; 
 
 export default class NewClerkForm extends Component {
 
     state = {
-        isOpen: false,
-        error: false
+        inthetime: '' //显示时间
     }
 
     componentDidMount() {
@@ -42,30 +41,14 @@ export default class NewClerkForm extends Component {
         });
     }
 
-    triggerIsOpen = (isOpen) => {
-        this.setState({isOpen});
-    }
-
-    handleOpenChange = isOpen => {
-        this.triggerIsOpen(isOpen);
-    }
-
-    triggerError = error => {
-        this.setState({ error });
-    }
-
-    onChange = (field, value) => {
+    onTimeChange=(field,value)=> {
         this.setState({
             [field]: value
         });
     }
 
-    handleDateChange = (value) => {
-        console.log('进入');
-        const {error} = this.state;
-        this.onChange('inthetime',value);
-        error && this.triggerError(false);
-        !value && this.triggerError(true);
+    showAddModal = () => {
+        console.log('添加部门')
     }
 
     render() {
@@ -79,7 +62,7 @@ export default class NewClerkForm extends Component {
             documenttype = undefined,     //证件类型
             card = '',                   //card
             worknature = undefined,         //工作性质
-            inthetime = undefined,              //入职日期
+            inthetime = null,              //入职日期
             workstatus = undefined,         //员工状态
             theleng = undefined,       //试用期
 
@@ -90,8 +73,6 @@ export default class NewClerkForm extends Component {
             cemail = '',                 //企业邮箱
             contactname = '',            //紧急联系人
             contactphone = '',           //紧急联系人电话
-            error,
-            isOpen
         } = this.state;
         return (
             <div className="right-panel new-clerk-form">
@@ -197,35 +178,16 @@ export default class NewClerkForm extends Component {
                                 onChange={this.handleChange}
                                 asterisk={true}
                             />
-                            <div className="inline-block">
-                                <span className="required-asterisk">入职日期：</span>
-                                <div className="inline-block" style={{
-                                    position: 'relative',
-                                    marginRight: 0
-                                }}>
-                                    <DatePicker
-                                        ref="inthetimeSelect"
-                                        className={"error ? 'error' : ''"}
-                                        allowClear
-                                        placeholder="请选择入职日期"
-                                        format="YYYY-MM-DD"
-                                        value={inthetime}
-                                        style={{
-                                            width: 217
-                                        }}
-                                        open={isOpen}
-                                        onOpenChange={this.handleOpenChange}
-                                        onChange={this.handleDateChange}
-                                    />
-                                    {error &&
-                                        <div className="error-promote" style={{
-                                            paddingLeft: 0
-                                        }}>
-                                            <label className="error">请选择入职日期</label>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
+                            <DatePickerComponent
+                                ref="datePickerInput"
+                                name="入职日期："
+                                field="inthetime"
+                                value={inthetime}
+                                placeholder="请选择入职日期"
+                                style={{width: 224, height: 40}}
+                                asterisk={true}
+                                onChange={this.onTimeChange}
+                            />
                         </li>
                         <li>
                             <SelectComponent
@@ -274,14 +236,14 @@ export default class NewClerkForm extends Component {
                                         placeholder="请选择工作地点"
                                         style={{
                                             height: 40,
-                                            width: 229
+                                            width: 224
                                         }}
                                     />
                                     
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li style={{ position: "relative" }}>
                             <SelectComponent
                                 ref="departmentSelect"
                                 name="部门："
@@ -292,6 +254,16 @@ export default class NewClerkForm extends Component {
                                 placeholder="请选择部门"
                                 onChange={this.handleChange}
                             />
+                                <Icon type="plus-circle-o" 
+                                      style={{
+                                        position: "absolute",
+                                        left: 510,
+                                        top: 14,
+                                        color: "#0086c9",
+                                        fontSize: 16,
+                                      }} 
+                                      onClick={this.showAddModal}
+                                />   
                             <ErrorInputComponent
                                 ref="positionInput"
                                 name="岗位："
@@ -338,6 +310,10 @@ export default class NewClerkForm extends Component {
                             />
                         </li>
                     </ul>
+                </div>
+                <div className="consequense-field">
+                    <Button>取消</Button>
+                    <Button type="primary">保存</Button>
                 </div>
             </div>
         )

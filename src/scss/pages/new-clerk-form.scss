@@ -76,7 +76,7 @@
             
         }
         li {
-            padding-bottom: 20px;
+            padding-bottom: 24px;
         }
         .inline-block > span {
             display: inline-block;
@@ -93,6 +93,37 @@
             font-size: 14px;
             color: #868686;
             padding-left: 13px;
+        }
+        .ant-select-arrow:before,
+        .anticon-down:before {
+            content: '\E60B';
+            font-size: 16px !important;
+            color: $theme-color;
+        }
+        //圆角矩形
+        .ant-select-selection,
+        .ant-input {
+            border-radius: 10px;
+        }
+    }
+    .consequense-field {
+        margin-top: 36px;
+        text-align: center;
+        button {
+            width: 114px;
+            height: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFF;
+            border-radius: 8px;
+            &:first-child {
+                margin-right: 16px;
+                background-color: #c0c0c0;
+                &:hover,
+                &:focus {
+                    border-color: #c0c0c0;
+                }
+            }
         }
     }
 }
