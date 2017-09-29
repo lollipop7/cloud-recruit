@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {message} from 'antd';
+import {message,notification} from 'antd';
 
 import {Modal,Select,Input,Button,Upload} from 'antd';
 const Option = Select.Option;
@@ -185,6 +185,7 @@ class UploadResumeModalComponents extends Component {
                                     {errorMsg}
                                 </span>
                             }
+                            
                         </Upload>
                     </li>
                 </ul>

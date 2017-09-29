@@ -10,6 +10,13 @@ import {
     HIDE_UPLOAD_CLERK_MODAL,
     UPLOAD_CLERK_START,
     UPLOAD_CLERK_DONE,
+    SET_RESETFORM_TRUE,
+    SET_RESETFORM_FALSE,
+    QUERY_EMPLOYEE_START,
+    QUERY_EMPLOYEE_DONE,
+    QUERY_EMPLOYEE_LIST,
+    SHOW_DISMISSION_MODAL,
+    HIDE_DISMISSION_MODAL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -45,6 +52,15 @@ const initialState = {
     uploadClerkModal: {
         isLoading: false,
         visible: false,
+        resetForm: false
+    },
+    queryEmployee: {
+        isLoading: false,
+        queryEmployeeData: {}
+    },
+    dismissionModal: {
+        isLoading: false,
+        visible: false,
     },
     //**档案管理 ------------------------------------------------*/
     archivesList:{
@@ -63,6 +79,7 @@ const initialState = {
         count: 0
     },
     departmentStaff: {},
+    currentUid:'',
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
@@ -97,7 +114,21 @@ export default function manage(state=initialState,actions){
         case UPLOAD_CLERK_START:
             return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:true}};  
         case UPLOAD_CLERK_DONE:
-            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}};             
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,isLoading:false}}; 
+        case SET_RESETFORM_TRUE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:true}};
+        case SET_RESETFORM_FALSE:
+            return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:false}};
+        case QUERY_EMPLOYEE_START:
+            return {...state,queryEmployee:{...state.queryEmployee,isLoading:true}};    
+        case QUERY_EMPLOYEE_DONE:
+            return {...state,queryEmployee:{...state.queryEmployee,isLoading:false}}; 
+        case QUERY_EMPLOYEE_LIST:
+            return {...state,queryEmployee:{...state.queryEmployee,queryEmployeeData:actions.queryEmployeeData}};
+        case SHOW_DISMISSION_MODAL:
+            return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
+        case HIDE_DISMISSION_MODAL:
+            return {...state,dismissionModal:{...state.dismissionModal,visible:true}};                         
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:
@@ -125,7 +156,7 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff}
+            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid}
         case ADD_EDIT_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case DELETE_DEPARTMENT:

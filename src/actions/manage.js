@@ -28,6 +28,17 @@ import FileSaver from 'file-saver';
     const HIDE_UPLOAD_CLERK_MODAL = {type: types.HIDE_UPLOAD_CLERK_MODAL};
     const UPLOAD_CLERK_START = {type: types.UPLOAD_CLERK_START};
     const UPLOAD_CLERK_DONE = {type: types.UPLOAD_CLERK_DONE};
+    const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
+    const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
+
+    //入职人员基本信息查询
+    const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
+    const QUERY_EMPLOYEE_DONE = {type:types.QUERY_EMPLOYEE_DONE};
+    const QUERY_EMPLOYEE_LIST = {type:types.QUERY_EMPLOYEE_LIST};
+
+    //办理离职modal
+    const SHOW_DISMISSION_MODAL = {type:types.SHOW_DISMISSION_MODAL};
+    const HIDE_DISMISSION_MODAL = {type:types.HIDE_DISMISSION_MODAL};
 
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
@@ -82,6 +93,24 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_UPLOAD_CLERK_MODAL);
     }
 
+    //下载人员excel模板
+    export const downloadTememployees = () => (dispatch,getState) => {
+        const token = store.get('token');
+        axios({
+            url: `${prefixUri}/employeeinfo/downloadTememployees`,
+            method: 'get',
+        })
+        .then(res=>{
+            const {data,headers} = res;
+            const filename = headers['content-disposition'].split(';')[1].trim().substr('filename='.length);
+            console.log(filename);
+            var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+            // FileSaver.saveAs(blob,filename);
+        }).catch(error=>{
+            console.log(error)
+        });
+    }
+
     //上传excel
     export const uploadClerkExcel = (data,props) => (dispatch,getState) => {
         dispatch(UPLOAD_CLERK_START);
@@ -97,11 +126,43 @@ import FileSaver from 'file-saver';
                 message: '提示',
                 description: '导入Excel人员成功！'
             });
+            dispatch(SET_RESETFORM_TRUE);
             dispatch(HIDE_UPLOAD_CLERK_MODAL);
         },err=>{
             console.log(err);
             dispatch(UPLOAD_CLERK_DONE);
         });
+    }
+
+
+    export const setResetFormFalse = () => (dispatch,getState) => {
+        dispatch(SET_RESETFORM_FALSE);
+    }
+
+    //入职人员基本信息查询
+    export const queryEmployee = (data={}) => (dispatch,getState) => {
+        dispatch(QUERY_EMPLOYEE_START);
+        AjaxByToken('employeeinfo/queryEmployee', {
+            head: {
+                transcode: 'L0062'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res)
+        },err=>{
+            console.log(err)
+            dispatch(QUERY_EMPLOYEE_DONE);
+        })
+    }
+
+    //显示办理离职modal
+    export const showDismissionModal = () => (dispatch,getState) => {
+        dispatch(SHOW_DISMISSION_MODAL);
+    }
+    //显示办理离职modal
+    export const hideDismissionModal = () => (dispatch,getState) => {
+        dispatch(HIDE_DISMISSION_MODAL);
     }
 
 
@@ -156,14 +217,12 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch(GET_ARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
             delete res.list[i].children;  
         };
         dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
     },err=>{
-        console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
 }
@@ -179,7 +238,6 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
         dispatch(GET_LEAVEARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
             delete res.list[i].children;  
@@ -223,26 +281,34 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        const {
-            getArchivesList , 
-            getLeaveArchivesList,
-            archivesTableData
-        } = props;
-        if(data.rid){
-            message.success('编辑信息成功！')
-            if(archivesTableData=='1'){
-                getArchivesList({sort:'1'}) 
-            }else if (archivesTableData=='2'){
-                getLeaveArchivesList({sort:'1'})
-            }       
+            if(props){
+                const {
+                getArchivesList , 
+                getLeaveArchivesList,
+                archivesTableData,
+                getDepartMentStaff,
+                currentUid
+            } = props;
+            if(data.rid){
+                message.success('编辑信息成功！')
+                if(archivesTableData=='1'){
+                    getArchivesList({sort:'1'}) 
+                }else if (archivesTableData=='2'){
+                    getLeaveArchivesList({sort:'1'})
+                }
+                getDepartMentStaff({departmentId:currentUid},currentUid);       
+            }else{
+                message.success('添加信息成功！');
+                if(archivesTableData=='1'){
+                    getArchivesList({sort:'1'}) 
+                }else if (archivesTableData=='2'){
+                    getLeaveArchivesList({sort:'1'})
+                }   
+            }
         }else{
-            message.success('添加信息成功！');
-            if(archivesTableData=='1'){
-                getArchivesList({sort:'1'}) 
-            }else if (archivesTableData=='2'){
-                getLeaveArchivesList({sort:'1'})
-            }   
-        }      
+            message.success('编辑信息成功！')
+        }
+              
     },err=>{
         if(data.rid){
             message.error('编辑信息失败！')
@@ -275,7 +341,6 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
         //dispatch(GET_ARCHIVES_DONE);
         dispatch({...GET_ARCHIVES_DATA,archivesData:res});
     },err=>{
-        console.log(err);
         dispatch(GET_ARCHIVES_DONE);
     })
 }
@@ -311,6 +376,7 @@ export const getDepartMentList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
+        console.log(res.list);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST});
@@ -323,7 +389,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -332,7 +398,7 @@ export const getDepartMentStaff = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });
@@ -348,7 +414,6 @@ export const addEditDepartment = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res)
         dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:'success'});
     },err=>{
         dispatch({...ADD_EDIT_DEPARTMENT,departmentInfo:''});
@@ -383,7 +448,6 @@ export const deleteDepartment = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...DELETE_DEPARTMENT,departmentInfo:'success'});
     },err=>{
-        console.log(err)
         dispatch({...DELETE_DEPARTMENT});
     });
 }

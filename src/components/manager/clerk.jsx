@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import TopComponent from './clerk/top';
 import ControlComponent from './clerk/control';
 import TableComponent from './clerk/table';
-import UploadClerkModal from './clerk/upload-clerk-modal';
 
 //top navdata
 import navData from 'data/nav/crewstatis';
@@ -112,13 +111,12 @@ class ClerkPage extends Component {
                 />
                 <ControlComponent 
                     title={tableHead}
-                    showUploadClerkModal={showUploadClerkModal}
                 />
                 <TableComponent 
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}
                 />
-                <UploadClerkModal/>
+                
             </div>
         );
     }
@@ -131,7 +129,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
     getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
-    showUploadClerkModal: bindActionCreators(Actions.ManageActions.showUploadClerkModal,dispatch)
+    
 })
 
 export default connect(

@@ -122,3 +122,15 @@
         }
     } 
 }
+
+//输入框带星号
+.required-asterisk {
+    &:before {
+        display: inline-block;
+        margin-right: 4px;
+        content: "*";
+        line-height: 1;
+        font-size: 12px;
+        color:  #ff3131;
+    }
+}

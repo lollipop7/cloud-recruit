@@ -38,9 +38,9 @@ import * as Actions from 'actions';
         }
     }
 
-    showClerkDetail = (record) => {
+    queryEmployee = (rid) => {
         NProgress.start();
-        this.props.showClerkDetail(record);
+        this.props.queryEmployee({rid:rid+''});
     }
 
     getColumns = () => {
@@ -54,7 +54,7 @@ import * as Actions from 'actions';
         const {rid} = record;
         return (
             <Link to={`/manager/clerkDetail/${rid}`} 
-                  onClick={()=>this.showClerkDetail(record)}
+                  onClick={()=>this.queryEmployee(rid)}
             >
                 {trim(text)}
             </Link>
@@ -126,7 +126,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    showClerkDetail: bindActionCreators(Actions.ManageActions.showClerkDetail,dispatch)
+    showClerkDetail: bindActionCreators(Actions.ManageActions.showClerkDetail,dispatch),
+    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch)
 })
 
 export default connect(

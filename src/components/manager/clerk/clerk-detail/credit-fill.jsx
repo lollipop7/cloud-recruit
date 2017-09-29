@@ -4,94 +4,7 @@ import { Input, Button, Card, Row, Col } from 'antd';
 import clerkInfo from 'data/clerk/clerk';
 const {cardList} = clerkInfo.creditInvestgation.cardList;
 
-import {InputComponent} from 'components/input';
-
-export class ErrorInputComponent extends Component {
-    state = {
-        error: false
-    }
-    static propTypes = {
-        name: PropTypes.string,
-        field: PropTypes.string,
-        value: PropTypes.oneOfType([ // 输入框的值
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        placeholder: PropTypes.string,
-        onChange: PropTypes.func,
-        disabled: PropTypes.bool, //是否禁用输入框
-        className: PropTypes.string, // 输入框类名
-        style: PropTypes.object // 输入框内联样式
-    }
-
-    handleChange = (field,event) => {
-        const {error} = this.state;
-        const {onChange} = this.props;
-        if(error){
-           this.triggerError(false);
-        }
-        if(onChange){
-            onChange(field,event);
-        }
-    }
-
-    triggerError = (error) => {
-        this.setState({error});
-    }
-
-    handleBlur = () => {
-        const {value} = this.props;
-        if(value === ''){
-            this.triggerError(true);
-        }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.value !== this.props.value || nextState.error !== this.state.error;
-    }
-
-    render() {
-        const {error} = this.state,
-            {
-                name='',
-                field='',
-                value,
-                placeholder,
-                disabled=false,
-                className='',
-                style={}
-            } = this.props;
-        return (
-            <div className="inline-block">
-                <span>{name}</span>
-                <div className="inline-block" style={{
-                    position: 'relative',
-                    marginRight: 0
-                }}>
-                    <Input 
-                        ref='input'
-                        placeholder={placeholder} 
-                        value={value}
-                        onChange={this.handleChange.bind(this,field)} 
-                        disabled={disabled}
-                        className={className}
-                        className={error ? 'error' : ''}
-                        style={style}
-                        onBlur={this.handleBlur}
-                    />
-                    {error &&
-                        <div className="error-promote" style={{
-                            paddingLeft: 0
-                        }}>
-                            <label className="error">必填</label>
-                        </div>
-                    }
-                </div>
-            </div>
-        )
-    }
-}
-
+import {ErrorInputComponent} from '../input-select-time';
 
 export default class CreditFillComponent extends Component {
 
@@ -126,6 +39,7 @@ export default class CreditFillComponent extends Component {
                                     value={candidatename}
                                     onChange={this.handleChange}
                                     disabled
+                                    asterisk={true}
                                 />
                              </li>
                              <li>
@@ -136,6 +50,7 @@ export default class CreditFillComponent extends Component {
                                     value={phonenum}
                                     onChange={this.handleChange}
                                     disabled
+                                    asterisk={true}
                                 />
                              </li>
                              <li>
@@ -146,6 +61,7 @@ export default class CreditFillComponent extends Component {
                                     value={idnum}
                                     onChange={this.handleChange}
                                     disabled
+                                    asterisk={true}
                                 />
                              </li>
                              <li>

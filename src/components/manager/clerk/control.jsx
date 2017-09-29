@@ -1,7 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Select  } from 'antd';
+import { Button, Menu, Dropdown,Icon } from 'antd';
 
-export default class ControlComponent extends Component {
+import UploadClerkModal from './upload-clerk-modal';
+
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+
+class ControlComponent extends Component {
 
     static contextTypes = {
         router: PropTypes.object
@@ -12,10 +20,10 @@ export default class ControlComponent extends Component {
         NProgress.start();
     }
 
-    handleAddClerk = (value) => {
-        switch(value){
-            case '导入Excel人员信息': this.props.showUploadClerkModal(); break;
-            case '办理离职': this.handleLinkTo(); break;
+    handlePlusClerkClick = (e) => {
+        switch(e.key){
+            case '1': this.props.showUploadClerkModal(); break;
+            case '2': this.handleLinkTo(); break;
         }
     }
 
@@ -23,28 +31,26 @@ export default class ControlComponent extends Component {
         const { 
             title,
         } = this.props;
+
+        const plusClerkMenu = (
+            <Menu onClick={this.handlePlusClerkClick}>
+              <Menu.Item key="1">导入Excel人员信息</Menu.Item>
+              <Menu.Item key="2">手动添加</Menu.Item>
+            </Menu>
+        );
+
         return (
             <div className="control">
                 <div className="pull-left">
                     <h2>{title}</h2>
                 </div>
                 <div className="pull-right">
-                    <Select defaultValue="添加员工"  
-                            style={{ width: 100}}
-                            dropdownMatchSelectWidth={false}
-                            onChange = {this.handleAddClerk}
-                    >          
-                        {
-                            ["导入Excel人员信息",
-                            "办理离职",
-                            ].map((item,index)=>{
-                                return (
-                                    <Option  key={index} value={item}>{item}</Option>
-                                )
-                            })
-                        }
-                      
-                    </Select>    
+                    <Dropdown overlay={plusClerkMenu}>
+                        <Button style={{ width: 100 }} type="primary">
+                            添加员工
+                            <img src="static/images/manager/arrow-down.png" alt="选择"/>
+                        </Button>
+                    </Dropdown>
                     <Button
                         style={{
                             width: 170,
@@ -69,7 +75,26 @@ export default class ControlComponent extends Component {
                     </Button>
                 </div>
                 <div className="clearfix"></div>
+                <UploadClerkModal {...this.props}/>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    uploadClerkModal: state.Manage.uploadClerkModal
+})
+
+const mapDispatchToProps = dispatch => ({
+    showUploadClerkModal: bindActionCreators(Actions.ManageActions.showUploadClerkModal,dispatch),
+    hideUploadClerkModal: bindActionCreators(Actions.ManageActions.hideUploadClerkModal,dispatch),
+    removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch),
+    uploadClerkExcel: bindActionCreators(Actions.ManageActions.uploadClerkExcel, dispatch),
+    setResetFormFalse: bindActionCreators(Actions.ManageActions.setResetFormFalse, dispatch),
+    downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ControlComponent)
