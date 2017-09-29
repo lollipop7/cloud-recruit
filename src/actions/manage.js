@@ -283,6 +283,7 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
                 }else if (archivesTableData=='2'){
                     getLeaveArchivesList({sort:'1'})
                 }
+                console.log(111111,currentUid);
                 getDepartMentStaff({departmentId:currentUid},currentUid);       
             }else{
                 message.success('添加信息成功！');
@@ -363,7 +364,6 @@ export const getDepartMentList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res.list);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST});
@@ -376,7 +376,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -385,7 +385,7 @@ export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) =>
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid,departmentName:departmentName});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });

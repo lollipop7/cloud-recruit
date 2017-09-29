@@ -76,11 +76,10 @@ class DepartmentStaff extends Component {
   
   render() {
     const { departmentInfo, resultTree } = this.state;
-    const { departmentStaff, departmentList:{list}, currentUid } = this.props;
-    console.log(departmentStaff)
+    const { departmentStaff, departmentList:{list}, currentUid, departmentName } = this.props;
     return (
       <div className='pull-left organize-tree-right'>
-          <div className='department-title'><div></div>客户服务售前售后部门</div>
+          <div className='department-title'><div></div>{departmentName}</div>
           <div className='down-line'></div>
 
           {/* 下级部门 */}
@@ -163,7 +162,8 @@ class DepartmentStaff extends Component {
 const mapStateToProps = state => ({
   departmentList: state.Manage.departmentList,
   departmentStaff: state.Manage.departmentStaff,
-  currentUid: state.Manage.currentUid
+  currentUid: state.Manage.currentUid,
+  departmentName: state.Manage.departmentName,
 })
 const mapDispatchToProps = dispatch => ({
   getDepartMentStaff: bindActionCreators(Actions.ManageActions.getDepartMentStaff, dispatch),
