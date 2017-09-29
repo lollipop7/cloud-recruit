@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
-import store from 'store';
 // antd
 import { Modal, Select } from 'antd';
 const Option = Select.Option;

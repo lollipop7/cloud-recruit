@@ -283,7 +283,6 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
                 }else if (archivesTableData=='2'){
                     getLeaveArchivesList({sort:'1'})
                 }
-                console.log(111111,currentUid);
                 getDepartMentStaff({departmentId:currentUid},currentUid);       
             }else{
                 message.success('添加信息成功！');
@@ -334,23 +333,19 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
 }
 
 // 获取全员概览-员工性质分布信息
-export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
-    AjaxByToken('TaskCompletion',{
+export const getEmployeeQuality = (type) => (dispatch,getState) => {
+    AjaxByToken('empoverview/singleclumn',{
         head: {
-            transcode: 'L0009'
+            transcode: 'L0085'
         },
-        data: {
-            latestDays: latestDays + '' //将数字转化为字符串
-        }
+        data: type
     })
     .then(res=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
-                                                           {cnt: 2, stagename: "兼职", stageid: 2},
-                                                           {cnt: 2, stagename: "实习", stageid: 3},
-                                                           {cnt: 2, stagename: "未填写", stageid: 4},
-                                                          ]});
+        console.log(16161616,res.content)
+        dispatch({...GET_EMPLOYEE_QUALITY,chart1:res.content})
     },err=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+        console.log(err)
+        dispatch({...GET_EMPLOYEE_QUALITY})
     });
 }
 

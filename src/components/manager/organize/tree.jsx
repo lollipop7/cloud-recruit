@@ -124,7 +124,6 @@ class LeftTreePage extends Component {
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2} = this.state;
     const { departmentList:{list}, departmentInfo } = this.props;
-    console.log(6666, list)
     if(departmentInfo == 'success'){
       this.afterSuccess()
       this.setState({departmentName:''});
