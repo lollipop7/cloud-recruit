@@ -128,7 +128,7 @@ export default function manage(state=initialState,actions){
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:
-            return {...state,dismissionModal:{...state.dismissionModal,visible:true}};                         
+            return {...state,dismissionModal:{...state.dismissionModal,visible:false}};                         
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

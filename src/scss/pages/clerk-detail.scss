@@ -476,3 +476,103 @@
         }
     }
 }
+//原因列表
+.checked-factors {
+    .ant-tag {
+        margin-right: 24px;
+        width: 130px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0;
+        border-radius: 0;
+        border: 1px solid #868686;
+        background: #fff;
+        color: #868686;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .ant-tag-checkable {
+        background-color: #fff;
+        border-color: #868686;
+    }
+    .ant-tag-checkable:not(.ant-tag-checkable-checked):hover {
+        background-color: #fff;
+        color: $theme-color;
+        border-color: $theme-color;
+    }
+    .ant-tag-checkable-checked {
+        color: $theme-color;
+        border-color: $theme-color;
+    }
+}
+
+.dismission-wrap {
+    .ant-modal-body {
+        padding: 18px 40px 40px 40px;
+        .table-cell {
+            padding-bottom: 20px;
+        }
+        li>p {
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: $theme-font-color;
+        }
+        .required-asterisk:before {
+            margin-right: 0;
+            content: "";
+        }
+        .time-field {
+            .ant-calendar-picker-icon:after {
+                content: '\E60B';
+                font-size: 16px;
+                color: #0086c9;
+            }
+        }
+        .time-field .required-asterisk,
+        .tag-area li>span {
+            margin-right: 50px;
+            font-size: 14px;
+            color: $theme-font-color;
+        }
+        .time-field input,
+        .tag-area li input[type='text'] {
+            width: 229px;
+            height: 40px;
+            font-size: 14px;
+            color: #868686;
+            padding-left: 13px;
+        }
+        .tag-area {
+            padding-top: 10px;
+            li {
+                button {
+                    margin-left: 11px;
+                    width: 65px;
+                    height: 30px;
+                    font-size: 14px
+                }
+            }
+        }
+        .tags-list {
+            .anticon-cross:before {
+                content: "\E62E";
+                font-size: 16px;
+                color: #0086c9;
+            }
+        }
+    }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        padding-bottom: 40px;
+        .ant-btn-lg {
+            padding: 0 80px;
+        }
+        button {
+            &:first-child {
+                margin-right: 16px;
+            }
+        }
+    }
+}

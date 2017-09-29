@@ -16,7 +16,7 @@ import * as Actions from 'actions';
 class HeaderInfoComponent extends Component {
 
     componentDidMount(){
-        this.props.showDismissionModal();
+        
     }
 
     // getAstro = (month,day) => {   

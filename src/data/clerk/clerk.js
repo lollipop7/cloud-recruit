@@ -82,5 +82,5 @@ module.exports = {
             { src: '/static/images/manager/clerk/08.png', txt: '司法犯罪核查',style: {width:55, height: 55}},
             { src: '/static/images/manager/clerk/09.png', txt: '商业利益冲突核查',style: {width:62, height: 48}},
         ]
-    }   
+    }
 }
