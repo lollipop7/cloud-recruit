@@ -22,13 +22,13 @@ module.exports = [
         "title": "编号",
         "dataIndex": "positionid",
         "key": "positionid",
-        "width": 87
+        "width": 70
     },
     {
         "title": "职位名",
         "dataIndex": "positionname", 
         "key": "positionname",
-        "width": 138
+        "width": 120
     },
     {
         "title": "部门",
@@ -72,6 +72,12 @@ module.exports = [
         "title": "入职",
         "dataIndex": "induction",
         "key": "induction",
+        "width": 48
+    },
+    {
+        "title": "智能",
+        "dataIndex": "degree",
+        "key": "degree",
         "width": 48
     },
     {

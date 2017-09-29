@@ -75,6 +75,8 @@ class EvaluationModalComponents extends Component {
             attitude:"",            //态度
             interviewer:"",         //面试官
             comments:"",            //评语
+            id :"",
+            errorinterviewer:false,
         })
     }
     //添加评估
@@ -102,8 +104,7 @@ class EvaluationModalComponents extends Component {
             //隐藏
             this.props.hideEvaluationModal();
             //添加面试评估
-            console.log({...filterObj,resumeid:resumeid,jobid:jobid})
-            //this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
+            this.props.addEvaluation({...filterObj,resumeid:resumeid,jobid:jobid},this.props);
         });
         
     }
@@ -138,7 +139,6 @@ class EvaluationModalComponents extends Component {
                     id
                 } = evaluation[i];
                 this.setState({
-                    //intername:this.props.username,
                     interviewer:interviewer,
                     comments:comments,
                     id :id+'',
@@ -152,43 +152,8 @@ class EvaluationModalComponents extends Component {
                 })
             }
         }
-
-        
-        //this.props.getEvaluation()
     }
-    //评估表内容赋值
-    // componentWillReceiveProps(){
-    //     setTimeout(()=>{
-    //         const evaluationId = this.props.evaluationId
-    //         const {interviewer,//面试官
-    //                 comments,//评价
-    //                 professional,//专业技能
-    //                 workexperience,//业务能力
-    //                 eduandtrain,//沟通能力
-    //                 communication,//语言能力
-    //                 initiative,//学习能力
-    //                 grooming,//仪容仪表
-    //                 attitude,//态度
-    //             } = this.props.evaluation
-           
-    //         if (this.props.evaluation.id){
-    //             this.setState({
-    //                 //intername:this.props.username,
-    //                 interviewer:interviewer,
-    //                 comments:comments,
-    //                 id :`${evaluationId}`,
-    //                 professional:professional,
-    //                 workexperience:workexperience,
-    //                 eduandtrain:eduandtrain,
-    //                 communication:communication,
-    //                 initiative:initiative,
-    //                 grooming:grooming,
-    //                 attitude:attitude
-    //             })
-    //         }
-    //     })
-    // }
-   
+
     render(){
          const options = [
                 { value: '较差' },
@@ -200,10 +165,10 @@ class EvaluationModalComponents extends Component {
             { evaluationModalVisible , isLoading ,evaluation } = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
-            //console.log(evaluation)
         return(
             <Modal
                 title = "面试评估表"
+                cancelText = '重置'
                 width = {828}
                 visible = {evaluationModalVisible}
                 className = "evaluation-modal grey-close-header"
@@ -211,11 +176,20 @@ class EvaluationModalComponents extends Component {
                 onOk = {this.addEvaluation}
             >
                 <div className="evaluation-list">
-                    <h3>面试主管：</h3>
+                    <h3>面试官列表：</h3>
                     <ul className="evaluation-ul">
                     {
                         Array.isArray(evaluation) && evaluation.map((item,index)=>{
-                                return <li><a onClick={this.getEvaluation.bind(this,item.id)}>{item.interviewer}</a></li>
+                                return (
+                                        <li>
+                                            <a 
+                                                onClick={this.getEvaluation.bind(this,item.id)}
+                                                title={`点击查看${item.interviewer}给出的评价详情`}
+                                            >
+                                                {item.interviewer}
+                                            </a>
+                                        </li>
+                                    )
                             })
                         }  
                     </ul>
@@ -343,6 +317,12 @@ class EvaluationModalComponents extends Component {
                         />
                     </div>
                 </div>
+                <a 
+                    className="resetForm"
+                    onClick={this.resetForm}
+                >
+                    重置
+                </a>
             </Modal>
         )
     }
@@ -357,8 +337,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch),
     addEvaluation: bindActionCreators(Actions.ResumeActions.addEvaluation, dispatch),
-    getEvaluationId: bindActionCreators(Actions.ResumeActions.getEvaluationId, dispatch),
-    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch)
+    getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
+    getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
 })
 
 export default connect(
