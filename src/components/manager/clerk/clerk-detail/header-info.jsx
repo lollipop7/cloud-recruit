@@ -8,6 +8,7 @@ import clerkInfo from 'data/clerk/clerk';
 
 import DismissionModal from './dismission-modal'; 
 import PermanentModal from './permanent-modal'; 
+import TransferPersonnelModal from './transfer-personnel-modal'; 
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -17,7 +18,6 @@ import * as Actions from 'actions';
 class HeaderInfoComponent extends Component {
 
     componentDidMount(){
-        this.props.showPermanentModal();
     }
 
     // getAstro = (month,day) => {   
@@ -48,7 +48,10 @@ class HeaderInfoComponent extends Component {
     }
 
     render() {
-        const {crewDetail}=this.props,        //？？？？
+        const {
+            crewDetail,
+            showTransferPersonnelModal
+        }=this.props,        //？？？？
         {
             name,           //姓名
             englishname,    //英文名      
@@ -120,7 +123,7 @@ class HeaderInfoComponent extends Component {
                     <Button onClick={this.creditInvestgation}>
                         查看简历
                     </Button>
-                    <Button onClick={this.creditInvestgation}>
+                    <Button onClick={showTransferPersonnelModal}>
                         人事调动
                     </Button>
                     <Dropdown overlay={moreOthers}>
@@ -132,6 +135,7 @@ class HeaderInfoComponent extends Component {
                 </div>
                 <DismissionModal {...this.props}/>
                 <PermanentModal {...this.props}/>
+                <TransferPersonnelModal {...this.props}/>
             </div>
         );
     }
@@ -139,7 +143,8 @@ class HeaderInfoComponent extends Component {
 
 const mapStateToProps = state => ({
     dismissionModal: state.Manage.dismissionModal,
-    permanentModal: state.Manage.permanentModal
+    permanentModal: state.Manage.permanentModal,
+    transferPersonnelModal: state.Manage.transferPersonnelModal,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -147,6 +152,8 @@ const mapDispatchToProps = dispatch => ({
     hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
     showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
     hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
+    showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
+    hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
 })
 
 export default connect(

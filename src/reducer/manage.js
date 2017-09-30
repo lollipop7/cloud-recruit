@@ -19,6 +19,10 @@ import {
     HIDE_DISMISSION_MODAL,
     SHOW_FORMAL_MODAL,
     HIDE_FORMAL_MODAL,
+    SHOW_TRANSFER_PERSONNEL_MODAL,
+    HIDE_TRANSFER_PERSONNEL_MODAL,
+    SHOW_ATTACHMENT_MODAL,
+    HIDE_ATTACHMENT_MODAL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -65,6 +69,14 @@ const initialState = {
         visible: false,
     },
     permanentModal: {
+        isLoading: false,
+        visible: false,
+    },
+    transferPersonnelModal: {
+        isLoading: false,
+        visible: false,
+    },
+    attactmentModal: {
         isLoading: false,
         visible: false,
     },
@@ -140,7 +152,15 @@ export default function manage(state=initialState,actions){
         case SHOW_FORMAL_MODAL:
             return {...state,permanentModal:{...state.permanentModal,visible:true}};  
         case HIDE_FORMAL_MODAL:
-            return {...state,permanentModal:{...state.permanentModal,visible:false}};                            
+            return {...state,permanentModal:{...state.permanentModal,visible:false}};
+        case SHOW_TRANSFER_PERSONNEL_MODAL:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:true}}; 
+        case HIDE_TRANSFER_PERSONNEL_MODAL:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:false}};
+        case SHOW_ATTACHMENT_MODAL:
+            return {...state,attactmentModal:{...state.attactmentModal,visible:true}};  
+        case HIDE_ATTACHMENT_MODAL:
+            return {...state,attactmentModal:{...state.attactmentModal,visible:false}};                                
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

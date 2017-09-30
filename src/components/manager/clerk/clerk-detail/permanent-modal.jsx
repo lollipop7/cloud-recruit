@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Modal, Tag , Button } from 'antd';
+import { Modal, Tag , Button, Input } from 'antd';
 
 import {DatePickerComponent} from '../input-select-time';
 import trim from 'lodash/trim';
@@ -8,8 +8,40 @@ import moment from 'moment';
 import clerkInfo from 'data/clerk/clerk';
 
 export default class PermanentModal extends Component {
+
+    state = {
+        positivedate: '',
+        comment: '',
+        errorComment: false
+    }
+
     componentDidMount(){
-        console.log(this.props)
+    }
+
+    onTimeChange=(field,value)=> {
+        this.setState({
+            [field]: value
+        });
+    }
+
+    onTextareaChange= (field,value) => {
+        if(field==="comment"){
+            this.setState({
+                comment: value
+            });
+            this.triggerError(false);
+        }
+    }
+
+    handleBlur = value => {
+        if(!value){
+            commentInput.refs.input.focus();
+            this.triggerError(true);
+        }
+    }
+
+    triggerError = errorComment => {
+        this.setState({errorComment});
     }
 
     render(){
@@ -18,6 +50,11 @@ export default class PermanentModal extends Component {
             hidePermanentModal
         } = this.props,
         {visible} = permanentModal,
+        {   
+            positivedate=null,
+            errorComment=false,
+            comment=''
+        }=this.state,
         {
             name,           //姓名
             englishname,    //英文名      
@@ -36,11 +73,7 @@ export default class PermanentModal extends Component {
                 onCancel={hidePermanentModal}
                 width={827}
             >
-                <div className="base-info"
-                    style={{
-                        marginLeft: 28
-                    }} 
-                >
+                <div className="base-info">
                     <ul>
                         <li>
                             <div className="inline-block">
@@ -76,9 +109,54 @@ export default class PermanentModal extends Component {
                         </li>
                     </ul>
                 </div>
-                <div className="regular-field">
+                <div className="regular-field clearfix">
                     <div className="pull-left">
-                    
+                        <div className="inline-block" style={{lineHeight: "40px"}}>
+                            <span className="required-asterisk">预计转正日期：</span>
+                            <div className="inline-block">
+                                <span style={{fontWeight: 'bold'}}>2017-06-06</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pull-right"> 
+                        <DatePickerComponent
+                            name="正式入职日期："
+                            ref="positivedateDatePicker"
+                            field="positivedate"
+                            value={positivedate}
+                            placeholder="请选择转正日期"
+                            style={{width: 224, height: 40, lineHeight: "40px"}}
+                            onChange={this.onTimeChange}
+                            asterisk={true}
+                        />
+                    </div>
+                </div>
+                <div className="inline-block table" style={{marginTop: 30}}>
+                    <div className="table-cell"
+                            style={{
+                                verticalAlign: "top",
+                                paddingRight: 9
+                            }}
+                    >
+                        <span style={{fontSize: 14}}>评语：</span>
+                    </div>
+                    <div className="table-cell">
+                        <Input type="textarea" rows="3"
+                            ref = "commentInput" 
+                            onChange={this.onTextareaChange.bind(this,"comment")}
+                            onBlur={this.handleBlur}
+                            style={{
+                                minWidth: 707,
+                                maxWidth: 707,
+                                height: 130,
+                                borderRadius: 10,
+                                resize: "horizontal"
+                        }}/>
+                        {errorComment && 
+                        <div className="error-promote">
+                            <label className="error">&nbsp;&nbsp;请输入评语</label>
+                        </div>
+                        }
                     </div>
                 </div>
             </Modal>

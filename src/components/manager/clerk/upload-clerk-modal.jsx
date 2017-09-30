@@ -46,7 +46,6 @@ export default class UploadClerkModal extends Component {
             this.triggerError(true,'文件大小不能超过100MB！');
             return false;
         }
-        console.log(error);
         if(error){
             this.triggerError(false);
         }

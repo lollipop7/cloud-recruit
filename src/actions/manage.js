@@ -44,6 +44,14 @@ import FileSaver from 'file-saver';
     const SHOW_FORMAL_MODAL = {type:types.SHOW_FORMAL_MODAL};
     const HIDE_FORMAL_MODAL = {type:types.HIDE_FORMAL_MODAL};
 
+    //人事调动modal
+    const SHOW_TRANSFER_PERSONNEL_MODAL = {type:types.SHOW_TRANSFER_PERSONNEL_MODAL};;
+    const HIDE_TRANSFER_PERSONNEL_MODAL = {type:types.HIDE_TRANSFER_PERSONNEL_MODAL};
+
+    //办理转正modal
+    const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
+    const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -171,12 +179,29 @@ import FileSaver from 'file-saver';
 
     //显示办理转正modal
     export const showPermanentModal = () => (dispatch,getState) => {
-        console.log('SHOW_FORMAL_MODAL');
         dispatch(SHOW_FORMAL_MODAL);
     }
-    //隐藏办理离职转正modal
+    //隐藏办理离职modal
     export const hidePermanentModal = () => (dispatch,getState) => {
         dispatch(HIDE_FORMAL_MODAL);
+    }
+
+    //显示人事调动modal
+    export const showTransferPersonnelModal = () => (dispatch,getState) => {
+        dispatch(SHOW_TRANSFER_PERSONNEL_MODAL);
+    }
+    //隐藏人事调动modal
+    export const hideTransferPersonnelModal = () => (dispatch,getState) => {
+        dispatch(HIDE_TRANSFER_PERSONNEL_MODAL);
+    }
+
+    //显示上传附件modal
+    export const showAttachmentModal = () => (dispatch,getState) => {
+        dispatch(SHOW_ATTACHMENT_MODAL);
+    }
+    //隐藏上传附件modal
+    export const hideAttachmentModal = () => (dispatch,getState) => {
+        dispatch(HIDE_ATTACHMENT_MODAL);
     }
 
 

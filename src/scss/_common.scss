@@ -134,3 +134,24 @@
         color:  #ff3131;
     }
 }
+
+.base-info {
+    ul {
+        li {
+            margin-top: 5px;
+            font-size: 14px;
+            color: $theme-font-color;
+            &:first-child {
+                margin-top: 5px;
+                font-size: 30px;
+                font-weight: bold;
+                .en-name {
+                    margin-left: 10px;
+                    vertical-align: super;                            
+                    font-size: 16px;
+                    line-height: 16px;
+                }
+            }
+        }
+    }
+}
