@@ -166,28 +166,6 @@
                 }
             }
         }
-        .add-attactment {
-            position: relative;
-            display: inline-block;
-            padding-top: 30px;
-            margin-left: 16px;
-            width: 190px;
-            height: 130px;
-            border: 1px solid $border-color;
-            border-radius: 5px;
-            background-color: $nav-bg-color;
-            text-align: center;
-            cursor: pointer;
-            p {
-                margin-top: 10px;
-                font-size: 16px;
-                font-weight: bold;
-                color: #868686;
-            }
-            &:first-child {
-                margin-left: 0;
-            }
-        }
     }
     //操作历史
     .operate-history {
@@ -651,3 +629,43 @@
         }
     }
 } 
+
+//添加附件
+.add-attactment {
+    position: relative;
+    display: inline-block;
+    margin-left: 16px;
+    width: 190px;
+    height: 130px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    background-color: $nav-bg-color;
+    text-align: center;
+    cursor: pointer;
+    &>i {
+        margin-top: 30px;
+    }
+    p {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #868686;
+    }
+    &:first-child {
+        margin-left: 0;
+    }
+}
+.attachment-wrap {
+    .add-attactment {
+        .ant-upload.ant-upload-drag {
+            border: none;
+        }
+    }
+    .ant-modal-body {
+        padding-top: 44px;
+        text-align: center;
+        p {
+            margin-top: 20px;
+        }
+    }
+}

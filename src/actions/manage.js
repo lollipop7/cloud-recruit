@@ -48,6 +48,10 @@ import FileSaver from 'file-saver';
     const SHOW_TRANSFER_PERSONNEL_MODAL = {type:types.SHOW_TRANSFER_PERSONNEL_MODAL};;
     const HIDE_TRANSFER_PERSONNEL_MODAL = {type:types.HIDE_TRANSFER_PERSONNEL_MODAL};
 
+    //办理转正modal
+    const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
+    const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -189,6 +193,15 @@ import FileSaver from 'file-saver';
     //隐藏人事调动modal
     export const hideTransferPersonnelModal = () => (dispatch,getState) => {
         dispatch(HIDE_TRANSFER_PERSONNEL_MODAL);
+    }
+
+    //显示上传附件modal
+    export const showAttachmentModal = () => (dispatch,getState) => {
+        dispatch(SHOW_ATTACHMENT_MODAL);
+    }
+    //隐藏上传附件modal
+    export const hideAttachmentModal = () => (dispatch,getState) => {
+        dispatch(HIDE_ATTACHMENT_MODAL);
     }
 
 

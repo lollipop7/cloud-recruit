@@ -18,7 +18,6 @@ import * as Actions from 'actions';
 class HeaderInfoComponent extends Component {
 
     componentDidMount(){
-        this.props.showTransferPersonnelModal();
     }
 
     // getAstro = (month,day) => {   
