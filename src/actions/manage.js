@@ -391,10 +391,9 @@ export const getEmployeeQuality = (type) => (dispatch,getState) => {
             transcode: 'L0085'
         },
         data: type
-    })
-    .then(res=>{
-        console.log(16161616,res.content)
-        dispatch({...GET_EMPLOYEE_QUALITY,chart1:res.content})
+    }).then(res=>{
+        console.log('xxxxxx66666',res.content)
+        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:res.content})
     },err=>{
         console.log(err)
         dispatch({...GET_EMPLOYEE_QUALITY})
