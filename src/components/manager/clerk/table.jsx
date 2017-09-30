@@ -4,7 +4,7 @@ import {Table} from 'antd';
 import moment from 'moment';
 import trim from 'lodash/trim';
 
-import {Link} from 'react-router';
+import {Link, Router} from 'react-router';
 
 // 表格列数据
 import columns from 'data/table-columns/manager-table';
@@ -38,11 +38,6 @@ import * as Actions from 'actions';
         }
     }
 
-    queryEmployee = (rid) => {
-        NProgress.start();
-        this.props.queryEmployee({rid:rid+''});
-    }
-
     getColumns = () => {
         columns[0].render = this.renderWithClerkDetail;
         columns[columns.length-3].render = this.renderWithInthetime;
@@ -53,9 +48,7 @@ import * as Actions from 'actions';
     renderWithClerkDetail = (text,record,index) => {
         const {rid} = record;
         return (
-            <Link to={`/manager/clerkDetail/${rid}`} 
-                  onClick={()=>this.queryEmployee(rid)}
-            >
+            <Link to={`/manager/clerkDetail/${rid}`} onClick={()=>NProgress.start()}>
                 {trim(text)}
             </Link>
         )
@@ -127,7 +120,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showClerkDetail: bindActionCreators(Actions.ManageActions.showClerkDetail,dispatch),
-    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch)
 })
 
 export default connect(

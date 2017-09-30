@@ -44,26 +44,7 @@
                 color: #fff;
             }
         }
-        .base-info {
-            ul {
-                li {
-                    margin-top: 10px;
-                    font-size: 14px;
-                    color: $theme-font-color;
-                    &:first-child {
-                        margin-top: 5px;
-                        font-size: 30px;
-                        font-weight: bold;
-                        .en-name {
-                            margin-left: 10px;
-                            vertical-align: super;                            
-                            font-size: 16px;
-                            line-height: 16px;
-                        }
-                    }
-                }
-            }
-        }
+        
         .ctr-btns {
             margin-top: 45px;
             button {
@@ -507,6 +488,21 @@
     }
 }
 
+.ant-modal-footer {
+    padding-top: 0;
+    padding-bottom: 40px;
+    border-top: none;
+    text-align: center;
+    .ant-btn-lg {
+        padding: 0 80px;
+    }
+    button {
+        &:first-child {
+            margin-right: 16px;
+        }
+    }
+}
+//办理离职
 .dismission-wrap {
     .ant-modal-body {
         padding: 18px 40px 40px 40px;
@@ -562,17 +558,96 @@
             }
         }
     }
-    .ant-modal-footer {
-        border-top: none;
-        text-align: center;
-        padding-bottom: 40px;
-        .ant-btn-lg {
-            padding: 0 80px;
+    
+}
+
+//办理转正弹窗
+.permanent-wrap {
+    .ant-modal-body {
+        padding: 30px 30px 40px 40px;
+        .regular-field {
+            margin-top: 30px;
+            font-size: 14px;
         }
-        button {
-            &:first-child {
-                margin-right: 16px;
+        //去掉星星
+        .required-asterisk {
+            margin-right: 40px;
+            &:before {
+                margin-right: 0;
+                content: " ";
             }
+        }
+        .ant-calendar-picker-input {
+            font-weight: bold;
+            font-size: 14px;
         }
     }
 }
+//人事调动
+.transfer-personnel-wrap{
+    .ant-modal-body {
+        padding: 30px;
+        .ant-radio-wrapper {
+            margin-right: 27px;
+        }
+        .ant-radio-inner {
+            width: 18px;
+            height: 18px;
+            background-color: #ebebeb;
+            border-radius: 4px;
+        }
+        .ant-radio-inner:after {
+            border-radius: 2px;
+            width: 10px;
+            height: 10px;
+        }
+        .ant-calendar-picker-input {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        li {
+            padding-bottom: 24px;
+        }
+        .city-regions > span {
+            text-align: left;
+        }
+        .inline-block>input,
+        .ant-cascader-picker input,
+        .ant-calendar-picker input {
+            width: 229px;
+            height: 40px;
+            font-size: 14px;
+            color: #868686;
+            padding-left: 13px;
+        }
+        .ant-select-arrow:before,
+        .anticon-down:before,
+        .ant-calendar-picker-icon:after {
+            content: '\E60B';
+            font-size: 16px;
+            color: $theme-color;
+        }
+
+        //去掉星星
+        .required-asterisk {
+            &:before {
+                margin-right: 0;
+                content: " ";
+            }
+        }
+
+        li>.inline-block>span,
+        li>.pull-right>.inline-block>span {
+            margin-right: 26px;
+            display: inline-block;
+            width: 80px;
+            text-align: right
+        }
+
+        //圆角矩形
+        .ant-select-selection,
+        .ant-input {
+            border-radius: 10px;
+        }
+    }
+} 

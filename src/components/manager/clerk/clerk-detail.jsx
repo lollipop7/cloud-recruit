@@ -15,6 +15,8 @@ class ClerkDetail extends Component {
 
      componentDidMount(){
         NProgress.done();
+        const rid = this.props.params.rid;
+        this.props.queryEmployee({rid:rid});
      }
 
      render(){
@@ -34,6 +36,7 @@ class ClerkDetail extends Component {
 })
 
 const mapDispatchToProps = dispatch => ({
+    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch)
 })
 
 export default connect(
