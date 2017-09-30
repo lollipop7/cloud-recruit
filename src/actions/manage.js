@@ -40,6 +40,18 @@ import FileSaver from 'file-saver';
     const SHOW_DISMISSION_MODAL = {type:types.SHOW_DISMISSION_MODAL};
     const HIDE_DISMISSION_MODAL = {type:types.HIDE_DISMISSION_MODAL};
 
+    //办理转正modal
+    const SHOW_FORMAL_MODAL = {type:types.SHOW_FORMAL_MODAL};
+    const HIDE_FORMAL_MODAL = {type:types.HIDE_FORMAL_MODAL};
+
+    //人事调动modal
+    const SHOW_TRANSFER_PERSONNEL_MODAL = {type:types.SHOW_TRANSFER_PERSONNEL_MODAL};;
+    const HIDE_TRANSFER_PERSONNEL_MODAL = {type:types.HIDE_TRANSFER_PERSONNEL_MODAL};
+
+    //办理转正modal
+    const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
+    const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -160,9 +172,36 @@ import FileSaver from 'file-saver';
     export const showDismissionModal = () => (dispatch,getState) => {
         dispatch(SHOW_DISMISSION_MODAL);
     }
-    //显示办理离职modal
+    //隐藏办理离职modal
     export const hideDismissionModal = () => (dispatch,getState) => {
         dispatch(HIDE_DISMISSION_MODAL);
+    }
+
+    //显示办理转正modal
+    export const showPermanentModal = () => (dispatch,getState) => {
+        dispatch(SHOW_FORMAL_MODAL);
+    }
+    //隐藏办理离职modal
+    export const hidePermanentModal = () => (dispatch,getState) => {
+        dispatch(HIDE_FORMAL_MODAL);
+    }
+
+    //显示人事调动modal
+    export const showTransferPersonnelModal = () => (dispatch,getState) => {
+        dispatch(SHOW_TRANSFER_PERSONNEL_MODAL);
+    }
+    //隐藏人事调动modal
+    export const hideTransferPersonnelModal = () => (dispatch,getState) => {
+        dispatch(HIDE_TRANSFER_PERSONNEL_MODAL);
+    }
+
+    //显示上传附件modal
+    export const showAttachmentModal = () => (dispatch,getState) => {
+        dispatch(SHOW_ATTACHMENT_MODAL);
+    }
+    //隐藏上传附件modal
+    export const hideAttachmentModal = () => (dispatch,getState) => {
+        dispatch(HIDE_ATTACHMENT_MODAL);
     }
 
 
@@ -346,23 +385,19 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
 }
 
 // 获取全员概览-员工性质分布信息
-export const getEmployeeQuality = (latestDays) => (dispatch,getState) => {
-    AjaxByToken('TaskCompletion',{
+export const getEmployeeQuality = (type) => (dispatch,getState) => {
+    AjaxByToken('empoverview/singleclumn',{
         head: {
-            transcode: 'L0009'
+            transcode: 'L0085'
         },
-        data: {
-            latestDays: latestDays + '' //将数字转化为字符串
-        }
+        data: type
     })
     .then(res=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[{cnt: 2, stagename: "全职", stageid: 1},
-                                                           {cnt: 2, stagename: "兼职", stageid: 2},
-                                                           {cnt: 2, stagename: "实习", stageid: 3},
-                                                           {cnt: 2, stagename: "未填写", stageid: 4},
-                                                          ]});
+        console.log(16161616,res.content)
+        dispatch({...GET_EMPLOYEE_QUALITY,chart1:res.content})
     },err=>{
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:[1]});
+        console.log(err)
+        dispatch({...GET_EMPLOYEE_QUALITY})
     });
 }
 
@@ -376,7 +411,6 @@ export const getDepartMentList = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        console.log(res.list);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST});
@@ -389,7 +423,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -398,7 +432,7 @@ export const getDepartMentStaff = (data={},currentUid) => (dispatch,getState) =>
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid,departmentName:departmentName});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });

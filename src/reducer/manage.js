@@ -17,6 +17,12 @@ import {
     QUERY_EMPLOYEE_LIST,
     SHOW_DISMISSION_MODAL,
     HIDE_DISMISSION_MODAL,
+    SHOW_FORMAL_MODAL,
+    HIDE_FORMAL_MODAL,
+    SHOW_TRANSFER_PERSONNEL_MODAL,
+    HIDE_TRANSFER_PERSONNEL_MODAL,
+    SHOW_ATTACHMENT_MODAL,
+    HIDE_ATTACHMENT_MODAL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -62,6 +68,18 @@ const initialState = {
         isLoading: false,
         visible: false,
     },
+    permanentModal: {
+        isLoading: false,
+        visible: false,
+    },
+    transferPersonnelModal: {
+        isLoading: false,
+        visible: false,
+    },
+    attactmentModal: {
+        isLoading: false,
+        visible: false,
+    },
     //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,
@@ -80,6 +98,7 @@ const initialState = {
     },
     departmentStaff: {},
     currentUid:'',
+    departmentName:'',
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
@@ -91,6 +110,10 @@ const initialState = {
         list: [],
         count: 0
     },
+    employeeQuality:{
+        chart1:[],
+        chart2:[]
+    }
 };
 
 export default function manage(state=initialState,actions){
@@ -128,7 +151,19 @@ export default function manage(state=initialState,actions){
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:
-            return {...state,dismissionModal:{...state.dismissionModal,visible:true}};                         
+            return {...state,dismissionModal:{...state.dismissionModal,visible:false}};  
+        case SHOW_FORMAL_MODAL:
+            return {...state,permanentModal:{...state.permanentModal,visible:true}};  
+        case HIDE_FORMAL_MODAL:
+            return {...state,permanentModal:{...state.permanentModal,visible:false}};
+        case SHOW_TRANSFER_PERSONNEL_MODAL:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:true}}; 
+        case HIDE_TRANSFER_PERSONNEL_MODAL:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:false}};
+        case SHOW_ATTACHMENT_MODAL:
+            return {...state,attactmentModal:{...state.attactmentModal,visible:true}};  
+        case HIDE_ATTACHMENT_MODAL:
+            return {...state,attactmentModal:{...state.attactmentModal,visible:false}};                                
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:
@@ -148,7 +183,7 @@ export default function manage(state=initialState,actions){
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
         case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:actions.employeeQuality};
+            return {...state,employeeQuality:{...state.employeeQuality,chart1:actions.chart1,chart2:actions.chart2} };
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:
@@ -156,7 +191,7 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid}
+            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid, departmentName:actions.departmentName}
         case ADD_EDIT_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case DELETE_DEPARTMENT:

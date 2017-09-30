@@ -20,29 +20,22 @@ import filter from 'lodash/filter';
 import OperateEmployeesPie from './operate';
 
 // 第一个饼图-员工性质分布
-class FirstChartComponent extends Component {
+export default class FirstChartComponent extends Component {
 
     state = {
         isLoading: false,
         activeTab: 0,
         isEmpty: false
     }
-
-    tabList= [7,30,180,360];
     
     chartInstance = null;
 
-    componentDidMount() {
-        this.setState({
-            isLoading: true
-        });
-        // 实例化echart
-        this.chartInstance = echarts.init(this.refs.echarts);
-        // 渲染图表
-        // 使用指定的配置项和数据显示图表。
-        this.chartInstance.setOption(chartOptions);
-        this.props.getEmployeeQuality(this.tabList[this.state.activeTab]);
-    }
+    // componentDidMount() {
+    //     this.setState({
+    //         isLoading: true
+    //     });
+        
+    // }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.props !== nextProps || this.state !== nextState;
@@ -55,49 +48,33 @@ class FirstChartComponent extends Component {
         }
     }
 
-    componentWillUpdate(nextProps,nextState) {
-        const {employeeQuality} = nextProps,
-            {isLoading} = nextState;
-        if( nextProps.employeeQuality !== this.props.employeeQuality && isLoading){
-            // 去除loading
+    componentDidMount() {
+        const { employeeQuality } = this.props;
+        // 实例化echart
+        this.chartInstance = echarts.init(this.refs.echarts);
+        // 渲染图表
+        // 使用指定的配置项和数据显示图表。
+        this.chartInstance.setOption(chartOptions);
+
+        let result = [];
+        employeeQuality.forEach( (item,index) => {
+            result.push({
+                value: item.cnt,
+                name: item.cname
+            });
+        });
+        if(result.length === 0) {
+            result = chartOptions.series[0].data;
             this.setState({
-                isLoading: false
-            });
-             /**
-             * stageid 
-             * 1: 职位申请
-             * 2: 预约管理
-             * 3: 面试管理
-             * 4: 复试管理
-             * 5: 发送office
-             * 6: 入职管理
-             * 7: 结束管理
-             */
-            let {data} = chartOptions.legend,
-            filterData = filter(employeeQuality,item=>{
-                return typeof item.stageid === 'number';
-            });
-            let result = [];
-            filterData.forEach( (item,index) => {
-                const {cnt,stageid} = item;
-                result.push({
-                    value: cnt,
-                    name:  data[index].name
-                });
-            });
-            if(result.length === 0) {
-                result = chartOptions.series[0].data;
-                this.setState({
-                    isEmpty: true
-                });
-            }
-            this.chartInstance.setOption({
-                series: [{
-                    name: '员工性质分布',
-                    data: result
-                }]
+                isEmpty: true
             });
         }
+        this.chartInstance.setOption({
+            series: [{
+                name: '员工性质分布',
+                data: result
+            }]
+        });
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -113,6 +90,8 @@ class FirstChartComponent extends Component {
 
     render() {
         const {isLoading,activeTab,isEmpty} = this.state;
+        const {employeeQuality} = this.props
+        console.log(222222,employeeQuality)
         return (
             <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
                 <div style={{ position: 'relative' }}>
@@ -149,15 +128,3 @@ class FirstChartComponent extends Component {
         );
     }
 }
-
-const mapStateToProps = state => ({
-    employeeQuality: state.Manage.employeeQuality
-})
-const mapDispatchToProps = dispatch => ({
-    getEmployeeQuality: bindActionCreators(Actions.ManageActions.getEmployeeQuality, dispatch),
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FirstChartComponent);

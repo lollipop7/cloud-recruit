@@ -14,7 +14,7 @@ import * as Actions from 'actions';
 class ClerkDetail extends Component {
 
      componentDidMount(){
-        NProgress.start();
+        NProgress.done();
         const rid = this.props.params.rid;
         this.props.queryEmployee({rid:rid});
      }

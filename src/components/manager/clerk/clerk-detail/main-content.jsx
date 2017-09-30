@@ -23,7 +23,7 @@ export default class MainContent extends Component {
     render() {
         return (
             <div className="clerk-nav-tabs">
-                <Tabs defaultActiveKey="7" 
+                <Tabs defaultActiveKey="5" 
                       onChange={this.callback}
                       tabBarStyle = {{
                         width: 870,

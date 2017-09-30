@@ -7,6 +7,8 @@ import moment from 'moment';
 import clerkInfo from 'data/clerk/clerk';
 
 import DismissionModal from './dismission-modal'; 
+import PermanentModal from './permanent-modal'; 
+import TransferPersonnelModal from './transfer-personnel-modal'; 
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -39,13 +41,17 @@ class HeaderInfoComponent extends Component {
     handleMoreOthersClick = (e) => {
         switch(e.key){
             case '1': console.log('生成信息填写二维码'); break;
-            case '2': this.props.showDismissionModal(); break;
-            case '3': console.log('删除员工'); break;
+            case '2': this.props.showPermanentModal(); break;
+            case '3': this.props.showDismissionModal(); break;
+            case '4': console.log('删除员工'); break;
         }
     }
 
     render() {
-        const {crewDetail}=this.props,        //？？？？
+        const {
+            crewDetail,
+            showTransferPersonnelModal
+        }=this.props,        //？？？？
         {
             name,           //姓名
             englishname,    //英文名      
@@ -55,12 +61,12 @@ class HeaderInfoComponent extends Component {
             birthday,       //出生日期
             inthetime       //入职时间
         }=clerkInfo.headerInfo;
-
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
               <Menu.Item key="1">生成信息填写二维码</Menu.Item>
-              <Menu.Item key="2">办理离职</Menu.Item>
-              <Menu.Item key="3">删除员工</Menu.Item>
+              <Menu.Item key="2">转正</Menu.Item>
+              <Menu.Item key="3">办理离职</Menu.Item>
+              <Menu.Item key="4">删除员工</Menu.Item>
             </Menu>
         );
 
@@ -117,7 +123,7 @@ class HeaderInfoComponent extends Component {
                     <Button onClick={this.creditInvestgation}>
                         查看简历
                     </Button>
-                    <Button onClick={this.creditInvestgation}>
+                    <Button onClick={showTransferPersonnelModal}>
                         人事调动
                     </Button>
                     <Dropdown overlay={moreOthers}>
@@ -128,18 +134,26 @@ class HeaderInfoComponent extends Component {
                     </Dropdown>
                 </div>
                 <DismissionModal {...this.props}/>
+                <PermanentModal {...this.props}/>
+                <TransferPersonnelModal {...this.props}/>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    dismissionModal: state.Manage.dismissionModal
+    dismissionModal: state.Manage.dismissionModal,
+    permanentModal: state.Manage.permanentModal,
+    transferPersonnelModal: state.Manage.transferPersonnelModal,
 })
 
 const mapDispatchToProps = dispatch => ({
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
-    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch)
+    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
+    showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
+    hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
+    showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
+    hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
 })
 
 export default connect(
