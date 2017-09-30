@@ -98,10 +98,7 @@ const initialState = {
         list: [],
         count: 0
     },
-    employeeQuality:{
-        chart1:[],
-        chart2:[]
-    }
+    employeeQuality:[]
 };
 
 export default function manage(state=initialState,actions){
@@ -163,7 +160,7 @@ export default function manage(state=initialState,actions){
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
         case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:{...state.employeeQuality,chart1:actions.chart1,chart2:actions.chart2} };
+            return {...state,employeeQuality:actions.employeeQuality};
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:
