@@ -54,7 +54,7 @@ import * as Actions from 'actions';
         const {rid} = record;
         return (
             <Link to={`/manager/clerkDetail/${rid}`} 
-                  onClick={()=>this.queryEmployee(rid)}
+                  //onClick={()=>this.queryEmployee(rid)}
             >
                 {trim(text)}
             </Link>
@@ -103,7 +103,7 @@ import * as Actions from 'actions';
                 loading={isLoading}
                 columns={this.getColumns()} 
                 dataSource={
-                    data.map((item,index)=>{ 
+                    list.map((item,index)=>{ 
                         delete item.children;
                         item.key = index;
                         delete item.children;
