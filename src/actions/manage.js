@@ -223,7 +223,14 @@ const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
 //**全员概览 ------------------------------------------------*/
 
 //获取全员概览-员工性质分布信息
-const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
+const GET_EMPLOYEE_WORK = {type:types.GET_EMPLOYEE_WORK};
+const GET_EMPLOYEE_SEX = {type:types.GET_EMPLOYEE_SEX};
+const GET_EMPLOYEE_EDU = {type:types.GET_EMPLOYEE_EDU};
+const GET_EMPLOYEE_AGE = {type:types.GET_EMPLOYEE_AGE};
+const GET_EMPLOYEE_MARRY = {type:types.GET_EMPLOYEE_MARRY};
+const GET_EMPLOYEE_CHILD = {type:types.GET_EMPLOYEE_CHILD};
+const GET_EMPLOYEE_DEPART = {type:types.GET_EMPLOYEE_DEPART};
+const GET_EMPLOYEE_POST = {type:types.GET_EMPLOYEE_POST};
 
 //获取全员概览-员工性质分布信息
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
@@ -385,11 +392,25 @@ export const getEmployeeQuality = (type) => (dispatch,getState) => {
         },
         data: type
     }).then(res=>{
-        console.log('xxxxxx66666',res.content)
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:res.content})
+        if(type.counttype=="1"){
+            dispatch({...GET_EMPLOYEE_WORK,work:res.content});
+        }else if(type.counttype=="2"){
+            dispatch({...GET_EMPLOYEE_SEX,sex:res.content});
+        }else if(type.counttype=="3"){
+            dispatch({...GET_EMPLOYEE_EDU,edu:res.content});
+        }else if(type.counttype=="4"){
+            dispatch({...GET_EMPLOYEE_AGE,age:res.content});
+        }else if(type.counttype=="5"){
+            dispatch({...GET_EMPLOYEE_MARRY,marry:res.content});
+        }else if(type.counttype=="6"){
+            dispatch({...GET_EMPLOYEE_CHILD,child:res.content});
+        }else if(type.counttype=="7"){
+            dispatch({...GET_EMPLOYEE_DEPART,depart:res.content});
+        }else if(type.counttype=="8"){
+            dispatch({...GET_EMPLOYEE_POST,post:res.content});
+        }
     },err=>{
         console.log(err)
-        dispatch({...GET_EMPLOYEE_QUALITY})
     });
 }
 

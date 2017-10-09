@@ -2,11 +2,18 @@ import React, {Component} from 'react';
 import { Tabs } from 'antd';
 const TabPane = Tabs.TabPane;
 import EmployeesOverview from './condition/overview';
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
 
- export default class ConditionPage extends Component {
+class ConditionPage extends Component {
 
      componentDidMount(){
         NProgress.done();
+        [1,2,3,4,5,6,7,8].forEach((item)=>{
+            this.props.getEmployeeQuality({counttype: item.toString()});
+        })
      }
      callback(key) {
         // console.log(key);
@@ -27,3 +34,15 @@ import EmployeesOverview from './condition/overview';
         );
      }
  }
+const mapStateToProps = state => ({
+})
+
+const mapDispatchToProps = dispatch => ({
+    getEmployeeQuality: bindActionCreators(Actions.ManageActions.getEmployeeQuality, dispatch)
+    
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ConditionPage)
