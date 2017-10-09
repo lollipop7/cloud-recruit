@@ -5,34 +5,34 @@ import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 import {message} from 'antd'; 
 
 // 人才分类
-const LOAD_CATEGORY_START = {type:types.LOAD_CATEGORY_START};
-const LOAD_CATEGORY_DONE = {type:types.LOAD_CATEGORY_DONE};
+const LOAD_CATEGORY_START  = {type:types.LOAD_CATEGORY_START};
+const LOAD_CATEGORY_DONE   = {type:types.LOAD_CATEGORY_DONE};
 const LOAD_TALENT_CATEGORY = {type:types.LOAD_TALENT_CATEGORY};
 
 // 人才列表
-const LOAD_LIST_START = {type:types.LOAD_LIST_START};
-const LOAD_LIST_DONE = {type:types.LOAD_LIST_DONE};
+const LOAD_LIST_START  = {type:types.LOAD_LIST_START};
+const LOAD_LIST_DONE   = {type:types.LOAD_LIST_DONE};
 const LOAD_TALENT_LIST = {type:types.LOAD_TALENT_LIST};
 
 // 推荐职位
 const RECOMMEND_POSITION_START = {type:types.RECOMMEND_POSITION_START};
-const RECOMMEND_POSITION_DONE = {type:types.RECOMMEND_POSITION_DONE};
+const RECOMMEND_POSITION_DONE  = {type:types.RECOMMEND_POSITION_DONE};
 
 // ==== 创建标签 ====
 const SHOW_CREATE_LABEL_MODAL = {type:types.SHOW_CREATE_LABEL_MODAL};
 const HIDE_CREATE_LABEL_MODAL = {type:types.HIDE_CREATE_LABEL_MODAL};
-const CREATE_LABEL_START = {type:types.CREATE_LABEL_START};
-const CREATE_LABEL_DONE = {type:types.CREATE_LABEL_DONE};
+const CREATE_LABEL_START      = {type:types.CREATE_LABEL_START};
+const CREATE_LABEL_DONE       = {type:types.CREATE_LABEL_DONE};
 const SHOW_DELETE_LABEL_MODAL = {type:types.SHOW_DELETE_LABEL_MODAL};
 const HIDE_DELETE_LABEL_MODAL = {type:types.HIDE_DELETE_LABEL_MODAL};
-const DELETE_LABEL_START = {type:types.DELETE_LABEL_START};
-const DELETE_LABEL_DONE = {type:types.DELETE_LABEL_DONE};
+const DELETE_LABEL_START      = {type:types.DELETE_LABEL_START};
+const DELETE_LABEL_DONE       = {type:types.DELETE_LABEL_DONE};
 
 // ==== 移动简历 ====
 const SHOW_MOVE_RESUME_MODAL = {type:types.SHOW_MOVE_RESUME_MODAL};
 const HIDE_MOVE_RESUME_MODAL = {type:types.HIDE_MOVE_RESUME_MODAL};
-const MOVE_RESUME_START = {type:types.MOVE_RESUME_START};
-const MOVE_RESUME_DONE = {type:types.MOVE_RESUME_DONE};
+const MOVE_RESUME_START      = {type:types.MOVE_RESUME_START};
+const MOVE_RESUME_DONE       = {type:types.MOVE_RESUME_DONE};
 
 // 导入简历职位推荐列表
 const LOAD_RECOMMEND_LIST = {type:recruitTypes.LOAD_RECOMMEND_LIST};
@@ -54,12 +54,13 @@ export const getTalentCategory = () => (dispatch,getState) => {
 }
 // 获取人才列表
 export const getTalentList = (data) => (dispatch,getState) => {
+    console.log(data);
     data.start = data.start + '';
     const uri = 'queryTalent';
     cancelRequestByKey(uri);
     dispatch(LOAD_LIST_START);
     AjaxByToken(uri,{
-        head: {
+        head: { 
             transcode: 'L0025'
         },
         data: {...data,rows:18+''}
@@ -113,7 +114,7 @@ export const collectionResume = data => (dispatch,getState) => {
         dispatch(LOAD_LIST_DONE);
         message.success('收藏成功！');
         const {categoryData,talentList} = getState().Talent,
-            {list,count} = talentList;
+              {list,count}              = talentList;
         list.forEach((item,index)=>{
             if(item.resumeid === data.resumeid){
                 list[index].iscollection = "1";
@@ -123,7 +124,7 @@ export const collectionResume = data => (dispatch,getState) => {
             ...LOAD_TALENT_CATEGORY,
             categoryData:{
                 ...categoryData,
-                collection:categoryData.collection + 1
+                collection: categoryData.collection + 1
             }
         });
         dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});
@@ -146,7 +147,7 @@ export const cancelCollectionResume = data => (dispatch,getState) => {
         dispatch(LOAD_LIST_DONE);
         message.success('取消收藏成功！');
         const {categoryData,talentList} = getState().Talent,
-            {list,count} = talentList;
+              {list,count}              = talentList;
         list.forEach((item,index)=>{
             if(item.resumeid === data.resumeid){
                 list[index].iscollection = "0";
@@ -156,7 +157,7 @@ export const cancelCollectionResume = data => (dispatch,getState) => {
             ...LOAD_TALENT_CATEGORY,
             categoryData:{
                 ...categoryData,
-                collection:categoryData.collection - 1
+                collection: categoryData.collection - 1
             }
         });
         dispatch({...LOAD_TALENT_LIST,talentList:{list:list,count:count}});

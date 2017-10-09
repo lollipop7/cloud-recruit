@@ -20,19 +20,20 @@ class ClerkDetail extends Component {
      }
 
      render(){
-         const {crewDetail} = this.props;
+         const {queryEmployeeList} = this.props,
+         {list={}} = queryEmployeeList;
         return (
             <div className="right-panel clerk-detail-container">
                 <ControlComponent/>
-                <HeaderInfoComponent crewDetail={crewDetail}/>
-                <MainContent crewDetail={crewDetail}/>
+                <HeaderInfoComponent data={list}/>
+                <MainContent data={list}/>
             </div>
         );
      }
  }
 
  const mapStateToProps = state => ({
-    crewDetail: state.Manage.crewDetail
+    queryEmployeeList: state.Manage.queryEmployeeList
 })
 
 const mapDispatchToProps = dispatch => ({

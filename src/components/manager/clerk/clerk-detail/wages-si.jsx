@@ -11,10 +11,12 @@ export default class WagesSocialSecurity extends Component {
             wageCity,               //工资卡开户城市
             sociCard,               //社保账号
             fundCard,               //公积金账号
+        } = this.props.data,
+        {
             salaryBasic,            //基本工资
             salarySubsidies,        //补贴
             salaryPer               //绩效工资
-        } =clerkInfo.wagesSi;
+        } = this.props.wage;
         return (
             <div className="wages-social-security clerk-tab-container">
                 <ul>

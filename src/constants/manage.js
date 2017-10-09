@@ -64,8 +64,7 @@ export const QUERY_EMPLOYEE_LIST = 'QUERY_EMPLOYEE_LIST';
 
  //档案管理在职、离职人员数据
  export const GET_ARCHIVES_DATA = 'GET_ARCHIVES_DATA';
- //员工详情
- export const SHOW_CLERK_DETAIL = 'SHOW_CLERK_DETAIL';
+ 
 
  //table数据切换
  export const ARCHIVES_TABLE_DATA = 'ARCHIVES_TABLE_DATA';

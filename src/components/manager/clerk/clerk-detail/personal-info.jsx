@@ -28,7 +28,7 @@ export default class PersonalInfo extends Component {
             school,                 //毕业学校
             endtime,                //毕业时间
             recruitment,            //是否统招
-        } = clerkInfo.personalInfo;
+        } = this.props.data;
         return (
             <div className="personal-info clerk-tab-container" ref="PersonalInfoHeight">
                 <ul>

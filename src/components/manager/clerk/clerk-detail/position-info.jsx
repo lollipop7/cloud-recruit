@@ -30,7 +30,7 @@ export default class PositionInfo extends Component {
             inthetime,              //入职时间
             positivedate,           //转正时间
             theleng                 //试用期
-        } = clerkInfo.positionInfo,
+        } = this.props.data,
         {isQualified} = this.state;
         return (
             <div className="position-info clerk-tab-container">

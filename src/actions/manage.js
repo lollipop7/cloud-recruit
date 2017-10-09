@@ -20,9 +20,6 @@ import FileSaver from 'file-saver';
     const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
     const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
-    //员工名册-员工详情
-    const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
-
     //导入excel人员modal
     const SHOW_UPLOAD_CLERK_MODAL = {type: types.SHOW_UPLOAD_CLERK_MODAL};
     const HIDE_UPLOAD_CLERK_MODAL = {type: types.HIDE_UPLOAD_CLERK_MODAL};
@@ -91,11 +88,6 @@ import FileSaver from 'file-saver';
         })
     }
 
-    //员工名册-员工详情
-    export const showClerkDetail = data => (dispatch, getState) => {
-        dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
-    }
-
     //导入excel人员modal
     export const showUploadClerkModal = () => (dispatch,getState) => {
         dispatch(SHOW_UPLOAD_CLERK_MODAL);
@@ -152,7 +144,7 @@ import FileSaver from 'file-saver';
     }
 
     //入职人员基本信息查询
-    export const queryEmployee = (data={}) => (dispatch,getState) => {
+    export const queryEmployee = (data) => (dispatch,getState) => {
         dispatch(QUERY_EMPLOYEE_START);
         AjaxByToken('employeeinfo/queryEmployee', {
             head: {
@@ -161,7 +153,8 @@ import FileSaver from 'file-saver';
             data: data
         })
         .then(res=>{
-            console.log(res)
+            dispatch(QUERY_EMPLOYEE_DONE);
+            dispatch({...QUERY_EMPLOYEE_LIST,list:res});
         },err=>{
             console.log(err)
             dispatch(QUERY_EMPLOYEE_DONE);

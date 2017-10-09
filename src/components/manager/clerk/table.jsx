@@ -119,7 +119,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    showClerkDetail: bindActionCreators(Actions.ManageActions.showClerkDetail,dispatch),
+    
 })
 
 export default connect(

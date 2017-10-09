@@ -25,8 +25,7 @@ class ClerkPage extends Component {
     //显示条件
     params = {
         skip: 0,
-        count:"20",
-        type: "sum",  //查询状态
+        count:"20"
     }
 
     // 表单数据
@@ -81,7 +80,7 @@ class ClerkPage extends Component {
     }
 
     handleClickTop = (type,desc) => {
-        this.params.type = type;
+        console.log(type);
         this.params.skip = 0;
         this._requestCrewData();
         this.setPaginationCurrent(1);

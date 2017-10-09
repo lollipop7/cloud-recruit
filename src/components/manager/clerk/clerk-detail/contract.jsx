@@ -1,13 +1,26 @@
 import React, {Component} from 'react';
 
 import {Icon} from 'antd';
+import PlusAttachmentModal from './attactment-modal'; 
 
 import clerkInfo from 'data/clerk/clerk';
 
-export default class Contract extends Component {
+const constractData=['劳动合同'];
 
-    handleAdd = () => {
-        console.log("点此上传合同附件");
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+class Contract extends Component {
+
+    state = {
+        title: ''
+    }
+
+    handleAttachmentClick = (title) => {
+       this.setState({title});
+       this.props.showAttachmentModal();
     }
 
     render() {
@@ -15,7 +28,8 @@ export default class Contract extends Component {
             starttime,          //合同开始日期
             yearnumber,         //合同年限
             endtime,            //合同结束日期
-        } = clerkInfo.contract;
+        } = this.props.data;
+        const {title} = this.state;
         return (
             <div className="contract clerk-tab-container">
                 <ul>
@@ -33,7 +47,7 @@ export default class Contract extends Component {
                             <ul className="field-list inline-block" style={{marginLeft: 60}}>
                                 <li>
                                     <span>合同开始日期 : </span>
-                                    <span>{endtime}</span>
+                                    <span>{starttime}</span>
                                 </li>
                                 <li>
                                     <span>合同年限 : </span>
@@ -58,21 +72,40 @@ export default class Contract extends Component {
                             <h3 className="title">
                                 合同附件
                             </h3>
-                            <div className="add-attactment"
-                                 onClick={this.handleAdd}
-                            >
-                                <Icon type="plus-circle-o"
-                                    style={{ 
-                                        fontSize: 45, 
-                                        color: '#d2d2d2',
-                                    }}
-                                />
-                                <p>劳动合同</p>
-                            </div>
+                            {
+                                constractData.map((item,index) => {
+                                    return(
+                                        <div key={item} className="add-attactment" onClick={this.handleAttachmentClick.bind(this,item)}>
+                                            <Icon type="plus-circle-o"
+                                                style={{ 
+                                                    fontSize: 45, 
+                                                    color: '#d2d2d2',
+                                                }}
+                                            />
+                                            <p>{item}</p>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </li>
                 </ul>
+                <PlusAttachmentModal {...this.props} title={title}/>  
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    attactmentModal: state.Manage.attactmentModal
+})
+
+const mapDispatchToProps = dispatch => ({
+    showAttachmentModal: bindActionCreators(Actions.ManageActions.showAttachmentModal,dispatch),
+    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch)
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Contract)

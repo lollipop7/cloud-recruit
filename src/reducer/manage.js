@@ -27,7 +27,6 @@ import {
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
-    SHOW_CLERK_DETAIL,
     GET_ARCHIVES_DATA,
     ARCHIVES_TABLE_DATA,
     GET_LEAVEARCHIVES_START ,
@@ -60,9 +59,9 @@ const initialState = {
         visible: false,
         resetForm: false
     },
-    queryEmployee: {
+    queryEmployeeList: {
         isLoading: false,
-        queryEmployeeData: {}
+        list: {}
     },
     dismissionModal: {
         isLoading: false,
@@ -140,11 +139,11 @@ export default function manage(state=initialState,actions){
         case SET_RESETFORM_FALSE:
             return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:false}};
         case QUERY_EMPLOYEE_START:
-            return {...state,queryEmployee:{...state.queryEmployee,isLoading:true}};    
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:true}};    
         case QUERY_EMPLOYEE_DONE:
-            return {...state,queryEmployee:{...state.queryEmployee,isLoading:false}}; 
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:false}}; 
         case QUERY_EMPLOYEE_LIST:
-            return {...state,queryEmployee:{...state.queryEmployee,queryEmployeeData:actions.queryEmployeeData}};
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,list:actions.list}};
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:
@@ -174,9 +173,7 @@ export default function manage(state=initialState,actions){
         case GET_LEAVEARCHIVES_LIST:
             return {...state,leaveArchivesList:{...state.leaveArchivesList,list:actions.list,count:actions.count}};
         case GET_ARCHIVES_DATA:
-            return {...state,archivesData:actions.archivesData};         
-        case SHOW_CLERK_DETAIL:
-            return {...state,crewDetail:actions.crewDetail}; 
+            return {...state,archivesData:actions.archivesData};  
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
         case GET_EMPLOYEE_QUALITY:
