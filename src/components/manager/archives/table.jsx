@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import { Table , Progress , Icon , Modal ,Select,Input , Tooltip } from 'antd';
 const Option = Select.Option;
 import moment from 'moment';
+import {Link} from 'react-router';
 import resumeColumns from 'data/table-columns/archives-table';
 import LeaveColumns from 'data/table-columns/archives-leaveTable';
 
@@ -61,18 +62,23 @@ export default class TableComponent extends Component{
             [field]:e.target.value
         })
     }
-    //表格列渲染
+    //表格列渲染 
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
         if (archivesTableData=='1'){
             resumeColumns[0].render = (text,record,index) => {
-                return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>              
-            };
+                    const {rid} = record;
+                    return (
+                        <Link to={`/manager/clerkDetail/${rid}`} >
+                            {text}
+                        </Link>
+                    )
+            }
             resumeColumns[1].render = (text,record,index) => {
                 return <Tooltip title={<span>{record.name}</span>}>
                             <Icon 
-                                    type='qrcode'
-                                    style={{fontSize:18}}
+                                type='qrcode'
+                                style={{fontSize:18}}
                             />
                         </Tooltip>  
             };
@@ -89,7 +95,11 @@ export default class TableComponent extends Component{
                 return <Icon 
                             type={type}
                             style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
+            }
+            resumeColumns[4].render = (text,record,index) => {
+                return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>
             }
             resumeColumns[5].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
@@ -97,6 +107,7 @@ export default class TableComponent extends Component{
                 return <Icon 
                             type={type}
                             style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
             resumeColumns[6].render = (text,record,index) => {
@@ -105,6 +116,7 @@ export default class TableComponent extends Component{
                 return <Icon 
                             type={type}
                             style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
             resumeColumns[7].render = (text,record,index) => {
@@ -113,6 +125,7 @@ export default class TableComponent extends Component{
                 return <Icon 
                             type={type}
                             style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
             resumeColumns[8].render = (text,record,index) => {
@@ -121,6 +134,7 @@ export default class TableComponent extends Component{
                 return <Icon 
                             type={type}
                             style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
             resumeColumns[resumeColumns.length-1].render = (text,record,index) => {
