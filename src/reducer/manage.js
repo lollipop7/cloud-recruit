@@ -34,7 +34,14 @@ import {
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
     //**全员概览 ------------------------------------------------*/
-    GET_EMPLOYEE_QUALITY,
+    GET_EMPLOYEE_WORK,
+    GET_EMPLOYEE_SEX,
+    GET_EMPLOYEE_EDU,
+    GET_EMPLOYEE_AGE,
+    GET_EMPLOYEE_MARRY,
+    GET_EMPLOYEE_CHILD,
+    GET_EMPLOYEE_DEPART,
+    GET_EMPLOYEE_POST,
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
@@ -110,7 +117,14 @@ const initialState = {
         list: [],
         count: 0
     },
-    employeeQuality:[]
+    work:[],
+    sex:[],
+    edu:[],
+    age:[],
+    marry:[],
+    child:[],
+    depart:[],
+    post:[],
 };
 
 export default function manage(state=initialState,actions){
@@ -179,8 +193,22 @@ export default function manage(state=initialState,actions){
             return {...state,crewDetail:actions.crewDetail}; 
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
-        case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:actions.employeeQuality};
+        case GET_EMPLOYEE_WORK:
+            return {...state,work:actions.work};
+        case GET_EMPLOYEE_SEX:
+            return {...state,sex:actions.sex};
+        case GET_EMPLOYEE_EDU:
+            return {...state,edu:actions.edu};
+        case GET_EMPLOYEE_AGE:
+            return {...state,age:actions.age};
+        case GET_EMPLOYEE_MARRY:
+            return {...state,marry:actions.marry};
+        case GET_EMPLOYEE_CHILD:
+            return {...state,child:actions.child};
+        case GET_EMPLOYEE_DEPART:
+            return {...state,depart:actions.depart};
+        case GET_EMPLOYEE_POST:
+            return {...state,post:actions.post};
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:

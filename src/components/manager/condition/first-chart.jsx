@@ -20,12 +20,22 @@ import filter from 'lodash/filter';
 import OperateEmployeesPie from './operate';
 
 // 第一个饼图-员工性质分布
-class FirstChartComponent extends Component {
+export default class FirstChartComponent extends Component {
 
     state = {
         isLoading: false,
         activeTab: 0,
-        isEmpty: false
+        isEmpty: false,
+        pageWord:{
+            'work':'员工性质分布',
+            'sex':'员工性别分布',
+            'edu':'员工学历分布',
+            'age':'员工年龄分布',
+            'marry':'员工已婚情况',
+            'child':'员工已育情况',
+            'depart':'部门人数TOP5',
+            'post':'岗位人数TOP5',
+        }
     }
     
     chartInstance = null;
@@ -40,7 +50,6 @@ class FirstChartComponent extends Component {
         // 渲染图表
         // 使用指定的配置项和数据显示图表。
         this.chartInstance.setOption(chartOptions);
-        this.props.getEmployeeQuality({counttype: type});
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -50,45 +59,50 @@ class FirstChartComponent extends Component {
     componentWillUnmount() {
         if(this.chartInstance){
             // 组件卸载后销毁echart实例
-            // this.destroyChart();
+            this.destroyChart();
         }
     }
 
     componentWillUpdate(nextProps,nextState) {
-        const {employeeQuality} = nextProps,
-            {isLoading} = nextState;
-        if( nextProps.employeeQuality !== this.props.employeeQuality && isLoading){
+        const {work,pageType} = nextProps;
+        const {pageWord} = this.state;
+        const {isLoading} = nextState;
+        if(nextProps !== this.props){
             // 去除loading
             this.setState({
                 isLoading: false
             });
             let result = [];
-            employeeQuality.forEach( (item,index) => {
+            let needData = []
+            work.forEach((item,index) => {
                 result.push({
                     value: item.cnt,
                     name:  item.cname
                 });
+                needData.push({
+                    name:  item.cname
+                })
             });
             if(result.length === 0) {
-                result = chartOptions.series[0].data;
                 this.setState({
                     isEmpty: true
                 });
+            }else if(result.length > 0){
+                this.setState({
+                    isEmpty: false
+                });
             }
+            console.log(result)
             this.chartInstance.setOption({
                 series: [{
-                    name: '员工性质分布',
+                    name: pageWord[pageType],
                     data: result
+                }],
+                legend: [{
+                    data: needData
                 }]
             });
         }
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        const {isLoading,activeTab} = this.state;
-        return nextProps.employeeQuality !== this.props.employeeQuality 
-        || nextState.isLoading !== isLoading 
-        || nextState.activeTab !== activeTab;
     }
 
     destroyChart = () => {
@@ -96,11 +110,12 @@ class FirstChartComponent extends Component {
     }
 
     render() {
-        const {isLoading,activeTab,isEmpty} = this.state;
+        const {pageType} = this.props;
+        const {isLoading,activeTab,isEmpty,pageWord} = this.state;
         return (
             <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
                 <div style={{ position: 'relative' }}>
-                    <div className='pie-title'>员工性质分布</div>
+                    <div className='pie-title'>{pageWord[pageType]}</div>
                     <OperateEmployeesPie/>
                     {isLoading &&
                         <div style={{
@@ -124,24 +139,10 @@ class FirstChartComponent extends Component {
                                 暂无数据
                         </div>
                     }
-                    <div style={{
-                        top: -1
-                    }} ref="echarts" className="pie-chart">
+                    <div style={{ top: -1 }} ref="echarts" className="pie-chart">
                     </div>
                 </div>
             </div>
         );
     }
 }
-
-const mapStateToProps = state => ({
-    employeeQuality: state.Manage.employeeQuality
-})
-const mapDispatchToProps = dispatch => ({
-    getEmployeeQuality: bindActionCreators(Actions.ManageActions.getEmployeeQuality, dispatch),
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FirstChartComponent);
