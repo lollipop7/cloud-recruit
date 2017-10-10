@@ -12,7 +12,6 @@ class SearchComponent extends Component {
      }
      render(){
         const {work,sex,edu,age,marry,child,depart,post} = this.props;
-        console.log(this.props)
         return (
             <div>
                 <div className="pull-left">
