@@ -5,7 +5,7 @@ import PlusAttachmentModal from './attactment-modal';
 
 import clerkInfo from 'data/clerk/clerk';
 
-const constractData=['劳动合同'];
+const constractData={name: '劳动合同', isShow: 1};
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -15,21 +15,41 @@ import * as Actions from 'actions';
 class Contract extends Component {
 
     state = {
-        title: ''
+        itemData: {},
+        attachment_type_con: []
     }
 
-    handleAttachmentClick = (title) => {
-       this.setState({title});
-       this.props.showAttachmentModal();
+    componentWillReceiveProps(nextProps){
+        const {
+            attachment_type_con = []
+        } = this.state;
+        nextProps.atcs.forEach((value,index) => {
+            attachment_type_con.push(value);
+        })
+        this.setState({
+            attachment_type_con
+        });
     }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextState !== this.state || nextProps !== this.props;
+    }
+
+    handleAttachmentClick = (itemData) => {
+        this.setState({itemData});
+        this.props.showAttachmentModal();
+     }
 
     render() {
         const {
             starttime,          //合同开始日期
             yearnumber,         //合同年限
             endtime,            //合同结束日期
-        } = this.props.data;
-        const {title} = this.state;
+        } = this.props.data,
+        {
+            attachment_type_con,
+            itemData
+        } = this.state;
         return (
             <div className="contract clerk-tab-container">
                 <ul>
@@ -73,16 +93,21 @@ class Contract extends Component {
                                 合同附件
                             </h3>
                             {
-                                constractData.map((item,index) => {
+                                attachment_type_con.map((value,index) => {
+                                    const {name,isShow} = value;
                                     return(
-                                        <div key={item} className="add-attactment" onClick={this.handleAttachmentClick.bind(this,item)}>
+                                        <div key={name} 
+                                             className="add-attactment" 
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
+                                             style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                        >
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
-                                            <p>{item}</p>
+                                            <p>{name}</p>
                                         </div>
                                     )
                                 })
@@ -90,7 +115,7 @@ class Contract extends Component {
                         </div>
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} title={title}/>  
+                <PlusAttachmentModal {...this.props} itemData={itemData}/> 
             </div>
         );
     }

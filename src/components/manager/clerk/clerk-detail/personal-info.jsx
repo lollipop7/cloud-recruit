@@ -22,13 +22,16 @@ export default class PersonalInfo extends Component {
             political,              //政治面貌
             city,                   //户籍城市
             tolive,                 //居住地址
+            
+        } = this.props.data,
+        {
             schooling,              //最高学历
             professional,           //专业
             degree,                 //学位
             school,                 //毕业学校
             endtime,                //毕业时间
             recruitment,            //是否统招
-        } = this.props.data;
+        } = this.props.edu;
         return (
             <div className="personal-info clerk-tab-container" ref="PersonalInfoHeight">
                 <ul>

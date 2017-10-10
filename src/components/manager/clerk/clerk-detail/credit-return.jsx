@@ -249,7 +249,7 @@ export default class CreditReturnComponent extends Component {
                         <div className="superior-content" style={{
                             padding: "10px 0 0 8px"
                         }}> 
-                            <BarChartComponent/>
+                            {/* <BarChartComponent/> */}
                             <div className="summary">
                                 <div className="inline-block above-all" style={{position: 'relative'}}>
                                     数据有话说
