@@ -92,7 +92,6 @@ export default class FirstChartComponent extends Component {
                     isEmpty: false
                 });
             }
-            console.log(result)
             this.chartInstance.setOption({
                 series: [{
                     name: pageWord[pageType],
