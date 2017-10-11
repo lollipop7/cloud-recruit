@@ -15,7 +15,8 @@ class DepartmentStaff extends Component {
     flag: true,
     departmentInfo:{},
     department:'',
-    uid:''
+    uid:'',
+    curr:''
   }
   componentDidUpdate(){
     const { flag } = this.state;
@@ -72,6 +73,10 @@ class DepartmentStaff extends Component {
     recursion(ss);
     this.setState({resultTree:pp})
   }
+  // 点击改变样式
+  handleClick = (i) => {
+    this.setState({curr: i})
+  }
   
   render() {
     const { departmentInfo, resultTree } = this.state;
@@ -113,7 +118,7 @@ class DepartmentStaff extends Component {
               </div>
               {
                 departmentStaff.resumeoffList && departmentStaff.resumeoffList.map((item,index)=>(
-                  <div className='sub-depart-table-lab'>
+                  <div className={item === this.state.curr ? 'curr sub-depart-table-lab' : 'sub-depart-table-lab'} onClick={this.handleClick.bind(this, item)}>
                     <span className='one'>{item.name}</span>
                     <span className='two'>{item.department}</span>
                     <span className='three'>{item.position}</span>
