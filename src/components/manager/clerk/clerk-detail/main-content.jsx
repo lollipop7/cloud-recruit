@@ -27,7 +27,6 @@ export default class MainContent extends Component {
             listAll={}                      //人员基本附件说明
         } = this.props.data;
        const contractData = contract == null ? {} : contract;
-       console.log(this.props.data);
         return (
             <div className="clerk-nav-tabs">
                 <Tabs defaultActiveKey="7" 

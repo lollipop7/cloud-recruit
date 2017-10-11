@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Menu, Dropdown,Icon } from 'antd';
+import { Button, Menu, Dropdown,Icon, Select } from 'antd';
 
 import UploadClerkModal from './upload-clerk-modal';
+import pickBy from 'lodash/pickBy';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -15,6 +16,14 @@ class ControlComponent extends Component {
         router: PropTypes.object
     }
 
+    state = {
+        sort: undefined,   //入职时间排序
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState || this.props !== nextProps;
+    }
+
     handleLinkTo = () => {
         this.context.router.push(`manager/newClerkForm`);
         NProgress.start();
@@ -25,6 +34,45 @@ class ControlComponent extends Component {
             case '1': this.props.showUploadClerkModal(); break;
             case '2': this.handleLinkTo(); break;
         }
+    }
+
+    //筛选
+    _handleFind = () => {
+        setTimeout(()=>{
+            const filterObj = pickBy(this.state,(val,key)=>{
+                return val !== '' && val !=undefined;
+            });
+            // console.log(filterObj);
+            this.props.handleFind(filterObj);
+        })
+    }
+
+    handleIntheTimeClick = (value) => {
+        switch(value)
+            {
+                case "按入职时间从早到晚":
+                    this.setState({
+                        sort:"asc"
+                    });
+                    break;
+                case "按入职时间降序":
+                    this.setState({
+                        sort:"desc"
+                    });
+                    break;
+                default :
+                    break;    
+            }
+        this._handleFind()
+    }
+
+    //导出
+    handleExportClerkClick = () => {
+        const {
+            exportEmployees,
+            ridList
+        } = this.props;
+        exportEmployees({ridList:ridList});
     }
 
     render() {
@@ -51,18 +99,26 @@ class ControlComponent extends Component {
                             <img src="static/images/manager/arrow-down.png" alt="选择"/>
                         </Button>
                     </Dropdown>
-                    <Button
-                        style={{
-                            width: 170,
-                        }}
+                    <Select 
+                        defaultValue="按入职时间从早到晚" 
+                        style={{width: 170,height:30,marginLeft: 10}}
+                        onChange={this.handleIntheTimeClick}
                     >
-                        按入职时间从早到晚
-                        <img src="static/images/manager/arrow-up.png" alt="选择"/>
-                    </Button>
+                        {
+                            ["按入职时间从早到晚",
+                            "按入职时间降序"
+                            ].map((item,index)=>{
+                                return (
+                                    <Option key={index} value={item}>{item}</Option>
+                                )
+                            })
+                        }
+                    </Select>
                     <Button
                         style={{
                             width: 100
                         }}
+                        onClick={this.handleExportClerkClick}
                     >
                         导出
                     </Button>
@@ -91,7 +147,8 @@ const mapDispatchToProps = dispatch => ({
     removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch),
     uploadClerkExcel: bindActionCreators(Actions.ManageActions.uploadClerkExcel, dispatch),
     setResetFormFalse: bindActionCreators(Actions.ManageActions.setResetFormFalse, dispatch),
-    downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch)
+    downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch),
+    exportEmployees: bindActionCreators(Actions.ManageActions.exportEmployees, dispatch)
 })
 
 export default connect(

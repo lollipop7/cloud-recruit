@@ -12,6 +12,9 @@ import {
     UPLOAD_CLERK_DONE,
     SET_RESETFORM_TRUE,
     SET_RESETFORM_FALSE,
+    EXPORT_CLERK_START,
+    EXPORT_CLERK_DONE,
+    EXPORT_CLERK_LIST,
     QUERY_EMPLOYEE_START,
     QUERY_EMPLOYEE_DONE,
     QUERY_EMPLOYEE_LIST,
@@ -65,6 +68,11 @@ const initialState = {
         isLoading: false,
         visible: false,
         resetForm: false
+    },
+    exportClerkList: {
+        isLoading: false,
+        list: [],
+        count: 0
     },
     queryEmployeeList: {
         isLoading: false,
@@ -152,6 +160,12 @@ export default function manage(state=initialState,actions){
             return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:true}};
         case SET_RESETFORM_FALSE:
             return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:false}};
+        case EXPORT_CLERK_START:
+            return {...state,exportClerkList:{...state.exportClerkList,isLoading:true}};  
+        case EXPORT_CLERK_DONE:
+            return {...state,exportClerkList:{...state.exportClerkList,isLoading:false}};    
+        case EXPORT_CLERK_LIST:
+            return {...state,exportClerkList:{...state.exportClerkList,list:actions.list,count:actions.count}};      
         case QUERY_EMPLOYEE_START:
             return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:true}};    
         case QUERY_EMPLOYEE_DONE:

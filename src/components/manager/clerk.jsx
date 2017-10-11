@@ -6,7 +6,8 @@ import TableComponent from './clerk/table';
 
 //top navdata
 import navData from 'data/nav/crewstatis';
-
+// lodash
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
 //redux
@@ -19,7 +20,9 @@ class ClerkPage extends Component {
     state = {
         paginationCurrent: 1,
         tableHead: '全部人员',
-                     
+        ridList: '',
+        workstatus: '',
+        type: ''
     }
 
     //显示条件
@@ -65,7 +68,7 @@ class ClerkPage extends Component {
 
     //获取员工管理人员信息列表
     _requestCrewData = () => {
-        this.props.getCrewList({...this.params});
+        this.props.getCrewList({...this.params,...this.formData});
     }
 
     setPaginationCurrent = paginationCurrent => {
@@ -80,7 +83,14 @@ class ClerkPage extends Component {
     }
 
     handleClickTop = (type,desc) => {
-        console.log(type);
+        switch(type){
+            case 'sum': this.setWorkStatus(''); break;              //不传显示全部
+            case 'formal': this.setWorkStatus('1'); break;
+            case 'trial': this.setWorkStatus('0'); break;
+            case 'hired': this.setWorkStatus(''); break;
+            case 'departure': this.setWorkStatus('2'); break;
+        }
+        this.setState({type});
         this.params.skip = 0;
         this._requestCrewData();
         this.setPaginationCurrent(1);
@@ -90,14 +100,43 @@ class ClerkPage extends Component {
     setTableHead = tableHead => {
         this.setState({tableHead});
     }
+    
+    setWorkStatus = workstatus => {
+        this.setState({workstatus});
+        if(workstatus){
+            this.params.workstatus = workstatus;
+        }else{
+            this.params={
+                skip: 0,
+                count:"20"
+            }
+        }
+    }
+
+    //查找
+    handleFind = (params,clickNav=false) => {
+        // 点击开始查找按钮
+        if(isEqual(this.formData,params)&&!clickNav) return ;
+        this.formData = params;
+        this.params.skip = 0;
+        this.setPaginationCurrent(1);
+        this._requestCrewData();
+    }
+
+    getRidStr = (ridList) => {
+        this.setState({ridList})
+    }
 
     render() {
         const {
             paginationCurrent,
-            tableHead
+            tableHead,
+            ridList,
+            type
         } = this.state,
         {
             manageStastistics,
+            crewList,
             showUploadClerkModal
         } = this.props,
         {isLoading, list} = manageStastistics;
@@ -107,11 +146,17 @@ class ClerkPage extends Component {
                     data={this._getNavData(list)}
                     onClick={this.handleClickTop}
                     isLoading= {isLoading}
+                    handleFind={this.handleFind}
                 />
                 <ControlComponent 
                     title={tableHead}
+                    ridList={ridList}
+                    handleFind={this.handleFind}
                 />
                 <TableComponent 
+                    crewList={crewList}
+                    getRidStr={this.getRidStr}
+                    type={type}
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}
                 />
@@ -122,13 +167,13 @@ class ClerkPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    manageStastistics: state.Manage.manageStastistics
+    manageStastistics: state.Manage.manageStastistics,
+    crewList: state.Manage.crewList
 })
 
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
-    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
-    
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch)
 })
 
 export default connect(

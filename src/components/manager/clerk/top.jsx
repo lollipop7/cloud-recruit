@@ -2,11 +2,28 @@ import React, {Component} from 'react';
 
 import { Input } from 'antd';
 
+import pickBy from 'lodash/pickBy';
+
 export default class TopComponent extends Component {
 
     state = {
-        keyWord: '',
-        _selectedIndex: 0   //当前选中的
+        key: '',
+        _selectedIndex: 0,   //当前选中的
+        workstatus: 0
+    }
+
+    //监听键盘Enter键
+    componentDidMount() {
+        const _this = this;
+        window.addEventListener('keydown', function(e){
+            switch(e.keyCode){
+            case 13:
+                _this.handleSearch();
+                break;
+            default:
+                break;
+            }
+        })
     }
 
     setSelectedIndex = _selectedIndex => {
@@ -70,21 +87,25 @@ export default class TopComponent extends Component {
         }
     }
 
-    handleKeyUp = e => {
-
-        if(e.keyCode === 13){
-            console.log('回车搜索');
-        }
-    }
-
     handleChange = e => {
         this.setState({
-            keyWord: e.target.value
+            key: e.target.value
         });
     }
 
-    handleClick = e => {
-        console.log(e);
+     //筛选
+     _handleFind = () => {
+        setTimeout(()=>{
+            const filterObj = pickBy(this.state,(val,key)=>{
+                return val !== '' && val !=undefined;
+            });
+            // console.log(filterObj);
+            this.props.handleFind(filterObj);
+        })
+    }
+
+    handleSearch = () => {
+        this._handleFind()
     }
 
     
@@ -110,12 +131,11 @@ export default class TopComponent extends Component {
                         top: 0,
                         width: 200
                     }}
-                    onKeyUp = {this.handleKeyUp}
                     onChange = {this.handleChange}
                     suffix={
                         <a 
                             href="javascript:;"
-                            onClick={this.handleClick}
+                            onClick={this.handleSearch}
                         >
                             <img src="static/images/manager/search.png" alt="搜索"/>
                         </a>

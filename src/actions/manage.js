@@ -28,6 +28,11 @@ import FileSaver from 'file-saver';
     const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
     const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
 
+    //导出员工信息
+    const EXPORT_CLERK_START = {type: types.EXPORT_CLERK_START};
+    const EXPORT_CLERK_DONE = {type: types.EXPORT_CLERK_DONE};
+    const EXPORT_CLERK_LIST = {type: types.EXPORT_CLERK_LIST};
+
     //入职人员基本信息查询
     const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
     const QUERY_EMPLOYEE_DONE = {type:types.QUERY_EMPLOYEE_DONE};
@@ -88,6 +93,26 @@ import FileSaver from 'file-saver';
         })
     }
 
+    //导出员工信息
+    export const exportEmployees = (data) => (dispatch,getState) => {
+        console.log(data);
+        dispatch(EXPORT_CLERK_START);
+        AjaxByToken('employeeinfo/exportEmployees',{
+            head: {
+                transcode: 'L0046'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res);
+            // dispatch(EXPORT_CLERK_DONE);
+            // dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
+        },err=>{
+            console.log(err);
+            // dispatch(EXPORT_CLERK_DONE);
+        });
+    }
+
     //导入excel人员modal
     export const showUploadClerkModal = () => (dispatch,getState) => {
         dispatch(SHOW_UPLOAD_CLERK_MODAL);
@@ -105,11 +130,8 @@ import FileSaver from 'file-saver';
             method: 'get',
         })
         .then(res=>{
-            const {data,headers} = res;
-            const filename = headers['content-disposition'].split(';')[1].trim().substr('filename='.length);
-            console.log(filename);
-            var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-            // FileSaver.saveAs(blob,filename);
+            var blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
             console.log(error)
         });
