@@ -99,7 +99,17 @@ export default  class TableComponent extends Component {
             )
         };
         formalColumns[formalColumns.length-2].render = (text,record,index) => {
-            return <span style={{color: "#ffa200",textDecoration:"underline"}}>试用期</span>
+            switch(parseInt(text)){
+                case 0:
+                    return <span className="work-status trial">试用期</span>
+                case 1:
+                    return <span className="work-status formal">正式员工</span>  
+                case 2:
+                    return <span className="work-status depature">离职员工</span>  
+                default:
+                    return <span className="work-status hired">待入职</span>        
+            }
+        }    
         return formalColumns;
     }
 
@@ -118,16 +128,7 @@ export default  class TableComponent extends Component {
             )
         };
         trialColumns[trialColumns.length-2].render = (text,record,index) => {
-            switch(parseInt(text)){
-                case 0:
-                    return <span className="work-status trial">试用期</span>
-                case 1:
-                    return <span className="work-status formal">正式员工</span>  
-                case 2:
-                    return <span className="work-status depature">离职员工</span>  
-                default:
-                    return <span className="work-status hired">待入职</span>        
-            }
+            return <span style={{color: "#ffa200",textDecoration:"underline"}}>试用期</span>
         };
         return trialColumns;
     }
