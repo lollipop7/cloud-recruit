@@ -44,7 +44,6 @@ export default  class TableComponent extends Component {
         const {
             type
         } = this.props;
-        console.log(type);
         switch(type) {
             case 'sum':  return this.getSumColumns();break;
             case 'formal': return this.getFormalColumns(); break;
@@ -127,8 +126,18 @@ export default  class TableComponent extends Component {
                 <span>{moment(text).format('YYYY-MM-DD')}</span>
             )
         };
+        //跳转到弹出办理转正弹框
         trialColumns[trialColumns.length-2].render = (text,record,index) => {
-            return <span style={{color: "#ffa200",textDecoration:"underline"}}>试用期</span>
+            const {rid} = record;
+            return (
+                   <Link 
+                        to={`/manager/clerkDetail/${rid}`}
+                        style={{color: "#ffa200",textDecoration:"underline"}}
+                   >
+                        办理转正
+                   </Link>
+            )
+                   
         };
         return trialColumns;
     }

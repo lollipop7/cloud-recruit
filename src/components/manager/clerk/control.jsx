@@ -16,9 +16,6 @@ class ControlComponent extends Component {
         router: PropTypes.object
     }
 
-    state = {
-        sort: undefined,   //入职时间排序
-    }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.state !== nextState || this.props !== nextProps;
@@ -36,34 +33,19 @@ class ControlComponent extends Component {
         }
     }
 
-    //筛选
-    _handleFind = () => {
-        setTimeout(()=>{
-            const filterObj = pickBy(this.state,(val,key)=>{
-                return val !== '' && val !=undefined;
-            });
-            // console.log(filterObj);
-            this.props.handleFind(filterObj);
-        })
-    }
-
     handleIntheTimeClick = (value) => {
+        const {handleFind} = this.props;
         switch(value)
             {
                 case "按入职时间从早到晚":
-                    this.setState({
-                        sort:"asc"
-                    });
+                    handleFind({sort:"desc"});
                     break;
                 case "按入职时间降序":
-                    this.setState({
-                        sort:"desc"
-                    });
+                    handleFind({sort:"asc"});
                     break;
                 default :
                     break;    
             }
-        this._handleFind()
     }
 
     //导出
@@ -73,6 +55,11 @@ class ControlComponent extends Component {
             ridList
         } = this.props;
         exportEmployees({ridList:ridList});
+    }
+
+    //删除
+    handleDeleteClerkClick = () => {
+
     }
 
     render() {
@@ -126,6 +113,7 @@ class ControlComponent extends Component {
                         style={{
                             width: 100
                         }}
+                        onClick={this.handleDeleteClerkClick}
                     >
                         删除
                     </Button>
@@ -148,7 +136,8 @@ const mapDispatchToProps = dispatch => ({
     uploadClerkExcel: bindActionCreators(Actions.ManageActions.uploadClerkExcel, dispatch),
     setResetFormFalse: bindActionCreators(Actions.ManageActions.setResetFormFalse, dispatch),
     downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch),
-    exportEmployees: bindActionCreators(Actions.ManageActions.exportEmployees, dispatch)
+    exportEmployees: bindActionCreators(Actions.ManageActions.exportEmployees, dispatch),
+    deleteEmployees: bindActionCreators(Actions.ManageActions.deleteEmployees, dispatch)
 })
 
 export default connect(

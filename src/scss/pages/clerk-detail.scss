@@ -298,7 +298,39 @@
                     clip-path: polygon(0 100%, 50% 0, 100% 100%);
                 }
             }
-            
+        }
+        table {
+            border-left: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            tr {
+                td {
+                    border-top: 1px solid #ddd;
+                    border-right: 1px solid #ddd;
+                    padding-left: 18px;
+                    color: #868686;
+                    &:first-child,
+                    &:first-child+td+td {
+                        padding:14px 18px;
+                        background: #eeeeee;
+                        text-align: right;
+                        color:#4d4d4d;
+                        font-size: 16px;
+                        line-height: 16px;
+                    }
+                    &:first-child {
+                        width: 231px;
+                    }
+                    &:first-child+td {
+                        width: 229px;
+                    }
+                    &:first-child+td+td {
+                        width: 205px;
+                    }
+                    &:first-child+td+td+td {
+                        width: 214px;
+                    }
+                }
+            }
         }
     }
     .consquence {

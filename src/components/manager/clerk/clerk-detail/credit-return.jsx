@@ -236,7 +236,54 @@ export default class CreditReturnComponent extends Component {
                         <div className="superior-content" style={{
                             padding: "10px 0 0 8px"
                         }}>
-                            
+                            <table cellSpacing={0}>
+                                <tr>
+                                    <td>被执行人名称</td>
+                                    <td>刘德华</td>
+                                    <td>身份证号/组织机构代码</td>
+                                    <td>411721199305177744</td>
+                                </tr>
+                                <tr>
+                                    <td>年龄</td>
+                                    <td>24</td>
+                                    <td>性别</td>
+                                    <td>男</td>
+                                </tr>
+                                <tr>
+                                    <td>执行法院</td>
+                                    <td>永胜县人民法院</td>
+                                    <td>省份</td>
+                                    <td>云南</td>
+                                </tr>
+                                <tr>
+                                    <td>执行依据文号</td>
+                                    <td>（2017）云0722执210号</td>
+                                    <td>作出执行依据单位</td>
+                                    <td>永胜县人民法院</td>
+                                </tr>
+                                <tr>
+                                    <td>案号</td>
+                                    <td>(2016)云0722执210号</td>
+                                    <td>立案时间</td>
+                                    <td>2016年11月16日</td>
+                                </tr>
+                                <tr>
+                                    <td>生效法律文书确定的义务</td>
+                                    <td colSpan={3}>执行赔偿款76385.86元及案件受理费634元，合计77019.86</td>
+                                </tr>
+                                <tr>
+                                    <td>被执行人的履行情况</td>
+                                    <td colSpan={3}>全部未履行</td>
+                                </tr>
+                                <tr>
+                                    <td>失信被执行人行为具体情形</td>
+                                    <td colSpan={3}>其他有履行能力而拒不履行生效法律文书确定义务的</td>
+                                </tr>
+                                <tr>
+                                    <td>发布时间</td>
+                                    <td colSpan={3}>2017-06-01</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

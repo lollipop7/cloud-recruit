@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import TopComponent from './clerk/top';
 import ControlComponent from './clerk/control';
@@ -34,6 +34,10 @@ class ClerkPage extends Component {
     // 表单数据
     formData = {
     };
+
+    static contextTypes = {
+        router: PropTypes.object
+    }
 
     componentDidMount(){
         NProgress.done();
@@ -87,7 +91,10 @@ class ClerkPage extends Component {
             case 'sum': this.setWorkStatus(''); break;              //不传显示全部
             case 'formal': this.setWorkStatus('1'); break;
             case 'trial': this.setWorkStatus('0'); break;
-            case 'hired': this.setWorkStatus(''); break;
+            case 'hired': 
+                this.props.getResumeId({stageid:"6",title:'待入职'});
+                this.context.router.push(`recruit`); 
+                break;
             case 'departure': this.setWorkStatus('2'); break;
         }
         this.setState({type});
@@ -173,7 +180,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
-    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch)
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
+    getResumeId: bindActionCreators(Actions.jobActions.getResumeId, dispatch)
 })
 
 export default connect(

@@ -4,10 +4,6 @@ import {Icon} from 'antd';
 
 import PlusAttachmentModal from './attactment-modal'; 
 
-// const basicData=['身份证原件','学历证明','个人证件照','身份证复印件','工资银行卡','社保卡'];
-// const beforeData=['劳动合同','入职登记表','入职体检报告','上家公司离职证明','其他'];
-// const afterData=['离职证明','离职交接表'];
-
 import forEach from 'lodash/forEach';
 import pickBy from 'lodash/pickBy';
 

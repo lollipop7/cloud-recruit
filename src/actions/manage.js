@@ -75,7 +75,7 @@ import FileSaver from 'file-saver';
     export const getCrewList = (data={}) => (dispatch, getState) => {
         if(isNumber(data.skip)) data.skip = data.skip + '';
         const uri = 'emp/crewquery';
-        // cancelRequestByKey(uri);
+        cancelRequestByKey(uri);
         NProgress.start();
         dispatch(LOAD_LIST_START);
         AjaxByToken(uri, {
@@ -110,6 +110,21 @@ import FileSaver from 'file-saver';
         },err=>{
             console.log(err);
             // dispatch(EXPORT_CLERK_DONE);
+        });
+    }
+
+    //删除员工信息
+    export const deleteEmployees = (data) => (dispatch,getState) => {
+        AjaxByToken('delete_employees',{
+            head: {
+                transcode: 'L0047'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res);
+        },err=>{
+            console.log(err);
         });
     }
 

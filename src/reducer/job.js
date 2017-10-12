@@ -41,7 +41,7 @@ const initialState = {
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,
-    interview:{}
+    interview:{}   //职位面试者的数据，存放职位id,流程id,只能筛选
 };
 
 export default function job(state = initialState,actions){

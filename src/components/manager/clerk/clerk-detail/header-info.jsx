@@ -6,26 +6,21 @@ import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
 
-import DismissionModal from './dismission-modal'; 
-import PermanentModal from './permanent-modal'; 
-import TransferPersonnelModal from './transfer-personnel-modal'; 
-
-//redux
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from 'actions';
-
-class HeaderInfoComponent extends Component {
+export default class HeaderInfoComponent extends Component {
 
     creditInvestgation = () => {
         console.log('人员征信');
     }
 
     handleMoreOthersClick = (e) => {
+        const {
+            showPermanentModal,
+            showDismissionModal
+        } = this.props;
         switch(e.key){
             case '1': console.log('生成信息填写二维码'); break;
-            case '2': this.props.showPermanentModal(); break;
-            case '3': this.props.showDismissionModal(); break;
+            case '2': showPermanentModal(); break;
+            case '3': showDismissionModal(); break;
             case '4': console.log('删除员工'); break;
         }
     }
@@ -121,30 +116,7 @@ class HeaderInfoComponent extends Component {
                         </Button>
                     </Dropdown>
                 </div>
-                <DismissionModal {...this.props}/>
-                <PermanentModal {...this.props}/>
-                <TransferPersonnelModal {...this.props}/>
             </div>
         );
     }
 }
-
-const mapStateToProps = state => ({
-    dismissionModal: state.Manage.dismissionModal,
-    permanentModal: state.Manage.permanentModal,
-    transferPersonnelModal: state.Manage.transferPersonnelModal,
-})
-
-const mapDispatchToProps = dispatch => ({
-    showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
-    hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
-    showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
-    hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
-    showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
-    hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(HeaderInfoComponent)
