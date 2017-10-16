@@ -125,7 +125,7 @@ export default class ProgressComponent extends Component{
             if (ridName.rid){ 
                     this.props.downloadMaterial(ridName)   
             }else{
-                notification.info({
+                notification.warning({
                     message: '请先选择具体人员！'
                 });
             }     
@@ -241,9 +241,7 @@ export default class ProgressComponent extends Component{
                         <b style={{color:'#f68f6b'}}>人事材料</b>；点击员工的每一项信息
                         <b style={{color:'#6b88f6'}}>快速补充人员信息</b>）
                     </div>
-                    <div 
-                        className="archives-select" 
-                    >
+                    <div  className="archives-select">
                         <Select
                             defaultValue="人事材料存档率升序" 
                             style={{width: 180,height:35,lineHeight:35}}

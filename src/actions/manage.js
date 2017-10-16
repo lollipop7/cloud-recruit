@@ -304,7 +304,7 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         const {data} = res;
-        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+        var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
         FileSaver.saveAs(blob, `${name}个人材料附件.xls`);
     }).catch(error=>{
         console.log(error)

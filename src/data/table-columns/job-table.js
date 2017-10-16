@@ -28,7 +28,7 @@ module.exports = [
         "title": "职位名",
         "dataIndex": "positionname", 
         "key": "positionname",
-        "width": 120
+        "width": 90
     },
     {
         "title": "部门",
@@ -75,10 +75,10 @@ module.exports = [
         "width": 48
     },
     {
-        "title": "智能",
+        "title": "智能筛选",
         "dataIndex": "degree",
         "key": "degree",
-        "width": 48
+        "width": 70
     },
     {
         "title": "开始时间",

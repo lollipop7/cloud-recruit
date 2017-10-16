@@ -21,7 +21,9 @@ export default class TableComponent extends Component{
         selectedRowKeys:[]
     };
     setPersonnelMaterials = (record) => {
-        const {showPersonalMaterialModal,hidePersonalMaterialModal, personalMaterialData} = this.props;
+        const {
+            showPersonalMaterialModal
+        } = this.props;
         showPersonalMaterialModal(record);
         
     }
@@ -70,7 +72,7 @@ export default class TableComponent extends Component{
                     const {rid} = record;
                     return (
                         <Link to={`/manager/clerkDetail/${rid}`} >
-                            {text}
+                            <a className='personalName' title={text}>{text}</a>
                         </Link>
                     )
             }
@@ -143,7 +145,12 @@ export default class TableComponent extends Component{
             return resumeColumns
         }else if(archivesTableData=='2'){
             LeaveColumns[0].render = (text,record,index) => {
-                return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a> 
+                const {rid} = record;
+                return (
+                    <Link to={`/manager/clerkDetail/${rid}`} >
+                        <a className='personalName'>{text}</a>
+                    </Link>
+                ) 
             };
             LeaveColumns[1].render = (text,record,index) => {
                 return <Tooltip title={<span>{record.name}</span>}>
