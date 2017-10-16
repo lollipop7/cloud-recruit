@@ -52,8 +52,8 @@ class RecruitPage extends BasicPage {
         getRecruitCategory();
         //恢复positionid/stageid
         this.props.cancellResumeId({positionid:"",stageid:"1"})
-        //通过职位ID判断是否要进行参数赋值  
-        if (interview.positionid){
+        //通过职位ID判断是否要进行参数赋值 ,interview
+        if (interview.positionid || interview.stageid){
             this.params.positionid =interview.positionid;
             this.params.stageid =interview.stageid;
             this.params.degree =interview.degree;

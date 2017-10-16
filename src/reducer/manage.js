@@ -12,6 +12,9 @@ import {
     UPLOAD_CLERK_DONE,
     SET_RESETFORM_TRUE,
     SET_RESETFORM_FALSE,
+    EXPORT_CLERK_START,
+    EXPORT_CLERK_DONE,
+    EXPORT_CLERK_LIST,
     QUERY_EMPLOYEE_START,
     QUERY_EMPLOYEE_DONE,
     QUERY_EMPLOYEE_LIST,
@@ -27,14 +30,20 @@ import {
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
     GET_ARCHIVES_LIST ,
-    SHOW_CLERK_DETAIL,
     GET_ARCHIVES_DATA,
     ARCHIVES_TABLE_DATA,
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
     //**全员概览 ------------------------------------------------*/
-    GET_EMPLOYEE_QUALITY,
+    GET_EMPLOYEE_WORK,
+    GET_EMPLOYEE_SEX,
+    GET_EMPLOYEE_EDU,
+    GET_EMPLOYEE_AGE,
+    GET_EMPLOYEE_MARRY,
+    GET_EMPLOYEE_CHILD,
+    GET_EMPLOYEE_DEPART,
+    GET_EMPLOYEE_POST,
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
@@ -60,9 +69,14 @@ const initialState = {
         visible: false,
         resetForm: false
     },
-    queryEmployee: {
+    exportClerkList: {
         isLoading: false,
-        queryEmployeeData: {}
+        list: [],
+        count: 0
+    },
+    queryEmployeeList: {
+        isLoading: false,
+        list: {}
     },
     dismissionModal: {
         isLoading: false,
@@ -110,7 +124,14 @@ const initialState = {
         list: [],
         count: 0
     },
-    employeeQuality:[]
+    work:[],
+    sex:[],
+    edu:[],
+    age:[],
+    marry:[],
+    child:[],
+    depart:[],
+    post:[],
 };
 
 export default function manage(state=initialState,actions){
@@ -139,12 +160,18 @@ export default function manage(state=initialState,actions){
             return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:true}};
         case SET_RESETFORM_FALSE:
             return {...state,uploadClerkModal:{...state.uploadClerkModal,resetForm:false}};
+        case EXPORT_CLERK_START:
+            return {...state,exportClerkList:{...state.exportClerkList,isLoading:true}};  
+        case EXPORT_CLERK_DONE:
+            return {...state,exportClerkList:{...state.exportClerkList,isLoading:false}};    
+        case EXPORT_CLERK_LIST:
+            return {...state,exportClerkList:{...state.exportClerkList,list:actions.list,count:actions.count}};      
         case QUERY_EMPLOYEE_START:
-            return {...state,queryEmployee:{...state.queryEmployee,isLoading:true}};    
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:true}};    
         case QUERY_EMPLOYEE_DONE:
-            return {...state,queryEmployee:{...state.queryEmployee,isLoading:false}}; 
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:false}}; 
         case QUERY_EMPLOYEE_LIST:
-            return {...state,queryEmployee:{...state.queryEmployee,queryEmployeeData:actions.queryEmployeeData}};
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,list:actions.list}};
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:
@@ -174,13 +201,25 @@ export default function manage(state=initialState,actions){
         case GET_LEAVEARCHIVES_LIST:
             return {...state,leaveArchivesList:{...state.leaveArchivesList,list:actions.list,count:actions.count}};
         case GET_ARCHIVES_DATA:
-            return {...state,archivesData:actions.archivesData};         
-        case SHOW_CLERK_DETAIL:
-            return {...state,crewDetail:actions.crewDetail}; 
+            return {...state,archivesData:actions.archivesData};  
         case ARCHIVES_TABLE_DATA:
             return {...state,archivesTableData:actions.archivesTableData};
-        case GET_EMPLOYEE_QUALITY:
-            return {...state,employeeQuality:actions.employeeQuality};
+        case GET_EMPLOYEE_WORK:
+            return {...state,work:actions.work};
+        case GET_EMPLOYEE_SEX:
+            return {...state,sex:actions.sex};
+        case GET_EMPLOYEE_EDU:
+            return {...state,edu:actions.edu};
+        case GET_EMPLOYEE_AGE:
+            return {...state,age:actions.age};
+        case GET_EMPLOYEE_MARRY:
+            return {...state,marry:actions.marry};
+        case GET_EMPLOYEE_CHILD:
+            return {...state,child:actions.child};
+        case GET_EMPLOYEE_DEPART:
+            return {...state,depart:actions.depart};
+        case GET_EMPLOYEE_POST:
+            return {...state,post:actions.post};
         case GET_DEPARTMENT_LIST:
             return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
         case SHOW_PERSONALMATERIAL_MODAL:

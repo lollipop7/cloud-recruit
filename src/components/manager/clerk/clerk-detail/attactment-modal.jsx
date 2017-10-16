@@ -10,6 +10,9 @@ export default class PlusAttachmentModal extends Component {
         errorMsg: '',
     }
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps !== this.props;
+    }
 
     triggerError = (error,errorMsg='文件类型不支持！') => {
         this.setState({error,errorMsg});
@@ -56,9 +59,16 @@ export default class PlusAttachmentModal extends Component {
         const {
             attactmentModal,
             hideAttachmentModal,
-            title
+            itemData
         } = this.props,
         {visible} = attactmentModal,
+        {
+            name,
+            max,
+            count,
+            isImportant,
+            isCustom
+        } = itemData,
         {
             fileList,
             error,
@@ -66,12 +76,12 @@ export default class PlusAttachmentModal extends Component {
         } = this.state;;
       return (
         <Modal
-            title={`添加${title}`}
+            title={`添加${name}`}
             wrapClassName="grey-close-header vertical-center-modal attachment-wrap"
             visible={visible}
             onCancel={hideAttachmentModal}
         >
-                {title=='身份证原件' ? 
+                {name=='身份证原件' ? 
                     <div>
                         <div className="add-attactment">
                             <Dragger
@@ -88,7 +98,7 @@ export default class PlusAttachmentModal extends Component {
                                             color: '#d2d2d2',
                                         }}
                                     />
-                                    <p>{title}正面</p>
+                                    <p>{name}正面</p>
                             </Dragger>
                         </div>
                         <div className="add-attactment">
@@ -106,7 +116,7 @@ export default class PlusAttachmentModal extends Component {
                                             color: '#d2d2d2',
                                         }}
                                     />
-                                    <p>{title}反面</p>
+                                    <p>{name}反面</p>
                             </Dragger>
                         </div>
                     </div>
@@ -126,7 +136,7 @@ export default class PlusAttachmentModal extends Component {
                                         color: '#d2d2d2',
                                     }}
                                 />
-                                <p>{title}</p>
+                                <p>{name}</p>
                         </Dragger>
                     </div>
                 }
@@ -137,7 +147,7 @@ export default class PlusAttachmentModal extends Component {
                         description: errorMsg
                     })
                 }
-                <p>图片大小限制在2m以下</p>
+                <p>图片大小限制在2M以下</p>
         </Modal>
       )
     }

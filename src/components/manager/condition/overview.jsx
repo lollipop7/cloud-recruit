@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import SearchComponent from './Search';
 import ChartsComponent from './charts';
 
- export default class EmployeesOverview extends Component {
+export default class EmployeesOverview extends Component {
 
-     componentDidMount(){
+     componentWillMount(){
         NProgress.done();
      }
 

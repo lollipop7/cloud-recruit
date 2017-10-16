@@ -15,9 +15,6 @@ export default class PermanentModal extends Component {
         errorComment: false
     }
 
-    componentDidMount(){
-    }
-
     onTimeChange=(field,value)=> {
         this.setState({
             [field]: value
@@ -45,16 +42,19 @@ export default class PermanentModal extends Component {
     }
 
     render(){
-        const {
+        const {   
+            positivedate=null,
+            errorComment=false,
+            comment=''
+        }=this.state,  
+        {
+            data,
             permanentModal,
             hidePermanentModal
         } = this.props,
         {visible} = permanentModal,
-        {   
-            positivedate=null,
-            errorComment=false,
-            comment=''
-        }=this.state,
+              
+        {resumeoff={},constellation} = data,
         {
             name,           //姓名
             englishname,    //英文名      
@@ -63,7 +63,7 @@ export default class PermanentModal extends Component {
             sex,            //性别
             birthday,       //出生日期
             inthetime       //入职时间
-        }=clerkInfo.headerInfo;
+        } = resumeoff;
 
         return(
             <Modal
@@ -74,40 +74,45 @@ export default class PermanentModal extends Component {
                 width={827}
             >
                 <div className="base-info">
-                    <ul>
-                        <li>
-                            <div className="inline-block">
-                                {trim(name)}
-                            </div>
-                            {englishname && <div className="inline-block en-name">
-                                {englishname}
-                            </div>}
-                        </li>
-                        <li>
-                                <span style={{
-                                    marginRight: 6
-                                }}>{department}</span>
-                                {position && <span>|</span>}
-                                {position && <span style={{
-                                    marginLeft: 6
-                                }}>{position}</span>}
-                        </li>
-                        <li>
+                <ul>
+                    <li>
+                        <div className="inline-block">
+                            {trim(name)}
+                        </div>
+                        {englishname && <div className="inline-block en-name">
+                            {englishname}
+                        </div>}
+                    </li>
+                    <li>
                             <span style={{
                                 marginRight: 6
-                            }}>{sex}</span>
-                            {birthday && <span>|</span>}
-                            {birthday && <span style={{
-                                    marginLeft: 6,
-                                    marginRight: 6
-                            }}>{parseInt(moment(birthday,"YYYYMMDD").fromNow())}岁</span>}
-                            {inthetime && <span>|</span>}
-                            {inthetime && <span style={{ 
-                                    marginLeft: 6,
-                                    marginRight: 6
-                            }}>{moment(inthetime,"YYYYMMDD").fromNow()}</span>}
-                        </li>
-                    </ul>
+                            }}>{department}</span>
+                            {position && <span>|</span>}
+                            {position && <span style={{
+                                marginLeft: 6
+                            }}>{position}</span>}
+                    </li>
+                    <li>
+                        <span style={{
+                            marginRight: 6
+                        }}>{sex}</span>
+                        {birthday && <span>|</span>}
+                        {birthday && <span style={{
+                                marginLeft: 6,
+                                marginRight: 6
+                        }}>{parseInt(moment(birthday,"YYYYMMDD").fromNow())}岁</span>}
+                        {constellation && <span>|</span>}
+                        {constellation &&  <span style={{
+                                marginLeft: 6,
+                                marginRight: 6
+                        }}>{constellation}</span>}
+                        {inthetime && <span>|</span>}
+                        {inthetime && <span style={{ 
+                                marginLeft: 6,
+                                marginRight: 6
+                        }}>入职时长：{moment(inthetime).startOf('day').fromNow()}</span>}
+                    </li> 
+                </ul>
                 </div>
                 <div className="regular-field clearfix">
                     <div className="pull-left">

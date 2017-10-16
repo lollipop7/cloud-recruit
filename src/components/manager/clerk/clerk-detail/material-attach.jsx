@@ -4,9 +4,8 @@ import {Icon} from 'antd';
 
 import PlusAttachmentModal from './attactment-modal'; 
 
-const basicData=['工资卡','身份证原件'];
-const beforeData=['劳动合同','入职登记表','入职体检报告','上家公司离职证明','其他'];
-const afterData=['离职证明','离职交接表'];
+import forEach from 'lodash/forEach';
+import pickBy from 'lodash/pickBy';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -16,16 +15,51 @@ import * as Actions from 'actions';
 class MaterialAttach extends Component {
 
     state = {
-        title: ''
+        itemData: {},
+        basicData: [],      //基本资料
+        beforeData: [],     //档案附件
+        afterData: []       //离职资料
     }
 
-    handleAttachmentClick = (title) => {
-       this.setState({title});
+    componentWillReceiveProps(nextProps){
+        const {
+            basicData= [],
+            beforeData= [],
+            afterData= []
+        } = this.state;
+        nextProps.listAll.forEach((value,index) => {
+            switch(value.type){
+                case 1 : 
+                    value.list.forEach((item) => {basicData.push(item)});break;
+                case 2 : 
+                    value.list.forEach((item) => {beforeData.push(item)});break;
+                case 3 : 
+                    value.list.forEach((item) => {afterData.push(item)});break;
+            }
+        })
+        this.setState({
+            basicData,
+            beforeData,
+            afterData
+        });
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextState !== this.state || nextProps !== this.props;
+    }
+
+    handleAttachmentClick = (itemData) => {
+       this.setState({itemData});
        this.props.showAttachmentModal();
     }
 
     render() {
-        const {title} = this.state;
+        const {
+            itemData,
+            basicData=[],
+            beforeData=[],
+            afterData=[]
+        } = this.state;
         return (
             <div className="material-attach clerk-tab-container">
                 <ul>
@@ -34,16 +68,21 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">基本资料</h3>
                             {
-                                basicData.map((item,index) => {
+                                basicData.map((value,index) => {
+                                    const {name,isShow} = value;
                                     return(
-                                        <div key={item} className="add-attactment" onClick={this.handleAttachmentClick.bind(this,item)}>
+                                        <div key={name} 
+                                             className="add-attactment" 
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
+                                             style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                        >
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
-                                            <p>{item}</p>
+                                            <p>{name}</p>
                                         </div>
                                     )
                                 })
@@ -55,16 +94,21 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">档案附件</h3>
                             {
-                                beforeData.map((item,index) => {
+                                beforeData.map((value,index) => {
+                                    const {name,isShow} = value;
                                     return(
-                                        <div key={item} className="add-attactment" onClick={this.handleAttachmentClick.bind(this,item)}>
+                                        <div key={name} 
+                                             className="add-attactment" 
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
+                                             style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                        >
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
-                                            <p>{item}</p>
+                                            <p>{name}</p>
                                         </div>
                                     )
                                 })
@@ -76,16 +120,21 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">离职资料</h3>
                             {
-                                afterData.map((item,index) => {
+                                afterData.map((value,index) => {
+                                    const {name,isShow} = value;
                                     return(
-                                        <div key={item} className="add-attactment" onClick={this.handleAttachmentClick.bind(this,item)}>
+                                        <div key={name} 
+                                             className="add-attactment" 
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
+                                             style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                        >
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
-                                            <p>{item}</p>
+                                            <p>{name}</p>
                                         </div>
                                     )
                                 })
@@ -93,7 +142,7 @@ class MaterialAttach extends Component {
                         </div>    
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} title={title}/>                    
+                <PlusAttachmentModal {...this.props} itemData={itemData}/>                    
             </div>
         );
     }

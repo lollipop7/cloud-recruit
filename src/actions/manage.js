@@ -20,9 +20,6 @@ import FileSaver from 'file-saver';
     const LOAD_LIST_DONE = {type: types.LOAD_LIST_DONE};
     const LOAD_CREW_LIST = {type: types.LOAD_CREW_LIST};
 
-    //员工名册-员工详情
-    const SHOW_CLERK_DETAIL = {type: types.SHOW_CLERK_DETAIL};
-
     //导入excel人员modal
     const SHOW_UPLOAD_CLERK_MODAL = {type: types.SHOW_UPLOAD_CLERK_MODAL};
     const HIDE_UPLOAD_CLERK_MODAL = {type: types.HIDE_UPLOAD_CLERK_MODAL};
@@ -30,6 +27,11 @@ import FileSaver from 'file-saver';
     const UPLOAD_CLERK_DONE = {type: types.UPLOAD_CLERK_DONE};
     const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
     const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
+
+    //导出员工信息
+    const EXPORT_CLERK_START = {type: types.EXPORT_CLERK_START};
+    const EXPORT_CLERK_DONE = {type: types.EXPORT_CLERK_DONE};
+    const EXPORT_CLERK_LIST = {type: types.EXPORT_CLERK_LIST};
 
     //入职人员基本信息查询
     const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
@@ -73,7 +75,7 @@ import FileSaver from 'file-saver';
     export const getCrewList = (data={}) => (dispatch, getState) => {
         if(isNumber(data.skip)) data.skip = data.skip + '';
         const uri = 'emp/crewquery';
-        // cancelRequestByKey(uri);
+        cancelRequestByKey(uri);
         NProgress.start();
         dispatch(LOAD_LIST_START);
         AjaxByToken(uri, {
@@ -91,9 +93,39 @@ import FileSaver from 'file-saver';
         })
     }
 
-    //员工名册-员工详情
-    export const showClerkDetail = data => (dispatch, getState) => {
-        dispatch({...SHOW_CLERK_DETAIL, crewDetail:data});
+    //导出员工信息
+    export const exportEmployees = (data) => (dispatch,getState) => {
+        console.log(data);
+        dispatch(EXPORT_CLERK_START);
+        AjaxByToken('employeeinfo/exportEmployees',{
+            head: {
+                transcode: 'L0046'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res);
+            // dispatch(EXPORT_CLERK_DONE);
+            // dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
+        },err=>{
+            console.log(err);
+            // dispatch(EXPORT_CLERK_DONE);
+        });
+    }
+
+    //删除员工信息
+    export const deleteEmployees = (data) => (dispatch,getState) => {
+        AjaxByToken('delete_employees',{
+            head: {
+                transcode: 'L0047'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res);
+        },err=>{
+            console.log(err);
+        });
     }
 
     //导入excel人员modal
@@ -113,11 +145,8 @@ import FileSaver from 'file-saver';
             method: 'get',
         })
         .then(res=>{
-            const {data,headers} = res;
-            const filename = headers['content-disposition'].split(';')[1].trim().substr('filename='.length);
-            console.log(filename);
-            var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-            // FileSaver.saveAs(blob,filename);
+            var blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
             console.log(error)
         });
@@ -152,7 +181,7 @@ import FileSaver from 'file-saver';
     }
 
     //入职人员基本信息查询
-    export const queryEmployee = (data={}) => (dispatch,getState) => {
+    export const queryEmployee = (data) => (dispatch,getState) => {
         dispatch(QUERY_EMPLOYEE_START);
         AjaxByToken('employeeinfo/queryEmployee', {
             head: {
@@ -161,7 +190,8 @@ import FileSaver from 'file-saver';
             data: data
         })
         .then(res=>{
-            console.log(res)
+            dispatch(QUERY_EMPLOYEE_DONE);
+            dispatch({...QUERY_EMPLOYEE_LIST,list:res});
         },err=>{
             console.log(err)
             dispatch(QUERY_EMPLOYEE_DONE);
@@ -230,7 +260,14 @@ const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
 //**全员概览 ------------------------------------------------*/
 
 //获取全员概览-员工性质分布信息
-const GET_EMPLOYEE_QUALITY = {type:types.GET_EMPLOYEE_QUALITY};
+const GET_EMPLOYEE_WORK = {type:types.GET_EMPLOYEE_WORK};
+const GET_EMPLOYEE_SEX = {type:types.GET_EMPLOYEE_SEX};
+const GET_EMPLOYEE_EDU = {type:types.GET_EMPLOYEE_EDU};
+const GET_EMPLOYEE_AGE = {type:types.GET_EMPLOYEE_AGE};
+const GET_EMPLOYEE_MARRY = {type:types.GET_EMPLOYEE_MARRY};
+const GET_EMPLOYEE_CHILD = {type:types.GET_EMPLOYEE_CHILD};
+const GET_EMPLOYEE_DEPART = {type:types.GET_EMPLOYEE_DEPART};
+const GET_EMPLOYEE_POST = {type:types.GET_EMPLOYEE_POST};
 
 //获取全员概览-员工性质分布信息
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
@@ -392,11 +429,25 @@ export const getEmployeeQuality = (type) => (dispatch,getState) => {
         },
         data: type
     }).then(res=>{
-        console.log('xxxxxx66666',res.content)
-        dispatch({...GET_EMPLOYEE_QUALITY,employeeQuality:res.content})
+        if(type.counttype=="1"){
+            dispatch({...GET_EMPLOYEE_WORK,work:res.content});
+        }else if(type.counttype=="2"){
+            dispatch({...GET_EMPLOYEE_SEX,sex:res.content});
+        }else if(type.counttype=="3"){
+            dispatch({...GET_EMPLOYEE_EDU,edu:res.content});
+        }else if(type.counttype=="4"){
+            dispatch({...GET_EMPLOYEE_AGE,age:res.content});
+        }else if(type.counttype=="5"){
+            dispatch({...GET_EMPLOYEE_MARRY,marry:res.content});
+        }else if(type.counttype=="6"){
+            dispatch({...GET_EMPLOYEE_CHILD,child:res.content});
+        }else if(type.counttype=="7"){
+            dispatch({...GET_EMPLOYEE_DEPART,depart:res.content});
+        }else if(type.counttype=="8"){
+            dispatch({...GET_EMPLOYEE_POST,post:res.content});
+        }
     },err=>{
         console.log(err)
-        dispatch({...GET_EMPLOYEE_QUALITY})
     });
 }
 
