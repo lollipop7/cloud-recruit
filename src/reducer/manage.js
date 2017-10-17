@@ -26,6 +26,10 @@ import {
     HIDE_TRANSFER_PERSONNEL_MODAL,
     SHOW_ATTACHMENT_MODAL,
     HIDE_ATTACHMENT_MODAL,
+    OPERATION_LIST,
+    LOAD_EMPLOYEEINFO_START,
+    LOAD_EMPLOYEEINFO_DONE,
+    LOAD_EMPLOYEEINFO,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -35,6 +39,8 @@ import {
     GET_LEAVEARCHIVES_START ,
     GET_LEAVEARCHIVES_DONE ,
     GET_LEAVEARCHIVES_LIST,
+    OPERATION_LIST_START,
+    OPERATION_LIST_DONE,
     //**全员概览 ------------------------------------------------*/
     GET_EMPLOYEE_WORK,
     GET_EMPLOYEE_SEX,
@@ -94,6 +100,12 @@ const initialState = {
         isLoading: false,
         visible: false,
     },
+    operationList: {
+        isLoading: false,
+        count: 0,
+        list: []
+    },
+    employeeInfo: {},
     //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,
@@ -187,7 +199,19 @@ export default function manage(state=initialState,actions){
         case SHOW_ATTACHMENT_MODAL:
             return {...state,attactmentModal:{...state.attactmentModal,visible:true}};  
         case HIDE_ATTACHMENT_MODAL:
-            return {...state,attactmentModal:{...state.attactmentModal,visible:false}};                                
+            return {...state,attactmentModal:{...state.attactmentModal,visible:false}};
+        case OPERATION_LIST_START:
+            return {...state,operationList:{...state.operationList,isLoading:true}};  
+        case OPERATION_LIST_DONE:
+            return {...state,operationList:{...state.operationList,isLoading:false}}; 
+        case OPERATION_LIST:
+            return {...state,operationList:{...state.operationList,list:actions.list,count:actions.count}};   
+        case LOAD_EMPLOYEEINFO_START:
+            return {...state,isInfoLoading:true};       
+        case LOAD_EMPLOYEEINFO_DONE:
+            return {...state,isInfoLoading:false};   
+        case LOAD_EMPLOYEEINFO:
+            return {...state,employeeInfo:actions.employeeInfo};                                       
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

@@ -8,6 +8,8 @@ import MainContent from './clerk-detail/main-content';
 import DismissionModal from './clerk-detail/dismission-modal'; 
 import PermanentModal from './clerk-detail/permanent-modal'; 
 import TransferPersonnelModal from './clerk-detail/transfer-personnel-modal'; 
+// 招聘人员详细信息Modal页面
+import ResumeModalComponent from 'components/resume-modal';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -16,10 +18,19 @@ import * as Actions from 'actions';
 
 class ClerkDetail extends Component {
 
+     params = {
+        skip: 0,
+        count:"20"
+     }
+
      componentDidMount(){
         NProgress.done();
         const rid = this.props.params.rid;
+        const workstatus = this.props.location.state !== null ? this.props.location.state.workstatus : undefined;
+        const {showPermanentModal} = this.props;
         this.props.queryEmployee({rid:rid});
+        // this.props.getOperationList({rid:rid,...this.params});
+        workstatus === 0 &&  showPermanentModal();
      }
 
      render(){
@@ -28,12 +39,16 @@ class ClerkDetail extends Component {
              dismissionModal,
              permanentModal,
              transferPersonnelModal,
+             employeeInfo,
+             pageType,
              showDismissionModal,
              hideDismissionModal,
              showPermanentModal,
              hidePermanentModal,
              showTransferPersonnelModal,
-             hideTransferPersonnelModal
+             hideTransferPersonnelModal,
+             showEmployeeResumeView,
+             showResumeModal
         } = this.props,
          {list={}} = queryEmployeeList;
         return (
@@ -41,12 +56,16 @@ class ClerkDetail extends Component {
                 <ControlComponent/>
                 <HeaderInfoComponent 
                     data={list}
+                    employeeInfo={employeeInfo}
+                    pageType={pageType}
                     dismissionModal={dismissionModal}
                     permanentModal={permanentModal}
                     transferPersonnelModal={transferPersonnelModal}
                     showDismissionModal={showDismissionModal}
                     showPermanentModal={showPermanentModal}
                     showTransferPersonnelModal={showTransferPersonnelModal}
+                    showEmployeeResumeView={showEmployeeResumeView}
+                    showResumeModal={showResumeModal}
                 />
                 <MainContent data={list}/>
                 <DismissionModal 
@@ -62,6 +81,7 @@ class ClerkDetail extends Component {
                     transferPersonnelModal={transferPersonnelModal}
                     hideTransferPersonnelModal={hideTransferPersonnelModal}
                 />
+                <ResumeModalComponent onChange={this.oncChange}/>
             </div>
         );
      }
@@ -69,19 +89,25 @@ class ClerkDetail extends Component {
 
  const mapStateToProps = state => ({
     queryEmployeeList: state.Manage.queryEmployeeList,
+    // operationList: state.Manage.operationList,
     dismissionModal: state.Manage.dismissionModal,
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
+    employeeInfo: state.Manage.employeeInfo,
+    pageType: state.Manage.pageType
 })
 
 const mapDispatchToProps = dispatch => ({
     queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
+    // getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
     hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
     showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
     hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
+    showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
+    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
 })
 
 export default connect(

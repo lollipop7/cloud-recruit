@@ -3,15 +3,7 @@ import {Button} from 'antd';
 
 import trim from 'lodash/trim';
 
-// 职位推荐Modal
-import RecommendResumeModalComponents from 'components/recruit/recommend-resume-modal'
-
-// redux
-import {bindActionCreators} from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from 'actions';
-
-class TalentHeaderInfoComponent extends Component {
+export default class ClerkHeaderInfoComponent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
         return nextProps !== this.props;
@@ -41,24 +33,8 @@ class TalentHeaderInfoComponent extends Component {
         }
     }
 
-    downloadResume = () => {
-        if(this.props.isDownLoading) return ;
-        NProgress.configure({className:'top0'});
-        NProgress.start();
-        // 下载简历
-        const {data} = this.props;
-        /**
-         * currentPId 当前职位id
-         * resumeid 简历id
-         */
-        const {resumeid,resumeInfo} = data;
-        this.props.downloadResume({
-            resumeid
-        },resumeInfo.username);
-    }
-
     render() {
-        const {data,showRecommendModal} = this.props,
+        const {data} = this.props,
             {
                 resumeid,
                 resumeInfo={}
@@ -96,9 +72,6 @@ class TalentHeaderInfoComponent extends Component {
                                     }}>{email}</span>
                                 </div>
                                 <div className="pull-right noprint">
-                                    <Button type="primary" onClick={this.downloadResume}>
-                                        简历下载
-                                    </Button>
                                     <Button type="primary" onClick={this.printResume} >
                                         打印简历
                                     </Button>
@@ -119,35 +92,9 @@ class TalentHeaderInfoComponent extends Component {
                                 简历来源 : {this.mapChannelToChinese(channel)}
                             </li>
                         </ul>
-                        <div className="noprint">
-                            <Button
-                                type="orange" 
-                                onClick={()=>showRecommendModal()}
-                                style={{
-                                    marginRight: 0
-                                }}
-                            >职位推荐</Button>
-                        </div>
                     </div>
                 </div>
-                {/*职位推荐Modal*/}
-                <RecommendResumeModalComponents
-                    resumeid={resumeid}
-                />
             </div>
         );
     }
 }
-
-const mapStateToProps = state => ({
-    isDownLoading: state.Resume.isDownLoading,
-})
-const mapDispatchToProps = dispatch => ({
-    showRecommendModal: bindActionCreators(Actions.RecruitActions.showRecommendModal, dispatch),
-    downloadResume: bindActionCreators(Actions.ResumeActions.downloadResume, dispatch),
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TalentHeaderInfoComponent);

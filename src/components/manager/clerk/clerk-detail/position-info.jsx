@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
+import { Input } from 'antd';
 
 import clerkInfo from 'data/clerk/clerk';
 
@@ -49,7 +50,8 @@ export default class PositionInfo extends Component {
                             <ul className="field-list inline-block" style={{marginLeft: 90}}>
                                 <li>
                                     <span>工号 : </span>
-                                    <span>{worknumber}</span>
+                                    <span><Input value = {worknumber}/></span>
+                                    
                                 </li>
                                 <li>
                                     <span>部门 : </span>

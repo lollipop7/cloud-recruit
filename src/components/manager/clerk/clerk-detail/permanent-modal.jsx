@@ -67,7 +67,7 @@ export default class PermanentModal extends Component {
 
         return(
             <Modal
-                title="办理离职"
+                title="办理转正"
                 wrapClassName="grey-close-header vertical-center-modal permanent-wrap"
                 visible={visible}
                 onCancel={hidePermanentModal}

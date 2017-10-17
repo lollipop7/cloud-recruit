@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import clerkInfo from 'data/clerk/clerk';
+import { Input } from 'antd';
 
 export default class PersonalInfo extends Component {
 
