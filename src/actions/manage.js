@@ -273,7 +273,8 @@ const GET_EMPLOYEE_POST = {type:types.GET_EMPLOYEE_POST};
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
 
 //**组织架构 ------------------------------------------------*/
-
+// 获取组织架构图数据
+const GET_ORGANIZE_CHART = {type:types.GET_ORGANIZE_CHART}
 //根据部门id查询子部门及人员
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 // 添加或者修改部门
@@ -533,5 +534,21 @@ export const deleteDepartment = (data={}) => (dispatch,getState) => {
         dispatch({...DELETE_DEPARTMENT,departmentInfo:'success'});
     },err=>{
         dispatch({...DELETE_DEPARTMENT});
+    });
+}
+
+//  组织架构-根据部门id查询子部门及人员
+export const getOrganizeChart = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/company_structure',{
+        head: {
+            transcode: 'L0083',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_ORGANIZE_CHART,organize:res.companystructure});
+    },err=>{
+        dispatch({...GET_ORGANIZE_CHART});
     });
 }

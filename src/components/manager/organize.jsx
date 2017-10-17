@@ -9,6 +9,7 @@ const TabPane = Tabs.TabPane;
 import LeftTree from './organize/tree';
 import RightContent from './organize/right';
 import NoSubDepartment from './organize/nosub';
+import OrganizeChart from './organize/chart';
 
 class OrganizePage extends Component {
 
@@ -19,9 +20,9 @@ class OrganizePage extends Component {
         const {departmentStaff} = this.props;
         return (
             <div className="right-panel">
-                <Tabs defaultActiveKey="2">
+                <Tabs defaultActiveKey="1">
                     <TabPane tab="组织架构图" key="1">
-                        组织架构图
+                        <OrganizeChart/>
                     </TabPane>
                     <TabPane tab="部门管理" key="2">
                         <LeftTree/>
@@ -34,7 +35,7 @@ class OrganizePage extends Component {
         );
      }
  }
- const mapStateToProps = state => ({
+const mapStateToProps = state => ({
   departmentStaff: state.Manage.departmentStaff
 })
 const mapDispatchToProps = dispatch => ({
