@@ -54,6 +54,16 @@ import FileSaver from 'file-saver';
     const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
     const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
 
+    //查看人员操作记录信息列表
+    const OPERATION_LIST_START = {type:types.OPERATION_LIST_START};
+    const OPERATION_LIST_DONE = {type:types.OPERATION_LIST_DONE};
+    const OPERATION_LIST = {type:types.OPERATION_LIST};
+
+    //1.56 员工简历查看
+    const LOAD_EMPLOYEEINFO_START = {type:types.LOAD_EMPLOYEEINFO_START};
+    const LOAD_EMPLOYEEINFO_DONE = {type:types.LOAD_EMPLOYEEINFO_DONE};
+    const LOAD_EMPLOYEEINFO = {type:types.LOAD_EMPLOYEEINFO};
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -106,11 +116,11 @@ import FileSaver from 'file-saver';
         })
         .then(res=>{
             console.log(res);
-            // dispatch(EXPORT_CLERK_DONE);
-            // dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
+            dispatch(EXPORT_CLERK_DONE);
+            dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
         },err=>{
             console.log(err);
-            // dispatch(EXPORT_CLERK_DONE);
+            dispatch(EXPORT_CLERK_DONE);
         });
     }
 
@@ -138,15 +148,16 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_UPLOAD_CLERK_MODAL);
     }
 
-    //下载人员excel模板
+    //1.61 员工导入模板下载
     export const downloadTememployees = () => (dispatch,getState) => {
         const token = store.get('token');
         axios({
             url: `${prefixUri}/employeeinfo/downloadTememployees`,
             method: 'get',
+            responseType: 'arraybuffer'
         })
         .then(res=>{
-            var blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            var blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
             FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
             console.log(error)
@@ -235,6 +246,43 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_ATTACHMENT_MODAL);
     }
 
+    //查看人员操作记录信息列表
+    export const getOperationList = (data) => (dispatch,getState) => {
+        if(isNumber(data.skip)) data.skip = data.skip + '';
+        dispatch(OPERATION_LIST_START);
+        AjaxByToken('operationList_employees', {
+            head: {
+                transcode: 'L0058'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res);
+            // dispatch(OPERATION_LIST_DONE);
+            // dispatch({...OPERATION_LIST,list:res.list,count:res.count});
+        },err=>{
+            console.log(err);
+            dispatch(OPERATION_LIST_DONE);
+        })
+    }
+
+    //1.56 员工简历查看
+    export const showEmployeeResumeView = (data) => (dispatch,getState) => {
+        dispatch(LOAD_EMPLOYEEINFO_START);
+        AjaxByToken('employeeinfo/employeeResumeview', {
+            head: {
+                transcode: 'L0056'
+            },
+            data: data
+        })
+        .then(res=>{
+            dispatch(LOAD_EMPLOYEEINFO_DONE);
+            dispatch({...LOAD_EMPLOYEEINFO,employeeInfo:res});
+        },err=>{
+            console.log(err)
+            dispatch(LOAD_EMPLOYEEINFO_DONE);
+        })
+    }
 
 //**档案管理 ------------------------------------------------*/
 
@@ -274,7 +322,8 @@ const GET_EMPLOYEE_POST = {type:types.GET_EMPLOYEE_POST};
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
 
 //**组织架构 ------------------------------------------------*/
-
+// 获取组织架构图数据
+const GET_ORGANIZE_CHART = {type:types.GET_ORGANIZE_CHART}
 //根据部门id查询子部门及人员
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 // 添加或者修改部门
@@ -534,5 +583,21 @@ export const deleteDepartment = (data={}) => (dispatch,getState) => {
         dispatch({...DELETE_DEPARTMENT,departmentInfo:'success'});
     },err=>{
         dispatch({...DELETE_DEPARTMENT});
+    });
+}
+
+//  组织架构-根据部门id查询子部门及人员
+export const getOrganizeChart = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/company_structure',{
+        head: {
+            transcode: 'L0083',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_ORGANIZE_CHART,organize:res.companystructure});
+    },err=>{
+        dispatch({...GET_ORGANIZE_CHART});
     });
 }

@@ -209,6 +209,9 @@
                     width: 230px;
                     display: inline-block;
                 }
+                .center {
+                    text-align: center;
+                }
                 &:hover {
                     background-color: #fef1e1;
                 }
@@ -300,6 +303,9 @@
                     width: 16%;
                     color: #1587c7;
                     cursor: pointer;
+                }
+                .center {
+                    text-align: center;
                 }
                 &:hover {
                     background-color: #e7e8fc;

@@ -4,6 +4,7 @@ import { Icon , Tooltip} from 'antd';
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header-info';
+import ClerkHeaderInfoComponent from 'components/job/recruit-info/clerk-header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content'; 
 
 import ModalComponents from 'components/resume-info/modal';
@@ -32,22 +33,24 @@ class ResumeInfoPage extends Component {
     }
 
     componentDidMount() {
-        const { location , routeParams ,getEmailHistory} = this.props,
-              { resumeId , logId } = routeParams;    
-            if(this.isInRecruitPage(location.pathname)) {
-                // 获取简历详情
-                this.props.getRecruitResumeInfo({
-                    resumeId: resumeId,
-                    logId: logId
-                });
-            }
-            if(this.isInTalentPage(location.pathname)){
-                this.props.getTalentResumeInfo({
-                    resumeid: resumeId
-                });
-            }
-            //获取历史邮件
-            getEmailHistory()
+        const { location, routeParams, getEmailHistory} = this.props,
+              { resumeId, logId } = routeParams; 
+              console.log(location.pathname);   
+        if(this.isInRecruitPage(location.pathname)) {
+            // 获取简历详情
+            this.props.getRecruitResumeInfo({
+                resumeId: resumeId,
+                logId: logId
+            });
+        }
+        if(this.isInTalentPage(location.pathname)){
+            this.props.getTalentResumeInfo({
+                resumeid: resumeId
+            });
+        }
+        
+        //获取历史邮件
+        getEmailHistory();
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -66,6 +69,7 @@ class ResumeInfoPage extends Component {
         const patternRecruit = /\/resumeInfo\/\d{1,}\/\d{1,}$/i;
         return patternRecruit.test(pathname);
     }
+    
     //点击查看已发送邮件
     clickLookEmail = () => {
         this.props.hideResumeModal()
@@ -91,12 +95,12 @@ class ResumeInfoPage extends Component {
 
     render() {
         const {type , time , stage, thelable ,emailState} = this.state,
-            {isLoading,data,location,routeParams,getRecruitResumeInfo} = this.props,
+            {isLoading,data,location,routeParams,getRecruitResumeInfo,uriParams} = this.props,      
             { logId } = routeParams,   
             isTalent = this.isInTalentPage(location.pathname),
             isRecruit = this.isInRecruitPage(location.pathname),
             {resumeid,currentPId,resumeInfo={},evaluationId,lastStageLog} = data,
-            {username,email} = resumeInfo;
+            {username,email} = resumeInfo; 
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -231,6 +235,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
     getTalentResumeInfo: bindActionCreators(Actions.ResumeActions.getTalentResumeInfo, dispatch),
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
     getEmailHistory: bindActionCreators(Actions.EmailActions.getEmailHistory, dispatch),
     hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)        
 })

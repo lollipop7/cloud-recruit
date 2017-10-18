@@ -1,15 +1,41 @@
-import React, {Component} from 'react';
+import React, {Component,PropTypes} from 'react';
 import { Button, Select, Menu, Dropdown } from 'antd';
 
 import trim from 'lodash/trim';
+import isNumber from 'lodash/isNumber';
 import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
 
+
 export default class HeaderInfoComponent extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps !== this.props;
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        const {employeeInfo} = nextProps;
+    }
 
     creditInvestgation = () => {
         console.log('人员征信');
+    }
+
+    //查看简历
+    showResumeModal = (rid,resumeid) => {
+        const {
+            showEmployeeResumeView,
+            showResumeModal
+        } = this.props;
+        if(isNumber(rid)) rid = rid + '';
+        if(isNumber(resumeid)) resumeid = resumeid + '';
+        showEmployeeResumeView({rid,resumeid});
+        showResumeModal({resumeid,rid});
     }
 
     handleMoreOthersClick = (e) => {
@@ -28,7 +54,8 @@ export default class HeaderInfoComponent extends Component {
     render() {
         const {
             data,
-            showTransferPersonnelModal
+            showTransferPersonnelModal,
+            pageType
         }=this.props,        
         {resumeoff={},constellation} = data;
         const {
@@ -38,7 +65,9 @@ export default class HeaderInfoComponent extends Component {
             position,       //职位
             sex,            //性别
             birthday,       //出生日期
-            inthetime       //入职时间
+            inthetime,       //入职时间
+            rid,
+            resumeid
         } = resumeoff;
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
@@ -103,7 +132,7 @@ export default class HeaderInfoComponent extends Component {
                         <img src="static/images/manager/clerk/test.png" alt="测试"/>
                         人员征信
                     </Button>
-                    <Button onClick={this.creditInvestgation}>
+                    <Button onClick={this.showResumeModal.bind(this,rid,resumeid)}>
                         查看简历
                     </Button>
                     <Button onClick={showTransferPersonnelModal}>

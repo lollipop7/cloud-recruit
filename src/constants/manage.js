@@ -52,6 +52,17 @@ export const QUERY_EMPLOYEE_LIST = 'QUERY_EMPLOYEE_LIST';
  //添加材料modal
  export const SHOW_ATTACHMENT_MODAL = 'SHOW_ATTACHMENT_MODAL';
  export const HIDE_ATTACHMENT_MODAL = 'HIDE_ATTACHMENT_MODAL';
+
+ //查看人员操作记录信息列表
+ export const OPERATION_LIST_START = 'OPERATION_LIST_START';
+ export const OPERATION_LIST_DONE = 'OPERATION_LIST_DONE';
+ export const OPERATION_LIST = 'OPERATION_LIST';
+
+ //1.56 员工简历查看
+ export const LOAD_EMPLOYEEINFO_START = 'LOAD_EMPLOYEEINFO_START';
+ export const LOAD_EMPLOYEEINFO_DONE = 'LOAD_EMPLOYEEINFO_DONE';
+ export const LOAD_EMPLOYEEINFO = 'LOAD_EMPLOYEEINFO';
+
  
  /**
  * ===档案管理===
@@ -99,6 +110,8 @@ export const GET_EMPLOYEE_POST = 'GET_EMPLOYEE_POST';
  * ===组织架构===
  */
 
+ //  组织架构图
+ export const GET_ORGANIZE_CHART = 'GET_ORGANIZE_CHART';
 //  组织架构-部门列表查询
 export const GET_DEPARTMENT_LIST = 'GET_DEPARTMENT_LIST';
 //  组织架构-根据部门id查询子部门及人员

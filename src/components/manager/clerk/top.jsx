@@ -9,7 +9,7 @@ export default class TopComponent extends Component {
     state = {
         key: '',
         _selectedIndex: 0,   //当前选中的
-        workstatus: 0
+        workstatus: '0'
     }
 
     //监听键盘Enter键

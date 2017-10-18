@@ -22,7 +22,7 @@ class ResumeModalComponent extends Component {
     
     render() {
         const {visible,uriParams} = this.props,
-              {resumeid=0,id=0} = uriParams;
+              {resumeid=0,id=0,rid=0} = uriParams;
         return (
             <Modal
                 id = "ww"

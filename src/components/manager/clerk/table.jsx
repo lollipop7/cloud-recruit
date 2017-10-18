@@ -128,11 +128,12 @@ export default  class TableComponent extends Component {
         };
         //跳转到弹出办理转正弹框
         trialColumns[trialColumns.length-2].render = (text,record,index) => {
-            const {rid} = record;
+            const {rid,workstatus} = record;
             return (
                    <Link 
-                        to={`/manager/clerkDetail/${rid}`}
+                        to={{pathname:`/manager/clerkDetail/${rid}`,state:{workstatus:workstatus}}}
                         style={{color: "#ffa200",textDecoration:"underline"}}
+                        onClick={()=>NProgress.start()}
                    >
                         办理转正
                    </Link>

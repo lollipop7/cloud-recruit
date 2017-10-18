@@ -54,7 +54,6 @@ export const getTalentCategory = () => (dispatch,getState) => {
 }
 // 获取人才列表
 export const getTalentList = (data) => (dispatch,getState) => {
-    console.log(data);
     data.start = data.start + '';
     const uri = 'queryTalent';
     cancelRequestByKey(uri);

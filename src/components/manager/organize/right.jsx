@@ -81,6 +81,7 @@ class DepartmentStaff extends Component {
   render() {
     const { departmentInfo, resultTree } = this.state;
     const { departmentStaff, departmentList:{list}, currentUid, departmentName } = this.props;
+    console.log(5555,departmentStaff)
     return (
       <div className='pull-left organize-tree-right'>
           <div className='department-title'><div></div>{departmentName}</div>
@@ -89,26 +90,29 @@ class DepartmentStaff extends Component {
           {/* 下级部门 */}
 
           <div className='sub-department'>
-            <div className='sub-title'>下级部门（2）</div>
+            <div className='sub-title'>下级部门</div>
             <div className='sub-depart-table'>
               <div className='sub-depart-table-title'>
                 <span>部门名称</span>
                 <span className='left-width'>部门人数</span>
               </div>
               {
-                departmentStaff.departmentList && departmentStaff.departmentList.map((item,index)=>(
+                departmentStaff.departmentList && departmentStaff.departmentList.length > 0 ? departmentStaff.departmentList.map((item,index)=>(
                   <div className='sub-depart-table-lab'>
                     <span className='left'>{item.name}</span>
                     <span className='right'>{item.isManagement}</span>
                   </div>
-                ))
+                )):
+                <div className='sub-depart-table-lab'>
+                  <div className='center'>暂无数据</div>
+                </div>
               }
             </div>
           </div>
           {/* 部门在职员工 */}
 
           <div className='sub-department-two'>
-            <div className='sub-title'>部门在职员工（2）<span className='pull-right operate' style={{display:'none'}}>批量调整</span></div>
+            <div className='sub-title'>部门在职员工（{departmentStaff && departmentStaff.count}）<span className='pull-right operate' style={{display:'none'}}>批量调整</span></div>
             <div className='sub-depart-table'>
               <div className='sub-depart-table-title'>
                 <span className='one'>姓名</span>
@@ -117,14 +121,17 @@ class DepartmentStaff extends Component {
                 <span className='four'>操作</span>
               </div>
               {
-                departmentStaff.resumeoffList && departmentStaff.resumeoffList.map((item,index)=>(
+                departmentStaff.resumeoffList && departmentStaff.resumeoffList.length > 0 ?  departmentStaff.resumeoffList.map((item,index)=>(
                   <div className={item === this.state.curr ? 'curr sub-depart-table-lab' : 'sub-depart-table-lab'} onClick={this.handleClick.bind(this, item)}>
                     <span className='one'>{item.name}</span>
                     <span className='two'>{item.department}</span>
                     <span className='three'>{item.position}</span>
                     <span className='four' onClick={this.changeDepartment.bind(this,item)}>调换部门</span>
                   </div>
-                ))
+                )):
+                <div className='sub-depart-table-lab'>
+                  <div className='center'>暂无数据</div>
+                </div>
               }
             </div>
           </div>

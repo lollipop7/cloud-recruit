@@ -31,11 +31,11 @@ export default class UploadClerkModal extends Component {
         const matchName = /(\.xls|\.xlsx|\.xlsm)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
-        // 判断是否已经上传过文件(单次只能上传一个文件)
-        if(fileList.length === 1){
-            this.triggerError(true,'单次只能上传一个文件！');
-            return false;
-        }
+        // // 判断是否已经上传过文件(单次只能上传一个文件)
+        // if(fileList.length === 1){
+        //     this.triggerError(true,'单次只能上传一个文件！');
+        //     return false;
+        // }
         // 匹配文件类型
         if(!matchName.test(name)){
             this.triggerError(true,'文件类型不匹配');

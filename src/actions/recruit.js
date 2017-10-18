@@ -139,7 +139,7 @@ export const selectPosition = data => (dispatch,getState) => {
 
 
 // 显示简历信息Modal
-export const showResumeModal = data => (dispatch,getState) => {
+export const showResumeModal = (data) => (dispatch,getState) => {
     dispatch({...SHOW_INFO_MODAL,uriParams:data});
 }
 // 隐藏简历信息Modal
