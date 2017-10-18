@@ -120,7 +120,7 @@ class TaskPage extends BasicPage {
 }
 
 const mapStateToProps = state => ({
-    // downLoading: state.Task.downLoading
+    downLoading: state.Task.downLoading
 })
 const mapDispatchToProps = dispatch => ({
     getTaskReport: bindActionCreators(Actions.TaskActions.getTaskReport, dispatch)
