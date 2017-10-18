@@ -85,6 +85,7 @@ import FileSaver from 'file-saver';
             data: {...data}
         })
         .then(res=>{
+            console.log(res.list);
             dispatch(LOAD_LIST_DONE);
             dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
         },err=>{

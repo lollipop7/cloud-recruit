@@ -33,7 +33,8 @@ class ClerkDetail extends Component {
              showPermanentModal,
              hidePermanentModal,
              showTransferPersonnelModal,
-             hideTransferPersonnelModal
+             hideTransferPersonnelModal,
+             editEmployeeInformation
         } = this.props,
          {list={}} = queryEmployeeList;
         return (
@@ -48,7 +49,7 @@ class ClerkDetail extends Component {
                     showPermanentModal={showPermanentModal}
                     showTransferPersonnelModal={showTransferPersonnelModal}
                 />
-                <MainContent data={list}/>
+                <MainContent data={list} {...this.props}/>
                 <DismissionModal 
                     dismissionModal={dismissionModal}
                     hideDismissionModal={hideDismissionModal}
@@ -82,6 +83,7 @@ const mapDispatchToProps = dispatch => ({
     hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch)
 })
 
 export default connect(
