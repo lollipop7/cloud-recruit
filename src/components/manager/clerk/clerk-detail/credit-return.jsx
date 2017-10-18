@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import LoadingComponent from 'components/loading';
 import columns from 'data/table-columns/defaulter-table';
+import BarChartComponent from './bar-chart';
 
 export default class CreditReturnComponent extends Component {
 
@@ -296,7 +297,7 @@ export default class CreditReturnComponent extends Component {
                         <div className="superior-content" style={{
                             padding: "10px 0 0 8px"
                         }}> 
-                            {/* <BarChartComponent/> */}
+                            <BarChartComponent/>
                             <div className="summary">
                                 <div className="inline-block above-all" style={{position: 'relative'}}>
                                     数据有话说

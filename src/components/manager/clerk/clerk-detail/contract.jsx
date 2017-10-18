@@ -4,8 +4,11 @@ import {Icon} from 'antd';
 import PlusAttachmentModal from './attactment-modal'; 
 
 import clerkInfo from 'data/clerk/clerk';
+import moment from 'moment';
 
 const constractData={name: '劳动合同', isShow: 1};
+import {Button , DatePicker , Input} from 'antd';
+import pickBy from 'lodash/pickBy';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -16,7 +19,14 @@ class Contract extends Component {
 
     state = {
         itemData: {},
-        attachment_type_con: []
+        attachment_type_con: [],
+        btnState:'none',
+        isdisabled:true,
+        borderState:"1px solid transparent",
+        starttime:'',          //合同开始日期
+        yearnumber:'',         //合同年限
+        endtime:'',            //合同结束日期
+        rid:''
     }
 
     componentWillReceiveProps(nextProps){
@@ -39,17 +49,74 @@ class Contract extends Component {
         this.setState({itemData});
         this.props.showAttachmentModal();
      }
+    //编辑信息
+    editInformation = (field) => {
+        if(field=='contract'){
+            this.setState({
+                btnState:'block',
+                isdisabled:false,
+                borderState:"1px solid  #d9d9d9",
+            })
+        }   
+    }
+    saveInfomation = (field) => {
+        if (field== 'btnState'){
+
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return key =='starttime' || key =='yearnumber' || key =='endtime' || key=='rid' ;
+        });
+        const filterObjEdu = pickBy(filterObj,(val,key)=>{
+            return val !=undefined;
+            });
+        this.props.editEmployeeInformation({...filterObjEdu})
+        this.setState({
+                btnState:'none',
+                isdisabled:true,
+                borderState:"1px solid  transparent",
+        })
+
+        }
+    }
+    onSelectTimeChange = (field,e,date) => {
+        if(field=='yearnumber'){
+            this.setState({
+                [field]:e.target.value
+            }) 
+        }else{
+            this.setState({
+                [field]:moment(date).format('YYYY-MM-DD')
+            })
+        }
+    }
+    componentWillReceiveProps(){
+        setTimeout(()=>{
+            const {
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+                rid
+            } = this.props.data;
+            this.setState({
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+                rid:rid+''
+            })
+        })
+    }
 
     render() {
         const {
+            attachment_type_con,
+            itemData,
+            btnState ,
+            borderState, 
+            isdisabled,
             starttime,          //合同开始日期
             yearnumber,         //合同年限
             endtime,            //合同结束日期
-        } = this.props.data,
-        {
-            attachment_type_con,
-            itemData
         } = this.state;
+        const dateFormat = 'YYYY-MM-DD';
         return (
             <div className="contract clerk-tab-container">
                 <ul>
@@ -62,28 +129,60 @@ class Contract extends Component {
                             </h3>
                             <div className="editor-wrap inline-block">   
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
-                                <span>编辑</span>
+                                <span 
+                                    onClick = {this.editInformation.bind(this,'contract')}
+                                >
+                                    编辑
+                                </span>
                             </div>
                             <ul className="field-list inline-block" style={{marginLeft: 60}}>
                                 <li>
                                     <span>合同开始日期 : </span>
-                                    <span>{starttime}</span>
+                                    <span>
+                                        <DatePicker
+                                            value={starttime?moment(moment(starttime), dateFormat):''}
+                                            disabled={isdisabled}
+                                            onChange={this.onSelectTimeChange.bind(this,'starttime')}
+                                        />
+                                    </span>
                                 </li>
                                 <li>
                                     <span>合同年限 : </span>
-                                    <span>{yearnumber}</span>
+                                    <span>
+                                        <Input
+                                            value={yearnumber}
+                                            disabled={isdisabled}
+                                            style={{border:borderState}}
+                                            onChange={this.onSelectTimeChange.bind(this,'yearnumber')}
+                                        />
+                                    </span>
                                 </li>
                             </ul>
                             <ul className="field-list inline-block">
                                 <li>
                                     <span>合同结束日期 : </span>
-                                    <span>{endtime}</span>
+                                    <span>
+                                        <DatePicker
+                                            value={endtime?moment(moment(endtime), dateFormat):''}
+                                            disabled={isdisabled}
+                                            onChange={this.onSelectTimeChange.bind(this,'endtime')}
+                                        />
+                                    </span>
                                 </li>
                                 <li>
                                     <span>&nbsp;</span>
                                     <span>&nbsp;</span>
                                 </li>
                             </ul>
+                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                                <Button 
+                                    type='primary' 
+                                    style={{display:btnState}}
+                                    onClick={this.saveInfomation.bind(this,'btnState')}
+                                    >
+                                        保存
+                                </Button>
+                            </div>
                         </div>
                     </li>
                     <li className="clerk-list-item"

@@ -47,6 +47,7 @@ class ClerkDetail extends Component {
              hidePermanentModal,
              showTransferPersonnelModal,
              hideTransferPersonnelModal,
+             editEmployeeInformation,
              showEmployeeResumeView,
              showResumeModal,
              mobilizeEmployee
@@ -67,7 +68,7 @@ class ClerkDetail extends Component {
                     showEmployeeResumeView={showEmployeeResumeView}
                     showResumeModal={showResumeModal}
                 />
-                <MainContent data={list}/>
+                <MainContent data={list} {...this.props}/>
                 <DismissionModal 
                     dismissionModal={dismissionModal}
                     hideDismissionModal={hideDismissionModal}
@@ -107,6 +108,7 @@ const mapDispatchToProps = dispatch => ({
     hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
     showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
     mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),

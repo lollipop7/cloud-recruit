@@ -5,6 +5,7 @@ import { Timeline } from 'antd';
 export default class OperateHistory extends Component {
 
     render() {
+        console.log(this.props.data)
         return (
             <div className="operate-history clerk-tab-container">
                 <ul>
