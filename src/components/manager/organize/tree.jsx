@@ -69,10 +69,11 @@ class LeftTreePage extends Component {
     this.addEditDeleteModal();
   }
   addEditDeleteModal = () => {
-    const {name, sup_id, uid} = this.state;
-    if(!name || !sup_id || !uid){
-      this.info('请选择一个部门');
-      return;
+    const {name2, sup_id, uid} = this.state;
+    if(!name2 || !sup_id || !uid){
+      // this.info('请选择一个部门');
+      // return;
+      this.setState({name2:"一级部门",sup_id:"0"})
     }
     this.setState({
       visible: true,
