@@ -24,6 +24,8 @@ import {
     HIDE_FORMAL_MODAL,
     SHOW_TRANSFER_PERSONNEL_MODAL,
     HIDE_TRANSFER_PERSONNEL_MODAL,
+    MOBILIZE_EMPLOYEE_START,
+    MOBILIZE_EMPLOYEE_DONE,
     SHOW_ATTACHMENT_MODAL,
     HIDE_ATTACHMENT_MODAL,
     OPERATION_LIST,
@@ -96,6 +98,7 @@ const initialState = {
     transferPersonnelModal: {
         isLoading: false,
         visible: false,
+        isTransferPersonnel:false
     },
     attactmentModal: {
         isLoading: false,
@@ -199,6 +202,10 @@ export default function manage(state=initialState,actions){
             return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:true}}; 
         case HIDE_TRANSFER_PERSONNEL_MODAL:
             return {...state,transferPersonnelModal:{...state.transferPersonnelModal,visible:false}};
+        case MOBILIZE_EMPLOYEE_START:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,isTransferPersonnel:true}};
+        case MOBILIZE_EMPLOYEE_DONE:
+            return {...state,transferPersonnelModal:{...state.transferPersonnelModal,isTransferPersonnel:false}};
         case SHOW_ATTACHMENT_MODAL:
             return {...state,attactmentModal:{...state.attactmentModal,visible:true}};  
         case HIDE_ATTACHMENT_MODAL:

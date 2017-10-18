@@ -29,7 +29,7 @@ export default class MainContent extends Component {
        const contractData = contract == null ? {} : contract;
         return (
             <div className="clerk-nav-tabs">
-                <Tabs defaultActiveKey="5" 
+                <Tabs defaultActiveKey="6" 
                       onChange={this.callback}
                       tabBarStyle = {{
                         width: 870,

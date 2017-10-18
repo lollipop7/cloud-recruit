@@ -35,7 +35,7 @@ export default class HeaderInfoComponent extends Component {
         if(isNumber(rid)) rid = rid + '';
         if(isNumber(resumeid)) resumeid = resumeid + '';
         showEmployeeResumeView({rid,resumeid});
-        showResumeModal({resumeid,rid});
+        showResumeModal({resumeid});
     }
 
     handleMoreOthersClick = (e) => {
