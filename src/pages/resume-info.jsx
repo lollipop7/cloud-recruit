@@ -35,7 +35,6 @@ class ResumeInfoPage extends Component {
     componentDidMount() {
         const { location, routeParams, getEmailHistory} = this.props,
               { resumeId, logId } = routeParams; 
-              console.log(location.pathname);   
         if(this.isInRecruitPage(location.pathname)) {
             // 获取简历详情
             this.props.getRecruitResumeInfo({
@@ -230,14 +229,14 @@ const mapStateToProps = state => ({
     data: state.Resume.resumeInfo,
     isLoading: state.Resume.isInfoLoading,
     //历史邮件
-    historyEmail: state.Email.historyEmail
+    historyEmail: state.Email.historyEmail,
 })
 const mapDispatchToProps = dispatch => ({
     getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
     getTalentResumeInfo: bindActionCreators(Actions.ResumeActions.getTalentResumeInfo, dispatch),
     getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
     getEmailHistory: bindActionCreators(Actions.EmailActions.getEmailHistory, dispatch),
-    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch)        
+    hideResumeModal: bindActionCreators(Actions.RecruitActions.hideResumeModal, dispatch) 
 })
 
 export default connect(

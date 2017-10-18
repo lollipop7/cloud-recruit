@@ -49,7 +49,7 @@ class CreateJobPage extends Component {
         //if(!this.props.isCanCreateJob){ 
             const {BaseInfoComponent,OtherInfoComponent} = this.refs;
             const baseinfoData = BaseInfoComponent.getFormData();
-            if(!baseinfoData) return ;
+            if(!baseinfoData) return;
             const otherInfoData = OtherInfoComponent.getFormData();
             if(!otherInfoData) return ;
             this.props.createJob({

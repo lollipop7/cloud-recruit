@@ -29,8 +29,9 @@ class ClerkDetail extends Component {
         const workstatus = this.props.location.state !== null ? this.props.location.state.workstatus : undefined;
         const {showPermanentModal} = this.props;
         this.props.queryEmployee({rid:rid});
-        // this.props.getOperationList({rid:rid,...this.params});
+        // this.props.getOperationList({rid:rid,...this.params}); 
         workstatus === 0 &&  showPermanentModal();
+        this.props.showTransferPersonnelModal()
      }
 
      render(){
@@ -40,15 +41,16 @@ class ClerkDetail extends Component {
              permanentModal,
              transferPersonnelModal,
              employeeInfo,
-             pageType,
              showDismissionModal,
              hideDismissionModal,
              showPermanentModal,
              hidePermanentModal,
              showTransferPersonnelModal,
              hideTransferPersonnelModal,
+             editEmployeeInformation,
              showEmployeeResumeView,
-             showResumeModal
+             showResumeModal,
+             mobilizeEmployee
         } = this.props,
          {list={}} = queryEmployeeList;
         return (
@@ -57,7 +59,6 @@ class ClerkDetail extends Component {
                 <HeaderInfoComponent 
                     data={list}
                     employeeInfo={employeeInfo}
-                    pageType={pageType}
                     dismissionModal={dismissionModal}
                     permanentModal={permanentModal}
                     transferPersonnelModal={transferPersonnelModal}
@@ -67,7 +68,7 @@ class ClerkDetail extends Component {
                     showEmployeeResumeView={showEmployeeResumeView}
                     showResumeModal={showResumeModal}
                 />
-                <MainContent data={list}/>
+                <MainContent data={list} {...this.props}/>
                 <DismissionModal 
                     dismissionModal={dismissionModal}
                     hideDismissionModal={hideDismissionModal}
@@ -78,8 +79,10 @@ class ClerkDetail extends Component {
                     hidePermanentModal={hidePermanentModal}
                 />
                 <TransferPersonnelModal 
+                    data={list}
                     transferPersonnelModal={transferPersonnelModal}
                     hideTransferPersonnelModal={hideTransferPersonnelModal}
+                    mobilizeEmployee={mobilizeEmployee}
                 />
                 <ResumeModalComponent onChange={this.oncChange}/>
             </div>
@@ -93,8 +96,7 @@ class ClerkDetail extends Component {
     dismissionModal: state.Manage.dismissionModal,
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
-    employeeInfo: state.Manage.employeeInfo,
-    pageType: state.Manage.pageType
+    employeeInfo: state.Manage.employeeInfo
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -106,7 +108,9 @@ const mapDispatchToProps = dispatch => ({
     hidePermanentModal: bindActionCreators(Actions.ManageActions.hidePermanentModal, dispatch),
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
     showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
+    mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
 })
 

@@ -210,11 +210,11 @@ export class DatePickerComponent extends Component {
         this.setState({ error });
     }
 
-        onChange = (field, value) => {
-            this.setState({
-                [field]: value
-            });
-        }
+    onChange = (field, value) => {
+        this.setState({
+            [field]: value
+        });
+    }
 
     //时间发生变化时的回调
     onDateChange = (value) => {
@@ -239,7 +239,6 @@ export class DatePickerComponent extends Component {
             className = '',
             disabled=false
         } = this.props;
-        console.log()
         return(
             <div className="inline-block">
                 <span className={ asterisk ? "required-asterisk" : ""}>{name}</span>
