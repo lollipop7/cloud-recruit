@@ -1,111 +1,64 @@
 import React, {Component} from 'react';
-import echarts from 'static/js/echarts.min.js';
-import {Button} from 'antd';
-import store from 'store';
-// pie option
-import chartOptions from 'data/employees-overview/organize-chart';
-
-// loading
-import LoadingComponent from 'components/loading';
-
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
+import {Link} from 'react-router';
+import './chart.css' 
+// antd
+import { Modal, Select } from 'antd';
+const Option = Select.Option;
 
-// lodash
-import filter from 'lodash/filter';
-
-// 第一个饼图-员工性质分布
 class OrganizeChart extends Component {
+  state = { 
+  }
+  componentDidMount(){
+    // 获取数据
+    this.props.getOrganizeChart();
+    
+  }
 
-    state = {
-        
-    }
-
-    componentDidMount() {
-        // 获取数据
-        this.props.getOrganizeChart();
-        // Loading效果
-        this.setState({
-            isLoading: true
-        });
-        console.log(111,echarts)
-        // 实例化echart
-        this.chartInstance = echarts.init(this.refs.echarts);
-        // 渲染图表
-        // 使用指定的配置项和数据显示图表。
-        this.chartInstance.setOption(chartOptions);
-    }
-
-    shouldComponentUpdate(nextProps,nextState) {
-        return this.props !== nextProps || this.state !== nextState;
-    }
-
-    componentWillUnmount() {
-        if(this.chartInstance){
-            // 组件卸载后销毁echart实例
-            this.destroyChart();
+  componentWillUpdate(nextProps,nextState) {
+    const {isLoading} = nextState;
+    const {organize} = nextProps;
+    if(nextProps !== this.props){
+        var newOrg = JSON.parse(JSON.stringify(organize).replace(/list/g, "childrens"))
+        var result = {
+            data:[newOrg]
         }
-    }
-
-    componentWillUpdate(nextProps,nextState) {
-        const {isLoading} = nextState;
-        const {organize} = nextProps;
-        console.log(5555,organize)
-        if(nextProps !== this.props){
-            // 去除loading
-            this.setState({
-                isLoading: false
+        function dd (result){
+            var showlist = $("<ul id='org' style='display:none'></ul>");
+            showall(result.data, showlist);
+            $("#jOrgChart").append(showlist);
+            $("#org").jOrgChart( {
+                chartElement : '#jOrgChart',//指定在某个dom生成jorgchart
+                dragAndDrop : false //设置是否可拖动
             });
-            // this.chartInstance.setOption({
-            //     series: [{
-            //         name: '',
-            //         data: ''
-            //     }]
-            // });
+        }
+        dd(result);
+        function showall(menu_list, parent) {
+            $.each(menu_list, function(index, val) {
+                if(val.childrens && val.childrens.length > 0){
+    
+                    var li = $("<li></li>");
+                    li.append("<a href='javascript:void(0)' onclick=getOrgId("+val.id+");>"+val.name+"</a>").append("<ul></ul>").appendTo(parent);
+                    //递归显示
+                    showall(val.childrens, $(li).children().eq(1));
+                }else{
+                    $("<li></li>").append("<a href='javascript:void(0)' onclick=getOrgId("+val.id+");>"+val.name+"</a>").appendTo(parent);
+                }
+            });
         }
     }
-
-    destroyChart = () => {
-        echarts.dispose(this.chartInstance);
-    }
-
-    render() {
-        const {pageType, organize} = this.props;
-        const {isLoading,activeTab,isEmpty} = this.state;
-        
-        return (
-            <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
-                <div style={{ position: 'relative' }}>
-                    {isLoading &&
-                        <div style={{
-                            position: 'absolute',
-                            width: 483,
-                            height: 310,
-                            zIndex: 1
-                        }}>
-                            <LoadingComponent style={{
-                                position: 'absolute',
-                                width: '100%',
-                                backgroundColor: '#FFF'
-                            }} />
-                        </div>
-                    }
-                    {isEmpty &&
-                        <div className="canvas-mask" style={{
-                                lineHeight: '310px',
-                                left: 0
-                            }}>
-                                暂无数据
-                        </div>
-                    }
-                    <div style={{ top: -1 }} ref="echarts" className="pie-chart">
-                    </div>
-                </div>
-            </div>
-        );
-    }
+}
+  
+render() {
+    return (
+        <div id='jOrgChart'>
+            
+        </div>
+    );
+  }
 }
 const mapStateToProps = state => ({
     organize: state.Manage.organize
