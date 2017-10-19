@@ -250,19 +250,36 @@ import FileSaver from 'file-saver';
     export const getOperationList = (data) => (dispatch,getState) => {
         if(isNumber(data.skip)) data.skip = data.skip + '';
         dispatch(OPERATION_LIST_START);
-        AjaxByToken('operationList_employees', {
+        AjaxByToken('emp/operationList_employees', {
             head: {
                 transcode: 'L0058'
             },
             data: data
         })
         .then(res=>{
-            console.log(res);
-            // dispatch(OPERATION_LIST_DONE);
-            // dispatch({...OPERATION_LIST,list:res.list,count:res.count});
+            dispatch(OPERATION_LIST_DONE);
+            dispatch({...OPERATION_LIST,list:res.list,count:res.count});
         },err=>{
             console.log(err);
             dispatch(OPERATION_LIST_DONE);
+        })
+    }
+
+    //上传材料附件
+    export const UploadMaterial = (data) => (dispatch,getState) => {
+        AjaxByToken('emp/data_employees', {
+            head: {
+                transcode: 'L0054'
+            },
+            data: data
+        })
+        .then(res=>{
+            notification.success({
+                message: '提示',
+                description: '材料附件上传成功！'
+            });
+        },err=>{
+            console.log(err);
         })
     }
 

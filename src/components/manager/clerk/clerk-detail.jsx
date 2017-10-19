@@ -29,7 +29,7 @@ class ClerkDetail extends Component {
         const workstatus = this.props.location.state !== null ? this.props.location.state.workstatus : undefined;
         const {showPermanentModal} = this.props;
         this.props.queryEmployee({rid:rid});
-        // this.props.getOperationList({rid:rid,...this.params});
+        this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
      }
 
@@ -49,7 +49,8 @@ class ClerkDetail extends Component {
              hideTransferPersonnelModal,
              editEmployeeInformation,
              showEmployeeResumeView,
-             showResumeModal
+             showResumeModal,
+             operationList
         } = this.props,
          {list={}} = queryEmployeeList;
         return (
@@ -90,7 +91,7 @@ class ClerkDetail extends Component {
 
  const mapStateToProps = state => ({
     queryEmployeeList: state.Manage.queryEmployeeList,
-    // operationList: state.Manage.operationList,
+    operationList: state.Manage.operationList,
     dismissionModal: state.Manage.dismissionModal,
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
@@ -100,7 +101,7 @@ class ClerkDetail extends Component {
 
 const mapDispatchToProps = dispatch => ({
     queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
-    // getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
+    getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
     hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
     showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
@@ -110,6 +111,7 @@ const mapDispatchToProps = dispatch => ({
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
     showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch)
 })
 
 export default connect(

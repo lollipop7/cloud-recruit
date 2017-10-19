@@ -7,7 +7,7 @@ import CreditFillComponent from './credit-fill';
 export default class CreditInvestgation extends Component {
 
     state={
-        isFill: false
+        isFill: true
     }
 
     render() {
