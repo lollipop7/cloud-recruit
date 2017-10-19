@@ -21,7 +21,7 @@ export default class MainContent extends Component {
     }
 
     render() {
-        const { data , editEmployeeInformation} = this.props;
+        const { data , editEmployeeInformation , operationList , UploadMaterial} = this.props;
         const {
             resumeoff={},                   //员工信息表
             wage={},                        //薪资状况
@@ -34,7 +34,7 @@ export default class MainContent extends Component {
         const contractData = contract == null ? {} : contract;
         return (
             <div className="clerk-nav-tabs">
-                <Tabs defaultActiveKey="1" 
+                <Tabs defaultActiveKey="5" 
                       onChange={this.onChange}
                       tabBarStyle = {{
                         width: 870,
@@ -71,10 +71,10 @@ export default class MainContent extends Component {
                         />
                     </TabPane>
                     <TabPane tab="材料附件" key="5">
-                        <MaterialAttach listAll={listAll}/>
+                        <MaterialAttach listAll={listAll} {...this.props}/>
                     </TabPane>
                     <TabPane tab="操作记录" key="6">
-                        <OperateHistory data={resumeoff}/>
+                        <OperateHistory data={operationList}/>
                     </TabPane>
                     <TabPane tab="人员征信" key="7"><CreditInvestgation data={resumeoff}/></TabPane>
                 </Tabs>

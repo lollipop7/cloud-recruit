@@ -18,7 +18,8 @@ class MaterialAttach extends Component {
         itemData: {},
         basicData: [],      //基本资料
         beforeData: [],     //档案附件
-        afterData: []       //离职资料
+        afterData: [],      //离职资料
+        rid:''
     }
 
     componentWillReceiveProps(nextProps){
@@ -49,7 +50,11 @@ class MaterialAttach extends Component {
     }
 
     handleAttachmentClick = (itemData) => {
-       this.setState({itemData});
+        const {rid} = this.props.params;
+       this.setState({
+           itemData,
+           rid
+        });
        this.props.showAttachmentModal();
     }
 
@@ -58,7 +63,8 @@ class MaterialAttach extends Component {
             itemData,
             basicData=[],
             beforeData=[],
-            afterData=[]
+            afterData=[],
+            rid
         } = this.state;
         return (
             <div className="material-attach clerk-tab-container">
@@ -142,7 +148,7 @@ class MaterialAttach extends Component {
                         </div>    
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} itemData={itemData}/>                    
+                <PlusAttachmentModal {...this.props} itemData={itemData} rid={rid}/>                    
             </div>
         );
     }

@@ -13,7 +13,7 @@ const Option = Select.Option;
 
 class OrganizeChart extends Component {
   state = { 
-    isLoading:false
+    isLoading:true
   }
   componentDidMount(){
     // 获取数据
@@ -53,12 +53,7 @@ class OrganizeChart extends Component {
                 }
             });
         }
-        
-    }
-}
-componentDidUpdate(nextProps,nextState){
-    if(nextState != nextState){
-        this.setState({isLoading:true})
+        this.setState({isLoading:false})
     }
 }
   
@@ -95,3 +90,4 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(OrganizeChart);
+

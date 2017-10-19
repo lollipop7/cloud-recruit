@@ -1,22 +1,66 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select, Cascader, Button, Icon, notification } from 'antd';
+import { Input, Select, Cascader, Button, Icon, notification, Modal } from 'antd';
 const Option = Select.Option;
 import moment from 'moment';
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
 
 import city from 'data/city.json';
 import salaryData from 'data/salary.json';
 
 import {ErrorInputComponent,SelectComponent,DatePickerComponent} from './input-select-time'; 
 
-export default class NewClerkForm extends Component {
+class NewClerkForm extends Component {
 
     state = {
-        inthetime: '' //显示时间
+        visible: false,
+        resultTree:[]
+    }
+
+    handleOk = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    }
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
     }
 
     componentDidMount() {
         NProgress.done();
+        this.props.getDepartMentList()
+    }
+
+    componentDidUpdate(){
+        const { departmentList:{list} } = this.props;
+        if(flag){
+            this.makeResult(list);
+        }
+    }
+
+    // 部门下拉菜单数据
+    makeResult = (ss) => {
+        let pp = []
+        function recursion(data){
+        data.forEach(function(item, index){
+            var x = item.list
+            if (x) {
+              pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
+                recursion(x);
+            } else {
+              pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
+            }
+        })
+      }
+      recursion(ss);
+      this.setState({resultTree:pp})
     }
 
     handleClick = () => {
@@ -33,6 +77,8 @@ export default class NewClerkForm extends Component {
                 [filed]: e.target.value
             });
         }
+        console.log(filed)
+        console.log(e.target.value)
     }
 
     handleCityChange = (val) => {
@@ -48,10 +94,21 @@ export default class NewClerkForm extends Component {
     }
 
     showAddModal = () => {
-        console.log('添加部门')
+        this.setState({
+            visible: true,
+        });
+    }
+
+    saveEmployeeInfo = () => {
+        const {name,englishname,worknumber,sex,mobile,workemail,documenttype,card,worknature,inthetime,workstatus,
+                theleng,workcity,department,position,salary,cemail,contactname,contactphone
+            } = this.state;
+        console.log(moment(inthetime).format("YYYY-MM-DD"));  
     }
 
     render() {
+        const {departmentList} = this.props;
+        console.log(1111, departmentList)
         const {
             name = '',                   //姓名
             englishname = '',            //英文名
@@ -91,7 +148,7 @@ export default class NewClerkForm extends Component {
                             <ErrorInputComponent
                                 ref="nameInput"
                                 name="姓名："
-                                field="positionname"
+                                field="name"
                                 placeholder="请输姓名"
                                 value={name}
                                 onChange={this.handleChange}
@@ -311,11 +368,33 @@ export default class NewClerkForm extends Component {
                         </li>
                     </ul>
                 </div>
+                {/* 添加部门弹出框 */}
+                <Modal
+                    title="Basic Modal"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                >
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </Modal>
                 <div className="consequense-field">
                     <Button>取消</Button>
-                    <Button type="primary">保存</Button>
+                    <Button type="primary" onClick={this.saveEmployeeInfo}>保存</Button>
                 </div>
             </div>
         )
     }
 }
+const mapStateToProps = state => ({
+    departmentList: state.Manage.departmentList
+  })
+  const mapDispatchToProps = dispatch => ({
+    getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch)
+  })
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(NewClerkForm);

@@ -33,8 +33,8 @@ class ClerkDetail extends Component {
             getDepartMentList
         } = this.props;
         queryEmployee({rid:rid});
-        // this.props.getOperationList({rid:rid,...this.params}); 
         console.log(workstatus);
+        this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
         //部门列表查询
         getDepartMentList();
@@ -60,7 +60,8 @@ class ClerkDetail extends Component {
              positiveEmployees,
              departmentList,
              getTreeList,                       //递归
-             departureEmployees
+             departureEmployees,
+             operationList,
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
@@ -111,7 +112,7 @@ class ClerkDetail extends Component {
 
  const mapStateToProps = state => ({
     queryEmployeeList: state.Manage.queryEmployeeList,
-    // operationList: state.Manage.operationList,
+    operationList: state.Manage.operationList,
     dismissionModal: state.Manage.dismissionModal,
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
@@ -121,7 +122,7 @@ class ClerkDetail extends Component {
 
 const mapDispatchToProps = dispatch => ({
     queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
-    // getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
+    getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
     hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),
     showPermanentModal: bindActionCreators(Actions.ManageActions.showPermanentModal, dispatch),
@@ -136,6 +137,7 @@ const mapDispatchToProps = dispatch => ({
     getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
     getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
     departureEmployees:bindActionCreators(Actions.ManageActions.departureEmployees,dispatch),
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch)
 })
 
 export default connect(
