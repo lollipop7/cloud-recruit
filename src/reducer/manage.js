@@ -121,11 +121,6 @@ const initialState = {
         count:0,
         list:[]
     },
-    departmentList: {
-        isLoading: false,
-        list: [],
-        count: 0
-    },
     departmentStaff: {},
     currentUid:'',
     departmentName:'',

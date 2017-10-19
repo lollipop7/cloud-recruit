@@ -1,7 +1,8 @@
 
 $error-color: #ff3131;
 
-input {
+input,
+textarea.ant-input {
     &.error {
         border: 1px solid $error-color !important;
         &:focus {

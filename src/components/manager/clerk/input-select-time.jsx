@@ -163,7 +163,7 @@ export class SelectComponent extends Component {
                     >
                         {
                             data.map((item, index) => {
-                                return <Option key={index} value={item}>{item}</Option>
+                                return <Option key={index} value={item.name ? item.name : item}>{item.name ? item.name : item}</Option>
                             }) 
                         }
                     </Select>
@@ -227,6 +227,13 @@ export class DatePickerComponent extends Component {
         }
     }
 
+    disabledDate = (date) => {
+        const {disabledDate} = this.props;
+        if (disabledDate) {
+             return disabledDate(date);
+        }
+    }
+
     render(){
         const {error,open} = this.state,
         {
@@ -247,6 +254,7 @@ export class DatePickerComponent extends Component {
                     marginRight: 0
                 }}>
                     <DatePicker
+                        allowClear={false}
                         ref='datepicker'
                         className={error&&asterisk ? 'error' : ''}
                         allowClear
@@ -258,6 +266,7 @@ export class DatePickerComponent extends Component {
                         disabled={disabled}
                         onOpenChange={this.handleOpenChange}
                         onChange={this.onDateChange}
+                        disabledDate={this.disabledDate}
                     />
                     {error&&asterisk &&
                         <div className="error-promote" style={{

@@ -54,7 +54,7 @@ import FileSaver from 'file-saver';
     const MOBILIZE_EMPLOYEE_START = {type:types.MOBILIZE_EMPLOYEE_START};
     const MOBILIZE_EMPLOYEE_DONE = {type:types.MOBILIZE_EMPLOYEE_DONE};
 
-    //办理转正modal
+    //添加附件modal
     const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
     const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
 
@@ -101,7 +101,6 @@ import FileSaver from 'file-saver';
             data: {...data}
         })
         .then(res=>{
-            console.log(res.list);
             dispatch(LOAD_LIST_DONE);
             dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
         },err=>{
@@ -225,6 +224,49 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_DISMISSION_MODAL);
     }
 
+    //1.49 员工离职办理
+    export const departureEmployees = (data) => (dispatch,getState) => {
+        console.log(data);
+        AjaxByToken('emp/departure_employees', {
+            head: {
+                transcode: 'L0049'
+            },
+            data: data
+        }).then(res=>{
+            notification.success({
+                message: '提示',
+                description: '成功办理离职！'
+            });
+            dispatch(HIDE_DISMISSION_MODAL);
+        },err=>{
+            notification.error({
+                message: '错误',
+                description: '办理离职失败！'
+            });
+        })
+    }
+
+    //1.48 员工转正办理
+    export const positiveEmployees = (data) => (dispatch,getState) => {
+        AjaxByToken('emp/positive_employees', {
+            head: {
+                transcode: 'L0048'
+            },
+            data: data
+        }).then(res=>{
+            notification.success({
+                message: '提示',
+                description: '转正成功！'
+            });
+            dispatch(HIDE_FORMAL_MODAL);
+        },err=>{
+            notification.error({
+                message: '错误',
+                description: '办理转正失败！'
+            });
+        })
+    }
+
     //显示办理转正modal
     export const showPermanentModal = () => (dispatch,getState) => {
         dispatch(SHOW_FORMAL_MODAL);
@@ -245,7 +287,6 @@ import FileSaver from 'file-saver';
 
     //1.57 员工人事调动
     export const mobilizeEmployee = (data) => (dispatch,getState) => {
-        console.log(data);
         dispatch(MOBILIZE_EMPLOYEE_START);
         AjaxByToken('emp/mobilize_employees', {
             head: {
@@ -253,16 +294,18 @@ import FileSaver from 'file-saver';
             },
             data: data
         }).then(res=>{
-            console.log(res);
-            dispatch(SHOW_TRANSFER_PERSONNEL_MODAL);
+            dispatch(MOBILIZE_EMPLOYEE_DONE);
             notification.success({
                 message: '提示',
                 description: '人事调动成功！'
             });
-            dispatch(MOBILIZE_EMPLOYEE_DONE);
+            dispatch(HIDE_TRANSFER_PERSONNEL_MODAL);
         },err=>{
-            console.log(err);
             dispatch(MOBILIZE_EMPLOYEE_DONE);
+            notification.error({
+                message: '错误',
+                description: '人事调动失败！'
+            });
         })
     }
 
@@ -312,6 +355,8 @@ import FileSaver from 'file-saver';
             dispatch(LOAD_EMPLOYEEINFO_DONE);
         })
     }
+
+    
 
 //**档案管理 ------------------------------------------------*/
 
@@ -531,19 +576,35 @@ export const getEmployeeQuality = (type) => (dispatch,getState) => {
 }
 
 //  组织架构-部门列表查询
-export const getDepartMentList = (data={}) => (dispatch,getState) => {
+export const getDepartMentList = () => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_Department',{
         head: {
             transcode: 'L0078',
             type: 'h'
-        },
-        data: data
+        }
     })
     .then(res=>{
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
-        dispatch({...GET_DEPARTMENT_LIST});
+        dispatch({...GET_DEPARTMENT_LIST},list:[],count:0);
     });
+}
+
+export const getTreeList = (list) => (dispatch,getState) => {
+    const treeList = [];
+    function recursion(list){
+      list.forEach(function(item, index){
+          const childList = item.list;
+          if (childList) {
+            treeList.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
+              recursion(childList);
+          } else {
+            treeList.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
+          }
+      })
+    }
+    recursion(list);
+    return treeList;
 }
 
 //档案管理table数据
@@ -595,7 +656,7 @@ export const refreshDepartmentInfo = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
-        dispatch({...GET_DEPARTMENT_LIST});
+        dispatch({...GET_DEPARTMENT_LIST,list:[],count:0});
     });
 }
 

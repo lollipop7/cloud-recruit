@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
+
+// antd
+import { Modal, Select } from 'antd';
+const Option = Select.Option;
+
+//lodash
+import pickBy from 'lodash/pickBy';
+
 // redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from 'actions';
-// antd
-import { Modal, Select } from 'antd';
-const Option = Select.Option;
 
 class DepartmentStaff extends Component {
   state = { 
@@ -18,12 +23,13 @@ class DepartmentStaff extends Component {
     uid:'',
     curr:''
   }
-  componentDidUpdate(){
+
+  componentDidMount(){
     const { flag } = this.state;
-    const { departmentList:{list} } = this.props;
+    const { departmentList:{list} ,getTreeList} = this.props;
+    const resultTree = getTreeList(list);
     if(flag){
-      this.makeResult(list);
-      this.setState({flag:false})
+      this.setState({flag:false,resultTree})
     }
   }
 
@@ -56,23 +62,7 @@ class DepartmentStaff extends Component {
       visible: false,
     });
   }
-  // 模拟下拉选择框
-  makeResult = (ss) => {
-      let pp = []
-      function recursion(data){
-      data.forEach(function(item, index){
-          var x = item.list
-          if (x) {
-            pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
-              recursion(x);
-          } else {
-            pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
-          }
-      })
-    }
-    recursion(ss);
-    this.setState({resultTree:pp})
-  }
+  
   // 点击改变样式
   handleClick = (i) => {
     this.setState({curr: i})
@@ -81,7 +71,6 @@ class DepartmentStaff extends Component {
   render() {
     const { departmentInfo, resultTree } = this.state;
     const { departmentStaff, departmentList:{list}, currentUid, departmentName } = this.props;
-    console.log(5555,departmentStaff)
     return (
       <div className='pull-left organize-tree-right'>
           <div className='department-title'><div></div>{departmentName}</div>
@@ -178,7 +167,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   getDepartMentStaff: bindActionCreators(Actions.ManageActions.getDepartMentStaff, dispatch),
-  editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch)
+  editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
+  getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch)
 })
 
 export default connect(

@@ -64,7 +64,6 @@ componentDidUpdate(nextProps,nextState){
   
 render() {
     const { isLoading } = this.state;
-    console.log(isLoading)
     return (
         <div id='jOrgChart'>
             {isLoading &&

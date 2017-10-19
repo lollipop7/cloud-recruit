@@ -16,7 +16,9 @@ export default class CreditFillComponent extends Component {
      }
 
      handleChange = (filed,e) => {
-        console.log(filed);
+        this.setState({
+            [filed]: e.target.value
+        });
     }
 
      render(){
@@ -38,7 +40,6 @@ export default class CreditFillComponent extends Component {
                                     field="candidatename"d
                                     value={candidatename}
                                     onChange={this.handleChange}
-                                    disabled
                                     asterisk={true}
                                 />
                              </li>
@@ -49,7 +50,6 @@ export default class CreditFillComponent extends Component {
                                     field="phonenum"
                                     value={phonenum}
                                     onChange={this.handleChange}
-                                    disabled
                                     asterisk={true}
                                 />
                              </li>
@@ -60,7 +60,6 @@ export default class CreditFillComponent extends Component {
                                     field="idnum"
                                     value={idnum}
                                     onChange={this.handleChange}
-                                    disabled
                                     asterisk={true}
                                 />
                              </li>

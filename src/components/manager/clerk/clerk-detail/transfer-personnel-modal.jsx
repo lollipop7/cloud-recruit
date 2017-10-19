@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import { Modal, Tag , Button, Input, Radio, Cascader } from 'antd';
-const { CheckableTag } = Tag;
+const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 import {ErrorInputComponent,SelectComponent,DatePickerComponent} from '../input-select-time';
 
 // lodash 
 import chunk from 'lodash/chunk';
+import pickBy from 'lodash/pickBy';
+import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
@@ -18,10 +20,59 @@ import city from 'data/city.json';
 export default class TransferPersonnelModal extends Component {
 
     state = {
-        selectedTags: []
+        type:'调岗',                //调用类型
+        departmentid:'',        //原部门id
+        department:'',          //原部门name
+        new_departmentid:'',    //新部门id
+        new_department:undefined,      //新部门name
+        post:'',                //原岗位名称
+        new_post:'',            //新岗位名称
+        worksite:'',            //原工作地点
+        new_worksite:'',        //新工作地点
+        company:'',             //原合同公司name
+        new_company:'',         //新合同公司name
+        eventdate:null,           //生效日期
+        joblevel:'',            //岗位级别
+        new_joblevel:'',        //新岗位级别
+        msg:'其他',                  //备注
+        treeList: []
     }
 
-    componentDidMount(){
+    componentWillReceiveProps(nextProps){
+        if(nextProps.data){
+            const {
+                data,
+                rid,
+                departmentList,
+                getTreeList
+            }=nextProps,
+            {resumeoff}=data;
+            const {list} = departmentList;
+            const treeList = getTreeList(list);
+            if(resumeoff){
+                const {
+                    departmentid,
+                    department,
+                    position,
+                    workcity,
+                    contractname,
+                    joblevel
+                } = resumeoff;
+                this.setState({
+                    departmentid,
+                    department,
+                    post: position,
+                    worksite: workcity,
+                    company: contractname,
+                    joblevel,
+                    treeList
+                })
+            }
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
     }
 
     onTimeChange=(field,value)=> {
@@ -34,7 +85,6 @@ export default class TransferPersonnelModal extends Component {
         this.setState({
             type: e.target.value
         });
-        console.log(e.target.value);
     }
 
     handleChange = (filed, e) => {
@@ -49,14 +99,6 @@ export default class TransferPersonnelModal extends Component {
         }
     }
 
-    handleTagChange(tag, checked) {
-        const { selectedTags } = this.state;
-        const nextSelectedTags = checked ?
-                [...selectedTags, tag] :
-                selectedTags.filter(item => item !== tag);
-        console.log('dismiss factors : ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags });
-    }
 
     handleCityChange = (val) => {
         this.setState({
@@ -64,25 +106,25 @@ export default class TransferPersonnelModal extends Component {
         });
     }
 
+    disabledDate = date => {
+        if(!date){
+            return false;
+        }
+        return date.valueOf() < new Date().getTime();
+    }
+
+    handleMsgChange = (e) => {
+        this.setState({
+            msg: e.target.value
+        })
+    }
+
     getFormData = () => {
         const {
-            type='',                //调用类型
-            departmentid='',        //原部门id
-            department='',          //原部门name
-            new_departmentid='',    //新部门id
-            new_department=undefined,      //新部门name
-            postid='',              //原岗位id
-            post='',                //原岗位名称
-            new_postid='',          //新岗位id
-            new_post=undefined,            //新岗位名称
-            worksite='',            //原工作地点
-            new_worksite='',        //新工作地点
-            company='',             //原合同公司name
-            new_company=undefined,         //新合同公司name
-            eventdate='',           //生效日期
-            joblevel='',            //岗位级别
-            new_joblevel='',        //新岗位级别
-            selectedTags
+            new_department,      //新部门name
+            new_company,         //新合同公司name
+            eventdate,           //生效日期
+            treeList
         } = this.state;
         const {
             departmentSelect,
@@ -94,24 +136,38 @@ export default class TransferPersonnelModal extends Component {
         const {
             handleOpenChange
         } = eventdateInput;
-        //yyyy-MM-dd 必输
-        if(eventdate === ''|| eventdate === null){
+        let uid = '';
+        if(new_department != ''){
+            const filterItem = treeList.filter((item,index) => {
+                if (item.name === new_department) return item;
+            })
+            uid = filterItem[0].uid+'';
+        }
+        //yyyy-MM-dd 
+        if(eventdate === null){
             handleOpenChange(true);
             return false;
         }
-        return {...this.state}
+        const formatTime = moment(eventdate).format('YYYY-MM-DD');
+        const filterObj = pickBy(this.state,(item,key) => {
+            return key != 'treeList';
+        });
+        return {...filterObj,eventdate: formatTime,new_departmentid: uid};
     }
 
     //点击ok的回调
     handleMobilizeEmployee = () => {
+        const {transferPersonnelModal} = this.props,
+        {isTransferPersonnel} = transferPersonnelModal;
+        if(isTransferPersonnel) return;
         const {
-            mobilizeEmployee
+            mobilizeEmployee,
+            rid
         } = this.props,
         {eventdate} = this.state;
         const transferPersonnelData = this.getFormData();
         if(!transferPersonnelData) return;
-        
-        console.log(eventdate);
+        mobilizeEmployee({...transferPersonnelData,rid:rid})
     }
 
     render(){
@@ -122,23 +178,22 @@ export default class TransferPersonnelModal extends Component {
         } = this.props,
         {visible} = transferPersonnelModal,
         {
-            type='调岗',                //调用类型
-            departmentid='',        //原部门id
-            department='',          //原部门name
-            new_departmentid='',    //新部门id
-            new_department=undefined,      //新部门name
-            postid='',              //原岗位id
-            post='',                //原岗位名称
-            new_postid='',          //新岗位id
-            new_post=undefined,            //新岗位名称
-            worksite='',            //原工作地点
-            new_worksite='',        //新工作地点
-            company='',             //原合同公司name
-            new_company=undefined,         //新合同公司name
-            eventdate='',           //生效日期
-            joblevel='',            //岗位级别
-            new_joblevel='',        //新岗位级别
-            selectedTags
+            type,                //调用类型
+            departmentid,        //原部门id
+            department,          //原部门name
+            new_departmentid,    //新部门id
+            new_department,      //新部门name
+            post,                //原岗位名称
+            new_post,            //新岗位名称
+            worksite,            //原工作地点
+            new_worksite,        //新工作地点
+            company,             //原合同公司name
+            new_company,         //新合同公司name
+            eventdate,           //生效日期
+            joblevel,            //岗位级别
+            new_joblevel,        //新岗位级别
+            msg,
+            treeList
         }=this.state;
         return(
             <Modal
@@ -173,14 +228,14 @@ export default class TransferPersonnelModal extends Component {
                         <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>原部门：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>市场部</span>
+                                <span style={{fontWeight: 'bold'}}>{department}</span>
                             </div>
                         </div>
                         <div className="pull-right">
                             <SelectComponent
                                 ref="departmentSelect"
                                 name="现部门："
-                                data={["男","女"]}
+                                data={treeList}
                                 dropdownMatchSelectWidth={false}
                                 value={new_department}
                                 field="new_department"
@@ -193,27 +248,25 @@ export default class TransferPersonnelModal extends Component {
                         <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>原岗位：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>平面设计师</span>
+                                <span style={{fontWeight: 'bold'}}>{post}</span>
                             </div>
                         </div>
                         <div className="pull-right">
-                            <SelectComponent
+                            <ErrorInputComponent
                                 ref="positionSelect"
                                 name="现岗位："
-                                data={["男","女"]}
-                                dropdownMatchSelectWidth={false}
-                                value={new_post}
                                 field="new_post"
-                                placeholder="请选择岗位"
+                                placeholder="请输入岗位"
+                                value={new_post}
                                 onChange={this.handleChange}
-                            />
+                            /> 
                         </div>
                     </li>
                     <li className="clearfix">
-                        <div className="inline-block">
+                        <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>原岗位职级：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>3</span>
+                                <span style={{fontWeight: 'bold'}}>{joblevel}</span>
                             </div>
                         </div>
                         <div className="pull-right">
@@ -228,10 +281,10 @@ export default class TransferPersonnelModal extends Component {
                         </div>
                     </li>
                     <li className="clearfix">
-                        <div className="inline-block">
+                        <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>原工作地点：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>3</span>
+                                <span style={{fontWeight: 'bold'}}>{worksite}</span>
                             </div>
                         </div>
                         <div className="pull-right">
@@ -247,26 +300,24 @@ export default class TransferPersonnelModal extends Component {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </li>
                     <li className="clearfix">
                         <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>原合同公司：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>上海伊尔哈金融有限公司</span>
+                                <span style={{fontWeight: 'bold'}}>{company}</span>
                             </div>
                         </div>
                         <div className="pull-right">
-                            <SelectComponent
+                            <ErrorInputComponent
                                 ref="companySelect"
                                 name="现合同公司："
-                                data={["男","女"]}
-                                dropdownMatchSelectWidth={false}
-                                value={new_company}
                                 field="new_company"
-                                placeholder="请选择岗位"
+                                placeholder="请输入合同公司"
+                                value={new_company}
                                 onChange={this.handleChange}
-                            />
+                            />   
                         </div>
                     </li>
                     <li className="clearfix">
@@ -278,36 +329,30 @@ export default class TransferPersonnelModal extends Component {
                             placeholder="请选择生效日期"
                             style={{width: 224, height: 40}}
                             onChange={this.onTimeChange}
-                        />               
+                            disabledDate={this.disabledDate}
+                        />            
                     </li>
                     <li className="checked-factors">
                         <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span>备注：</span>
                             <div className="inline-block">
+                                <RadioGroup onChange={this.handleMsgChange} value={msg}>
                                 {
                                     [
                                         '工作安排',
                                         '个人申请',
                                         '其他'
-                                    ].map((tag,key) => {
+                                    ].map((radio,key) => {
                                         return(
-                                            <div className="inline-block">
-                                                <CheckableTag
-                                                    key={tag}
-                                                    checked={selectedTags.indexOf(tag) > -1}
-                                                    onChange={checked => this.handleTagChange(tag, checked)}
-                                                >
-                                                    {tag}
-                                                </CheckableTag>
-                                            </div>
+                                            <RadioButton value={radio}>{radio}</RadioButton>
                                         )
                                     })
                                 }
+                                </RadioGroup>
                             </div>    
                         </div>    
                     </li>
                 </ul>
-                
             </Modal>
         )
     }

@@ -1,6 +1,5 @@
 import React, {Component,PropTypes} from 'react';
-import { Button, Select, Menu, Dropdown } from 'antd';
-
+import { Button, Select, Menu, Dropdown, notification } from 'antd';
 import trim from 'lodash/trim';
 import isNumber from 'lodash/isNumber';
 import moment from 'moment';
@@ -14,12 +13,50 @@ export default class HeaderInfoComponent extends Component {
         router: PropTypes.object
     }
 
-    shouldComponentUpdate(nextProps,nextState) {
-        return nextProps !== this.props;
+    state = {
+        constellation:'',
+        name:'',           //姓名
+        englishname:'',    //英文名      
+        department:'',     //部门
+        position:'',       //职位
+        sex:'',            //性别
+        birthday:'',       //出生日期
+        inthetime:'',       //入职时间
+        resumeid:''
     }
 
-    componentWillUpdate(nextProps,nextState) {
-        const {employeeInfo} = nextProps;
+    componentWillReceiveProps(nextProps){
+        if(nextProps.data) {
+            const {data}=nextProps,
+            {resumeoff={},constellation} = data,
+            {
+                name,           //姓名
+                englishname,    //英文名      
+                department,     //部门
+                position,       //职位
+                sex,            //性别
+                birthday,       //出生日期
+                inthetime,       //入职时间
+                resumeid,
+                workstatus
+            } = resumeoff;
+            this.setState({
+                constellation,
+                name,           //姓名
+                englishname,    //英文名      
+                department,     //部门
+                position,       //职位
+                sex,            //性别
+                birthday,       //出生日期
+                inthetime,       //入职时间
+                resumeid,
+                workstatus
+            })
+        }
+    }
+
+    shouldComponentUpdate(nextProps,nextState) {
+        return nextProps !== this.props || nextState != this.state;
     }
 
     creditInvestgation = () => {
@@ -32,8 +69,8 @@ export default class HeaderInfoComponent extends Component {
             showEmployeeResumeView,
             showResumeModal
         } = this.props;
-        if(isNumber(rid)) rid = rid + '';
-        if(isNumber(resumeid)) resumeid = resumeid + '';
+        if(isNumber(rid)) rid = rid;
+        if(isNumber(resumeid)) resumeid = resumeid;
         showEmployeeResumeView({rid,resumeid});
         showResumeModal({resumeid});
     }
@@ -43,38 +80,58 @@ export default class HeaderInfoComponent extends Component {
             showPermanentModal,
             showDismissionModal
         } = this.props;
+        const {workstatus} = this.state;
+        console.log(workstatus);
         switch(e.key){
             case '1': console.log('生成信息填写二维码'); break;
-            case '2': showPermanentModal(); break;
-            case '3': showDismissionModal(); break;
+            case '2': 
+                if(workstatus === 1) {
+                    notification.info({
+                        message: '提示',
+                        description: '该员工已转正'
+                    });
+                }else {
+                    showPermanentModal(); 
+                }; 
+                break;
+            case '3': 
+                if(workstatus === 2) {
+                    notification.info({
+                        message: '提示',
+                        description: '该员工已离职'
+                    });
+                }else {
+                    showDismissionModal();
+                }; 
+                break;
             case '4': console.log('删除员工'); break;
         }
     }
 
     render() {
         const {
-            data,
-            showTransferPersonnelModal,
-            pageType
-        }=this.props,        
-        {resumeoff={},constellation} = data;
-        const {
-            name,           //姓名
-            englishname,    //英文名      
-            department,     //部门
-            position,       //职位
-            sex,            //性别
-            birthday,       //出生日期
-            inthetime,       //入职时间
             rid,
-            resumeid
-        } = resumeoff;
+            showTransferPersonnelModal
+        }=this.props,        
+        {
+            constellation='',
+            name='',           //姓名
+            englishname='',    //英文名      
+            department='',     //部门
+            position='',       //职位
+            sex='',            //性别
+            birthday='',       //出生日期
+            inthetime='',       //入职时间
+            resumeid='',
+            workstatus=''
+        } = this.state;
+        console.log(workstatus);
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
-              <Menu.Item key="1">生成信息填写二维码</Menu.Item>
-              <Menu.Item key="2">转正</Menu.Item>
-              <Menu.Item key="3">办理离职</Menu.Item>
-              <Menu.Item key="4">删除员工</Menu.Item>
+                <Menu.Item key="1">生成信息填写二维码</Menu.Item>
+                <Menu.Item key="2">转正</Menu.Item>
+                <Menu.Item key="3">办理离职</Menu.Item>
+                <Menu.Item key="4">删除员工</Menu.Item>
             </Menu>
         );
         return (
