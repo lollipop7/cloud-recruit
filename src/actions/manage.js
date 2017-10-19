@@ -50,6 +50,10 @@ import FileSaver from 'file-saver';
     const SHOW_TRANSFER_PERSONNEL_MODAL = {type:types.SHOW_TRANSFER_PERSONNEL_MODAL};;
     const HIDE_TRANSFER_PERSONNEL_MODAL = {type:types.HIDE_TRANSFER_PERSONNEL_MODAL};
 
+    //1.57 员工人事调动
+    const MOBILIZE_EMPLOYEE_START = {type:types.MOBILIZE_EMPLOYEE_START};
+    const MOBILIZE_EMPLOYEE_DONE = {type:types.MOBILIZE_EMPLOYEE_DONE};
+
     //办理转正modal
     const SHOW_ATTACHMENT_MODAL = {type:types.SHOW_ATTACHMENT_MODAL};
     const HIDE_ATTACHMENT_MODAL = {type:types.HIDE_ATTACHMENT_MODAL};
@@ -63,6 +67,8 @@ import FileSaver from 'file-saver';
     const LOAD_EMPLOYEEINFO_START = {type:types.LOAD_EMPLOYEEINFO_START};
     const LOAD_EMPLOYEEINFO_DONE = {type:types.LOAD_EMPLOYEEINFO_DONE};
     const LOAD_EMPLOYEEINFO = {type:types.LOAD_EMPLOYEEINFO};
+
+    
 
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
@@ -237,6 +243,29 @@ import FileSaver from 'file-saver';
         dispatch(HIDE_TRANSFER_PERSONNEL_MODAL);
     }
 
+    //1.57 员工人事调动
+    export const mobilizeEmployee = (data) => (dispatch,getState) => {
+        console.log(data);
+        dispatch(MOBILIZE_EMPLOYEE_START);
+        AjaxByToken('emp/mobilize_employees', {
+            head: {
+                transcode: 'L0057'
+            },
+            data: data
+        }).then(res=>{
+            console.log(res);
+            dispatch(SHOW_TRANSFER_PERSONNEL_MODAL);
+            notification.success({
+                message: '提示',
+                description: '人事调动成功！'
+            });
+            dispatch(MOBILIZE_EMPLOYEE_DONE);
+        },err=>{
+            console.log(err);
+            dispatch(MOBILIZE_EMPLOYEE_DONE);
+        })
+    }
+
     //显示上传附件modal
     export const showAttachmentModal = () => (dispatch,getState) => {
         dispatch(SHOW_ATTACHMENT_MODAL);
@@ -408,7 +437,7 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
     })
     .then(res=>{
         const {data} = res;
-        var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
         FileSaver.saveAs(blob, `${name}个人材料附件.xls`);
     }).catch(error=>{
         console.log(error)

@@ -18,7 +18,7 @@ import city from 'data/city.json';
 export default class TransferPersonnelModal extends Component {
 
     state = {
-        selectedTags: [] 
+        selectedTags: []
     }
 
     componentDidMount(){
@@ -32,8 +32,9 @@ export default class TransferPersonnelModal extends Component {
 
     onRadioChange = (e) => {
         this.setState({
-            statusid: e.target.value
+            type: e.target.value
         });
+        console.log(e.target.value);
     }
 
     handleChange = (filed, e) => {
@@ -59,17 +60,12 @@ export default class TransferPersonnelModal extends Component {
 
     handleCityChange = (val) => {
         this.setState({
-            workcity: val.length > 0 ? val[0] + '-' + val[1] : ''
+            new_worksite: val.length > 0 ? val[0] + '-' + val[1] : ''
         });
     }
 
-    render(){
+    getFormData = () => {
         const {
-            transferPersonnelModal,
-            hideTransferPersonnelModal
-        } = this.props,
-        {visible} = transferPersonnelModal,
-        {
             type='',                //调用类型
             departmentid='',        //原部门id
             department='',          //原部门name
@@ -87,28 +83,84 @@ export default class TransferPersonnelModal extends Component {
             joblevel='',            //岗位级别
             new_joblevel='',        //新岗位级别
             selectedTags
-        }=this.state;
+        } = this.state;
+        const {
+            departmentSelect,
+            positionSelect,
+            joblevelInput,
+            companySelect,
+            eventdateInput
+        } = this.refs;
+        const {
+            handleOpenChange
+        } = eventdateInput;
+        //yyyy-MM-dd 必输
+        if(eventdate === ''|| eventdate === null){
+            handleOpenChange(true);
+            return false;
+        }
+        return {...this.state}
+    }
 
+    //点击ok的回调
+    handleMobilizeEmployee = () => {
+        const {
+            mobilizeEmployee
+        } = this.props,
+        {eventdate} = this.state;
+        const transferPersonnelData = this.getFormData();
+        if(!transferPersonnelData) return;
+        
+        console.log(eventdate);
+    }
+
+    render(){
+        const {
+            transferPersonnelModal,
+            hideTransferPersonnelModal,
+            data
+        } = this.props,
+        {visible} = transferPersonnelModal,
+        {
+            type='调岗',                //调用类型
+            departmentid='',        //原部门id
+            department='',          //原部门name
+            new_departmentid='',    //新部门id
+            new_department=undefined,      //新部门name
+            postid='',              //原岗位id
+            post='',                //原岗位名称
+            new_postid='',          //新岗位id
+            new_post=undefined,            //新岗位名称
+            worksite='',            //原工作地点
+            new_worksite='',        //新工作地点
+            company='',             //原合同公司name
+            new_company=undefined,         //新合同公司name
+            eventdate='',           //生效日期
+            joblevel='',            //岗位级别
+            new_joblevel='',        //新岗位级别
+            selectedTags
+        }=this.state;
         return(
             <Modal
                 title="人事调动"
                 wrapClassName="grey-close-header vertical-center-modal transfer-personnel-wrap"
                 visible={visible}
                 onCancel={hideTransferPersonnelModal}
+                onOk={this.handleMobilizeEmployee}
                 width={827}
             >
                 <ul>
                     <li>
                         <div className="inline-block">
                             <span>调动类型：</span>
-                            <RadioGroup  onChange={this.onRadioChange}>
+                            <RadioGroup  onChange={this.onRadioChange} refs="TypeRadio" value={type}>
                                 {
                                     transferType.map((item,index)=>{
-                                        const {name, value} = item;
+                                        const {name,value} = item;
                                         return (
                                             <div key={index} className="inline-block">
                                                 <Radio 
-                                                    value={value}
+                                                    value={name}
                                                 >{name}</Radio>
                                             </div>
                                         )}    
@@ -166,7 +218,7 @@ export default class TransferPersonnelModal extends Component {
                         </div>
                         <div className="pull-right">
                             <ErrorInputComponent
-                                ref="worknumberInput"
+                                ref="joblevelInput"
                                 name="现职位职级："
                                 field="new_joblevel"
                                 placeholder="请输入职级"
@@ -206,7 +258,7 @@ export default class TransferPersonnelModal extends Component {
                         </div>
                         <div className="pull-right">
                             <SelectComponent
-                                ref="positionSelect"
+                                ref="companySelect"
                                 name="现合同公司："
                                 data={["男","女"]}
                                 dropdownMatchSelectWidth={false}
@@ -219,13 +271,12 @@ export default class TransferPersonnelModal extends Component {
                     </li>
                     <li className="clearfix">
                         <DatePickerComponent
-                            ref="datePickerInput"
+                            ref="eventdateInput"
                             name="生效时间："
                             field="eventdate"
                             value={eventdate}
                             placeholder="请选择生效日期"
                             style={{width: 224, height: 40}}
-                            asterisk={true}
                             onChange={this.onTimeChange}
                         />               
                     </li>
