@@ -33,7 +33,6 @@ class ClerkDetail extends Component {
             getDepartMentList
         } = this.props;
         queryEmployee({rid:rid});
-        console.log(workstatus);
         this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
         //this.props.showTransferPersonnelModal()

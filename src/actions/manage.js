@@ -426,9 +426,10 @@ import isNumber from 'lodash/isNumber';
             console.log(err);
         })
     }
+    
     export const showcredit = () => (dispatch,getState) => {
-    dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
-}
+        dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
+    }
 
     //1.56 员工简历查看
     export const showEmployeeResumeView = (data) => (dispatch,getState) => {
