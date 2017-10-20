@@ -3,6 +3,7 @@ import { Modal, Tag , Button, Input } from 'antd';
 
 import {DatePickerComponent} from '../input-select-time';
 import trim from 'lodash/trim';
+import pickBy from 'lodash/pickBy';
 import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
@@ -10,10 +11,51 @@ import clerkInfo from 'data/clerk/clerk';
 export default class PermanentModal extends Component {
 
     state = {
-        positivedate: '',
-        comment: '',
-        errorComment: false
+        date: null,
+        msg: '',
+        errMsg: false,
+        name:'',           //姓名
+        englishname:'',    //英文名      
+        department:undefined,     //部门
+        position:'',       //职位
+        sex:undefined,            //性别
+        birthday:'',       //出生日期
+        inthetime:'',       //入职时间
+        constellation:''
     }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.data){
+            const {data} = nextProps,
+            {resumeoff,constellation}=data;
+            if(resumeoff){
+                const {   
+                    name,           //姓名
+                    englishname,    //英文名      
+                    department,     //部门
+                    position,       //职位
+                    sex,            //性别
+                    birthday,       //出生日期
+                    inthetime       //入职时间
+                } = resumeoff;
+                this.setState({
+                    name,           //姓名
+                    englishname,    //英文名      
+                    department,     //部门
+                    position,       //职位
+                    sex,            //性别
+                    birthday,       //出生日期
+                    inthetime,       //入职时间
+                    constellation
+                })
+            }
+        }
+    }
+
+    shouldComponentUpdate(nextState,nextProps){
+        return nextProps != this.props || nextState != this.state;
+    }
+
 
     onTimeChange=(field,value)=> {
         this.setState({
@@ -21,10 +63,10 @@ export default class PermanentModal extends Component {
         });
     }
 
-    onTextareaChange= (field,value) => {
-        if(field==="comment"){
+    onTextareaChange= (field,e) => {
+        if(field==="msg"){
             this.setState({
-                comment: value
+                msg: e.target.value
             });
             this.triggerError(false);
         }
@@ -37,40 +79,81 @@ export default class PermanentModal extends Component {
         }
     }
 
-    triggerError = errorComment => {
-        this.setState({errorComment});
+    triggerError = errMsg => {
+        this.setState({errMsg});
+    }
+
+    disabledDate = date => {
+        if(!date){
+            return false;
+        }
+        return date.valueOf() < new Date().getTime();
+    }
+
+    getFormData = () => {
+        const {
+            date,
+            msg
+        } = this.state;
+        const {
+            positivedateDatePicker,
+            commentInput
+        } =this.refs;
+        const {
+            handleOpenChange
+        } = positivedateDatePicker;
+        if(date === null){
+            handleOpenChange(true);
+            return false;
+        }
+        if(msg === ''){
+            commentInput.focus();
+            this.triggerError(true);
+            return false;
+        }
+        const filterObj = pickBy(this.state,(item,key)=>{
+            return key == 'msg' || key == 'date';
+        });
+        const formatTime = moment(date).format('YYYY-MM-DD');
+        return {...filterObj,date:formatTime};
+    }
+
+    //办理转正
+    handlePositiveEmployees = () => {
+        const {
+            positiveEmployees,
+            rid
+        } = this.props;
+        const permanentData = this.getFormData();
+        if(!permanentData) return;
+        positiveEmployees({...permanentData,rid:rid});
     }
 
     render(){
-        const {   
-            positivedate=null,
-            errorComment=false,
-            comment=''
-        }=this.state,  
-        {
-            data,
+        const {
             permanentModal,
             hidePermanentModal
         } = this.props,
-        {visible} = permanentModal,
-              
-        {resumeoff={},constellation} = data,
-        {
+        {visible} = permanentModal;
+        const {
             name,           //姓名
             englishname,    //英文名      
             department,     //部门
             position,       //职位
             sex,            //性别
             birthday,       //出生日期
-            inthetime       //入职时间
-        } = resumeoff;
-
+            inthetime,       //入职时间
+            errMsg,
+            constellation,
+            date
+        } = this.state;
         return(
             <Modal
                 title="办理转正"
                 wrapClassName="grey-close-header vertical-center-modal permanent-wrap"
                 visible={visible}
                 onCancel={hidePermanentModal}
+                onOk={this.handlePositiveEmployees}
                 width={827}
             >
                 <div className="base-info">
@@ -84,18 +167,18 @@ export default class PermanentModal extends Component {
                         </div>}
                     </li>
                     <li>
-                            <span style={{
-                                marginRight: 6
-                            }}>{department}</span>
-                            {position && <span>|</span>}
-                            {position && <span style={{
-                                marginLeft: 6
-                            }}>{position}</span>}
+                        {department && <span style={{
+                            marginRight: 6
+                        }}>{department}</span>}
+                        {position && <span>|</span>}
+                        {position && <span style={{
+                            marginLeft: 6
+                        }}>{position}</span>}
                     </li>
                     <li>
-                        <span style={{
+                        {sex && <span style={{
                             marginRight: 6
-                        }}>{sex}</span>
+                        }}>{sex}</span>}
                         {birthday && <span>|</span>}
                         {birthday && <span style={{
                                 marginLeft: 6,
@@ -127,12 +210,13 @@ export default class PermanentModal extends Component {
                         <DatePickerComponent
                             name="正式入职日期："
                             ref="positivedateDatePicker"
-                            field="positivedate"
-                            value={positivedate}
+                            field="date"
+                            value={date}
                             placeholder="请选择转正日期"
                             style={{width: 224, height: 40, lineHeight: "40px"}}
                             onChange={this.onTimeChange}
                             asterisk={true}
+                            disabledDate={this.disabledDate}
                         />
                     </div>
                 </div>
@@ -148,7 +232,8 @@ export default class PermanentModal extends Component {
                     <div className="table-cell">
                         <Input type="textarea" rows="3"
                             ref = "commentInput" 
-                            onChange={this.onTextareaChange.bind(this,"comment")}
+                            className={errMsg ? 'error' : ''}
+                            onChange={this.onTextareaChange.bind(this,"msg")}
                             onBlur={this.handleBlur}
                             style={{
                                 minWidth: 707,
@@ -157,7 +242,7 @@ export default class PermanentModal extends Component {
                                 borderRadius: 10,
                                 resize: "horizontal"
                         }}/>
-                        {errorComment && 
+                        {errMsg && 
                         <div className="error-promote">
                             <label className="error">&nbsp;&nbsp;请输入评语</label>
                         </div>
