@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Menu, Dropdown,Icon, Select } from 'antd';
+import { Button, Menu, Dropdown,Icon, Select, notification } from 'antd';
 
 import UploadClerkModal from './upload-clerk-modal';
 import pickBy from 'lodash/pickBy';
@@ -16,6 +16,9 @@ class ControlComponent extends Component {
         router: PropTypes.object
     }
 
+    state = {
+        isExportLoading:false
+    }
 
     shouldComponentUpdate(nextProps,nextState) {
         return this.state !== nextState || this.props !== nextProps;
@@ -54,26 +57,29 @@ class ControlComponent extends Component {
             exportEmployees,
             ridList
         } = this.props;
-        exportEmployees({ridList:ridList});
+        exportEmployees(ridList);
     }
 
-    //删除
     handleDeleteClerkClick = () => {
-
+        const {
+            deleteEmployees,
+            ridList
+        } = this.props;
+        deleteEmployees(ridList);
     }
 
     render() {
         const { 
             title,
+            ridList
         } = this.props;
-
         const plusClerkMenu = (
             <Menu onClick={this.handlePlusClerkClick}>
               <Menu.Item key="1">导入Excel人员信息</Menu.Item>
               <Menu.Item key="2">手动添加</Menu.Item>
             </Menu>
         );
-
+        console.log(isExportLoading);
         return (
             <div className="control">
                 <div className="pull-left">
@@ -135,9 +141,7 @@ const mapDispatchToProps = dispatch => ({
     removeUploadFIle: bindActionCreators(Actions.FileActions.removeUploadFIle, dispatch),
     uploadClerkExcel: bindActionCreators(Actions.ManageActions.uploadClerkExcel, dispatch),
     setResetFormFalse: bindActionCreators(Actions.ManageActions.setResetFormFalse, dispatch),
-    downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch),
-    exportEmployees: bindActionCreators(Actions.ManageActions.exportEmployees, dispatch),
-    deleteEmployees: bindActionCreators(Actions.ManageActions.deleteEmployees, dispatch)
+    downloadTememployees: bindActionCreators(Actions.ManageActions.downloadTememployees, dispatch)
 })
 
 export default connect(

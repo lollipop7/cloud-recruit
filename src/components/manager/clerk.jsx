@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react';
+import {notification} from 'antd';
 
 import TopComponent from './clerk/top';
 import ControlComponent from './clerk/control';
 import TableComponent from './clerk/table';
-
+import store from 'store';
 //top navdata
 import navData from 'data/nav/crewstatis';
 // lodash
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-
 //redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -130,8 +130,47 @@ class ClerkPage extends Component {
         this._requestCrewData();
     }
 
+    //获取选中的rid列表
     getRidStr = (ridList) => {
         this.setState({ridList})
+    }
+
+    //删除
+    handleDeleteClerkClick = (ridList) => {
+        const {
+            deleteEmployees
+        } = this.props;
+        const {paginationCurrent} = this.state;
+        const ridArr = ridList.split(',');
+        if(ridArr.length===1 && ridArr[0] != ''){
+            const rid = ridArr[0]
+            deleteEmployees({rid});
+            this.setPaginationCurrent(paginationCurrent);
+            this._requestCrewData();
+        }else {
+            notification.warning({
+                message: '警告',
+                description: '请先选择一位具体人员！'
+            });
+            return false;
+        }
+    }
+
+    //导出
+    exportEmployees = (ridList) => {
+        const {token,tokenKey} = store.get('token') || {};
+        const ridArr = ridList.split(',');
+        if(ridArr.length===0 || ridArr[0] == ''){
+            notification.warning({
+                message: '警告',
+                description: '至少选择一位具体人员！'
+            });
+            return false;
+        }
+        this.refs.token.value = token;
+        this.refs.tokenKey.value = tokenKey;
+        this.refs.ridList.value = ridList;
+        this.refs.form.submit();
     }
 
     render() {
@@ -155,10 +194,24 @@ class ClerkPage extends Component {
                     isLoading= {isLoading}
                     handleFind={this.handleFind}
                 />
+                <form 
+                    ref="form" 
+                    action={`${prefixUri}/employeeinfo/exportEmployees`}
+                    method="post"
+                    target="exportEmployees"
+                >
+                    <div className="form">
+                        <input ref="token" type="hidden" name="token" />
+                        <input ref="tokenKey" type="hidden" name="tokenKey" />
+                        <input ref="ridList" type="hidden" name="ridList" />
+                    </div> 
+                </form>       
                 <ControlComponent 
                     title={tableHead}
                     ridList={ridList}
                     handleFind={this.handleFind}
+                    deleteEmployees={this.handleDeleteClerkClick}
+                    exportEmployees={this.exportEmployees}
                 />
                 <TableComponent 
                     crewList={crewList}
@@ -167,7 +220,13 @@ class ClerkPage extends Component {
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}
                 />
-                
+                <iframe 
+                        id="exportEmployees" 
+                        name="exportEmployees" 
+                        style={{display:'none'}} 
+                        src="" 
+                        frameborder="0"
+                ></iframe>
             </div>
         );
     }
@@ -181,7 +240,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
     getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
-    getResumeId: bindActionCreators(Actions.jobActions.getResumeId, dispatch)
+    getResumeId: bindActionCreators(Actions.jobActions.getResumeId, dispatch),
+    deleteEmployees: bindActionCreators(Actions.ManageActions.deleteEmployees, dispatch)
 })
 
 export default connect(

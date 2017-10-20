@@ -1,11 +1,14 @@
 import * as types from 'constants/manage';
 import axios from 'axios';
+import store from 'store';
+import FileSaver from 'file-saver';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
+
+import merge from 'lodash/merge';
 
 import {notification , message} from 'antd';
 import isNumber from 'lodash/isNumber';
-import store from 'store';
-import FileSaver from 'file-saver';
+
 
 
 //**员工名册 ------------------------------------------------*/
@@ -110,35 +113,52 @@ import FileSaver from 'file-saver';
     }
 
     //导出员工信息
-    export const exportEmployees = (data) => (dispatch,getState) => {
-        console.log(data);
-        dispatch(EXPORT_CLERK_START);
-        AjaxByToken('employeeinfo/exportEmployees',{
-            head: {
-                transcode: 'L0046'
-            },
-            data: data
-        })
-        .then(res=>{
-            console.log(res);
-            dispatch(EXPORT_CLERK_DONE);
-            dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
-        },err=>{
-            console.log(err);
-            dispatch(EXPORT_CLERK_DONE);
-        });
-    }
+    // export const exportEmployees = (data) => (dispatch,getState) => {
+    //     console.log(data);
+    //     dispatch(EXPORT_CLERK_START);
+    //     const token = store.get('token');
+    //     axios({
+    //         url: `${prefixUri}/employeeinfo/exportEmployees`,
+    //         method: 'post',
+    //         data: {
+    //             ...{data: {
+    //                 ...data,
+    //                 ...token
+    //             }},
+    //             ...{head:{
+    //                 type:'h',
+    //                 transcode: 'L0039'
+    //             }}
+    //         },
+    //         headers: {
+    //             contentType: 'multipart/form-data'
+    //         }
+    //     })
+    //     .then(res=>{
+    //         console.log(res);
+    //         dispatch(EXPORT_CLERK_DONE);
+    //         dispatch({...EXPORT_CLERK_LIST});
+    //     },err=>{
+    //         console.log(err);
+    //         dispatch(EXPORT_CLERK_DONE);
+    //     });
+    // }
 
     //删除员工信息
     export const deleteEmployees = (data) => (dispatch,getState) => {
-        AjaxByToken('delete_employees',{
+        // const rid = JSON.parse(data);
+        // console.log(rid,typeof rid);
+        AjaxByToken('emp/delete_employees',{
             head: {
                 transcode: 'L0047'
             },
             data: data
         })
         .then(res=>{
-            console.log(res);
+            notification.success({
+                message: '成功',
+                description: '删除人员成功'
+            });
         },err=>{
             console.log(err);
         });
