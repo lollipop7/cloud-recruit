@@ -9,23 +9,73 @@ import {ErrorInputComponent} from '../input-select-time';
 export default class CreditFillComponent extends Component {
 
      state = {
-        candidatename: '刘德华',
-        phonenum: '15126450564',
-        idnum: '4114242424224242',
-        diplomanum: ''
+        name:'余文忠',
+        mobile:'18616762568',
+        card:'310110199203091013',
+        certid:'104101200306000405'
      }
 
-     handleChange = (filed,e) => {
-        console.log(filed);
+     handleChange = (field,e) => {
+         switch(field)
+            {
+            case 'name':
+                this.setState({
+                    [field]:this.refs.candidatenameInput.refs.input.refs.input.value
+                })
+            break;
+            case 'mobile':
+                this.setState({
+                    [field]:this.refs.phonenumInput.refs.input.refs.input.value
+                })
+            break;
+            case 'card':
+                this.setState({
+                    [field]:this.refs.idnumInput.refs.input.refs.input.value
+                })
+            break;
+            case 'certid':
+                this.setState({
+                    [field]:this.refs.diplomanumInput.refs.input.refs.input.value
+                })
+            break;    
+            }
+    }
+    componentWillReceiveProps(nextprops){
+        const {
+            name,
+            mobile,
+            card,
+            certid
+        } = nextprops.data.resumeoff;
+        this.setState({
+            name,
+            mobile,
+            card,
+            certid
+        })
+    }
+    searchCredit = () => {
+        const {searchCredit,data,showcredit}=this.props;
+        const {resumeid,name,mobile,card,certid}= data.resumeoff;
+        searchCredit({
+            resumeid:'26' ,
+            name:'余文忠',
+            phone:'18616762568',
+            card:'310110199203091013',
+            certid:'104101200306000405'
+        },showcredit)
+        //显示人员征信详情
+        
     }
 
      render(){
          const {
-            candidatename,
-            phonenum,
-            idnum,
-            diplomanum,
+            name,
+            mobile,
+            card,
+            certid
          } = this.state;
+         const {creditData}=this.props;
          return(
              <li>
                  <div className="fill-field" style={{paddingLeft: 82}}>
@@ -36,9 +86,8 @@ export default class CreditFillComponent extends Component {
                                     ref="candidatenameInput"
                                     name="姓名"
                                     field="candidatename"d
-                                    value={candidatename}
-                                    onChange={this.handleChange}
-                                    disabled
+                                    value={name}
+                                    onChange={this.handleChange.bind(this,'name')}
                                     asterisk={true}
                                 />
                              </li>
@@ -47,9 +96,8 @@ export default class CreditFillComponent extends Component {
                                     ref="phonenumInput"
                                     name="手机号"
                                     field="phonenum"
-                                    value={phonenum}
-                                    onChange={this.handleChange}
-                                    disabled
+                                    value={mobile}
+                                    onChange={this.handleChange.bind(this,'mobile')}
                                     asterisk={true}
                                 />
                              </li>
@@ -57,10 +105,10 @@ export default class CreditFillComponent extends Component {
                                 <ErrorInputComponent
                                     ref="idnumInput"
                                     name="身份证号"
+                                    placeholder="请输入身份证号"
                                     field="idnum"
-                                    value={idnum}
-                                    onChange={this.handleChange}
-                                    disabled
+                                    value={card}
+                                    onChange={this.handleChange.bind(this,'card')}
                                     asterisk={true}
                                 />
                              </li>
@@ -70,13 +118,28 @@ export default class CreditFillComponent extends Component {
                                     name="毕业证书号"
                                     field="diplomanum"
                                     placeholder="请输入毕业证书号"
-                                    value={diplomanum}
-                                    onChange={this.handleChange}
+                                    value={certid}
+                                    onChange={this.handleChange.bind(this,'certid')}
                                 />
                              </li>
                          </ul>
                          <div className="inline-block" style={{marginLeft: 177}}>
-                            <Button type="primary" style={{fontSize: 20, width: 182, height: 45}}>一键查询</Button>
+                             {creditData.flag?
+                                <Button 
+                                    type="primary" 
+                                    style={{fontSize: 20, width: 182, height: 45}}
+                                    onClick= {this.searchCredit}
+                                >
+                                    点击查看
+                                </Button>:
+                             <Button 
+                                type="primary" 
+                                style={{fontSize: 20, width: 182, height: 45}}
+                                onClick= {this.searchCredit}
+                            >
+                                一键查询
+                            </Button>}
+                            
                          </div>
                      </div>
                      <div className="inline-block" 

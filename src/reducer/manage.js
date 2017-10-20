@@ -32,6 +32,11 @@ import {
     LOAD_EMPLOYEEINFO_START,
     LOAD_EMPLOYEEINFO_DONE,
     LOAD_EMPLOYEEINFO,
+    CREDITINVESTGATION_START,
+    CREDITINVESTGATION_DONE,
+    CREDITINVESTGATION,
+    SEARCHCREDITINVESTGATION,
+    CREDITINVESTGATIONSTATE,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -110,6 +115,9 @@ const initialState = {
         list: []
     },
     employeeInfo: {},
+    creditData:{},
+    creditInfoData:{},
+    isFill:false,
     //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,
@@ -267,7 +275,14 @@ export default function manage(state=initialState,actions){
         case DELETE_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case GET_ORGANIZE_CHART:
-            return {...state,organize:actions.organize};          
+            return {...state,organize:actions.organize};
+        case CREDITINVESTGATION:
+            return {...state,creditData:actions.creditData};
+        case SEARCHCREDITINVESTGATION:
+            return {...state,creditInfoData:actions.creditInfoData};
+        case CREDITINVESTGATIONSTATE:
+            return {...state,isFill:actions.isFill};
+                      
         default:
             return state;
     }

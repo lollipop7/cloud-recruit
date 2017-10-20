@@ -31,7 +31,7 @@ class ClerkDetail extends Component {
         this.props.queryEmployee({rid:rid});
         this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
-        this.props.showTransferPersonnelModal()
+        //this.props.showTransferPersonnelModal()
      }
 
      render(){
@@ -51,7 +51,8 @@ class ClerkDetail extends Component {
              showEmployeeResumeView,
              showResumeModal,
              operationList,
-             mobilizeEmployee
+             mobilizeEmployee,
+             creditData
         } = this.props,
          {list={}} = queryEmployeeList;
         return (
@@ -85,7 +86,9 @@ class ClerkDetail extends Component {
                     hideTransferPersonnelModal={hideTransferPersonnelModal}
                     mobilizeEmployee={mobilizeEmployee}
                 />
-                <ResumeModalComponent onChange={this.oncChange}/>
+                <ResumeModalComponent 
+                    onChange={this.oncChange}
+                />
             </div>
         );
      }
@@ -97,7 +100,8 @@ class ClerkDetail extends Component {
     dismissionModal: state.Manage.dismissionModal,
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
-    employeeInfo: state.Manage.employeeInfo
+    employeeInfo: state.Manage.employeeInfo,
+    //creditData: state.Manage.creditData
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -113,7 +117,9 @@ const mapDispatchToProps = dispatch => ({
     showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
     mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
-    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch)
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch),
+    searchCreditInvestgation: bindActionCreators(Actions.ManageActions.searchCreditInvestgation, dispatch),
+    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch)
 })
 
 export default connect(

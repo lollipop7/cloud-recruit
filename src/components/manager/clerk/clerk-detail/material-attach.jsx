@@ -22,6 +22,11 @@ class MaterialAttach extends Component {
         rid:''
     }
 
+    componentDidMount(){
+        const rid = this.props.data.resumeoff.rid+'';
+        this.props.queryEmployee({rid:rid});
+    }
+
     componentWillReceiveProps(nextProps){
         const {
             basicData= [],
@@ -64,8 +69,10 @@ class MaterialAttach extends Component {
             basicData=[],
             beforeData=[],
             afterData=[],
-            rid
+            rid,
+            imageUrl=''
         } = this.state;
+        console.log(basicData)
         return (
             <div className="material-attach clerk-tab-container">
                 <ul>
@@ -82,12 +89,17 @@ class MaterialAttach extends Component {
                                              onClick={this.handleAttachmentClick.bind(this,value)}
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
                                         >
+                                        {
+                                        imageUrl ?
+                                            <img src={imageUrl} alt="" /> :
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
+                                        }
+                                            
                                             <p>{name}</p>
                                         </div>
                                     )
@@ -160,7 +172,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAttachmentModal: bindActionCreators(Actions.ManageActions.showAttachmentModal,dispatch),
-    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch)
+    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
+    DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch)
 })
 
 export default connect(

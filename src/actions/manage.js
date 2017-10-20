@@ -68,6 +68,12 @@ import FileSaver from 'file-saver';
     const LOAD_EMPLOYEEINFO_DONE = {type:types.LOAD_EMPLOYEEINFO_DONE};
     const LOAD_EMPLOYEEINFO = {type:types.LOAD_EMPLOYEEINFO};
 
+    //人员征信
+    const CREDITINVESTGATION_START = {type:types.CREDITINVESTGATION_START};
+    const CREDITINVESTGATION_DONE = {type:types.CREDITINVESTGATION_DONE};
+    const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
+    const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
+    const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
     
 
     //获取员工管理人员统计信息
@@ -311,6 +317,56 @@ import FileSaver from 'file-saver';
             console.log(err);
         })
     }
+    //删除材料附件
+    export const DeleteMaterial = (data) => (dispatch,getState) => {
+        AjaxByToken('emp/dataDel_employees', {
+            head: {
+                transcode: 'L0055'
+            },
+            data: data
+        })
+        .then(res=>{
+            notification.success({
+                message: '提示',
+                description: '材料附件删除成功！'
+            });
+        },err=>{
+            console.log(err);
+        })
+    }
+    //人员征信是否已经查询
+    export const searchCreditInvestgation = (data) => (dispatch,getState) => {
+        AjaxByToken('cerditFlag_employees', {
+            head: {
+                transcode: 'L0059'
+            },
+            data: data
+        })
+        .then(res=>{
+            dispatch({...CREDITINVESTGATION,creditData:res});
+        },err=>{
+            console.log(err);
+        })
+    }
+    //人员征信查询
+    export const searchCredit = (data,showcredit) => (dispatch,getState) => {
+        AjaxByToken('cerditQueryperationList_employees', {
+            head: {
+                transcode: 'L0060'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res)
+            dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
+            showcredit()
+        },err=>{
+            console.log(err);
+        })
+    }
+    export const showcredit = () => (dispatch,getState) => {
+    dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
+}
 
     //1.56 员工简历查看
     export const showEmployeeResumeView = (data) => (dispatch,getState) => {
