@@ -59,7 +59,9 @@ import {
     GET_DEPARTMENT_STAFF,
     ADD_EDIT_DEPARTMENT,
     DELETE_DEPARTMENT,
-    GET_ORGANIZE_CHART
+    GET_ORGANIZE_CHART,
+    ADD_EDIT_MECHANISM,
+    DELETE_MECHANISM
 } from 'constants/manage'; 
 
 const initialState = {
@@ -149,7 +151,8 @@ const initialState = {
     depart:[],
     post:[],
     //**组织架构图 ------------------------------------------------*/
-    organize:{}
+    organize:{},
+    mechanismInfo:"",
 };
 
 export default function manage(state=initialState,actions){
@@ -267,7 +270,11 @@ export default function manage(state=initialState,actions){
         case DELETE_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case GET_ORGANIZE_CHART:
-            return {...state,organize:actions.organize};          
+            return {...state,organize:actions.organize};
+        case ADD_EDIT_MECHANISM:
+            return {...state,mechanismInfo:actions.mechanismInfo};
+        case DELETE_MECHANISM:
+            return {...state,mechanismInfo:actions.mechanismInfo};         
         default:
             return state;
     }

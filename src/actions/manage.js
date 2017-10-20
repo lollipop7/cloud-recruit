@@ -357,9 +357,12 @@ const GET_ORGANIZE_CHART = {type:types.GET_ORGANIZE_CHART}
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 // 添加或者修改部门
 const ADD_EDIT_DEPARTMENT = {type:types.ADD_EDIT_DEPARTMENT};
-
-// 添加或者修改部门
+// 删除部门
 const DELETE_DEPARTMENT = {type:types.DELETE_DEPARTMENT};
+// 添加或者修改机构
+const ADD_EDIT_MECHANISM = {type:types.ADD_EDIT_MECHANISM};
+// 删除机构
+const DELETE_MECHANISM = {type:types.DELETE_MECHANISM};
 
 //获取档案管理在职人员列表信息
 export const getArchivesList = (data={}) => (dispatch,getState) => {
@@ -567,6 +570,23 @@ export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dis
     });
 }
 
+//  组织架构-添加或者修改机构
+export const addEditMechnism = (data={}) => (dispatch,getState) => {
+    dispatch({...ADD_EDIT_MECHANISM,mechnismInfo:''});
+    AjaxByToken('structure/insert_structure_department',{
+        head: {
+            transcode: 'L0082',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...ADD_EDIT_MECHANISM,mechanismInfo:'success'});
+    },err=>{
+        dispatch({...ADD_EDIT_MECHANISM,mechanismInfo:''});
+    });
+}
+
 //  组织架构-添加或者修改部门
 export const addEditDepartment = (data={}) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_operation_Department',{
@@ -628,5 +648,21 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
         dispatch({...GET_ORGANIZE_CHART,organize:res.companystructure});
     },err=>{
         dispatch({...GET_ORGANIZE_CHART});
+    });
+}
+
+//  组织架构-删除机构
+export const deleteMechnism = (data={}) => (dispatch,getState) => {
+    AjaxByToken('structure/del_structure_department',{
+        head: {
+            transcode: 'L0084',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...DELETE_MECHANISM,mechnismInfo:'success'});
+    },err=>{
+        dispatch({...DELETE_MECHANISM});
     });
 }

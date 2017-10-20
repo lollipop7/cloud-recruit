@@ -122,3 +122,7 @@ export const GET_DEPARTMENT_STAFF = 'GET_DEPARTMENT_STAFF';
 export const ADD_EDIT_DEPARTMENT = 'ADD_EDIT_DEPARTMENT';
 //  组织架构-删除部门
 export const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT';
+//  组织架构-添加或者修改机构
+export const ADD_EDIT_MECHANISM = 'ADD_EDIT_MECHANISM';
+//  组织架构-删除机构
+export const DELETE_MECHANISM = 'DELETE_MECHANISM';

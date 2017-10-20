@@ -10,6 +10,7 @@ import LeftTree from './organize/tree';
 import RightContent from './organize/right';
 import NoSubDepartment from './organize/nosub';
 import OrganizeChart from './organize/chart';
+import Mechanism from './organize/mechanism';
 
 class OrganizePage extends Component {
 
@@ -20,7 +21,7 @@ class OrganizePage extends Component {
         const {departmentStaff} = this.props;
         return (
             <div className="right-panel">
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="3">
                     <TabPane tab="组织架构图" key="1">
                         <OrganizeChart/>
                     </TabPane>
@@ -29,6 +30,9 @@ class OrganizePage extends Component {
                         {
                             departmentStaff.resumeoffList && departmentStaff.resumeoffList.length>0 ?<RightContent/>:<NoSubDepartment/>
                         }
+                    </TabPane>
+                    <TabPane tab="机构管理" key="3">
+                        <Mechanism/>
                     </TabPane>
                 </Tabs>
             </div>
