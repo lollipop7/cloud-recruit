@@ -71,6 +71,12 @@ import isNumber from 'lodash/isNumber';
     const LOAD_EMPLOYEEINFO_DONE = {type:types.LOAD_EMPLOYEEINFO_DONE};
     const LOAD_EMPLOYEEINFO = {type:types.LOAD_EMPLOYEEINFO};
 
+    //人员征信
+    const CREDITINVESTGATION_START = {type:types.CREDITINVESTGATION_START};
+    const CREDITINVESTGATION_DONE = {type:types.CREDITINVESTGATION_DONE};
+    const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
+    const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
+    const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
     
 
     //获取员工管理人员统计信息
@@ -107,7 +113,6 @@ import isNumber from 'lodash/isNumber';
             dispatch(LOAD_LIST_DONE);
             dispatch({...LOAD_CREW_LIST,list:res.list,count:res.count});
         },err=>{
-            // console.log(err);
             dispatch(LOAD_LIST_DONE);
         })
     }
@@ -143,6 +148,7 @@ import isNumber from 'lodash/isNumber';
     //         dispatch(EXPORT_CLERK_DONE);
     //     });
     // }
+
 
     //删除员工信息
     export const deleteEmployees = (data) => (dispatch,getState) => {
@@ -207,7 +213,6 @@ import isNumber from 'lodash/isNumber';
             dispatch(SET_RESETFORM_TRUE);
             dispatch(HIDE_UPLOAD_CLERK_MODAL);
         },err=>{
-            console.log(err);
             dispatch(UPLOAD_CLERK_DONE);
         });
     }
@@ -374,6 +379,56 @@ import isNumber from 'lodash/isNumber';
             console.log(err);
         })
     }
+    //删除材料附件
+    export const DeleteMaterial = (data) => (dispatch,getState) => {
+        AjaxByToken('emp/dataDel_employees', {
+            head: {
+                transcode: 'L0055'
+            },
+            data: data
+        })
+        .then(res=>{
+            notification.success({
+                message: '提示',
+                description: '材料附件删除成功！'
+            });
+        },err=>{
+            console.log(err);
+        })
+    }
+    //人员征信是否已经查询
+    export const searchCreditInvestgation = (data) => (dispatch,getState) => {
+        AjaxByToken('cerditFlag_employees', {
+            head: {
+                transcode: 'L0059'
+            },
+            data: data
+        })
+        .then(res=>{
+            dispatch({...CREDITINVESTGATION,creditData:res});
+        },err=>{
+            console.log(err);
+        })
+    }
+    //人员征信查询
+    export const searchCredit = (data,showcredit) => (dispatch,getState) => {
+        AjaxByToken('cerditQueryperationList_employees', {
+            head: {
+                transcode: 'L0060'
+            },
+            data: data
+        })
+        .then(res=>{
+            console.log(res)
+            dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
+            showcredit()
+        },err=>{
+            console.log(err);
+        })
+    }
+    export const showcredit = () => (dispatch,getState) => {
+    dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
+}
 
     //1.56 员工简历查看
     export const showEmployeeResumeView = (data) => (dispatch,getState) => {
@@ -439,9 +494,18 @@ const GET_ORGANIZE_CHART = {type:types.GET_ORGANIZE_CHART}
 const GET_DEPARTMENT_STAFF = {type:types.GET_DEPARTMENT_STAFF};
 // 添加或者修改部门
 const ADD_EDIT_DEPARTMENT = {type:types.ADD_EDIT_DEPARTMENT};
-
-// 添加或者修改部门
+// 删除部门
 const DELETE_DEPARTMENT = {type:types.DELETE_DEPARTMENT};
+// 添加机构
+const ADD_MECHANISM = {type:types.ADD_MECHANISM};
+// 删除机构
+const DELETE_MECHANISM = {type:types.DELETE_MECHANISM};
+// 修改机构
+const EDIT_MECHANISM = {type:types.EDIT_MECHANISM};
+// 获取可分配机构的部门
+const GET_ARRANGE_DEPARTMENT = {type:types.GET_ARRANGE_DEPARTMENT};
+// 分配部门至所属机构
+const ARRANGE_DEPARTMENT = {type:types.ARRANGE_DEPARTMENT};
 
 //获取档案管理在职人员列表信息
 export const getArchivesList = (data={}) => (dispatch,getState) => {
@@ -665,6 +729,40 @@ export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dis
     });
 }
 
+//  组织架构-添加机构
+export const addMechnism = (data={}) => (dispatch,getState) => {
+    dispatch({...ADD_MECHANISM,mechanismInfo:''});
+    AjaxByToken('structure/insert_structure_department',{
+        head: {
+            transcode: 'L0082',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...ADD_MECHANISM,mechanismInfo:'success'});
+    },err=>{
+        dispatch({...ADD_MECHANISM,mechanismInfo:''});
+    });
+}
+
+//  组织架构-修改机构
+export const editMechnism = (data={}) => (dispatch,getState) => {
+    dispatch({...EDIT_MECHANISM,mechanismInfo:''});
+    AjaxByToken('structure/update_structure_department',{
+        head: {
+            transcode: 'L0087',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...EDIT_MECHANISM,mechanismInfo:'success'});
+    },err=>{
+        dispatch({...EDIT_MECHANISM,mechanismInfo:''});
+    });
+}
+
 //  组织架构-添加或者修改部门
 export const addEditDepartment = (data={}) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_operation_Department',{
@@ -713,8 +811,9 @@ export const deleteDepartment = (data={}) => (dispatch,getState) => {
     });
 }
 
-//  组织架构-根据部门id查询子部门及人员
+//  组织架构-获取组织架构图
 export const getOrganizeChart = (data={}) => (dispatch,getState) => {
+    dispatch({...ADD_MECHANISM,mechanismInfo:''});
     AjaxByToken('structure/company_structure',{
         head: {
             transcode: 'L0083',
@@ -726,5 +825,55 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
         dispatch({...GET_ORGANIZE_CHART,organize:res.companystructure});
     },err=>{
         dispatch({...GET_ORGANIZE_CHART});
+    });
+}
+
+//  组织架构-删除机构
+export const deleteMechnism = (data={}) => (dispatch,getState) => {
+    dispatch({...DELETE_MECHANISM,mechanismInfo:''});
+    AjaxByToken('structure/del_structure_department',{
+        head: {
+            transcode: 'L0084',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...DELETE_MECHANISM,mechanismInfo:'success'});
+    },err=>{
+        dispatch({...DELETE_MECHANISM});
+    });
+}
+//  组织架构-获取可分配机构的部门
+export const getArrangeDepartment = (data={}) => (dispatch,getState) => {
+    dispatch({...ADD_MECHANISM,mechanismInfo:''});
+    AjaxByToken('structure/toset_structure_department',{
+        head: {
+            transcode: 'L0089',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_ARRANGE_DEPARTMENT,arrangeDepartment:res.list});
+    },err=>{
+        dispatch({...GET_ARRANGE_DEPARTMENT});
+    });
+}
+
+//  组织架构-分配部门至所属机构
+export const arrangeDepartmentFuc = (data={}) => (dispatch,getState) => {
+    dispatch({...ARRANGE_DEPARTMENT,mechanismInfo:''});
+    AjaxByToken('structure/set_structure_department',{
+        head: {
+            transcode: 'L0090',
+            type: 'h'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...ARRANGE_DEPARTMENT,mechanismInfo:'success'});
+    },err=>{
+        dispatch({...ARRANGE_DEPARTMENT});
     });
 }

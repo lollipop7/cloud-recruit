@@ -36,6 +36,7 @@ class ClerkDetail extends Component {
         console.log(workstatus);
         this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
+        //this.props.showTransferPersonnelModal()
         //部门列表查询
         getDepartMentList();
      }
@@ -62,6 +63,7 @@ class ClerkDetail extends Component {
              getTreeList,                       //递归
              departureEmployees,
              operationList,
+             creditData
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
@@ -104,7 +106,9 @@ class ClerkDetail extends Component {
                     departmentList={departmentList}
                     getTreeList={getTreeList}
                 />
-                <ResumeModalComponent onChange={this.oncChange}/>
+                <ResumeModalComponent 
+                    onChange={this.oncChange}
+                />
             </div>
         );
      }
@@ -117,6 +121,7 @@ class ClerkDetail extends Component {
     permanentModal: state.Manage.permanentModal,
     transferPersonnelModal: state.Manage.transferPersonnelModal,
     employeeInfo: state.Manage.employeeInfo,
+    //creditData: state.Manage.creditData
     departmentList: state.Manage.departmentList,
 })
 
@@ -134,6 +139,9 @@ const mapDispatchToProps = dispatch => ({
     mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     positiveEmployees: bindActionCreators(Actions.ManageActions.positiveEmployees, dispatch),
     showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch),
+    searchCreditInvestgation: bindActionCreators(Actions.ManageActions.searchCreditInvestgation, dispatch),
+    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch),
     getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
     getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
     departureEmployees:bindActionCreators(Actions.ManageActions.departureEmployees,dispatch),

@@ -79,7 +79,6 @@ class ControlComponent extends Component {
               <Menu.Item key="2">手动添加</Menu.Item>
             </Menu>
         );
-        console.log(isExportLoading);
         return (
             <div className="control">
                 <div className="pull-left">

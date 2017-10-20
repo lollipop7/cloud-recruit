@@ -15,13 +15,9 @@ export default class MainContent extends Component {
     shouldComponentUpdate(nextProps,nextState) {
         return nextProps.data !== this.props.data;
     }
-    onChange = () => {
-        const rid = this.props.params.rid;
-        this.props.queryEmployee({rid:rid});
-    }
 
     render() {
-        const { data , editEmployeeInformation , operationList , UploadMaterial} = this.props;
+        const { data , editEmployeeInformation , operationList , UploadMaterial,queryEmployee,searchCreditInvestgation} = this.props;
         const {
             resumeoff={},                   //员工信息表
             wage={},                        //薪资状况
@@ -34,8 +30,7 @@ export default class MainContent extends Component {
         const contractData = contract == null ? {} : contract;
         return (
             <div className="clerk-nav-tabs">
-                <Tabs defaultActiveKey="5" 
-                      onChange={this.onChange}
+                <Tabs defaultActiveKey="1" 
                       tabBarStyle = {{
                         width: 870,
                         borderBottom: "none",
@@ -53,14 +48,16 @@ export default class MainContent extends Component {
                         <PersonalInfo 
                             data={resumeoff} 
                             edu={edu} 
-                            editEmployeeInformation={editEmployeeInformation} 
-                        />
+                            editEmployeeInformation={editEmployeeInformation}
+                            queryEmployee={queryEmployee}
+                             />
                     </TabPane>
                     <TabPane tab="工资社保" key="3">
                         <WagesSocialSecurity 
                             data={resumeoff} 
                             wage={wage}
                             editEmployeeInformation={editEmployeeInformation}
+                            queryEmployee={queryEmployee}
                         />
                     </TabPane>
                     <TabPane tab="合同情况" key="4">
@@ -68,15 +65,24 @@ export default class MainContent extends Component {
                             data={resumeoff}
                             atcs={attachment_type_con}
                             editEmployeeInformation={editEmployeeInformation}
+                            queryEmployee={queryEmployee}
                         />
                     </TabPane>
                     <TabPane tab="材料附件" key="5">
-                        <MaterialAttach listAll={listAll} {...this.props}/>
+                        <MaterialAttach
+                             listAll={listAll} 
+                             data={resumeoff}
+                             {...this.props}/>
                     </TabPane>
                     <TabPane tab="操作记录" key="6">
-                        <OperateHistory data={operationList}/>
+                        <OperateHistory data={operationList} />
                     </TabPane>
-                    <TabPane tab="人员征信" key="7"><CreditInvestgation data={resumeoff}/></TabPane>
+                    <TabPane tab="人员征信" key="7">
+                        <CreditInvestgation 
+                            data={resumeoff} 
+                            {...this.props}
+                        />
+                    </TabPane>
                 </Tabs>
             </div>
         );

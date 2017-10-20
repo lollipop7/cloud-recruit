@@ -8,10 +8,10 @@ export default class WagesSocialSecurity extends Component {
     state = {
         btnState:'none',
         borderState:"1px solid transparent",
-        isdisabled:false,
+        isdisabled:true,
         eduBtnState:'none',
         eduBorderState:"1px solid transparent",
-        isEdudisabled:false
+        isEdudisabled:true
     }
     //编辑信息
     editInformation = (field) => {
@@ -67,6 +67,10 @@ export default class WagesSocialSecurity extends Component {
                 isEdudisabled:false,
             })
         }  
+    }
+    componentDidMount(){
+        const rid = this.props.data.rid+'';
+        this.props.queryEmployee({rid:rid});
     }
     componentWillReceiveProps(){
         setTimeout(()=>{
