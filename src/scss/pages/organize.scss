@@ -64,20 +64,44 @@
             font-size: 24px;
             color: $theme-color;
         }
+        //组织架构
+        .ant-tree-node-content-wrapper {
+            display: inline-block;
+            padding: 3px 5px;
+            border-radius: 2px;
+            margin: 0;
+            cursor: pointer;
+            text-decoration: none;
+            vertical-align: top;
+            color: rgba(0,0,0,.65);
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            position: relative;
+            &:hover {
+                background-color: #ecf6fd;
+                width: calc(100% - 18px);
+            }
+        }
+        .ant-tree-node-selected {
+            background-color: #d2eafb;
+            width: calc(100% - 18px);
+        }
+        .ant-tree>li:first-child {
+            padding-top: 7px;
+        }
     }
-    //组织架构
+    .ant-tree>li:first-child {
+        padding-top: 20px;
+    }
+    .ant-tree-title {
+        font-size: 14px;
+    }
     .ant-tree-node-content-wrapper {
         display: inline-block;
         padding: 3px 5px;
         border-radius: 2px;
         margin: 0;
         cursor: pointer;
-        text-decoration: none;
-        vertical-align: top;
-        color: rgba(0,0,0,.65);
-        -webkit-transition: all .3s;
-        transition: all .3s;
-        position: relative;
         &:hover {
             background-color: #ecf6fd;
             width: calc(100% - 18px);
@@ -87,6 +111,10 @@
         background-color: #d2eafb;
         width: calc(100% - 18px);
     }
+    // .ant-tree>li:first-child {
+    //     padding-top: 20px;
+    // }
+    
 }
 // 添加子部门
 .sub {
@@ -144,6 +172,11 @@
             }
         }
     }
+}
+.department2 {
+    font-size: 14px;
+    margin-bottom: 20px;
+    position: relative;
 }
 // 组织架构-部门管理-右侧内容
 .organize-tree-right {

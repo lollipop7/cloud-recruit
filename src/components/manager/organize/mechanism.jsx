@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
 // antd
-import { Tree, Icon, Modal, Input, message } from 'antd';
+import { Tree, Icon, Modal, Input, message, Select } from 'antd';
 const TreeNode = Tree.TreeNode;
+const Option = Select.Option;
 
 class LeftTreePage extends Component {
   state = {
@@ -19,11 +20,13 @@ class LeftTreePage extends Component {
     type:'',
     departmentName:'',
     visible: false,
-    departmentName2:''
+    departmentName2:'',
+    resultDepartment:[]
   }
   componentDidMount(){
     // 获取数据
     this.props.getOrganizeChart();
+    this.props.getArrangeDepartment({type:"2"})
   }
   // 提示框
   info = (data) => {
@@ -38,13 +41,13 @@ class LeftTreePage extends Component {
                     tree.type == "4"?
                     <TreeNode title={tree.name} key={tree.uid} sup_id={tree.supDepartmentId} leaderName = {tree.leaderName} >
                         {this.recursion(tree.list)}
-                    </TreeNode>:<TreeNode></TreeNode>
+                    </TreeNode>:<TreeNode title={tree.name} disabled></TreeNode>
                 )
                 } else {
                 return (
                     tree.type == "4"?
                     <TreeNode title={tree.name} key={tree.uid} sup_id={tree.supDepartmentId} leaderName = {tree.leaderName}>
-                    </TreeNode>:<TreeNode></TreeNode>
+                    </TreeNode>:<TreeNode title={tree.name} disabled></TreeNode>
                 )
             }
       })
@@ -68,7 +71,7 @@ class LeftTreePage extends Component {
 
   // 添加子部门弹窗
   showAdd = () => {
-    this.setState({title:'添加子部门',type:'add',title2:'机构名称：'})
+    this.setState({title:'添加子机构',type:'add',title2:'机构名称：'})
     this.addEditDeleteModal();
   }
   addEditDeleteModal = () => {
@@ -83,14 +86,16 @@ class LeftTreePage extends Component {
     });
   }
   handleOk = (e) => {
-    const { uid, type, sup_id } = this.state;
+    const { uid, type, sup_id, resultDepartment } = this.state;
     const { departmentNameInput, departmentName2Input } = this.refs;
     if(type=='add'){
-      this.props.addEditMechnism({sup_id:uid,name:departmentNameInput.refs.input.value,leader_name:departmentName2Input.refs.input.value,stype:'4',dtype:'4'})
+      this.props.addMechnism({sup_id:uid,name:departmentNameInput.refs.input.value,leader_name:departmentName2Input.refs.input.value,stype:'4',dtype:'4'})
     }else if(type =='edit'){
-      this.props.addEditMechnism({sup_id:sup_id,name:departmentNameInput.refs.input.value,uid:uid})
-    }else{
+      this.props.editMechnism({lead_name:departmentName2Input.refs.input.value, name:departmentNameInput.refs.input.value,uid:uid})
+    }else if(type =='delete'){
       this.props.deleteMechnism({uid:uid})
+    }else if(type =='tool'){
+      this.props.arrangeDepartmentFuc({uid:uid,ids:resultDepartment})
     }
     this.setState({
       visible: false
@@ -103,7 +108,7 @@ class LeftTreePage extends Component {
   }
   // 编辑部门
   showEdit = () => {
-    this.setState({title:'编辑部门',type:'edit',title2:'变更名称：'});
+    this.setState({title:'编辑机构',type:'edit',title2:'变更名称：'});
     const {name2, sup_id, uid} = this.state;
     if(!name2 || !sup_id || !uid){
         this.info('请选择一个机构');
@@ -116,7 +121,8 @@ class LeftTreePage extends Component {
   afterSuccess = () => {
     const { type } = this.state;
     this.info('操作成功');
-    this.props.addEditMechnism();
+    // 获取数据
+    this.props.getOrganizeChart();
     if(type=='delete'){
       this.setState({ name:'', uid:'', sup_id:''})
     }
@@ -135,13 +141,13 @@ class LeftTreePage extends Component {
 
     // 分配部门
     showTool = () => {
-        this.setState({type:'delete',title:'删除部门'});
-        const {name2, sup_id, uid} = this.state;
-        if(!name2 || !sup_id || !uid){
-            this.info('请选择操作目标');
-            return;
-        }
-        this.addEditDeleteModal();
+      this.setState({type:'tool',title:'分配部门'});
+      const {name2, sup_id, uid} = this.state;
+      if(!name2 || !sup_id || !uid){
+          this.info('请选择操作目标');
+          return;
+      }
+      this.addEditDeleteModal();
     }
 
   handleChange = (e) => {
@@ -150,15 +156,16 @@ class LeftTreePage extends Component {
   handleChange2 = (e) => {
     this.setState({departmentName2:e.target.value,name:e.target.value})
   }
+  handleChange3 = (value) => {
+    this.setState({resultDepartment:value})
+  }
   render() {
-    const {title, name, sup_id,type, title2, departmentName, name2, departmentName2} = this.state;
-    const { organize:{list}, mechnismInfo, organize } = this.props;
-    // console.log(5555,organize)
-    if(mechnismInfo == 'success'){
+    const {title, name, sup_id,type, title2, departmentName, name2, departmentName2, uid} = this.state;
+    const { organize:{list}, mechanismInfo, organize, arrangeDepartment } = this.props;
+    if(mechanismInfo == 'success'){
       this.afterSuccess()
       this.setState({departmentName:''});
     }
-    console.log(organize)
     return (
         <div className='pull-left tree-type'>
             <div className='operate-button'>
@@ -167,10 +174,10 @@ class LeftTreePage extends Component {
               <Icon type="delete" className='icon' onClick={this.showDelete} />
               <Icon type="tool" className='icon' onClick={this.showTool} />
             </div>
-            <div className='tree-box'>
+            <div className=''>
               {
                 <Tree 
-                      defaultExpandAll
+                      defaultExpandAll={true}
                       onSelect={this.onSelect}
                 >
                     {this.recursion(list)}
@@ -196,17 +203,25 @@ class LeftTreePage extends Component {
               <div className={type=='delete'?'sub2':'sub2 hide'}>
                 <span className='sub-title2'>该项操作执行后，该部门信息将无法恢复，确认删除？</span>
               </div>
-              <div className={type=='delete'?'department hide':'department'}>
+              <div className={type=='delete'||type=='tool'?'department hide':'department'}>
                 <span className='name'>{title2}</span>
                 <div className='input-type'>
                   <Input value={departmentName} ref = "departmentNameInput" onChange={this.handleChange} />
                 </div>
               </div>
-              <div className={type=='delete'?'department hide':'department'}>
-                <span className='name'>管理者名称：</span>
-                <div className='input-type'>
-                  <Input value={departmentName2} ref = "departmentName2Input" onChange={this.handleChange2} />
-                </div>
+              <div className={type=='tool'?'department2':'department2 hide'}>
+                <span className='name'>选择下属部门：</span>
+                <Select allowClear={true} mode="tags" style={{ width: '100%' }} placeholder="" onChange={this.handleChange3} >
+                  {
+                    arrangeDepartment && arrangeDepartment.map((item,index)=>{
+                      if(item.mechanism == "0" ||item.mechanism == uid ){
+                        return <Option key={`mechanism_${index}`} value={item.uid.toString()}>{item.name}</Option>
+                      }else{
+                        return <Option key={`mechanism_${index}`} value={item.uid.toString()} disabled>{item.name}</Option>
+                      }
+                    })
+                  }
+                </Select>
               </div>
             </Modal>
         </div>
@@ -215,15 +230,19 @@ class LeftTreePage extends Component {
 }
 const mapStateToProps = state => ({
   organize: state.Manage.organize,
-  mechnismInfo: state.Manage.mechnismInfo
+  mechanismInfo: state.Manage.mechanismInfo,
+  arrangeDepartment: state.Manage.arrangeDepartment
 })
 const mapDispatchToProps = dispatch => ({
   getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
   getDepartMentStaff: bindActionCreators(Actions.ManageActions.getDepartMentStaff, dispatch),
-  addEditMechnism: bindActionCreators(Actions.ManageActions.addEditMechnism, dispatch),
+  addMechnism: bindActionCreators(Actions.ManageActions.addMechnism, dispatch),
   refreshDepartmentInfo: bindActionCreators(Actions.ManageActions.refreshDepartmentInfo, dispatch),
   deleteMechnism: bindActionCreators(Actions.ManageActions.deleteMechnism, dispatch),
-  getOrganizeChart: bindActionCreators(Actions.ManageActions.getOrganizeChart, dispatch)
+  getOrganizeChart: bindActionCreators(Actions.ManageActions.getOrganizeChart, dispatch),
+  editMechnism: bindActionCreators(Actions.ManageActions.editMechnism, dispatch),
+  getArrangeDepartment: bindActionCreators(Actions.ManageActions.getArrangeDepartment, dispatch),
+  arrangeDepartmentFuc: bindActionCreators(Actions.ManageActions.arrangeDepartmentFuc, dispatch)
 })
 
 export default connect(
