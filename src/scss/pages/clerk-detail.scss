@@ -659,6 +659,48 @@
         .ant-input {
             border-radius: 10px;
         }
+
+        .ant-radio-button-wrapper {
+            width: 130px;
+            height: 30px;
+            margin-right: 20px;
+            text-align: center;
+            border: 1px solid #868686;
+            color: #868686;
+            &:first-child {
+                border-radius: 0;
+            }
+            &:last-child {
+                border-radius: 0;
+                border: 1px solid #868686;
+            }
+            span {
+                font-size: 14px;
+                font-weight: bold;
+            }
+            &:hover {
+                border-color:#108ee9;
+            }
+        }
+        .ant-radio-button-wrapper-checked {
+            border-color: #108ee9;
+            box-shadow: none;
+            color: #108ee9;
+            &:hover {
+                border-color: #49a9ee;
+                box-shadow: none;
+            }
+            &:first-child {
+                border-color: #108ee9;
+            }
+            &:last-child {
+                border-color: #108ee9;
+            }
+        }
+        .ant-radio-button-wrapper-focused,
+        .ant-radio-button-wrapper:hover {
+            color: #108ee9;
+        }
     }
 } 
 

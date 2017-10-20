@@ -9,11 +9,70 @@ export default class PersonalInfo extends Component {
     state = {
         btnState:'none',
         borderState:"1px solid transparent",
-        isdisabled:false,
+        isdisabled:true,
         eduBtnState:'none',
         eduBorderState:"1px solid transparent",
-        isEdudisabled:false,
+        isEdudisabled:true,
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.data){
+            const {
+                name,                   //姓名
+                documenttype,           //证件类型
+                mobile,                 //手机号
+                birthday,               //生日
+                married,                //是否已婚
+                national,               //民族
+                natives,                //籍贯
+                accounttype,            //户口类型
+                englishname,            //英文名
+                card,                   //证件号码
+                workemail,              //个人邮箱
+                sex,                    //性别
+                children,               //是否已育
+                political,              //政治面貌
+                city,                   //户籍城市
+                tolive,                 //居住地址
+                schooling,              //最高学历
+                professional,           //专业
+                degree,                 //学位
+                school,                 //毕业学校
+                schendtime,             //毕业时间
+                recruitment,            //是否统招
+                rid
+            } = nextProps.data;
+            this.setState({
+                name,                   //姓名
+                documenttype,           //证件类型
+                mobile,                 //手机号
+                birthday,               //生日
+                married,                //是否已婚
+                national,               //民族
+                natives,                //籍贯
+                accounttype,            //户口类型
+                englishname,            //英文名
+                card,                   //证件号码
+                workemail,              //个人邮箱
+                sex,                    //性别
+                children,               //是否已育
+                political,              //政治面貌
+                city,                   //户籍城市
+                tolive,                 //居住地址
+                schooling,              //最高学历
+                professional,           //专业
+                degree,                 //学位
+                school,                 //毕业学校
+                schendtime,                //毕业时间
+                recruitment,            //是否统招
+                rid:rid+''
+            })
+        }
+    }
+    componentDidMount(){
+        const rid = this.props.data.rid+'';
+        this.props.queryEmployee({rid:rid});
+    }
+
     handleSelectChange  = (field,e) => {
         this.setState({
             [field]:e.target.value
@@ -65,60 +124,7 @@ export default class PersonalInfo extends Component {
             })
         }  
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const {
-                name,                   //姓名
-                documenttype,           //证件类型
-                mobile,                 //手机号
-                birthday,               //生日
-                married,                //是否已婚
-                national,               //民族
-                natives,                //籍贯
-                accounttype,            //户口类型
-                englishname,            //英文名
-                card,                   //证件号码
-                workemail,              //个人邮箱
-                sex,                    //性别
-                children,               //是否已育
-                political,              //政治面貌
-                city,                   //户籍城市
-                tolive,                 //居住地址
-                schooling,              //最高学历
-                professional,           //专业
-                degree,                 //学位
-                school,                 //毕业学校
-                schendtime,             //毕业时间
-                recruitment,            //是否统招
-                rid
-            } = this.props.data;
-            this.setState({
-                name,                   //姓名
-                documenttype,           //证件类型
-                mobile,                 //手机号
-                birthday,               //生日
-                married,                //是否已婚
-                national,               //民族
-                natives,                //籍贯
-                accounttype,            //户口类型
-                englishname,            //英文名
-                card,                   //证件号码
-                workemail,              //个人邮箱
-                sex,                    //性别
-                children,               //是否已育
-                political,              //政治面貌
-                city,                   //户籍城市
-                tolive,                 //居住地址
-                schooling,              //最高学历
-                professional,           //专业
-                degree,                 //学位
-                school,                 //毕业学校
-                schendtime,                //毕业时间
-                recruitment,            //是否统招
-                rid:rid+''
-            })
-        })
-    }
+    
     render() {
         const {
             name,                   //姓名

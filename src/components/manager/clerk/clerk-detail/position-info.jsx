@@ -78,6 +78,7 @@ export default class PositionInfo extends Component {
         }
         
     }
+   
     componentWillReceiveProps(){
         setTimeout(()=>{
             const dateFormat = 'YYYY-MM-DD';

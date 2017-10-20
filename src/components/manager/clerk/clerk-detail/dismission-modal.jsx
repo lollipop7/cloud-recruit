@@ -4,6 +4,7 @@ const { CheckableTag } = Tag;
 
 // lodash 
 import chunk from 'lodash/chunk';
+import moment from 'moment';
 
 import {DatePickerComponent} from '../input-select-time';
 import DefinedTagsComponent from './defined-tags';
@@ -20,8 +21,9 @@ resignFactors=[
 export default class DismissionModal extends Component { 
     
     state = {
-        departuretime: '',
+        date: null,
         selectedTags: [],
+        msg: ''
     }
 
     onTimeChange=(field,value)=> {
@@ -31,17 +33,45 @@ export default class DismissionModal extends Component {
     }
 
     handleChange(tag, checked) {
-        const { selectedTags } = this.state;
+        const { selectedTags,msg } = this.state;
         const nextSelectedTags = checked ?
                 [...selectedTags, tag] :
                 selectedTags.filter(item => item !== tag);
-        console.log('dismiss factors : ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags });
+        this.setState({ selectedTags: nextSelectedTags,msg: nextSelectedTags.join(',') });
+    }
+
+    getFormData = () => {
+        const {
+            date,
+            msg
+        } = this.state,
+        {dateDatePicker} = this.refs,
+        {handleOpenChange} = dateDatePicker;
+        if(date === null){
+            handleOpenChange(true);
+            return false;
+        }
+        if(msg === ''){
+            notification.warning({
+                message: '警告',
+                description: '未选择离职原因'
+            });
+            return false;
+        }
+        const formatTime = moment(date).format('YYYY-MM-DD');
+        return {date:formatTime,msg:msg}
+    }
+
+    handleDismissClerk = () => {
+        const {departureEmployees,rid} = this.props;
+        const dismissData = this.getFormData();
+        if(!dismissData) return;
+        departureEmployees({...dismissData,rid:rid});
     }
 
     render() {
         const {
-            departuretime=null,
+            date=null,
             selectedTags
         } = this.state,
         {
@@ -57,15 +87,16 @@ export default class DismissionModal extends Component {
             wrapClassName="grey-close-header vertical-center-modal dismission-wrap"
             visible={visible}
             onCancel={hideDismissionModal}
+            onOk={this.handleDismissClerk}
             width={827}
         >
             <ul>
                 <li className="time-field">
                     <DatePickerComponent
-                        ref="departuretimeDatePicker"
+                        ref="dateDatePicker"
                         name="离职日期："
-                        field="departuretime"
-                        value={departuretime}
+                        field="date"
+                        value={date}
                         placeholder="请选择离职日期"
                         style={{width: 224, height: 40}}
                         onChange={this.onTimeChange}

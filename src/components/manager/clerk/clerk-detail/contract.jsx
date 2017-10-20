@@ -28,6 +28,10 @@ class Contract extends Component {
         endtime:'',            //合同结束日期
         rid:''
     }
+    componentDidMount(){
+        const rid = this.props.data.rid+'';
+        this.props.queryEmployee({rid:rid});
+    }
 
     componentWillReceiveProps(nextProps){
         const {
@@ -39,6 +43,18 @@ class Contract extends Component {
         this.setState({
             attachment_type_con
         });
+        const {
+            starttime,          //合同开始日期
+            yearnumber,         //合同年限
+            endtime,            //合同结束日期
+            rid
+        } = nextProps.data;
+        this.setState({
+            starttime,          //合同开始日期
+            yearnumber,         //合同年限
+            endtime,            //合同结束日期
+            rid:rid+''
+        })
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -88,23 +104,6 @@ class Contract extends Component {
             })
         }
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const {
-                starttime,          //合同开始日期
-                yearnumber,         //合同年限
-                endtime,            //合同结束日期
-                rid
-            } = this.props.data;
-            this.setState({
-                starttime,          //合同开始日期
-                yearnumber,         //合同年限
-                endtime,            //合同结束日期
-                rid:rid+''
-            })
-        })
-    }
-
     render() {
         const {
             attachment_type_con,

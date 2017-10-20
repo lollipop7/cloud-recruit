@@ -18,7 +18,13 @@ class MaterialAttach extends Component {
         itemData: {},
         basicData: [],      //基本资料
         beforeData: [],     //档案附件
-        afterData: []       //离职资料
+        afterData: [],      //离职资料
+        rid:''
+    }
+
+    componentDidMount(){
+        const rid = this.props.data.resumeoff.rid+'';
+        this.props.queryEmployee({rid:rid});
     }
 
     componentWillReceiveProps(nextProps){
@@ -49,7 +55,11 @@ class MaterialAttach extends Component {
     }
 
     handleAttachmentClick = (itemData) => {
-       this.setState({itemData});
+        const {rid} = this.props.params;
+       this.setState({
+           itemData,
+           rid
+        });
        this.props.showAttachmentModal();
     }
 
@@ -58,8 +68,11 @@ class MaterialAttach extends Component {
             itemData,
             basicData=[],
             beforeData=[],
-            afterData=[]
+            afterData=[],
+            rid,
+            imageUrl=''
         } = this.state;
+        console.log(basicData)
         return (
             <div className="material-attach clerk-tab-container">
                 <ul>
@@ -76,12 +89,17 @@ class MaterialAttach extends Component {
                                              onClick={this.handleAttachmentClick.bind(this,value)}
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
                                         >
+                                        {
+                                        imageUrl ?
+                                            <img src={imageUrl} alt="" /> :
                                             <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
+                                        }
+                                            
                                             <p>{name}</p>
                                         </div>
                                     )
@@ -142,7 +160,7 @@ class MaterialAttach extends Component {
                         </div>    
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} itemData={itemData}/>                    
+                <PlusAttachmentModal {...this.props} itemData={itemData} rid={rid}/>                    
             </div>
         );
     }
@@ -154,7 +172,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAttachmentModal: bindActionCreators(Actions.ManageActions.showAttachmentModal,dispatch),
-    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch)
+    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
+    DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch)
 })
 
 export default connect(
