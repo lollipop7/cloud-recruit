@@ -79,7 +79,7 @@ class LeftTreePage extends Component {
     if(!name2 || !sup_id || !uid){
       // this.info('请选择一个部门');
       // return;
-      this.setState({name2:"一级机构",sup_id:"0"})
+      this.setState({name2:"一级机构",uid:"0"})
     }
     this.setState({
       visible: true,
@@ -89,7 +89,7 @@ class LeftTreePage extends Component {
     const { uid, type, sup_id, resultDepartment } = this.state;
     const { departmentNameInput, departmentName2Input } = this.refs;
     if(type=='add'){
-      this.props.addMechnism({sup_id:uid,name:departmentNameInput.refs.input.value,leader_name:departmentName2Input.refs.input.value,stype:'4',dtype:'4'})
+      this.props.addMechnism({sup_id:uid, name:departmentNameInput.refs.input.value, leader_name:departmentName2Input.refs.input.value,stype:'4',dtype:'4'})
     }else if(type =='edit'){
       this.props.editMechnism({lead_name:departmentName2Input.refs.input.value, name:departmentNameInput.refs.input.value,uid:uid})
     }else if(type =='delete'){
@@ -207,6 +207,12 @@ class LeftTreePage extends Component {
                 <span className='name'>{title2}</span>
                 <div className='input-type'>
                   <Input value={departmentName} ref = "departmentNameInput" onChange={this.handleChange} />
+                </div>
+              </div>
+              <div className={type=='delete'?'department hide':'department'}>
+                <span className='name'>管理者名称：</span>
+                <div className='input-type'>
+                  <Input value={departmentName2} ref = "departmentName2Input" onChange={this.handleChange2} />
                 </div>
               </div>
               <div className={type=='tool'?'department2':'department2 hide'}>

@@ -21,7 +21,7 @@ class OrganizePage extends Component {
         const {departmentStaff} = this.props;
         return (
             <div className="right-panel">
-                <Tabs defaultActiveKey="3">
+                <Tabs defaultActiveKey="1">
                     <TabPane tab="组织架构图" key="1">
                         <OrganizeChart/>
                     </TabPane>
