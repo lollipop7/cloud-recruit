@@ -125,7 +125,6 @@ export default class HeaderInfoComponent extends Component {
             resumeid='',
             workstatus=''
         } = this.state;
-        console.log(workstatus);
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
                 <Menu.Item key="1">生成信息填写二维码</Menu.Item>

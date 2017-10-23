@@ -45,17 +45,17 @@ export const getTaskReport = (data={},startDate,endDate) => (dispatch,getState) 
 // 下载任务报表
 // export const downloadTaskReport = () => (dispatch,getState) => {
 //     dispatch(DOWNLOAD_TASK_START);
-//     // const token = store.get('token');
+//     const token = store.get('token');
 //     console.log('download');
 //     axios({
 //         url: '/hrmanage/report/progress_report_down',
 //         method: 'post',
-//         // data: {...{data:token},...{
-//         //     head:{
-//         //         type:'h',
-//         //         transcode: 'L0039'
-//         //     }
-//         // }},
+//         data: {...{data:token},...{
+//              head:{
+//                  type:'h',
+//                  transcode: 'L0039'
+//              }
+//          }},
 //         header: {
 //             contentType: 'application/x-www-form-urlencoded'
 //         },

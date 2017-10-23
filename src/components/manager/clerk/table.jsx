@@ -6,6 +6,7 @@ import trim from 'lodash/trim';
 import filter from 'lodash/filter';
 import indexOf from 'lodash/indexOf';
 import get from 'lodash/get';
+import remove from 'lodash/remove';
 
 import {Link, Router} from 'react-router';
 
@@ -75,9 +76,9 @@ export default  class TableComponent extends Component {
                 case 1:
                     return <span className="work-status formal">正式员工</span>  
                 case 2:
-                    return <span className="work-status depature">离职员工</span>  
+                    return <span className="work-status depature">离职员工</span> 
                 default:
-                    return <span className="work-status hired">待入职</span>        
+                    return <span className="work-status hired">待入职</span>  
             }
         };
         return sumColumns;
@@ -213,16 +214,31 @@ export default  class TableComponent extends Component {
         let str = filterArr.map(item=>{
             return get(item,['rid']);
         }).join(',');
-        console.log(str);
         getRidStr(str);
         this.setState({selectedRowKeys});
     }
 
+    //清空表格选择框
+    clearTableCheckbox = () => {
+        const {selectedRowKeys} = this.state;
+        if(selectedRowKeys.length === 0) return ;
+        this.setState({
+            selectedRowKeys:[]
+        }) 
+    }
+
+    paginationChange = (page, pageSize) => {
+        const{
+            paginationChange
+        } = this.props;
+        paginationChange(page, pageSize);
+        this.clearTableCheckbox();
+    }
+    
     render() {
         const {selectedRowKeys,data} = this.state,
         {
             paginationCurrent,
-            paginationChange,
             crewList
         } = this.props,
         {list, count, isLoading} = crewList;
@@ -240,7 +256,6 @@ export default  class TableComponent extends Component {
                     list.map((item,index)=>{ 
                         delete item.children;
                         item.key = index;
-                        delete item.children;
                         return item;
                     })
                 }
@@ -248,7 +263,7 @@ export default  class TableComponent extends Component {
                     defaultPageSize:20 ,
                     total: count,
                     current: paginationCurrent,
-                    onChange:(page,pageSize)=> paginationChange(page,pageSize)
+                    onChange:this.paginationChange
                 }}
             />
         );

@@ -139,7 +139,7 @@ class LeftTreePage extends Component {
             <div className='tree-box'>
               {
                 <Tree 
-                      defaultExpandAll
+                      defaultExpandAll={true}
                       onSelect={this.onSelect}
                 >
                   {this.recursion(list)}

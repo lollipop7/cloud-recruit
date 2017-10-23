@@ -68,7 +68,12 @@ import {
     GET_DEPARTMENT_STAFF,
     ADD_EDIT_DEPARTMENT,
     DELETE_DEPARTMENT,
-    GET_ORGANIZE_CHART
+    GET_ORGANIZE_CHART,
+    ADD_MECHANISM,
+    DELETE_MECHANISM,
+    EDIT_MECHANISM,
+    GET_ARRANGE_DEPARTMENT,
+    ARRANGE_DEPARTMENT
 } from 'constants/manage'; 
 
 const initialState = {
@@ -158,7 +163,9 @@ const initialState = {
     depart:[],
     post:[],
     //**组织架构图 ------------------------------------------------*/
-    organize:{}
+    organize:{},
+    mechanismInfo:"",
+    arrangeDepartment:[]
 };
 
 export default function manage(state=initialState,actions){
@@ -277,20 +284,22 @@ export default function manage(state=initialState,actions){
             return {...state,departmentInfo:actions.departmentInfo};
         case GET_ORGANIZE_CHART:
             return {...state,organize:actions.organize};
+        case ADD_MECHANISM:
+            return {...state,mechanismInfo:actions.mechanismInfo};
+        case DELETE_MECHANISM:
+            return {...state,mechanismInfo:actions.mechanismInfo};
+        case EDIT_MECHANISM:
+            return {...state,mechanismInfo:actions.mechanismInfo};          
         case CREDITINVESTGATION:
             return {...state,creditData:actions.creditData};
         case SEARCHCREDITINVESTGATION:
             return {...state,creditInfoData:actions.creditInfoData};
         case CREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill};
-        case IMAGEURL:
-            return {...state,imageUrl:actions.imageUrl};
-        case SHOW_IMAGE_MODAL:
-            return {...state,imageVisible:true};
-        case HIDE_IMAGE_MODAL:
-            return {...state,imageVisible:false};
-        case CANCELIMAGEURL:
-            return {...state,imageUrl:[]};                  
+        case GET_ARRANGE_DEPARTMENT:
+            return {...state,arrangeDepartment:actions.arrangeDepartment};
+        case ARRANGE_DEPARTMENT:
+            return {...state,mechanismInfo:actions.mechanismInfo};
         default:
             return state;
     }

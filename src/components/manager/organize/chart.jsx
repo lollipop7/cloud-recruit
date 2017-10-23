@@ -33,7 +33,7 @@ class OrganizeChart extends Component {
         function dd (result){
             var showlist = $("<ul id='org' style='display:none'></ul>");
             showall(result.data, showlist);
-            $("#jOrgChart").append(showlist);
+            $("#jOrgChart").empty().append(showlist);
             $("#org").jOrgChart( {
                 chartElement : '#jOrgChart',//指定在某个dom生成jorgchart
                 dragAndDrop : false //设置是否可拖动

@@ -130,7 +130,6 @@ export default class TransferPersonnelModal extends Component {
             departmentSelect,
             positionSelect,
             joblevelInput,
-            companySelect,
             eventdateInput
         } = this.refs;
         const {
@@ -163,8 +162,7 @@ export default class TransferPersonnelModal extends Component {
         const {
             mobilizeEmployee,
             rid
-        } = this.props,
-        {eventdate} = this.state;
+        } = this.props;
         const transferPersonnelData = this.getFormData();
         if(!transferPersonnelData) return;
         mobilizeEmployee({...transferPersonnelData,rid:rid})
@@ -311,7 +309,7 @@ export default class TransferPersonnelModal extends Component {
                         </div>
                         <div className="pull-right">
                             <ErrorInputComponent
-                                ref="companySelect"
+                                ref="companyInput"
                                 name="现合同公司："
                                 field="new_company"
                                 placeholder="请输入合同公司"
