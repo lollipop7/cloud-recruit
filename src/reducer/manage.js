@@ -37,6 +37,10 @@ import {
     CREDITINVESTGATION,
     SEARCHCREDITINVESTGATION,
     CREDITINVESTGATIONSTATE,
+    IMAGEURL,
+    SHOW_IMAGE_MODAL,
+    HIDE_IMAGE_MODAL,
+    CANCELIMAGEURL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -118,6 +122,8 @@ const initialState = {
     creditData:{},
     creditInfoData:{},
     isFill:false,
+    imageUrl:[],
+    imageVisible:'',
     //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,
@@ -277,7 +283,14 @@ export default function manage(state=initialState,actions){
             return {...state,creditInfoData:actions.creditInfoData};
         case CREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill};
-                      
+        case IMAGEURL:
+            return {...state,imageUrl:actions.imageUrl};
+        case SHOW_IMAGE_MODAL:
+            return {...state,imageVisible:true};
+        case HIDE_IMAGE_MODAL:
+            return {...state,imageVisible:false};
+        case CANCELIMAGEURL:
+            return {...state,imageUrl:[]};                  
         default:
             return state;
     }
