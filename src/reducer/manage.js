@@ -39,6 +39,10 @@ import {
     CREDITINVESTGATION,
     SEARCHCREDITINVESTGATION,
     CREDITINVESTGATIONSTATE,
+    IMAGEURL,
+    SHOW_IMAGE_MODAL,
+    HIDE_IMAGE_MODAL,
+    CANCELIMAGEURL,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -128,6 +132,8 @@ const initialState = {
     creditData:{},
     creditInfoData:{},
     isFill:false,
+    imageUrl:[],
+    imageVisible:'',
     //**档案管理 ------------------------------------------------*/
     archivesList:{
         isLoading: false,

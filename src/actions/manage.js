@@ -80,6 +80,12 @@ import isNumber from 'lodash/isNumber';
 
     const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
     const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
+
+    //图片地址
+    const IMAGEURL = {type:types.IMAGEURL};
+    const SHOW_IMAGE_MODAL = {type:types.SHOW_IMAGE_MODAL};
+    const HIDE_IMAGE_MODAL = {type:types.HIDE_IMAGE_MODAL};
+    const CANCELIMAGEURL = {type:types.CANCELIMAGEURL};
     
 
     //获取员工管理人员统计信息
@@ -382,6 +388,55 @@ import isNumber from 'lodash/isNumber';
             console.log(err);
         })
     }
+    //预览材料附件
+    export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
+        const token = store.get('token');
+        const fileArr = arr;
+        const urlArr = [];
+        for(let i=0;i<fileArr.length;i++){
+            axios({
+            url:`${prefixUri}/view_uploadAttachment`,
+            method:'get',
+            params:{
+                token:token.token,
+                tokenKey:token.tokenKey,
+                fileName:fileArr[i]
+            }
+            }).then(res=>{
+                urlArr.push(res.request.responseURL)
+                if(fileArr.length==urlArr.length){
+                    dispatch({...IMAGEURL,imageUrl:urlArr});
+                    showImageModal()
+                }   
+            }).catch(error=>{
+                console.log(error);
+            });
+        }    
+    }
+    //显示图片预览Modal
+    export const showImageModal = (data) => (dispatch,getState) => {
+        dispatch({...SHOW_IMAGE_MODAL})
+    }
+    export const hideImageModal = () => (dispatch,getState) => {
+        dispatch({...HIDE_IMAGE_MODAL})
+    }
+    //清空图片地址
+    export const cancelImageUrl = () => (dispatch,getState) => {
+        dispatch({...CANCELIMAGEURL})
+    }
+    //下载材料附件
+    export const downloadUploadAttachment = (name) => (dispatch,getState) => {
+        const token = store.get('token');
+        axios.post(`${prefixUri}/download_uploadAttachment`,{
+                token:token.token,
+                tokenKey:token.tokenKey,
+                fileName:name   
+        }).then(res=>{
+            console.log(res)
+        }).catch(error=>{
+            console.log(error);
+        });
+    }
     //删除材料附件
     export const DeleteMaterial = (data) => (dispatch,getState) => {
         AjaxByToken('emp/dataDel_employees', {
@@ -422,7 +477,8 @@ import isNumber from 'lodash/isNumber';
             data: data
         })
         .then(res=>{
-            console.log(res)
+            //console.log(res)
+            NProgress.done();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
             showcredit()
         },err=>{
@@ -842,6 +898,7 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
 
 //  组织架构-删除机构
 export const deleteMechnism = (data={}) => (dispatch,getState) => {
+    
     dispatch({...DELETE_MECHANISM,mechanismInfo:''});
     AjaxByToken('structure/del_structure_department',{
         head: {

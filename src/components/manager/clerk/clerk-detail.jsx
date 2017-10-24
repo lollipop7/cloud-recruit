@@ -64,6 +64,7 @@ class ClerkDetail extends Component {
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
+        //console.log(queryEmployeeList)
         return (
             <div className="right-panel clerk-detail-container">
                 <ControlComponent/>

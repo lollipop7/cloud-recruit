@@ -97,7 +97,7 @@ export default class PlusAttachmentModal extends Component {
         }
         const {filePath} = response,
             fileNameJson = `{${name}:${filePath}}`;
-           // UploadMaterial({type:type+'',fileNameJson,rid});
+            UploadMaterial({type:type+'',fileNameJson,rid});
         //身份证反面上传
         if(fileListOpposite.length != 0){
             const {name,response} = fileListOpposite[0];
@@ -106,7 +106,7 @@ export default class PlusAttachmentModal extends Component {
             }
             const {filePath} = response,
                 fileNameJson = `{${name}:${filePath}}`;
-                //UploadMaterial({type:type+'',fileNameJson,rid});
+                UploadMaterial({type:type+'',fileNameJson,rid});
         }
     }
     //隐藏Modal
@@ -159,20 +159,21 @@ export default class PlusAttachmentModal extends Component {
                                 onChange={this.onFileChange}
                                 onRemove={this.onFileRemove}
                             >
-                                    <Icon type="plus-circle-o"
-                                        style={{ 
-                                            fontSize: 45, 
-                                            color: '#d2d2d2',
-                                        }}
-                                    />
-                                    <p>{name}正面</p>
+                                
+                                <Icon type="plus-circle-o"
+                                    style={{ 
+                                        fontSize: 45, 
+                                        color: '#d2d2d2',
+                                    }}
+                                />
+                                <p>{name}正面</p>      
                             </Dragger>
                             {error &&
                                 <span className="error-text">
                                     {errorMsg}
-                                </span>
-                            }  
+                                </span>}
                         </div>
+                           
                         <div className="add-attactment">
                             <Dragger
                                 name='uploadify'

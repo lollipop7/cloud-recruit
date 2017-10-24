@@ -74,6 +74,16 @@ export const QUERY_EMPLOYEE_LIST = 'QUERY_EMPLOYEE_LIST';
  export const SEARCHCREDITINVESTGATION = 'SEARCHCREDITINVESTGATION';
  export const CREDITINVESTGATIONSTATE = 'CREDITINVESTGATIONSTATE';
 
+
+ //图片地址
+ export const IMAGEURL = 'IMAGEURL';
+ //清空图片地址
+ export const CANCELIMAGEURL = 'CANCELIMAGEURL';
+
+ //显示隐藏预览图片Modal
+ export const SHOW_IMAGE_MODAL = 'SHOW_IMAGE_MODAL';
+ export const HIDE_IMAGE_MODAL = 'HIDE_IMAGE_MODAL';
+ 
  /**
  * ===档案管理===
  */

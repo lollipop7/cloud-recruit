@@ -18,7 +18,6 @@ class OrganizeChart extends Component {
   componentDidMount(){
     // 获取数据
     this.props.getOrganizeChart();
-    
   }
   componentShouldUpdate(){
     return nextProps !== this.props || nextState !== this.state
@@ -32,9 +31,10 @@ class OrganizeChart extends Component {
         }
         function dd (result){
             var showlist = $("<ul id='org' style='display:none'></ul>");
+            console.log(result.data)
             showall(result.data, showlist);
             $("#jOrgChart").empty().append(showlist);
-            $("#org").jOrgChart( {
+            $("#org").jOrgChart({
                 chartElement : '#jOrgChart',//指定在某个dom生成jorgchart
                 dragAndDrop : false //设置是否可拖动
             });
@@ -43,16 +43,31 @@ class OrganizeChart extends Component {
         function showall(menu_list, parent) {
             $.each(menu_list, function(index, val) {
                 if(val.childrens && val.childrens.length > 0){
-    
                     var li = $("<li></li>");
-                    li.append("<a href='javascript:void(0)' onclick=getOrgId("+val.id+");>"+val.name+"</a>").append("<ul></ul>").appendTo(parent);
-                    //递归显示
-                    showall(val.childrens, $(li).children().eq(1));
+                    if(val.type == '4'){
+                        li.append("<a href='javascript:void(0)' class='myOnly' >"+val.name+"</a>").append("<ul></ul>").appendTo(parent);
+                        //递归显示
+                        showall(val.childrens, $(li).children().eq(1));
+                    }else if(val.type == undefined){
+                        li.append("<a href='javascript:void(0)' class='first'>"+val.name+"</a>").append("<ul></ul>").appendTo(parent);
+                        //递归显示
+                        showall(val.childrens, $(li).children().eq(1));
+                    }else{
+                        li.append("<a href='javascript:void(0)' >"+val.name+"</a>").append("<ul></ul>").appendTo(parent);
+                        //递归显示
+                        showall(val.childrens, $(li).children().eq(1));
+                    }
                 }else{
-                    $("<li></li>").append("<a href='javascript:void(0)' onclick=getOrgId("+val.id+");>"+val.name+"</a>").appendTo(parent);
+                    if(val.type == '4'){
+                        $("<li></li>").append("<a href='javascript:void(0)' class='myOnly' >"+val.name+"</a>").appendTo(parent);
+                    }else{
+                        $("<li></li>").append("<a href='javascript:void(0)' >"+val.name+"</a>").appendTo(parent);
+                    }
                 }
             });
         }
+        $('.myOnly').parent('div').addClass('blue');
+        $('.first').parent('div').addClass('first-name');
         this.setState({isLoading:false})
     }
 }
@@ -61,20 +76,7 @@ render() {
     const { isLoading } = this.state;
     return (
         <div id='jOrgChart'>
-            {isLoading &&
-                <div style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    zIndex: 1
-                }}>
-                    <LoadingComponent style={{
-                        position: 'absolute',
-                        width: '100%',
-                        backgroundColor: '#FFF'
-                    }} />
-                </div>
-            }
+            
         </div>
     );
   }
