@@ -134,7 +134,7 @@ const initialState = {
     creditData:{},
     creditInfoData:{},
     isFill:false,
-    imageUrl:'',
+    imageUrl:[],
     imageVisible:'',
     //**档案管理 ------------------------------------------------*/
     archivesList:{
@@ -251,7 +251,7 @@ export default function manage(state=initialState,actions){
         case CANCELPROGRESS:
             return {...state,progressVisible:false};
         case SHOW_IMAGE_MODAL:
-            return {...state,imageVisible:true};
+            return {...state,imageVisible:true,imageUrl:actions.imageUrl};
         case HIDE_IMAGE_MODAL:
             return {...state,imageVisible:false};
         case IMAGEURL:

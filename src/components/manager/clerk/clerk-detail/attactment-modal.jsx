@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import store from 'store';
 import { Modal, Button, Upload, notification, Icon } from 'antd';
 const Dragger = Upload.Dragger;
 
@@ -8,9 +9,14 @@ export default class PlusAttachmentModal extends Component {
         fileList: [],
         error: false,
         errorMsg: '',
-        fileListOpposite: []
+        fileListOpposite: [],
+        tokenKey:'',
+        token:''
     }
-
+    componentDidMount(){
+        const {token,tokenKey} = store.get('token') || {};
+        this.setState({tokenKey, token})
+    }
     // shouldComponentUpdate(nextProps,nextState) {
     //     return nextProps !== this.props || nextState!==nextState;
     // }
@@ -108,6 +114,7 @@ export default class PlusAttachmentModal extends Component {
                 fileNameJson = `{${name}:${filePath}}`;
                 UploadMaterial({type:type+'',fileNameJson,rid});
         }
+        this.hideAttachmentModal()
     }
     //隐藏Modal
     hideAttachmentModal = () => {
@@ -137,7 +144,9 @@ export default class PlusAttachmentModal extends Component {
             fileList,
             error,
             errorMsg,
-            fileListOpposite
+            fileListOpposite,
+            tokenKey,
+            token
         } = this.state;
       return (
         <Modal
@@ -159,14 +168,20 @@ export default class PlusAttachmentModal extends Component {
                                 onChange={this.onFileChange}
                                 onRemove={this.onFileRemove}
                             >
-                                
-                                <Icon type="plus-circle-o"
-                                    style={{ 
-                                        fontSize: 45, 
-                                        color: '#d2d2d2',
-                                    }}
-                                />
-                                <p>{name}正面</p>      
+                            {
+                                fileList.length==0?
+                                    <div>
+                                        <Icon type="plus-circle-o"
+                                            style={{ 
+                                                fontSize: 45, 
+                                                color: '#d2d2d2',
+                                            }}
+                                        />
+                                        <p>{name}正面</p>
+                                    </div>
+                                :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`} /> 
+                            }
+                                     
                             </Dragger>
                             {error &&
                                 <span className="error-text">
@@ -184,13 +199,19 @@ export default class PlusAttachmentModal extends Component {
                                 onChange={this.onFileChangeOpposite}
                                 onRemove={this.onFileRemoveOpposite}
                             >
-                                    <Icon type="plus-circle-o"
-                                        style={{ 
-                                            fontSize: 45, 
-                                            color: '#d2d2d2',
-                                        }}
-                                    />
-                                    <p>{name}反面</p>
+                            {
+                                fileListOpposite.length==0?
+                                    <div>
+                                        <Icon type="plus-circle-o"
+                                            style={{ 
+                                                fontSize: 45, 
+                                                color: '#d2d2d2',
+                                            }}
+                                        />
+                                        <p>{name}反面</p>
+                                    </div>
+                                :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileListOpposite && fileListOpposite[0].response && fileListOpposite[0].response.filePath}`} /> 
+                            }
                             </Dragger>
                         </div>
                     </div>
@@ -204,13 +225,19 @@ export default class PlusAttachmentModal extends Component {
                             onChange={this.onFileChange}
                             onRemove={this.onFileRemove}
                         >
-                                <Icon type="plus-circle-o"
-                                    style={{ 
-                                        fontSize: 45, 
-                                        color: '#d2d2d2',
-                                    }}
-                                />
-                                <p>{name}</p>
+                        {
+                            fileList.length==0?
+                                <div>
+                                    <Icon type="plus-circle-o"
+                                        style={{ 
+                                            fontSize: 45, 
+                                            color: '#d2d2d2',
+                                        }}
+                                    />
+                                    <p>{name}</p>
+                                </div>
+                            :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`} /> 
+                        }
                         </Dragger>
                     </div>
                 }

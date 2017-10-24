@@ -414,27 +414,13 @@ import isNumber from 'lodash/isNumber';
     //     }    
     // }
 
-    export const viewUploadAttachment = (fileName,showImageModal) => (dispatch,getState) => {
-            const token = store.get('token');
-            axios({
-            url:`${prefixUri}/view_uploadAttachment`,
-            method:'get',
-            params:{
-                token:token.token,
-                tokenKey:token.tokenKey,
-                fileName:fileName
-            }
-            }).then(res=>{
-                console.log(res)
-                    dispatch({...IMAGEURL,imageUrl:res.request.responseURL});
-                    showImageModal()
-            }).catch(error=>{
-                console.log(error);
-            });    
+    export const viewUploadAttachment = (data) => (dispatch,getState) => {
+                    dispatch({...IMAGEURL,imageUrl:data});   
     }
     //显示图片预览Modal
-    export const showImageModal = (data) => (dispatch,getState) => {
+    export const showImageModal = (data,viewUploadAttachment) => (dispatch,getState) => {
         dispatch({...SHOW_IMAGE_MODAL})
+        viewUploadAttachment(data)
     }
     export const hideImageModal = () => (dispatch,getState) => {
         dispatch({...HIDE_IMAGE_MODAL})
@@ -457,7 +443,7 @@ import isNumber from 'lodash/isNumber';
         });
     }
     //删除材料附件
-    export const DeleteMaterial = (data) => (dispatch,getState) => {
+    export const DeleteMaterial = (data,queryEmployee,value) => (dispatch,getState) => {
         AjaxByToken('emp/dataDel_employees', {
             head: {
                 transcode: 'L0055'
@@ -469,6 +455,7 @@ import isNumber from 'lodash/isNumber';
                 message: '提示',
                 description: '材料附件删除成功！'
             });
+            queryEmployee({rid:value.rid+''})
         },err=>{
             console.log(err);
         })
