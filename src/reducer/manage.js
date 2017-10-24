@@ -45,6 +45,7 @@ import {
     SHOW_IMAGE_MODAL,
     HIDE_IMAGE_MODAL,
     CANCELIMAGEURL,
+    HIDECREDITINVESTGATIONSTATE,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -321,6 +322,9 @@ export default function manage(state=initialState,actions){
             return {...state,creditInfoData:actions.creditInfoData};
         case CREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill};
+        case HIDECREDITINVESTGATIONSTATE:
+            return {...state,isFill:actions.isFill};
+            SEARCHCREDITINVESTGATION
         case GET_ARRANGE_DEPARTMENT:
             return {...state,arrangeDepartment:actions.arrangeDepartment};
         case ARRANGE_DEPARTMENT:

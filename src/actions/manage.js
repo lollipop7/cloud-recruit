@@ -82,6 +82,7 @@ import isNumber from 'lodash/isNumber';
     const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
+    const HIDECREDITINVESTGATIONSTATE = {type:types.HIDECREDITINVESTGATIONSTATE}
 
     const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
     const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
@@ -521,7 +522,9 @@ import isNumber from 'lodash/isNumber';
             console.log(err);
         })
     }
-    
+    export const hidecredit = () => (dispatch,getState) => {
+        dispatch({...HIDECREDITINVESTGATIONSTATE,isFill:false})
+    }
     export const showcredit = () => (dispatch,getState) => {
         dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
     }

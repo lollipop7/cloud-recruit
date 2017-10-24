@@ -62,7 +62,8 @@ class ClerkDetail extends Component {
              departureEmployees,
              operationList,
              creditData,
-             getOperationList
+             getOperationList,
+             hidecredit
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
@@ -70,6 +71,7 @@ class ClerkDetail extends Component {
             <div className="right-panel clerk-detail-container">
                 <ControlComponent 
                     queryResetForm={queryResetForm}
+                    hidecredit={hidecredit}
                 />
                 <HeaderInfoComponent 
                     rid={rid}
@@ -146,7 +148,8 @@ const mapDispatchToProps = dispatch => ({
     getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
     getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
     departureEmployees:bindActionCreators(Actions.ManageActions.departureEmployees,dispatch),
-    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch)
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch),
+    hidecredit:bindActionCreators(Actions.ManageActions.hidecredit, dispatch)
 })
 
 export default connect(

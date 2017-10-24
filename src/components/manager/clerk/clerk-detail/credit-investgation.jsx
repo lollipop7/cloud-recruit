@@ -33,7 +33,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch)
+    showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch),
+    
 })
 
 export default connect(
