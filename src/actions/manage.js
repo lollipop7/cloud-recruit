@@ -806,6 +806,7 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
 
 //  组织架构-删除机构
 export const deleteMechnism = (data={}) => (dispatch,getState) => {
+    
     dispatch({...DELETE_MECHANISM,mechanismInfo:''});
     AjaxByToken('structure/del_structure_department',{
         head: {

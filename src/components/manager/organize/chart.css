@@ -4,7 +4,7 @@ a {
     font-size: 12px;
 }
 .jOrgChart .node {
-    width: 80px;
+    /* width: 80px; */
     height: 30px;
     line-height: 30px;
     border-radius: 4px;
@@ -29,3 +29,33 @@ a {
     height: 20px;
     width: 2px;
 }
+/* =========================== */
+.blue {
+    background-color: #61b3e3 !important;
+    border: 1px solid #61b3e3 !important;
+}
+.myOnly {
+    color: white;
+}
+.first {
+    font-size: 18px;
+    color: white;
+}
+.first-name {
+    background-color: #ff8a64 !important;
+    border: 1px solid #ff8a64 !important;
+}
+/* .jOrgChart .node {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    margin: 2px 8px;
+    background-color: #61b3e3;
+    border: 1px solid #d2d2d2;
+}
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+} */
