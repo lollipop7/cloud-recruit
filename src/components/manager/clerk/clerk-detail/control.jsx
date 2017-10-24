@@ -23,7 +23,7 @@ export default class ControlComponent extends Component {
                         onClick={ this.handleClick}
                     >&lt;&nbsp;返回</Button>
                 </div>
-                <div className="ctr-btns pull-right">
+                {/* <div className="ctr-btns pull-right">
                     <div className="inline-block hint">
                         {
                             round && <div className="round"></div>
@@ -36,7 +36,7 @@ export default class ControlComponent extends Component {
                     <div className="inline-block print"> 
                         <img src="static/images/manager/clerk/print.png" alt="打印"/>
                     </div>
-                </div>
+                </div> */}
                 <div className="clearfix"></div>
             </div>
         );

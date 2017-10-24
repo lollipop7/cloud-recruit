@@ -77,6 +77,9 @@ import isNumber from 'lodash/isNumber';
     const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
+
+    const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
+    const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
     
 
     //获取员工管理人员统计信息
@@ -188,7 +191,7 @@ import isNumber from 'lodash/isNumber';
             responseType: 'arraybuffer'
         })
         .then(res=>{
-            var blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
             FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
             console.log(error)
@@ -431,8 +434,8 @@ import isNumber from 'lodash/isNumber';
         dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
     }
 
-    //1.56 员工简历查看
-    export const showEmployeeResumeView = (data) => (dispatch,getState) => {
+    //1.56 员工简历详细信息(根据简历id和rid)
+    export const getEmployeeResumeInfo = (data) => (dispatch,getState) => {
         dispatch(LOAD_EMPLOYEEINFO_START);
         AjaxByToken('employeeinfo/employeeResumeview', {
             head: {
@@ -444,9 +447,17 @@ import isNumber from 'lodash/isNumber';
             dispatch(LOAD_EMPLOYEEINFO_DONE);
             dispatch({...LOAD_EMPLOYEEINFO,employeeInfo:res});
         },err=>{
-            console.log(err)
             dispatch(LOAD_EMPLOYEEINFO_DONE);
         })
+    }
+
+    // 显示简历信息Modal
+    export const showResumeModal = (data) => (dispatch,getState) => {
+        dispatch({...SHOW_INFO_MODAL,uriParams:data});
+    }
+    // 隐藏简历信息Modal
+    export const hideResumeModal = () => (dispatch,getState) => {
+        dispatch(HIDE_INFO_MODAL);
     }
 
     
@@ -551,7 +562,7 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     })
 }
 
-//下载材料附件
+//1.77下载材料附件
 export const downloadMaterial = (data) => (dispatch,getState) => { 
     const token = store.get('token');
     const {rid,name} = data;
@@ -559,16 +570,15 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
         url: `${prefixUri}/archives/DOWNLOAD_RESUME_METERIAL`,
         method: 'get',
         params: {
-            token:token.token,
-            tokenKey:token.tokenKey,
-            rid:rid,
+            ...token,
+            rid,
             transcode: 'L0077'
-        }
+        },
+        responseType: 'blob'
     })
     .then(res=>{
-        const {data} = res;
-        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-        FileSaver.saveAs(blob, `${name}个人材料附件.xls`);
+        const blob = new Blob([res.data], {type: "application/zip"});
+        FileSaver.saveAs(blob, `${name}个人材料附件.zip`);
     }).catch(error=>{
         console.log(error)
     });
@@ -608,7 +618,8 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
                 }   
             }
         }else{
-            message.success('编辑信息成功！')
+            message.success('编辑信息成功')
+            NProgress.done();
         }
               
     },err=>{

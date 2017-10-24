@@ -11,11 +11,14 @@ export default class WagesSocialSecurity extends Component {
         isdisabled:true,
         eduBtnState:'none',
         eduBorderState:"1px solid transparent",
-        isEdudisabled:true
+        isEdudisabled:true,
+        wageBtnState: 'none',
+        wageBorderState: '1px solid transparent',
+        isWagedisabled:true,
     }
     //编辑信息
     editInformation = (field) => {
-        if(field=='wage'){
+        if(field=='card'){
             this.setState({
                 btnState:'block',
                 borderState:"1px solid #d9d9d9",
@@ -26,6 +29,12 @@ export default class WagesSocialSecurity extends Component {
                 eduBtnState:'block',
                 eduBorderState:"1px solid #d9d9d9",
                 isEdudisabled:false
+            })
+        }else if(field=='wage'){
+            this.setState({
+                wageBtnState:'block',
+                wageBorderState:"1px solid #d9d9d9",
+                isWagedisabled:false
             })
         }
         
@@ -52,7 +61,6 @@ export default class WagesSocialSecurity extends Component {
             })
 
         }else if (field== 'eduBtnState'){
-
             const filterObj = pickBy(this.state,(val,key)=>{
                 return key =='soci_card' || key =='fund_card' || key =='rid'
             });
@@ -66,7 +74,21 @@ export default class WagesSocialSecurity extends Component {
                 eduBorderState:"1px solid transparent",
                 isEdudisabled:false,
             })
-        }  
+        }else if (field== 'wageBtnState'){
+            const filterObj = pickBy(this.state,(val,key)=>{
+                return key =='salaryBasic' || key =='salarySubsidies' || key =='salaryPer'
+            });
+            const filterObjWage = pickBy(filterObj,(val,key)=>{
+                return val !=undefined;
+                });
+                
+            this.props.editEmployeeInformation({...filterObjWage})
+            this.setState({
+                wageBtnState:'none',
+                wageBorderState:"1px solid transparent",
+                isWagedisabled:false,
+            })
+        }    
     }
     componentDidMount(){
         const rid = this.props.data.rid+'';
@@ -80,6 +102,9 @@ export default class WagesSocialSecurity extends Component {
                 wageCity,               //工资卡开户城市
                 sociCard,               //社保账号
                 fundCard,               //公积金账号
+                salaryBasic,            //基本工资
+                salarySubsidies,        //补贴
+                salaryPer,              //绩效工资
                 rid
             } = this.props.data; 
             this.setState({
@@ -88,7 +113,9 @@ export default class WagesSocialSecurity extends Component {
                 wage_city:wageCity,               //工资卡开户城市
                 soci_card:sociCard,               //社保账号
                 fund_card:fundCard,               //公积金账
-
+                salaryBasic,            //基本工资
+                salarySubsidies,        //补贴
+                salaryPer,              //绩效工资
                 rid:rid+''
             })
         })
@@ -101,19 +128,23 @@ export default class WagesSocialSecurity extends Component {
             eduBtnState,
             eduBorderState,
             isEdudisabled,
-            
+            wageBtnState,
+            wageBorderState,
+            isWagedisabled,
             wage_card,               //工资卡卡号
             wage_bank,               //工资卡开户行
             wage_city,               //工资卡开户城市
             soci_card,               //社保账号
             fund_card,               //公积金账
-
-        } = this.state,
-        {
             salaryBasic,            //基本工资
             salarySubsidies,        //补贴
-            salaryPer               //绩效工资
-        } = this.props.wage;
+            salaryPer,              //绩效工资
+        } = this.state;
+        // {
+        //     salaryBasic,            //基本工资
+        //     salarySubsidies,        //补贴
+        //     salaryPer               //绩效工资
+        // } = this.props.wage;
         return (
             <div className="wages-social-security clerk-tab-container">
                 <ul>
@@ -126,7 +157,7 @@ export default class WagesSocialSecurity extends Component {
                             </h3>
                             <div className="editor-wrap inline-block">   
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
-                                <span  onClick = {this.editInformation.bind(this,'wage')}>编辑</span>
+                                <span  onClick = {this.editInformation.bind(this,'card')}>编辑</span>
                             </div>
                             <ul className="field-list inline-block" style={{marginLeft: 85}}>
                                 <li>
@@ -233,27 +264,60 @@ export default class WagesSocialSecurity extends Component {
                             <h3 className="title">
                                 薪资状况
                             </h3>
+                            <div className="editor-wrap inline-block">   
+                                <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
+                                <span onClick = {this.editInformation.bind(this,'wage')}>编辑</span>
+                            </div>
                             <ul className="field-list inline-block" style={{marginLeft: 90}}>
                                 <li>
                                     <span>基本工资 : </span>
                                     <span>
-                                        {salaryBasic}</span>
+                                        <Input
+                                            style={{border:wageBorderState}}
+                                            value={salaryBasic}
+                                            disabled={isWagedisabled}
+                                            onChange={this.handleSelectChange.bind(this,'salaryBasic')}
+                                        />
+                                    </span>
                                 </li>
                                 <li>
                                     <span>补贴 : </span>
-                                    <span>{salarySubsidies}</span>
+                                    <span>
+                                        <Input
+                                            style={{border:wageBorderState}}
+                                            value={salarySubsidies}
+                                            disabled={isWagedisabled}
+                                            onChange={this.handleSelectChange.bind(this,'salarySubsidies')}
+                                        />
+                                    </span>
                                 </li>
                             </ul>  
                             <ul className="field-list inline-block">
                                 <li>
                                     <span>绩效工资 : </span>
-                                    <span>{salaryPer}</span>
+                                    <span>
+                                        <Input
+                                            style={{border:wageBorderState}}
+                                            value={salaryPer}
+                                            disabled={isWagedisabled}
+                                            onChange={this.handleSelectChange.bind(this,'salaryPer')}
+                                        />
+                                    </span>
                                 </li>
                                 <li>
                                     <span>&nbsp;</span>
                                     <span>&nbsp;</span>
                                 </li>
                             </ul>
+                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                                <Button 
+                                    type='primary' 
+                                    style={{display:wageBtnState}}
+                                    onClick={this.saveInfomation.bind(this,'wageBtnState')}
+                                    >
+                                    保存
+                                </Button>
+                            </div>
                         </div>
                     </li>
                 </ul>

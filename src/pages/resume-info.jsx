@@ -4,7 +4,6 @@ import { Icon , Tooltip} from 'antd';
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header-info';
-import ClerkHeaderInfoComponent from 'components/job/recruit-info/clerk-header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content'; 
 
 import ModalComponents from 'components/resume-info/modal';

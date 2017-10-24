@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select, Cascader, Button, Icon, notification, Modal } from 'antd';
+import { Input, Select, Cascader, Button, Icon, notification } from 'antd';
 const Option = Select.Option;
 
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
+import includes from 'lodash/includes';
 import moment from 'moment';
 // redux
 import {bindActionCreators} from 'redux';
@@ -19,7 +20,6 @@ import {ErrorInputComponent,SelectComponent,DatePickerComponent} from './input-s
 class NewClerkForm extends Component {
 
     state = {
-        visible: false,
         treeList: [],
         name: '',                   //姓名
         englishname: '',            //英文名
@@ -44,17 +44,6 @@ class NewClerkForm extends Component {
         contactphone: '',           //紧急联系人电话
     }
 
-    handleOk = (e) => {
-        this.setState({
-            visible: false,
-        });
-    }
-    handleCancel = (e) => {
-        this.setState({
-            visible: false,
-        });
-    }
-
     componentDidMount() {
         NProgress.done();
         const {
@@ -72,14 +61,14 @@ class NewClerkForm extends Component {
         window.history.back(-1)
     }
 
-    handleChange = (filed, e) => {
+    handleChange = (field, e) => {
         if (typeof e === 'string' || typeof e === 'undefined') {
             this.setState({
-                [filed]: e
+                [field]: e
             });
         } else {
             this.setState({
-                [filed]: e.target.value
+                [field]: e.target.value
             });
         }
     }
@@ -97,11 +86,122 @@ class NewClerkForm extends Component {
         });
     }
 
-    handleMobileChange = (field,e) => {
-        const pattern = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;  
+    isMobile = (value) => {
+        const pattern = /^13[\d]{9}$|^14[5,6,7,8,9]{1}\d{8}$|^15[^4]{1}\d{8}$|^16[6]{1}\d{8}$|^17[0,1,2,3,4,5,6,7,8]{1}\d{8}$|^18[\d]{9}$|^19[8,9]{1}\d{8}$/;  
+        return pattern.test(value);
+    }
+
+    // handleMobileBlur = (field, value) => {
+    //     const { mobileInput } = this.refs;
+    //     if(this.isMobile(value)){
+    //         this.setState({
+    //             [field]: value
+    //         });
+    //     }else {
+    //         mobileInput.refs.input.focus();
+    //         notification.error({
+    //             message: '错误',
+    //             description: '手机号格式错误'
+    //         });
+    //     }
+    // }
+
+    isEmail = (value) => {
+        const pattern = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        return pattern.test(value);
+    }
+
+    // handleMailBlur = (field, value) => {
+    //     if(this.isEmail(value)){
+    //         this.setState({
+    //             [field]: value
+    //         });
+    //     }else {
+    //         notification.error({
+    //             message: '错误',
+    //             description: '邮箱格式错误'
+    //         });
+    //     }
+    // }
+
+    handleCardChange = (field,e) => {
+        const pattern = /[^(\d|x|X)]/ig;
         this.setState({
             [field]: e.target.value.replace(pattern,'')
         });
+    }
+    
+    // 验证身份证号码格式是否正确
+    // 仅支持二代身份证
+    // @author chiopin
+    // @param string $idcard 身份证号码
+    // @return boolean
+    
+    isIdCard = (idcard) => {
+        // 只能是18位
+        if(idcard.length!=18){
+            return false;
+        }
+        
+        const vCity = new Array(
+        '11','12','13','14','15','21','22',
+        '23','31','32','33','34','35','36',
+        '37','41','42','43','44','45','46',
+        '50','51','52','53','54','61','62',
+        '63','64','65','71','81','82','91'
+        );
+        
+        const pattern = /^([\d]{17}[xX\d]|[\d]{15})$/;
+        
+        if (!(pattern.test(idcard))) return false;
+        
+        if (!includes(vCity, idcard.substr(0, 2))) return false;
+        
+        // 取出本体码
+        const idcard_base = idcard.substr(0, 17);
+        
+        // 取出校验码
+        const verify_code = idcard.substr(17, 1);
+        
+        // 加权因子
+        const factor = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+        
+        // 校验码对应值
+        const verify_code_list = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+        
+        // 根据前17位计算校验码
+        let total = 0;
+        for(let i=0; i<17; i++){
+            total += idcard_base.substr(i, 1)*factor[i];
+        }
+        
+        // 取模
+        const mod = total % 11;
+        
+        // 比较校验码
+        if(verify_code == verify_code_list[mod]){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    handleIdCardBlur = (field, value) => {
+        const {documenttype} = this.state;
+        if(documenttype == '身份证件'){
+            const { cardInput } = this.refs;
+            if(this.isIdCard(value)){
+                this.setState({
+                    [field]: value
+                });
+            }else {
+                cardInput.refs.input.focus();
+                notification.error({
+                    message: '错误',
+                    description: '身份证格式错误'
+                });
+            }
+        }
     }
 
     onTimeChange=(field,value)=> {
@@ -156,6 +256,9 @@ class NewClerkForm extends Component {
             workstatusSelect,
             thelengSelect,
             contractnameInput,
+            workemailInput,
+            cemailInput,
+            contactphoneInput
         } = this.refs;
         if(name==''){
             nameInput.refs.input.focus();
@@ -190,18 +293,105 @@ class NewClerkForm extends Component {
             cardInput.triggerError(true);
             return false;
         }
+        //校验手机号
+        if(!this.isMobile(mobile)){
+            mobileInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '手机号格式错误'
+            });
+            return false;
+        }
+        //校验个人邮箱
+        if(workemail !='' && !this.isEmail(workemail)){
+            workemailInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '邮箱格式错误'
+            });
+            return false;
+        }
+        //校验证件号码
+        if(documenttype == '身份证件' && !this.isIdCard(card)){
+            cardInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '身份证格式错误'
+            });
+            return false;
+        }
+        //校验企业邮箱
+        if(cemail !='' && !this.isEmail(cemail)){
+            cemailInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '邮箱格式错误'
+            });
+            return false;
+        }
+        //校验工作电话
+        if(workphone !='' && !this.isMobile(workphone)){
+            workphoneInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '电话格式错误'
+            });
+            return false;
+        }
+        //校验紧急联系人电话
+        if(contactphone !='' && !this.isMobile(contactphone)){
+            contactphoneInput.refs.input.focus();
+            notification.error({
+                message: '错误',
+                description: '电话格式错误'
+            });
+            return false;
+        }
+        
         const filterObj = pickBy(this.state,(item,key) => {
             return key != 'treeList' || key != 'visible';
         });
         const formatTime = moment(inthetime).format('YYYY-MM-DD'); 
-        return {...filterObj,inthetime: formatTime} 
+        const formatWorkstatus = workstatus == '正式' ? "1" : '0';
+
+        return {...filterObj,inthetime: formatTime,workstatus:formatWorkstatus} 
+    }
+    
+    resetForm = () => {
+        this.setState({
+            treeList: [],
+            name: '',                   //姓名
+            englishname: '',            //英文名
+            worknumber: '',             //工号
+            sex: undefined,             //性别
+            mobile: '',                 //手机号
+            workemail: '',              //个人邮箱
+            documenttype: undefined,    //证件类型
+            card: '',                   //证件号码
+            worknature: undefined,      //工作性质
+            inthetime: null,            //入职日期
+            workstatus: undefined,      //工作状态
+            theleng: undefined,         //试用期时长
+            contractname: '',           //合同公司
+            workcity: undefined,        //工作地点
+            department: undefined,      //部门
+            departmentid:'',            //原部门id
+            position: '',               //职位
+            workphone: '',              //工作电话
+            cemail: '',                 //企业邮箱
+            contactname: '',            //紧急联系人
+            contactphone: '',           //紧急联系人电话
+        });
+        this.handleCityChange([]);
     }
 
     saveEmployeeInfo = () => {
+        NProgress.start();
         const newClerkFormData = this.getFormData();
         const {editEmployeeInformation} = this.props;
         if(!newClerkFormData) return;
-        editEmployeeInformation({...newClerkFormData}) 
+        editEmployeeInformation({...newClerkFormData});
+        this.resetForm();
     }
 
     render() {
@@ -317,7 +507,7 @@ class NewClerkForm extends Component {
                                 field="card"
                                 placeholder="请输入证件号码"
                                 value={card}
-                                onChange={this.handleChange}
+                                onChange={this.handleCardChange}
                                 asterisk={true}
                             />
                         </li>
@@ -325,7 +515,7 @@ class NewClerkForm extends Component {
                             <SelectComponent
                                 ref="worknatureSelect"
                                 name="工作性质："
-                                data={[ "兼职","全职"]}
+                                data={["兼职","全职"]}
                                 dropdownMatchSelectWidth={false}
                                 value={worknature}
                                 field="worknature"
@@ -408,7 +598,7 @@ class NewClerkForm extends Component {
                                 placeholder="请选择部门"
                                 onChange={this.handleChange}
                             />
-                                <Icon type="plus-circle-o" 
+                                {/* <Icon type="plus-circle-o" 
                                       style={{
                                         position: "absolute",
                                         left: 510,
@@ -417,7 +607,7 @@ class NewClerkForm extends Component {
                                         fontSize: 16,
                                       }} 
                                       onClick={this.showAddModal}
-                                />   
+                                />    */}
                             <ErrorInputComponent
                                 ref="positionInput"
                                 name="岗位："
@@ -465,19 +655,8 @@ class NewClerkForm extends Component {
                         </li>
                     </ul>
                 </div>
-                {/* 添加部门弹出框 */}
-                <Modal
-                    title="Basic Modal"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                </Modal>
                 <div className="consequense-field">
-                    <Button>取消</Button>
+                    <Button onClick={this.props.resetForm}>取消</Button>
                     <Button type="primary" onClick={this.saveEmployeeInfo}>保存</Button>
                 </div>
             </div>

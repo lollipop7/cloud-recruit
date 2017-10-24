@@ -32,6 +32,8 @@ import {
     LOAD_EMPLOYEEINFO_START,
     LOAD_EMPLOYEEINFO_DONE,
     LOAD_EMPLOYEEINFO,
+    SHOW_INFO_MODAL,
+    HIDE_INFO_MODAL,
     CREDITINVESTGATION_START,
     CREDITINVESTGATION_DONE,
     CREDITINVESTGATION,
@@ -119,7 +121,10 @@ const initialState = {
         count: 0,
         list: []
     },
+    isInfoLoading:false,
     employeeInfo: {},
+    visible:false,
+    uriParams: {},
     creditData:{},
     creditInfoData:{},
     isFill:false,
@@ -231,7 +236,11 @@ export default function manage(state=initialState,actions){
         case LOAD_EMPLOYEEINFO_DONE:
             return {...state,isInfoLoading:false};   
         case LOAD_EMPLOYEEINFO:
-            return {...state,employeeInfo:actions.employeeInfo};                                       
+            return {...state,employeeInfo:actions.employeeInfo};
+        case SHOW_INFO_MODAL:
+            return {...state,visible: true,uriParams:actions.uriParams};
+        case HIDE_INFO_MODAL:
+            return {...state,visible: false};                                       
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:

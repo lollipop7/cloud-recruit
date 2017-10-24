@@ -8,8 +8,7 @@ import MainContent from './clerk-detail/main-content';
 import DismissionModal from './clerk-detail/dismission-modal'; 
 import PermanentModal from './clerk-detail/permanent-modal'; 
 import TransferPersonnelModal from './clerk-detail/transfer-personnel-modal'; 
-// 招聘人员详细信息Modal页面
-import ResumeModalComponent from 'components/resume-modal';
+import EmployeeModalComponent from './clerk-detail/employee-modal'; 
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -54,7 +53,6 @@ class ClerkDetail extends Component {
              showTransferPersonnelModal,
              hideTransferPersonnelModal,
              editEmployeeInformation,
-             showEmployeeResumeView,
              showResumeModal,
              mobilizeEmployee,
              positiveEmployees,
@@ -79,7 +77,6 @@ class ClerkDetail extends Component {
                     showDismissionModal={showDismissionModal}
                     showPermanentModal={showPermanentModal}
                     showTransferPersonnelModal={showTransferPersonnelModal}
-                    showEmployeeResumeView={showEmployeeResumeView}
                     showResumeModal={showResumeModal}
                 />
                 <MainContent data={list} {...this.props}/>
@@ -105,9 +102,7 @@ class ClerkDetail extends Component {
                     departmentList={departmentList}
                     getTreeList={getTreeList}
                 />
-                <ResumeModalComponent 
-                    onChange={this.oncChange}
-                />
+                <EmployeeModalComponent/>
             </div>
         );
      }
@@ -134,10 +129,10 @@ const mapDispatchToProps = dispatch => ({
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
-    showEmployeeResumeView: bindActionCreators(Actions.ManageActions.showEmployeeResumeView, dispatch),
+    getEmployeeResumeInfo: bindActionCreators(Actions.ManageActions.getEmployeeResumeInfo, dispatch),
     mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     positiveEmployees: bindActionCreators(Actions.ManageActions.positiveEmployees, dispatch),
-    showResumeModal: bindActionCreators(Actions.RecruitActions.showResumeModal, dispatch),
+    showResumeModal: bindActionCreators(Actions.ManageActions.showResumeModal, dispatch),
     UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch),
     searchCreditInvestgation: bindActionCreators(Actions.ManageActions.searchCreditInvestgation, dispatch),
     searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch),
