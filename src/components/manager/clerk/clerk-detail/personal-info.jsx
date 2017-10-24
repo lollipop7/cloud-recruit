@@ -4,6 +4,7 @@ import clerkInfo from 'data/clerk/clerk';
 
 import {Input , Button  } from 'antd';
 import pickBy from 'lodash/pickBy';
+import LoadingComponent from 'components/loading';
 
 export default class PersonalInfo extends Component {
     state = {
@@ -41,6 +42,11 @@ export default class PersonalInfo extends Component {
                 recruitment,            //是否统招
                 rid
             } = nextProps.data;
+            if(rid){
+                this.setState({
+                    isLoading:false
+                })
+            }
             this.setState({
                 name,                   //姓名
                 documenttype,           //证件类型
@@ -74,9 +80,69 @@ export default class PersonalInfo extends Component {
     }
 
     handleSelectChange  = (field,e) => {
-        this.setState({
-            [field]:e.target.value
-        })
+        const {
+                name,                   //姓名
+                documenttype,           //证件类型
+                mobile,                 //手机号
+                birthday,               //生日
+                married,                //是否已婚
+                national,               //民族
+                natives,                //籍贯
+                accounttype,            //户口类型
+                englishname,            //英文名
+                card,                   //证件号码
+                workemail,              //个人邮箱
+                sex,                    //性别
+                children,               //是否已育
+                political,              //政治面貌
+                city,                   //户籍城市
+                tolive,                 //居住地址
+                schooling,              //最高学历
+                professional,           //专业
+                degree,                 //学位
+                school,                 //毕业学校
+                schendtime,             //毕业时间
+                recruitment,            //是否统招
+            } = this.props.data;
+        if(field=='cancelBtnState'){
+            this.setState({
+                name,                   //姓名
+                documenttype,           //证件类型
+                mobile,                 //手机号
+                birthday,               //生日
+                married,                //是否已婚
+                national,               //民族
+                natives,                //籍贯
+                accounttype,            //户口类型
+                englishname,            //英文名
+                card,                   //证件号码
+                workemail,              //个人邮箱
+                sex,                    //性别
+                children,               //是否已育
+                political,              //政治面貌
+                city,                   //户籍城市
+                tolive,                 //居住地址
+                btnState:'none',
+                borderState:"1px solid transparent",
+                isdisabled:true
+            })
+        }else if(field=='cancelTimeBtnState'){
+            this.setState({
+                schooling,              //最高学历
+                professional,           //专业
+                degree,                 //学位
+                school,                 //毕业学校
+                schendtime,             //毕业时间
+                recruitment,            //是否统招
+                eduBtnState:'none',
+                eduBorderState:"1px solid transparent",
+                isEdudisabled:false,
+            })
+        }else{
+            this.setState({
+                [field]:e.target.value
+            })
+        } 
     }
     //编辑信息
     editInformation = (field) => {
@@ -154,10 +220,21 @@ export default class PersonalInfo extends Component {
             isdisabled,
             eduBtnState,
             eduBorderState,
-            isEdudisabled   
+            isEdudisabled ,
+            isLoading =true 
         } = this.state;
         return (
             <div className="personal-info clerk-tab-container" ref="PersonalInfoHeight">
+                {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: 60,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}
@@ -354,13 +431,19 @@ export default class PersonalInfo extends Component {
                                     </span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
-                                    style={{display:btnState}}
+                                    style={{display:btnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'btnState')}
                                     >
                                     保存
+                                 </Button>
+                                 <Button  
+                                    style={{display:btnState}}
+                                    onClick={this.handleSelectChange.bind(this,'cancelBtnState')}
+                                    >
+                                    取消
                                  </Button>
                             </div>
                         </div>
@@ -445,13 +528,19 @@ export default class PersonalInfo extends Component {
                                     </span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
-                                    style={{display:eduBtnState}}
+                                    style={{display:eduBtnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'eduBtnState')}
                                     >
                                     保存
+                                 </Button>
+                                 <Button  
+                                    style={{display:eduBtnState}}
+                                    onClick={this.handleSelectChange.bind(this,'cancelTimeBtnState')}
+                                    >
+                                    取消
                                  </Button>
                             </div>
                         </div>

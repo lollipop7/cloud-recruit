@@ -70,6 +70,7 @@ export default class MainContent extends Component {
                     </TabPane>
                     <TabPane tab="材料附件" key="5">
                         <MaterialAttach
+                            list={list}
                              listAll={listAll} 
                              data={resumeoff}
                              {...this.props}/>

@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 
 import {Icon , Modal} from 'antd';
-
+import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
 
 import forEach from 'lodash/forEach';
 import pickBy from 'lodash/pickBy';
 import isEmpty from 'lodash/isEmpty';
+
+import LoadingComponent from 'components/loading';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -20,15 +22,16 @@ class MaterialAttach extends Component {
         basicData: [],      //基本资料
         beforeData: [],     //档案附件
         afterData: [],      //离职资料
-        basicDataq: [],      //基本资料
-        beforeDataq: [],     //档案附件
-        afterDataq: [],      //离职资料
         rid:'',
+        tokenKey:'',
+        token:''
     }
 
     componentDidMount(){
         const rid = this.props.data.resumeoff.rid+'';
         this.props.queryEmployee({rid:rid});
+        const {token,tokenKey} = store.get('token') || {};
+        this.setState({tokenKey, token})
         
     }
 
@@ -83,19 +86,21 @@ class MaterialAttach extends Component {
     }
 
     showImageModal = (itemData) => {
-        const filenameArr =[];
-        const {showImageModal} = this.props;
-        this.props.data.list.forEach((value,index) => {
-            if(itemData.parmentType==value.type){
-                value.attachment_type.forEach((item,index)=>{
-                    if(item.typeId==itemData.type){
-                        filenameArr.push(item.filename)
-                        //this.props.viewUploadAttachment(item.filename,showImageModal)
-                    }
-                    this.props.viewUploadAttachment(filenameArr,showImageModal)  
-                })
-            }
-        })
+        console.log(itemData);
+        // const filenameArr =[];
+         const {showImageModal} = this.props;
+        // this.props.data.list.forEach((value,index) => {
+        //     if(itemData.parmentType==value.type){
+        //         value.attachment_type.forEach((item,index)=>{
+        //             if(item.typeId==itemData.type){
+        //                 filenameArr.push(item.filename)
+        //                 //this.props.viewUploadAttachment(item.filename,showImageModal)
+        //             }
+        //             this.props.viewUploadAttachment(filenameArr,showImageModal)  
+        //         })
+        //     }
+        // })
+        this.props.viewUploadAttachment(itemData,showImageModal);
         this.props.showImageModal()
     }
     hideImageModal = () =>{
@@ -109,13 +114,27 @@ class MaterialAttach extends Component {
             basicData=[],
             beforeData=[],
             afterData=[],
+            basic_data = [],
+            before_data = [],
+            after_data = [],
             rid,
+            tokenKey,
+            token,
+            isLoading
         } = this.state;
         const {imageUrl , imageVisible, showImageModal, hideImageModal} = this.props;
-        //console.log(this.props.data.list)
-        //console.log(beforeData)
         return (
             <div className="material-attach clerk-tab-container">
+                {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: 100,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}>
@@ -128,16 +147,22 @@ class MaterialAttach extends Component {
                                         <div key={name} 
                                              className="add-attactment" 
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                         >
-                                            <Icon type="plus-circle-o"
-                                                onClick={this.handleAttachmentClick.bind(this,value)}
-                                                style={{ 
-                                                    fontSize: 45, 
-                                                    color: '#d2d2d2',
-                                                }}
-                                            />
-                                            <p style={{marginBottom:10}}>{name}</p>
-                                            <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            {
+                                                value.attachment_type.length==0?
+                                                <div>
+                                                    <Icon type="plus-circle-o"
+                                                        style={{ 
+                                                            paddingTop:'30px',
+                                                            fontSize: 45, 
+                                                            color: '#d2d2d2',
+                                                        }}
+                                                    />
+                                                    <p style={{marginBottom:10}}>{name}</p>
+                                                    <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                                </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                            }
                                         </div>
                                     )
                                 })
@@ -150,22 +175,27 @@ class MaterialAttach extends Component {
                             <h3 className="title">档案附件</h3>
                             {
                                 beforeData.map((value,index) => {
-                                    const {name,isShow} = value;
+                                    const {name,isShow,type} = value;
                                     return(
                                             <div key={name} 
                                                 className="add-attactment" 
-                                                
+                                                onClick={this.handleAttachmentClick.bind(this,value)}
                                                 style={{display: isShow==1 ? 'inline-block' : 'none'}}
                                             >
-                                                <Icon type="plus-circle-o"
-                                                    onClick={this.handleAttachmentClick.bind(this,value)}
-                                                    style={{ 
-                                                        fontSize: 45, 
-                                                        color: '#d2d2d2',
-                                                    }}
-                                                />
-                                                <p style={{marginBottom:10}}>{name}</p>
-                                                <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            {
+                                                value.attachment_type.length==0?
+                                                <div>
+                                                    <Icon type="plus-circle-o"
+                                                        style={{ 
+                                                            paddingTop:'30px',
+                                                            fontSize: 45, 
+                                                            color: '#d2d2d2',
+                                                        }}
+                                                    />
+                                                    <p style={{marginBottom:10}}>{name}</p>
+                                                    <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                                </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                            }
                                             </div>
                                     )
                                 })
@@ -178,21 +208,27 @@ class MaterialAttach extends Component {
                             <h3 className="title">离职资料</h3>
                             {
                                 afterData.map((value,index) => {
-                                    const {name,isShow} = value;
+                                    const {name,isShow,type} = value;
                                     return(
                                         <div key={name} 
                                              className="add-attactment" 
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                         >
-                                            <Icon type="plus-circle-o"
-                                                onClick={this.handleAttachmentClick.bind(this,value)}
-                                                style={{ 
-                                                    fontSize: 45, 
-                                                    color: '#d2d2d2',
-                                                }}
-                                            />
-                                            <p style={{marginBottom:10}}>{name}</p>
-                                            <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                        {
+                                            value.attachment_type.length==0?
+                                            <div >
+                                                <Icon type="plus-circle-o"
+                                                    style={{ 
+                                                        paddingTop:'30px',
+                                                        fontSize: 45, 
+                                                        color: '#d2d2d2',
+                                                    }}
+                                                />
+                                                <p style={{marginBottom:10}}>{name}</p>
+                                                <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                        }
                                         </div>
                                     )
                                 })
@@ -208,7 +244,10 @@ class MaterialAttach extends Component {
                     onCancel={this.hideImageModal}
                 >
                     <div style={{width:500,height:500,margin:'0 auto'}}>
-                        {
+                        <img src={imageUrl} 
+                            style={{width:'100%',height:'100%'}}
+                        />
+                        {/* {
                             imageUrl.length==0?<span style={{fontSize:18,color:'#D4D4D4'}}>暂未上传附件</span>
                                                 :
                                                         imageUrl.map((item,index)=>{
@@ -219,7 +258,7 @@ class MaterialAttach extends Component {
                                                                     </div>
                                                                 
                                                         })
-                        } 
+                        }  */}
                     </div>  
                 </Modal>                   
             </div>

@@ -11,6 +11,15 @@ module.exports = {
         formatter: "{a} <br/>{b}: {c} ({d}%)", // 提示框浮层内容格式器
         confine: true // 是否将 tooltip 框限制在图表的区域内。
     },
+    toolbox: {
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
     color: ['#fcd165','#8edbfd','#8db7fc','#d2d2d2','#fda78e','#fd8edc','#fb8562','#fc5a2b','#89fc2b','#2bfcf0','#2b9cfc','#d72bfc'],
     legend: { // 图例组件
         orient: 'vertical',

@@ -56,6 +56,8 @@ import {
     GET_LEAVEARCHIVES_LIST,
     OPERATION_LIST_START,
     OPERATION_LIST_DONE,
+    PROGRESS,
+    CANCELPROGRESS,
     //**全员概览 ------------------------------------------------*/
     GET_EMPLOYEE_WORK,
     GET_EMPLOYEE_SEX,
@@ -135,7 +137,7 @@ const initialState = {
     creditData:{},
     creditInfoData:{},
     isFill:false,
-    imageUrl:[],
+    imageUrl:'',
     imageVisible:'',
     //**档案管理 ------------------------------------------------*/
     archivesList:{
@@ -148,6 +150,7 @@ const initialState = {
         count:0,
         list:[]
     },
+    progressVisible:false,
     departmentStaff: {},
     currentUid:'',
     departmentName:'',
@@ -249,11 +252,17 @@ export default function manage(state=initialState,actions){
         case LOAD_EMPLOYEEINFO_DONE:
             return {...state,isInfoLoading:false};   
         case LOAD_EMPLOYEEINFO:
-            return {...state,employeeInfo:actions.employeeInfo};
-        case SHOW_INFO_MODAL:
-            return {...state,visible: true,uriParams:actions.uriParams};
-        case HIDE_INFO_MODAL:
-            return {...state,visible: false};                                       
+            return {...state,employeeInfo:actions.employeeInfo}; 
+        case PROGRESS:
+            return {...state,progressVisible:true};
+        case CANCELPROGRESS:
+            return {...state,progressVisible:false};
+        case SHOW_IMAGE_MODAL:
+            return {...state,imageVisible:true};
+        case HIDE_IMAGE_MODAL:
+            return {...state,imageVisible:false};
+        case IMAGEURL:
+            return {...state,imageUrl:actions.imageUrl};                                                 
         case GET_ARCHIVES_START:
             return {...state,archivesList:{...state.archivesList,isLoading:true}};
         case GET_ARCHIVES_DONE:
