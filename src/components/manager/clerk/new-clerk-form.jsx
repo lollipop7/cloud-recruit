@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 
 import { Input, Select, Cascader, Button, Icon, notification, Modal } from 'antd';
 const Option = Select.Option;
+
+import pickBy from 'lodash/pickBy';
+import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 // redux
 import {bindActionCreators} from 'redux';
@@ -17,17 +20,36 @@ class NewClerkForm extends Component {
 
     state = {
         visible: false,
-        resultTree:[]
+        treeList: [],
+        name: '',                   //姓名
+        englishname: '',            //英文名
+        worknumber: '',             //工号
+        sex: undefined,             //性别
+        mobile: '',                 //手机号
+        workemail: '',              //个人邮箱
+        documenttype: undefined,    //证件类型
+        card: '',                   //证件号码
+        worknature: undefined,      //工作性质
+        inthetime: null,            //入职日期
+        workstatus: undefined,      //工作状态
+        theleng: undefined,         //试用期时长
+        contractname: '',           //合同公司
+        workcity: undefined,        //工作地点
+        department: undefined,      //部门
+        departmentid:'',            //原部门id
+        position: '',               //职位
+        workphone: '',              //工作电话
+        cemail: '',                 //企业邮箱
+        contactname: '',            //紧急联系人
+        contactphone: '',           //紧急联系人电话
     }
 
     handleOk = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     }
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -35,32 +57,15 @@ class NewClerkForm extends Component {
 
     componentDidMount() {
         NProgress.done();
-        this.props.getDepartMentList()
-    }
-
-    componentDidUpdate(){
-        const { departmentList:{list} } = this.props;
-        if(flag){
-            this.makeResult(list);
-        }
-    }
-
-    // 部门下拉菜单数据
-    makeResult = (ss) => {
-        let pp = []
-        function recursion(data){
-        data.forEach(function(item, index){
-            var x = item.list
-            if (x) {
-              pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
-                recursion(x);
-            } else {
-              pp.push({name:item.name, uid:item.uid, sup_id:item.supDepartmentId});
-            }
-        })
-      }
-      recursion(ss);
-      this.setState({resultTree:pp})
+        const {
+            getDepartMentList,
+            departmentList,
+            getTreeList
+        } = this.props;
+        getDepartMentList();
+        const {list} = departmentList;
+        const treeList = getTreeList(list);
+        this.setState({treeList});
     }
 
     handleClick = () => {
@@ -77,13 +82,25 @@ class NewClerkForm extends Component {
                 [filed]: e.target.value
             });
         }
-        console.log(filed)
-        console.log(e.target.value)
     }
 
     handleCityChange = (val) => {
         this.setState({
             workcity: val.length > 0 ? val[0] + '-' + val[1] : ''
+        });
+    }
+
+    handleNumChange = (field,e) => {
+        const pattern = /[^\d]/ig;
+        this.setState({
+            [field]: e.target.value.replace(pattern,'')
+        });
+    }
+
+    handleMobileChange = (field,e) => {
+        const pattern = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;  
+        this.setState({
+            [field]: e.target.value.replace(pattern,'')
         });
     }
 
@@ -93,22 +110,103 @@ class NewClerkForm extends Component {
         });
     }
 
+    disabledDate = date => {
+        if(!date){
+            return false;
+        }
+        return date.valueOf() < new Date().getTime();
+    }
+
     showAddModal = () => {
         this.setState({
             visible: true,
         });
     }
 
+    getFormData = () => {
+        const {
+            name,                   //姓名
+            englishname,            //英文名
+            worknumber,             //工号
+            sex,                    //性别
+            mobile,                //手机号
+            workemail,              //个人邮箱
+            documenttype,           //证件类型
+            card,                   //证件号码
+            worknature,             //工作性质
+            inthetime,              //入职日期
+            workstatus,             //工作状态
+            theleng,                //试用期时长
+            contractname,           //合同公司
+            workcity,               //工作地点
+            department,             //部门
+            departmentid,
+            position,               //职位
+            workphone,              //工作电话
+            cemail,                 //企业邮箱
+            contactname,            //紧急联系人
+            contactphone,           //紧急联系人电话
+        } = this.state;
+        const {
+            nameInput,
+            mobileInput,
+            cardInput,
+            worknatureSelect,
+            datePickerInput,
+            workstatusSelect,
+            thelengSelect,
+            contractnameInput,
+        } = this.refs;
+        if(name==''){
+            nameInput.refs.input.focus();
+            nameInput.triggerError(true);
+            return false;
+        }
+        if(mobile==''){
+            mobileInput.refs.input.focus();
+            mobileInput.triggerError(true);
+            return false;
+        }
+        if(!worknature){
+            worknatureSelect.triggerError(true);
+        }
+        if(!workstatus){
+            workstatusSelect.triggerError(true);
+        }  
+        if(inthetime==null){
+            datePickerInput.handleOpenChange(true);
+            return false;
+        } 
+        if(!theleng){
+            thelengSelect.triggerError(true);
+        } 
+        if(!contractnameInput){
+            contractnameInput.refs.input.focus();
+            contractnameInput.triggerError(true);
+            return false;
+        }
+        if(card==''){
+            cardInput.refs.input.focus();
+            cardInput.triggerError(true);
+            return false;
+        }
+        const filterObj = pickBy(this.state,(item,key) => {
+            return key != 'treeList' || key != 'visible';
+        });
+        const formatTime = moment(inthetime).format('YYYY-MM-DD'); 
+        return {...filterObj,inthetime: formatTime} 
+    }
+
     saveEmployeeInfo = () => {
-        const {name,englishname,worknumber,sex,mobile,workemail,documenttype,card,worknature,inthetime,workstatus,
-                theleng,workcity,department,position,salary,cemail,contactname,contactphone
-            } = this.state;
-        console.log(moment(inthetime).format("YYYY-MM-DD"));  
+        const newClerkFormData = this.getFormData();
+        const {editEmployeeInformation} = this.props;
+        if(!newClerkFormData) return;
+        editEmployeeInformation({...newClerkFormData}) 
     }
 
     render() {
-        const {departmentList} = this.props;
-        console.log(1111, departmentList)
+        const {departmentList} = this.props,
+        {treeList} = this.state;
         const {
             name = '',                   //姓名
             englishname = '',            //英文名
@@ -122,11 +220,11 @@ class NewClerkForm extends Component {
             inthetime = null,              //入职日期
             workstatus = undefined,         //员工状态
             theleng = undefined,       //试用期
-
+            contractname='',            //合同公司
             workcity = undefined,        //工作地点
             department = undefined,    //部门
             position = '',
-            salary = '',                 //薪资
+            workphone = '',                 //薪资
             cemail = '',                 //企业邮箱
             contactname = '',            //紧急联系人
             contactphone = '',           //紧急联系人电话
@@ -170,7 +268,7 @@ class NewClerkForm extends Component {
                                 field="worknumber"
                                 placeholder="请输入工号"
                                 value={worknumber}
-                                onChange={this.handleChange}
+                                onChange={this.handleNumChange}
                             />
                             <SelectComponent
                                 ref="sexSelect"
@@ -190,7 +288,7 @@ class NewClerkForm extends Component {
                                 field="mobile"
                                 placeholder="请输手机号"
                                 value={mobile}
-                                onChange={this.handleChange}
+                                onChange={this.handleNumChange}
                                 asterisk={true}
                             />
                             <ErrorInputComponent
@@ -244,6 +342,7 @@ class NewClerkForm extends Component {
                                 style={{width: 224, height: 40}}
                                 asterisk={true}
                                 onChange={this.onTimeChange}
+                                disabledDate={this.disabledDate}
                             />
                         </li>
                         <li>
@@ -271,17 +370,15 @@ class NewClerkForm extends Component {
                             />
                         </li>
                         <li>
-                            <SelectComponent
-                                ref="documenttypeSelect"
+                            <ErrorInputComponent
+                                ref="contractnameInput"
                                 name="合同公司："
-                                data={['身份证件', '工作证件']}
-                                dropdownMatchSelectWidth={false}
-                                value={documenttype}
-                                field="documenttype"
-                                placeholder="请选择合同公司"
+                                field="contractname"
+                                placeholder="请输入合同公司"
+                                value={contractname}
                                 onChange={this.handleChange}
                                 asterisk={true}
-                            />
+                            />  
                             <div className="inline-block">
                                 <span>工作地点：</span>
                                 <div className="inline-block city-regions">
@@ -304,7 +401,7 @@ class NewClerkForm extends Component {
                             <SelectComponent
                                 ref="departmentSelect"
                                 name="部门："
-                                data={['身份证件', '工作证件']}
+                                data={treeList}
                                 dropdownMatchSelectWidth={false}
                                 value={department}
                                 field="department"
@@ -332,12 +429,12 @@ class NewClerkForm extends Component {
                         </li>
                         <li>
                             <ErrorInputComponent
-                                ref="salaryInput"
-                                name="薪资："
-                                field="salary"
-                                placeholder="请输入薪资"
-                                value={salary}
-                                onChange={this.handleChange}
+                                ref="workphoneInput"
+                                name="工作电话："
+                                field="workphone"
+                                placeholder="请输入工作电话"
+                                value={workphone}
+                                onChange={this.handleNumChange}
                             />
                             <ErrorInputComponent
                                 ref="cemailInput"
@@ -391,7 +488,9 @@ const mapStateToProps = state => ({
     departmentList: state.Manage.departmentList
   })
   const mapDispatchToProps = dispatch => ({
-    getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch)
+    getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
+    getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
   })
   
   export default connect(

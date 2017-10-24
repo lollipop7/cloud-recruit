@@ -12,17 +12,28 @@ export default class CreditReturnComponent extends Component {
     render(){
         const {isSuit} = this.state;
         const {creditInfoData} = this.props,
-            {cerditcerinfo,dishonest,education} = creditInfoData;
-            console.log(education)
-        //const educationArr = education[0].join(',') ; 
-        // const {
-        //         name='',//姓名
-        //         schoolname='',//院校
-        //         major='',//专业
-        //         level='',//学历
-        //         endschooldate='',//毕业时间
-        //         birthdate=''
-        //     } = education;
+            {
+                cerditcerinfo,
+                dishonest,
+                education=[{
+                    name:'',//姓名
+                    schoolname:'',//院校
+                    major:'',//专业
+                    level:'',//学历
+                    endschooldate:'',//毕业时间
+                    birthdate:''
+                }]
+            } = creditInfoData;
+            console.log(creditInfoData)
+
+        const {
+                name='',//姓名
+                schoolname='',//院校
+                major='',//专业
+                level='',//学历
+                endschooldate='',//毕业时间
+                birthdate=''
+            } = education[0];
            // console.log(educationArr)
         return (
             <li style={{paddingLeft: 100}}>
@@ -103,7 +114,7 @@ export default class CreditReturnComponent extends Component {
                                 </div>
                                 <div className="inline-block info-bar">
                                     <span>专业 : </span>
-                                    <span></span>
+                                    <span>{major}</span>
                                 </div>
                                 <div className="inline-block info-bar">
                                     <span>院校地址 : </span>
@@ -176,7 +187,7 @@ export default class CreditReturnComponent extends Component {
                                                 <span>毕业时间</span>
                                             </li>
                                             <li>
-                                                <span></span>
+                                                <span>{endschooldate}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -197,7 +208,7 @@ export default class CreditReturnComponent extends Component {
                             <ul className="field-list inline-block">
                                 <li>
                                     <span>姓名</span>
-                                    <span></span>
+                                    <span>{name}</span>
                                 </li>
                                 <li>
                                     <span>性别</span>
@@ -205,7 +216,7 @@ export default class CreditReturnComponent extends Component {
                                 </li>
                                 <li>
                                     <span>文化程度</span>
-                                    <span></span>
+                                    <span>{level}</span>
                                 </li>
                                 <li>
                                     <span>身份证号</span>
@@ -253,7 +264,7 @@ export default class CreditReturnComponent extends Component {
                             <table cellSpacing={0}>
                                 <tr>
                                     <td>被执行人名称</td>
-                                    <td></td>
+                                    <td>{name}</td>
                                     <td>身份证号/组织机构代码</td>
                                     <td></td>
                                 </tr>

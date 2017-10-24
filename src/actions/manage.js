@@ -1,11 +1,14 @@
 import * as types from 'constants/manage';
 import axios from 'axios';
+import store from 'store';
+import FileSaver from 'file-saver';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
+
+import merge from 'lodash/merge';
 
 import {notification , message} from 'antd';
 import isNumber from 'lodash/isNumber';
-import store from 'store';
-import FileSaver from 'file-saver';
+
 
 
 //**员工名册 ------------------------------------------------*/
@@ -74,6 +77,12 @@ import FileSaver from 'file-saver';
     const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
+
+    //图片地址
+    const IMAGEURL = {type:types.IMAGEURL};
+    const SHOW_IMAGE_MODAL = {type:types.SHOW_IMAGE_MODAL};
+    const HIDE_IMAGE_MODAL = {type:types.HIDE_IMAGE_MODAL};
+    const CANCELIMAGEURL = {type:types.CANCELIMAGEURL};
     
 
     //获取员工管理人员统计信息
@@ -115,32 +124,53 @@ import FileSaver from 'file-saver';
     }
 
     //导出员工信息
-    export const exportEmployees = (data) => (dispatch,getState) => {
-        dispatch(EXPORT_CLERK_START);
-        AjaxByToken('employeeinfo/exportEmployees',{
-            head: {
-                transcode: 'L0046'
-            },
-            data: data
-        })
-        .then(res=>{
-            dispatch(EXPORT_CLERK_DONE);
-            dispatch({...EXPORT_CLERK_LIST,list:res.list,count:res.count});
-        },err=>{
-            dispatch(EXPORT_CLERK_DONE);
-        });
-    }
+    // export const exportEmployees = (data) => (dispatch,getState) => {
+    //     console.log(data);
+    //     dispatch(EXPORT_CLERK_START);
+    //     const token = store.get('token');
+    //     axios({
+    //         url: `${prefixUri}/employeeinfo/exportEmployees`,
+    //         method: 'post',
+    //         data: {
+    //             ...{data: {
+    //                 ...data,
+    //                 ...token
+    //             }},
+    //             ...{head:{
+    //                 type:'h',
+    //                 transcode: 'L0039'
+    //             }}
+    //         },
+    //         headers: {
+    //             contentType: 'multipart/form-data'
+    //         }
+    //     })
+    //     .then(res=>{
+    //         console.log(res);
+    //         dispatch(EXPORT_CLERK_DONE);
+    //         dispatch({...EXPORT_CLERK_LIST});
+    //     },err=>{
+    //         console.log(err);
+    //         dispatch(EXPORT_CLERK_DONE);
+    //     });
+    // }
+
 
     //删除员工信息
     export const deleteEmployees = (data) => (dispatch,getState) => {
-        AjaxByToken('delete_employees',{
+        // const rid = JSON.parse(data);
+        // console.log(rid,typeof rid);
+        AjaxByToken('emp/delete_employees',{
             head: {
                 transcode: 'L0047'
             },
             data: data
         })
         .then(res=>{
-            console.log(res);
+            notification.success({
+                message: '成功',
+                description: '删除人员成功'
+            });
         },err=>{
             console.log(err);
         });
@@ -355,6 +385,55 @@ import FileSaver from 'file-saver';
             console.log(err);
         })
     }
+    //预览材料附件
+    export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
+        const token = store.get('token');
+        const fileArr = arr;
+        const urlArr = [];
+        for(let i=0;i<fileArr.length;i++){
+            axios({
+            url:`${prefixUri}/view_uploadAttachment`,
+            method:'get',
+            params:{
+                token:token.token,
+                tokenKey:token.tokenKey,
+                fileName:fileArr[i]
+            }
+            }).then(res=>{
+                urlArr.push(res.request.responseURL)
+                if(fileArr.length==urlArr.length){
+                    dispatch({...IMAGEURL,imageUrl:urlArr});
+                    showImageModal()
+                }   
+            }).catch(error=>{
+                console.log(error);
+            });
+        }    
+    }
+    //显示图片预览Modal
+    export const showImageModal = (data) => (dispatch,getState) => {
+        dispatch({...SHOW_IMAGE_MODAL})
+    }
+    export const hideImageModal = () => (dispatch,getState) => {
+        dispatch({...HIDE_IMAGE_MODAL})
+    }
+    //清空图片地址
+    export const cancelImageUrl = () => (dispatch,getState) => {
+        dispatch({...CANCELIMAGEURL})
+    }
+    //下载材料附件
+    export const downloadUploadAttachment = (name) => (dispatch,getState) => {
+        const token = store.get('token');
+        axios.post(`${prefixUri}/download_uploadAttachment`,{
+                token:token.token,
+                tokenKey:token.tokenKey,
+                fileName:name   
+        }).then(res=>{
+            console.log(res)
+        }).catch(error=>{
+            console.log(error);
+        });
+    }
     //删除材料附件
     export const DeleteMaterial = (data) => (dispatch,getState) => {
         AjaxByToken('emp/dataDel_employees', {
@@ -395,16 +474,18 @@ import FileSaver from 'file-saver';
             data: data
         })
         .then(res=>{
-            console.log(res)
+            //console.log(res)
+            NProgress.done();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
             showcredit()
         },err=>{
             console.log(err);
         })
     }
+    
     export const showcredit = () => (dispatch,getState) => {
-    dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
-}
+        dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
+    }
 
     //1.56 员工简历查看
     export const showEmployeeResumeView = (data) => (dispatch,getState) => {
@@ -543,7 +624,7 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
     .then(res=>{
         const {data} = res;
         var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-        FileSaver.saveAs(blob, `${name}个人材料附件.xls`);
+        FileSaver.saveAs(blob, `${name}个人材料附件.zip`);
     }).catch(error=>{
         console.log(error)
     });

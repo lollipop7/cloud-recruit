@@ -12,7 +12,13 @@ export default class CreditFillComponent extends Component {
         name:'余文忠',
         mobile:'18616762568',
         card:'310110199203091013',
-        certid:'104101200306000405'
+        certid:'104101200306000405',
+        rid:'26'
+        // name:'余文忠',
+        // mobile:'18616762568',
+        // card:'310110199203091013',
+        // certid:'104101200306000405',
+        // resumeid:'26'
      }
 
      handleChange = (field,e) => {
@@ -40,32 +46,45 @@ export default class CreditFillComponent extends Component {
             break;    
             }
     }
-    componentWillReceiveProps(nextprops){
-        const {
-            name,
-            mobile,
-            card,
-            certid
-        } = nextprops.data.resumeoff;
-        this.setState({
-            name,
-            mobile,
-            card,
-            certid
-        })
-    }
+    // componentWillReceiveProps(nextprops){
+    //     const {
+    //         name,
+    //         mobile,
+    //         card,
+    //         certid,
+    //         resumeid
+    //     } = nextprops.data.resumeoff;
+    //     this.setState({
+    //         name,
+    //         mobile,
+    //         card,
+    //         certid,
+    //         resumeid
+    //     })
+    // }
     searchCredit = () => {
         const {searchCredit,data,showcredit}=this.props;
-        const {resumeid,name,mobile,card,certid}= data.resumeoff;
+        const {rid,name,mobile,card,certid}= this.state;
+        if(!mobile){
+            this.refs.phonenumInput.triggerError(true);
+            return false
+        }
+        if(!card){
+            this.refs.idnumInput.triggerError(true);
+            return false
+        }
+        if(!certid){
+            this.refs.diplomanumInput.triggerError(true);
+            return false
+        }
         searchCredit({
-            resumeid:'26' ,
-            name:'余文忠',
-            phone:'18616762568',
-            card:'310110199203091013',
-            certid:'104101200306000405'
-        },showcredit)
-        //显示人员征信详情
-        
+            rid ,
+            name,
+            phone:mobile,
+            card,
+            certid
+        },showcredit);
+        NProgress.done();
     }
 
      render(){
@@ -85,7 +104,7 @@ export default class CreditFillComponent extends Component {
                                 <ErrorInputComponent
                                     ref="candidatenameInput"
                                     name="姓名"
-                                    field="candidatename"d
+                                    field="candidatename"
                                     value={name}
                                     onChange={this.handleChange.bind(this,'name')}
                                     asterisk={true}
@@ -95,6 +114,7 @@ export default class CreditFillComponent extends Component {
                                 <ErrorInputComponent
                                     ref="phonenumInput"
                                     name="手机号"
+                                    placeholder="请输入手机号"
                                     field="phonenum"
                                     value={mobile}
                                     onChange={this.handleChange.bind(this,'mobile')}
@@ -120,6 +140,7 @@ export default class CreditFillComponent extends Component {
                                     placeholder="请输入毕业证书号"
                                     value={certid}
                                     onChange={this.handleChange.bind(this,'certid')}
+                                    asterisk={true}
                                 />
                              </li>
                          </ul>

@@ -10,17 +10,12 @@ import { connect } from 'react-redux';
 import * as Actions from 'actions';
 
  class CreditInvestgation extends Component {
-
-    state={
-        isFill: true
-    }
     componentDidMount(){
         const {searchCreditInvestgation , data} = this.props,
             {resumeid} = data.resumeoff
         searchCreditInvestgation({resumeid:resumeid});
     }
     render() {
-       //const {isFill} = this.state;
        const {creditData,searchCredit, creditInfoData, isFill} = this.props;
        return(
         <div className="credit-investgation clerk-tab-container">
@@ -39,7 +34,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch)
-
 })
 
 export default connect(

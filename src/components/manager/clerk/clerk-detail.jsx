@@ -33,7 +33,6 @@ class ClerkDetail extends Component {
             getDepartMentList
         } = this.props;
         queryEmployee({rid:rid});
-        console.log(workstatus);
         this.props.getOperationList({rid:rid,...this.params});
         workstatus === 0 &&  showPermanentModal();
         //this.props.showTransferPersonnelModal()
@@ -67,6 +66,7 @@ class ClerkDetail extends Component {
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
+        //console.log(queryEmployeeList)
         return (
             <div className="right-panel clerk-detail-container">
                 <ControlComponent/>
