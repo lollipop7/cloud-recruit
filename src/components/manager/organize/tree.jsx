@@ -102,6 +102,11 @@ class LeftTreePage extends Component {
   // 编辑部门
   showEdit = () => {
     this.setState({title:'编辑部门',type:'edit',title2:'变更名称：'});
+    const {name2, sup_id, uid} = this.state;
+    if(!name2 || !sup_id || !uid){
+        this.info('请选择一个机构');
+        return;
+    }
     this.addEditDeleteModal();
   }
 
@@ -118,6 +123,11 @@ class LeftTreePage extends Component {
   // 删除部门
   showDelete = () => {
     this.setState({type:'delete',title:'删除部门'});
+    const {name2, sup_id, uid} = this.state;
+    if(!name2 || !sup_id || !uid){
+        this.info('请选择一个机构');
+        return;
+    }
     this.addEditDeleteModal();
   }
   handleChange = (e) => {
