@@ -121,9 +121,10 @@ export default class ProgressComponent extends Component{
 
     //下载材料附件
     downloadMaterial = () => {
+        const {showProgress} = this.props;
         const ridName = this.props.ridName;
             if (ridName.rid){ 
-                    this.props.downloadMaterial(ridName)   
+                    this.props.downloadMaterial(ridName,showProgress)   
             }else{
                 notification.warning({
                     message: '请先选择具体人员！'

@@ -19,11 +19,8 @@ class MaterialAttach extends Component {
     state = {
         itemData: {},
         basicData: [],      //基本资料
-        basic_data: [],      //基本资料
         beforeData: [],     //档案附件
-        before_data: [],     //档案附件
         afterData: [],      //离职资料
-        after_data: [],      //离职资料
         rid:'',
     }
 
@@ -38,20 +35,7 @@ class MaterialAttach extends Component {
             basicData= [],
             beforeData= [],
             afterData= [],
-            basic_data = [],
-            before_data = [],
-            after_data = []
         } = this.state;
-        nextProps.list.forEach((item,key) => {
-            switch(item.type){
-                case 1 : 
-                    item.attachment_type.forEach((acts) => {basic_data.push(acts)});break;
-                case 2 : 
-                    item.attachment_type.forEach((acts) => {before_data.push(acts)});break;
-                case 3 : 
-                    item.attachment_type.forEach((acts) => {after_data.push(acts)});break;
-            }
-        })
         nextProps.listAll.forEach((value,index) => {
             switch(value.type){
                 case 1 : 
@@ -125,8 +109,8 @@ class MaterialAttach extends Component {
             isLoading=true
         } = this.state;
         const {imageUrl , imageVisible, showImageModal, hideImageModal} = this.props;
-        // console.log(this.props.data)
-        console.log(imageUrl);
+        console.log(this.props.data)
+        //console.log(imageUrl);
         return (
             <div className="material-attach clerk-tab-container">
                 {isLoading && 
@@ -160,16 +144,6 @@ class MaterialAttach extends Component {
                                                 }}
                                             />
                                             <p style={{marginBottom:10}}>{name}</p>
-                                            {
-                                                basic_data.map((item,index) => {
-                                                    if (item.typeId==type){
-                                                        return (<span 
-                                                                    key={index}
-                                                                    onClick={this.showImageModal.bind(this,item.filename)}
-                                                                >预览</span>)
-                                                    }
-                                                })
-                                            }
                                         </div>
                                     )
                                 })
@@ -197,16 +171,6 @@ class MaterialAttach extends Component {
                                                     }}
                                                 />
                                                 <p style={{marginBottom:10}}>{name}</p>
-                                                {
-                                                    before_data.map((item,index) => {
-                                                        if (item.typeId==type){
-                                                            return (<span 
-                                                                        key={index}
-                                                                        onClick={this.showImageModal.bind(this,item.filename)}
-                                                                    >预览</span>)
-                                                        }
-                                                    })
-                                                }
                                             </div>
                                     )
                                 })
@@ -233,16 +197,6 @@ class MaterialAttach extends Component {
                                                 }}
                                             />
                                             <p style={{marginBottom:10}}>{name}</p>
-                                            {
-                                                after_data.map((item,index) => {
-                                                    if (item.typeId==type){
-                                                        return (<span 
-                                                                    key={index}
-                                                                    onClick={this.showImageModal.bind(this,item.filename)}
-                                                                >预览</span>)
-                                                    }
-                                                })
-                                            }
                                         </div>
                                     )
                                 })

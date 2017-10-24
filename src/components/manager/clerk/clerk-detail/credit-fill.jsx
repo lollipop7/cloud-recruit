@@ -247,7 +247,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/05.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/wd.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>网贷黑名单核查</p>
@@ -257,7 +257,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/06.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/zyzs.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>职业证书核查</p>
@@ -269,7 +269,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/07.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/zcwdx.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>职场稳定性分析</p>
@@ -279,7 +279,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/08.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/sffz.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>司法犯罪核查</p>
@@ -289,7 +289,7 @@ export default class CreditFillComponent extends Component {
                                 <Col span={8}>
                                     <Card>
                                         <div className="custom-image">
-                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/09.png" />
+                                            <img alt="picture" max-width="100%" src="/static/images/manager/clerk/syly.png" />
                                         </div>
                                         <div className="custom-card">
                                             <p>商业利益冲突核查</p>

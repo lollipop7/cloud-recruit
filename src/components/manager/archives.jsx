@@ -75,7 +75,8 @@ import * as Actions from 'actions';
             personalMaterialVisible,//个人材料状态
             personalMaterialData,//个人材料数据
             downloadMaterial,//下载材料附件
-            editEmployeeInformation//添加、编辑员工信息
+            editEmployeeInformation,//添加、编辑员工信息
+            showProgress
         } = this.props;
         const {progressVisible, percent} = this.state;
         return (
@@ -90,6 +91,7 @@ import * as Actions from 'actions';
                         downloadMaterial={downloadMaterial}
                         ridName = {this.state.ridName}
                         sortMethod={this.sortMethod}
+                        showProgress = {showProgress}
                     />
                     <div>
                         <TableComponent 
@@ -140,7 +142,8 @@ import * as Actions from 'actions';
     hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch),
     downloadMaterial:bindActionCreators(Actions.ManageActions.downloadMaterial, dispatch),
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
-    cancelProgress: bindActionCreators(Actions.ManageActions.cancelProgress,dispatch)
+    cancelProgress: bindActionCreators(Actions.ManageActions.cancelProgress,dispatch),
+    showProgress: bindActionCreators(Actions.ManageActions.showProgress,dispatch)
  })
  export default connect(
      mapStateToProps,

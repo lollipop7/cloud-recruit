@@ -174,7 +174,7 @@ export default class HeaderInfoComponent extends Component {
                             {inthetime && <span style={{ 
                                     marginLeft: 6,
                                     marginRight: 6
-                            }}>入职时长：{moment(inthetime).startOf('day').fromNow()}</span>}
+                            }}>入职时长：{moment(inthetime).startOf("day").fromNow()}</span>}
                         </li> 
                     </ul>
                 </div>

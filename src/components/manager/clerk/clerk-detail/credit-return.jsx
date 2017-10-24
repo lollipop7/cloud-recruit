@@ -3,6 +3,7 @@ import LoadingComponent from 'components/loading';
 import columns from 'data/table-columns/defaulter-table';
 import BarChartComponent from './bar-chart';
 import { Collapse } from 'antd';
+import store from 'store';
 const Panel = Collapse.Panel;
 
 export default class CreditReturnComponent extends Component {
@@ -26,7 +27,7 @@ export default class CreditReturnComponent extends Component {
             certcard,
             mobile,
             verifymessage,//返回消息
-            bizno,//            "transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
+            bizno,//"transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
             cid,
             createby,
             createdate,
@@ -35,17 +36,8 @@ export default class CreditReturnComponent extends Component {
             flg2//电话号码和姓名是否匹配标识字段
 
         } = selfinfo;
-            console.log(creditInfoData)
-
-        const {
-                name='',//姓名
-                schoolname='',//院校
-                major='',//专业
-                level='',//学历
-                endschooldate='',//毕业时间
-                birthdate=''
-            } = education[0];
-           // console.log(educationArr)
+        const token = store.get('token');
+        console.log(creditInfoData);
         return (
             <li style={{paddingLeft: 100}}>
                 <div className="inverst-field">

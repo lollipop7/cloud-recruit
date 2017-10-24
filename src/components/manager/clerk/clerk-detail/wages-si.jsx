@@ -48,23 +48,23 @@ export default class WagesSocialSecurity extends Component {
                 sociCard,               //社保账号
                 fundCard,               //公积金账号
                 rid,
-                salaryBasic,           //基本工资
-                salaryPer,             //绩效工资
-                salarySubsidies        //补贴
+                salaryBasic,            //基本工资
+                salaryPer,              //绩效工资
+                salarySubsidies         //补贴
             } = this.props.data;
         if(field=='cancelBtnState'){
             this.setState({
-                wage_card:wageCard,               //工资卡卡号
-                wage_bank:wageBank,               //工资卡开户行
-                wage_city:wageCity,               //工资卡开户城市
+                wage_card:wageCard,     //工资卡卡号
+                wage_bank:wageBank,     //工资卡开户行
+                wage_city:wageCity,     //工资卡开户城市
                 btnState:'none',
                 borderState:"1px solid transparent",
                 isdisabled:true
             })
         }else if(field=='cancelTimeBtnState'){
             this.setState({
-                soci_card:sociCard,               //社保账号
-                fund_card:fundCard,               //公积金账
+                soci_card:sociCard,     //社保账号
+                fund_card:fundCard,     //公积金账
                 eduBtnState:'none',
                 eduBorderState:"1px solid transparent",
                 isEdudisabled:false,
@@ -120,7 +120,7 @@ export default class WagesSocialSecurity extends Component {
                 return key =='salary_basic' || key =='salary_per' || key =='rid' || key =='salary_subsidies'
             });
             const filterObjEdu = pickBy(filterObj,(val,key)=>{
-                return val !=undefined;
+                return val !='undefined';
                 });
                
             this.props.editEmployeeInformation({...filterObjEdu});
@@ -339,7 +339,7 @@ export default class WagesSocialSecurity extends Component {
                                     <span>
                                         <Input 
                                             style={{border:wageBorderState}}
-                                            value={salary_basic}
+                                            value={salary_basic=='undefined'?'':salary_basic}
                                             disabled={isWagedisabled}
                                             onChange={this.handleSelectChange.bind(this,'salary_basic')}
                                         />
@@ -350,7 +350,7 @@ export default class WagesSocialSecurity extends Component {
                                     <span>
                                         <Input 
                                             style={{border:wageBorderState}}
-                                            value={salary_subsidies}
+                                            value={salary_subsidies=='undefined'?'':salary_subsidies}
                                             disabled={isWagedisabled}
                                             onChange={this.handleSelectChange.bind(this,'salary_subsidies')}
                                         />
@@ -363,7 +363,7 @@ export default class WagesSocialSecurity extends Component {
                                     <span>
                                         <Input 
                                             style={{border:wageBorderState}}
-                                            value={salary_per}
+                                            value={salary_per=='undefined'?'':salary_per}
                                             disabled={isWagedisabled}
                                             onChange={this.handleSelectChange.bind(this,'salary_per')}
                                         />

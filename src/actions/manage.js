@@ -488,8 +488,7 @@ import isNumber from 'lodash/isNumber';
         })
     }
     //人员征信查询
-    export const searchCredit = (data,showcredit) => (dispatch,getState) => {
-       
+    export const searchCredit = (data,showcredit) => (dispatch,getState) => {      
         AjaxByToken('cerditQueryperationList_employees', {
             head: {
                 transcode: 'L0060'
@@ -644,7 +643,7 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
 }
 
 //1.77下载材料附件
-export const downloadMaterial = (data) => (dispatch,getState) => { 
+export const downloadMaterial = (data,showProgress) => (dispatch,getState) => { 
     const token = store.get('token');
     const {rid,name} = data;
     axios({
@@ -660,9 +659,14 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
     .then(res=>{
         const blob = new Blob([res.data], {type: "application/zip"});
         FileSaver.saveAs(blob, `${name}个人材料附件.zip`);
+        showProgress();//显示下载进度条
     }).catch(error=>{
         console.log(error)
     });
+}
+//显示进度条
+export const showProgress = () => (dispatch,getState) =>{
+    dispatch({...PROGRESS})
 }
 //隐藏进度条
 export const cancelProgress = () =>(dispatch,getState) => {
