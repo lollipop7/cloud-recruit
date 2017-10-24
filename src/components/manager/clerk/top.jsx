@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { Input } from 'antd';
 
 import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
 
 export default class TopComponent extends Component {
 
@@ -93,19 +94,13 @@ export default class TopComponent extends Component {
         });
     }
 
-     //筛选
-     _handleFind = () => {
-        setTimeout(()=>{
-            const filterObj = pickBy(this.state,(val,key)=>{
-                return val !== '' && val !=undefined;
-            });
-            // console.log(filterObj);
-            this.props.handleFind(filterObj);
-        })
-    }
-
     handleSearch = () => {
-        this._handleFind()
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return val !== '' && val !=undefined && val !=0;
+        });
+        // if(isEmpty(filterObj)){return false;}
+        console.log(filterObj);
+        this.props.handleFind(filterObj);
     }
 
     

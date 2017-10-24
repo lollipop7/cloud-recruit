@@ -14,10 +14,12 @@ import {
     SET_RESETFORM_FALSE,
     EXPORT_CLERK_START,
     EXPORT_CLERK_DONE,
-    EXPORT_CLERK_LIST,
+    DELETE_EMPLOYEE_START,
+    DELETE_EMPLOYEE_DONE,
     QUERY_EMPLOYEE_START,
     QUERY_EMPLOYEE_DONE,
     QUERY_EMPLOYEE_LIST,
+    QUERY_RESET_FORM,
     SHOW_DISMISSION_MODAL,
     HIDE_DISMISSION_MODAL,
     SHOW_FORMAL_MODAL,
@@ -95,9 +97,10 @@ const initialState = {
         resetForm: false
     },
     exportClerkList: {
-        isLoading: false,
-        list: [],
-        count: 0
+        isLoading: false
+    },
+    deleteClerkList: {
+        isLoading: false
     },
     queryEmployeeList: {
         isLoading: false,
@@ -202,15 +205,19 @@ export default function manage(state=initialState,actions){
         case EXPORT_CLERK_START:
             return {...state,exportClerkList:{...state.exportClerkList,isLoading:true}};  
         case EXPORT_CLERK_DONE:
-            return {...state,exportClerkList:{...state.exportClerkList,isLoading:false}};    
-        case EXPORT_CLERK_LIST:
-            return {...state,exportClerkList:{...state.exportClerkList,list:actions.list,count:actions.count}};      
+            return {...state,exportClerkList:{...state.exportClerkList,isLoading:false}};
+        case DELETE_EMPLOYEE_START:
+            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:true}};  
+        case DELETE_EMPLOYEE_DONE:
+            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:false}};              
         case QUERY_EMPLOYEE_START:
             return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:true}};    
         case QUERY_EMPLOYEE_DONE:
             return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:false}}; 
         case QUERY_EMPLOYEE_LIST:
             return {...state,queryEmployeeList:{...state.queryEmployeeList,list:actions.list}};
+        case QUERY_RESET_FORM:
+            return {...state,queryEmployeeList:{...state.queryEmployeeList,list:actions.list}};    
         case SHOW_DISMISSION_MODAL:
             return {...state,dismissionModal:{...state.dismissionModal,visible:true}};  
         case HIDE_DISMISSION_MODAL:

@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import {Table} from 'antd';
 import moment from 'moment';
 import trim from 'lodash/trim';
-import filter from 'lodash/filter';
-import indexOf from 'lodash/indexOf';
-import get from 'lodash/get';
+
+
+
 import remove from 'lodash/remove';
 
 import {Link, Router} from 'react-router';
@@ -19,26 +19,8 @@ import departureColumns from 'data/table-columns/clerk-departure-table';
 
 export default  class TableComponent extends Component {
 
-    state = {
-        selectedRowKeys: [],
-        data: []
-    }
-
-    componentDidMount(){
-        const {data} = this.state;
-        for(let i=0; i<200; i++){
-            data.push({
-                "name": "name",
-                "worknumber": "worknumber",
-                "department": "department",
-                "position": "position",
-                "mobile": "13000000000",
-                "workemail": "766077827@qq.com",
-                "inthetime": Date.now(),
-                "workstatus": "0",
-                "worknature": "全职"
-            })
-        }
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.props !== nextProps || this.state !== nextState;
     }
 
     getColumns = () => {
@@ -202,44 +184,23 @@ export default  class TableComponent extends Component {
         return departureColumns;
     }
 
-    onSelectChange = (selectedRowKeys,selectedRows) => {
-        const {
-            crewList,
-            getRidStr
-        } = this.props,
-        {list} = crewList;
-        let filterArr = filter(list,(item,index)=>{
-            return indexOf(selectedRowKeys,index) !== -1;
-        });
-        let str = filterArr.map(item=>{
-            return get(item,['rid']);
-        }).join(',');
-        getRidStr(str);
-        this.setState({selectedRowKeys});
-    }
+    
 
-    //清空表格选择框
-    clearTableCheckbox = () => {
-        const {selectedRowKeys} = this.state;
-        if(selectedRowKeys.length === 0) return ;
-        this.setState({
-            selectedRowKeys:[]
-        }) 
-    }
+    
 
     paginationChange = (page, pageSize) => {
         const{
             paginationChange
         } = this.props;
         paginationChange(page, pageSize);
-        this.clearTableCheckbox();
     }
     
     render() {
-        const {selectedRowKeys,data} = this.state,
-        {
+        const {
             paginationCurrent,
-            crewList
+            crewList,
+            selectedRowKeys,
+            onSelectChange
         } = this.props,
         {list, count, isLoading} = crewList;
         return (
@@ -247,7 +208,7 @@ export default  class TableComponent extends Component {
                 rowSelection={{
                     type:'checkbox',
                     selectedRowKeys,
-                    onChange: this.onSelectChange
+                    onChange: onSelectChange
                 }}
                 bordered
                 loading={isLoading}

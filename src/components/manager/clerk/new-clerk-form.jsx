@@ -391,7 +391,7 @@ class NewClerkForm extends Component {
         const {editEmployeeInformation} = this.props;
         if(!newClerkFormData) return;
         editEmployeeInformation({...newClerkFormData});
-        this.resetForm();
+        // this.resetForm();
     }
 
     render() {

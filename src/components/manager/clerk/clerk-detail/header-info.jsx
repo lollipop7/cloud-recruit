@@ -5,6 +5,7 @@ import isNumber from 'lodash/isNumber';
 import moment from 'moment';
 
 import clerkInfo from 'data/clerk/clerk';
+import LoadingComponent from 'components/loading';
 
 
 export default class HeaderInfoComponent extends Component {
@@ -22,12 +23,15 @@ export default class HeaderInfoComponent extends Component {
         sex:'',            //性别
         birthday:'',       //出生日期
         inthetime:'',       //入职时间
-        resumeid:''
+        resumeid:'',
+        isLoading: true
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.data) {
+        const dataArr = Object.keys(nextProps.data);
+        if(dataArr.length!=0) {
             const {data}=nextProps,
+            {isLoading} = this.state,
             {resumeoff={},constellation} = data,
             {
                 name,           //姓名
@@ -50,8 +54,9 @@ export default class HeaderInfoComponent extends Component {
                 birthday,       //出生日期
                 inthetime,       //入职时间
                 resumeid,
-                workstatus
-            })
+                workstatus,
+                isLoading: false
+            });
         }
     }
 
@@ -118,7 +123,8 @@ export default class HeaderInfoComponent extends Component {
             birthday='',       //出生日期
             inthetime='',       //入职时间
             resumeid='',
-            workstatus=''
+            workstatus='',
+            isLoading
         } = this.state;
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
@@ -129,14 +135,24 @@ export default class HeaderInfoComponent extends Component {
             </Menu>
         );
         return (
-            <div className="header-info">
+            <div className="header-info" style={{position: 'relative'}}>
+                {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        height: 198,
+                        top: 0,
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <div className="prime-name pull-left">
                     <span>{trim(name == undefined ? '' : name).substr(0,1)}</span>
                 </div>
                 <div className="base-info pull-left"
-                     style={{
-                         marginLeft: 28
-                     }} 
+                    style={{
+                        marginLeft: 28
+                    }} 
                 >
                     <ul>
                         <li>

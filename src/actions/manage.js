@@ -34,12 +34,17 @@ import isNumber from 'lodash/isNumber';
     //导出员工信息
     const EXPORT_CLERK_START = {type: types.EXPORT_CLERK_START};
     const EXPORT_CLERK_DONE = {type: types.EXPORT_CLERK_DONE};
-    const EXPORT_CLERK_LIST = {type: types.EXPORT_CLERK_LIST};
+
+    //删除员工信息
+    const DELETE_EMPLOYEE_START = {type: types.DELETE_EMPLOYEE_START};
+    const DELETE_EMPLOYEE_DONE = {type: types.DELETE_EMPLOYEE_DONE};
+    
 
     //入职人员基本信息查询
     const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
     const QUERY_EMPLOYEE_DONE = {type:types.QUERY_EMPLOYEE_DONE};
     const QUERY_EMPLOYEE_LIST = {type:types.QUERY_EMPLOYEE_LIST};
+    const QUERY_RESET_FORM = {type:types.QUERY_RESET_FORM};
 
     //办理离职modal
     const SHOW_DISMISSION_MODAL = {type:types.SHOW_DISMISSION_MODAL};
@@ -116,7 +121,7 @@ import isNumber from 'lodash/isNumber';
             head: {
                 transcode: 'L0043'
             },
-            data: {...data}
+            data: {...data,count:20+''}
         })
         .then(res=>{
             dispatch(LOAD_LIST_DONE);
@@ -141,7 +146,7 @@ import isNumber from 'lodash/isNumber';
     //             }},
     //             ...{head:{
     //                 type:'h',
-    //                 transcode: 'L0039'
+    //                 transcode: 'L0046'
     //             }}
     //         },
     //         headers: {
@@ -158,11 +163,24 @@ import isNumber from 'lodash/isNumber';
     //     });
     // }
 
+    //开始导出员工信息
+    export const startExportEmployees = (data) => (dispatch,getState) => {
+        NProgress.start();
+        dispatch(EXPORT_CLERK_START);
+    }
+
+    //已经导出员工信息
+    export const stopExportEmployees = () => (dispatch,getState) => {
+        NProgress.done();
+        dispatch(EXPORT_CLERK_DONE);
+    }
+
 
     //删除员工信息
-    export const deleteEmployees = (data) => (dispatch,getState) => {
+    export const deleteEmployees = (data,getCrewStatis=()=>{}) => (dispatch,getState) => {
         // const rid = JSON.parse(data);
         // console.log(rid,typeof rid);
+        dispatch(DELETE_EMPLOYEE_START);
         AjaxByToken('emp/delete_employees',{
             head: {
                 transcode: 'L0047'
@@ -170,12 +188,16 @@ import isNumber from 'lodash/isNumber';
             data: data
         })
         .then(res=>{
+            dispatch(DELETE_EMPLOYEE_DONE);
             notification.success({
                 message: '成功',
                 description: '删除人员成功'
             });
+            //重新获取头部导航数据
+            getCrewStatis();
         },err=>{
             console.log(err);
+            dispatch(DELETE_EMPLOYEE_DONE);
         });
     }
 
@@ -205,7 +227,7 @@ import isNumber from 'lodash/isNumber';
     }
 
     //上传excel
-    export const uploadClerkExcel = (data,props) => (dispatch,getState) => {
+    export const uploadClerkExcel = (data) => (dispatch,getState) => {
         dispatch(UPLOAD_CLERK_START);
         AjaxByToken('employeeinfo/excelSave',{
             head: {
@@ -244,9 +266,13 @@ import isNumber from 'lodash/isNumber';
             dispatch(QUERY_EMPLOYEE_DONE);
             dispatch({...QUERY_EMPLOYEE_LIST,list:res});
         },err=>{
-            console.log(err)
             dispatch(QUERY_EMPLOYEE_DONE);
+            dispatch({...QUERY_EMPLOYEE_LIST,list:{}});
         })
+    }
+    //清空数据
+    export const queryResetForm = () => (dispatch,getState) => {
+        dispatch({...QUERY_RESET_FORM,list:{}});
     }
 
     //显示办理离职modal
@@ -259,8 +285,8 @@ import isNumber from 'lodash/isNumber';
     }
 
     //1.49 员工离职办理
-    export const departureEmployees = (data) => (dispatch,getState) => {
-        console.log(data);
+    export const departureEmployees = (data,getOperationList=()=>{}) => (dispatch,getState) => {
+        const {rid} = data;
         AjaxByToken('emp/departure_employees', {
             head: {
                 transcode: 'L0049'
@@ -272,16 +298,18 @@ import isNumber from 'lodash/isNumber';
                 description: '成功办理离职！'
             });
             dispatch(HIDE_DISMISSION_MODAL);
+            getOperationList({rid});
         },err=>{
             notification.error({
                 message: '错误',
-                description: '办理离职失败！'
+                description: '办理离职失败'
             });
         })
     }
 
     //1.48 员工转正办理
-    export const positiveEmployees = (data) => (dispatch,getState) => {
+    export const positiveEmployees = (data,getOperationList=()=>{}) => (dispatch,getState) => {
+        const {rid} = data;
         AjaxByToken('emp/positive_employees', {
             head: {
                 transcode: 'L0048'
@@ -293,6 +321,7 @@ import isNumber from 'lodash/isNumber';
                 description: '转正成功！'
             });
             dispatch(HIDE_FORMAL_MODAL);
+            getOperationList({rid});
         },err=>{
             notification.error({
                 message: '错误',
@@ -689,8 +718,9 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
 
 //显示档案管理个人材料Modal
 export const showPersonalMaterialModal = (data) => (dispatch,getState) => {
-    dispatch({...SHOW_PERSONALMATERIAL_MODAL,personalMaterialVisible:true,data:data})
+    dispatch({...SHOW_PERSONALMATERIAL_MODAL, personalMaterialVisible:true, data:data})
 }
+
 export const hidePersonalMaterialModal = () => (dispatch,getState) => {
     dispatch({...HIDE_PERSONALMATERIAL_MODAL,personalMaterialVisible:false})
 }

@@ -6,6 +6,7 @@ import PlusAttachmentModal from './attactment-modal';
 
 import forEach from 'lodash/forEach';
 import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -32,36 +33,38 @@ class MaterialAttach extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        const {
-            basicData= [],
-            beforeData= [],
-            afterData= []
-        } = this.state;
-        nextProps.listAll.forEach((value,index) => {
-            switch(value.type){
-                case 1 : 
-                    value.list.forEach((item) => {basicData.push(item)});break;
-                case 2 : 
-                    value.list.forEach((item) => {beforeData.push(item)});break;
-                case 3 : 
-                    value.list.forEach((item) => {afterData.push(item)});break;
-            }
-        })
-        // nextProps.list.forEach((value,index) => {
-        //     switch(value.type){
-        //         case 1 : 
-        //             value.attachment_type.forEach((item) => {basicDataq.push(item)});break;
-        //         case 2 : 
-        //             value.list.forEach((item) => {beforeDataq.push(item)});break;
-        //         case 3 : 
-        //             value.list.forEach((item) => {afterDataq.push(item)});break;
-        //     }
-        // })
-        this.setState({
-            basicData,
-            beforeData,
-            afterData
-        });
+        if(!isEmpty(nextProps.listAll)){
+            const {
+                basicData= [],
+                beforeData= [],
+                afterData= []
+            } = this.state;
+            nextProps.listAll.forEach((value,index) => {
+                switch(value.type){
+                    case 1 : 
+                        value.list.forEach((item) => {basicData.push(item)});break;
+                    case 2 : 
+                        value.list.forEach((item) => {beforeData.push(item)});break;
+                    case 3 : 
+                        value.list.forEach((item) => {afterData.push(item)});break;
+                }
+            })
+            // nextProps.list.forEach((value,index) => {
+            //     switch(value.type){
+            //         case 1 : 
+            //             value.attachment_type.forEach((item) => {basicDataq.push(item)});break;
+            //         case 2 : 
+            //             value.list.forEach((item) => {beforeDataq.push(item)});break;
+            //         case 3 : 
+            //             value.list.forEach((item) => {afterDataq.push(item)});break;
+            //     }
+            // })
+            this.setState({
+                basicData,
+                beforeData,
+                afterData
+            });
+        }
     }
 
     shouldComponentUpdate(nextProps,nextState) {
