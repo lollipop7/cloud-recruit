@@ -154,6 +154,15 @@
                     white-space: pre-line;
                     word-break: break-all;
                     word-wrap: break-word;
+                    .ant-select {
+                        font-size: 12px !important;
+                    }
+                    .ant-select-selection--single {
+                        height: 28px !important;
+                    }
+                    .ant-select-selection__rendered {
+                        line-height: 28px !important;
+                    }
                     &:first-child {
                         font-weight: normal;
                         min-width: 90px;

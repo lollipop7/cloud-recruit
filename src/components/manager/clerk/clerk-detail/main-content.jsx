@@ -17,7 +17,16 @@ export default class MainContent extends Component {
     }
 
     render() {
-        const { data , editEmployeeInformation , operationList , UploadMaterial,queryEmployee,searchCreditInvestgation} = this.props;
+        const { 
+            data , 
+            editEmployeeInformation , 
+            operationList , 
+            UploadMaterial,
+            queryEmployee,
+            searchCreditInvestgation,
+            getTreeList,
+            departmentList
+        } = this.props;
         const {
             resumeoff={},                   //员工信息表
             wage={},                        //薪资状况
@@ -42,6 +51,8 @@ export default class MainContent extends Component {
                         <PositionInfo 
                             data={resumeoff} 
                             editEmployeeInformation={editEmployeeInformation}
+                            departmentList={departmentList}
+                            getTreeList={getTreeList}
                         />
                     </TabPane>
                     <TabPane tab="个人信息" key="2">

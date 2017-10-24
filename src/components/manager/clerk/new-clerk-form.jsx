@@ -49,13 +49,16 @@ class NewClerkForm extends Component {
         const {
             getDepartMentList,
             departmentList,
-            getTreeList
+            getTreeList,
+            getUserInfo,
         } = this.props;
         getDepartMentList();
+        getUserInfo();
         const {list} = departmentList;
         const treeList = getTreeList(list);
         this.setState({treeList});
     }
+
 
     handleClick = () => {
         window.history.back(-1)
@@ -372,7 +375,7 @@ class NewClerkForm extends Component {
             inthetime: null,            //入职日期
             workstatus: undefined,      //工作状态
             theleng: undefined,         //试用期时长
-            contractname: '',           //合同公司
+            // contractname: '',           //合同公司
             workcity: undefined,        //工作地点
             department: undefined,      //部门
             departmentid:'',            //原部门id
@@ -395,7 +398,8 @@ class NewClerkForm extends Component {
     }
 
     render() {
-        const {departmentList} = this.props,
+        const {departmentList,userInfo} = this.props,
+        {companyname} = userInfo,
         {treeList} = this.state;
         const {
             name = '',                   //姓名
@@ -410,7 +414,7 @@ class NewClerkForm extends Component {
             inthetime = null,              //入职日期
             workstatus = undefined,         //员工状态
             theleng = undefined,       //试用期
-            contractname='',            //合同公司
+            // contractname,            //合同公司
             workcity = undefined,        //工作地点
             department = undefined,    //部门
             position = '',
@@ -565,8 +569,7 @@ class NewClerkForm extends Component {
                                 name="合同公司："
                                 field="contractname"
                                 placeholder="请输入合同公司"
-                                value={contractname}
-                                onChange={this.handleChange}
+                                value={companyname}
                                 asterisk={true}
                             />  
                             <div className="inline-block">
@@ -663,13 +666,15 @@ class NewClerkForm extends Component {
         )
     }
 }
-const mapStateToProps = state => ({
-    departmentList: state.Manage.departmentList
+  const mapStateToProps = state => ({
+    departmentList: state.Manage.departmentList,
+    userInfo: state.User.userInfo
   })
   const mapDispatchToProps = dispatch => ({
     getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
     getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
+    getUserInfo: bindActionCreators(Actions.UserActions.getUserInfo, dispatch),
   })
   
   export default connect(

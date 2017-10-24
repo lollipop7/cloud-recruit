@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import {Input , Button ,DatePicker} from 'antd';
+import {Input , Button ,DatePicker, Select} from 'antd';
+const Option = Select.Option;
+
+import isEmpty from 'lodash/isEmpty';
 
 import clerkInfo from 'data/clerk/clerk';
 import pickBy from 'lodash/pickBy';
@@ -18,7 +21,56 @@ export default class PositionInfo extends Component {
         isDatedisabled:true,
         inthetime:'',              //入职时间
         positivedate:'',           //转正时间
+        treeList: []
     }
+
+    componentWillReceiveProps(nextProps){
+        if(!isEmpty(nextProps.data)){
+            const dateFormat = 'YYYY-MM-DD';
+            const {getTreeList,departmentList} = nextProps;
+            const {list} = departmentList;
+            const treeList = getTreeList(list);
+            const {
+                worknumber,             //工号
+                worknature,             //工作性质
+                department,             //部门
+                position,               //岗位
+                positionclass,          //岗位职级
+                workcity,               //工作地点
+                workphone,              //工作电话
+                ext,                    //分机号
+                cemail,                 //企业邮箱
+                contactname,            //紧急联系人
+                inthetime,              //入职时间
+                positivedate,           //转正时间
+                theleng,                //试用期
+                rid
+            } = nextProps.data;
+            if(rid){
+                this.setState({
+                    isLoading:false
+                })
+            }
+            this.setState({
+                worknumber,             //工号
+                worknature,             //工作性质
+                department,             //部门
+                position,               //岗位
+                positionclass,          //岗位职级
+                workcity,               //工作地点
+                workphone,              //工作电话
+                ext,                    //分机号
+                cemail,                 //企业邮箱
+                contactname,            //紧急联系人
+                inthetime:moment(inthetime).format('YYYY-MM-DD'),              //入职时间
+                positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
+                theleng,
+                rid:rid+'',
+                treeList
+            })
+        }
+    }
+
 
     setQualified = isQualified => {
         this.setState({isQualified});
@@ -124,48 +176,7 @@ export default class PositionInfo extends Component {
         
     }
    
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const dateFormat = 'YYYY-MM-DD';
-            const {
-                worknumber,             //工号
-                worknature,             //工作性质
-                department,             //部门
-                position,               //岗位
-                positionclass,          //岗位职级
-                workcity,               //工作地点
-                workphone,              //工作电话
-                ext,                    //分机号
-                cemail,                 //企业邮箱
-                contactname,            //紧急联系人
-                inthetime,              //入职时间
-                positivedate,           //转正时间
-                theleng,                //试用期
-                rid
-            } = this.props.data;
-            if(rid){
-                this.setState({
-                    isLoading:false
-                })
-            }
-            this.setState({
-                worknumber,             //工号
-                worknature,             //工作性质
-                department,             //部门
-                position,               //岗位
-                positionclass,          //岗位职级
-                workcity,               //工作地点
-                workphone,              //工作电话
-                ext,                    //分机号
-                cemail,                 //企业邮箱
-                contactname,            //紧急联系人
-                inthetime:moment(inthetime).format('YYYY-MM-DD'),              //入职时间
-                positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
-                theleng,
-                rid:rid+''
-            })
-        })
-    }
+    
 
     //是否提前转正
 
@@ -190,7 +201,8 @@ export default class PositionInfo extends Component {
             isdisabled,
             btnDynamicsState,
             isDatedisabled,
-            dateBorderState
+            dateBorderState,
+            treeList
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
         const {isLoading=true} = this.state;
@@ -233,13 +245,31 @@ export default class PositionInfo extends Component {
                                 <li>
                                     <span>部门 : </span>
                                     <span>
-                                        <Input 
+                                        {/* <Input 
                                             style={{border:borderState}}
                                             disabled = {isdisabled}
                                             value={department}
                                             onChange={this.handleSelectChange.bind(this,'department')}
-                                        />
-                                        </span>
+                                        /> */}
+                                        <Select
+                                            ref="departmentSelect"
+                                            dropdownMatchSelectWidth={false}
+                                            value={department}
+                                            field="department"
+                                            placeholder="请选择部门"
+                                            onChange={this.handleChange}
+                                            disabled = {isdisabled} 
+                                            style={{
+                                                width: 147
+                                            }}
+                                        >
+                                            {
+                                                treeList.map((item, index) => {
+                                                    return <Option key={index} value={item.name ? item.name : item}>{item.name ? item.name : item}</Option>
+                                                }) 
+                                            }                   
+                                        </Select>
+                                    </span>
                                 </li>
                                 <li>
                                     <span>岗位职级 : </span>
