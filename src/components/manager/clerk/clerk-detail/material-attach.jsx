@@ -36,6 +36,7 @@ class MaterialAttach extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        console.log(nextProps.list.listAll)
         if(!isEmpty(nextProps.listAll)){
             const {
                 basicData= [],
@@ -52,37 +53,25 @@ class MaterialAttach extends Component {
                         value.list.forEach((item) => {afterData.push(item)});break;
                 }
             })
-            // nextProps.list.forEach((value,index) => {
-            //     switch(value.type){
-            //         case 1 : 
-            //             value.attachment_type.forEach((item) => {basicDataq.push(item)});break;
-            //         case 2 : 
-            //             value.list.forEach((item) => {beforeDataq.push(item)});break;
-            //         case 3 : 
-            //             value.list.forEach((item) => {afterDataq.push(item)});break;
-            //     }
-            // })
             this.setState({
                 basicData,
                 beforeData,
                 afterData
             });
-        }
+            if(basicData.length!=0){
+                this.setState({
+                isLoading:false
+            });
+            }
+       }
     }
 
-    shouldComponentUpdate(nextProps,nextState) {
-        console.log(nextProps !== this.props);
-        return nextProps !== this.props;
-    }
-
-    // componentDidUpdate(){
-    //     const rid = this.props.data.resumeoff.rid+'';
-    //     this.props.queryEmployee({rid:rid});
+    // shouldComponentUpdate(nextProps,nextState) {
+    //     console.log(nextProps !== this.props);
+    //     return nextProps !== this.props;
     // }
 
     handleAttachmentClick = (itemData) => {
-        //console.log(itemData.parmentType)//判断属于那列信息 itemData.type判断具体属于那列信息
-        //console.log(this.props.data.list)//通过与type区别属于那列信息  通过attachment_type里面的typeId来来判断取哪个数据的文件名
         const {rid} = this.props.params;
        this.setState({
            itemData,
@@ -108,7 +97,6 @@ class MaterialAttach extends Component {
         //this.props.queryEmployee({rid:rid});
         for(let i=0;i<this.props.imageUrl.length;i++){
             if(value.id==this.props.imageUrl[i]){
-                console.log
                 this.props.imageUrl.splice(i,1)
             }
         }
@@ -122,9 +110,6 @@ class MaterialAttach extends Component {
             basicData=[],
             beforeData=[],
             afterData=[],
-            basic_data = [],
-            before_data = [],
-            after_data = [],
             rid,
             tokenKey,
             token,
@@ -163,16 +148,15 @@ class MaterialAttach extends Component {
                                                     <Icon type="plus-circle-o"
                                                     onClick={this.handleAttachmentClick.bind(this,value)}
                                                         style={{ 
-                                                            marginBottom:'-120px',
+                                                            //marginBottom:'-120px',
                                                             paddingTop:'30px',
                                                             fontSize: 45, 
                                                             color: '#d2d2d2',
                                                         }}
                                                     />
-                                                    <p style={{marginBottom:10}}>{name}</p>
-                                                    
+                                                    <p style={{marginBottom:10}}>{name}</p> 
                                                 </div>:<div>
-                                                    <img alt="example" style={{ width: '190px',height:'150px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
                                                         <div>
                                                             <h3 onClick={this.handleAttachmentClick.bind(this,value)} alt="点击上传附件">{name}</h3>
                                                             <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
@@ -212,11 +196,10 @@ class MaterialAttach extends Component {
                                                     />
                                                     <p style={{marginBottom:10}}>{name}</p>
                                                 </div>:<div>
-                                                        <img alt="example" style={{ width: '190px',height:'150px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                        <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
                                                         <div>
                                                             <h3>{name}</h3>
-                                                            <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>&nbsp;&nbsp;&nbsp;
-                                                            <span onClick={this.deleteImage.bind(this,value)}>删除</span>
+                                                            <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>
                                                         </div>
                                                     </div>
                                             }
@@ -251,11 +234,10 @@ class MaterialAttach extends Component {
                                                 />
                                                 <p style={{marginBottom:10}}>{name}</p>
                                             </div>:<div>
-                                                    <img alt="example" style={{ width: '190px',height:'150px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
                                                     <div>
                                                         <h3>{name}</h3>
-                                                        <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>&nbsp;&nbsp;&nbsp;
-                                                        <span onClick={this.deleteImage.bind(this,value)}>删除</span>
+                                                        <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>
                                                     </div>
                                                 </div>
                                         }
@@ -301,6 +283,7 @@ const mapStateToProps = state => ({
     attactmentModal: state.Manage.attactmentModal,
     imageUrl: state.Manage.imageUrl,
     imageVisible: state.Manage.imageVisible,
+    queryEmployeeList: state.Manage.queryEmployeeList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -312,7 +295,6 @@ const mapDispatchToProps = dispatch => ({
     showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
     hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
     cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),
-    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
 })
 
 export default connect(

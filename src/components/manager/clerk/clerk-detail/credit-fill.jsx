@@ -9,11 +9,11 @@ import {ErrorInputComponent} from '../input-select-time';
 export default class CreditFillComponent extends Component {
 
      state = {
-        name:'余文忠',
-        mobile:'18616762568',
-        card:'310110199203091013',
-        certid:'104101200306000405',
-        rid:'26',
+        name:'',
+        mobile:'',
+        card:'',
+        certid:'',
+        rid:'',
         downLoading:false
         // name:'余文忠',
         // mobile:'18616762568',
@@ -47,22 +47,22 @@ export default class CreditFillComponent extends Component {
             break;    
             }
     }
-    // componentWillReceiveProps(nextprops){
-    //     const {
-    //         name,
-    //         mobile,
-    //         card,
-    //         certid,
-    //         resumeid
-    //     } = nextprops.data.resumeoff;
-    //     this.setState({
-    //         name,
-    //         mobile,
-    //         card,
-    //         certid,
-    //         resumeid
-    //     })
-    // }
+    componentWillReceiveProps(nextprops){
+        const {
+            name,
+            mobile,
+            card,
+            certid,
+            rid
+        } = nextprops.data.resumeoff;
+        this.setState({
+            name,
+            mobile,
+            card,
+            certid,
+            rid:rid+''
+        })
+    }
     searchCredit = () => {
         const {searchCredit,data,showcredit,creditData}=this.props;
         const {rid,name,mobile,card,certid}= this.state;
