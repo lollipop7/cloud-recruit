@@ -154,7 +154,7 @@ class LeftTreePage extends Component {
     this.setState({departmentName:e.target.value,name:e.target.value})
   }
   handleChange2 = (e) => {
-    this.setState({departmentName2:e.target.value,name:e.target.value})
+    this.setState({departmentName2:e.target.value})
   }
   handleChange3 = (value) => {
     this.setState({resultDepartment:value})
@@ -163,8 +163,9 @@ class LeftTreePage extends Component {
     const {title, name, sup_id,type, title2, departmentName, name2, departmentName2, uid} = this.state;
     const { organize:{list}, mechanismInfo, organize, arrangeDepartment } = this.props;
     if(mechanismInfo == 'success'){
+      // console.log(11111,mechanismInfo)
       this.afterSuccess()
-      this.setState({departmentName:''});
+      this.setState({departmentName:'',departmentName2:''});
     }
     return (
         <div className='pull-left tree-type'>
@@ -209,7 +210,7 @@ class LeftTreePage extends Component {
                   <Input value={departmentName} ref = "departmentNameInput" onChange={this.handleChange} />
                 </div>
               </div>
-              <div className={type=='delete'?'department hide':'department'}>
+              <div className={type=='delete'||type=='tool'?'department hide':'department'}>
                 <span className='name'>管理者名称：</span>
                 <div className='input-type'>
                   <Input value={departmentName2} ref = "departmentName2Input" onChange={this.handleChange2} />
@@ -240,10 +241,7 @@ const mapStateToProps = state => ({
   arrangeDepartment: state.Manage.arrangeDepartment
 })
 const mapDispatchToProps = dispatch => ({
-  getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
-  getDepartMentStaff: bindActionCreators(Actions.ManageActions.getDepartMentStaff, dispatch),
   addMechnism: bindActionCreators(Actions.ManageActions.addMechnism, dispatch),
-  refreshDepartmentInfo: bindActionCreators(Actions.ManageActions.refreshDepartmentInfo, dispatch),
   deleteMechnism: bindActionCreators(Actions.ManageActions.deleteMechnism, dispatch),
   getOrganizeChart: bindActionCreators(Actions.ManageActions.getOrganizeChart, dispatch),
   editMechnism: bindActionCreators(Actions.ManageActions.editMechnism, dispatch),

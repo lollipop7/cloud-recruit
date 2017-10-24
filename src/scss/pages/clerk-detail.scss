@@ -52,20 +52,20 @@
                 height: 30px;
                 font-size: 14px;
                 margin-left: 10px;
-                &:first-child {
-                    position: relative;
-                    color: #c74315;
-                    border-color: #c74315;
-                    img {
-                        position: absolute;
-                        top: -1px;
-                        right: 0;
-                    }
-                    &:focus {
-                        border-color: #c74315 !important;
-                        color: #c74315 !important;
-                    }
-                }
+                // &:first-child {
+                //     position: relative;
+                //     color: #c74315;
+                //     border-color: #c74315;
+                //     img {
+                //         position: absolute;
+                //         top: -1px;
+                //         right: 0;
+                //     }
+                //     &:focus {
+                //         border-color: #c74315 !important;
+                //         color: #c74315 !important;
+                //     }
+                // }
                 img {
                     vertical-align: middle;
                 }

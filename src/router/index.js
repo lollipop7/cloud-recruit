@@ -214,6 +214,17 @@ const ManageClerk = {
         } 
     }
 
+    // 引入员工简历页面路由组件
+    const employeeInfo = {
+        path: 'employeeInfo(/:resumeid)(/:rid)', // resumeId:职位id rid
+        onEnter:requireAuthHook,
+        getComponent(nextState,cb){
+            require.ensure([], (require) => {
+                cb(null, require('pages/employee-info').default)
+            }, 'EmployeeInfoPage')
+        }
+    }
+
 //档案管理页面子路由
 const Crchives = {
     path: 'archives',
@@ -313,6 +324,7 @@ const RouteConfig = {
       resumeInfo, // 简历详情
       Email,
       ManagerPage, // 员工管理
+      employeeInfo, //员工简历详情
       HelpPage, //使用帮助
       NotFoundPage // 404
     ]

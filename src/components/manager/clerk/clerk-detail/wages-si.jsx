@@ -19,7 +19,7 @@ export default class WagesSocialSecurity extends Component {
     }
     //编辑信息
     editInformation = (field) => {
-        if(field=='wage'){
+        if(field=='card'){
             this.setState({
                 btnState:'block',
                 borderState:"1px solid #d9d9d9",
@@ -102,7 +102,6 @@ export default class WagesSocialSecurity extends Component {
             })
 
         }else if (field== 'eduBtnState'){
-
             const filterObj = pickBy(this.state,(val,key)=>{
                 return key =='soci_card' || key =='fund_card' || key =='rid'
             });
@@ -211,7 +210,7 @@ export default class WagesSocialSecurity extends Component {
                             </h3>
                             <div className="editor-wrap inline-block">   
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
-                                <span  onClick = {this.editInformation.bind(this,'wage')}>编辑</span>
+                                <span  onClick = {this.editInformation.bind(this,'card')}>编辑</span>
                             </div>
                             <ul className="field-list inline-block" style={{marginLeft: 85}}>
                                 <li>

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Menu, Dropdown,Icon, Select, notification } from 'antd';
+import { Button, Menu, Dropdown,Icon, Select } from 'antd';
 
 import UploadClerkModal from './upload-clerk-modal';
 import pickBy from 'lodash/pickBy';
