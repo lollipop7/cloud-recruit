@@ -77,21 +77,13 @@ export default class TableComponent extends Component{
                     )
             }
             resumeColumns[1].render = (text,record,index) => {
-                return <Tooltip title={<span>{record.name}</span>}>
-                            <Icon 
-                                type='qrcode'
-                                style={{fontSize:18}}
-                            />
-                        </Tooltip>  
-            };
-            resumeColumns[2].render = (text,record,index) => {
                 return <Progress 
                             className="personnelMaterials "
                             percent={(text*100).toFixed(0)}
                             style={{color:'#f68f6b'}}
                        />
             };
-            resumeColumns[3].render = (text,record,index) => {
+            resumeColumns[2].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon 
@@ -100,8 +92,17 @@ export default class TableComponent extends Component{
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
-            resumeColumns[4].render = (text,record,index) => {
+            resumeColumns[3].render = (text,record,index) => {
                 return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>
+            }
+            resumeColumns[4].render = (text,record,index) => {
+                const type = text?'check-circle':'question-circle';
+                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
+                return <Icon 
+                            type={type}
+                            style={{color:color}}
+                            onClick={this.setPersonnelMaterials.bind(this,record)}
+                       /> 
             }
             resumeColumns[5].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
@@ -130,15 +131,6 @@ export default class TableComponent extends Component{
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        /> 
             }
-            resumeColumns[8].render = (text,record,index) => {
-                const type = text?'check-circle':'question-circle';
-                const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
-                            type={type}
-                            style={{color:color}}
-                            onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
-            }
             resumeColumns[resumeColumns.length-1].render = (text,record,index) => {
                 return moment(text).format('YYYY-MM-DD')
             };
@@ -152,20 +144,21 @@ export default class TableComponent extends Component{
                     </Link>
                 ) 
             };
+            
             LeaveColumns[1].render = (text,record,index) => {
-                return <Tooltip title={<span>{record.name}</span>}>
-                            <Icon 
-                                    type='qrcode'
-                                    style={{fontSize:18}}
-                            />
-                       </Tooltip>  
-            };
-            LeaveColumns[2].render = (text,record,index) => {
                 return <Progress 
                             className="personnelMaterials "
                             percent={(text*100).toFixed(0)}
                             style={{color:'#f68f6b'}}
                        />
+            };
+            LeaveColumns[2].render = (text,record,index) => {
+                const type = text == '1'?'check-circle':'question-circle';
+                const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
+                return <Icon 
+                    type={type}
+                    style={{color:color}}
+                />     
             };
             LeaveColumns[3].render = (text,record,index) => {
                 const type = text == '1'?'check-circle':'question-circle';
@@ -184,14 +177,6 @@ export default class TableComponent extends Component{
                 />     
             };
             LeaveColumns[5].render = (text,record,index) => {
-                const type = text == '1'?'check-circle':'question-circle';
-                const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
-                    type={type}
-                    style={{color:color}}
-                />     
-            };
-            LeaveColumns[6].render = (text,record,index) => {
                 return moment(text).format('YYYY-MM-DD')
             };
             return LeaveColumns

@@ -78,6 +78,9 @@ import isNumber from 'lodash/isNumber';
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
 
+    const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
+    const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
+
     //图片地址
     const IMAGEURL = {type:types.IMAGEURL};
     const SHOW_IMAGE_MODAL = {type:types.SHOW_IMAGE_MODAL};
@@ -194,7 +197,7 @@ import isNumber from 'lodash/isNumber';
             responseType: 'arraybuffer'
         })
         .then(res=>{
-            var blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
             FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
             console.log(error)
@@ -386,29 +389,48 @@ import isNumber from 'lodash/isNumber';
         })
     }
     //预览材料附件
-    export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
-        const token = store.get('token');
-        const fileArr = arr;
-        const urlArr = [];
-        for(let i=0;i<fileArr.length;i++){
+    // export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
+    //     const token = store.get('token');
+    //     const fileArr = arr;
+    //     const urlArr = [];
+    //     for(let i=0;i<fileArr.length;i++){
+    //         axios({
+    //         url:`${prefixUri}/view_uploadAttachment`,
+    //         method:'get',
+    //         params:{
+    //             token:token.token,
+    //             tokenKey:token.tokenKey,
+    //             fileName:fileArr[i]
+    //         }
+    //         }).then(res=>{
+    //             urlArr.push(res.request.responseURL)
+    //             if(fileArr.length==urlArr.length){
+    //                 dispatch({...IMAGEURL,imageUrl:urlArr});
+    //                 showImageModal()
+    //             }   
+    //         }).catch(error=>{
+    //             console.log(error);
+    //         });
+    //     }    
+    // }
+
+    export const viewUploadAttachment = (fileName,showImageModal) => (dispatch,getState) => {
+            const token = store.get('token');
             axios({
             url:`${prefixUri}/view_uploadAttachment`,
             method:'get',
             params:{
                 token:token.token,
                 tokenKey:token.tokenKey,
-                fileName:fileArr[i]
+                fileName:fileName
             }
             }).then(res=>{
-                urlArr.push(res.request.responseURL)
-                if(fileArr.length==urlArr.length){
-                    dispatch({...IMAGEURL,imageUrl:urlArr});
+                console.log(res)
+                    dispatch({...IMAGEURL,imageUrl:res.request.responseURL});
                     showImageModal()
-                }   
             }).catch(error=>{
                 console.log(error);
-            });
-        }    
+            });    
     }
     //显示图片预览Modal
     export const showImageModal = (data) => (dispatch,getState) => {
@@ -467,6 +489,7 @@ import isNumber from 'lodash/isNumber';
     }
     //人员征信查询
     export const searchCredit = (data,showcredit) => (dispatch,getState) => {
+       
         AjaxByToken('cerditQueryperationList_employees', {
             head: {
                 transcode: 'L0060'
@@ -475,9 +498,10 @@ import isNumber from 'lodash/isNumber';
         })
         .then(res=>{
             //console.log(res)
-            NProgress.done();
+            NProgress.start();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
             showcredit()
+            NProgress.done();
         },err=>{
             console.log(err);
         })
@@ -487,8 +511,8 @@ import isNumber from 'lodash/isNumber';
         dispatch({...CREDITINVESTGATIONSTATE,isFill:true})
     }
 
-    //1.56 员工简历查看
-    export const showEmployeeResumeView = (data) => (dispatch,getState) => {
+    //1.56 员工简历详细信息(根据简历id和rid)
+    export const getEmployeeResumeInfo = (data) => (dispatch,getState) => {
         dispatch(LOAD_EMPLOYEEINFO_START);
         AjaxByToken('employeeinfo/employeeResumeview', {
             head: {
@@ -500,9 +524,17 @@ import isNumber from 'lodash/isNumber';
             dispatch(LOAD_EMPLOYEEINFO_DONE);
             dispatch({...LOAD_EMPLOYEEINFO,employeeInfo:res});
         },err=>{
-            console.log(err)
             dispatch(LOAD_EMPLOYEEINFO_DONE);
         })
+    }
+
+    // 显示简历信息Modal
+    export const showResumeModal = (data) => (dispatch,getState) => {
+        dispatch({...SHOW_INFO_MODAL,uriParams:data});
+    }
+    // 隐藏简历信息Modal
+    export const hideResumeModal = () => (dispatch,getState) => {
+        dispatch(HIDE_INFO_MODAL);
     }
 
     
@@ -527,7 +559,11 @@ const SHOW_PERSONALMATERIAL_MODAL = {type:types.SHOW_PERSONALMATERIAL_MODAL};
 const HIDE_PERSONALMATERIAL_MODAL = {type:types.HIDE_PERSONALMATERIAL_MODAL};
 
 //档案管理table数据
-const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
+const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA};
+
+//进度条
+const PROGRESS = {type: types.PROGRESS};
+const CANCELPROGRESS = {type: types.CANCELPROGRESS};
 
 //**全员概览 ------------------------------------------------*/
 
@@ -607,7 +643,7 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     })
 }
 
-//下载材料附件
+//1.77下载材料附件
 export const downloadMaterial = (data) => (dispatch,getState) => { 
     const token = store.get('token');
     const {rid,name} = data;
@@ -615,20 +651,23 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
         url: `${prefixUri}/archives/DOWNLOAD_RESUME_METERIAL`,
         method: 'get',
         params: {
-            token:token.token,
-            tokenKey:token.tokenKey,
-            rid:rid,
+            ...token,
+            rid,
             transcode: 'L0077'
-        }
+        },
+        responseType: 'blob'
     })
     .then(res=>{
-        const {data} = res;
-        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+        const blob = new Blob([res.data], {type: "application/zip"});
         FileSaver.saveAs(blob, `${name}个人材料附件.zip`);
     }).catch(error=>{
         console.log(error)
     });
 }
+//隐藏进度条
+export const cancelProgress = () =>(dispatch,getState) => {
+    dispatch({...CANCELPROGRESS})
+ }
 
 //添加、编辑员工信息
 export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
@@ -650,21 +689,22 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
             if(data.rid){
                 message.success('编辑信息成功！')
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'1'}) 
+                    getArchivesList({sort:'4'}) 
                 }else if (archivesTableData=='2'){
-                    getLeaveArchivesList({sort:'1'})
+                    getLeaveArchivesList({sort:'4'})
                 }
                 getDepartMentStaff({departmentId:currentUid},currentUid);       
             }else{
                 message.success('添加信息成功！');
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'1'}) 
+                    getArchivesList({sort:'4'}) 
                 }else if (archivesTableData=='2'){
-                    getLeaveArchivesList({sort:'1'})
+                    getLeaveArchivesList({sort:'4'})
                 }   
             }
         }else{
-            message.success('编辑信息成功！')
+            message.success('编辑信息成功')
+            NProgress.done();
         }
               
     },err=>{

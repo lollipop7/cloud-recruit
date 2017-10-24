@@ -39,10 +39,13 @@ export class ErrorInputComponent extends Component {
     }
 
     //判断必选框是否为空
-    handleBlur = () => {
-        const { value } = this.props;
+    handleBlur = (field) => {
+        const { value, onBlur } = this.props;
         if (value === '') {
             this.triggerError(true);
+        }
+        if (onBlur){
+            onBlur(field,value);
         }
     }
 

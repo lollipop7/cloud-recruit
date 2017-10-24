@@ -10,13 +10,6 @@ module.exports = [
         "width": 150
     },
     {
-        "title": "移动操作",
-        "dataIndex": "positionname",
-        "key": "positionname",
-        "width": 150,
-        render: renderWithATag
-    },
-    {
         "title": "人事材料存档率",
         "dataIndex": "percent", 
         "key": "percent",

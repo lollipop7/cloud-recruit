@@ -7,6 +7,8 @@ import PlusAttachmentModal from './attactment-modal';
 import forEach from 'lodash/forEach';
 import pickBy from 'lodash/pickBy';
 
+import LoadingComponent from 'components/loading';
+
 //redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -19,9 +21,6 @@ class MaterialAttach extends Component {
         basicData: [],      //基本资料
         beforeData: [],     //档案附件
         afterData: [],      //离职资料
-        basicDataq: [],      //基本资料
-        beforeDataq: [],     //档案附件
-        afterDataq: [],      //离职资料
         rid:'',
         tokenKey:'',
         token:''
@@ -39,7 +38,7 @@ class MaterialAttach extends Component {
         const {
             basicData= [],
             beforeData= [],
-            afterData= []
+            afterData= [],
         } = this.state;
         nextProps.listAll.forEach((value,index) => {
             switch(value.type){
@@ -51,21 +50,16 @@ class MaterialAttach extends Component {
                     value.list.forEach((item) => {afterData.push(item)});break;
             }
         })
-        // nextProps.list.forEach((value,index) => {
-        //     switch(value.type){
-        //         case 1 : 
-        //             value.attachment_type.forEach((item) => {basicDataq.push(item)});break;
-        //         case 2 : 
-        //             value.list.forEach((item) => {beforeDataq.push(item)});break;
-        //         case 3 : 
-        //             value.list.forEach((item) => {afterDataq.push(item)});break;
-        //     }
-        // })
         this.setState({
             basicData,
             beforeData,
             afterData
         });
+        if(nextProps.listAll.length!=0){
+            this.setState({
+                isLoading:false
+            })
+        }
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -84,19 +78,21 @@ class MaterialAttach extends Component {
     }
 
     showImageModal = (itemData) => {
-        const filenameArr =[];
-        const {showImageModal} = this.props;
-        this.props.data.list.forEach((value,index) => {
-            if(itemData.parmentType==value.type){
-                value.attachment_type.forEach((item,index)=>{
-                    if(item.typeId==itemData.type){
-                        filenameArr.push(item.filename)
-                        //this.props.viewUploadAttachment(item.filename,showImageModal)
-                    }
-                    this.props.viewUploadAttachment(filenameArr,showImageModal)  
-                })
-            }
-        })
+        console.log(itemData);
+        // const filenameArr =[];
+         const {showImageModal} = this.props;
+        // this.props.data.list.forEach((value,index) => {
+        //     if(itemData.parmentType==value.type){
+        //         value.attachment_type.forEach((item,index)=>{
+        //             if(item.typeId==itemData.type){
+        //                 filenameArr.push(item.filename)
+        //                 //this.props.viewUploadAttachment(item.filename,showImageModal)
+        //             }
+        //             this.props.viewUploadAttachment(filenameArr,showImageModal)  
+        //         })
+        //     }
+        // })
+        this.props.viewUploadAttachment(itemData,showImageModal);
         this.props.showImageModal()
     }
     hideImageModal = () =>{
@@ -110,15 +106,27 @@ class MaterialAttach extends Component {
             basicData=[],
             beforeData=[],
             afterData=[],
+            basic_data = [],
+            before_data = [],
+            after_data = [],
             rid,
             tokenKey,
-            token
+            token,
+            isLoading
         } = this.state;
         const {imageUrl , imageVisible, showImageModal, hideImageModal} = this.props;
-        console.log(this.props.data)
-        //console.log(beforeData)
         return (
             <div className="material-attach clerk-tab-container">
+                {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: 100,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}>
@@ -159,7 +167,7 @@ class MaterialAttach extends Component {
                             <h3 className="title">档案附件</h3>
                             {
                                 beforeData.map((value,index) => {
-                                    const {name,isShow} = value;
+                                    const {name,isShow,type} = value;
                                     return(
                                             <div key={name} 
                                                 className="add-attactment" 
@@ -192,7 +200,7 @@ class MaterialAttach extends Component {
                             <h3 className="title">离职资料</h3>
                             {
                                 afterData.map((value,index) => {
-                                    const {name,isShow} = value;
+                                    const {name,isShow,type} = value;
                                     return(
                                         <div key={name} 
                                              className="add-attactment" 
@@ -228,7 +236,10 @@ class MaterialAttach extends Component {
                     onCancel={this.hideImageModal}
                 >
                     <div style={{width:500,height:500,margin:'0 auto'}}>
-                        {
+                        <img src={imageUrl} 
+                            style={{width:'100%',height:'100%'}}
+                        />
+                        {/* {
                             imageUrl.length==0?<span style={{fontSize:18,color:'#D4D4D4'}}>暂未上传附件</span>
                                                 :
                                                         imageUrl.map((item,index)=>{
@@ -239,7 +250,7 @@ class MaterialAttach extends Component {
                                                                     </div>
                                                                 
                                                         })
-                        } 
+                        }  */}
                     </div>  
                 </Modal>                   
             </div>

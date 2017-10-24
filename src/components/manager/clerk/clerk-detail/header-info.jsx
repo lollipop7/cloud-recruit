@@ -59,20 +59,16 @@ export default class HeaderInfoComponent extends Component {
         return nextProps !== this.props || nextState != this.state;
     }
 
-    creditInvestgation = () => {
-        console.log('人员征信');
-    }
+    // creditInvestgation = () => {
+    //     console.log('人员征信');
+    // }
 
     //查看简历
-    showResumeModal = (rid,resumeid) => {
+    showResumeModal = (resumeid,rid) => {
         const {
-            showEmployeeResumeView,
             showResumeModal
         } = this.props;
-        if(isNumber(rid)) rid = rid;
-        if(isNumber(resumeid)) resumeid = resumeid;
-        showEmployeeResumeView({rid,resumeid});
-        showResumeModal({resumeid});
+        showResumeModal({resumeid,rid})
     }
 
     handleMoreOthersClick = (e) => {
@@ -81,10 +77,9 @@ export default class HeaderInfoComponent extends Component {
             showDismissionModal
         } = this.props;
         const {workstatus} = this.state;
-        console.log(workstatus);
         switch(e.key){
-            case '1': console.log('生成信息填写二维码'); break;
-            case '2': 
+            // case '1': console.log('生成信息填写二维码'); break;
+            case '1': 
                 if(workstatus === 1) {
                     notification.info({
                         message: '提示',
@@ -94,7 +89,7 @@ export default class HeaderInfoComponent extends Component {
                     showPermanentModal(); 
                 }; 
                 break;
-            case '3': 
+            case '2': 
                 if(workstatus === 2) {
                     notification.info({
                         message: '提示',
@@ -104,7 +99,7 @@ export default class HeaderInfoComponent extends Component {
                     showDismissionModal();
                 }; 
                 break;
-            case '4': console.log('删除员工'); break;
+            // case '4': console.log('删除员工'); break;
         }
     }
 
@@ -127,10 +122,10 @@ export default class HeaderInfoComponent extends Component {
         } = this.state;
         const moreOthers = (
             <Menu onClick={this.handleMoreOthersClick}>
-                <Menu.Item key="1">生成信息填写二维码</Menu.Item>
-                <Menu.Item key="2">转正</Menu.Item>
-                <Menu.Item key="3">办理离职</Menu.Item>
-                <Menu.Item key="4">删除员工</Menu.Item>
+                {/* <Menu.Item key="1">生成信息填写二维码</Menu.Item> */}
+                <Menu.Item key="1">转正</Menu.Item>
+                <Menu.Item key="2">办理离职</Menu.Item>
+                {/* <Menu.Item key="4">删除员工</Menu.Item> */}
             </Menu>
         );
         return (
@@ -184,11 +179,11 @@ export default class HeaderInfoComponent extends Component {
                     </ul>
                 </div>
                 <div className="ctr-btns pull-right">
-                    <Button onClick={this.creditInvestgation}>
+                    {/* <Button onClick={this.creditInvestgation}>
                         <img src="static/images/manager/clerk/test.png" alt="测试"/>
                         人员征信
-                    </Button>
-                    <Button onClick={this.showResumeModal.bind(this,rid,resumeid)}>
+                    </Button> */}
+                    <Button onClick={this.showResumeModal.bind(this,resumeid,rid)}>
                         查看简历
                     </Button>
                     <Button onClick={showTransferPersonnelModal}>

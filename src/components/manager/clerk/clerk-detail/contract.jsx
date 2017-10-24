@@ -10,6 +10,8 @@ const constractData={name: '劳动合同', isShow: 1};
 import {Button , DatePicker , Input} from 'antd';
 import pickBy from 'lodash/pickBy';
 
+import LoadingComponent from 'components/loading';
+
 //redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -55,6 +57,11 @@ class Contract extends Component {
             endtime,            //合同结束日期
             rid:rid+''
         })
+        if(rid){
+            this.setState({
+                isLoading:false
+            })
+        }
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -94,6 +101,21 @@ class Contract extends Component {
         }
     }
     onSelectTimeChange = (field,e,date) => {
+        const {
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+            } = this.props.data;
+        if(field=='cancelBtnState'){
+            this.setState({
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+                btnState:'none',
+                borderState:"1px solid transparent",
+                isdisabled:true
+            })
+        }
         if(field=='yearnumber'){
             this.setState({
                 [field]:e.target.value
@@ -114,10 +136,21 @@ class Contract extends Component {
             starttime,          //合同开始日期
             yearnumber,         //合同年限
             endtime,            //合同结束日期
+            isLoading=true
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
         return (
             <div className="contract clerk-tab-container">
+                {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: 100,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}
@@ -173,14 +206,20 @@ class Contract extends Component {
                                     <span>&nbsp;</span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
-                                    style={{display:btnState}}
+                                    style={{display:btnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'btnState')}
                                     >
                                         保存
                                 </Button>
+                                <Button  
+                                    style={{display:btnState}}
+                                    onClick={this.onSelectTimeChange.bind(this,'cancelBtnState')}
+                                    >
+                                    取消
+                                 </Button>
                             </div>
                         </div>
                     </li>

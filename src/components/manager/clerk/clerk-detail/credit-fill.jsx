@@ -13,7 +13,8 @@ export default class CreditFillComponent extends Component {
         mobile:'18616762568',
         card:'310110199203091013',
         certid:'104101200306000405',
-        rid:'26'
+        rid:'26',
+        downLoading:false
         // name:'余文忠',
         // mobile:'18616762568',
         // card:'310110199203091013',
@@ -63,7 +64,7 @@ export default class CreditFillComponent extends Component {
     //     })
     // }
     searchCredit = () => {
-        const {searchCredit,data,showcredit}=this.props;
+        const {searchCredit,data,showcredit,creditData}=this.props;
         const {rid,name,mobile,card,certid}= this.state;
         if(!mobile){
             this.refs.phonenumInput.triggerError(true);
@@ -77,14 +78,20 @@ export default class CreditFillComponent extends Component {
             this.refs.diplomanumInput.triggerError(true);
             return false
         }
-        searchCredit({
+        if(creditData.flag){
+            searchCredit({rid},showcredit);
+        }else{
+            searchCredit({
             rid ,
             name,
             phone:mobile,
             card,
             certid
         },showcredit);
-        NProgress.done();
+        }
+        this.setState({
+            downLoading:true
+        })  
     }
 
      render(){
@@ -92,7 +99,8 @@ export default class CreditFillComponent extends Component {
             name,
             mobile,
             card,
-            certid
+            certid,
+            downLoading
          } = this.state;
          const {creditData}=this.props;
          return(
@@ -150,6 +158,7 @@ export default class CreditFillComponent extends Component {
                                     type="primary" 
                                     style={{fontSize: 20, width: 182, height: 45}}
                                     onClick= {this.searchCredit}
+                                    loading={downLoading}
                                 >
                                     点击查看
                                 </Button>:
@@ -157,6 +166,7 @@ export default class CreditFillComponent extends Component {
                                 type="primary" 
                                 style={{fontSize: 20, width: 182, height: 45}}
                                 onClick= {this.searchCredit}
+                                loading={downLoading}
                             >
                                 一键查询
                             </Button>}
