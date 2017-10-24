@@ -42,6 +42,7 @@ a {
     color: white;
 }
 .first-name {
+    width: 200px !important;
     background-color: #ff8a64 !important;
     border: 1px solid #ff8a64 !important;
 }
