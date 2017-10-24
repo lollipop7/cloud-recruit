@@ -386,29 +386,48 @@ import isNumber from 'lodash/isNumber';
         })
     }
     //预览材料附件
-    export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
-        const token = store.get('token');
-        const fileArr = arr;
-        const urlArr = [];
-        for(let i=0;i<fileArr.length;i++){
+    // export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
+    //     const token = store.get('token');
+    //     const fileArr = arr;
+    //     const urlArr = [];
+    //     for(let i=0;i<fileArr.length;i++){
+    //         axios({
+    //         url:`${prefixUri}/view_uploadAttachment`,
+    //         method:'get',
+    //         params:{
+    //             token:token.token,
+    //             tokenKey:token.tokenKey,
+    //             fileName:fileArr[i]
+    //         }
+    //         }).then(res=>{
+    //             urlArr.push(res.request.responseURL)
+    //             if(fileArr.length==urlArr.length){
+    //                 dispatch({...IMAGEURL,imageUrl:urlArr});
+    //                 showImageModal()
+    //             }   
+    //         }).catch(error=>{
+    //             console.log(error);
+    //         });
+    //     }    
+    // }
+
+    export const viewUploadAttachment = (fileName,showImageModal) => (dispatch,getState) => {
+            const token = store.get('token');
             axios({
             url:`${prefixUri}/view_uploadAttachment`,
             method:'get',
             params:{
                 token:token.token,
                 tokenKey:token.tokenKey,
-                fileName:fileArr[i]
+                fileName:fileName
             }
             }).then(res=>{
-                urlArr.push(res.request.responseURL)
-                if(fileArr.length==urlArr.length){
-                    dispatch({...IMAGEURL,imageUrl:urlArr});
+                console.log(res)
+                    dispatch({...IMAGEURL,imageUrl:res.request.responseURL});
                     showImageModal()
-                }   
             }).catch(error=>{
                 console.log(error);
-            });
-        }    
+            });    
     }
     //显示图片预览Modal
     export const showImageModal = (data) => (dispatch,getState) => {
@@ -467,6 +486,7 @@ import isNumber from 'lodash/isNumber';
     }
     //人员征信查询
     export const searchCredit = (data,showcredit) => (dispatch,getState) => {
+       
         AjaxByToken('cerditQueryperationList_employees', {
             head: {
                 transcode: 'L0060'
@@ -475,9 +495,10 @@ import isNumber from 'lodash/isNumber';
         })
         .then(res=>{
             //console.log(res)
-            NProgress.done();
+            NProgress.start();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
             showcredit()
+            NProgress.done();
         },err=>{
             console.log(err);
         })
@@ -527,7 +548,11 @@ const SHOW_PERSONALMATERIAL_MODAL = {type:types.SHOW_PERSONALMATERIAL_MODAL};
 const HIDE_PERSONALMATERIAL_MODAL = {type:types.HIDE_PERSONALMATERIAL_MODAL};
 
 //档案管理table数据
-const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA}
+const ARCHIVES_TABLE_DATA = {type: types.ARCHIVES_TABLE_DATA};
+
+//进度条
+const PROGRESS = {type: types.PROGRESS};
+const CANCELPROGRESS = {type: types.CANCELPROGRESS};
 
 //**全员概览 ------------------------------------------------*/
 
@@ -618,17 +643,22 @@ export const downloadMaterial = (data) => (dispatch,getState) => {
             token:token.token,
             tokenKey:token.tokenKey,
             rid:rid,
-            transcode: 'L0077'
+            transcode: 'L0077',
         }
     })
     .then(res=>{
         const {data} = res;
-        var blob = new Blob([data], {type: "application/vnd.ms-excel"});
-        FileSaver.saveAs(blob, `${name}个人材料附件.zip`);
+        var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+        FileSaver.saveAs(blob, `${name}的材料附件.zip`);
+        dispatch({...PROGRESS})
     }).catch(error=>{
         console.log(error)
     });
 }
+//隐藏进度条
+export const cancelProgress = () =>(dispatch,getState) => {
+    dispatch({...CANCELPROGRESS})
+ }
 
 //添加、编辑员工信息
 export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
@@ -650,17 +680,17 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
             if(data.rid){
                 message.success('编辑信息成功！')
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'1'}) 
+                    getArchivesList({sort:'4'}) 
                 }else if (archivesTableData=='2'){
-                    getLeaveArchivesList({sort:'1'})
+                    getLeaveArchivesList({sort:'4'})
                 }
                 getDepartMentStaff({departmentId:currentUid},currentUid);       
             }else{
                 message.success('添加信息成功！');
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'1'}) 
+                    getArchivesList({sort:'4'}) 
                 }else if (archivesTableData=='2'){
-                    getLeaveArchivesList({sort:'1'})
+                    getLeaveArchivesList({sort:'4'})
                 }   
             }
         }else{

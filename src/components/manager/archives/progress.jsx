@@ -9,7 +9,7 @@ export default class ProgressComponent extends Component{
         rightStyleState:'none',
         leftStyleColor:'#1587c7',
         rightStyleColor:'',
-        sort:'1'
+        sort:'2'
     };
     handleClick = (value) => {
         switch(value)
@@ -22,7 +22,7 @@ export default class ProgressComponent extends Component{
                     rightStyleColor:''
                 });
                 this.props.changeTableData('1');
-                this.props.getArchivesList({sort:'1'});
+                this.props.getArchivesList({sort:'2'});
                 break;
             case '2':
                 this.setState({
@@ -32,7 +32,7 @@ export default class ProgressComponent extends Component{
                     rightStyleColor:'#1587c7'
                 });
                 this.props.changeTableData('2')
-                this.props.getLeaveArchivesList({sort:'1'})
+                this.props.getLeaveArchivesList({sort:'2'})
                 break;
             default:
                 break
@@ -243,7 +243,7 @@ export default class ProgressComponent extends Component{
                     </div>
                     <div  className="archives-select">
                         <Select
-                            defaultValue="人事材料存档率升序" 
+                            defaultValue="人事材料存档率降序" 
                             style={{width: 180,height:35,lineHeight:35}}
                             onChange={this.handleSelectChange}
                         >

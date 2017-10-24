@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ProgressComponent from './archives/progress';
 import TableComponent from './archives/table';
-import { Modal} from 'antd';
+import { Modal , Progress } from 'antd';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -11,14 +11,43 @@ import * as Actions from 'actions';
  class ArchivesPage extends Component {
     state = {
         ridName :{},
-        sort:'1'
+        sort:'2',
+        progressVisible:false,
+        percent:0
     }
      componentDidMount(){
-        this.props.getArchivesList({sort:'1'});
+        this.props.getArchivesList({sort:'2'});
         this.props.getArchivesData();
         NProgress.done();
         
      }
+    componentWillUnmount() {
+        clearInterval(this.loopTime);
+    }
+    progressPercent = () => {
+        this.setState({
+            percent:parseInt(this.state.percent)+10
+        })
+        if(this.state.percent>=100){
+            clearInterval(this.loopTime);
+            this.props.cancelProgress();
+            this.setState({
+                percent:0
+            })
+        }
+     }
+     componentWillReceiveProps(nextProps){
+        const {progressVisible} = nextProps;
+        this.setState({
+            progressVisible
+        })
+        if(progressVisible){
+            this.loopTime = setInterval(()=>{
+                this.progressPercent()
+            },100);
+        }     
+    }
+     
      getRid = (value) => {
         this.setState({
             ridName:value
@@ -47,7 +76,8 @@ import * as Actions from 'actions';
             personalMaterialData,//个人材料数据
             downloadMaterial,//下载材料附件
             editEmployeeInformation//添加、编辑员工信息
-        } = this.props; 
+        } = this.props;
+        const {progressVisible, percent} = this.state;
         return (
             <div className="archives-right">
                 <div className="box-border right-panel">
@@ -77,7 +107,15 @@ import * as Actions from 'actions';
                             sort={this.state.sort}
                         />
                     </div>
-                   
+                    <Modal
+                        style={{top:400}}
+                        closable={false}
+                        footer={null}
+                        visible={progressVisible}
+                    >
+                        <Progress percent={percent} />
+                        <span>材料附件下载</span>
+                    </Modal>
                 </div>
             </div>
         );
@@ -90,7 +128,8 @@ import * as Actions from 'actions';
     archivesTableData: state.Manage.archivesTableData,
     leaveArchivesList: state.Manage.leaveArchivesList,
     personalMaterialVisible: state.Manage.personalMaterialVisible,
-    personalMaterialData: state.Manage.personalMaterialData
+    personalMaterialData: state.Manage.personalMaterialData,
+    progressVisible: state.Manage.progressVisible
  })
  const mapDispatchToProps = dispatch => ({
     getArchivesList:bindActionCreators(Actions.ManageActions.getArchivesList, dispatch),
@@ -100,7 +139,8 @@ import * as Actions from 'actions';
     showPersonalMaterialModal:bindActionCreators(Actions.ManageActions.showPersonalMaterialModal, dispatch),
     hidePersonalMaterialModal:bindActionCreators(Actions.ManageActions.hidePersonalMaterialModal, dispatch),
     downloadMaterial:bindActionCreators(Actions.ManageActions.downloadMaterial, dispatch),
-    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch)
+    editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
+    cancelProgress: bindActionCreators(Actions.ManageActions.cancelProgress,dispatch)
  })
  export default connect(
      mapStateToProps,

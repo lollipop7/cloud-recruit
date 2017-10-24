@@ -4,6 +4,7 @@ import {Input , Button ,DatePicker} from 'antd';
 
 import clerkInfo from 'data/clerk/clerk';
 import pickBy from 'lodash/pickBy';
+import LoadingComponent from 'components/loading';
 
 export default class PositionInfo extends Component {
 
@@ -23,9 +24,53 @@ export default class PositionInfo extends Component {
         this.setState({isQualified});
     }
     handleSelectChange = (field,e) => {
-        this.setState({
-            [field]:e.target.value
-        })
+        const {
+                worknumber,             //工号
+                worknature,             //工作性质
+                department,             //部门
+                position,               //岗位
+                positionclass,          //岗位职级
+                workcity,               //工作地点
+                workphone,              //工作电话
+                ext,                    //分机号
+                cemail,                 //企业邮箱
+                contactname,            //紧急联系人
+                inthetime,              //入职时间
+                positivedate,           //转正时间
+                theleng,                //试用期
+                rid
+            } = this.props.data;
+        if(field=='cancelBtnState'){
+            this.setState({
+                worknumber,             //工号
+                worknature,             //工作性质
+                department,             //部门
+                position,               //岗位
+                positionclass,          //岗位职级
+                workcity,               //工作地点
+                workphone,              //工作电话
+                ext,                    //分机号
+                cemail,                 //企业邮箱
+                contactname,            //紧急联系人
+                btnState:'none',
+                borderState:"1px solid transparent",
+                isdisabled:true
+            })
+        }else if(field=='cancelTimeBtnState'){
+            this.setState({
+                inthetime:moment(inthetime).format('YYYY-MM-DD'),               //入职时间
+                positivedate:moment(positivedate).format('YYYY-MM-DD'),         //转正时间
+                theleng,                                                        //试用期
+                btnDynamicsState:'none',
+                dateBorderState:"1px solid transparent",
+                isDatedisabled:true
+            })
+        }else {
+                this.setState({
+                [field]:e.target.value
+            })
+        }
+        
     }
     onChange = (field,value) => {
         this.setState({
@@ -98,6 +143,11 @@ export default class PositionInfo extends Component {
                 theleng,                //试用期
                 rid
             } = this.props.data;
+            if(rid){
+                this.setState({
+                    isLoading:false
+                })
+            }
             this.setState({
                 worknumber,             //工号
                 worknature,             //工作性质
@@ -143,8 +193,19 @@ export default class PositionInfo extends Component {
             dateBorderState
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
+        const {isLoading=true} = this.state;
         return (
             <div className="position-info clerk-tab-container">
+                 {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: -30,
+                        height: '100%',
+                        width: '100%',
+                        backgroundColor: '#FFF',
+                        zIndex: 2
+                    }} />
+                }
                 <ul>
                     <li className="clerk-list-item"
                         style={{position:"relative"}}
@@ -271,13 +332,19 @@ export default class PositionInfo extends Component {
                                     </span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
-                                    style={{display:btnState}}
+                                    style={{display:btnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'btnState')}
                                     >
                                     保存
+                                 </Button>
+                                 <Button  
+                                    style={{display:btnState}}
+                                    onClick={this.handleSelectChange.bind(this,'cancelBtnState')}
+                                    >
+                                    取消
                                  </Button>
                             </div>  
                         </div>
@@ -336,13 +403,19 @@ export default class PositionInfo extends Component {
                                     <span>&nbsp;</span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'50%'}}>
+                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
-                                    style={{display:btnDynamicsState}}
+                                    style={{display:btnDynamicsState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'btnDynamicsState')}
                                     >
                                     保存
+                                 </Button>
+                                 <Button  
+                                    style={{display:btnDynamicsState}}
+                                    onClick={this.handleSelectChange.bind(this,'cancelTimeBtnState')}
+                                    >
+                                    取消
                                  </Button>
                             </div>  
                         </div>
