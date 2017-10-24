@@ -40,6 +40,13 @@ export default class DismissionModal extends Component {
         this.setState({ selectedTags: nextSelectedTags,msg: nextSelectedTags.join(',') });
     }
 
+    disabledDate = date => {
+        if(!date){
+            return false;
+        }
+        return date.valueOf() < new Date().getTime();
+    }
+
     getFormData = () => {
         const {
             date,
@@ -63,10 +70,10 @@ export default class DismissionModal extends Component {
     }
 
     handleDismissClerk = () => {
-        const {departureEmployees,rid} = this.props;
+        const {departureEmployees,rid,getOperationList} = this.props;
         const dismissData = this.getFormData();
         if(!dismissData) return;
-        departureEmployees({...dismissData,rid:rid});
+        departureEmployees({...dismissData,rid:rid},getOperationList);
     }
 
     render() {
@@ -101,6 +108,7 @@ export default class DismissionModal extends Component {
                         style={{width: 224, height: 40}}
                         onChange={this.onTimeChange}
                         asterisk={true}
+                        disabledDate={this.disabledDate}
                     />
                 </li>
                 <li>

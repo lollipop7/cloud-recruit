@@ -42,6 +42,7 @@ class ClerkDetail extends Component {
      render(){
          const {
              queryEmployeeList,
+             queryResetForm,
              dismissionModal,
              permanentModal,
              transferPersonnelModal,
@@ -60,14 +61,16 @@ class ClerkDetail extends Component {
              getTreeList,                       //递归
              departureEmployees,
              operationList,
-             creditData
+             creditData,
+             getOperationList
         } = this.props,
         {list={}} = queryEmployeeList,
         rid = this.props.params.rid;
-        //console.log(queryEmployeeList)
         return (
             <div className="right-panel clerk-detail-container">
-                <ControlComponent/>
+                <ControlComponent 
+                    queryResetForm={queryResetForm}
+                />
                 <HeaderInfoComponent 
                     rid={rid}
                     data={list}
@@ -86,6 +89,7 @@ class ClerkDetail extends Component {
                     dismissionModal={dismissionModal}
                     hideDismissionModal={hideDismissionModal}
                     departureEmployees={departureEmployees}
+                    getOperationList={getOperationList}
                 />
                 <PermanentModal 
                     rid={rid}
@@ -93,6 +97,7 @@ class ClerkDetail extends Component {
                     permanentModal={permanentModal}
                     hidePermanentModal={hidePermanentModal}
                     positiveEmployees={positiveEmployees}
+                    getOperationList={getOperationList}
                 />
                 <TransferPersonnelModal 
                     rid={rid}
@@ -122,6 +127,7 @@ class ClerkDetail extends Component {
 
 const mapDispatchToProps = dispatch => ({
     queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
+    queryResetForm: bindActionCreators(Actions.ManageActions.queryResetForm,dispatch),
     getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),
     showDismissionModal: bindActionCreators(Actions.ManageActions.showDismissionModal, dispatch),
     hideDismissionModal: bindActionCreators(Actions.ManageActions.hideDismissionModal, dispatch),

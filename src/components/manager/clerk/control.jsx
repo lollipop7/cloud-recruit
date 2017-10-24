@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Menu, Dropdown,Icon, Select } from 'antd';
+import { Button, Menu, Dropdown,Icon, Select, notification} from 'antd';
 
 import UploadClerkModal from './upload-clerk-modal';
 import pickBy from 'lodash/pickBy';
@@ -14,10 +14,6 @@ class ControlComponent extends Component {
 
     static contextTypes = {
         router: PropTypes.object
-    }
-
-    state = {
-        isExportLoading:false
     }
 
     shouldComponentUpdate(nextProps,nextState) {
@@ -55,15 +51,27 @@ class ControlComponent extends Component {
     handleExportClerkClick = () => {
         const {
             exportEmployees,
-            ridList
+            ridList,
+            startExportEmployees
         } = this.props;
-        exportEmployees(ridList);
+        const ridArr = ridList.split(',');
+        if(ridArr.length===0 || ridArr[0] == ''){
+            notification.warning({
+                message: '警告',
+                description: '至少选择一位具体人员！'
+            });
+            return false;
+        }else {
+            startExportEmployees();
+            exportEmployees(ridList);
+        }   
     }
 
+    //删除
     handleDeleteClerkClick = () => {
         const {
             deleteEmployees,
-            ridList
+            ridList,
         } = this.props;
         deleteEmployees(ridList);
     }
@@ -71,7 +79,9 @@ class ControlComponent extends Component {
     render() {
         const { 
             title,
-            ridList
+            ridList,
+            exportClerkList,
+            deleteClerkList
         } = this.props;
         const plusClerkMenu = (
             <Menu onClick={this.handlePlusClerkClick}>
@@ -110,6 +120,7 @@ class ControlComponent extends Component {
                         style={{
                             width: 100
                         }}
+                        loading={exportClerkList.isLoading}
                         onClick={this.handleExportClerkClick}
                     >
                         导出
@@ -118,6 +129,7 @@ class ControlComponent extends Component {
                         style={{
                             width: 100
                         }}
+                        loading={deleteClerkList.isLoading}
                         onClick={this.handleDeleteClerkClick}
                     >
                         删除

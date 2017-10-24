@@ -10,6 +10,9 @@ import navData from 'data/nav/crewstatis';
 // lodash
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import indexOf from 'lodash/indexOf';
+import get from 'lodash/get';
 //redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -22,7 +25,8 @@ class ClerkPage extends Component {
         tableHead: '全部人员',
         ridList: '',
         workstatus: '',
-        type: ''
+        type: '',
+        selectedRowKeys: [],
     }
 
     //显示条件
@@ -84,6 +88,31 @@ class ClerkPage extends Component {
         this.params.skip = (page-1)*20;
         this._requestCrewData();
         this.setPaginationCurrent(page);
+        this.clearTableCheckbox();
+    }
+
+    //清空表格选择框
+    clearTableCheckbox = () => {
+        const {selectedRowKeys} = this.state;
+        if(selectedRowKeys.length === 0) return ;
+        this.setState({
+            selectedRowKeys:[]
+        }) 
+    }
+
+    onSelectChange = (selectedRowKeys) => {
+        const {
+            crewList
+        } = this.props,
+        {list} = crewList;
+        let filterArr = filter(list,(item,index)=>{
+            return indexOf(selectedRowKeys,index) !== -1;
+        });
+        let str = filterArr.map(item=>{
+            return get(item,['rid']);
+        }).join(',');
+        this.getRidStr(str);
+        this.setState({selectedRowKeys});
     }
 
     handleClickTop = (type,desc) => {
@@ -138,15 +167,19 @@ class ClerkPage extends Component {
     //删除
     handleDeleteClerkClick = (ridList) => {
         const {
-            deleteEmployees
+            deleteEmployees,
+            getCrewStatis
         } = this.props;
         const {paginationCurrent} = this.state;
         const ridArr = ridList.split(',');
         if(ridArr.length===1 && ridArr[0] != ''){
             const rid = ridArr[0]
-            deleteEmployees({rid});
+            deleteEmployees({rid},getCrewStatis);
             this.setPaginationCurrent(paginationCurrent);
+            this.params.skip = (paginationCurrent-1)*20;
+            console.log(this.params,this.formData);
             this._requestCrewData();
+            this.clearTableCheckbox();
         }else {
             notification.warning({
                 message: '警告',
@@ -159,18 +192,13 @@ class ClerkPage extends Component {
     //导出
     exportEmployees = (ridList) => {
         const {token,tokenKey} = store.get('token') || {};
-        const ridArr = ridList.split(',');
-        if(ridArr.length===0 || ridArr[0] == ''){
-            notification.warning({
-                message: '警告',
-                description: '至少选择一位具体人员！'
-            });
-            return false;
-        }
+        const {stopExportEmployees} = this.props;
         this.refs.token.value = token;
         this.refs.tokenKey.value = tokenKey;
         this.refs.ridList.value = ridList;
         this.refs.form.submit();
+        stopExportEmployees();
+        this.clearTableCheckbox();
     }
 
     render() {
@@ -178,12 +206,16 @@ class ClerkPage extends Component {
             paginationCurrent,
             tableHead,
             ridList,
-            type
+            type,
+            selectedRowKeys
         } = this.state,
         {
             manageStastistics,
             crewList,
-            showUploadClerkModal
+            showUploadClerkModal,
+            exportClerkList,
+            startExportEmployees,
+            deleteClerkList
         } = this.props,
         {isLoading, list} = manageStastistics;
         return (
@@ -209,16 +241,20 @@ class ClerkPage extends Component {
                 <ControlComponent 
                     title={tableHead}
                     ridList={ridList}
+                    exportClerkList={exportClerkList}
                     handleFind={this.handleFind}
                     deleteEmployees={this.handleDeleteClerkClick}
                     exportEmployees={this.exportEmployees}
+                    startExportEmployees={startExportEmployees}
+                    deleteClerkList={deleteClerkList}
                 />
                 <TableComponent 
                     crewList={crewList}
-                    getRidStr={this.getRidStr}
                     type={type}
+                    selectedRowKeys={selectedRowKeys}
                     paginationChange={this.paginationChange}
                     paginationCurrent={paginationCurrent}
+                    onSelectChange={this.onSelectChange}
                 />
                 <iframe 
                         id="exportEmployees" 
@@ -234,14 +270,18 @@ class ClerkPage extends Component {
 
 const mapStateToProps = state => ({
     manageStastistics: state.Manage.manageStastistics,
-    crewList: state.Manage.crewList
+    crewList: state.Manage.crewList,
+    exportClerkList: state.Manage.exportClerkList,
+    deleteClerkList: state.Manage.deleteClerkList
 })
 
 const mapDispatchToProps = dispatch => ({
     getCrewStatis: bindActionCreators(Actions.ManageActions.getCrewStatis,dispatch),
     getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
     getResumeId: bindActionCreators(Actions.jobActions.getResumeId, dispatch),
-    deleteEmployees: bindActionCreators(Actions.ManageActions.deleteEmployees, dispatch)
+    deleteEmployees: bindActionCreators(Actions.ManageActions.deleteEmployees, dispatch),
+    startExportEmployees: bindActionCreators(Actions.ManageActions.startExportEmployees, dispatch),
+    stopExportEmployees: bindActionCreators(Actions.ManageActions.stopExportEmployees, dispatch)
 })
 
 export default connect(

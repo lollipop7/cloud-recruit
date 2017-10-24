@@ -122,11 +122,12 @@ export default class PermanentModal extends Component {
     handlePositiveEmployees = () => {
         const {
             positiveEmployees,
-            rid
+            rid,
+            getOperationList
         } = this.props;
         const permanentData = this.getFormData();
         if(!permanentData) return;
-        positiveEmployees({...permanentData,rid:rid});
+        positiveEmployees({...permanentData,rid:rid},getOperationList);
     }
 
     render(){

@@ -4,6 +4,10 @@ import { Timeline } from 'antd';
 
 export default class OperateHistory extends Component {
 
+    shouldComponentUpdate(nextProps,nextState) {
+        return this.state !== nextState || this.props !== nextProps;
+    }
+
     render() {
         const {data} = this.props;
         const {list} = data; 

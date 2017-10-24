@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button } from 'antd';
 
+import store from 'store';
+
 export default class ControlComponent extends Component {
 
     state = {
@@ -8,7 +10,8 @@ export default class ControlComponent extends Component {
     }
 
     handleClick = () => {
-        window.history.back(-1)
+        window.history.back(-1);
+        this.props.queryResetForm();
     }
     
     render() {
