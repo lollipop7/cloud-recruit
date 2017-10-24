@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Icon , Modal} from 'antd';
-
+import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
 
 import forEach from 'lodash/forEach';
@@ -23,11 +23,15 @@ class MaterialAttach extends Component {
         beforeDataq: [],     //档案附件
         afterDataq: [],      //离职资料
         rid:'',
+        tokenKey:'',
+        token:''
     }
 
     componentDidMount(){
         const rid = this.props.data.resumeoff.rid+'';
         this.props.queryEmployee({rid:rid});
+        const {token,tokenKey} = store.get('token') || {};
+        this.setState({tokenKey, token})
         
     }
 
@@ -107,9 +111,11 @@ class MaterialAttach extends Component {
             beforeData=[],
             afterData=[],
             rid,
+            tokenKey,
+            token
         } = this.state;
         const {imageUrl , imageVisible, showImageModal, hideImageModal} = this.props;
-        //console.log(this.props.data.list)
+        console.log(this.props.data)
         //console.log(beforeData)
         return (
             <div className="material-attach clerk-tab-container">
@@ -125,16 +131,22 @@ class MaterialAttach extends Component {
                                         <div key={name} 
                                              className="add-attactment" 
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                         >
-                                            <Icon type="plus-circle-o"
-                                                onClick={this.handleAttachmentClick.bind(this,value)}
-                                                style={{ 
-                                                    fontSize: 45, 
-                                                    color: '#d2d2d2',
-                                                }}
-                                            />
-                                            <p style={{marginBottom:10}}>{name}</p>
-                                            <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            {
+                                                value.attachment_type.length==0?
+                                                <div>
+                                                    <Icon type="plus-circle-o"
+                                                        style={{ 
+                                                            paddingTop:'30px',
+                                                            fontSize: 45, 
+                                                            color: '#d2d2d2',
+                                                        }}
+                                                    />
+                                                    <p style={{marginBottom:10}}>{name}</p>
+                                                    <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                                </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                            }
                                         </div>
                                     )
                                 })
@@ -151,18 +163,23 @@ class MaterialAttach extends Component {
                                     return(
                                             <div key={name} 
                                                 className="add-attactment" 
-                                                
+                                                onClick={this.handleAttachmentClick.bind(this,value)}
                                                 style={{display: isShow==1 ? 'inline-block' : 'none'}}
                                             >
-                                                <Icon type="plus-circle-o"
-                                                    onClick={this.handleAttachmentClick.bind(this,value)}
-                                                    style={{ 
-                                                        fontSize: 45, 
-                                                        color: '#d2d2d2',
-                                                    }}
-                                                />
-                                                <p style={{marginBottom:10}}>{name}</p>
-                                                <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            {
+                                                value.attachment_type.length==0?
+                                                <div>
+                                                    <Icon type="plus-circle-o"
+                                                        style={{ 
+                                                            paddingTop:'30px',
+                                                            fontSize: 45, 
+                                                            color: '#d2d2d2',
+                                                        }}
+                                                    />
+                                                    <p style={{marginBottom:10}}>{name}</p>
+                                                    <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                                </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                            }
                                             </div>
                                     )
                                 })
@@ -180,16 +197,22 @@ class MaterialAttach extends Component {
                                         <div key={name} 
                                              className="add-attactment" 
                                              style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                         >
-                                            <Icon type="plus-circle-o"
-                                                onClick={this.handleAttachmentClick.bind(this,value)}
-                                                style={{ 
-                                                    fontSize: 45, 
-                                                    color: '#d2d2d2',
-                                                }}
-                                            />
-                                            <p style={{marginBottom:10}}>{name}</p>
-                                            <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                        {
+                                            value.attachment_type.length==0?
+                                            <div >
+                                                <Icon type="plus-circle-o"
+                                                    style={{ 
+                                                        paddingTop:'30px',
+                                                        fontSize: 45, 
+                                                        color: '#d2d2d2',
+                                                    }}
+                                                />
+                                                <p style={{marginBottom:10}}>{name}</p>
+                                                <span onClick={this.showImageModal.bind(this,value)}>预览</span>
+                                            </div>:<img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-15px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                        }
                                         </div>
                                     )
                                 })

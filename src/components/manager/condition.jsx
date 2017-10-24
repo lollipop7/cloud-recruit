@@ -26,9 +26,9 @@ class ConditionPage extends Component {
                     <TabPane tab="员工概览" key="1">
                         <EmployeesOverview/>
                     </TabPane>
-                    <TabPane tab="趋势分析" key="2">趋势分析</TabPane>
+                    {/* <TabPane tab="趋势分析" key="2">趋势分析</TabPane>
                     <TabPane tab="离职分析" key="3">离职分析</TabPane>
-                    <TabPane tab="招聘分析" key="4">招聘分析</TabPane>
+                    <TabPane tab="招聘分析" key="4">招聘分析</TabPane> */}
                 </Tabs>
             </div>
         );

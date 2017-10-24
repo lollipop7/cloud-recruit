@@ -12,7 +12,7 @@ export default class EmployeesOverview extends Component {
         const {routes} = this.props;
         return (
             <div>
-                <SearchComponent />
+                {/* <SearchComponent /> */}
                 <ChartsComponent />
             </div>
         );

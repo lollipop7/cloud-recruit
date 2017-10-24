@@ -115,7 +115,7 @@ export default class FirstChartComponent extends Component {
             <div className="task-progress box-border pull-left" style={{'margin':'0 20px 20px 0'}} >
                 <div style={{ position: 'relative' }}>
                     <div className='pie-title'>{pageWord[pageType]}</div>
-                    <OperateEmployeesPie/>
+                    {/* <OperateEmployeesPie/> */}
                     {isLoading &&
                         <div style={{
                             position: 'absolute',
