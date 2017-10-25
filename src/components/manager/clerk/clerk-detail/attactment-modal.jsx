@@ -90,7 +90,7 @@ export default class PlusAttachmentModal extends Component {
     //上传材料附件
     UploadMaterial = () => {
         let {fileList,fileListOpposite,source} = this.state,
-            { itemData , rid='' , UploadMaterial} = this.props,
+            { itemData , rid='' , UploadMaterial ,queryEmployee} = this.props,
             { type} = itemData;
         if(fileList.length === 0){
             this.triggerError(true,'请选择上传文件！');
@@ -103,7 +103,7 @@ export default class PlusAttachmentModal extends Component {
         }
         const {filePath} = response,
             fileNameJson = `{${name}:${filePath}}`;
-            UploadMaterial({type:type+'',fileNameJson,rid});
+            UploadMaterial({type:type+'',fileNameJson,rid},queryEmployee);
         //身份证反面上传
         if(fileListOpposite.length != 0){
             const {name,response} = fileListOpposite[0];

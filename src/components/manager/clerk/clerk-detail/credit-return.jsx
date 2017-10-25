@@ -72,7 +72,7 @@ export default class CreditReturnComponent extends Component {
                     </div>
                     <div className="inverst-item inline-block box-border">
                         <div className="top-title">
-                            身份证核查
+                            手机号核查
                             <span className="pull-right" style={{color: "#c25255"}}>信息源自运营商</span>
                         </div>
                         <div className="superior-content" style={{
@@ -116,7 +116,7 @@ export default class CreditReturnComponent extends Component {
                                                     <div>
                                                         <div className="inline-block info-bar">
                                                             <span>毕业证书编号 : </span>
-                                                            <span>{item.certcard}</span>
+                                                            <span>{selfinfo.certcard}</span>
                                                         </div>
                                                         <div className="inline-block info-bar">
                                                             <span>专业 : </span>
@@ -130,7 +130,7 @@ export default class CreditReturnComponent extends Component {
                                                     <div style={{marginTop: 26, position: "relative"}}>
                                                         <div className="inline-block">
                                                             <div className="inline-block">
-                                                                {/* <img src="/static/images/manager/clerk/logo.png" alt="学校logo" style={{width: 120, height: 120}}/> */}
+                                                            <img alt="example" style={{ width: '110px',height:'130px',marginBottom:'-90px'}} src={`${prefixUri}/view_cerdit?fileName=${item.headimg}`} />
                                                             </div>
                                                             <div className="inline-block remark">
                                                                 <ul>
@@ -138,7 +138,7 @@ export default class CreditReturnComponent extends Component {
                                                                         <i className="inline-block" style={{
                                                                             backgroundColor: "#ff0000"
                                                                         }}></i>
-                                                                        <span></span>
+                                                                        <span>{item.level}</span>
                                                                     </li>
                                                                     <li>
                                                                         <i className="inline-block" style={{
@@ -174,12 +174,12 @@ export default class CreditReturnComponent extends Component {
                                                                         <span>开始时间</span>
                                                                     </li>
                                                                     <li>
-                                                                        <span> </span>
+                                                                        <span>{item.inschooldate}</span>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                             <div className="inline-block"style={{textAlign: "center", margin: "0 20px"}}>
-                                                                <h3 style={{marginBottom: 15}}></h3>
+                                                                <h3 style={{marginBottom: 15}}>{education[0].schoolname}</h3>
                                                                 <img src="/static/images/manager/clerk/time.png" alt="time"
                                                                     style={{
                                                                         width: 136,
@@ -214,7 +214,9 @@ export default class CreditReturnComponent extends Component {
                             职业证书信息核查
                             <span className="pull-right">数据源自国家人力资源和社会保障部</span>
                         </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        {cerditcerinfo.length==0?<p className='above-all'>
+                            基于51招聘云大数据及工商局信息匹配核查，未发现该被调人职业证书信息。
+                            </p>: <Collapse defaultActiveKey={['1']}>
                             {cerditcerinfo.map((item,index)=>{
                                 return <Panel header={`${item.occupation}证书信息`} key={index+1}>
                                         <div className="superior-content" style={{padding: "27px 0 0 78px"}}>
@@ -267,7 +269,7 @@ export default class CreditReturnComponent extends Component {
                                 })
                             }   
                         </Collapse>
-                        
+                        }   
                     </div>
                 </div>
                 <div className="inverst-field">
@@ -276,7 +278,9 @@ export default class CreditReturnComponent extends Component {
                             失信被执行信息核查
                             <span className="pull-right">数据源自最高人民法院</span>
                         </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        {dishonest.length==0?<p className='above-all'>
+                            基于51招聘云大数据及工商局信息匹配核查，未发现该被调人失信被执行信息。
+                            </p>:<Collapse defaultActiveKey={['1']}>
                             {dishonest.map((item,index)=>{
                                 return <Panel header={`${item.courtname}核查`} key={index+1}>
                                             <div className="superior-content" style={{
@@ -334,7 +338,7 @@ export default class CreditReturnComponent extends Component {
                                     </Panel>
                             })}  
                         </Collapse>
-                        
+                        }  
                     </div>
                 </div>
                 <div className="inverst-field">

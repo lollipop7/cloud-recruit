@@ -14,12 +14,13 @@ export default class CreditFillComponent extends Component {
         card:'',
         certid:'',
         rid:'',
-        downLoading:false
+        resumeid:'',
+        downLoading:false,
         // name:'余文忠',
         // mobile:'18616762568',
         // card:'310110199203091013',
         // certid:'104101200306000405',
-        // resumeid:'26'
+        // rid:'26'
      }
 
      handleChange = (field,e) => {
@@ -48,24 +49,42 @@ export default class CreditFillComponent extends Component {
             }
     }
     componentWillReceiveProps(nextprops){
-        const {
-            name,
-            mobile,
-            card,
-            certid,
-            rid
-        } = nextprops.data.resumeoff;
-        this.setState({
-            name,
-            mobile,
-            card,
-            certid,
-            rid:rid+''
-        })
+        if(nextprops.data.resumeoff.resumeid){
+                const {
+                name,
+                mobile,
+                card,
+                certid,
+                resumeid
+            } = nextprops.data.resumeoff;
+                this.setState({
+                    name,
+                    mobile,
+                    card,
+                    certid,
+                    resumeid
+                })
+        }else{
+                const {
+                name,
+                mobile,
+                card,
+                certid,
+                rid
+            } = nextprops.data.resumeoff;
+                this.setState({
+                    name,
+                    mobile,
+                    card,
+                    certid,
+                    rid:rid+''
+                })
+            }
+       
     }
     searchCredit = () => {
         const {searchCredit,data,showcredit,creditData}=this.props;
-        const {rid,name,mobile,card,certid}= this.state;
+        const {resumeid,rid,name,mobile,card,certid}= this.state;
         if(!mobile){
             this.refs.phonenumInput.triggerError(true);
             return false
@@ -79,15 +98,32 @@ export default class CreditFillComponent extends Component {
             return false
         }
         if(creditData.flag){
-            searchCredit({rid},showcredit);
+            if(resumeid)
+                {
+                    searchCredit({resumeid},showcredit);  
+                }else{
+                    searchCredit({rid},showcredit);
+                }           
         }else{
-            searchCredit({
-            rid ,
-            name,
-            phone:mobile,
-            card,
-            certid
-        },showcredit);
+            if(resumeid)
+                {
+                    searchCredit({
+                        resumeid,
+                        name,
+                        phone:mobile,
+                        card,
+                        certid
+                    },showcredit);  
+                }else{
+                    searchCredit({
+                        rid,
+                        name,
+                        phone:mobile,
+                        card,
+                        certid
+                    },showcredit); 
+                }  
+           
         }
         this.setState({
             downLoading:true

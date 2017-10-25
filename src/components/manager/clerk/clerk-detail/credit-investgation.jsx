@@ -12,8 +12,13 @@ import * as Actions from 'actions';
  class CreditInvestgation extends Component {
     componentDidMount(){
         const {searchCreditInvestgation , data} = this.props,
-            {resumeid} = data.resumeoff
-        searchCreditInvestgation({resumeid:resumeid});
+            {resumeid,rid} = data.resumeoff;
+            if(resumeid){
+                searchCreditInvestgation({resumeid:resumeid});
+            }else{
+                searchCreditInvestgation({rid:rid+''});
+            }
+        
     }
     render() {
        const {creditData,searchCredit, creditInfoData, isFill} = this.props;

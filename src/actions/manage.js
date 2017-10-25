@@ -402,7 +402,7 @@ import isNumber from 'lodash/isNumber';
     }
 
     //上传材料附件
-    export const UploadMaterial = (data) => (dispatch,getState) => {
+    export const UploadMaterial = (data,queryEmployee) => (dispatch,getState) => {
         AjaxByToken('emp/data_employees', {
             head: {
                 transcode: 'L0054'
@@ -410,6 +410,7 @@ import isNumber from 'lodash/isNumber';
             data: data
         })
         .then(res=>{
+            queryEmployee({rid:data.rid})
             notification.success({
                 message: '提示',
                 description: '材料附件上传成功！'

@@ -28,7 +28,7 @@ class MaterialAttach extends Component {
     }
 
     componentDidMount(){
-        const rid = this.props.data.resumeoff.rid+'';
+        const rid = this.props.queryEmployeeList.list.resumeoff.rid+'';
         this.props.queryEmployee({rid:rid});
         const {token,tokenKey} = store.get('token') || {};
         this.setState({tokenKey, token})
@@ -36,28 +36,31 @@ class MaterialAttach extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(nextProps.list.listAll)
-        if(!isEmpty(nextProps.listAll)){
+        if(!isEmpty(nextProps.queryEmployeeList.list.listAll)){
             const {
                 basicData= [],
                 beforeData= [],
                 afterData= []
             } = this.state;
-            nextProps.listAll.forEach((value,index) => {
+            nextProps.queryEmployeeList.list.listAll.forEach((value,index) => {
                 switch(value.type){
                     case 1 : 
-                        value.list.forEach((item) => {basicData.push(item)});break;
+                        this.setState({
+                            basicData:value.list
+                        });
+                        break;
                     case 2 : 
-                        value.list.forEach((item) => {beforeData.push(item)});break;
+                        this.setState({
+                            beforeData:value.list
+                        });
+                        break;
                     case 3 : 
-                        value.list.forEach((item) => {afterData.push(item)});break;
+                        this.setState({
+                            afterData:value.list
+                        });
+                        break;
                 }
             })
-            this.setState({
-                basicData,
-                beforeData,
-                afterData
-            });
             if(basicData.length!=0){
                 this.setState({
                 isLoading:false
@@ -72,7 +75,7 @@ class MaterialAttach extends Component {
     // }
 
     handleAttachmentClick = (itemData) => {
-        const {rid} = this.props.params;
+       const rid = this.props.queryEmployeeList.list.resumeoff.rid+'';
        this.setState({
            itemData,
            rid
@@ -90,18 +93,9 @@ class MaterialAttach extends Component {
     }
     //删除图片
     deleteImage = (value) =>{
-        console.log(value);
-        this.props.DeleteMaterial({id:value.id+''},this.props.queryEmployee,value)
-        //this.props.viewUploadAttachment();
-        //const rid = this.props.data.resumeoff.rid+'';
-        //this.props.queryEmployee({rid:rid});
-        for(let i=0;i<this.props.imageUrl.length;i++){
-            if(value.id==this.props.imageUrl[i]){
-                this.props.imageUrl.splice(i,1)
-            }
-        }
-        this.props.hideImageModal()
-        
+        const{queryEmployee} = this.props;
+        this.props.DeleteMaterial({id:value.id+''},queryEmployee,value)
+        this.props.hideImageModal()   
     }
 
     render() {
@@ -295,6 +289,8 @@ const mapDispatchToProps = dispatch => ({
     showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
     hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
     cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),
+    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
+    UploadMaterial: bindActionCreators(Actions.ManageActions.UploadMaterial, dispatch),
 })
 
 export default connect(
