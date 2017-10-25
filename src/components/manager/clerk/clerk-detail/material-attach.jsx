@@ -36,7 +36,6 @@ class MaterialAttach extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(nextProps.list.listAll)
         if(!isEmpty(nextProps.listAll)){
             const {
                 basicData= [],

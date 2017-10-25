@@ -31,7 +31,6 @@ export default class MainContent extends Component {
             resumeoff={},                   //员工信息表
             wage={},                        //薪资状况
             contract={},                    //合同信息
-            attachment_type_con = [],       //合同附件
             edu = {},
             list={},                        //人员附件列表集合
             listAll={}                      //人员基本附件说明
@@ -74,14 +73,14 @@ export default class MainContent extends Component {
                     <TabPane tab="合同情况" key="4">
                         <Contract 
                             data={resumeoff}
-                            atcs={attachment_type_con}
+                            listAll={listAll} 
                             editEmployeeInformation={editEmployeeInformation}
                             queryEmployee={queryEmployee}
                         />
                     </TabPane>
                     <TabPane tab="材料附件" key="5">
                         <MaterialAttach
-                            list={list}
+                             list={list}
                              listAll={listAll} 
                              data={resumeoff}
                              {...this.props}/>
