@@ -17,12 +17,20 @@ export default class MainContent extends Component {
     }
 
     render() {
-        const { data , editEmployeeInformation , operationList , UploadMaterial,queryEmployee,searchCreditInvestgation} = this.props;
+        const { 
+            data , 
+            editEmployeeInformation , 
+            operationList , 
+            UploadMaterial,
+            queryEmployee,
+            searchCreditInvestgation,
+            getTreeList,
+            departmentList
+        } = this.props;
         const {
             resumeoff={},                   //员工信息表
             wage={},                        //薪资状况
             contract={},                    //合同信息
-            attachment_type_con = [],       //合同附件
             edu = {},
             list={},                        //人员附件列表集合
             listAll={}                      //人员基本附件说明
@@ -42,6 +50,8 @@ export default class MainContent extends Component {
                         <PositionInfo 
                             data={resumeoff} 
                             editEmployeeInformation={editEmployeeInformation}
+                            departmentList={departmentList}
+                            getTreeList={getTreeList}
                         />
                     </TabPane>
                     <TabPane tab="个人信息" key="2">
@@ -63,7 +73,7 @@ export default class MainContent extends Component {
                     <TabPane tab="合同情况" key="4">
                         <Contract 
                             data={resumeoff}
-                            atcs={attachment_type_con}
+                            listAll={listAll} 
                             editEmployeeInformation={editEmployeeInformation}
                             queryEmployee={queryEmployee}
                         />

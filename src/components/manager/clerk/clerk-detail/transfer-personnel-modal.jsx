@@ -10,6 +10,7 @@ import chunk from 'lodash/chunk';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
+import isEmpty from 'lodash/isEmpty';
 
 import clerkInfo from 'data/clerk/clerk';
 import transferType from 'data/transfer-personnel-radio.json';
@@ -39,7 +40,7 @@ export default class TransferPersonnelModal extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.data){
+        if(!isEmpty(nextProps.data)){
             const {
                 data,
                 rid,

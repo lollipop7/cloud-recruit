@@ -103,7 +103,8 @@ const initialState = {
         isLoading: false
     },
     deleteClerkList: {
-        isLoading: false
+        isLoading: false,
+        isDelete: false
     },
     queryEmployeeList: {
         isLoading: false,
@@ -211,9 +212,9 @@ export default function manage(state=initialState,actions){
         case EXPORT_CLERK_DONE:
             return {...state,exportClerkList:{...state.exportClerkList,isLoading:false}};
         case DELETE_EMPLOYEE_START:
-            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:true}};  
+            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:true,isDelete:false}};  
         case DELETE_EMPLOYEE_DONE:
-            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:false}};              
+            return {...state,deleteClerkList:{...state.deleteClerkList,isLoading:false,isDelete:true}};              
         case QUERY_EMPLOYEE_START:
             return {...state,queryEmployeeList:{...state.queryEmployeeList,isLoading:true}};    
         case QUERY_EMPLOYEE_DONE:

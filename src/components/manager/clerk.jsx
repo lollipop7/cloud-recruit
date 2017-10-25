@@ -13,6 +13,8 @@ import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import indexOf from 'lodash/indexOf';
 import get from 'lodash/get';
+//async
+import async from 'async';
 //redux
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -168,18 +170,21 @@ class ClerkPage extends Component {
     handleDeleteClerkClick = (ridList) => {
         const {
             deleteEmployees,
-            getCrewStatis
+            getCrewStatis,
+            deleteClerkList
         } = this.props;
         const {paginationCurrent} = this.state;
         const ridArr = ridList.split(',');
+        const {isDelete} = deleteClerkList;
         if(ridArr.length===1 && ridArr[0] != ''){
             const rid = ridArr[0]
             deleteEmployees({rid},getCrewStatis);
-            this.setPaginationCurrent(paginationCurrent);
-            this.params.skip = (paginationCurrent-1)*20;
-            console.log(this.params,this.formData);
-            this._requestCrewData();
-            this.clearTableCheckbox();
+            setTimeout(() => {
+                this.setPaginationCurrent(paginationCurrent);
+                this.params.skip = (paginationCurrent-1)*20;
+                this._requestCrewData();
+                this.clearTableCheckbox();
+            },500);
         }else {
             notification.warning({
                 message: '警告',
