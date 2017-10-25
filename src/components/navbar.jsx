@@ -24,7 +24,7 @@ class NavBarComponents extends Component {
         this.setState({
             isLoading: true
         });
-        // this.props.getUserInfo();
+        this.props.getUserInfo();
     }
 
     componentWillUpdate(nextProps,nextState) {

@@ -54,7 +54,6 @@ class Contract extends Component {
             this.setState({
                 attachment_type_con
             });
-            console.log(attachment_type_con);
             const {
                 starttime,          //合同开始日期
                 yearnumber,         //合同年限

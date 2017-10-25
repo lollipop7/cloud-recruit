@@ -93,9 +93,19 @@ class MaterialAttach extends Component {
     }
     //删除图片
     deleteImage = (value) =>{
-        const{queryEmployee} = this.props;
-        this.props.DeleteMaterial({id:value.id+''},queryEmployee,value)
-        this.props.hideImageModal()   
+        const{queryEmployee,imageUrl,viewUploadAttachment} = this.props;
+        this.props.hideImageModal();
+        // for(let i=0;i<imageUrl.length;i++){
+        //     if(imageUrl[i].id==value.id){
+        //         imageUrl.splice(i,1)
+        //     }
+        // }
+        //viewUploadAttachment(imageUrl)
+        this.props.DeleteMaterial({id:value.id+''},this.props,value,imageUrl)  
+    }
+    //下载附件材料
+    downloadAttachment = (name) => {
+        this.props.downloadAttachment(name)
     }
 
     render() {
@@ -150,9 +160,19 @@ class MaterialAttach extends Component {
                                                     />
                                                     <p style={{marginBottom:10}}>{name}</p> 
                                                 </div>:<div>
-                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                    {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
+                                                        <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src="/static/images/manager/clerk/fjcl.jpg"/>
+                                                        :
+                                                        <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
+                                                    />}
                                                         <div>
-                                                            <h3 onClick={this.handleAttachmentClick.bind(this,value)} alt="点击上传附件">{name}</h3>
+                                                            <h3 
+                                                                onClick={this.handleAttachmentClick.bind(this,value)} 
+                                                                alt="点击上传附件"
+                                                                title={`点击上传${name}附件`}
+                                                            >
+                                                                {name}
+                                                            </h3>
                                                             <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
                                                         </div>
                                                     </div>
@@ -190,9 +210,19 @@ class MaterialAttach extends Component {
                                                     />
                                                     <p style={{marginBottom:10}}>{name}</p>
                                                 </div>:<div>
-                                                        <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                            {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
+                                                             <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src="/static/images/manager/clerk/fjcl.jpg"/>
+                                                             :
+                                                            <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
+                                                        />}
                                                         <div>
-                                                            <h3>{name}</h3>
+                                                        <h3 
+                                                            onClick={this.handleAttachmentClick.bind(this,value)} 
+                                                            alt="点击上传附件"
+                                                            title={`点击上传${name}附件`}
+                                                        >
+                                                            {name}
+                                                        </h3>
                                                             <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>
                                                         </div>
                                                     </div>
@@ -228,9 +258,19 @@ class MaterialAttach extends Component {
                                                 />
                                                 <p style={{marginBottom:10}}>{name}</p>
                                             </div>:<div>
-                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                        {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
+                                                        <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src="/static/images/manager/clerk/fjcl.jpg"/>
+                                                        :
+                                                        <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
+                                                    />}
                                                     <div>
-                                                        <h3>{name}</h3>
+                                                    <h3 
+                                                        onClick={this.handleAttachmentClick.bind(this,value)} 
+                                                        alt="点击上传附件"
+                                                        title={`点击上传${name}附件`}
+                                                    >
+                                                        {name}
+                                                    </h3>
                                                         <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span>
                                                     </div>
                                                 </div>
@@ -244,18 +284,45 @@ class MaterialAttach extends Component {
                 </ul>
                 <PlusAttachmentModal {...this.props} itemData={itemData} rid={rid}/> 
                 <Modal
-                    title="图片预览"
+                    title="附件预览"
                     wrapClassName="grey-close-header "
                     visible={imageVisible}
                     onCancel={this.hideImageModal}
                     onOk={this.hideImageModal}
+                    wrapClassName='viewMaterialModal grey-close-header'
                 >
                     <div style={{width:500,height:500,margin:'0 auto'}}>
                         {
                             imageUrl.map((item,index)=>{
-                                return <div 
-                                            style={{width:'25%',height:'25%',margin:12,float:'left',textAlign:'center'}}>
-                                            <img alt="example" style={{ width: '100%',height:'100%'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
+                                return (item.filenameExt!='jpg' && item.filenameExt!='png')?
+                                        <div
+                                            style={{width:"25%",height:"25%",margin:'12px',float:'left',textAlign:'center'}}
+                                        >
+                                            <img 
+                                                alt="材料附件" 
+                                                style={{ width: '100%',height:'100%'}} 
+                                                src="/static/images/manager/clerk/fjcl.jpg" />
+                                            <a 
+                                                onClick={this.downloadAttachment.bind(this,item.filename)}
+                                                style={{textAlign:'center',fontSize:'18'}}
+                                            >
+                                                下载
+                                            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a 
+                                                onClick={this.deleteImage.bind(this,item)}
+                                                style={{textAlign:'center',fontSize:'18'}}
+                                            >
+                                                删除
+                                            </a>
+                                        </div>
+                                        :
+                                        <div 
+                                            className="viewMaterial"
+                                        >
+                                            <img 
+                                                alt="材料附件" 
+                                                style={{ width: '100%',height:'100%'}} 
+                                                src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
                                             <a 
                                                 onClick={this.deleteImage.bind(this,item)}
                                                 style={{textAlign:'center',fontSize:'18'}}
@@ -285,7 +352,7 @@ const mapDispatchToProps = dispatch => ({
     hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
     DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch),
     viewUploadAttachment: bindActionCreators(Actions.ManageActions.viewUploadAttachment,dispatch),
-    downloadUploadAttachment: bindActionCreators(Actions.ManageActions.downloadUploadAttachment,dispatch),
+    downloadAttachment: bindActionCreators(Actions.ManageActions.downloadAttachment,dispatch),
     showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
     hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
     cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),

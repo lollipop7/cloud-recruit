@@ -8,12 +8,7 @@ const Panel = Collapse.Panel;
 
 export default class CreditReturnComponent extends Component {
 
-    state = {
-        isSuit: true
-    }
-
     render(){
-        const {isSuit} = this.state;
         const {creditInfoData} = this.props,
             {
                 cerditcerinfo,
@@ -34,10 +29,8 @@ export default class CreditReturnComponent extends Component {
             activeflag,
             flg1,//姓名和身份证是否匹配标识字段
             flg2//电话号码和姓名是否匹配标识字段
-
         } = selfinfo;
         const token = store.get('token');
-        console.log(creditInfoData);
         return (
             <li style={{paddingLeft: 100}}>
                 <div className="inverst-field">

@@ -446,7 +446,7 @@ import isNumber from 'lodash/isNumber';
     // }
 
     export const viewUploadAttachment = (data) => (dispatch,getState) => {
-                    dispatch({...IMAGEURL,imageUrl:data});   
+        dispatch({...IMAGEURL,imageUrl:data});   
     }
     //显示图片预览Modal
     export const showImageModal = (data,viewUploadAttachment) => (dispatch,getState) => {
@@ -460,21 +460,38 @@ import isNumber from 'lodash/isNumber';
     export const cancelImageUrl = () => (dispatch,getState) => {
         dispatch({...CANCELIMAGEURL})
     }
-    //下载材料附件
-    export const downloadUploadAttachment = (name) => (dispatch,getState) => {
+    //下载附件材料
+    export const downloadAttachment = (name) => (dispatch,getState) => {
         const token = store.get('token');
-        axios.post(`${prefixUri}/download_uploadAttachment`,{
+        axios({
+            url: `${prefixUri}/download_uploadAttachment`,
+            method: 'get',
+            responseType: 'blob',
+            params:{
                 token:token.token,
                 tokenKey:token.tokenKey,
-                fileName:name   
-        }).then(res=>{
-            console.log(res)
+                fileName:name 
+            }
+        })
+        .then(res=>{
+            const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
         }).catch(error=>{
-            console.log(error);
+            console.log(error)
         });
+        // axios.get(`${prefixUri}/download_uploadAttachment`,{
+        //         token:token.token,
+        //         tokenKey:token.tokenKey,
+        //         fileName:name   
+        // }).then(res=>{
+        //     const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        //     FileSaver.saveAs(blob,'附件材料下载表.xlsx');
+        // }).catch(error=>{
+        //     console.log(error);
+        // });
     }
     //删除材料附件
-    export const DeleteMaterial = (data,queryEmployee,value) => (dispatch,getState) => {
+    export const DeleteMaterial = (data,props,value,imageUrl) => (dispatch,getState) => {
         AjaxByToken('emp/dataDel_employees', {
             head: {
                 transcode: 'L0055'
@@ -482,11 +499,13 @@ import isNumber from 'lodash/isNumber';
             data: data
         })
         .then(res=>{
+            const{queryEmployee,viewUploadAttachment}= props;
             notification.success({
                 message: '提示',
                 description: '材料附件删除成功！'
             });
-            queryEmployee({rid:value.rid+''})
+            queryEmployee({rid:value.rid+''});
+            //viewUploadAttachment(imageUrl)
         },err=>{
             console.log(err);
         })
@@ -809,7 +828,7 @@ export const getDepartMentList = () => (dispatch,getState) => {
     .then(res=>{
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
-        dispatch({...GET_DEPARTMENT_LIST},list:[],count:0);
+        dispatch({...GET_DEPARTMENT_LIST,list:[],count:0});
     });
 }
 
