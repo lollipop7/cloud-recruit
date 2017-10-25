@@ -28,7 +28,6 @@ class EmployeeModalComponent extends Component {
     render() {
         const {visible,uriParams} = this.props,
               {resumeid=0,rid=0} = uriParams;
-              console.log(visible);
         return (
             <Modal
                 title="简历"

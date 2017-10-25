@@ -87,6 +87,7 @@ export default class PlusAttachmentModal extends Component {
         }
         return true;
     }
+    
     //上传材料附件
     UploadMaterial = () => {
         let {fileList,fileListOpposite,source} = this.state,
