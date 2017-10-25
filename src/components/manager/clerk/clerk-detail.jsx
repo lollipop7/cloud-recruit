@@ -138,7 +138,6 @@ const mapDispatchToProps = dispatch => ({
     showTransferPersonnelModal: bindActionCreators(Actions.ManageActions.showTransferPersonnelModal, dispatch),
     hideTransferPersonnelModal: bindActionCreators(Actions.ManageActions.hideTransferPersonnelModal, dispatch),
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),
-    getEmployeeResumeInfo: bindActionCreators(Actions.ManageActions.getEmployeeResumeInfo, dispatch),
     mobilizeEmployee: bindActionCreators(Actions.ManageActions.mobilizeEmployee, dispatch),
     positiveEmployees: bindActionCreators(Actions.ManageActions.positiveEmployees, dispatch),
     showResumeModal: bindActionCreators(Actions.ManageActions.showResumeModal, dispatch),

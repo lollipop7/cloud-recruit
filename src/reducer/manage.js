@@ -255,6 +255,10 @@ export default function manage(state=initialState,actions){
             return {...state,isInfoLoading:false};   
         case LOAD_EMPLOYEEINFO:
             return {...state,employeeInfo:actions.employeeInfo}; 
+        case SHOW_INFO_MODAL:
+            return {...state,visible: true,uriParams:actions.uriParams};
+        case HIDE_INFO_MODAL:
+            return {...state,visible: false}; 
         case PROGRESS:
             return {...state,progressVisible:true};
         case CANCELPROGRESS:
