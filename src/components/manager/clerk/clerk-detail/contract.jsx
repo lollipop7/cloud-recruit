@@ -335,7 +335,7 @@ const mapDispatchToProps = dispatch => ({
     hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
     DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch),
     viewUploadAttachment: bindActionCreators(Actions.ManageActions.viewUploadAttachment,dispatch),
-    downloadUploadAttachment: bindActionCreators(Actions.ManageActions.downloadUploadAttachment,dispatch),
+    downloadAttachment: bindActionCreators(Actions.ManageActions.downloadAttachment,dispatch),
     showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
     hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
     cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),
