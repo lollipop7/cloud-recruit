@@ -328,7 +328,6 @@ export default class TransferPersonnelModal extends Component {
                             placeholder="请选择生效日期"
                             style={{width: 224, height: 40}}
                             onChange={this.onTimeChange}
-                            disabledDate={this.disabledDate}
                         />            
                     </li>
                     <li className="checked-factors">

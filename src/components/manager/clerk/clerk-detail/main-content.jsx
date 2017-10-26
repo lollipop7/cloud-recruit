@@ -13,7 +13,7 @@ import CreditInvestgation from './credit-investgation';
 export default class MainContent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.data !== this.props.data;
+        return nextProps !== this.props;
     }
 
     render() {

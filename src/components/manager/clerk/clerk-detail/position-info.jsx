@@ -12,7 +12,7 @@ import LoadingComponent from 'components/loading';
 export default class PositionInfo extends Component {
 
     state = {
-        isQualified: true,
+        isQualified: true,          //是否提前转正
         btnState:'none',
         borderState:"1px solid transparent",
         isdisabled:true,
@@ -21,7 +21,8 @@ export default class PositionInfo extends Component {
         isDatedisabled:true,
         inthetime:'',              //入职时间
         positivedate:'',           //转正时间
-        treeList: []
+        treeList: [],
+        isLoading: true
     }
 
     componentWillReceiveProps(nextProps){
@@ -30,6 +31,7 @@ export default class PositionInfo extends Component {
             const {getTreeList,departmentList} = nextProps;
             const {list} = departmentList;
             const treeList = getTreeList(list);
+            
             const {
                 worknumber,             //工号
                 worknature,             //工作性质
@@ -46,11 +48,7 @@ export default class PositionInfo extends Component {
                 theleng,                //试用期
                 rid
             } = nextProps.data;
-            if(rid){
-                this.setState({
-                    isLoading:false
-                })
-            }
+            console.log(inthetime);
             this.setState({
                 worknumber,             //工号
                 worknature,             //工作性质
@@ -66,7 +64,8 @@ export default class PositionInfo extends Component {
                 positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
                 theleng,
                 rid:rid+'',
-                treeList
+                treeList,
+                isLoading:false
             })
         }
     }
@@ -75,6 +74,7 @@ export default class PositionInfo extends Component {
     setQualified = isQualified => {
         this.setState({isQualified});
     }
+
     handleSelectChange = (field,e) => {
         const {
                 worknumber,             //工号

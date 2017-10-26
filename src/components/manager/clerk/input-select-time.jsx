@@ -1,8 +1,110 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select, DatePicker } from 'antd';
+import { Input, Select, DatePicker, TreeSelect } from 'antd';
 const Option = Select.Option;
+const TreeNode = TreeSelect.TreeNode;
 
+export class TreeSelectComponent extends Component {
+
+    state = {
+        error: false                    //必填项是否为空
+    }
+    static propTypes = {
+        field: PropTypes.string,
+        name: PropTypes.string,
+        value: PropTypes.oneOfType([    //输入框的值
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        placeholder: PropTypes.string,  //输入框提示信息
+        onChange: PropTypes.func,       //输入框方法
+        disabled: PropTypes.bool,       //是否禁用输入框
+        treeDefaultExpandAll: PropTypes.bool,       
+        dropdownMatchSelectWidth: PropTypes.bool,       //下拉菜单和选择器同宽
+        className: PropTypes.string,    // 输入框类名
+        style: PropTypes.object,        // 输入框内联样式
+        asterisk: PropTypes.bool        //是否是必填项
+    }
+
+    triggerError = (error) => {
+        this.setState({ error });
+    }
+
+    handleChange = (field, event) => {
+        const { error } = this.state;
+        const { onChange } = this.props;
+        if (error) {
+            this.triggerError(false);
+        }
+        if (onChange) {
+            onChange(field, event);
+        }
+    }
+
+    recursion = (treeList) => {
+        return (
+            treeList.map((tree, index) => {
+            if (tree.list) {
+              return (
+                <TreeNode title={tree.name} value={tree.uid} key={tree.uid} sup_id={tree.supDepartmentId}>
+                    {this.recursion(tree.list)}
+                </TreeNode>
+              )
+            } else {
+              return (
+                  <TreeNode title={tree.name} value={tree.uid} key={tree.uid} sup_id={tree.supDepartmentId}>
+                  </TreeNode>
+              )
+            }
+          })
+        )
+      }
+      render(){
+        const { error } = this.state,
+        {
+            name,                                   //输入框前名称
+            field = '',
+            value,
+            placeholder,
+            disabled = false,
+            className = '',
+            asterisk = false,
+            treeList = [],
+            dropdownMatchSelectWidth,
+            treeDefaultExpandAll,
+            style = { width: 229, height: 40 },     //下拉框样式
+        } = this.props;
+          return(
+            <div className="inline-block inline-block-select">
+                <span className={ asterisk ? "required-asterisk" : ""}>{name}</span>
+                <div className="inline-block inline-tree-select" style={{
+                    margin: 0
+                }}>
+                    <TreeSelect
+                        ref='treeSelect'
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={this.handleChange.bind(this, field)}
+                        disabled={disabled}
+                        className={error&&asterisk ? 'error' : ''}
+                        style={style}
+                        dropdownMatchSelectWidth={dropdownMatchSelectWidth}
+                        treeDefaultExpandAll={treeDefaultExpandAll}
+                    >
+                        {this.recursion(treeList)}
+                    </TreeSelect>
+                    {error&&asterisk &&
+                        <div className="error-promote" style={{
+                            paddingLeft: 0
+                        }}>
+                            <label className="error">必填</label>
+                        </div>
+                    }
+                </div>
+            </div>
+          )
+      }
+}
 
 export class ErrorInputComponent extends Component {
     state = {
@@ -40,8 +142,8 @@ export class ErrorInputComponent extends Component {
 
     //判断必选框是否为空
     handleBlur = (field) => {
-        const { value, onBlur } = this.props;
-        if (value === '') {
+        const { value, onBlur ,asterisk } = this.props;
+        if (value === '' && asterisk ) {
             this.triggerError(true);
         }
         if (onBlur){
@@ -80,7 +182,7 @@ export class ErrorInputComponent extends Component {
                         disabled={disabled}
                         className={error&&asterisk ? 'error' : ''}
                         style={style}
-                        onBlur={this.handleBlur}
+                        onBlur={this.handleBlur.bind(this, field)}
                     />
                     {error&&asterisk &&
                         <div className="error-promote" style={{
@@ -283,3 +385,5 @@ export class DatePickerComponent extends Component {
         )
     }
 }
+
+

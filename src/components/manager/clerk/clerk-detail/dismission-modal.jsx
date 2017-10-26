@@ -108,7 +108,6 @@ export default class DismissionModal extends Component {
                         style={{width: 224, height: 40}}
                         onChange={this.onTimeChange}
                         asterisk={true}
-                        disabledDate={this.disabledDate}
                     />
                 </li>
                 <li>

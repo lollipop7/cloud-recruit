@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Input, Select, Cascader, Button, Icon, notification } from 'antd';
+import { Input, Select, Cascader, Button, Icon, notification, Modal } from 'antd';
 const Option = Select.Option;
 
 import pickBy from 'lodash/pickBy';
@@ -15,12 +15,11 @@ import * as Actions from 'actions';
 import city from 'data/city.json';
 import salaryData from 'data/salary.json';
 
-import {ErrorInputComponent,SelectComponent,DatePickerComponent} from './input-select-time'; 
+import {ErrorInputComponent,SelectComponent,DatePickerComponent,TreeSelectComponent} from './input-select-time'; 
 
 class NewClerkForm extends Component {
 
     state = {
-        treeList: [],
         name: '',                   //姓名
         englishname: '',            //英文名
         worknumber: '',             //工号
@@ -48,23 +47,19 @@ class NewClerkForm extends Component {
         NProgress.done();
         const {
             getDepartMentList,
-            departmentList,
-            getTreeList,
             getUserInfo,
+            getCrewList,
         } = this.props;
         getDepartMentList();
         getUserInfo();
-        const {list} = departmentList;
-        const treeList = getTreeList(list);
-        this.setState({treeList});
+        getCrewList();
     }
-
 
     handleClick = () => {
         window.history.back(-1)
     }
 
-    handleChange = (field, e) => {
+    handleChange = (field,e) => {
         if (typeof e === 'string' || typeof e === 'undefined') {
             this.setState({
                 [field]: e
@@ -76,6 +71,13 @@ class NewClerkForm extends Component {
         }
     }
 
+    handleTreeSelect =(field,e) =>{
+        this.setState({
+            [field]: e,
+            departmentid: e            
+        })
+    }
+    
     handleCityChange = (val) => {
         this.setState({
             workcity: val.length > 0 ? val[0] + '-' + val[1] : ''
@@ -220,10 +222,75 @@ class NewClerkForm extends Component {
         return date.valueOf() < new Date().getTime();
     }
 
-    showAddModal = () => {
-        this.setState({
-            visible: true,
+    showNameRepeatModal = () => {
+        Modal.warning({
+            title: '姓名重复，是否继续提交？',
+            content: '点击ok继续提交',
+            onOk() {
+              return new Promise((resolve, reject) => {
+                setTimeout(Math.random() > 0.5 ? resolve : reject, 500);
+              }).catch(() => console.log('Oops errors!'));
+            },
+            onCancel() {},
         });
+    }
+
+    handleBlur = (field,value) => {
+        const {crewList} = this.props;
+        const allCrewList = crewList.list;
+        const {
+            name,
+            worknumber,
+            mobile,
+            workemail,
+            documenttype,
+            card
+        } = this.state;
+        const {
+            nameInput,
+            worknumberInput,
+            mobileInput,
+            workemailInput,
+            cardInput
+        } = this.refs;
+        console.log(documenttype)
+        allCrewList.forEach((item,index) => {
+            if(value !=''){
+                if( field == 'name' && value == item.name){
+                    this.showNameRepeatModal();
+                }
+                if( field =='worknumber' && item.worknumber == worknumber){
+                    worknumberInput.refs.input.focus();
+                    notification.error({
+                        message: '错误',
+                        description: '工号重复'
+                    });
+                }
+                if( field =='mobile' && item.mobile == mobile){
+                    mobileInput.refs.input.focus();
+                    notification.error({
+                        message: '错误',
+                        description: '手机号重复'
+                    });
+                }
+    
+                if( field == 'workemail' && item.workemail == workemail){
+                    workemailInput.refs.input.focus();
+                    notification.error({
+                        message: '错误',
+                        description: '个人邮箱重复'
+                    });
+                }
+    
+                if( documenttype == '身份证件' && field == 'card' && item.card ==card){
+                    cardInput.refs.input.focus();
+                    notification.error({
+                        message: '错误',
+                        description: '身份证号码重复'
+                    }); 
+                }
+            }
+        })
     }
 
     getFormData = () => {
@@ -263,6 +330,12 @@ class NewClerkForm extends Component {
             cemailInput,
             contactphoneInput
         } = this.refs;
+        const {
+            departmentList,
+            getTreeList,
+            crewList
+        } = this.props;
+        const allCrewList = crewList.list;
         if(name==''){
             nameInput.refs.input.focus();
             nameInput.triggerError(true);
@@ -350,19 +423,31 @@ class NewClerkForm extends Component {
             });
             return false;
         }
+
+        //设置部门名称
+        let treeName = '';
+        if(departmentid != ''){
+            const {list} = departmentList;
+            const treeList = getTreeList(list);
+            const filterItem = treeList.filter((item,index) => {
+                if(item.uid == departmentid) return item
+            })
+            treeName = filterItem[0].name;
+        }
         
         const filterObj = pickBy(this.state,(item,key) => {
-            return key != 'treeList' || key != 'visible';
+            return key != 'visible';
         });
+        //设置时间
         const formatTime = moment(inthetime).format('YYYY-MM-DD'); 
+        //设置工作状态
         const formatWorkstatus = workstatus == '正式' ? "1" : '0';
 
-        return {...filterObj,inthetime: formatTime,workstatus:formatWorkstatus} 
+        return {...filterObj,inthetime: formatTime,workstatus:formatWorkstatus,department:treeName} 
     }
     
     resetForm = () => {
         this.setState({
-            treeList: [],
             name: '',                   //姓名
             englishname: '',            //英文名
             worknumber: '',             //工号
@@ -398,9 +483,12 @@ class NewClerkForm extends Component {
     }
 
     render() {
-        const {departmentList,userInfo} = this.props,
-        {companyname} = userInfo,
-        {treeList} = this.state;
+        const {
+            userInfo,
+            departmentList,
+        } = this.props,
+        {list} = departmentList,
+        {companyname} = userInfo;
         const {
             name = '',                   //姓名
             englishname = '',            //英文名
@@ -445,6 +533,7 @@ class NewClerkForm extends Component {
                                 value={name}
                                 onChange={this.handleChange}
                                 asterisk={true}
+                                onBlur={this.handleBlur}
                             />
                             <ErrorInputComponent
                                 ref="englishnameInput"
@@ -463,6 +552,7 @@ class NewClerkForm extends Component {
                                 placeholder="请输入工号"
                                 value={worknumber}
                                 onChange={this.handleNumChange}
+                                onBlur={this.handleBlur}
                             />
                             <SelectComponent
                                 ref="sexSelect"
@@ -484,6 +574,7 @@ class NewClerkForm extends Component {
                                 value={mobile}
                                 onChange={this.handleNumChange}
                                 asterisk={true}
+                                onBlur={this.handleBlur}
                             />
                             <ErrorInputComponent
                                 ref="workemailInput"
@@ -492,6 +583,7 @@ class NewClerkForm extends Component {
                                 placeholder="请输入工号"
                                 value={workemail}
                                 onChange={this.handleChange}
+                                onBlur={this.handleBlur}
                             />
                         </li>
                         <li>
@@ -513,6 +605,7 @@ class NewClerkForm extends Component {
                                 value={card}
                                 onChange={this.handleCardChange}
                                 asterisk={true}
+                                onBlur={this.handleBlur}
                             />
                         </li>
                         <li>
@@ -536,7 +629,6 @@ class NewClerkForm extends Component {
                                 style={{width: 224, height: 40}}
                                 asterisk={true}
                                 onChange={this.onTimeChange}
-                                disabledDate={this.disabledDate}
                             />
                         </li>
                         <li>
@@ -554,7 +646,7 @@ class NewClerkForm extends Component {
                             <SelectComponent
                                 ref="thelengSelect"
                                 name="试用期："
-                                data={["三个月","六个月"]}
+                                data={["零个月","二个月","三个月","四个月","五个月","六个月"]}
                                 dropdownMatchSelectWidth={false}
                                 value={theleng}
                                 field="theleng"
@@ -571,6 +663,7 @@ class NewClerkForm extends Component {
                                 placeholder="请输入合同公司"
                                 value={companyname}
                                 asterisk={true}
+                                disabled={true}
                             />  
                             <div className="inline-block">
                                 <span>工作地点：</span>
@@ -591,26 +684,17 @@ class NewClerkForm extends Component {
                             </div>
                         </li>
                         <li style={{ position: "relative" }}>
-                            <SelectComponent
+                            <TreeSelectComponent
                                 ref="departmentSelect"
                                 name="部门："
-                                data={treeList}
-                                dropdownMatchSelectWidth={false}
+                                treeList={list}
+                                dropdownMatchSelectWidth={true}
                                 value={department}
                                 field="department"
                                 placeholder="请选择部门"
-                                onChange={this.handleChange}
+                                onChange={this.handleTreeSelect}
+                                treeDefaultExpandAll={true}
                             />
-                                {/* <Icon type="plus-circle-o" 
-                                      style={{
-                                        position: "absolute",
-                                        left: 510,
-                                        top: 14,
-                                        color: "#0086c9",
-                                        fontSize: 16,
-                                      }} 
-                                      onClick={this.showAddModal}
-                                />    */}
                             <ErrorInputComponent
                                 ref="positionInput"
                                 name="岗位："
@@ -661,16 +745,18 @@ class NewClerkForm extends Component {
                 <div className="consequense-field">
                     <Button onClick={this.props.resetForm}>取消</Button>
                     <Button type="primary" onClick={this.saveEmployeeInfo}>保存</Button>
-                </div>
+                </div>           
             </div>
         )
     }
 }
   const mapStateToProps = state => ({
     departmentList: state.Manage.departmentList,
-    userInfo: state.User.userInfo
+    userInfo: state.User.userInfo,
+    crewList: state.Manage.crewList,
   })
   const mapDispatchToProps = dispatch => ({
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
     getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),
     getTreeList:bindActionCreators(Actions.ManageActions.getTreeList,dispatch),
     editEmployeeInformation:bindActionCreators(Actions.ManageActions.editEmployeeInformation,dispatch),

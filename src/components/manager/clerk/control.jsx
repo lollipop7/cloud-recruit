@@ -102,13 +102,14 @@ class ControlComponent extends Component {
                         </Button>
                     </Dropdown>
                     <Select 
-                        defaultValue="按入职时间从早到晚" 
+                        defaultValue="按入职时间降序" 
                         style={{width: 170,height:30,marginLeft: 10}}
                         onChange={this.handleIntheTimeClick}
                     >
                         {
-                            ["按入职时间从早到晚",
-                            "按入职时间降序"
+                            [
+                                "按入职时间降序",
+                                "按入职时间从早到晚"
                             ].map((item,index)=>{
                                 return (
                                     <Option key={index} value={item}>{item}</Option>
