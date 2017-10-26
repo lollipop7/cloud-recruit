@@ -54,7 +54,6 @@ class Contract extends Component {
             this.setState({
                 attachment_type_con
             });
-            console.log(attachment_type_con);
             const {
                 starttime,          //合同开始日期
                 yearnumber,         //合同年限
@@ -336,7 +335,7 @@ const mapDispatchToProps = dispatch => ({
     hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
     DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch),
     viewUploadAttachment: bindActionCreators(Actions.ManageActions.viewUploadAttachment,dispatch),
-    downloadUploadAttachment: bindActionCreators(Actions.ManageActions.downloadUploadAttachment,dispatch),
+    downloadAttachment: bindActionCreators(Actions.ManageActions.downloadAttachment,dispatch),
     showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
     hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
     cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),

@@ -27,7 +27,7 @@ export default class PlusAttachmentModal extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
-        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.dot|\.dotx|\.jpg|\.png|\.gif)$/i,
+        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.dot|\.dotx|\.jpg|\.png)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
             // 匹配文件类型

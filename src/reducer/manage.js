@@ -334,7 +334,7 @@ export default function manage(state=initialState,actions){
         case CREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill};
         case HIDECREDITINVESTGATIONSTATE:
-            return {...state,isFill:actions.isFill};
+            return {...state,isFill:actions.isFill,creditInfoData:{}};
             SEARCHCREDITINVESTGATION
         case GET_ARRANGE_DEPARTMENT:
             return {...state,arrangeDepartment:actions.arrangeDepartment};
