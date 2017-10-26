@@ -118,9 +118,15 @@ export default class PositionInfo extends Component {
                 isDatedisabled:true
             })
         }else {
+            if (typeof e === 'string' || typeof e === 'undefined') {
                 this.setState({
-                [field]:e.target.value
-            })
+                    [field]: e
+                });
+            } else {
+                this.setState({
+                    [field]: e.target.value
+                });
+            }
         }
         
     }
@@ -255,9 +261,8 @@ export default class PositionInfo extends Component {
                                             ref="departmentSelect"
                                             dropdownMatchSelectWidth={false}
                                             value={department}
-                                            field="department"
                                             placeholder="请选择部门"
-                                            onChange={this.handleChange}
+                                            onChange={this.handleSelectChange.bind(this,'department')}
                                             disabled = {isdisabled} 
                                             style={{
                                                 width: 147

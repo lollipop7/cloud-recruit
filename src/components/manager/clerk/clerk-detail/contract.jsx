@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {Icon} from 'antd';
+import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
 
 import clerkInfo from 'data/clerk/clerk';
@@ -9,6 +10,8 @@ import moment from 'moment';
 const constractData={name: '劳动合同', isShow: 1};
 import {Button , DatePicker , Input} from 'antd';
 import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
 
 import LoadingComponent from 'components/loading';
 
@@ -28,39 +31,46 @@ class Contract extends Component {
         starttime:'',          //合同开始日期
         yearnumber:'',         //合同年限
         endtime:'',            //合同结束日期
-        rid:''
+        rid:'',
+        tokenKey:'',
+        token:''
     }
     componentDidMount(){
         const rid = this.props.data.rid+'';
-        this.props.queryEmployee({rid:rid});
+        this.props.queryEmployee({rid});
+        const {token,tokenKey} = store.get('token') || {};
+        this.setState({tokenKey, token})
     }
 
     componentWillReceiveProps(nextProps){
-        const {
-            attachment_type_con = []
-        } = this.state;
-        nextProps.atcs.forEach((value,index) => {
-            attachment_type_con.push(value);
-        })
-        this.setState({
-            attachment_type_con
-        });
-        const {
-            starttime,          //合同开始日期
-            yearnumber,         //合同年限
-            endtime,            //合同结束日期
-            rid
-        } = nextProps.data;
-        this.setState({
-            starttime,          //合同开始日期
-            yearnumber,         //合同年限
-            endtime,            //合同结束日期
-            rid:rid+''
-        })
-        if(rid){
+        if(!isEmpty(nextProps.listAll)){
+            const {attachment_type_con} = this.state;
+            const listArr = filter(nextProps.listAll,(item,key) => {
+                return item.type == 2;
+            });
+            listArr[0].list.forEach((item,key) => {
+                if(item.type == 10010) attachment_type_con.push(item);
+            });
             this.setState({
-                isLoading:false
+                attachment_type_con
+            });
+            const {
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+                rid
+            } = nextProps.data;
+            this.setState({
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+                rid:rid+''
             })
+            if(rid){
+                this.setState({
+                    isLoading:false
+                })
+            }
         }
     }
 
@@ -69,9 +79,39 @@ class Contract extends Component {
     }
 
     handleAttachmentClick = (itemData) => {
-        this.setState({itemData});
-        this.props.showAttachmentModal();
-     }
+       const {rid} = this.state;
+       this.setState({
+           itemData,
+           rid
+        });
+       this.props.showAttachmentModal();
+    }
+
+    showImageModal = (value) => {
+         const {showImageModal, viewUploadAttachment} = this.props;
+        this.props.showImageModal(value,viewUploadAttachment)
+    }
+    hideImageModal = () =>{
+        this.props.hideImageModal();//隐藏预览框
+        this.props.cancelImageUrl();//清空图片地址
+    }
+
+    //删除图片
+    deleteImage = (value) =>{
+        console.log(value);
+        this.props.DeleteMaterial({id:value.id+''},this.props.queryEmployee,value)
+        //this.props.viewUploadAttachment();
+        //const rid = this.props.data.resumeoff.rid+'';
+        //this.props.queryEmployee({rid:rid});
+        for(let i=0;i<this.props.imageUrl.length;i++){
+            if(value.id==this.props.imageUrl[i]){
+                this.props.imageUrl.splice(i,1)
+            }
+        }
+        this.props.hideImageModal()
+        
+    }
+
     //编辑信息
     editInformation = (field) => {
         if(field=='contract'){
@@ -136,6 +176,8 @@ class Contract extends Component {
             starttime,          //合同开始日期
             yearnumber,         //合同年限
             endtime,            //合同结束日期
+            tokenKey,
+            token,
             isLoading=true
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
@@ -231,20 +273,43 @@ class Contract extends Component {
                             </h3>
                             {
                                 attachment_type_con.map((value,index) => {
-                                    const {name,isShow} = value;
+                                    const {name} = value;
                                     return(
                                         <div key={name} 
                                              className="add-attactment" 
                                              onClick={this.handleAttachmentClick.bind(this,value)}
-                                             style={{display: isShow==1 ? 'inline-block' : 'none'}}
+                                             style={{display: 'inline-block'}}
                                         >
-                                            <Icon type="plus-circle-o"
+                                            {
+                                                value.attachment_type.length==0 ?
+                                                <div>
+                                                    <Icon type="plus-circle-o"
+                                                    onClick={this.handleAttachmentClick.bind(this,value)}
+                                                        style={{ 
+                                                            //marginBottom:'-120px',
+                                                            paddingTop:'30px',
+                                                            fontSize: 45, 
+                                                            color: '#d2d2d2',
+                                                        }}
+                                                    />
+                                                    <p style={{marginBottom:10}}>{name}</p> 
+                                                </div>
+                                                :
+                                                <div>
+                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                                    <div>
+                                                        <h3 onClick={this.handleAttachmentClick.bind(this,value)} alt="点击上传附件">{name}</h3>
+                                                        <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
+                                                    </div>
+                                                </div>
+                                            }
+                                            {/* <Icon type="plus-circle-o"
                                                 style={{ 
                                                     fontSize: 45, 
                                                     color: '#d2d2d2',
                                                 }}
                                             />
-                                            <p>{name}</p>
+                                            <p>{name}</p> */}
                                         </div>
                                     )
                                 })
@@ -259,12 +324,21 @@ class Contract extends Component {
 }
 
 const mapStateToProps = state => ({
-    attactmentModal: state.Manage.attactmentModal
+    attactmentModal: state.Manage.attactmentModal,
+    imageUrl: state.Manage.imageUrl,
+    imageVisible: state.Manage.imageVisible,
+    queryEmployeeList: state.Manage.queryEmployeeList,
 })
 
 const mapDispatchToProps = dispatch => ({
     showAttachmentModal: bindActionCreators(Actions.ManageActions.showAttachmentModal,dispatch),
-    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch)
+    hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
+    DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch),
+    viewUploadAttachment: bindActionCreators(Actions.ManageActions.viewUploadAttachment,dispatch),
+    downloadUploadAttachment: bindActionCreators(Actions.ManageActions.downloadUploadAttachment,dispatch),
+    showImageModal: bindActionCreators(Actions.ManageActions.showImageModal,dispatch),
+    hideImageModal: bindActionCreators(Actions.ManageActions.hideImageModal,dispatch),
+    cancelImageUrl: bindActionCreators(Actions.ManageActions.cancelImageUrl,dispatch),
 })
 
 export default connect(

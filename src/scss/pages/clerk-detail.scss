@@ -753,3 +753,30 @@
         }
     }
 }
+.viewMaterialModal{
+    .ant-modal{
+        width: 600px!important
+    }
+    .ant-modal-body{
+        position: relative;
+        .viewMaterial {
+            width: 25%;
+            height: 25%;
+            margin:12px;
+            float:left;
+            text-align:center
+        }
+        .viewMaterial{
+            img:hover{
+                position: absolute;
+                top:80%;
+                left:67%;
+                margin-top: -400px;
+                margin-left: -400px;
+                width: 800px;
+                height: 800px;
+                z-index: 1000
+            }
+        }
+    }
+}
