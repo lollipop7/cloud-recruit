@@ -53,7 +53,6 @@ export default class PlusAttachmentModal extends Component {
         if (info.file.status === 'error') {
             this.triggerError(true,'文件上传失败！');
         }
-        console.log(fileList)        
         this.setState({fileList});
     }
 
@@ -113,7 +112,7 @@ export default class PlusAttachmentModal extends Component {
             }
             const {filePath} = response,
                 fileNameJson = `{${name}:${filePath}}`;
-                UploadMaterial({type:type+'',fileNameJson,rid});
+                UploadMaterial({type:type+'',fileNameJson,rid},queryEmployee);
         }
         this.hideAttachmentModal()
     }

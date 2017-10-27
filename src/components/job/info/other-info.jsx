@@ -41,6 +41,37 @@ export default class OtherInfoComponent extends Component {
             [field]: value ? moment(value).format('YYYY-MM-DD')+' 00:00:00' : ''
         });
     }
+    getFormData = () => {
+        return {...this.state}
+    }
+    resetForm = () => {
+        const{
+            urgent , 
+            intelligent,
+            starttime=null ,
+            endtime=null,
+        }=this.props.jobInfo;
+        this.setState({
+            isurgent:urgent , 
+            isintelligent:intelligent,
+            starttime:moment(starttime).format('YYYY-MM-DD')+' 00:00:00' ,
+            endtime:moment(endtime).format('YYYY-MM-DD')+' 00:00:00',
+        })
+    }
+    componentWillReceiveProps(nextProps){
+        const{
+            urgent , 
+            intelligent,
+            starttime=null ,
+            endtime=null,
+        }=nextProps.jobInfo;
+        this.setState({
+            isurgent:urgent , 
+            isintelligent:intelligent,
+            starttime:moment(starttime).format('YYYY-MM-DD')+' 00:00:00' ,
+            endtime:moment(endtime).format('YYYY-MM-DD')+' 00:00:00',
+        })
+    }
     
     
     render() {
@@ -53,7 +84,8 @@ export default class OtherInfoComponent extends Component {
             isintelligent,
             starttime=null ,
             endtime=null,
-        } = this.props.jobInfo;
+        } = this.state;
+        const{isdisabled} = this.props;
         return (
             <li className="other-info">
                 <h2 className="title">
@@ -64,19 +96,19 @@ export default class OtherInfoComponent extends Component {
                         <InputComponent 
                             name="开始时间："
                             value={moment(starttime).format('YYYY-MM-DD')}
-                            disabled={true}
+                            disabled={isdisabled}
                         />
                         <InputComponent 
                             name="结束时间："
                             value={moment(endtime).format('YYYY-MM-DD')}
-                            disabled={true}
+                            disabled={isdisabled}
                         />
                     </li>
                     <li>
                         <span>是否紧急：</span>
                         <RadioGroup onChange={this.onChange.bind(this,'isurgent')} 
                                 value={isurgent}
-                                disabled="true">
+                                disabled={isdisabled}>
                             <Radio value={true}>是</Radio>
                             <Radio value={false}>否</Radio>
                         </RadioGroup>
@@ -86,7 +118,7 @@ export default class OtherInfoComponent extends Component {
                             <Radio 
                                 onChange={this.onChangeIntelligent} 
                                 checked={isintelligent}
-                                disabled="true"
+                                disabled={isdisabled}
                             >
                                 智能筛选投递该职位的简历
                             </Radio>

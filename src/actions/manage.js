@@ -92,8 +92,8 @@ import isNumber from 'lodash/isNumber';
     const SHOW_IMAGE_MODAL = {type:types.SHOW_IMAGE_MODAL};
     const HIDE_IMAGE_MODAL = {type:types.HIDE_IMAGE_MODAL};
     const CANCELIMAGEURL = {type:types.CANCELIMAGEURL};
-    
 
+    
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -419,39 +419,12 @@ import isNumber from 'lodash/isNumber';
             console.log(err);
         })
     }
-    //预览材料附件
-    // export const viewUploadAttachment = (arr,showImageModal) => (dispatch,getState) => {
-    //     const token = store.get('token');
-    //     const fileArr = arr;
-    //     const urlArr = [];
-    //     for(let i=0;i<fileArr.length;i++){
-    //         axios({
-    //         url:`${prefixUri}/view_uploadAttachment`,
-    //         method:'get',
-    //         params:{
-    //             token:token.token,
-    //             tokenKey:token.tokenKey,
-    //             fileName:fileArr[i]
-    //         }
-    //         }).then(res=>{
-    //             urlArr.push(res.request.responseURL)
-    //             if(fileArr.length==urlArr.length){
-    //                 dispatch({...IMAGEURL,imageUrl:urlArr});
-    //                 showImageModal()
-    //             }   
-    //         }).catch(error=>{
-    //             console.log(error);
-    //         });
-    //     }    
-    // }
-
     export const viewUploadAttachment = (data) => (dispatch,getState) => {
         dispatch({...IMAGEURL,imageUrl:data});   
     }
     //显示图片预览Modal
-    export const showImageModal = (data,viewUploadAttachment) => (dispatch,getState) => {
-        dispatch({...SHOW_IMAGE_MODAL})
-        viewUploadAttachment(data)
+    export const showImageModal = (data) => (dispatch,getState) => {
+        dispatch({...SHOW_IMAGE_MODAL,attactmentType:data})
     }
     export const hideImageModal = () => (dispatch,getState) => {
         dispatch({...HIDE_IMAGE_MODAL})
@@ -479,16 +452,6 @@ import isNumber from 'lodash/isNumber';
         }).catch(error=>{
             console.log(error)
         });
-        // axios.get(`${prefixUri}/download_uploadAttachment`,{
-        //         token:token.token,
-        //         tokenKey:token.tokenKey,
-        //         fileName:name   
-        // }).then(res=>{
-        //     const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-        //     FileSaver.saveAs(blob,'附件材料下载表.xlsx');
-        // }).catch(error=>{
-        //     console.log(error);
-        // });
     }
     //删除材料附件
     export const DeleteMaterial = (data,props,value,imageUrl) => (dispatch,getState) => {

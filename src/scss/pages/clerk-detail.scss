@@ -140,6 +140,12 @@
             &:before {
                 @include border-top;
             }
+            .upLoadMaterial:hover{
+                color: blue
+            }
+            .viewMaterial:hover{
+                color: blue
+            }
         }
         .field-list {
             &+ul {
@@ -174,6 +180,12 @@
                     margin-top: 0;
                 }
             }
+        }
+    }
+    //个人信息
+    .personal-info{
+        .ant-calendar-picker-icon , .ant-select-arrow{
+            display: none!important;
         }
     }
     //操作历史
@@ -755,7 +767,8 @@
 }
 .viewMaterialModal{
     .ant-modal{
-        width: 600px!important
+        width: 600px!important;
+        top: 160px
     }
     .ant-modal-body{
         position: relative;
@@ -769,8 +782,8 @@
         .viewMaterial{
             img:hover{
                 position: absolute;
-                top:80%;
-                left:67%;
+                top:75.4%;
+                left:66.6%;
                 margin-top: -400px;
                 margin-left: -400px;
                 width: 800px;

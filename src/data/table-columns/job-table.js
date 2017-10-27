@@ -28,13 +28,13 @@ module.exports = [
         "title": "职位名",
         "dataIndex": "positionname", 
         "key": "positionname",
-        "width": 90
+        "width": 70
     },
     {
         "title": "部门",
         "dataIndex": "department",
         "key": "department",
-        "width": 80,
+        "width": 70,
         "render": renderTextWithATag
     },
     {
@@ -84,14 +84,14 @@ module.exports = [
         "title": "开始时间",
         "dataIndex": "starttime",
         "key": "starttime",
-        "width": 97,
+        "width": 70,
         "render": renderTime
     },
     {
         "title": "结束时间",
         "dataIndex": "endtime",
         "key": "endtime",
-        "width": 97,
+        "width": 70,
         "render": renderTime
     },
     {
