@@ -861,7 +861,7 @@ export const changeTableData = (data) => (dispatch, getState) => {
 }
  
 //  组织架构-根据部门id查询子部门及人员
-export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dispatch,getState) => {
+export const getDepartMentStaff = (data={},currentUid,departmentName='',current) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
         head: {
             transcode: 'L0079',
@@ -870,7 +870,7 @@ export const getDepartMentStaff = (data={},currentUid,departmentName='') => (dis
         data: data
     })
     .then(res=>{
-        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid,departmentName:departmentName});
+        dispatch({...GET_DEPARTMENT_STAFF,departmentStaff:res, currentUid:currentUid,departmentName:departmentName,current:current});
     },err=>{
         dispatch({...GET_DEPARTMENT_STAFF});
     });

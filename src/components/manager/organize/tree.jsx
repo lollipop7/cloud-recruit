@@ -52,7 +52,7 @@ class LeftTreePage extends Component {
   onSelect = (selectedKeys, info) => {
     if(selectedKeys[0]){
       const { uid } = this.state;
-      this.props.getDepartMentStaff({departmentId:selectedKeys[0],skip:"0"},selectedKeys[0],info.selectedNodes[0].props.title);
+      this.props.getDepartMentStaff({departmentId:selectedKeys[0],skip:"0"},selectedKeys[0],info.selectedNodes[0].props.title,"1");
       this.setState({uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
     }else{
       this.setState({
