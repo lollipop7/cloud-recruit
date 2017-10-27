@@ -616,6 +616,8 @@ const GET_EMPLOYEE_DEPART = {type:types.GET_EMPLOYEE_DEPART};
 const GET_EMPLOYEE_POST = {type:types.GET_EMPLOYEE_POST};
 
 //获取全员概览-员工性质分布信息
+const GET_DEPARTMENT_START = {type:types.GET_DEPARTMENT_START};
+const GET_DEPARTMENT_DONE = {type:types.GET_DEPARTMENT_DONE};
 const GET_DEPARTMENT_LIST = {type:types.GET_DEPARTMENT_LIST};
 
 //**组织架构 ------------------------------------------------*/
@@ -755,6 +757,7 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
             message.error('编辑信息失败！')
         }else{
             message.error('添加信息失败！')
+            console.log(err)
         }
     })
 }
@@ -819,6 +822,7 @@ export const getEmployeeQuality = (type) => (dispatch,getState) => {
 
 //  组织架构-部门列表查询
 export const getDepartMentList = () => (dispatch,getState) => {
+    dispatch(GET_DEPARTMENT_START);
     AjaxByToken('structure/resume_statis_List_Department',{
         head: {
             transcode: 'L0078',
@@ -826,6 +830,8 @@ export const getDepartMentList = () => (dispatch,getState) => {
         }
     })
     .then(res=>{
+        // console.log(res.list);
+        dispatch(GET_DEPARTMENT_DONE);
         dispatch({...GET_DEPARTMENT_LIST,list:res.list,count:res.count});
     },err=>{
         dispatch({...GET_DEPARTMENT_LIST,list:[],count:0});

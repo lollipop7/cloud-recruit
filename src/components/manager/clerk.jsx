@@ -34,7 +34,8 @@ class ClerkPage extends Component {
     //显示条件
     params = {
         skip: 0,
-        count:"20"
+        count:"20",
+        sort:"asc"
     }
 
     // 表单数据
@@ -146,7 +147,8 @@ class ClerkPage extends Component {
         }else{
             this.params={
                 skip: 0,
-                count:"20"
+                count:"20",
+                sort:"asc"
             }
         }
     }

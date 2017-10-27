@@ -29,7 +29,7 @@ class LeftTreePage extends Component {
     message.info(data);
   };
   // 左侧树结构
-  recursion(dataSource) {
+  recursion = (dataSource) => {
     return (
       dataSource.map((tree, index) => {
         if (tree.list) {

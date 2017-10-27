@@ -217,7 +217,6 @@ export default class PermanentModal extends Component {
                             style={{width: 224, height: 40, lineHeight: "40px"}}
                             onChange={this.onTimeChange}
                             asterisk={true}
-                            disabledDate={this.disabledDate}
                         />
                     </div>
                 </div>

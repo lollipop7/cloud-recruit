@@ -3,7 +3,7 @@ import { Modal, Tag , Button, Input, Radio, Cascader } from 'antd';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-import {ErrorInputComponent,SelectComponent,DatePickerComponent} from '../input-select-time';
+import {ErrorInputComponent,SelectComponent,DatePickerComponent,TreeSelectComponent} from '../input-select-time';
 
 // lodash 
 import chunk from 'lodash/chunk';
@@ -36,7 +36,7 @@ export default class TransferPersonnelModal extends Component {
         joblevel:'',            //岗位级别
         new_joblevel:'',        //新岗位级别
         msg:'其他',                  //备注
-        treeList: []
+        list: []
     }
 
     componentWillReceiveProps(nextProps){
@@ -49,7 +49,6 @@ export default class TransferPersonnelModal extends Component {
             }=nextProps,
             {resumeoff}=data;
             const {list} = departmentList;
-            const treeList = getTreeList(list);
             if(resumeoff){
                 const {
                     departmentid,
@@ -66,7 +65,7 @@ export default class TransferPersonnelModal extends Component {
                     worksite: workcity,
                     company: contractname,
                     joblevel,
-                    treeList
+                    list
                 })
             }
         }
@@ -100,6 +99,12 @@ export default class TransferPersonnelModal extends Component {
         }
     }
 
+    handleTreeSelect =(field,e) =>{
+        this.setState({
+            [field]: e,
+            new_departmentid: e+''            
+        })
+    }
 
     handleCityChange = (val) => {
         this.setState({
@@ -122,11 +127,14 @@ export default class TransferPersonnelModal extends Component {
 
     getFormData = () => {
         const {
-            new_department,      //新部门name
+            new_departmentid,      //新部门id
+            new_department,
             new_company,         //新合同公司name
             eventdate,           //生效日期
-            treeList
+            list
         } = this.state;
+        const {getTreeList} = this.props;
+        const treeList = getTreeList(list);
         const {
             departmentSelect,
             positionSelect,
@@ -136,13 +144,15 @@ export default class TransferPersonnelModal extends Component {
         const {
             handleOpenChange
         } = eventdateInput;
-        let uid = '';
-        if(new_department != ''){
+        
+        let treeName = '';
+        if(new_departmentid != ''){
             const filterItem = treeList.filter((item,index) => {
-                if (item.name === new_department) return item;
+                if(item.uid == new_departmentid) return item
             })
-            uid = filterItem[0].uid+'';
+            treeName = filterItem[0].name;
         }
+
         //yyyy-MM-dd 
         if(eventdate === null){
             handleOpenChange(true);
@@ -150,9 +160,9 @@ export default class TransferPersonnelModal extends Component {
         }
         const formatTime = moment(eventdate).format('YYYY-MM-DD');
         const filterObj = pickBy(this.state,(item,key) => {
-            return key != 'treeList';
+            return key != 'list';
         });
-        return {...filterObj,eventdate: formatTime,new_departmentid: uid};
+        return {...filterObj,eventdate: formatTime,new_department:treeName};
     }
 
     //点击ok的回调
@@ -192,7 +202,7 @@ export default class TransferPersonnelModal extends Component {
             joblevel,            //岗位级别
             new_joblevel,        //新岗位级别
             msg,
-            treeList
+            list
         }=this.state;
         return(
             <Modal
@@ -231,15 +241,16 @@ export default class TransferPersonnelModal extends Component {
                             </div>
                         </div>
                         <div className="pull-right">
-                            <SelectComponent
+                            <TreeSelectComponent
                                 ref="departmentSelect"
                                 name="现部门："
-                                data={treeList}
-                                dropdownMatchSelectWidth={false}
+                                treeList={list}
+                                dropdownMatchSelectWidth={true}
                                 value={new_department}
                                 field="new_department"
                                 placeholder="请选择部门"
-                                onChange={this.handleChange}
+                                onChange={this.handleTreeSelect}
+                                treeDefaultExpandAll={true}
                             />
                         </div>
                     </li>
@@ -328,7 +339,6 @@ export default class TransferPersonnelModal extends Component {
                             placeholder="请选择生效日期"
                             style={{width: 224, height: 40}}
                             onChange={this.onTimeChange}
-                            disabledDate={this.disabledDate}
                         />            
                     </li>
                     <li className="checked-factors">
