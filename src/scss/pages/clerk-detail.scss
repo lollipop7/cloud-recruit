@@ -148,7 +148,9 @@
             }
             li {
                 margin-top: 30px;
-                span {
+                &>span,
+                .inline-block>span,
+                 {
                     display: inline-block;
                     font-weight: bold;
                     white-space: pre-line;
@@ -169,6 +171,9 @@
                         text-align: right;
                         margin-right: 40px;
                     }
+                }
+                .inline-tree-select>span:first-child {
+                    margin-right: 0
                 }
                 &:first-child {
                     margin-top: 0;

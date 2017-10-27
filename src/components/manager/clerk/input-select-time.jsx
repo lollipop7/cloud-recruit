@@ -203,6 +203,7 @@ export class SelectComponent extends Component {
         name: PropTypes.string,
         field: PropTypes.string,
         value: PropTypes.string,
+        defaultValue: PropTypes.string,
         data: PropTypes.array,
         placeholder: PropTypes.string,
         dropdownMatchSelectWidth: PropTypes.bool,
@@ -245,12 +246,14 @@ export class SelectComponent extends Component {
                 name,                                   //输入框前名称
                 field,
                 placeholder,                            //输入框提示信息
+                defaultValue,                           //指定默认选中的条目                  
                 data = [],                              //option选项value来源
                 value,                                  //指定当前选中的条目
                 dropdownMatchSelectWidth,               //下拉菜单和选择器是否同宽
                 style = { width: 229, height: 40 },     //下拉框样式
-                asterisk = false                        //是否是必填项
+                asterisk = false,                       //是否是必填项    
             } = this.props;
+            console.log(defaultValue)
         return (
             <div className="inline-block inline-block-select">
                 <span className={ asterisk ? "required-asterisk" : ""}>{name}</span>
@@ -261,6 +264,7 @@ export class SelectComponent extends Component {
                         className={error&&asterisk ? 'error' : ''}
                         value={value}
                         placeholder={placeholder}
+                        defaultValue={defaultValue}
                         onChange={this.handleChange.bind(this, field)}
                         dropdownMatchSelectWidth={dropdownMatchSelectWidth}
                         style={style}

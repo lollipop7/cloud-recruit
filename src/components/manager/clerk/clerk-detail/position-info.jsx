@@ -9,6 +9,8 @@ import clerkInfo from 'data/clerk/clerk';
 import pickBy from 'lodash/pickBy';
 import LoadingComponent from 'components/loading';
 
+import {TreeSelectComponent} from '../input-select-time'; 
+
 export default class PositionInfo extends Component {
 
     state = {
@@ -21,8 +23,8 @@ export default class PositionInfo extends Component {
         isDatedisabled:true,
         inthetime:'',              //入职时间
         positivedate:'',           //转正时间
-        treeList: [],
-        isLoading: true
+        isLoading: true,
+        list: [],
     }
 
     componentWillReceiveProps(nextProps){
@@ -30,8 +32,6 @@ export default class PositionInfo extends Component {
             const dateFormat = 'YYYY-MM-DD';
             const {getTreeList,departmentList} = nextProps;
             const {list} = departmentList;
-            const treeList = getTreeList(list);
-            
             const {
                 worknumber,             //工号
                 worknature,             //工作性质
@@ -64,7 +64,7 @@ export default class PositionInfo extends Component {
                 positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
                 theleng,
                 rid:rid+'',
-                treeList,
+                list,
                 isLoading:false
             })
         }
@@ -73,6 +73,13 @@ export default class PositionInfo extends Component {
 
     setQualified = isQualified => {
         this.setState({isQualified});
+    }
+
+    handleTreeSelect =(field,e) =>{
+        this.setState({
+            [field]: e,
+            departmentid: e            
+        })
     }
 
     handleSelectChange = (field,e) => {
@@ -128,13 +135,21 @@ export default class PositionInfo extends Component {
                 });
             }
         }
-        
+        console.log(field,e)
     }
-    onChange = (field,value) => {
+    onDateChange = (field,value) => {
         this.setState({
             [field]:moment(value).format('YYYY-MM-DD')
         })
     }
+
+    handleNameChange = (field,e) => {
+        const pattern = /[\d]/ig;
+        this.setState({
+            [field]: e.replace(pattern,'')
+        });
+    }
+
     //编辑信息
     editInformation = () => {
         this.setState({
@@ -158,7 +173,8 @@ export default class PositionInfo extends Component {
                 return val != undefined && val !=true && val !='block' ;
             });
             delete filterObj.inthetime;
-            delete filterObj.borderState
+            delete filterObj.borderState;
+            
             this.props.editEmployeeInformation({...filterObj})
             this.setState({
                 btnState:'none',
@@ -208,7 +224,7 @@ export default class PositionInfo extends Component {
             btnDynamicsState,
             isDatedisabled,
             dateBorderState,
-            treeList
+            list
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
         const {isLoading=true} = this.state;
@@ -249,32 +265,19 @@ export default class PositionInfo extends Component {
                                     </span>
                                 </li>
                                 <li>
-                                    <span>部门 : </span>
-                                    <span>
-                                        {/* <Input 
-                                            style={{border:borderState}}
-                                            disabled = {isdisabled}
-                                            value={department}
-                                            onChange={this.handleSelectChange.bind(this,'department')}
-                                        /> */}
-                                        <Select
-                                            ref="departmentSelect"
-                                            dropdownMatchSelectWidth={false}
-                                            value={department}
-                                            placeholder="请选择部门"
-                                            onChange={this.handleSelectChange.bind(this,'department')}
-                                            disabled = {isdisabled} 
-                                            style={{
-                                                width: 147
-                                            }}
-                                        >
-                                            {
-                                                treeList.map((item, index) => {
-                                                    return <Option key={index} value={item.name ? item.name : item}>{item.name ? item.name : item}</Option>
-                                                }) 
-                                            }                   
-                                        </Select>
-                                    </span>
+                                    <TreeSelectComponent
+                                        ref="departmentSelect"
+                                        name="部门："
+                                        treeList={list}
+                                        dropdownMatchSelectWidth={true}
+                                        value={department}
+                                        field="department"
+                                        placeholder="请选择部门"
+                                        onChange={this.handleTreeSelect}
+                                        treeDefaultExpandAll={true}
+                                        style={{ width: 147}}
+                                        disabled = {isdisabled} 
+                                    />
                                 </li>
                                 <li>
                                     <span>岗位职级 : </span>
@@ -403,7 +406,7 @@ export default class PositionInfo extends Component {
                                             value={inthetime?moment(moment(inthetime), dateFormat):''} 
                                             format={dateFormat}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'inthetime')}
+                                            onChange={this.onDateChange.bind(this,'inthetime')}
                                         />
                                         
                                     </span>
@@ -429,7 +432,7 @@ export default class PositionInfo extends Component {
                                             disabled={isDatedisabled}
                                             value={positivedate?moment(moment(positivedate), dateFormat):''}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'positivedate')}
+                                            onChange={this.onDateChange.bind(this,'positivedate')}
                                         />
                                     </span>   
                                 </li>

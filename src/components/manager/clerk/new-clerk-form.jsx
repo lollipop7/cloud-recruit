@@ -74,7 +74,7 @@ class NewClerkForm extends Component {
     handleTreeSelect =(field,e) =>{
         this.setState({
             [field]: e,
-            departmentid: e            
+            departmentid: e+''            
         })
     }
     
@@ -479,7 +479,7 @@ class NewClerkForm extends Component {
         const {editEmployeeInformation} = this.props;
         if(!newClerkFormData) return;
         editEmployeeInformation({...newClerkFormData});
-        // this.resetForm();
+        this.resetForm();
     }
 
     render() {
@@ -595,6 +595,7 @@ class NewClerkForm extends Component {
                                 value={documenttype}
                                 field="documenttype"
                                 placeholder="请选择证件类型"
+                                defaultValue="身份证件"
                                 onChange={this.handleChange}
                             />
                             <ErrorInputComponent
@@ -619,6 +620,7 @@ class NewClerkForm extends Component {
                                 placeholder="请选择工作性质"
                                 onChange={this.handleChange}
                                 asterisk={true}
+                                defaultValue='全职'
                             />
                             <DatePickerComponent
                                 ref="datePickerInput"
@@ -642,6 +644,7 @@ class NewClerkForm extends Component {
                                 placeholder="请选择员工状态"
                                 onChange={this.handleChange}
                                 asterisk={true}
+                                defaultValue="试用"
                             />
                             <SelectComponent
                                 ref="thelengSelect"
@@ -653,6 +656,7 @@ class NewClerkForm extends Component {
                                 placeholder="请选择试用期"
                                 onChange={this.handleChange}
                                 asterisk={true}
+                                defaultValue="三个月"
                             />
                         </li>
                         <li>
