@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import {Input , Button ,DatePicker, Select} from 'antd';
+import {Input , Button ,DatePicker, Select, Cascader,notification} from 'antd';
 const Option = Select.Option;
 
 import isEmpty from 'lodash/isEmpty';
@@ -9,19 +9,34 @@ import clerkInfo from 'data/clerk/clerk';
 import pickBy from 'lodash/pickBy';
 import LoadingComponent from 'components/loading';
 
+import {TreeSelectComponent} from '../input-select-time'; 
+import city from 'data/city.json';
+
 export default class PositionInfo extends Component {
 
     state = {
-        isQualified: true,
+        isQualified: true,          //是否提前转正
         btnState:'none',
         borderState:"1px solid transparent",
         isdisabled:true,
-        btnDynamicsState:'none',
-        dateBorderState:"1px solid transparent",
-        isDatedisabled:true,
-        inthetime:'',              //入职时间
-        positivedate:'',           //转正时间
-        treeList: []
+        // btnDynamicsState:'none',
+        // dateBorderState:"1px solid transparent",
+        // isDatedisabled:true,
+        // inthetime:'',              //入职时间
+        // positivedate:'',           //转正时间
+        isLoading: true,
+        list: [],
+        worknumber: '',             //工号
+        worknature: '',             //工作性质
+        departmentid: '',
+        department: '',
+        position: '',               //岗位
+        positionclass: '',          //岗位职级
+        workcity: '',               //工作地点
+        workphone: '',              //工作电话
+        ext: '',                    //分机号
+        cemail: '',                 //企业邮箱
+        contactname: '',            //紧急联系人
     }
 
     componentWillReceiveProps(nextProps){
@@ -29,11 +44,11 @@ export default class PositionInfo extends Component {
             const dateFormat = 'YYYY-MM-DD';
             const {getTreeList,departmentList} = nextProps;
             const {list} = departmentList;
-            const treeList = getTreeList(list);
             const {
                 worknumber,             //工号
                 worknature,             //工作性质
                 department,             //部门
+                departmentid,           //原部门id
                 position,               //岗位
                 positionclass,          //岗位职级
                 workcity,               //工作地点
@@ -44,17 +59,13 @@ export default class PositionInfo extends Component {
                 inthetime,              //入职时间
                 positivedate,           //转正时间
                 theleng,                //试用期
-                rid
+                rid,
             } = nextProps.data;
-            if(rid){
-                this.setState({
-                    isLoading:false
-                })
-            }
             this.setState({
                 worknumber,             //工号
                 worknature,             //工作性质
                 department,             //部门
+                departmentid,           //原部门id
                 position,               //岗位
                 positionclass,          //岗位职级
                 workcity,               //工作地点
@@ -62,11 +73,12 @@ export default class PositionInfo extends Component {
                 ext,                    //分机号
                 cemail,                 //企业邮箱
                 contactname,            //紧急联系人
-                inthetime:moment(inthetime).format('YYYY-MM-DD'),              //入职时间
-                positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
-                theleng,
+                // inthetime:moment(inthetime).format('YYYY-MM-DD'),              //入职时间
+                // positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
+                // theleng,
                 rid:rid+'',
-                treeList
+                list,
+                isLoading:false
             })
         }
     }
@@ -75,11 +87,14 @@ export default class PositionInfo extends Component {
     setQualified = isQualified => {
         this.setState({isQualified});
     }
-    handleSelectChange = (field,e) => {
+
+
+    handleChange = (field,e) => {
         const {
                 worknumber,             //工号
                 worknature,             //工作性质
                 department,             //部门
+                departmentid,           //原部门id
                 position,               //岗位
                 positionclass,          //岗位职级
                 workcity,               //工作地点
@@ -90,13 +105,14 @@ export default class PositionInfo extends Component {
                 inthetime,              //入职时间
                 positivedate,           //转正时间
                 theleng,                //试用期
-                rid
+                rid,
             } = this.props.data;
         if(field=='cancelBtnState'){
             this.setState({
                 worknumber,             //工号
                 worknature,             //工作性质
                 department,             //部门
+                departmentid,           //原部门id
                 position,               //岗位
                 positionclass,          //岗位职级
                 workcity,               //工作地点
@@ -108,16 +124,18 @@ export default class PositionInfo extends Component {
                 borderState:"1px solid transparent",
                 isdisabled:true
             })
-        }else if(field=='cancelTimeBtnState'){
-            this.setState({
-                inthetime:moment(inthetime).format('YYYY-MM-DD'),               //入职时间
-                positivedate:moment(positivedate).format('YYYY-MM-DD'),         //转正时间
-                theleng,                                                        //试用期
-                btnDynamicsState:'none',
-                dateBorderState:"1px solid transparent",
-                isDatedisabled:true
-            })
-        }else {
+        }
+        // else if(field=='cancelTimeBtnState'){
+        //     this.setState({
+        //         inthetime:moment(inthetime).format('YYYY-MM-DD'),               //入职时间
+        //         positivedate:moment(positivedate).format('YYYY-MM-DD'),         //转正时间
+        //         theleng,                                                        //试用期
+        //         btnDynamicsState:'none',
+        //         dateBorderState:"1px solid transparent",
+        //         isDatedisabled:true
+        //     })
+        // }
+        else {
             if (typeof e === 'string' || typeof e === 'undefined') {
                 this.setState({
                     [field]: e
@@ -130,11 +148,63 @@ export default class PositionInfo extends Component {
         }
         
     }
-    onChange = (field,value) => {
+    onDateChange = (field,value) => {
         this.setState({
             [field]:moment(value).format('YYYY-MM-DD')
         })
     }
+
+    handleCityChange = (field,val) => {
+        this.setState({
+            workcity: val.length > 0 ? val[0] + '-' + val[1] : ''
+        });
+    }
+
+    handleNumChange = (field,e) => {
+        const pattern = /[^\d]/ig;
+        this.setState({
+            [field]: e.target.value.replace(pattern,'')
+        });
+    }
+
+    handleNameChange = (field,e) => {
+        const pattern = /[\d]/ig;
+        this.setState({
+            [field]: e.target.value.replace(pattern,'')
+        });
+    }
+
+    handleTreeSelect =(field,e) =>{
+        this.setState({
+            [field]: e,
+            departmentid: e+''            
+        })
+    }
+
+    //验证工号是否重复
+    handleBlur = (field,value) => {
+        // const {allCrewList} = this.props;
+        // const {worknumber} = this.state;
+        // const {worknumberInput} = this.refs;
+        // allCrewList.forEach((item,index) => {
+        //     if(value !=''){
+        //         if( field =='worknumber' && item.worknumber == worknumber){
+        //             worknumberInput.focus();
+        //             notification.error({
+        //                 message: '错误',
+        //                 description: '工号重复'
+        //             });
+        //         }
+        //     }
+        // })
+    }
+
+    //判断是否是邮箱
+    isEmail = (value) => {
+        const pattern = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        return pattern.test(value);
+    }
+
     //编辑信息
     editInformation = () => {
         this.setState({
@@ -151,41 +221,102 @@ export default class PositionInfo extends Component {
             isDatedisabled:false
         })
     }
+
+    getPositionData = () => {
+        const {
+            worknumber,             //工号
+            worknature,             //工作性质
+            departmentid,
+            department,
+            position,               //岗位
+            positionclass,          //岗位职级
+            workcity,               //工作地点
+            workphone,              //工作电话
+            ext,                    //分机号
+            cemail,                 //企业邮箱
+            contactname,            //紧急联系人
+            list,
+            rid
+        } = this.state;
+        const {
+            worknumberInput,
+            cemailInput,
+        } = this.refs;
+        
+        //设置部门名称
+        const {getTreeList} = this.props;
+        const treeList = getTreeList(list);
+        let treeName = '';
+        if(departmentid != ''){
+            const filterItem = treeList.filter((item,index) => {
+                if(item.uid == departmentid) return item
+            })
+            treeName = filterItem[0].name;
+        }
+
+        console.log(worknumber,cemail)
+        //校验工号重复性
+        // const {allCrewList} = this.props;
+        // allCrewList.forEach((item,index) => {
+        //     if(worknumber != undefined && item.worknumber == worknumber){
+        //         worknumberInput.focus();
+        //         notification.error({
+        //             message: '错误',
+        //             description: '工号重复'
+        //         });
+        //         return false;
+        //     } 
+        // })
+
+        //校验企业邮箱
+        if(cemail != undefined && !this.isEmail(cemail)){
+            cemailInput.focus();
+            notification.error({
+                message: '错误',
+                description: '邮箱格式错误'
+            });
+            return false;
+        }
+
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return (key == 'worknumber' || key == 'worknature' || key=='departmentid' || key == 'department' ||
+                key == 'position' || key == 'positionclass' || key == 'workcity' || key == 'workphone' ||
+                key == 'workphone' || key == 'ext' || key == 'cemail' || key == 'contactname'
+            );
+        });
+
+        return {...filterObj,department:treeName,rid}
+    }
+
     //保存信息
     saveInfomation = (value) => {
-        if(value=='btnState'){
-            const filterObj = pickBy(this.state,(val,key)=>{
-                return val != undefined && val !=true && val !='block' ;
-            });
-            delete filterObj.inthetime;
-            delete filterObj.borderState
-            this.props.editEmployeeInformation({...filterObj})
+        // if(value=='btnState'){
+            const positionData = this.getPositionData();
+            if (!positionData)return;
+            this.props.editEmployeeInformation({...positionData});
             this.setState({
                 btnState:'none',
                 borderState:"1px solid transparent",
                 isdisabled:true
             })
-        }else if (value=='btnDynamicsState'){
-            const { 
-                    inthetime,
-                    positivedate,  
-                    theleng, 
-                    rid
-                }= this.state;
-           this.props.editEmployeeInformation({inthetime:inthetime,positivedate:positivedate,theleng:theleng,rid:rid})
-            this.setState({
-                btnDynamicsState:'none',
-                dateBorderState:"1px solid transparent",
-                isDatedisabled:true
-            })
-        }
+        // }
+        // else if (value=='btnDynamicsState'){
+        //     const { 
+        //             inthetime,
+        //             positivedate,  
+        //             theleng, 
+        //             rid
+        //         }= this.state;
+        //    this.props.editEmployeeInformation({inthetime:inthetime,positivedate:positivedate,theleng:theleng,rid:rid})
+        //     this.setState({
+        //         btnDynamicsState:'none',
+        //         dateBorderState:"1px solid transparent",
+        //         isDatedisabled:true
+        //     })
+        // }
         
     }
    
-    
-
-    //是否提前转正
-
     render() {
        const {
             isQualified , 
@@ -208,7 +339,7 @@ export default class PositionInfo extends Component {
             btnDynamicsState,
             isDatedisabled,
             dateBorderState,
-            treeList
+            list
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
         const {isLoading=true} = this.state;
@@ -217,7 +348,6 @@ export default class PositionInfo extends Component {
                  {isLoading && 
                     <LoadingComponent style={{
                         position: 'absolute',
-                        top: -30,
                         height: '100%',
                         width: '100%',
                         backgroundColor: '#FFF',
@@ -243,47 +373,36 @@ export default class PositionInfo extends Component {
                                         <Input
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
+                                            ref="worknumberInput"
                                             value={worknumber}
-                                            onChange={this.handleSelectChange.bind(this,'worknumber')}
+                                            onChange={this.handleNumChange.bind(this,'worknumber')}
+                                            onBlur={this.handleBlur.bind(this,'worknumber')}
                                         />
                                     </span>
                                 </li>
                                 <li>
-                                    <span>部门 : </span>
-                                    <span>
-                                        {/* <Input 
-                                            style={{border:borderState}}
-                                            disabled = {isdisabled}
-                                            value={department}
-                                            onChange={this.handleSelectChange.bind(this,'department')}
-                                        /> */}
-                                        <Select
-                                            ref="departmentSelect"
-                                            dropdownMatchSelectWidth={false}
-                                            value={department}
-                                            placeholder="请选择部门"
-                                            onChange={this.handleSelectChange.bind(this,'department')}
-                                            disabled = {isdisabled} 
-                                            style={{
-                                                width: 147
-                                            }}
-                                        >
-                                            {
-                                                treeList.map((item, index) => {
-                                                    return <Option key={index} value={item.name ? item.name : item}>{item.name ? item.name : item}</Option>
-                                                }) 
-                                            }                   
-                                        </Select>
-                                    </span>
+                                    <TreeSelectComponent
+                                        ref="departmentSelect"
+                                        name="部门："
+                                        treeList={list}
+                                        dropdownMatchSelectWidth={true}
+                                        value={department}
+                                        field="department"
+                                        placeholder="请选择部门"
+                                        onChange={this.handleTreeSelect}
+                                        treeDefaultExpandAll={true}
+                                        style={{ width: 147}}
+                                        disabled = {isdisabled} 
+                                    />
                                 </li>
                                 <li>
-                                    <span>岗位职级 : </span>
+                                    <span>岗位职级 : </span>           
                                     <span>
                                         <Input
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={positionclass}
-                                            onChange={this.handleSelectChange.bind(this,'positionclass')}
+                                            onChange={this.handleChange.bind(this,'positionclass')}
                                         />
                                     </span>
                                 </li>
@@ -294,7 +413,7 @@ export default class PositionInfo extends Component {
                                             style={{border:borderState}}
                                             disabled = {isdisabled}
                                             value={workphone}
-                                            onChange={this.handleSelectChange.bind(this,'workphone')}
+                                            onChange={this.handleNumChange.bind(this,'workphone')}
                                         />
                                     </span>
                                 </li>
@@ -302,10 +421,11 @@ export default class PositionInfo extends Component {
                                     <span>企业邮箱 : </span>
                                     <span>
                                         <Input
+                                            ref="cemailInput"
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={cemail}
-                                            onChange={this.handleSelectChange.bind(this,'cemail')}
+                                            onChange={this.handleChange.bind(this,'cemail')}
                                         />
                                     </span>
                                 </li>
@@ -314,12 +434,15 @@ export default class PositionInfo extends Component {
                                 <li>
                                     <span>工作性质 : </span>
                                     <span>
-                                        <Input
-                                            style={{border:borderState}}
+                                        <Select
                                             disabled = {isdisabled} 
                                             value={worknature}
-                                            onChange={this.handleSelectChange.bind(this,'worknature')}
-                                        />
+                                            onChange={this.handleChange.bind(this,'worknature')}
+                                            style={{width:147}}
+                                        >
+                                            <Option value="全职">全职</Option>
+                                            <Option value="兼职">兼职</Option>
+                                        </Select>
                                     </span>
                                 </li>
                                 <li>
@@ -329,20 +452,23 @@ export default class PositionInfo extends Component {
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={position}
-                                            onChange={this.handleSelectChange.bind(this,'position')}
+                                            onChange={this.handleChange.bind(this,'position')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>工作地点 : </span>
-                                    <span>
-                                        <Input
-                                            style={{border:borderState}}
+                                    <div className="inline-block city-regions">
+                                        <Cascader
+                                            options={city}
                                             disabled = {isdisabled} 
-                                            value={workcity}
-                                            onChange={this.handleSelectChange.bind(this,'workcity')}
+                                            value={workcity ? workcity.split("-") : ''}
+                                            onChange={this.handleCityChange.bind(this,'workcity')}
+                                            displayRender={label => label.join(' - ')}
+                                            placeholder="请选择工作地点"
+                                            style={{width: 147}}
                                         />
-                                    </span>
+                                    </div>
                                 </li>
                                 <li>
                                     <span>分机号 : </span>
@@ -351,18 +477,18 @@ export default class PositionInfo extends Component {
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={ext}
-                                            onChange={this.handleSelectChange.bind(this,'ext')}
+                                            onChange={this.handleChange.bind(this,'ext')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>紧急联系人 : </span>
-                                    <span style={{width:180}}>
+                                    <span style={{width:147}}>
                                         <Input
                                             style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={contactname}
-                                            onChange={this.handleSelectChange.bind(this,'contactname')}
+                                            onChange={this.handleNameChange.bind(this,'contactname')}
                                         />
                                     </span>
                                 </li>
@@ -377,7 +503,7 @@ export default class PositionInfo extends Component {
                                  </Button>
                                  <Button  
                                     style={{display:btnState}}
-                                    onClick={this.handleSelectChange.bind(this,'cancelBtnState')}
+                                    onClick={this.handleChange.bind(this,'cancelBtnState')}
                                     >
                                     取消
                                  </Button>
@@ -388,35 +514,37 @@ export default class PositionInfo extends Component {
                         style={{position:"relative"}}>
                         <div className="info-field">
                             <h3 className="title">
-                                员工动态
+                                员工状态
                             </h3>
-                            <div className="editor-wrap inline-block">   
+                            {/* <div className="editor-wrap inline-block">   
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
                                 <span onClick={this.editEmployeeDynamics}>编辑</span>
-                            </div>
+                            </div> */}
                             <ul className="field-list inline-block" style={{marginLeft: 90}}>
                                 <li>
                                     <span>入职时间 : </span>
                                     <span>
-                                        <DatePicker
+                                        {moment(inthetime).format("YYYY-MM-DD")}
+                                        {/* <DatePicker
                                             disabled={isDatedisabled}
                                             value={inthetime?moment(moment(inthetime), dateFormat):''} 
                                             format={dateFormat}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'inthetime')}
-                                        />
+                                            onChange={this.onDateChange.bind(this,'inthetime')}
+                                        /> */}
                                         
                                     </span>
                                 </li>
                                 <li>
                                     <span>试用期 : </span>
                                     <span>
-                                        <Input 
+                                        {theleng}
+                                        {/* <Input 
                                             style={{border:dateBorderState}}
                                             value={theleng}
                                             disabled={isDatedisabled}
-                                            onChange={this.handleSelectChange.bind(this,'theleng')}
-                                        />
+                                            onChange={this.handleChange.bind(this,'theleng')}
+                                        /> */}
                                     </span>
                                 </li>
                             </ul>  
@@ -424,13 +552,14 @@ export default class PositionInfo extends Component {
                                 <li>
                                     <span>转正时间{ isQualified && <i>(提前转正)</i>} : </span>
                                     <span>
-                                        <DatePicker
+                                        {moment(positivedate).format("YYYY-MM-DD")}
+                                        {/* <DatePicker
                                             format={dateFormat}
                                             disabled={isDatedisabled}
                                             value={positivedate?moment(moment(positivedate), dateFormat):''}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'positivedate')}
-                                        />
+                                            onChange={this.onDateChange.bind(this,'positivedate')}
+                                        /> */}
                                     </span>   
                                 </li>
                                 <li>
@@ -438,7 +567,7 @@ export default class PositionInfo extends Component {
                                     <span>&nbsp;</span>
                                 </li>
                             </ul>
-                            <div style={{position:'absolute',bottom:20,left:'45%'}}>
+                            {/* <div style={{position:'absolute',bottom:20,left:'45%'}}>
                                 <Button 
                                     type='primary' 
                                     style={{display:btnDynamicsState,float:'left',marginRight:20}}
@@ -448,11 +577,11 @@ export default class PositionInfo extends Component {
                                  </Button>
                                  <Button  
                                     style={{display:btnDynamicsState}}
-                                    onClick={this.handleSelectChange.bind(this,'cancelTimeBtnState')}
+                                    onClick={this.handleChange.bind(this,'cancelTimeBtnState')}
                                     >
                                     取消
                                  </Button>
-                            </div>  
+                            </div>   */}
                         </div>
                     </li>
                 </ul>

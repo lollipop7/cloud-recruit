@@ -21,7 +21,8 @@ class LeftTreePage extends Component {
     departmentName:'',
     visible: false,
     departmentName2:'',
-    resultDepartment:[]
+    resultDepartment:[],
+    needArr:[]
   }
   componentDidMount(){
     // 获取数据
@@ -58,7 +59,14 @@ class LeftTreePage extends Component {
   onSelect = (selectedKeys, info) => {
     if(selectedKeys[0]){
       const { uid } = this.state;
-      this.setState({departmentName2:info.selectedNodes[0].props.leaderName,uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
+      const { arrangeDepartment } = this.props;
+      var needArr = [];
+      arrangeDepartment.forEach((item,index)=>{
+        if(item.mechanism == "0" ||item.mechanism == selectedKeys[0] ){
+          needArr.push(item.uid.toString())
+        }
+      });
+      this.setState({resultDepartment:needArr,needArr:needArr,departmentName2:info.selectedNodes[0].props.leaderName,uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
     }else{
       this.setState({
         name:'',
@@ -95,7 +103,7 @@ class LeftTreePage extends Component {
     }else if(type =='delete'){
       this.props.deleteMechnism({uid:uid})
     }else if(type =='tool'){
-      this.props.arrangeDepartmentFuc({uid:uid,ids:resultDepartment})
+      this.props.arrangeDepartmentFuc({uid:uid,ids:resultDepartment});
     }
     this.setState({
       visible: false
@@ -123,6 +131,7 @@ class LeftTreePage extends Component {
     this.info('操作成功');
     // 获取数据
     this.props.getOrganizeChart();
+    this.props.getArrangeDepartment({type:"2"})
     if(type=='delete'){
       this.setState({ name:'', uid:'', sup_id:''})
     }
@@ -160,13 +169,14 @@ class LeftTreePage extends Component {
     this.setState({resultDepartment:value})
   }
   render() {
-    const {title, name, sup_id,type, title2, departmentName, name2, departmentName2, uid} = this.state;
+    const {title, name, sup_id,type, title2, departmentName, name2, departmentName2, uid, needArr} = this.state;
     const { organize:{list}, mechanismInfo, organize, arrangeDepartment } = this.props;
     if(mechanismInfo == 'success'){
       // console.log(11111,mechanismInfo)
       this.afterSuccess()
       this.setState({departmentName:'',departmentName2:''});
     }
+    // console.log(6666,needArr)
     return (
         <div className='pull-left tree-type'>
             <div className='operate-button'>
@@ -191,6 +201,7 @@ class LeftTreePage extends Component {
               visible={this.state.visible}
               onOk={this.handleOk}
               onCancel={this.handleCancel}
+              maskClosable={false}
             >
               <div className={type=='add'?'sub':'sub hide'}>
                 <span className='sub-title'>上级：</span><span className='sub-content'>{name2}</span>

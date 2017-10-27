@@ -11,6 +11,7 @@ export default class ControlComponent extends Component {
 
     handleClick = () => {
         window.history.back(-1);
+        //清除缓存
         this.props.queryResetForm();
         this.props.hidecredit();
     }

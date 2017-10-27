@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 // antd
-import { Modal, Select } from 'antd';
+import { Modal, Select, Pagination } from 'antd';
 const Option = Select.Option;
 
 //lodash
@@ -67,6 +67,12 @@ class DepartmentStaff extends Component {
   handleClick = (i) => {
     this.setState({curr: i})
   }
+
+  // 点击分页
+  changePage = (page, pageSize)=>{
+    const { currentUid, departmentName,departmentStaff:{count} } = this.props;
+    this.props.getDepartMentStaff({departmentId:currentUid,skip:(page-1)*5+'',count:count.toString()},currentUid,departmentName)
+  }
   
   render() {
     const { departmentInfo, resultTree } = this.state;
@@ -111,17 +117,19 @@ class DepartmentStaff extends Component {
               </div>
               {
                 departmentStaff.resumeoffList && departmentStaff.resumeoffList.length > 0 ?  departmentStaff.resumeoffList.map((item,index)=>(
+                  index<5?
                   <div className={item === this.state.curr ? 'curr sub-depart-table-lab' : 'sub-depart-table-lab'} onClick={this.handleClick.bind(this, item)}>
                     <span className='one'>{item.name}</span>
                     <span className='two'>{item.department}</span>
                     <span className='three'>{item.position}</span>
                     <span className='four' onClick={this.changeDepartment.bind(this,item)}>调换部门</span>
-                  </div>
+                  </div>:""
                 )):
                 <div className='sub-depart-table-lab'>
                   <div className='center'>暂无数据</div>
                 </div>
               }
+              <Pagination defaultCurrent={1} defaultPageSize={5} total={departmentStaff.count} size={"small"} style={{textAlign: 'center',marginBottom:'8px'}} onChange={this.changePage} />
             </div>
           </div>
 

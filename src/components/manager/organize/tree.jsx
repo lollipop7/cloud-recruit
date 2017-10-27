@@ -29,7 +29,7 @@ class LeftTreePage extends Component {
     message.info(data);
   };
   // 左侧树结构
-  recursion(dataSource) {
+  recursion = (dataSource) => {
     return (
       dataSource.map((tree, index) => {
         if (tree.list) {
@@ -52,7 +52,7 @@ class LeftTreePage extends Component {
   onSelect = (selectedKeys, info) => {
     if(selectedKeys[0]){
       const { uid } = this.state;
-      this.props.getDepartMentStaff({departmentId:selectedKeys[0]},selectedKeys[0],info.selectedNodes[0].props.title);
+      this.props.getDepartMentStaff({departmentId:selectedKeys[0],skip:"0"},selectedKeys[0],info.selectedNodes[0].props.title);
       this.setState({uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
     }else{
       this.setState({
@@ -136,6 +136,9 @@ class LeftTreePage extends Component {
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2} = this.state;
     const { departmentList:{list}, departmentInfo } = this.props;
+    // const {token,tokenKey} = store.get('token') || {};
+    // console.log(tokenKey)
+    // console.log(token)
     if(departmentInfo == 'success'){
       this.afterSuccess()
       this.setState({departmentName:''});

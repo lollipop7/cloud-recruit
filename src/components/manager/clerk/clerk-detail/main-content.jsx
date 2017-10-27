@@ -13,19 +13,20 @@ import CreditInvestgation from './credit-investgation';
 export default class MainContent extends Component {
 
     shouldComponentUpdate(nextProps,nextState) {
-        return nextProps.data !== this.props.data;
+        return nextProps !== this.props;
     }
 
     render() {
         const { 
-            data , 
+            data, 
             editEmployeeInformation , 
             operationList , 
             UploadMaterial,
             queryEmployee,
             searchCreditInvestgation,
             getTreeList,
-            departmentList
+            departmentList,
+            crewList
         } = this.props;
         const {
             resumeoff={},                   //员工信息表
@@ -35,6 +36,7 @@ export default class MainContent extends Component {
             list={},                        //人员附件列表集合
             listAll={}                      //人员基本附件说明
         } = data;
+        const allCrewList = crewList.list;
         const contractData = contract == null ? {} : contract;
         return (
             <div className="clerk-nav-tabs">
@@ -52,6 +54,7 @@ export default class MainContent extends Component {
                             editEmployeeInformation={editEmployeeInformation}
                             departmentList={departmentList}
                             getTreeList={getTreeList}
+                            allCrewList={allCrewList}
                         />
                     </TabPane>
                     <TabPane tab="个人信息" key="2">

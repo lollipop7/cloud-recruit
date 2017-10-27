@@ -68,6 +68,8 @@ import {
     GET_EMPLOYEE_CHILD,
     GET_EMPLOYEE_DEPART,
     GET_EMPLOYEE_POST,
+    GET_DEPARTMENT_START,
+    GET_DEPARTMENT_DONE,
     GET_DEPARTMENT_LIST,
     SHOW_PERSONALMATERIAL_MODAL,
     HIDE_PERSONALMATERIAL_MODAL,
@@ -301,8 +303,12 @@ export default function manage(state=initialState,actions){
             return {...state,depart:actions.depart};
         case GET_EMPLOYEE_POST:
             return {...state,post:actions.post};
+        case GET_DEPARTMENT_START:
+            return {...state,departmentList:{...state.departmentList,isLoading:false}};     
+        case GET_DEPARTMENT_DONE:
+            return {...state,departmentList:{...state.departmentList,isLoading:true}};       
         case GET_DEPARTMENT_LIST:
-            return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};            
+            return {...state,departmentList:{...state.departmentList,list:actions.list,count:actions.count}};
         case SHOW_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible,personalMaterialData:actions.data};
         case HIDE_PERSONALMATERIAL_MODAL:
