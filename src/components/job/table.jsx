@@ -1,6 +1,7 @@
 import React, {Component , PropTypes} from 'react';
 
-import {Table,Modal,Popover,Button} from 'antd';
+import {Table,Modal,Popover,Button, notification} from 'antd';
+import moment from 'moment';
 
 import columns from 'data/table-columns/job-table';
 import LoadingComponent from 'components/loading';
@@ -14,7 +15,9 @@ import * as Actions from 'actions';
 class TableComponent extends Component {
     state = {
         currentClickJob:{},
-        positionname:""
+        positionname:"",
+        positionInfo:{},
+        isdisabled:true
     }
     static contextTypes = {
         router: PropTypes.object
@@ -79,6 +82,8 @@ class TableComponent extends Component {
         columns[7].render = this.renderWithReInterview;
         columns[8].render = this.renderWithgetOffer;
         columns[10].render = this.renderWithgetDegree;
+        columns[columns.length - 2].render = this.renderWithstarttime;
+        columns[columns.length - 3].render = this.renderWithendtime;
         columns[columns.length - 1].render = (text,record,index) => {
             switch(parseInt(text)) {
                 case 0:
@@ -95,6 +100,28 @@ class TableComponent extends Component {
         }
         return columns;
     }
+    renderWithstarttime = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={moment(text).format("YYYY-MM-DD")}
+            >
+                {moment(text).format("YYYY-MM-DD")}
+            </a>
+        )
+    }
+    renderWithendtime = (text, record, index) => {
+        return (
+            <a 
+                className="positionname" 
+                href="javascript:;" 
+                title={moment(text).format("YYYY-MM-DD")}
+            >
+            {moment(text).format("YYYY-MM-DD")}
+            </a>
+        )
+    }
 
     renderWithAtag = (text, record, index) => {
         return (
@@ -102,7 +129,7 @@ class TableComponent extends Component {
                 className="positionname" 
                 href="javascript:;" 
                 title={text}
-                onClick={() => this.showJobInfo(record)}
+                onClick={this.positionClick.bind(this,record)}
             >
                 {text}
             </a>
@@ -159,6 +186,36 @@ class TableComponent extends Component {
             </a>
         )
     }
+    positionClick = (record) => {
+        this.setState({
+            isdisabled:true
+        })
+        this.showJobInfo(record)
+    }
+    //修改职位信息
+    editPositionInfo = () => {
+        this.setState({
+            isdisabled:false
+        })
+        const{positionInfo} = this.state;
+        if(positionInfo.status==3){
+            notification.warning({
+                message: '该职位已终止，暂不能修改！',
+              });
+        }else if(positionInfo.positionid){
+            this.showJobInfo(positionInfo)
+        }else{
+            notification.warning({
+                message: '请先选择职位！',
+              });
+        }   
+    }
+    //表格选择框选择
+    onSelectChange = (selectedRowKeys, selectedRows) => {
+        this.setState({
+            positionInfo:selectedRows[0]
+        })
+    }
 
     render() {
         const {
@@ -172,7 +229,7 @@ class TableComponent extends Component {
             modalVisible,
             hideJobModal,
         } = this.props;
-        const {positionname} = this.state
+        const {positionname,isdisabled} = this.state;
         const {list,count} = listData;
         return (
             <div style={{
@@ -180,7 +237,17 @@ class TableComponent extends Component {
                 width: 950,
                 height: 780
             }}>
+                <Button
+                    style={{position:'absolute',left:710,top:-44}}
+                    onClick={this.editPositionInfo}>
+                    修改职位信息
+                </Button>
                 <Table 
+                    className="personnelMaterilTable"
+                    rowSelection={{
+                        type:'radio',
+                        onChange: this.onSelectChange
+                    }}
                     dataSource={
                         list.map((item,index)=>{
                             item.key = index;
@@ -208,6 +275,7 @@ class TableComponent extends Component {
                         data={this.state.currentClickJob} 
                         getJobList={getJobList}
                         getJobCategory={getJobCategory}
+                        isdisabled={isdisabled}
                     />
                 </Modal>
             </div>

@@ -66,7 +66,8 @@ export class ErrorInputComponent extends Component {
                 placeholder,
                 disabled=true,
                 className='',
-                style={}
+                style={},
+                isdisabled
             } = this.props;
         return (
             <div className="inline-block">
@@ -80,7 +81,7 @@ export class ErrorInputComponent extends Component {
                         placeholder={placeholder} 
                         value={value}
                         onChange={this.handleChange.bind(this,field)} 
-                        disabled={disabled}
+                        disabled={isdisabled}
                         className={className}
                         className={error ? 'error' : ''}
                         style={style}
@@ -149,7 +150,8 @@ class SelectComponent extends Component {
                 data=[],
                 value,
                 dropdownMatchSelectWidth,
-                style={width: 229,height:40 }
+                style={width: 229,height:40 },
+                isdisabled
             } = this.props;
         return (
             <div className="inline-block inline-block-select">
@@ -166,7 +168,7 @@ class SelectComponent extends Component {
                         allowClear
                         dropdownMatchSelectWidth={dropdownMatchSelectWidth}
                         style={style}
-                        disabled="true"
+                        disabled={isdisabled}
                         onBlur={this.handleBlur}
                     >
                         {
@@ -196,6 +198,49 @@ export default class BaseinfoComponent extends Component {
         errorJobType:false,
         errorresponsibility:false,
         errorqualification:false
+    }
+    getFormData = () => {
+        return {...this.state}
+    }
+    resetForm =() => {
+        const{
+            positionname="", // 职位名称
+            salary=undefined, // 薪资待遇
+            department='', // 用人部门
+            recruitreason='', // 招聘理由
+            headcount='', // 招聘人数
+            workcity='', // 工作地点
+            workyears=undefined, // 工作年限
+            specialty=undefined, // 专业
+            educationbackground=undefined, //学历,
+            age='',//年龄
+            jobtype='',//工作类型
+            responsibility='',//工作职责
+            qualification='',//任职资格
+            errorJobType,
+            errorresponsibility,
+            errorqualification,
+            error
+        }=this.props.jobInfo;
+        this.setState({
+            positionname, // 职位名称
+            salary, // 薪资待遇
+            department, // 用人部门
+            recruitreason, // 招聘理由
+            headcount, // 招聘人数
+            workcity, // 工作地点
+            workyears, // 工作年限
+            specialty, // 专业
+            educationbackground, //学历,
+            age,//年龄
+            jobtype,//工作类型
+            responsibility,//工作职责
+            qualification,//任职资格
+            errorJobType,
+            errorresponsibility,
+            errorqualification,
+            error
+        })
     }
 
     handleChange = (filed,e) => {
@@ -266,9 +311,7 @@ export default class BaseinfoComponent extends Component {
             }
             
     }
-   
-
-    render() {
+    componentWillReceiveProps(nextProps){
         const {
             positionname="", // 职位名称
             salary=undefined, // 薪资待遇
@@ -287,7 +330,50 @@ export default class BaseinfoComponent extends Component {
             errorresponsibility,
             errorqualification,
             error
-        } = this.props.jobInfo;
+        } = nextProps.jobInfo;
+        this.setState({
+            positionname, // 职位名称
+            salary, // 薪资待遇
+            department, // 用人部门
+            recruitreason, // 招聘理由
+            headcount, // 招聘人数
+            workcity, // 工作地点
+            workyears, // 工作年限
+            specialty, // 专业
+            educationbackground, //学历,
+            age,//年龄
+            jobtype,//工作类型
+            responsibility,//工作职责
+            qualification,//任职资格
+            errorJobType,
+            errorresponsibility,
+            errorqualification,
+            error
+        })
+    }
+   
+
+    render() {
+        const {
+            positionname, // 职位名称
+            salary, // 薪资待遇
+            department, // 用人部门
+            recruitreason, // 招聘理由
+            headcount, // 招聘人数
+            workcity, // 工作地点
+            workyears, // 工作年限
+            specialty, // 专业
+            educationbackground, //学历,
+            age,//年龄
+            jobtype,//工作类型
+            responsibility,//工作职责
+            qualification,//任职资格
+            errorJobType,
+            errorresponsibility,
+            errorqualification,
+            error
+        } = this.state;
+        const{isdisabled}=this.props;
         return (
             <li className="base-info">
                 <h2 className="title">
@@ -301,6 +387,7 @@ export default class BaseinfoComponent extends Component {
                             field="positionname"
                             placeholder="请输入职位名称"
                             value={positionname}
+                            isdisabled={isdisabled}
                             onChange={this.handleChange}
                         />
                         <SelectComponent 
@@ -320,6 +407,7 @@ export default class BaseinfoComponent extends Component {
                             name="用人部门："
                             placeholder="请输入用人部门"
                             field="department"
+                            isdisabled={isdisabled}
                             value={department}
                             onChange={this.handleChange}
                         />
@@ -328,6 +416,7 @@ export default class BaseinfoComponent extends Component {
                             name="招聘理由："
                             placeholder="请输入招聘理由"
                             field="recruitreason"
+                            isdisabled={isdisabled}
                             value={recruitreason}
                             onChange={this.handleChange}
                         />
@@ -338,6 +427,7 @@ export default class BaseinfoComponent extends Component {
                             name="招聘人数："
                             placeholder="请输入招聘人数"
                             field="headcount"
+                            isdisabled={isdisabled}
                             value={headcount}
                             onChange={this.handleNumChange}
                         />
@@ -347,7 +437,7 @@ export default class BaseinfoComponent extends Component {
                                 <Cascader 
                                     options={city}
                                     value ={workcity?workcity.split("-"):''}
-                                    disabled="true"
+                                    disabled={isdisabled}
                                     className={error ? "error" : ''}
                                     onChange={this.handleCityChange}
                                     displayRender={label => label.join(' - ')}
@@ -368,7 +458,18 @@ export default class BaseinfoComponent extends Component {
                         </div>
                     </li>
                     <li>
-                        <SelectComponent 
+                        <ErrorInputComponent
+                            ref="specialtySelect"
+                            name="专业："
+                            data={Industry}
+                            dropdownMatchSelectWidth={false}
+                            value={specialty}
+                            field="specialty"
+                            isdisabled={isdisabled}
+                            placeholder="请输入专业"
+                            onChange={this.handleChange}
+                        />
+                        {/* <SelectComponent 
                             ref="specialtySelect"
                             name="专业："
                             data={Industry}
@@ -377,7 +478,7 @@ export default class BaseinfoComponent extends Component {
                             field="specialty"
                             placeholder="选择/修改"
                             onChange={this.handleChange}
-                        />
+                        /> */}
                         <SelectComponent 
                             ref="educationbackgroundSelect"
                             name="学历："
@@ -389,7 +490,17 @@ export default class BaseinfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <SelectComponent 
+                        <ErrorInputComponent
+                            ref="workyearsSelect"
+                            name="工作年限："
+                            value={workyears}
+                            data={WorkYears}
+                            isdisabled={isdisabled}
+                            field="workyears"
+                            placeholder="请选择工作年限"
+                            onChange={this.handleChange}
+                        />
+                        {/* <SelectComponent 
                             ref="workyearsSelect"
                             name="工作年限："
                             value={workyears}
@@ -397,12 +508,13 @@ export default class BaseinfoComponent extends Component {
                             field="workyears"
                             placeholder="请选择工作年限"
                             onChange={this.handleChange}
-                        />
+                        /> */}
                         <ErrorInputComponent
                             ref="ageInput"
                             name="年龄："
                             placeholder="请输入年龄"
                             field="age"
+                            isdisabled={isdisabled}
                             value={age}
                             onChange={this.handleNumChange}
                         />
@@ -413,7 +525,7 @@ export default class BaseinfoComponent extends Component {
                             <RadioGroup ref="workstyleradio" 
                                 onChange={this.handleRadio} 
                                 value={this.state.value}
-                                disabled={true}>
+                                disabled={isdisabled}>
                                 <Radio value={1}>全职</Radio>
                                 <Radio value={2}>兼职</Radio>
                                 <Radio value={3}>实习</Radio>
@@ -435,7 +547,7 @@ export default class BaseinfoComponent extends Component {
                             <div className="table-cell">
                                 <Input type="textarea" rows="3"
                                     ref = "responsibilityInput" 
-                                    disabled="true"
+                                    disabled={isdisabled}
                                     value={responsibility}
                                     onChange={this.handleChange.bind(this,"responsibility")}
                                     style={{
@@ -461,7 +573,7 @@ export default class BaseinfoComponent extends Component {
                             <div className="table-cell">
                                 <Input type="textarea" rows="3"
                                     ref = "qualificationInput" 
-                                    disabled="true"
+                                    disabled={isdisabled}
                                     value={qualification}
                                     onChange={this.handleChange.bind(this,"qualification")}
                                     style={{

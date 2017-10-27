@@ -517,7 +517,17 @@ export default class BaseinfoComponent extends Component {
                         </div>
                     </li>
                     <li>
-                        <SelectComponent 
+                        <ErrorInputComponent
+                            ref="specialtySelect"
+                            name="专业："
+                            data={Industry}
+                            dropdownMatchSelectWidth={false}
+                            value={specialty}
+                            field="specialty"
+                            placeholder="请输入专业"
+                            onChange={this.handleChange}
+                        />
+                        {/* <SelectComponent 
                             ref="specialtySelect"
                             name="专业："
                             data={Industry}
@@ -526,7 +536,7 @@ export default class BaseinfoComponent extends Component {
                             field="specialty"
                             placeholder="选择/修改"
                             onChange={this.handleChange}
-                        />
+                        /> */}
                         <SelectComponent 
                             ref="educationbackgroundSelect"
                             name="学历："
@@ -538,7 +548,7 @@ export default class BaseinfoComponent extends Component {
                         />
                     </li>
                     <li>
-                        <SelectComponent 
+                        <ErrorInputComponent
                             ref="workyearsSelect"
                             name="工作年限："
                             value={workyears}
@@ -547,6 +557,15 @@ export default class BaseinfoComponent extends Component {
                             placeholder="请选择工作年限"
                             onChange={this.handleChange}
                         />
+                        {/* <SelectComponent 
+                            ref="workyearsSelect"
+                            name="工作年限："
+                            value={workyears}
+                            data={WorkYears}
+                            field="workyears"
+                            placeholder="请选择工作年限"
+                            onChange={this.handleChange}
+                        /> */}
                         <ErrorInputComponent
                             ref="ageInput"
                             name="年龄："

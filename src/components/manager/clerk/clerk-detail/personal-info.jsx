@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 
 import clerkInfo from 'data/clerk/clerk';
+import moment from 'moment';
 
-import {Input , Button  } from 'antd';
+import {Input , Button ,Select ,DatePicker} from 'antd';
 import pickBy from 'lodash/pickBy';
 import LoadingComponent from 'components/loading';
+import nation from 'data/select/nation.json';
+import education from 'data/select/education.json';
 
 export default class PersonalInfo extends Component {
     state = {
@@ -79,7 +82,7 @@ export default class PersonalInfo extends Component {
         this.props.queryEmployee({rid:rid});
     }
 
-    handleSelectChange  = (field,e) => {
+    handleSelectChange  = (field,value) => {
         const {
                 name,                   //姓名
                 documenttype,           //证件类型
@@ -136,13 +139,23 @@ export default class PersonalInfo extends Component {
                 recruitment,            //是否统招
                 eduBtnState:'none',
                 eduBorderState:"1px solid transparent",
-                isEdudisabled:false,
+                isEdudisabled:true,
             })
         }else{
             this.setState({
-                [field]:e.target.value
+                [field]:value
             })
         } 
+    }
+    handleChange = (field,e)=>{
+        this.setState({
+            [field]:e.target.value
+        })
+    }
+    onChange = (field,value) => {
+        this.setState({
+            [field]:moment(value).format('YYYY-MM-DD')
+        })
     }
     //编辑信息
     editInformation = (field) => {
@@ -186,7 +199,7 @@ export default class PersonalInfo extends Component {
             this.setState({
                 eduBtnState:'none',
                 eduBorderState:"1px solid transparent",
-                isEdudisabled:false,
+                isEdudisabled:true,
             })
         }  
     }
@@ -223,6 +236,7 @@ export default class PersonalInfo extends Component {
             isEdudisabled ,
             isLoading =true 
         } = this.state;
+        const dateFormat = 'YYYY-MM-DD';
         return (
             <div className="personal-info clerk-tab-container" ref="PersonalInfoHeight">
                 {isLoading && 
@@ -256,88 +270,143 @@ export default class PersonalInfo extends Component {
                                     <span>姓名 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={name}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'name')}
+                                            onChange={this.handleChange.bind(this,'name')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>证件类型 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={documenttype}
+                                            onChange={this.handleSelectChange.bind(this,'documenttype')}
+                                        >
+                                            {
+                                                ["身份证","护照","军人证","香港身份证","其他"].map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={documenttype}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'documenttype')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>手机号 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={mobile}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'mobile')}
+                                            onChange={this.handleChange.bind(this,'mobile')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>生日 : </span>
                                     <span>
-                                        <Input
+                                        <DatePicker
+                                            disabled={isdisabled}
+                                            value={birthday?moment(moment(birthday), dateFormat):''} 
+                                            format={dateFormat}
+                                            allowClear={false}
+                                            onChange={this.onChange.bind(this,'birthday')}
+                                        />
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={birthday}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'birthday')}
-                                        />
+                                            onChange={this.handleChange.bind(this,'birthday')}
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>是否已婚 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={married}
+                                            onChange={this.handleSelectChange.bind(this,'married')}
+                                        >
+                                            <Option value="已婚">已婚</Option>
+                                            <Option value="未婚">未婚</Option>
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={married}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'married')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>民族 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={national}
+                                            onChange={this.handleSelectChange.bind(this,'national')}
+                                        >
+                                            {
+                                                nation.map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={national}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'national')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>籍贯 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={natives}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'natives')}
+                                            onChange={this.handleChange.bind(this,'natives')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>户口类型 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={accounttype}
+                                            onChange={this.handleSelectChange.bind(this,'accounttype')}
+                                        >
+                                            {
+                                                ["城镇","农村"].map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={accounttype}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'accounttype')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                             </ul>
@@ -346,10 +415,10 @@ export default class PersonalInfo extends Component {
                                     <span>英文名 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={englishname}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'englishname')}
+                                            onChange={this.handleChange.bind(this,'englishname')}
                                         />
                                     </span>
                                 </li>
@@ -357,10 +426,10 @@ export default class PersonalInfo extends Component {
                                     <span>证件号码 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={card}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'card')}
+                                            onChange={this.handleChange.bind(this,'card')}
                                         />
                                     </span>
                                 </li>
@@ -368,54 +437,90 @@ export default class PersonalInfo extends Component {
                                     <span>个人邮箱 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={workemail}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'workemail')}
+                                            onChange={this.handleChange.bind(this,'workemail')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>性别 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={sex}
+                                            onChange={this.handleSelectChange.bind(this,'sex')}
+                                        >
+                                            {
+                                                ["男","女"].map((item)=>{
+                                                    return <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={sex}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'sex')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>是否已育 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={children}
+                                            onChange={this.handleSelectChange.bind(this,'children')}
+                                        >
+                                            {
+                                                ["已育","未育"].map((item)=>{
+                                                    return <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={children}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'children')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>政治面貌 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150 ,color:'#868686'}}
+                                            disabled={isdisabled}
+                                            value={political}
+                                            onChange={this.handleSelectChange.bind(this,'political')}
+                                        >
+                                            {
+                                                ["中共党员","共青团员","民主党派人士","无党派民主人士","普通公民"].map((item)=>{
+                                                    return <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                        </Select>
+                                        {/* <Input
                                             style={{border:borderState}}
                                             value={political}
                                             disabled={isdisabled}
                                             onChange={this.handleSelectChange.bind(this,'political')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>户籍城市 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={city}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'city')}
+                                            onChange={this.handleChange.bind(this,'city')}
                                         />
                                     </span>
                                 </li>
@@ -423,10 +528,10 @@ export default class PersonalInfo extends Component {
                                     <span>居住地址 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             value={tolive}
                                             disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'tolive')}
+                                            onChange={this.handleChange.bind(this,'tolive')}
                                         />
                                     </span>
                                 </li>
@@ -462,34 +567,60 @@ export default class PersonalInfo extends Component {
                                 <li>
                                     <span>最高学历 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686'}}
+                                            disabled={isEdudisabled}
+                                            value={schooling}
+                                            onChange={this.handleSelectChange.bind(this,'schooling')}
+                                        >
+                                            {
+                                                education.map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:eduBorderState}}
                                             value={schooling}
                                             disabled={isEdudisabled}
                                             onChange={this.handleSelectChange.bind(this,'schooling')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>专业 : </span>
                                     <span>
                                         <Input
-                                            style={{border:eduBorderState}}
+                                            //style={{border:eduBorderState}}
                                             value={professional}
                                             disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'professional')}
+                                            onChange={this.handleChange.bind(this,'professional')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>学位 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686' }}
+                                            disabled={isEdudisabled}
+                                            value={degree}
+                                            onChange={this.handleSelectChange.bind(this,'degree')}
+                                        >
+                                            {
+                                                ["学士学位","硕士学位","博士学位"].map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:eduBorderState}}
                                             value={degree}
                                             disabled={isEdudisabled}
                                             onChange={this.handleSelectChange.bind(this,'degree')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                             </ul>  
@@ -498,33 +629,53 @@ export default class PersonalInfo extends Component {
                                     <span>毕业学校 : </span>
                                     <span>
                                         <Input
-                                            style={{border:eduBorderState}}
+                                            //style={{border:eduBorderState}}
                                             value={school}
                                             disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'school')}
+                                            onChange={this.handleChange.bind(this,'school')}
                                         />
                                     </span>
                                 </li>
                                 <li>
                                     <span>毕业时间 : </span>
                                     <span>
-                                        <Input
+                                        <DatePicker
+                                            disabled={isEdudisabled}
+                                            value={schendtime?moment(moment(schendtime), dateFormat):''} 
+                                            format={dateFormat}
+                                            allowClear={false}
+                                            onChange={this.onChange.bind(this,'schendtime')}
+                                        />
+                                        {/* <Input
                                             style={{border:eduBorderState}}
                                             value={schendtime}
                                             disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'schendtime')}
-                                        />
+                                            onChange={this.handleChange.bind(this,'schendtime')}
+                                        /> */}
                                     </span>
                                 </li>
                                 <li>
                                     <span>是否统招 : </span>
                                     <span>
-                                        <Input
+                                        <Select
+                                            style={{ width: 150,color:'#868686' }}
+                                            disabled={isEdudisabled}
+                                            value={recruitment}
+                                            onChange={this.handleSelectChange.bind(this,'recruitment')}
+                                        >
+                                            {
+                                                ["是","否"].map((item)=>{
+                                                    return  <Option value={item}>{item}</Option>
+                                                })
+                                            }
+                                           
+                                        </Select>
+                                        {/* <Input
                                             style={{border:eduBorderState}}
                                             value={recruitment}
                                             disabled={isEdudisabled}
                                             onChange={this.handleSelectChange.bind(this,'recruitment')}
-                                        />
+                                        /> */}
                                     </span>
                                 </li>
                             </ul>
