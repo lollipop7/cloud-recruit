@@ -29,7 +29,8 @@ class ClerkDetail extends Component {
         const {
             showPermanentModal,
             queryEmployee,
-            getDepartMentList
+            getDepartMentList,
+            getCrewList
         } = this.props;
         queryEmployee({rid:rid});
         this.props.getOperationList({rid:rid,...this.params});
@@ -37,6 +38,7 @@ class ClerkDetail extends Component {
         //this.props.showTransferPersonnelModal()
         //部门列表查询
         getDepartMentList();
+        getCrewList();
      }
 
      render(){
@@ -117,6 +119,7 @@ class ClerkDetail extends Component {
  }
 
  const mapStateToProps = state => ({
+    crewList: state.Manage.crewList,
     queryEmployeeList: state.Manage.queryEmployeeList,
     operationList: state.Manage.operationList,
     dismissionModal: state.Manage.dismissionModal,
@@ -128,6 +131,7 @@ class ClerkDetail extends Component {
 })
 
 const mapDispatchToProps = dispatch => ({
+    getCrewList: bindActionCreators(Actions.ManageActions.getCrewList,dispatch),
     queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
     queryResetForm: bindActionCreators(Actions.ManageActions.queryResetForm,dispatch),
     getOperationList: bindActionCreators(Actions.ManageActions.getOperationList,dispatch),

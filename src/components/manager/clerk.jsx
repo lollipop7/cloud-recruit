@@ -225,7 +225,6 @@ class ClerkPage extends Component {
             deleteClerkList
         } = this.props,
         {isLoading, list} = manageStastistics;
-        console.log(crewList.list)
         return (
             <div className="right-panel clerk-page">
                 <TopComponent 

@@ -175,6 +175,18 @@
                 .inline-tree-select>span:first-child {
                     margin-right: 0
                 }
+                .inline-tree-select {
+                    .ant-select {
+                        font-size: 12px !important;
+                    }
+                }
+                .city-regions {
+                    .ant-cascader-picker-label {
+                        font-size: 12px;
+                        text-align: left;
+                    }
+                }
+                
                 &:first-child {
                     margin-top: 0;
                 }
