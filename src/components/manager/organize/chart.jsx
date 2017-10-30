@@ -12,9 +12,9 @@ import { Modal, Select } from 'antd';
 const Option = Select.Option;
 
 class OrganizeChart extends Component {
-  state = { 
-    isLoading:true
-  }
+//   state = { 
+//     isLoading:true
+//   }
   componentDidMount(){
     // 获取数据
     this.props.getOrganizeChart();
@@ -23,15 +23,14 @@ class OrganizeChart extends Component {
     return nextProps !== this.props || nextState !== this.state
   }
   componentWillUpdate(nextProps,nextState) {
-    const {organize} = nextProps;
+    const {organize:{organizeList}} = nextProps;
     if(nextProps !== this.props){
-        var newOrg = JSON.parse(JSON.stringify(organize).replace(/list/g, "childrens"))
+        var newOrg = JSON.parse(JSON.stringify(organizeList).replace(/list/g, "childrens"))
         var result = {
             data:[newOrg]
         }
         function dd (result){
             var showlist = $("<ul id='org' style='display:none'></ul>");
-            console.log(result.data)
             showall(result.data, showlist);
             $("#jOrgChart").empty().append(showlist);
             $("#org").jOrgChart({
@@ -68,15 +67,29 @@ class OrganizeChart extends Component {
         }
         $('.myOnly').parent('div').addClass('blue');
         $('.first').parent('div').addClass('first-name');
-        this.setState({isLoading:false})
     }
 }
   
 render() {
-    const { isLoading } = this.state;
+    const { organize:{ isLoading } } = this.props;
     return (
-        <div id='jOrgChart'>
-            
+        <div>
+            {isLoading &&
+                <div style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    zIndex: 1
+                }}>
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        width: '100%',
+                        backgroundColor: '#FFF'
+                    }} />
+                </div>
+            }
+            <div id='jOrgChart'>
+            </div>
         </div>
     );
   }
