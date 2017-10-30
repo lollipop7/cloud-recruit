@@ -5,7 +5,9 @@ import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
 
 import clerkInfo from 'data/clerk/clerk';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+const moment = extendMoment(Moment);
 
 const constractData={name: '劳动合同', isShow: 1};
 import {Button , DatePicker , Input} from 'antd';
@@ -28,15 +30,17 @@ class Contract extends Component {
         btnState:'none',
         isdisabled:true,
         borderState:"1px solid transparent",
-        starttime:'',          //合同开始日期
+        starttime: null,          //合同开始日期
         yearnumber:'',         //合同年限
-        endtime:'',            //合同结束日期
+        endtime: null,            //合同结束日期
         rid:'',
         tokenKey:'',
-        token:''
+        token:'',
+        endOpen: false,
+        isLoading: true,
     }
     componentDidMount(){
-        const rid = this.props.data.rid+'';
+        const rid = this.props.queryEmployeeList.list.resumeoff.rid+'';
         this.props.queryEmployee({rid});
         const {token,tokenKey} = store.get('token') || {};
         this.setState({tokenKey, token})
@@ -54,6 +58,9 @@ class Contract extends Component {
             this.setState({
                 attachment_type_con
             });
+            
+        }
+        if(!isEmpty(nextProps.data)){
             const {
                 starttime,          //合同开始日期
                 yearnumber,         //合同年限
@@ -64,13 +71,9 @@ class Contract extends Component {
                 starttime,          //合同开始日期
                 yearnumber,         //合同年限
                 endtime,            //合同结束日期
-                rid:rid+''
+                rid:rid+'',
+                isLoading:false
             })
-            if(rid){
-                this.setState({
-                    isLoading:false
-                })
-            }
         }
     }
 
@@ -91,6 +94,7 @@ class Contract extends Component {
          const {showImageModal, viewUploadAttachment} = this.props;
         this.props.showImageModal(value,viewUploadAttachment)
     }
+
     hideImageModal = () =>{
         this.props.hideImageModal();//隐藏预览框
         this.props.cancelImageUrl();//清空图片地址
@@ -122,7 +126,68 @@ class Contract extends Component {
             })
         }   
     }
+
+    handleCancelClick = (field,e) => {
+        const {
+                starttime,          //合同开始日期
+                yearnumber,         //合同年限
+                endtime,            //合同结束日期
+            } = this.props.data;
+        this.setState({
+            starttime,          //合同开始日期
+            yearnumber,         //合同年限
+            endtime,            //合同结束日期
+            btnState:'none',
+            borderState:"1px solid transparent",
+            isdisabled:true
+        })
+    }
+
+    handleChange = ( field, e) => {
+        this.setState({[field]: e.target.value});
+    }
+
+    onTimeChange=(field,value)=> {
+        this.setState({
+            [field]: value
+        });
+    }
+
+    disabledStartDate = (starttime) => {
+        const endtime = this.state.endtime;
+        if (!starttime || !endtime) {
+        return false;
+        }
+        return starttime.valueOf() > endtime.valueOf();
+    }
+
+    disabledEndDate = (endtime) => {
+        const starttime = this.state.starttime;
+        if (!endtime || !starttime) {
+        return false;
+        }
+        return endtime.valueOf() <= starttime.valueOf();
+    }
+
+    handleStartOpenChange = (open) => {
+        if (!open) {
+            this.setState({ endOpen: true });
+        }
+    }
+
+    handleEndOpenChange = (open) => {
+        this.setState({ endOpen: open });
+        const {starttime,endtime} = this.state;
+        if(!open){
+            const range = moment.range(moment(starttime).format(),moment(endtime).format());
+            const year = range.diff('years')+1;
+            this.setState({yearnumber: year + '年'});
+        }
+    }
+
+
     saveInfomation = (field) => {
+        const { starttime, endtime } = this.state;
         if (field== 'btnState'){
 
         const filterObj = pickBy(this.state,(val,key)=>{
@@ -130,8 +195,14 @@ class Contract extends Component {
         });
         const filterObjEdu = pickBy(filterObj,(val,key)=>{
             return val !=undefined;
-            });
-        this.props.editEmployeeInformation({...filterObjEdu})
+        });
+        if( starttime != null || starttime != undefined ) {
+            const formatStartTime = moment(starttime).format('YYYY-MM-DD');
+        }
+        if( endtime != null || starttime != undefined ){
+            const formatEndTime = moment(endtime).format('YYYY-MM-DD');
+        }
+        this.props.editEmployeeInformation({...filterObjEdu, starttime: formatStartTime, endtime: formatEndTime});
         this.setState({
                 btnState:'none',
                 isdisabled:true,
@@ -140,32 +211,7 @@ class Contract extends Component {
 
         }
     }
-    onSelectTimeChange = (field,e,date) => {
-        const {
-                starttime,          //合同开始日期
-                yearnumber,         //合同年限
-                endtime,            //合同结束日期
-            } = this.props.data;
-        if(field=='cancelBtnState'){
-            this.setState({
-                starttime,          //合同开始日期
-                yearnumber,         //合同年限
-                endtime,            //合同结束日期
-                btnState:'none',
-                borderState:"1px solid transparent",
-                isdisabled:true
-            })
-        }
-        if(field=='yearnumber'){
-            this.setState({
-                [field]:e.target.value
-            }) 
-        }else{
-            this.setState({
-                [field]:moment(date).format('YYYY-MM-DD')
-            })
-        }
-    }
+    
     render() {
         const {
             attachment_type_con,
@@ -178,9 +224,10 @@ class Contract extends Component {
             endtime,            //合同结束日期
             tokenKey,
             token,
-            isLoading=true
+            endOpen,
+            isLoading,
         } = this.state;
-        const dateFormat = 'YYYY-MM-DD';
+        console.log(111,endtime)
         return (
             <div className="contract clerk-tab-container">
                 {isLoading && 
@@ -214,9 +261,11 @@ class Contract extends Component {
                                     <span>合同开始日期 : </span>
                                     <span>
                                         <DatePicker
-                                            value={starttime?moment(moment(starttime), dateFormat):''}
+                                            disabledDate={this.disabledStartDate}
+                                            value={starttime ? moment(starttime) : null}
                                             disabled={isdisabled}
-                                            onChange={this.onSelectTimeChange.bind(this,'starttime')}
+                                            onChange={this.onTimeChange.bind(this,'starttime')}
+                                            onOpenChange={this.handleStartOpenChange}
                                         />
                                     </span>
                                 </li>
@@ -227,7 +276,7 @@ class Contract extends Component {
                                             value={yearnumber}
                                             disabled={isdisabled}
                                             style={{border:borderState}}
-                                            onChange={this.onSelectTimeChange.bind(this,'yearnumber')}
+                                            onChange={this.handleChange.bind(this,'yearnumber')}
                                         />
                                     </span>
                                 </li>
@@ -237,9 +286,12 @@ class Contract extends Component {
                                     <span>合同结束日期 : </span>
                                     <span>
                                         <DatePicker
-                                            value={endtime?moment(moment(endtime), dateFormat):''}
+                                            disabledDate={this.disabledEndDate}
+                                            value={endtime ? moment(endtime) : null}
                                             disabled={isdisabled}
-                                            onChange={this.onSelectTimeChange.bind(this,'endtime')}
+                                            onChange={this.onTimeChange.bind(this,'endtime')}
+                                            open={endOpen}
+                                            onOpenChange={this.handleEndOpenChange}
                                         />
                                     </span>
                                 </li>
@@ -258,7 +310,7 @@ class Contract extends Component {
                                 </Button>
                                 <Button  
                                     style={{display:btnState}}
-                                    onClick={this.onSelectTimeChange.bind(this,'cancelBtnState')}
+                                    onClick={this.handleCancelClick.bind(this,'cancelBtnState')}
                                     >
                                     取消
                                  </Button>
@@ -284,7 +336,6 @@ class Contract extends Component {
                                                 value.attachment_type.length==0 ?
                                                 <div>
                                                     <Icon type="plus-circle-o"
-                                                    onClick={this.handleAttachmentClick.bind(this,value)}
                                                         style={{ 
                                                             //marginBottom:'-120px',
                                                             paddingTop:'30px',
@@ -298,18 +349,11 @@ class Contract extends Component {
                                                 <div>
                                                     <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
                                                     <div>
-                                                        <h3 onClick={this.handleAttachmentClick.bind(this,value)} alt="点击上传附件">{name}</h3>
                                                         <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
                                                     </div>
                                                 </div>
                                             }
-                                            {/* <Icon type="plus-circle-o"
-                                                style={{ 
-                                                    fontSize: 45, 
-                                                    color: '#d2d2d2',
-                                                }}
-                                            />
-                                            <p>{name}</p> */}
+                                           
                                         </div>
                                     )
                                 })
@@ -331,6 +375,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    queryEmployee: bindActionCreators(Actions.ManageActions.queryEmployee,dispatch),
     showAttachmentModal: bindActionCreators(Actions.ManageActions.showAttachmentModal,dispatch),
     hideAttachmentModal: bindActionCreators(Actions.ManageActions.hideAttachmentModal,dispatch),
     DeleteMaterial: bindActionCreators(Actions.ManageActions.DeleteMaterial,dispatch),

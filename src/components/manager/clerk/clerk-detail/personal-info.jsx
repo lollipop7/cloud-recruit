@@ -152,9 +152,9 @@ export default class PersonalInfo extends Component {
             [field]:e.target.value
         })
     }
-    onChange = (field,value) => {
+    onTimeChange = (field,value) => {
         this.setState({
-            [field]:moment(value).format('YYYY-MM-DD')
+            [field]: value
         })
     }
     //编辑信息
@@ -175,12 +175,16 @@ export default class PersonalInfo extends Component {
         
     }
     saveInfomation = (field) => {
+        const { birthday } = this.state;
         if (field== 'btnState'){
 
            const filterObj = pickBy(this.state,(val,key)=>{
             return key !='schooling' && key !='professional'  && key !='degree' && key !='school' && key !='endtime' && key !='recruitment' ;
         });
-            this.props.editEmployeeInformation({...filterObj})
+        if(birthday != null) {
+            const formatBirthday = moment(birthday).format('YYYY-MM-DD');
+        }
+            this.props.editEmployeeInformation({...filterObj, birthday: formatBirthday});
             this.setState({
                 btnState:'none',
                 borderState:"1px solid transparent",
@@ -320,7 +324,7 @@ export default class PersonalInfo extends Component {
                                             value={birthday?moment(moment(birthday), dateFormat):''} 
                                             format={dateFormat}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'birthday')}
+                                            onChange={this.onTimeChange.bind(this,'birthday')}
                                         />
                                         {/* <Input
                                             style={{border:borderState}}
@@ -644,7 +648,7 @@ export default class PersonalInfo extends Component {
                                             value={schendtime?moment(moment(schendtime), dateFormat):''} 
                                             format={dateFormat}
                                             allowClear={false}
-                                            onChange={this.onChange.bind(this,'schendtime')}
+                                            onChange={this.onTimeChange.bind(this,'schendtime')}
                                         />
                                         {/* <Input
                                             style={{border:eduBorderState}}

@@ -78,7 +78,6 @@ export default class MainContent extends Component {
                             data={resumeoff}
                             listAll={listAll} 
                             editEmployeeInformation={editEmployeeInformation}
-                            queryEmployee={queryEmployee}
                         />
                     </TabPane>
                     <TabPane tab="材料附件" key="5">

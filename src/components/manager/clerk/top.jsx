@@ -10,7 +10,7 @@ export default class TopComponent extends Component {
     state = {
         key: '',
         _selectedIndex: 0,   //当前选中的
-        workstatus: '0'
+        workstatus: '0',
     }
 
     //监听键盘Enter键
@@ -36,11 +36,10 @@ export default class TopComponent extends Component {
             {
                 num=0,
                 desc='',
-                circle=false,
                 numColor='',
                 type=''
             } =item,
-            {isLoading} = this.props;
+            {isLoading, circle} = this.props;
             return(
                 <div 
                     className={`box ${_selectedIndex === index ? 'active' : ''}`}
@@ -73,7 +72,7 @@ export default class TopComponent extends Component {
                         _selectedIndex === index && <div className="triangle" style={{borderBottomColor: _selectedIndex === index  ? numColor : ''}}></div>
                     }
                     {
-                        circle && <div className="circle"></div>
+                        type=="trial" && circle && <div className="circle"></div>
                     }
                 </div>
             )
@@ -98,8 +97,6 @@ export default class TopComponent extends Component {
         const filterObj = pickBy(this.state,(val,key)=>{
             return val !== '' && val !=undefined && val !=0;
         });
-        // if(isEmpty(filterObj)){return false;}
-        console.log(filterObj);
         this.props.handleFind(filterObj);
     }
 
