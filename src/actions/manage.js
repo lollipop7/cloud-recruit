@@ -932,7 +932,7 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch({...GET_ORGANIZE_CHART,organize:res.companystructure});
+        dispatch({...GET_ORGANIZE_CHART,organizeList:res.companystructure,isLoading:false});
     },err=>{
         dispatch({...GET_ORGANIZE_CHART});
     });

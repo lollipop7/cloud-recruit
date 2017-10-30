@@ -9,6 +9,9 @@ import { Tree, Icon, Modal, Input, message, Select } from 'antd';
 const TreeNode = Tree.TreeNode;
 const Option = Select.Option;
 
+// loading
+import LoadingComponent from 'components/loading';
+
 class LeftTreePage extends Component {
   state = {
     name:'',
@@ -170,13 +173,12 @@ class LeftTreePage extends Component {
   }
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2, departmentName2, uid, needArr} = this.state;
-    const { organize:{list}, mechanismInfo, organize, arrangeDepartment } = this.props;
+    const { organize:{organizeList:{list},isLoading}, mechanismInfo, arrangeDepartment } = this.props;
     if(mechanismInfo == 'success'){
       // console.log(11111,mechanismInfo)
       this.afterSuccess()
       this.setState({departmentName:'',departmentName2:''});
     }
-    // console.log(6666,needArr)
     return (
         <div className='pull-left tree-type'>
             <div className='operate-button'>
@@ -186,6 +188,20 @@ class LeftTreePage extends Component {
               <Icon type="tool" className='icon' onClick={this.showTool} />
             </div>
             <div className=''>
+              {isLoading &&
+                  <div style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 1
+                  }}>
+                      <LoadingComponent style={{
+                          position: 'absolute',
+                          width: '100%',
+                          backgroundColor: '#FFF'
+                      }} />
+                  </div>
+              }
               {
                 <Tree 
                       defaultExpandAll={true}
