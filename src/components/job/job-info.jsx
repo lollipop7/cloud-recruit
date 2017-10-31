@@ -17,7 +17,7 @@ class JobInfoComponent extends Component {
     }
     //保存修改信息
     saveJobInfo = () => {
-        const {createJob,jobInfo} = this.props;
+        const {createJob,jobInfo,hideJobModal} = this.props;
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
         const baseinfoData = BaseInfoComponent.getFormData();
         if(!baseinfoData) return;
@@ -27,12 +27,13 @@ class JobInfoComponent extends Component {
             ...BaseInfoComponent.state,
             ...OtherInfoComponent.state,
             ...{positionid:jobInfo.positionid}
-        });
+        },hideJobModal);
     }
     resetForm = () => {
         const {BaseInfoComponent,OtherInfoComponent} = this.refs;
         BaseInfoComponent.resetForm();
         OtherInfoComponent.resetForm();
+        this.props.hideJobModal()
     }
     render() {
         const {isLoading,isdisabled} = this.props;
@@ -82,7 +83,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
     abortJobInfo: bindActionCreators(Actions.jobActions.abortJobInfo, dispatch),
-    createJob: bindActionCreators(Actions.jobActions.createJob, dispatch)
+    createJob: bindActionCreators(Actions.jobActions.createJob, dispatch),
+    hideJobModal: bindActionCreators(Actions.jobActions.hideJobModal, dispatch),
 })
 
 export default connect(

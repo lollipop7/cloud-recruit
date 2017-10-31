@@ -412,13 +412,7 @@
                     }
                 }
             }
-            &:last-child {
-                .inline-block{
-                    &>span:before {
-                        content: '';    
-                    }
-                }
-            }
+            
         }
         .hint-field {
             position: relative;
@@ -767,7 +761,15 @@
     &:first-child {
         margin-left: 0;
     }
+    .upLoadView{
+        opacity: 0;
+        font-size: 16px
+    }
 }
+.add-attactment:hover .upLoadView{
+    opacity: 1;
+}
+ 
 .attachment-wrap {
     .add-attactment {
         .ant-upload.ant-upload-drag {

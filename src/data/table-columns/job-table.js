@@ -13,7 +13,8 @@ module.exports = [
         "title": "紧急",
         "dataIndex": "isurgent",
         "key": "isurgent",
-        "width": 49,
+        "width": 50,
+        "fixed": 'left',
         "render": (text, record, index)=>{
             return text ? <i className="urgent-icon"></i> : null;
         }
@@ -22,26 +23,28 @@ module.exports = [
         "title": "编号",
         "dataIndex": "positionid",
         "key": "positionid",
-        "width": 70
+        "width": 80,
+        "fixed": 'left',
     },
     {
         "title": "职位名",
         "dataIndex": "positionname", 
         "key": "positionname",
-        "width": 70
+        "width": 120,
+        "fixed": 'left',
     },
     {
         "title": "部门",
         "dataIndex": "department",
         "key": "department",
-        "width": 70,
+        "width": 100,
         "render": renderTextWithATag
     },
     {
         "title": "薪资要求",
         "dataIndex": "salary",
         "key": "salary",
-        "width": 80,
+        "width": 105,
         "render": renderTextWithATag
     },
     {
@@ -84,19 +87,20 @@ module.exports = [
         "title": "开始时间",
         "dataIndex": "starttime",
         "key": "starttime",
-        "width": 70,
+        "width": 100,
         "render": renderTime
     },
     {
         "title": "结束时间",
         "dataIndex": "endtime",
         "key": "endtime",
-        "width": 70,
+        "width": 100,
         "render": renderTime
     },
     {
         "title": "状态",
         "dataIndex": "status",
-        "key": "status"
+        "key": "status",
+        "fixed": 'right',
     }
 ]

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Icon} from 'antd';
 import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
+import ViewModal from './view-modal';
 
 import clerkInfo from 'data/clerk/clerk';
 import moment from 'moment';
@@ -87,29 +88,13 @@ class Contract extends Component {
        this.props.showAttachmentModal();
     }
 
-    showImageModal = (value) => {
-         const {showImageModal, viewUploadAttachment} = this.props;
-        this.props.showImageModal(value,viewUploadAttachment)
+    showImageModal = (parmentType,type) => {
+        const {showImageModal, viewUploadAttachment} = this.props;
+        showImageModal({parmentType,type,imageVisible:true})
     }
     hideImageModal = () =>{
         this.props.hideImageModal();//隐藏预览框
         this.props.cancelImageUrl();//清空图片地址
-    }
-
-    //删除图片
-    deleteImage = (value) =>{
-        console.log(value);
-        this.props.DeleteMaterial({id:value.id+''},this.props.queryEmployee,value)
-        //this.props.viewUploadAttachment();
-        //const rid = this.props.data.resumeoff.rid+'';
-        //this.props.queryEmployee({rid:rid});
-        for(let i=0;i<this.props.imageUrl.length;i++){
-            if(value.id==this.props.imageUrl[i]){
-                this.props.imageUrl.splice(i,1)
-            }
-        }
-        this.props.hideImageModal()
-        
     }
 
     //编辑信息
@@ -180,6 +165,8 @@ class Contract extends Component {
             token,
             isLoading=true
         } = this.state;
+        //console.log(this.props.queryEmployeeList.list.listAll[1].list[0])
+        const {attachment_type} = this.props.queryEmployeeList.list.listAll[1].list[0];
         const dateFormat = 'YYYY-MM-DD';
         return (
             <div className="contract clerk-tab-container">
@@ -272,21 +259,19 @@ class Contract extends Component {
                                 合同附件
                             </h3>
                             {
-                                attachment_type_con.map((value,index) => {
+                                attachment_type.map((value,index) => {
                                     const {name} = value;
                                     return(
                                         <div key={name} 
                                              className="add-attactment" 
-                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                              style={{display: 'inline-block'}}
                                         >
                                             {
-                                                value.attachment_type.length==0 ?
+                                                value.filename=='' ?
                                                 <div>
                                                     <Icon type="plus-circle-o"
                                                     onClick={this.handleAttachmentClick.bind(this,value)}
                                                         style={{ 
-                                                            //marginBottom:'-120px',
                                                             paddingTop:'30px',
                                                             fontSize: 45, 
                                                             color: '#d2d2d2',
@@ -295,11 +280,18 @@ class Contract extends Component {
                                                     <p style={{marginBottom:10}}>{name}</p> 
                                                 </div>
                                                 :
+                                                value.filenameExt=='jpg' && value.filenameExt=='png'?
                                                 <div>
                                                     <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
                                                     <div>
-                                                        <h3 onClick={this.handleAttachmentClick.bind(this,value)} alt="点击上传附件">{name}</h3>
-                                                        <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
+                                                        <span onClick={this.showImageModal.bind(this,value.parmentType,value.type)}>预览</span> 
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src="/static/images/manager/clerk/fjcl.png"/>
+                                                    <div>
+                                                        <span onClick={this.showImageModal.bind(this,2,value.typeId)}>预览</span> 
                                                     </div>
                                                 </div>
                                             }
@@ -317,7 +309,7 @@ class Contract extends Component {
                         </div>
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} itemData={itemData}/> 
+                <ViewModal/> 
             </div>
         );
     }

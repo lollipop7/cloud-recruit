@@ -1,7 +1,7 @@
 import * as types from 'constants/job';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
 
-import {message} from 'antd'; 
+import {message , notification} from 'antd'; 
 
 import isNumber from 'lodash/isNumber';
 
@@ -126,7 +126,7 @@ export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getSta
 // 创建职位
 export const createJob = (data,context) => (dispatch,getState) => {
     NProgress.start();
-    //dispatch(CREATE_JOB_START);
+    dispatch(CREATE_JOB_START);
     AjaxByToken('saveorupdateposition',{
         head: {
             transcode: 'L0013'
@@ -134,8 +134,17 @@ export const createJob = (data,context) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        dispatch(SHOW_SAVEJOB_MODAL);
-        //dispatch(CREATE_JOB_DONE);
+        if(context){
+            context()
+        }
+        if(data.positionid){
+            notification.success({
+            message: '修改成功！'
+            })
+        }else{
+            dispatch(SHOW_SAVEJOB_MODAL);
+        } 
+        dispatch(CREATE_JOB_DONE);
     },err=>{
         dispatch(CREATE_JOB_DONE);
     })

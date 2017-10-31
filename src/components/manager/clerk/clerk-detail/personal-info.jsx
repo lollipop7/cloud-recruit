@@ -315,19 +315,19 @@ export default class PersonalInfo extends Component {
                                 <li>
                                     <span>生日 : </span>
                                     <span>
-                                        <DatePicker
+                                        {/* <DatePicker
                                             disabled={isdisabled}
                                             value={birthday?moment(moment(birthday), dateFormat):''} 
                                             format={dateFormat}
                                             allowClear={false}
                                             onChange={this.onChange.bind(this,'birthday')}
-                                        />
-                                        {/* <Input
-                                            style={{border:borderState}}
+                                        /> */}
+                                        <Input
+                                            //style={{border:borderState}}
                                             value={birthday}
                                             disabled={isdisabled}
                                             onChange={this.handleChange.bind(this,'birthday')}
-                                        /> */}
+                                        />
                                     </span>
                                 </li>
                                 <li>

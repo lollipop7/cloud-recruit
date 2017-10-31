@@ -238,6 +238,7 @@ class TableComponent extends Component {
                 height: 780
             }}>
                 <Button
+                    type="primary" ghost
                     style={{position:'absolute',left:710,top:-44}}
                     onClick={this.editPositionInfo}>
                     修改职位信息
@@ -253,7 +254,8 @@ class TableComponent extends Component {
                             item.key = index;
                             return item;
                         })
-                    } 
+                    }
+                    scroll={{x:isLoading?0:1090}} 
                     bordered
                     loading={isLoading}
                     columns={this.columns}

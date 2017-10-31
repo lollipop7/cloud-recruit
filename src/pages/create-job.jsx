@@ -56,7 +56,7 @@ class CreateJobPage extends Component {
                 ...BaseInfoComponent.state,
                 ...OtherInfoComponent.state,
                 ...{positionid:this.props.jobInfo.positionid}
-            },this.context);
+            });
          this.props.resetForm()    
         //}   
     }

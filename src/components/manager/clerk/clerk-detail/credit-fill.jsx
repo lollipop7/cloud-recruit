@@ -3,6 +3,7 @@ import { Input, Button, Card, Row, Col } from 'antd';
 
 import clerkInfo from 'data/clerk/clerk';
 const {cardList} = clerkInfo.creditInvestgation.cardList;
+import LoadingComponent from 'components/loading';
 
 import {ErrorInputComponent} from '../input-select-time';
 
@@ -15,7 +16,7 @@ export default class CreditFillComponent extends Component {
         certid:'',
         rid:'',
         resumeid:'',
-        downLoading:false,
+        searchLoading:false,
         // name:'余文忠',
         // mobile:'18616762568',
         // card:'310110199203091013',
@@ -49,37 +50,40 @@ export default class CreditFillComponent extends Component {
             }
     }
     componentWillReceiveProps(nextprops){
-        if(nextprops.data.resumeoff.resumeid){
-                const {
+        const {searchLoading ,data,creditData} = nextprops;
+        const{
+            name,
+            mobile,
+            card,
+            certid,
+            resumeid,
+            rid
+        } = data.resumeoff;
+        if(creditData.contractCount){
+            this.setState({
+                isLoading:false
+            })
+        }
+        if(resumeid){
+            this.setState({
                 name,
                 mobile,
                 card,
-                certid,
+                certid:certid?certid:'',
                 resumeid
-            } = nextprops.data.resumeoff;
-                this.setState({
-                    name,
-                    mobile,
-                    card,
-                    certid,
-                    resumeid
-                })
+            })
         }else{
-                const {
+            this.setState({
                 name,
                 mobile,
                 card,
                 certid,
-                rid
-            } = nextprops.data.resumeoff;
-                this.setState({
-                    name,
-                    mobile,
-                    card,
-                    certid,
-                    rid:rid+''
-                })
-            }
+                rid:rid+''
+            })
+        }
+        this.setState({
+            searchLoading
+        })
        
     }
     searchCredit = () => {
@@ -126,7 +130,7 @@ export default class CreditFillComponent extends Component {
            
         }
         this.setState({
-            downLoading:true
+            searchLoading:true
         })  
     }
 
@@ -136,11 +140,22 @@ export default class CreditFillComponent extends Component {
             mobile,
             card,
             certid,
-            downLoading
+            searchLoading,
+            isLoading=true
          } = this.state;
          const {creditData}=this.props;
          return(
              <li>
+                 {isLoading && 
+                    <LoadingComponent style={{
+                        position: 'absolute',
+                        top: 200,
+                        left:'46%',
+                        height: '30%',
+                        width: '10%',
+                        zIndex: 2
+                    }} />
+                }
                  <div className="fill-field" style={{paddingLeft: 82}}>
                      <div className="inline-block">
                          <ul>
@@ -194,18 +209,26 @@ export default class CreditFillComponent extends Component {
                                     type="primary" 
                                     style={{fontSize: 20, width: 182, height: 45}}
                                     onClick= {this.searchCredit}
-                                    loading={downLoading}
+                                    loading={searchLoading}
                                 >
                                     点击查看
                                 </Button>:
-                             <Button 
-                                type="primary" 
-                                style={{fontSize: 20, width: 182, height: 45}}
-                                onClick= {this.searchCredit}
-                                loading={downLoading}
-                            >
-                                一键查询
-                            </Button>}
+                                <span>
+                                    <span 
+                                        style={{fontSize:12,color:'red'}}
+                                    >
+                                        &nbsp;&nbsp;&nbsp;友情提醒：免费查询仅剩{`${creditData.contractCount?creditData.contractCount:0}`}次
+                                    </span><br/>
+                                    <Button 
+                                        type="primary" 
+                                        style={{fontSize: 20, width: 182, height: 45}}
+                                        onClick= {this.searchCredit}
+                                        loading={searchLoading}
+                                    >
+                                        一键查询
+                                    </Button>
+                                </span>
+                                }
                             
                          </div>
                      </div>
@@ -226,7 +249,7 @@ export default class CreditFillComponent extends Component {
                                 <li>1.51招聘云测评信息查询仅供企业招聘参考，请勿作其他商业用途。</li>
                                 <li>2.基于大数据智能分析匹配数据，测评结果仅做参考。</li>
                                 <li>3.查询过的数据可多次查看，无需重复查询。</li>
-                                <li>4.企业可免费查询<span>3</span>次/天，<span>如需求量大，请联系商务客服400-885-6112</span>。</li>
+                                <li>4.企业还剩余免费查询<span style={{fontSize:24}}>{creditData.contractCount}</span>次，<span>如需求量大，请联系商务客服400-885-6112</span>。</li>
                             </ul>
                         </div>
                      </div>

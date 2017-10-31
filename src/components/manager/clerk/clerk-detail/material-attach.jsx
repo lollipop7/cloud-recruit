@@ -105,7 +105,6 @@ class MaterialAttach extends Component {
                         left:'46%',
                         height: '30%',
                         width: '10%',
-                        backgroundColor: '#FFF',
                         zIndex: 2
                     }} />
                 }
@@ -152,7 +151,7 @@ class MaterialAttach extends Component {
                                                                 {name}
                                                             </h3>
                                                             <span
-                                                                className="viewMaterial" 
+                                                                className="viewMaterial upLoadView" 
                                                                 onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
                                                                 title={`点击预览${name}附件`}
                                                             >
@@ -197,7 +196,7 @@ class MaterialAttach extends Component {
                                                              <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src="/static/images/manager/clerk/fjcl.png"/>
                                                              :
                                                             <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}/>}
-                                                            <div className="vieBtn">
+                                                            <div>
                                                                 <h3 
                                                                     className="upLoadMaterial"
                                                                     onClick={this.handleAttachmentClick.bind(this,value)} 
@@ -207,7 +206,7 @@ class MaterialAttach extends Component {
                                                                     {name}
                                                                 </h3>
                                                                 <span
-                                                                    className="viewMaterial" 
+                                                                    className="viewMaterial upLoadView" 
                                                                 onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
                                                                     title={`点击预览${name}附件`}
                                                                 >
@@ -255,16 +254,16 @@ class MaterialAttach extends Component {
                                                         <img alt="材料附件" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
                                                     />}
                                                     <div>
-                                                    <h3 
-                                                        className="upLoadMaterial"
-                                                        onClick={this.handleAttachmentClick.bind(this,value)} 
-                                                        alt="点击上传附件"
-                                                        title={`点击上传${name}附件`}
-                                                    >
-                                                        {name}
-                                                    </h3>
+                                                        <h3 
+                                                            className="upLoadMaterial"
+                                                            onClick={this.handleAttachmentClick.bind(this,value)} 
+                                                            alt="点击上传附件"
+                                                            title={`点击上传${name}附件`}
+                                                        >
+                                                            {name}
+                                                        </h3>
                                                         <span
-                                                            className="viewMaterial" 
+                                                            className="viewMaterial upLoadView" 
                                                             onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
                                                             title={`点击预览${name}附件`}
                                                         >

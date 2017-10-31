@@ -83,6 +83,8 @@ import isNumber from 'lodash/isNumber';
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
     const HIDECREDITINVESTGATIONSTATE = {type:types.HIDECREDITINVESTGATIONSTATE}
+    //取消人员征信查询loading
+    const CANCELLOADING = {type:types.CANCELLOADING}
 
     const SHOW_INFO_MODAL = {type:types.SHOW_INFO_MODAL};
     const HIDE_INFO_MODAL = {type:types.HIDE_INFO_MODAL};
@@ -502,7 +504,7 @@ import isNumber from 'lodash/isNumber';
             showcredit()
             NProgress.done();
         },err=>{
-            console.log(err);
+            dispatch(...CANCELLOADING)
         })
     }
     export const hidecredit = () => (dispatch,getState) => {
