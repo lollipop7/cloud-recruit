@@ -761,6 +761,14 @@
     &:first-child {
         margin-left: 0;
     }
+    .preview-pics {
+        img {
+            width: 198px;
+            height: 148px;
+            border: 1px solid #d5d5d5;
+            margin-bottom: -90px;
+        }
+    }
     .upLoadView{
         opacity: 0;
         font-size: 16px

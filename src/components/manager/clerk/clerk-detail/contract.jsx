@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {Icon} from 'antd';
 import store from 'store';
 import PlusAttachmentModal from './attactment-modal'; 
-import ViewModal from './view-modal';
 
 import clerkInfo from 'data/clerk/clerk';
 import Moment from 'moment';
@@ -17,6 +16,7 @@ import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 
 import LoadingComponent from 'components/loading';
+import ViewModal from './view-modal';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -82,12 +82,12 @@ class Contract extends Component {
 
     showImageModal = (parmentType,type) => {
         const {showImageModal, viewUploadAttachment} = this.props;
-        showImageModal({parmentType,type,imageVisible:true})
-    }
-    hideImageModal = () =>{
-        this.props.hideImageModal();//隐藏预览框
-        this.props.cancelImageUrl();//清空图片地址
-    }
+       showImageModal({parmentType,type,imageVisible:true})
+   }
+   hideImageModal = () =>{
+       this.props.hideImageModal();//隐藏预览框
+       this.props.cancelImageUrl();//清空图片地址
+   }
 
     //编辑信息
     editInformation = (field) => {
@@ -200,9 +200,7 @@ class Contract extends Component {
             endOpen,
             isLoading,
         } = this.state;
-        //console.log(this.props.queryEmployeeList.list.listAll[1].list[0])
-        const {attachment_type} = this.props.queryEmployeeList.list.listAll[1].list[0];
-        const dateFormat = 'YYYY-MM-DD';
+        console.log(attachment_type_con)
         return (
             <div className="contract clerk-tab-container">
                 {isLoading && 
@@ -299,7 +297,7 @@ class Contract extends Component {
                                 合同附件
                             </h3>
                             {
-                                attachment_type.map((value,index) => {
+                                attachment_type_con.map((value,index) => {
                                     const {name} = value;
                                     return(
                                         <div key={name} 
