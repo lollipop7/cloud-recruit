@@ -16,6 +16,7 @@ import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 
 import LoadingComponent from 'components/loading';
+import ViewModal from './view-modal';
 
 //redux
 import {bindActionCreators} from 'redux';
@@ -43,22 +44,20 @@ class Contract extends Component {
         const rid = this.props.queryEmployeeList.list.resumeoff.rid+'';
         this.props.queryEmployee({rid});
         const {token,tokenKey} = store.get('token') || {};
-        this.setState({tokenKey, token})
+        this.setState({tokenKey, token});
     }
 
     componentWillReceiveProps(nextProps){
         if(!isEmpty(nextProps.listAll)){
-            const {attachment_type_con} = this.state;
             const listArr = filter(nextProps.listAll,(item,key) => {
                 return item.type == 2;
             });
-            listArr[0].list.forEach((item,key) => {
-                if(item.type == 10010) attachment_type_con.push(item);
-            });
+            const attachment_type_con = filter(listArr[0].list, (item,key) => {
+                return item.type == 10010;
+            })
             this.setState({
                 attachment_type_con
             });
-            
         }
         if(!isEmpty(nextProps.data)){
             const {
@@ -81,40 +80,14 @@ class Contract extends Component {
         return nextState !== this.state || nextProps !== this.props;
     }
 
-    handleAttachmentClick = (itemData) => {
-       const {rid} = this.state;
-       this.setState({
-           itemData,
-           rid
-        });
-       this.props.showAttachmentModal();
-    }
-
-    showImageModal = (value) => {
-         const {showImageModal, viewUploadAttachment} = this.props;
-        this.props.showImageModal(value,viewUploadAttachment)
-    }
-
-    hideImageModal = () =>{
-        this.props.hideImageModal();//隐藏预览框
-        this.props.cancelImageUrl();//清空图片地址
-    }
-
-    //删除图片
-    deleteImage = (value) =>{
-        console.log(value);
-        this.props.DeleteMaterial({id:value.id+''},this.props.queryEmployee,value)
-        //this.props.viewUploadAttachment();
-        //const rid = this.props.data.resumeoff.rid+'';
-        //this.props.queryEmployee({rid:rid});
-        for(let i=0;i<this.props.imageUrl.length;i++){
-            if(value.id==this.props.imageUrl[i]){
-                this.props.imageUrl.splice(i,1)
-            }
-        }
-        this.props.hideImageModal()
-        
-    }
+    showImageModal = (parmentType,type) => {
+        const {showImageModal, viewUploadAttachment} = this.props;
+       showImageModal({parmentType,type,imageVisible:true})
+   }
+   hideImageModal = () =>{
+       this.props.hideImageModal();//隐藏预览框
+       this.props.cancelImageUrl();//清空图片地址
+   }
 
     //编辑信息
     editInformation = (field) => {
@@ -227,7 +200,7 @@ class Contract extends Component {
             endOpen,
             isLoading,
         } = this.state;
-        console.log(111,endtime)
+        console.log(attachment_type_con)
         return (
             <div className="contract clerk-tab-container">
                 {isLoading && 
@@ -329,31 +302,42 @@ class Contract extends Component {
                                     return(
                                         <div key={name} 
                                              className="add-attactment" 
-                                             onClick={this.handleAttachmentClick.bind(this,value)}
                                              style={{display: 'inline-block'}}
                                         >
-                                            {
-                                                value.attachment_type.length==0 ?
-                                                <div>
-                                                    <Icon type="plus-circle-o"
-                                                        style={{ 
-                                                            //marginBottom:'-120px',
-                                                            paddingTop:'30px',
-                                                            fontSize: 45, 
-                                                            color: '#d2d2d2',
-                                                        }}
-                                                    />
-                                                    <p style={{marginBottom:10}}>{name}</p> 
-                                                </div>
-                                                :
-                                                <div>
-                                                    <img alt="example" style={{ width: '190px',height:'150px',marginBottom:'-90px'}} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`} />
+                                        {
+                                            value.attachment_type.length==0 ?
+                                            <div className="plus-circle">
+                                                <Icon type="frown-o"
+                                                    style={{ 
+                                                        paddingTop:'30px',
+                                                        fontSize: 45, 
+                                                        color: '#d2d2d2',
+                                                    }}
+                                                />
+                                                <p >{`未添加${name}`}</p> 
+                                            </div> : 
+                                            <div className="preview-pics">
+                                                {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
+                                                    <img alt="材料附件"  src="/static/images/manager/clerk/fjcl.png"/>
+                                                    :
+                                                    <img alt="材料附件"  src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
+                                                />}
                                                     <div>
-                                                        <span onClick={this.showImageModal.bind(this,value.attachment_type)}>预览</span> 
+                                                        <h3 
+                                                            className="upLoadMaterial"
+                                                        >
+                                                            {name}
+                                                        </h3>
+                                                        <span
+                                                            className="viewMaterial" 
+                                                            onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
+                                                            title={`点击预览${name}附件`}
+                                                        >
+                                                            预览
+                                                        </span> 
                                                     </div>
-                                                </div>
-                                            }
-                                           
+                                            </div>
+                                        }
                                         </div>
                                     )
                                 })
@@ -361,7 +345,7 @@ class Contract extends Component {
                         </div>
                     </li>
                 </ul>
-                <PlusAttachmentModal {...this.props} itemData={itemData}/> 
+                <ViewModal/>  
             </div>
         );
     }

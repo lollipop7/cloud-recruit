@@ -83,7 +83,7 @@ class ViewModal extends Component {
                 footer={null}
                 closable={false}
                 onCancel={this.hideImageModal}
-                wrapClassName='viewMaterialModal grey-close-header'
+                wrapClassName='viewMaterialModal'
             >
             {isLoading && 
                 <LoadingComponent style={{

@@ -748,7 +748,7 @@
     display: inline-block;
     margin-left: 16px;
     margin-bottom: 16px;
-    width: 190px;
+    width: 200px;
     height: 150px;
     border: 1px solid $border-color;
     border-radius: 5px;
@@ -766,6 +766,14 @@
     }
     &:first-child {
         margin-left: 0;
+    }
+    .preview-pics {
+        img {
+            width: 198px;
+            height: 148px;
+            border: 1px solid #d5d5d5;
+            margin-bottom: -90px;
+        }
     }
 }
 .attachment-wrap {
