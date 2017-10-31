@@ -160,6 +160,7 @@ const initialState = {
     departmentStaff: {},
     currentUid:'',
     departmentName:'',
+    current:'',
     crewDetail: {},
     archivesData: {},
     archivesTableData:'1',
@@ -180,9 +181,13 @@ const initialState = {
     depart:[],
     post:[],
     //**组织架构图 ------------------------------------------------*/
-    organize:{},
+    organize:{
+        organizeList:{},
+        isLoading: true
+    },
     mechanismInfo:"",
-    arrangeDepartment:[]
+    arrangeDepartment:[],
+    isLoading:true
 };
 
 export default function manage(state=initialState,actions){
@@ -316,13 +321,13 @@ export default function manage(state=initialState,actions){
         case HIDE_PERSONALMATERIAL_MODAL:
             return {...state,personalMaterialVisible:actions.personalMaterialVisible};
         case GET_DEPARTMENT_STAFF:
-            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid, departmentName:actions.departmentName}
+            return {...state,departmentStaff:actions.departmentStaff, currentUid:actions.currentUid, departmentName:actions.departmentName,current:actions.current}
         case ADD_EDIT_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case DELETE_DEPARTMENT:
             return {...state,departmentInfo:actions.departmentInfo};
         case GET_ORGANIZE_CHART:
-            return {...state,organize:actions.organize};
+            return {...state,organize:{...state.organize,organizeList:actions.organizeList,isLoading:actions.isLoading}}; 
         case ADD_MECHANISM:
             return {...state,mechanismInfo:actions.mechanismInfo};
         case DELETE_MECHANISM:

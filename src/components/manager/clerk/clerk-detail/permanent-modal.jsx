@@ -21,7 +21,8 @@ export default class PermanentModal extends Component {
         sex:undefined,            //性别
         birthday:'',       //出生日期
         inthetime:'',       //入职时间
-        constellation:''
+        constellation:'',
+        expdate: null,      //预计转正日期  
     }
 
     componentWillReceiveProps(nextProps){
@@ -36,7 +37,8 @@ export default class PermanentModal extends Component {
                     position,       //职位
                     sex,            //性别
                     birthday,       //出生日期
-                    inthetime       //入职时间
+                    inthetime,      //入职时间
+                    expdate,        //预计转正日期
                 } = resumeoff;
                 this.setState({
                     name,           //姓名
@@ -46,7 +48,8 @@ export default class PermanentModal extends Component {
                     sex,            //性别
                     birthday,       //出生日期
                     inthetime,       //入职时间
-                    constellation
+                    constellation,
+                    expdate
                 })
             }
         }
@@ -146,7 +149,8 @@ export default class PermanentModal extends Component {
             inthetime,       //入职时间
             errMsg,
             constellation,
-            date
+            date,
+            expdate
         } = this.state;
         return(
             <Modal
@@ -203,7 +207,7 @@ export default class PermanentModal extends Component {
                         <div className="inline-block" style={{lineHeight: "40px"}}>
                             <span className="required-asterisk">预计转正日期：</span>
                             <div className="inline-block">
-                                <span style={{fontWeight: 'bold'}}>2017-06-06</span>
+                                <span style={{fontWeight: 'bold'}}>{expdate}</span>
                             </div>
                         </div>
                     </div>

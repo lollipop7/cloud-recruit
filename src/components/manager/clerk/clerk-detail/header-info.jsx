@@ -3,6 +3,7 @@ import { Button, Select, Menu, Dropdown, notification } from 'antd';
 import trim from 'lodash/trim';
 import isNumber from 'lodash/isNumber';
 import moment from 'moment';
+moment.locale("zh-cn");
 
 import clerkInfo from 'data/clerk/clerk';
 import LoadingComponent from 'components/loading';

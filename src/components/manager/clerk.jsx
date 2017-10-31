@@ -224,10 +224,12 @@ class ClerkPage extends Component {
             startExportEmployees,
             deleteClerkList
         } = this.props,
-        {isLoading, list} = manageStastistics;
+        {isLoading, list} = manageStastistics,
+        {near} = list;
         return (
             <div className="right-panel clerk-page">
                 <TopComponent 
+                    circle={near}
                     data={this._getNavData(list)}
                     onClick={this.handleClickTop}
                     isLoading= {isLoading}

@@ -22,8 +22,10 @@ export default class PositionInfo extends Component {
         // btnDynamicsState:'none',
         // dateBorderState:"1px solid transparent",
         // isDatedisabled:true,
-        // inthetime:'',              //入职时间
-        // positivedate:'',           //转正时间
+        inthetime:'',              //入职时间
+        expdate: null,             //预计转正时间
+        positivedate:'',           //转正时间
+        workstatus: '',            //职员类型，0 试用期 1 正式员工 2 离职员工 默认为0
         isLoading: true,
         list: [],
         worknumber: '',             //工号
@@ -58,6 +60,8 @@ export default class PositionInfo extends Component {
                 contactname,            //紧急联系人
                 inthetime,              //入职时间
                 positivedate,           //转正时间
+                expdate,
+                workstatus,
                 theleng,                //试用期
                 rid,
             } = nextProps.data;
@@ -73,9 +77,11 @@ export default class PositionInfo extends Component {
                 ext,                    //分机号
                 cemail,                 //企业邮箱
                 contactname,            //紧急联系人
-                // inthetime:moment(inthetime).format('YYYY-MM-DD'),              //入职时间
-                // positivedate:moment(positivedate).format('YYYY-MM-DD'),           //转正时间
-                // theleng,
+                inthetime: moment(inthetime).format('YYYY-MM-DD'),              //入职时间
+                positivedate: moment(positivedate).format('YYYY-MM-DD'),           //转正时间
+                theleng,
+                expdate,
+                workstatus,
                 rid:rid+'',
                 list,
                 isLoading:false
@@ -105,6 +111,8 @@ export default class PositionInfo extends Component {
                 inthetime,              //入职时间
                 positivedate,           //转正时间
                 theleng,                //试用期
+                expdate,
+                workstatus,
                 rid,
             } = this.props.data;
         if(field=='cancelBtnState'){
@@ -333,7 +341,9 @@ export default class PositionInfo extends Component {
             contactname,            //紧急联系人
             inthetime,              //入职时间
             positivedate,           //转正时间
-            theleng ,                //试用期
+            theleng,                //试用期
+            expdate,
+            workstatus,
             borderState,
             isdisabled,
             btnDynamicsState,
@@ -552,7 +562,7 @@ export default class PositionInfo extends Component {
                                 <li>
                                     <span>转正时间{ isQualified && <i>(提前转正)</i>} : </span>
                                     <span>
-                                        {moment(positivedate).format("YYYY-MM-DD")}
+                                        {moment( positivedate || expdate).format("YYYY-MM-DD")}
                                         {/* <DatePicker
                                             format={dateFormat}
                                             disabled={isDatedisabled}

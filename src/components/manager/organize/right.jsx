@@ -71,12 +71,12 @@ class DepartmentStaff extends Component {
   // 点击分页
   changePage = (page, pageSize)=>{
     const { currentUid, departmentName,departmentStaff:{count} } = this.props;
-    this.props.getDepartMentStaff({departmentId:currentUid,skip:(page-1)*5+'',count:count.toString()},currentUid,departmentName)
+    this.props.getDepartMentStaff({departmentId:currentUid,skip:(page-1)*5+'',count:count.toString()},currentUid,departmentName,page)
   }
   
   render() {
     const { departmentInfo, resultTree } = this.state;
-    const { departmentStaff, departmentList:{list}, currentUid, departmentName } = this.props;
+    const { departmentStaff, departmentList:{list}, currentUid, departmentName, current } = this.props;
     return (
       <div className='pull-left organize-tree-right'>
           <div className='department-title'><div></div>{departmentName}</div>
@@ -95,7 +95,7 @@ class DepartmentStaff extends Component {
                 departmentStaff.departmentList && departmentStaff.departmentList.length > 0 ? departmentStaff.departmentList.map((item,index)=>(
                   <div className='sub-depart-table-lab'>
                     <span className='left'>{item.name}</span>
-                    <span className='right'>{item.isManagement}</span>
+                    <span className='right'>{item.count?item.count:0}</span>
                   </div>
                 )):
                 <div className='sub-depart-table-lab'>
@@ -129,7 +129,7 @@ class DepartmentStaff extends Component {
                   <div className='center'>暂无数据</div>
                 </div>
               }
-              <Pagination defaultCurrent={1} defaultPageSize={5} total={departmentStaff.count} size={"small"} style={{textAlign: 'center',marginBottom:'8px'}} onChange={this.changePage} />
+              <Pagination defaultCurrent={1} current={current} defaultPageSize={5} total={departmentStaff.count} size={"small"} style={{textAlign: 'center',marginBottom:'8px'}} onChange={this.changePage} />
             </div>
           </div>
 
@@ -172,6 +172,7 @@ const mapStateToProps = state => ({
   departmentStaff: state.Manage.departmentStaff,
   currentUid: state.Manage.currentUid,
   departmentName: state.Manage.departmentName,
+  current: state.Manage.current,
 })
 const mapDispatchToProps = dispatch => ({
   getDepartMentStaff: bindActionCreators(Actions.ManageActions.getDepartMentStaff, dispatch),

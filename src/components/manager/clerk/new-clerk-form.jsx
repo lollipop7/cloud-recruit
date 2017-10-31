@@ -649,7 +649,7 @@ class NewClerkForm extends Component {
                             <SelectComponent
                                 ref="thelengSelect"
                                 name="试用期："
-                                data={["零个月","二个月","三个月","四个月","五个月","六个月"]}
+                                data={["无","一个月","二个月","三个月","四个月","五个月","六个月"]}
                                 dropdownMatchSelectWidth={false}
                                 value={theleng}
                                 field="theleng"

@@ -9,6 +9,9 @@ import store from 'store';
 import { Tree, Icon, Modal, Input, message } from 'antd';
 const TreeNode = Tree.TreeNode;
 
+// loading
+import LoadingComponent from 'components/loading';
+
 class LeftTreePage extends Component {
   state = {
     name:'',
@@ -52,7 +55,7 @@ class LeftTreePage extends Component {
   onSelect = (selectedKeys, info) => {
     if(selectedKeys[0]){
       const { uid } = this.state;
-      this.props.getDepartMentStaff({departmentId:selectedKeys[0],skip:"0"},selectedKeys[0],info.selectedNodes[0].props.title);
+      this.props.getDepartMentStaff({departmentId:selectedKeys[0],skip:"0"},selectedKeys[0],info.selectedNodes[0].props.title,"1");
       this.setState({uid:selectedKeys[0], sup_id:info.selectedNodes[0].props.sup_id, name:info.selectedNodes[0].props.title,name2:info.selectedNodes[0].props.title});
     }else{
       this.setState({
@@ -135,7 +138,7 @@ class LeftTreePage extends Component {
   }
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2} = this.state;
-    const { departmentList:{list}, departmentInfo } = this.props;
+    const { departmentList:{list,isLoading}, departmentInfo } = this.props;
     // const {token,tokenKey} = store.get('token') || {};
     // console.log(tokenKey)
     // console.log(token)
@@ -151,6 +154,20 @@ class LeftTreePage extends Component {
               <Icon type="delete" className='icon' onClick={this.showDelete} />
             </div>
             <div className='tree-box'>
+              {!isLoading &&
+                  <div style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 1
+                  }}>
+                      <LoadingComponent style={{
+                          position: 'absolute',
+                          width: '100%',
+                          backgroundColor: '#FFF'
+                      }} />
+                  </div>
+              }
               {
                 <Tree 
                       defaultExpandAll={true}
@@ -192,7 +209,8 @@ class LeftTreePage extends Component {
 }
 const mapStateToProps = state => ({
   departmentList: state.Manage.departmentList,
-  departmentInfo: state.Manage.departmentInfo
+  departmentInfo: state.Manage.departmentInfo,
+  isLoading: state.Manage.isLoading
 })
 const mapDispatchToProps = dispatch => ({
   getDepartMentList: bindActionCreators(Actions.ManageActions.getDepartMentList, dispatch),

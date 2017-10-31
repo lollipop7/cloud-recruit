@@ -3,35 +3,30 @@
         "desc": "全部人员",
         "num": 0,
         "numColor": "#ef5672",
-        "circle": false,
         "type": "sum"
     },
     "formal": {
         "desc": "正式员工",
         "num": 0,
         "numColor": "#bb76fb",
-        "circle": false,
         "type": "formal"
     },
     "trial": {
         "desc": "试用期",
         "num": 0,
         "numColor": "#fac23f",
-        "circle": true,
         "type": "trial"
     },
     "hired": {
         "desc": "待入职人员",
         "num": 0,
         "numColor": "#489bf4",
-        "circle": false,
         "type": "hired"
     },
     "departure": {
         "desc": "离职员工",
         "num": 0,
         "numColor": "#b2bac2",
-        "circle": false,
         "type": "departure"
     }
 }
