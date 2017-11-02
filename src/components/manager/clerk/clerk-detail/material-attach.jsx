@@ -105,7 +105,6 @@ class MaterialAttach extends Component {
                         left:'46%',
                         height: '30%',
                         width: '10%',
-                        backgroundColor: '#FFF',
                         zIndex: 2
                     }} />
                 }

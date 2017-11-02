@@ -31,6 +31,8 @@ import isNumber from 'lodash/isNumber';
     const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
     const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
 
+    //1.61 员工导入模板下载
+
     //导出员工信息
     const EXPORT_CLERK_START = {type: types.EXPORT_CLERK_START};
     const EXPORT_CLERK_DONE = {type: types.EXPORT_CLERK_DONE};
@@ -245,6 +247,7 @@ import isNumber from 'lodash/isNumber';
             dispatch(SET_RESETFORM_TRUE);
             dispatch(HIDE_UPLOAD_CLERK_MODAL);
         },err=>{
+            console.log(err)
             dispatch(UPLOAD_CLERK_DONE);
         });
     }
