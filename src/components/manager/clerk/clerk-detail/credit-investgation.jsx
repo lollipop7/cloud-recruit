@@ -34,7 +34,8 @@ import * as Actions from 'actions';
 const mapStateToProps = state => ({
     creditData: state.Manage.creditData,
     creditInfoData: state.Manage.creditInfoData,
-    isFill: state.Manage.isFill
+    isFill: state.Manage.isFill,
+    searchLoading: state.Manage.searchLoading
 })
 
 const mapDispatchToProps = dispatch => ({

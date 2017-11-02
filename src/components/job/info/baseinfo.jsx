@@ -299,14 +299,14 @@ export default class BaseinfoComponent extends Component {
                         jobtype: "兼职"
                     });
                 break;
-                 case 3:
+                case 3:
                     this.setState({
                         jobtype: "实习"
                     });
                 break;
                 default:
                    this.setState({
-                        jobtype: ""
+                        jobtype: "全职"
                     });
             }
             
@@ -331,6 +331,28 @@ export default class BaseinfoComponent extends Component {
             errorqualification,
             error
         } = nextProps.jobInfo;
+        switch(jobtype)
+        {
+            case "全职":
+                this.setState({
+                    value: 1
+                });
+            break;
+            case "兼职":
+                this.setState({
+                    value: 2
+                });
+            break;
+             case "实习":
+                this.setState({
+                    value: 3
+                });
+            break;
+            default:
+                this.setState({
+                    value: 1
+                });
+        }
         this.setState({
             positionname, // 职位名称
             salary, // 薪资待遇
@@ -371,7 +393,8 @@ export default class BaseinfoComponent extends Component {
             errorJobType,
             errorresponsibility,
             errorqualification,
-            error
+            error,
+            value
         } = this.state;
         const{isdisabled}=this.props;
         return (
@@ -524,7 +547,7 @@ export default class BaseinfoComponent extends Component {
                             <span>工作类型：</span>
                             <RadioGroup ref="workstyleradio" 
                                 onChange={this.handleRadio} 
-                                value={this.state.value}
+                                value={value}
                                 disabled={isdisabled}>
                                 <Radio value={1}>全职</Radio>
                                 <Radio value={2}>兼职</Radio>

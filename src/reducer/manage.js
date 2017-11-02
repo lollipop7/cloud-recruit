@@ -46,6 +46,7 @@ import {
     HIDE_IMAGE_MODAL,
     CANCELIMAGEURL,
     HIDECREDITINVESTGATIONSTATE,
+    CANCELLOADING,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -142,6 +143,7 @@ const initialState = {
     creditInfoData:{},
     isFill:false,
     attactmentType:{},
+    searchLoading:false,
     
     //**档案管理 ------------------------------------------------*/
     archivesList:{
@@ -345,6 +347,8 @@ export default function manage(state=initialState,actions){
             return {...state,arrangeDepartment:actions.arrangeDepartment};
         case ARRANGE_DEPARTMENT:
             return {...state,mechanismInfo:actions.mechanismInfo};
+        case CANCELLOADING:
+            return {...state,searchLoading:false};   
         default:
             return state;
     }

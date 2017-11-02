@@ -27,7 +27,7 @@ export default class PlusAttachmentModal extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
-        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.dot|\.dotx|\.jpg|\.png)$/i,
+        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.doc|\.docx|\.jpg|\.png)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
             // 匹配文件类型
@@ -58,7 +58,6 @@ export default class PlusAttachmentModal extends Component {
 
     // 文件移除
     onFileRemove = file => {
-        // 文件移除
         const {response} = file;
         this.props.removeUploadFIle(response.filePath);
         if(this.state.error){
@@ -127,6 +126,7 @@ export default class PlusAttachmentModal extends Component {
     
 
     render() {
+        const fileArr = [] , fileOppositeArr = [];
         const {
             attactmentModal,
             hideAttachmentModal,
@@ -148,6 +148,18 @@ export default class PlusAttachmentModal extends Component {
             tokenKey,
             token
         } = this.state;
+        const matchName = /(\.jpg|\.png)$/i;
+        // 匹配文件类型
+        if(fileList.length!=0 && fileList && fileList[0].response && fileList[0].response.filePath){
+            if(!matchName.test(fileList[0].response.filePath)){
+                fileArr.push("file")
+            }
+        }
+        if(fileListOpposite.length!=0 && fileListOpposite && fileListOpposite[0].response && fileListOpposite[0].response.filePath){
+            if(!matchName.test(fileListOpposite[0].response.filePath)){
+                fileOppositeArr.push("file")
+            }
+        }
       return (
         <Modal
             title={`添加${name}`}
@@ -179,7 +191,10 @@ export default class PlusAttachmentModal extends Component {
                                         />
                                         <p>{name}正面</p>
                                     </div>
-                                :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`} /> 
+                                :
+                                    fileArr.length==0?<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`}/>
+                                    :
+                                    <img alt="example" style={{ width: '188px',height:'148px' }} src="/static/images/manager/clerk/fjcl.png"/>
                             }
                                      
                             </Dragger>
@@ -210,7 +225,11 @@ export default class PlusAttachmentModal extends Component {
                                         />
                                         <p>{name}反面</p>
                                     </div>
-                                :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileListOpposite && fileListOpposite[0].response && fileListOpposite[0].response.filePath}`} /> 
+                                : 
+                                    fileOppositeArr.length==0?<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileListOpposite && fileListOpposite[0].response && fileListOpposite[0].response.filePath}`}/> 
+                                :
+                                    <img alt="example" style={{ width: '188px',height:'148px' }} src="/static/images/manager/clerk/fjcl.png"/>
+
                             }
                             </Dragger>
                         </div>
@@ -236,7 +255,10 @@ export default class PlusAttachmentModal extends Component {
                                     />
                                     <p>{name}</p>
                                 </div>
-                            :<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`} /> 
+                            :
+                                fileArr.length==0?<img alt="example" style={{ width: '188px',height:'148px' }} src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${fileList && fileList[0].response && fileList[0].response.filePath}`}/>
+                                :
+                                <img alt="example" style={{ width: '188px',height:'148px' }} src="/static/images/manager/clerk/fjcl.png"/>
                         }
                         </Dragger>
                     </div>

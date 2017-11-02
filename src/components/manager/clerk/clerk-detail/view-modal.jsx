@@ -25,15 +25,14 @@ class ViewModal extends Component {
     deleteImage = (value) =>{
         const{imageUrl,hideImageModal,DeleteMaterial} = this.props;
         confirm({
-            content: <h2>确定要删除附件材料吗?</h2>,
+            content: <h2>确定要删除吗?</h2>,
             okText: '删除',
             okType: "danger",
             cancelText: '取消',
             maskClosable:true,
             style:{top:300},
             onOk:()=> {
-                //hideImageModal();
-                DeleteMaterial({id:value.id+''},this.props,value,imageUrl) 
+                DeleteMaterial({id:value.id+''},this.props,value) 
             }
         });
         
@@ -55,7 +54,8 @@ class ViewModal extends Component {
             queryEmployeeList,
             attactmentType
         } = this.props;
-        const {isLoading} = queryEmployeeList;
+        const {isLoading, list} = queryEmployeeList;
+        const {listAll} = list;
         const{
             parmentType,
             type,
@@ -66,12 +66,14 @@ class ViewModal extends Component {
             token,
         } = this.state;
         const imageUrl = [];
-        for(let i=0;i<queryEmployeeList.list.listAll.length;i++){
-            if(queryEmployeeList.list.listAll[i].type==parmentType){
-                for(let j=0;j<queryEmployeeList.list.listAll[i].list.length;j++){
-                    if(queryEmployeeList.list.listAll[i].list[j].type==type){
-                        for(let k=0;k<queryEmployeeList.list.listAll[i].list[j].attachment_type.length;k++){
-                            imageUrl.push(queryEmployeeList.list.listAll[i].list[j].attachment_type[k])
+        if(Array.isArray(listAll)){
+            for(let i=0;i<listAll.length;i++){
+                if(listAll[i].type==parmentType){
+                    for(let j=0;j<listAll[i].list.length;j++){
+                        if(listAll[i].list[j].type==type){
+                            for(let k=0;k<listAll[i].list[j].attachment_type.length;k++){
+                                imageUrl.push(listAll[i].list[j].attachment_type[k])
+                            }
                         }
                     }
                 }
@@ -92,20 +94,25 @@ class ViewModal extends Component {
                     left:'46%',
                     height: '10%',
                     width: '10%',
-                    //backgroundColor: '#FFF',
                     zIndex: 2
                 }} />
             }
-            <div style={{width:500,height:500,margin:'0 auto'}}>
+            <div style={{width:500,height:500,margin:'0 auto', overflow:'auto'}}>
                 {imageUrl.length==0?<h1 style={{color:'#cccccc',textAlign:'center',width:'100%',marginTop:100}}>暂无附件预览</h1>:
                     imageUrl.map((item,index)=>{
                         return (item.filenameExt!='jpg' && item.filenameExt!='png')?
                                 <div
-                                    style={{width:"25%",height:"25%",margin:'12px',float:'left',textAlign:'center'}}
+                                    style={{
+                                        width:"25%",
+                                        height:"25%",
+                                        margin:20,
+                                        float:'left',
+                                        textAlign:'center'
+                                        }}
                                 >
                                     <img 
                                         alt="材料附件" 
-                                        style={{ width: '100%',height:'100%'}} 
+                                        style={{ width: '80%',height:'80%',display:'block'}} 
                                         src="/static/images/manager/clerk/fjcl.png" />
                                     <a 
                                         onClick={this.downloadAttachment.bind(this,item.filename)}
@@ -126,7 +133,7 @@ class ViewModal extends Component {
                                 >
                                     <img 
                                         alt="材料附件" 
-                                        style={{ width: '100%',height:'100%'}} 
+                                        style={{ width: '80%',height:'80%',display:'block'}} 
                                         src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
                                     <a 
                                         onClick={this.deleteImage.bind(this,item)}

@@ -380,8 +380,7 @@ export default class BaseinfoComponent extends Component {
         return dangersouslySetInnerHtml = {rawHtml};
     }
 
-    componentWillReceiveProps(){
-        setTimeout(()=>{
+    componentWillReceiveProps(nextProps){
              const {
                 positionname,           // 职位名称
                 salary,                 // 薪资待遇
@@ -396,7 +395,29 @@ export default class BaseinfoComponent extends Component {
                 jobtype,                //工作类型
                 responsibility,         //工作职责
                 qualification,          //任职资格
-            } = this.props.data;
+            } = nextProps.data;
+            switch(jobtype)
+            {
+                case "全职":
+                    this.setState({
+                        value: 1
+                    });
+                break;
+                case "兼职":
+                    this.setState({
+                        value: 2
+                    });
+                break;
+                case "实习":
+                    this.setState({
+                        value: 3
+                    });
+                break;
+                default:
+                    this.setState({
+                        value: 1
+                    });
+            }
             
             this.setState({
                 positionname,           // 职位名称
@@ -412,9 +433,7 @@ export default class BaseinfoComponent extends Component {
                 jobtype,                //工作类型
                 responsibility,         //工作职责
                 qualification,          //任职资格
-                })
-          
-        })
+            })
     }
 
     render() {
@@ -436,7 +455,7 @@ export default class BaseinfoComponent extends Component {
             errorresponsibility,
             errorqualification,
             error,
-            value=1
+            value
         } = this.state;
         return (
             <li className="base-info">

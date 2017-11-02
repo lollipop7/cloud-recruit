@@ -412,13 +412,7 @@
                     }
                 }
             }
-            &:last-child {
-                .inline-block{
-                    &>span:before {
-                        content: '';    
-                    }
-                }
-            }
+            
         }
         .hint-field {
             position: relative;
@@ -776,6 +770,10 @@
         }
     }
 }
+.add-attactment:hover .upLoadView{
+    opacity: 1;
+}
+ 
 .attachment-wrap {
     .add-attactment {
         .ant-upload.ant-upload-drag {
@@ -807,8 +805,8 @@
         .viewMaterial{
             img:hover{
                 position: absolute;
-                top:75.4%;
-                left:66.6%;
+                top:82%;
+                left:78%;
                 margin-top: -400px;
                 margin-left: -400px;
                 width: 800px;

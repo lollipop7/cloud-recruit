@@ -64,6 +64,11 @@ export default class TableComponent extends Component{
             [field]:e.target.value
         })
     }
+    handleSelect =(field,value)=> {
+        this.setState({
+            [field]:value
+        })
+    }
     //表格列渲染 
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
@@ -296,7 +301,7 @@ export default class TableComponent extends Component{
                                 <Select
                                     placeholder='请选择证件类型'
                                     value={documenttype}
-                                    onChange={this.handleSelectChange.bind(this,'documenttype')}
+                                    onChange={this.handleSelect.bind(this,'documenttype')}
                                 >
                                     {
                                         [

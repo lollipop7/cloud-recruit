@@ -54,22 +54,20 @@ export default class OtherInfoComponent extends Component {
         }
         return {...this.state}
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-             const {
+    componentWillReceiveProps(nextProps){
+            const {
                 urgent,//是否紧急
                 intelligent,//是否智能匹配
                 starttime,//开始时间
                 endtime,//结束时间
-            } = this.props.data;
+            } = nextProps.data;
             this.setState({
-                isurgent:urgent==undefined?false:urgent,//是否紧急
-                isintelligent:intelligent==undefined?false:intelligent,//是否智能匹配
+                isurgent:!urgent?false:urgent,//是否紧急
+                isintelligent:!intelligent?false:intelligent,//是否智能匹配
                 starttime:starttime?moment(starttime).format("YYYY-MM-DD 00:00:00"):"",//开始时间
                 endtime:endtime?moment(endtime).format("YYYY-MM-DD 00:00:00"):"",//结束时间
           
             })
-        })
     };
 
     render() {
