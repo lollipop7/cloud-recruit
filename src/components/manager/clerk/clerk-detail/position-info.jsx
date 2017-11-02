@@ -42,6 +42,11 @@ export default class PositionInfo extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        if(nextProps.data.rid){
+            this.setState({
+                isLoading:false
+            })
+        }
         if(!isEmpty(nextProps.data)){
             const dateFormat = 'YYYY-MM-DD';
             const {getTreeList,departmentList} = nextProps;
@@ -78,7 +83,7 @@ export default class PositionInfo extends Component {
                 cemail,                 //企业邮箱
                 contactname,            //紧急联系人
                 inthetime: moment(inthetime).format('YYYY-MM-DD'),              //入职时间
-                positivedate: moment(positivedate).format('YYYY-MM-DD'),           //转正时间
+                positivedate: moment(positivedate).format('YYYY-MM-DD'),        //转正时间
                 theleng,
                 expdate,
                 workstatus,
@@ -352,7 +357,7 @@ export default class PositionInfo extends Component {
             list
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
-        const {isLoading=true} = this.state;
+        const {isLoading} = this.state;
         return (
             <div className="position-info clerk-tab-container">
                  {isLoading && 

@@ -146,18 +146,18 @@ export default class CreditFillComponent extends Component {
          const {creditData}=this.props;
          return(
              <li>
-                 {isLoading && 
-                    <LoadingComponent style={{
-                        position: 'absolute',
-                        top: 200,
-                        left:'46%',
-                        height: '30%',
-                        width: '10%',
-                        zIndex: 2
-                    }} />
-                }
                  <div className="fill-field" style={{paddingLeft: 82}}>
                      <div className="inline-block">
+                        {isLoading && 
+                            <LoadingComponent style={{
+                                position: 'absolute',
+                                top: 100,
+                                left:'25%',
+                                height: '30%',
+                                width: '10%',
+                                zIndex: 2
+                            }} />
+                        }
                          <ul>
                              <li>
                                 <ErrorInputComponent

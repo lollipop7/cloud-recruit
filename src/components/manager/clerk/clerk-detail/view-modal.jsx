@@ -32,7 +32,7 @@ class ViewModal extends Component {
             maskClosable:true,
             style:{top:300},
             onOk:()=> {
-                DeleteMaterial({id:value.id+''},this.props,value,imageUrl) 
+                DeleteMaterial({id:value.id+''},this.props,value) 
             }
         });
         
@@ -66,12 +66,14 @@ class ViewModal extends Component {
             token,
         } = this.state;
         const imageUrl = [];
-        for(let i=0;i<listAll.length;i++){
-            if(listAll[i].type==parmentType){
-                for(let j=0;j<listAll[i].list.length;j++){
-                    if(listAll[i].list[j].type==type){
-                        for(let k=0;k<listAll[i].list[j].attachment_type.length;k++){
-                            imageUrl.push(listAll[i].list[j].attachment_type[k])
+        if(Array.isArray(listAll)){
+            for(let i=0;i<listAll.length;i++){
+                if(listAll[i].type==parmentType){
+                    for(let j=0;j<listAll[i].list.length;j++){
+                        if(listAll[i].list[j].type==type){
+                            for(let k=0;k<listAll[i].list[j].attachment_type.length;k++){
+                                imageUrl.push(listAll[i].list[j].attachment_type[k])
+                            }
                         }
                     }
                 }
@@ -95,16 +97,22 @@ class ViewModal extends Component {
                     zIndex: 2
                 }} />
             }
-            <div style={{width:500,height:500,margin:'0 auto'}}>
+            <div style={{width:500,height:500,margin:'0 auto', overflow:'auto'}}>
                 {imageUrl.length==0?<h1 style={{color:'#cccccc',textAlign:'center',width:'100%',marginTop:100}}>暂无附件预览</h1>:
                     imageUrl.map((item,index)=>{
                         return (item.filenameExt!='jpg' && item.filenameExt!='png')?
                                 <div
-                                    style={{width:"25%",height:"25%",margin:'12px',float:'left',textAlign:'center'}}
+                                    style={{
+                                        width:"25%",
+                                        height:"25%",
+                                        margin:20,
+                                        float:'left',
+                                        textAlign:'center'
+                                        }}
                                 >
                                     <img 
                                         alt="材料附件" 
-                                        style={{ width: '100%',height:'100%'}} 
+                                        style={{ width: '80%',height:'80%',display:'block'}} 
                                         src="/static/images/manager/clerk/fjcl.png" />
                                     <a 
                                         onClick={this.downloadAttachment.bind(this,item.filename)}
@@ -125,7 +133,7 @@ class ViewModal extends Component {
                                 >
                                     <img 
                                         alt="材料附件" 
-                                        style={{ width: '100%',height:'100%'}} 
+                                        style={{ width: '80%',height:'80%',display:'block'}} 
                                         src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
                                     <a 
                                         onClick={this.deleteImage.bind(this,item)}

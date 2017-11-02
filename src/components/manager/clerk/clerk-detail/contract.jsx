@@ -200,7 +200,6 @@ class Contract extends Component {
             endOpen,
             isLoading,
         } = this.state;
-        console.log(attachment_type_con)
         return (
             <div className="contract clerk-tab-container">
                 {isLoading && 

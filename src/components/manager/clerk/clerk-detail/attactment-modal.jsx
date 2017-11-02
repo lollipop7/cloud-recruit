@@ -58,7 +58,6 @@ export default class PlusAttachmentModal extends Component {
 
     // 文件移除
     onFileRemove = file => {
-        // 文件移除
         const {response} = file;
         this.props.removeUploadFIle(response.filePath);
         if(this.state.error){
