@@ -31,6 +31,8 @@ import isNumber from 'lodash/isNumber';
     const SET_RESETFORM_TRUE = {type:types.SET_RESETFORM_TRUE};
     const SET_RESETFORM_FALSE = {type:types.SET_RESETFORM_FALSE};
 
+    //1.61 员工导入模板下载
+
     //导出员工信息
     const EXPORT_CLERK_START = {type: types.EXPORT_CLERK_START};
     const EXPORT_CLERK_DONE = {type: types.EXPORT_CLERK_DONE};
@@ -134,38 +136,6 @@ import isNumber from 'lodash/isNumber';
         })
     }
 
-    //导出员工信息
-    // export const exportEmployees = (data) => (dispatch,getState) => {
-    //     console.log(data);
-    //     dispatch(EXPORT_CLERK_START);
-    //     const token = store.get('token');
-    //     axios({
-    //         url: `${prefixUri}/employeeinfo/exportEmployees`,
-    //         method: 'post',
-    //         data: {
-    //             ...{data: {
-    //                 ...data,
-    //                 ...token
-    //             }},
-    //             ...{head:{
-    //                 type:'h',
-    //                 transcode: 'L0046'
-    //             }}
-    //         },
-    //         headers: {
-    //             contentType: 'multipart/form-data'
-    //         }
-    //     })
-    //     .then(res=>{
-    //         console.log(res);
-    //         dispatch(EXPORT_CLERK_DONE);
-    //         dispatch({...EXPORT_CLERK_LIST});
-    //     },err=>{
-    //         console.log(err);
-    //         dispatch(EXPORT_CLERK_DONE);
-    //     });
-    // }
-
     //开始导出员工信息
     export const startExportEmployees = (data) => (dispatch,getState) => {
         NProgress.start();
@@ -199,7 +169,6 @@ import isNumber from 'lodash/isNumber';
             //重新获取头部导航数据
             getCrewStatis();
         },err=>{
-            console.log(err);
             dispatch(DELETE_EMPLOYEE_DONE);
         });
     }
@@ -247,6 +216,7 @@ import isNumber from 'lodash/isNumber';
             dispatch(SET_RESETFORM_TRUE);
             dispatch(HIDE_UPLOAD_CLERK_MODAL);
         },err=>{
+            console.log(err)
             dispatch(UPLOAD_CLERK_DONE);
         });
     }
@@ -456,7 +426,7 @@ import isNumber from 'lodash/isNumber';
         });
     }
     //删除材料附件
-    export const DeleteMaterial = (data,props,value,imageUrl) => (dispatch,getState) => {
+    export const DeleteMaterial = (data,props,value) => (dispatch,getState) => {
         AjaxByToken('emp/dataDel_employees', {
             head: {
                 transcode: 'L0055'
@@ -470,7 +440,6 @@ import isNumber from 'lodash/isNumber';
                 description: '材料附件删除成功！'
             });
             queryEmployee({rid:value.rid+''});
-            //viewUploadAttachment(imageUrl)
         },err=>{
             console.log(err);
         })
@@ -498,7 +467,6 @@ import isNumber from 'lodash/isNumber';
             data: data
         })
         .then(res=>{
-            //console.log(res)
             NProgress.start();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
             showcredit()

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-
-import clerkInfo from 'data/clerk/clerk';
+import ClerkInfo from 'data/clerk/clerk';
 import moment from 'moment';
 
 import {Input , Button ,Select ,DatePicker} from 'antd';
 import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
+
 import LoadingComponent from 'components/loading';
 import nation from 'data/select/nation.json';
 import education from 'data/select/education.json';
@@ -19,7 +20,7 @@ export default class PersonalInfo extends Component {
         isEdudisabled:true,
     }
     componentWillReceiveProps(nextProps){
-        if(nextProps.data){
+        if(!isEmpty(nextProps.data)){
             const {
                 name,                   //姓名
                 documenttype,           //证件类型
@@ -145,7 +146,7 @@ export default class PersonalInfo extends Component {
             this.setState({
                 [field]:value
             })
-        } 
+        }
     }
     handleChange = (field,e)=>{
         this.setState({
@@ -172,7 +173,6 @@ export default class PersonalInfo extends Component {
                 isEdudisabled:false
             })
         }
-        
     }
     saveInfomation = (field) => {
         const { birthday } = this.state;
@@ -205,9 +205,9 @@ export default class PersonalInfo extends Component {
                 eduBorderState:"1px solid transparent",
                 isEdudisabled:true,
             })
-        }  
+        }
     }
-    
+
     render() {
         const {
             name,                   //姓名
@@ -230,20 +230,20 @@ export default class PersonalInfo extends Component {
             professional,           //专业
             degree,                 //学位
             school,                 //毕业学校
-            schendtime,                //毕业时间
+            schendtime,             //毕业时间
             recruitment,            //是否统招
-            btnState , 
-            borderState , 
+            btnState ,
+            borderState ,
             isdisabled,
             eduBtnState,
             eduBorderState,
             isEdudisabled ,
-            isLoading =true 
+            isLoading =true
         } = this.state;
         const dateFormat = 'YYYY-MM-DD';
         return (
             <div className="personal-info clerk-tab-container" ref="PersonalInfoHeight">
-                {isLoading && 
+                {isLoading &&
                     <LoadingComponent style={{
                         position: 'absolute',
                         top: 60,
@@ -261,9 +261,9 @@ export default class PersonalInfo extends Component {
                             <h3 className="title">
                                 基本信息
                             </h3>
-                            <div className="editor-wrap inline-block">   
+                            <div className="editor-wrap inline-block">
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
-                                <span 
+                                <span
                                     onClick = {this.editInformation.bind(this,'baseInformation')}
                                 >
                                     编辑
@@ -277,6 +277,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={name}
                                             disabled={isdisabled}
+                                            placeholder="请输入姓名"
                                             onChange={this.handleChange.bind(this,'name')}
                                         />
                                     </span>
@@ -288,6 +289,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={documenttype}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'documenttype')}
                                         >
                                             {
@@ -295,14 +297,8 @@ export default class PersonalInfo extends Component {
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={documenttype}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'documenttype')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -312,6 +308,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={mobile}
                                             disabled={isdisabled}
+                                            placeholder="请输入手机号"
                                             onChange={this.handleChange.bind(this,'mobile')}
                                         />
                                     </span>
@@ -321,7 +318,7 @@ export default class PersonalInfo extends Component {
                                     <span>
                                         {/* <DatePicker
                                             disabled={isdisabled}
-                                            value={birthday?moment(moment(birthday), dateFormat):''} 
+                                            value={birthday?moment(moment(birthday), dateFormat):''}
                                             format={dateFormat}
                                             allowClear={false}
                                             onChange={this.onChange.bind(this,'birthday')}
@@ -330,6 +327,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={birthday}
                                             disabled={isdisabled}
+                                            placeholder="请输入出生日期"
                                             onChange={this.handleChange.bind(this,'birthday')}
                                         />
                                     </span>
@@ -341,17 +339,12 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={married}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'married')}
                                         >
                                             <Option value="已婚">已婚</Option>
                                             <Option value="未婚">未婚</Option>
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={married}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'married')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -361,6 +354,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={national}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'national')}
                                         >
                                             {
@@ -368,14 +362,8 @@ export default class PersonalInfo extends Component {
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={national}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'national')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -385,6 +373,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={natives}
                                             disabled={isdisabled}
+                                            placeholder="请输入籍贯"
                                             onChange={this.handleChange.bind(this,'natives')}
                                         />
                                     </span>
@@ -396,6 +385,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={accounttype}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'accounttype')}
                                         >
                                             {
@@ -403,14 +393,8 @@ export default class PersonalInfo extends Component {
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={accounttype}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'accounttype')}
-                                        /> */}
                                     </span>
                                 </li>
                             </ul>
@@ -422,6 +406,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={englishname}
                                             disabled={isdisabled}
+                                            placeholder="请输入英文名"
                                             onChange={this.handleChange.bind(this,'englishname')}
                                         />
                                     </span>
@@ -433,6 +418,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={card}
                                             disabled={isdisabled}
+                                            placeholder="请输入证件号"
                                             onChange={this.handleChange.bind(this,'card')}
                                         />
                                     </span>
@@ -444,6 +430,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={workemail}
                                             disabled={isdisabled}
+                                            placeholder="请输入个人邮箱"
                                             onChange={this.handleChange.bind(this,'workemail')}
                                         />
                                     </span>
@@ -455,6 +442,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={sex}
+                                            placeholder="请选择性别"
                                             onChange={this.handleSelectChange.bind(this,'sex')}
                                         >
                                             {
@@ -463,12 +451,6 @@ export default class PersonalInfo extends Component {
                                                 })
                                             }
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={sex}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'sex')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -478,6 +460,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={children}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'children')}
                                         >
                                             {
@@ -486,12 +469,6 @@ export default class PersonalInfo extends Component {
                                                 })
                                             }
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={children}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'children')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -501,6 +478,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150 ,color:'#868686'}}
                                             disabled={isdisabled}
                                             value={political}
+                                            placeholder="请选择政治面貌"
                                             onChange={this.handleSelectChange.bind(this,'political')}
                                         >
                                             {
@@ -509,12 +487,6 @@ export default class PersonalInfo extends Component {
                                                 })
                                             }
                                         </Select>
-                                        {/* <Input
-                                            style={{border:borderState}}
-                                            value={political}
-                                            disabled={isdisabled}
-                                            onChange={this.handleSelectChange.bind(this,'political')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -524,6 +496,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={city}
                                             disabled={isdisabled}
+                                            placeholder="请输入户籍城市"
                                             onChange={this.handleChange.bind(this,'city')}
                                         />
                                     </span>
@@ -535,20 +508,21 @@ export default class PersonalInfo extends Component {
                                             //style={{border:borderState}}
                                             value={tolive}
                                             disabled={isdisabled}
+                                            placeholder="请输入居住地址"
                                             onChange={this.handleChange.bind(this,'tolive')}
                                         />
                                     </span>
                                 </li>
                             </ul>
                             <div style={{position:'absolute',bottom:20,left:'45%'}}>
-                                <Button 
-                                    type='primary' 
+                                <Button
+                                    type='primary'
                                     style={{display:btnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'btnState')}
                                     >
                                     保存
                                  </Button>
-                                 <Button  
+                                 <Button
                                     style={{display:btnState}}
                                     onClick={this.handleSelectChange.bind(this,'cancelBtnState')}
                                     >
@@ -563,7 +537,7 @@ export default class PersonalInfo extends Component {
                             <h3 className="title">
                                 教育经历
                             </h3>
-                            <div className="editor-wrap inline-block">   
+                            <div className="editor-wrap inline-block">
                                 <img src="/static/images/manager/clerk/edit.png" alt="编辑"/>
                                 <span onClick={this.editInformation.bind(this,'eduInformation')}>编辑</span>
                             </div>
@@ -575,6 +549,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686'}}
                                             disabled={isEdudisabled}
                                             value={schooling}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'schooling')}
                                         >
                                             {
@@ -582,14 +557,8 @@ export default class PersonalInfo extends Component {
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:eduBorderState}}
-                                            value={schooling}
-                                            disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'schooling')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -599,6 +568,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:eduBorderState}}
                                             value={professional}
                                             disabled={isEdudisabled}
+                                            placeholder="请输入专业"
                                             onChange={this.handleChange.bind(this,'professional')}
                                         />
                                     </span>
@@ -610,24 +580,19 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686' }}
                                             disabled={isEdudisabled}
                                             value={degree}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'degree')}
                                         >
                                             {
-                                                ["学士学位","硕士学位","博士学位"].map((item)=>{
+                                                ["学士","硕士","博士"].map((item)=>{
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:eduBorderState}}
-                                            value={degree}
-                                            disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'degree')}
-                                        /> */}
                                     </span>
                                 </li>
-                            </ul>  
+                            </ul>
                             <ul className="field-list inline-block">
                                 <li>
                                     <span>毕业学校 : </span>
@@ -636,6 +601,7 @@ export default class PersonalInfo extends Component {
                                             //style={{border:eduBorderState}}
                                             value={school}
                                             disabled={isEdudisabled}
+                                            placeholder="请输入毕业学校"
                                             onChange={this.handleChange.bind(this,'school')}
                                         />
                                     </span>
@@ -645,17 +611,11 @@ export default class PersonalInfo extends Component {
                                     <span>
                                         <DatePicker
                                             disabled={isEdudisabled}
-                                            value={schendtime?moment(moment(schendtime), dateFormat):''} 
+                                            value={schendtime?moment(moment(schendtime), dateFormat):''}
                                             format={dateFormat}
                                             allowClear={false}
                                             onChange={this.onTimeChange.bind(this,'schendtime')}
                                         />
-                                        {/* <Input
-                                            style={{border:eduBorderState}}
-                                            value={schendtime}
-                                            disabled={isEdudisabled}
-                                            onChange={this.handleChange.bind(this,'schendtime')}
-                                        /> */}
                                     </span>
                                 </li>
                                 <li>
@@ -665,6 +625,7 @@ export default class PersonalInfo extends Component {
                                             style={{ width: 150,color:'#868686' }}
                                             disabled={isEdudisabled}
                                             value={recruitment}
+                                            placeholder="请选择"
                                             onChange={this.handleSelectChange.bind(this,'recruitment')}
                                         >
                                             {
@@ -672,26 +633,20 @@ export default class PersonalInfo extends Component {
                                                     return  <Option value={item}>{item}</Option>
                                                 })
                                             }
-                                           
+
                                         </Select>
-                                        {/* <Input
-                                            style={{border:eduBorderState}}
-                                            value={recruitment}
-                                            disabled={isEdudisabled}
-                                            onChange={this.handleSelectChange.bind(this,'recruitment')}
-                                        /> */}
                                     </span>
                                 </li>
                             </ul>
                             <div style={{position:'absolute',bottom:20,left:'45%'}}>
-                                <Button 
-                                    type='primary' 
+                                <Button
+                                    type='primary'
                                     style={{display:eduBtnState,float:'left',marginRight:20}}
                                     onClick={this.saveInfomation.bind(this,'eduBtnState')}
                                     >
                                     保存
                                  </Button>
-                                 <Button  
+                                 <Button
                                     style={{display:eduBtnState}}
                                     onClick={this.handleSelectChange.bind(this,'cancelTimeBtnState')}
                                     >
