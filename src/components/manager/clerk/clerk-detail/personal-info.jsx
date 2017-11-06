@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import {Input , Button ,Select ,DatePicker} from 'antd';
 import pickBy from 'lodash/pickBy';
+import isEmpty from 'lodash/isEmpty';
+
 import LoadingComponent from 'components/loading';
 import nation from 'data/select/nation.json';
 import education from 'data/select/education.json';
@@ -18,7 +20,7 @@ export default class PersonalInfo extends Component {
         isEdudisabled:true,
     }
     componentWillReceiveProps(nextProps){
-        if(nextProps.data){
+        if(!isEmpty(nextProps.data)){
             const {
                 name,                   //姓名
                 documenttype,           //证件类型

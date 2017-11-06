@@ -211,6 +211,7 @@ class Contract extends Component {
                         backgroundColor: '#FFF',
                         zIndex: 2
                     }} />
+                    
                 }
                 <ul>
                     <li className="clerk-list-item"

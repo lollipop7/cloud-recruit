@@ -12,9 +12,9 @@ import { Modal, Select } from 'antd';
 const Option = Select.Option;
 
 class OrganizeChart extends Component {
-//   state = { 
-//     isLoading:true
-//   }
+  state = { 
+    isLoading:true
+  }
   componentDidMount(){
     // 获取数据
     this.props.getOrganizeChart();
@@ -24,6 +24,7 @@ class OrganizeChart extends Component {
   }
   componentWillUpdate(nextProps,nextState) {
     const {organize:{organizeList}} = nextProps;
+    const zhis = this;
     if(nextProps !== this.props){
         var newOrg = JSON.parse(JSON.stringify(organizeList).replace(/list/g, "childrens"))
         var result = {
@@ -37,6 +38,7 @@ class OrganizeChart extends Component {
                 chartElement : '#jOrgChart',//指定在某个dom生成jorgchart
                 dragAndDrop : false //设置是否可拖动
             });
+            zhis.setState({isLoading:false})
         }
         dd(result);
         function showall(menu_list, parent) {
@@ -71,20 +73,16 @@ class OrganizeChart extends Component {
 }
   
 render() {
-    const { organize:{ isLoading } } = this.props;
+    // const { organize:{ isLoading } } = this.props;
+    const { isLoading } = this.state;
+    console.log(isLoading)
     return (
         <div>
             {isLoading &&
-                <div style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    zIndex: 1
-                }}>
+                <div>
                     <LoadingComponent style={{
-                        position: 'absolute',
                         width: '100%',
-                        backgroundColor: '#FFF'
+                        backgroundColor: '#FFF',
                     }} />
                 </div>
             }

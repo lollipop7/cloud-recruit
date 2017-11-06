@@ -245,7 +245,7 @@ class LeftTreePage extends Component {
               </div>
               <div className={type=='tool'?'department2':'department2 hide'}>
                 <span className='name'>选择下属部门：</span>
-                <Select allowClear={true} mode="tags" style={{ width: '100%' }} placeholder="" onChange={this.handleChange3} >
+                <Select value = { needArr } allowClear={true} mode="tags" style={{ width: '100%' }} placeholder="" onChange={this.handleChange3} >
                   {
                     arrangeDepartment && arrangeDepartment.map((item,index)=>{
                       if(item.mechanism == "0" ||item.mechanism == uid ){
