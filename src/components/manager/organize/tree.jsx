@@ -139,9 +139,9 @@ class LeftTreePage extends Component {
   render() {
     const {title, name, sup_id,type, title2, departmentName, name2} = this.state;
     const { departmentList:{list,isLoading}, departmentInfo } = this.props;
-    const {token,tokenKey} = store.get('token') || {};
-    console.log(tokenKey)
-    console.log(token)
+    // const {token,tokenKey} = store.get('token') || {};
+    // console.log(tokenKey)
+    // console.log(token)
     if(departmentInfo == 'success'){
       this.afterSuccess()
       this.setState({departmentName:''});
