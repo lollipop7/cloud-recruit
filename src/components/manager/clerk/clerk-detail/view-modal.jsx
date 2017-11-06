@@ -19,7 +19,7 @@ class ViewModal extends Component {
         this.props.queryEmployee({rid:rid});
         const {token,tokenKey} = store.get('token') || {};
         this.setState({tokenKey, token})
-        
+
     }
     //删除图片
     deleteImage = (value) =>{
@@ -32,10 +32,10 @@ class ViewModal extends Component {
             maskClosable:true,
             style:{top:300},
             onOk:()=> {
-                DeleteMaterial({id:value.id+''},this.props,value) 
+                DeleteMaterial({id:value.id+''},this.props,value)
             }
         });
-        
+
     }
     //下载附件材料
     downloadAttachment = (name) => {
@@ -43,13 +43,13 @@ class ViewModal extends Component {
     }
     hideImageModal = () =>{
         this.props.hideImageModal();//隐藏预览框
-        //this.props.cancelImageUrl();//清空图片地址
+        this.props.cancelImageUrl();//清空图片地址
     }
 
 
     render(){
         const {
-            showImageModal, 
+            showImageModal,
             hideImageModal,
             queryEmployeeList,
             attactmentType
@@ -87,7 +87,7 @@ class ViewModal extends Component {
                 onCancel={this.hideImageModal}
                 wrapClassName='viewMaterialModal'
             >
-            {isLoading && 
+            {isLoading &&
                 <LoadingComponent style={{
                     position: 'absolute',
                     top: 200,
@@ -110,17 +110,17 @@ class ViewModal extends Component {
                                         textAlign:'center'
                                         }}
                                 >
-                                    <img 
-                                        alt="材料附件" 
-                                        style={{ width: '80%',height:'80%',display:'block'}} 
+                                    <img
+                                        alt="材料附件"
+                                        style={{ width: '80%',height:'80%',display:'block'}}
                                         src="/static/images/manager/clerk/fjcl.png" />
-                                    <a 
+                                    <a
                                         onClick={this.downloadAttachment.bind(this,item.filename)}
                                         style={{textAlign:'center',fontSize:'18'}}
                                     >
                                         下载
                                     </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a 
+                                    <a
                                         onClick={this.deleteImage.bind(this,item)}
                                         style={{textAlign:'center',fontSize:'18'}}
                                     >
@@ -128,25 +128,25 @@ class ViewModal extends Component {
                                     </a>
                                 </div>
                                 :
-                                <div 
+                                <div
                                     className="viewMaterial"
                                 >
-                                    <img 
-                                        alt="材料附件" 
-                                        style={{ width: '80%',height:'80%',display:'block'}} 
+                                    <img
+                                        alt="材料附件"
+                                        style={{ width: '80%',height:'80%',display:'block'}}
                                         src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
-                                    <a 
+                                    <a
                                         onClick={this.deleteImage.bind(this,item)}
                                         style={{textAlign:'center',fontSize:'18'}}
                                     >
                                         删除
                                     </a>
                                 </div>
-                            
+
                     })
-                } 
-            </div>  
-        </Modal>      
+                }
+            </div>
+        </Modal>
         )
     }
 }

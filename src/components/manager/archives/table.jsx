@@ -25,14 +25,13 @@ export default class TableComponent extends Component{
             showPersonalMaterialModal
         } = this.props;
         showPersonalMaterialModal(record);
-        
+
     }
     hidePersonalMaterilModal = () =>{
         this.props.hidePersonalMaterialModal()
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const {personalMaterialData} = this.props;
+    componentWillReceiveProps(nextProps){
+            const {personalMaterialData} = nextProps;
             const {
                     name,
                     documenttype,
@@ -56,8 +55,6 @@ export default class TableComponent extends Component{
                 mobile:mobile,//紧急联系人电话
                 rid:rid+''
             })
-        })
-       
     }
     handleSelectChange =(field,e)=> {
         this.setState({
@@ -69,7 +66,7 @@ export default class TableComponent extends Component{
             [field]:value
         })
     }
-    //表格列渲染 
+    //表格列渲染
     getColumns = ()=> {
         const archivesTableData = this.props.archivesTableData;
         if (archivesTableData=='1'){
@@ -82,7 +79,7 @@ export default class TableComponent extends Component{
                     )
             }
             resumeColumns[1].render = (text,record,index) => {
-                return <Progress 
+                return <Progress
                             className="personnelMaterials "
                             percent={(text*100).toFixed(0)}
                             style={{color:'#f68f6b'}}
@@ -91,11 +88,11 @@ export default class TableComponent extends Component{
             resumeColumns[2].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                             type={type}
                             style={{color:color}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
+                       />
             }
             resumeColumns[3].render = (text,record,index) => {
                 return <a onClick={this.setPersonnelMaterials.bind(this,record)}>{text}</a>
@@ -103,38 +100,38 @@ export default class TableComponent extends Component{
             resumeColumns[4].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                             type={type}
                             style={{color:color}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
+                       />
             }
             resumeColumns[5].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                             type={type}
                             style={{color:color}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
+                       />
             }
             resumeColumns[6].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                             type={type}
                             style={{color:color}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
+                       />
             }
             resumeColumns[7].render = (text,record,index) => {
                 const type = text?'check-circle':'question-circle';
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                             type={type}
                             style={{color:color}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
-                       /> 
+                       />
             }
             resumeColumns[resumeColumns.length-1].render = (text,record,index) => {
                 return moment(text).format('YYYY-MM-DD')
@@ -147,11 +144,11 @@ export default class TableComponent extends Component{
                     <Link to={`/manager/clerkDetail/${rid}`} >
                         <a className='personalName'>{text}</a>
                     </Link>
-                ) 
+                )
             };
-            
+
             LeaveColumns[1].render = (text,record,index) => {
-                return <Progress 
+                return <Progress
                             className="personnelMaterials "
                             percent={(text*100).toFixed(0)}
                             style={{color:'#f68f6b'}}
@@ -160,36 +157,36 @@ export default class TableComponent extends Component{
             LeaveColumns[2].render = (text,record,index) => {
                 const type = text == '1'?'check-circle':'question-circle';
                 const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                     type={type}
                     style={{color:color}}
-                />     
+                />
             };
             LeaveColumns[3].render = (text,record,index) => {
                 const type = text == '1'?'check-circle':'question-circle';
                 const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                     type={type}
                     style={{color:color}}
-                />     
+                />
             };
             LeaveColumns[4].render = (text,record,index) => {
                 const type = text == '1'?'check-circle':'question-circle';
                 const color = text == '1'?'rgb(134, 226, 124)':'#b0b0b0';
-                return <Icon 
+                return <Icon
                     type={type}
                     style={{color:color}}
-                />     
+                />
             };
             LeaveColumns[5].render = (text,record,index) => {
                 return moment(text).format('YYYY-MM-DD')
             };
             return LeaveColumns
-        }  
+        }
     }
     //表格选择框选择
     onSelectChange = (selectedRowKeys, selectedRows) => {
-        this.props.getRid({rid:selectedRows[0].rid,name:selectedRows[0].name}); 
+        this.props.getRid({rid:selectedRows[0].rid,name:selectedRows[0].name});
         this.setState({selectedRowKeys});
     }
     //清空表格选择框
@@ -198,7 +195,7 @@ export default class TableComponent extends Component{
         if(selectedRowKeys.length === 0) return ;
         this.setState({
             selectedRowKeys:[]
-        }) 
+        })
     }
     //页码回调
     onChangPage = (page, pageSize) => {
@@ -213,7 +210,7 @@ export default class TableComponent extends Component{
     //添加、编辑员工信息
     editEmployeeInformation = () => {
         const {
-                editEmployeeInformation , 
+                editEmployeeInformation ,
                 hidePersonalMaterialModal ,
                 personalMaterialData
             } = this.props;
@@ -238,16 +235,15 @@ export default class TableComponent extends Component{
                 editEmployeeInformation({...this.state},this.props);
             }
         //隐藏Modal
-        hidePersonalMaterialModal();         
+        hidePersonalMaterialModal();
     }
 
     render(){
-        const { 
-            archivesList , 
-            leaveArchivesList , 
+        const {
+            archivesList ,
+            leaveArchivesList ,
             archivesTableData,
-            personalMaterialVisible,
-            personalMaterialData
+            personalMaterialVisible
         } = this.props;
         const {
             name,
@@ -262,7 +258,7 @@ export default class TableComponent extends Component{
             selectedRowKeys
         } = this.state;
         return (
-            <div > 
+            <div >
                 <Table
                     className='personnelMaterilTable'
                     rowSelection={{
@@ -272,7 +268,7 @@ export default class TableComponent extends Component{
                         }}
                     bordered
                     loading={archivesTableData=='1'?archivesList.isLoading:leaveArchivesList.isLoading}
-                    columns={this.getColumns()} 
+                    columns={this.getColumns()}
                     dataSource={
                         (archivesTableData=='1'?archivesList.list:leaveArchivesList.list).map((item , index)=>{
                             item.key=index;
@@ -293,7 +289,7 @@ export default class TableComponent extends Component{
                     visible={personalMaterialVisible}
                     onCancel={this.hidePersonalMaterilModal}
                     onOk={this.editEmployeeInformation}
-                > 
+                >
                     <ul className="personalMaterial">
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
@@ -311,22 +307,21 @@ export default class TableComponent extends Component{
                                             return <Option key={index} value={item}>{item}</Option>
                                         })
                                     }
-                                    
                                 </Select>
                             </div>
                             <div className="right-div">
                                 <span>证件号：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入证件号'
                                     value={card}
                                     onChange={this.handleSelectChange.bind(this,'card')}
                                 />
-                            </div>  
+                            </div>
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
                                 <span className="name">&nbsp;&nbsp;&nbsp; 居住地址：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入居住地址'
                                     value={tolive}
                                     onChange={this.handleSelectChange.bind(this,'tolive')}
@@ -334,17 +329,17 @@ export default class TableComponent extends Component{
                             </div>
                             <div className="right-div">
                                 <span>社保账号：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入社保账号'
                                     value={soci_card}
                                     onChange={this.handleSelectChange.bind(this,'soci_card')}
                                 />
-                            </div>  
+                            </div>
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
                                 <span className="name">公积金账号：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入公积金账号'
                                     value={fund_card}
                                     onChange={this.handleSelectChange.bind(this,'fund_card')}
@@ -352,17 +347,17 @@ export default class TableComponent extends Component{
                             </div>
                             <div className="right-div">
                                 <span>工资卡卡号：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入工资卡号'
                                     value={wage_card}
                                     onChange={this.handleSelectChange.bind(this,'wage_card')}
                                 />
-                            </div>  
+                            </div>
                         </li>
                         <li style={{overflow:'hidden',marginBottom:24}}>
                             <div className="left-div">
                                 <span className="name">紧急联系人：</span>
-                                <Input 
+                                <Input
                                     placeholder='请输入紧急联系人'
                                     value={contactname}
                                     onChange={this.handleSelectChange.bind(this,'contactname')}
@@ -370,14 +365,14 @@ export default class TableComponent extends Component{
                             </div>
                             <div className="right-div">
                                 <span>紧急联系人电话：</span>
-                                <Input 
+                                <Input
                                     placeholder='紧急联系人电话'
                                     value={mobile}
                                     onChange={this.handleSelectChange.bind(this,'mobile')}
                                 />
-                            </div>  
+                            </div>
                         </li>
-                    </ul>     
+                    </ul>
                 </Modal>
             </div>
         )

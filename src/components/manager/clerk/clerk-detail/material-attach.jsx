@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 
-import {Icon , Modal , notification} from 'antd';
-const confirm = Modal.confirm;
+import {Icon  , notification} from 'antd';
 import store from 'store';
 import PlusAttachmentModal from './attactment-modal';
 
 import forEach from 'lodash/forEach';
-import pickBy from 'lodash/pickBy';
 import isEmpty from 'lodash/isEmpty';
 
 import LoadingComponent from 'components/loading';
@@ -39,12 +37,7 @@ class MaterialAttach extends Component {
 
     componentWillReceiveProps(nextProps) {
       if (!isEmpty(nextProps.queryEmployeeList.list.listAll)) {
-        const {
-          basicData = [],
-          beforeData = [],
-          afterData = []
-        } = this.state;
-        nextProps.queryEmployeeList.list.listAll.forEach((value, index) => {
+        nextProps.queryEmployeeList.list.listAll.forEach((value) => {
           switch (value.type) {
             case 1 :
               this.setState({
@@ -66,7 +59,7 @@ class MaterialAttach extends Component {
       }
     }
     handleAttachmentClick = (itemData) => {
-        if(itemData.max==itemData.attachment_type.length){
+        if(itemData.attachment_type.length>=itemData.max){
             notification.warning({
                 message: '上传附件数量已达上限！'
               });
@@ -81,7 +74,7 @@ class MaterialAttach extends Component {
     };
 
     showImageModal = (parmentType,type) => {
-         const {showImageModal, viewUploadAttachment} = this.props;
+         const {showImageModal} = this.props;
         showImageModal({parmentType,type,imageVisible:true})
     };
     hideImageModal = () =>{
@@ -99,8 +92,9 @@ class MaterialAttach extends Component {
             tokenKey,
             token,
         } = this.state;
-        const { showImageModal, hideImageModal,attactmentType,queryEmployeeList} = this.props;
+        const { queryEmployeeList} = this.props;
         const { isLoading } = queryEmployeeList;
+        console.log(basicData)
         return (
             <div className="material-attach clerk-tab-container">
                 {isLoading &&
@@ -119,8 +113,8 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">基本资料</h3>
                             {
-                                basicData.map((value,index) => {
-                                    const {name,isShow,type} = value;
+                                basicData.map((value) => {
+                                    const {name,isShow} = value;
                                     return(
                                         <div key={name}
                                              className="add-attactment"
@@ -138,7 +132,7 @@ class MaterialAttach extends Component {
                                                             color: '#d2d2d2',
                                                         }}
                                                     />
-                                                    <p >{name}</p>
+                                                    <p>{name}</p>
                                                 </div> :
                                                 <div className="preview-pics">
                                                     {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
@@ -175,8 +169,8 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">档案附件</h3>
                             {
-                                beforeData.map((value,index) => {
-                                    const {name,isShow,type} = value;
+                                beforeData.map((value) => {
+                                    const {name,isShow} = value;
                                     return(
                                             <div key={name}
                                                 className="add-attactment"
@@ -230,8 +224,8 @@ class MaterialAttach extends Component {
                         <div className="info-field">
                             <h3 className="title">离职资料</h3>
                             {
-                                afterData.map((value,index) => {
-                                    const {name,isShow,type} = value;
+                                afterData.map((value) => {
+                                    const {name,isShow} = value;
                                     return(
                                         <div key={name}
                                              className="add-attactment"

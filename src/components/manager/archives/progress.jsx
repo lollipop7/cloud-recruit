@@ -62,7 +62,7 @@ export default class ProgressComponent extends Component{
                 this.setState({
                     sort:'3'
                 });
-                break; 
+                break;
             case '人员信息完整度降序':
                 this.setState({
                     sort:'4'
@@ -77,9 +77,9 @@ export default class ProgressComponent extends Component{
                 this.setState({
                     sort:'6'
                 });
-                break;    
+                break;
             default:
-                break ;  
+                break ;
             };
             setTimeout(()=>{
                 const {sort} = this.state;
@@ -108,69 +108,69 @@ export default class ProgressComponent extends Component{
                 this.setState({
                     sort:'4'
                 });
-                break;    
+                break;
             default:
-                break ;  
+                break ;
             };
             setTimeout(()=>{
                 const {sort} = this.state;
                 getLeaveArchivesList({sort:sort});
             })
-        }       
+        }
     }
 
     //下载材料附件
     downloadMaterial = () => {
         const {showProgress} = this.props;
         const ridName = this.props.ridName;
-            if (ridName.rid){ 
-                    this.props.downloadMaterial(ridName,showProgress)   
+            if (ridName.rid){
+                    this.props.downloadMaterial(ridName,showProgress)
             }else{
                 notification.warning({
                     message: '请先选择具体人员！'
                 });
-            }     
+            }
         }
 
     render() {
        const {
-           departure , 
-           info , 
-           leaveCount , 
-           material , 
+           departure ,
+           info ,
+           leaveCount ,
+           material ,
            resumeCount
         } = this.props.archivesData,
             {
-                leftStyleState , 
-                rightStyleState , 
-                leftStyleColor , 
+                leftStyleState ,
+                rightStyleState ,
+                leftStyleColor ,
                 rightStyleColor
-            } = this.state;          
+            } = this.state;
        const PercentageResume = ((parseInt(material)/parseInt(resumeCount))*100).toFixed(0);
        const PercentageLeave = ((parseInt(departure)/parseInt(leaveCount))*100).toFixed(0);
         return (
             <div>
                 <div className="archives-progress">
-                    <div 
-                        className="left-progress" 
+                    <div
+                        className="left-progress"
                         style={{borderColor:leftStyleColor}}
                         onClick={this.handleClick.bind(this,'1')}
                     >
                         <div className="left-progress-archives">
-                            <span 
+                            <span
                                 style={{
                                     display:'block',
                                     marginBottom:5,
                                     color:'#868686'
-                                    }} 
+                                    }}
                             >
                                 在职人员存档情况：
                             </span>
-                            <Progress 
-                                style={{color:'#f68f6b'}} 
-                                percent={(resumeCount==0 || material==0 || !resumeCount|| !material) ?0:PercentageResume} strokeWidth={25} 
+                            <Progress
+                                style={{color:'#f68f6b'}}
+                                percent={(resumeCount==0 || material==0 || !resumeCount|| !material) ?0:PercentageResume} strokeWidth={25}
                             />
-                            <div 
+                            <div
                                 style={{
                                     marginTop:5,
                                     color:'#1587c7'}}
@@ -178,40 +178,41 @@ export default class ProgressComponent extends Component{
                                 <span>当前员工数：{resumeCount?resumeCount:0}</span>&nbsp;&nbsp;
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
                                 <span>已完整存档：{material?material:0}</span>
-                            </div>  
+                            </div>
                         </div>
                         <div className="left-progress-information">
-                            <span 
+                            <span
                                 style={{
                                     display:'block',
                                     marginBottom:5,
-                                    color:'#868686'}}
+                                    color:'#868686'
+                                }}
                             >
-                                        在职人员信息完整率：
-                                    </span>
+                                在职人员信息完整率：
+                            </span>
                             <Progress style={{color:'#6b88f6'}}  percent={info} strokeWidth={25}  />
                         </div>
-                        <div 
+                        <div
                             className="left-triangle"
                             style={{display:leftStyleState}}
                         >
-                        </div>  
+                        </div>
                     </div>
-                    <div 
-                        className="right-progress" 
+                    <div
+                        className="right-progress"
                         style={{borderColor:rightStyleColor}}
                         onClick={this.handleClick.bind(this,'2')}
                     >
-                            <span 
+                            <span
                                 style={{display:'block',marginBottom:5,color:'#868686'}}
                             >
                                 离职人员存档情况：
                             </span>
-                            <Progress 
-                                style={{color: '#f6cd6b'}} 
-                                percent={(leaveCount==0 || departure==0 || !leaveCount || !departure) ?0:PercentageLeave} strokeWidth={25}  
+                            <Progress
+                                style={{color: '#f6cd6b'}}
+                                percent={(leaveCount==0 || departure==0 || !leaveCount || !departure) ?0:PercentageLeave} strokeWidth={25}
                             />
-                            <div 
+                            <div
                                 style={{
                                     marginTop:5,
                                     color:'#979797'}}
@@ -220,20 +221,20 @@ export default class ProgressComponent extends Component{
                                 <span style={{color:'#979797'}}>|</span>&nbsp;&nbsp;
                                 <span>已完整存档：{departure?departure:'0'}</span>
                             </div>
-                            <div 
+                            <div
                                 className="right-triangle"
                                 style={{display:rightStyleState}}
                             >
-                            </div>  
+                            </div>
                     </div>
                 </div>
-                <div 
-                    className="archives-title" 
+                <div
+                    className="archives-title"
                     style={{
                         height:50,
                         display:leftStyleState}}
                 >
-                    <div 
+                    <div
                         style={{
                             float:'left',
                             marginTop:15}}
@@ -244,7 +245,7 @@ export default class ProgressComponent extends Component{
                     </div>
                     <div  className="archives-select">
                         <Select
-                            defaultValue="人事材料存档率降序" 
+                            defaultValue="人事材料存档率降序"
                             style={{width: 180,height:35,lineHeight:35}}
                             onChange={this.handleSelectChange}
                         >
@@ -254,26 +255,24 @@ export default class ProgressComponent extends Component{
                                         <Option key={index} value={item}>{item}</Option>
                                         )
                                 })
-                           
                             }
-                            
                         </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         <Button onClick={this.downloadMaterial}>下载材料附件</Button>
                     </div>
                 </div>
-                <div 
-                    className="archives-title" 
+                <div
+                    className="archives-title"
                     style={{height:50,display:rightStyleState}}>
                     <div style={{float:'left',marginTop:15}}>
                         <b style={{fontSize:16,fontWeight:'bold',color:'#000'}}>离职人员</b>&nbsp;&nbsp;（点击员工姓名上传
                         <b style={{color:'#f68f6b'}}>人事材料</b>）
                     </div>
-                    <div 
-                        className="archives-select" 
+                    <div
+                        className="archives-select"
                     >
                         <Select
-                            defaultValue="人事材料存档率升序" 
+                            defaultValue="人事材料存档率升序"
                             style={{width: 180,height:35,lineHeight:35}}
                             onChange={this.handleSelectChange}
                         >
@@ -283,7 +282,7 @@ export default class ProgressComponent extends Component{
                                         <Option key={index} value={item}>{item}</Option>
                                         )
                                })
-                            }    
+                            }
                         </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         <Button onClick={this.downloadMaterial}>下载材料附件</Button>
