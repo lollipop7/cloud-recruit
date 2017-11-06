@@ -46,7 +46,7 @@ export default class CreditFillComponent extends Component {
                 this.setState({
                     [field]:this.refs.diplomanumInput.refs.input.refs.input.value
                 })
-            break;    
+            break;
             }
     }
     componentWillReceiveProps(nextprops){
@@ -84,7 +84,7 @@ export default class CreditFillComponent extends Component {
         this.setState({
             searchLoading
         })
-       
+
     }
     searchCredit = () => {
         const {searchCredit,data,showcredit,creditData}=this.props;
@@ -104,10 +104,10 @@ export default class CreditFillComponent extends Component {
         if(creditData.flag){
             if(resumeid)
                 {
-                    searchCredit({resumeid},showcredit);  
+                    searchCredit({resumeid},showcredit);
                 }else{
                     searchCredit({rid},showcredit);
-                }           
+                }
         }else{
             if(resumeid)
                 {
@@ -117,7 +117,7 @@ export default class CreditFillComponent extends Component {
                         phone:mobile,
                         card,
                         certid
-                    },showcredit);  
+                    },showcredit);
                 }else{
                     searchCredit({
                         rid,
@@ -125,13 +125,13 @@ export default class CreditFillComponent extends Component {
                         phone:mobile,
                         card,
                         certid
-                    },showcredit); 
-                }  
-           
+                    },showcredit);
+                }
+
         }
         this.setState({
             searchLoading:true
-        })  
+        })
     }
 
      render(){
@@ -148,7 +148,7 @@ export default class CreditFillComponent extends Component {
              <li>
                  <div className="fill-field" style={{paddingLeft: 82}}>
                      <div className="inline-block">
-                        {isLoading && 
+                        {isLoading &&
                             <LoadingComponent style={{
                                 position: 'absolute',
                                 top: 100,
@@ -205,8 +205,8 @@ export default class CreditFillComponent extends Component {
                          </ul>
                          <div className="inline-block" style={{marginLeft: 177}}>
                              {creditData.flag?
-                                <Button 
-                                    type="primary" 
+                                <Button
+                                    type="primary"
                                     style={{fontSize: 20, width: 182, height: 45}}
                                     onClick= {this.searchCredit}
                                     loading={searchLoading}
@@ -214,13 +214,13 @@ export default class CreditFillComponent extends Component {
                                     点击查看
                                 </Button>:
                                 <span>
-                                    <span 
+                                    <span
                                         style={{fontSize:12,color:'red'}}
                                     >
-                                        &nbsp;&nbsp;&nbsp;友情提醒：免费查询仅剩{`${creditData.contractCount?creditData.contractCount:0}`}次
+                                      友情提醒：免费查询共{`${creditData.contractSum}次，`}仅剩{`${creditData.contractCount?creditData.contractCount:0}`}次
                                     </span><br/>
-                                    <Button 
-                                        type="primary" 
+                                    <Button
+                                        type="primary"
                                         style={{fontSize: 20, width: 182, height: 45}}
                                         onClick= {this.searchCredit}
                                         loading={searchLoading}
@@ -229,14 +229,14 @@ export default class CreditFillComponent extends Component {
                                     </Button>
                                 </span>
                                 }
-                            
+
                          </div>
                      </div>
-                     <div className="inline-block" 
+                     <div className="inline-block"
                         style={{
-                            position: 'absolute', 
-                            left: 516, 
-                            width: 422, 
+                            position: 'absolute',
+                            left: 516,
+                            width: 422,
                             paddingLeft: 37,
                             borderLeft: "1px solid #e3e1e1",
                             height: 221
@@ -362,4 +362,4 @@ export default class CreditFillComponent extends Component {
              </li>
          )
      }
- }  
+ }

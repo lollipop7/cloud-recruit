@@ -3,16 +3,10 @@ import axios from 'axios';
 import store from 'store';
 import FileSaver from 'file-saver';
 import {AjaxByToken, cancelRequestByKey} from 'utils/ajax';
-
-import merge from 'lodash/merge';
-
 import {notification , message} from 'antd';
 import isNumber from 'lodash/isNumber';
 
-
-
 //**员工名册 ------------------------------------------------*/
-
     //获取员工管理人员统计信息
     const GET_MANAGE_START = {type: types.GET_MANAGE_START};
     const GET_MANAGE_END = {type: types.GET_MANAGE_END};
@@ -38,7 +32,7 @@ import isNumber from 'lodash/isNumber';
     //删除员工信息
     const DELETE_EMPLOYEE_START = {type: types.DELETE_EMPLOYEE_START};
     const DELETE_EMPLOYEE_DONE = {type: types.DELETE_EMPLOYEE_DONE};
-    
+
 
     //入职人员基本信息查询
     const QUERY_EMPLOYEE_START = {type:types.QUERY_EMPLOYEE_START};
@@ -95,7 +89,7 @@ import isNumber from 'lodash/isNumber';
     const HIDE_IMAGE_MODAL = {type:types.HIDE_IMAGE_MODAL};
     const CANCELIMAGEURL = {type:types.CANCELIMAGEURL};
 
-    
+
     //获取员工管理人员统计信息
     export const getCrewStatis = () => (dispatch,getState) => {
         dispatch(GET_MANAGE_START);
@@ -149,8 +143,6 @@ import isNumber from 'lodash/isNumber';
 
     //删除员工信息
     export const deleteEmployees = (data,getCrewStatis=()=>{}) => (dispatch,getState) => {
-        // const rid = JSON.parse(data);
-        // console.log(rid,typeof rid);
         dispatch(DELETE_EMPLOYEE_START);
         AjaxByToken('emp/delete_employees',{
             head: {
@@ -389,7 +381,7 @@ import isNumber from 'lodash/isNumber';
         })
     }
     export const viewUploadAttachment = (data) => (dispatch,getState) => {
-        dispatch({...IMAGEURL,imageUrl:data});   
+        dispatch({...IMAGEURL,imageUrl:data});
     }
     //显示图片预览Modal
     export const showImageModal = (data) => (dispatch,getState) => {
@@ -412,7 +404,7 @@ import isNumber from 'lodash/isNumber';
             params:{
                 token:token.token,
                 tokenKey:token.tokenKey,
-                fileName:name 
+                fileName:name
             }
         })
         .then(res=>{
@@ -456,7 +448,7 @@ import isNumber from 'lodash/isNumber';
         })
     }
     //人员征信查询
-    export const searchCredit = (data,showcredit) => (dispatch,getState) => {      
+    export const searchCredit = (data,showcredit) => (dispatch,getState) => {
         AjaxByToken('cerditQueryperationList_employees', {
             head: {
                 transcode: 'L0060'
@@ -505,7 +497,7 @@ import isNumber from 'lodash/isNumber';
         dispatch(HIDE_INFO_MODAL);
     }
 
-    
+
 
 //**档案管理 ------------------------------------------------*/
 
@@ -583,7 +575,7 @@ export const getArchivesList = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch(GET_ARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
-            delete res.list[i].children;  
+            delete res.list[i].children;
         };
         dispatch({...GET_ARCHIVES_LIST,list:res.list,count:res.count});
     },err=>{
@@ -604,17 +596,17 @@ export const getLeaveArchivesList = (data={}) => (dispatch,getState) => {
     .then(res=>{
         dispatch(GET_LEAVEARCHIVES_DONE);
         for(let i=0;i<res.list.length;i++){
-            delete res.list[i].children;  
+            delete res.list[i].children;
         }
         dispatch({...GET_LEAVEARCHIVES_LIST,list:res.list,count:res.count});
-        
+
     },err=>{
         dispatch(GET_LEAVEARCHIVES_DONE);
     })
 }
 
 //1.77下载材料附件
-export const downloadMaterial = (data,showProgress) => (dispatch,getState) => { 
+export const downloadMaterial = (data,showProgress) => (dispatch,getState) => {
     const token = store.get('token');
     const {rid,name} = data;
     axios({
@@ -655,7 +647,7 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
     .then(res=>{
             if(props){
                 const {
-                getArchivesList , 
+                getArchivesList ,
                 getLeaveArchivesList,
                 archivesTableData,
                 getDepartMentStaff,
@@ -664,24 +656,24 @@ export const editEmployeeInformation = (data,props) => (dispatch,getState) => {
             if(data.rid){
                 message.success('编辑信息成功！')
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'4'}) 
+                    getArchivesList({sort:'4'})
                 }else if (archivesTableData=='2'){
                     getLeaveArchivesList({sort:'4'})
                 }
-                getDepartMentStaff({departmentId:currentUid},currentUid);       
+                getDepartMentStaff({departmentId:currentUid},currentUid);
             }else{
                 message.success('添加信息成功！');
                 if(archivesTableData=='1'){
-                    getArchivesList({sort:'4'}) 
+                    getArchivesList({sort:'4'})
                 }else if (archivesTableData=='2'){
                     getLeaveArchivesList({sort:'4'})
-                }   
+                }
             }
         }else{
             message.success('编辑信息成功')
             NProgress.done();
         }
-              
+
     },err=>{
         if(data.rid){
             message.error('编辑信息失败！')
@@ -712,8 +704,6 @@ export const getArchivesData = (data={}) => (dispatch,getState) => {
         data: data
     })
     .then(res=>{
-        //console.log(res)
-        //dispatch(GET_ARCHIVES_DONE);
         dispatch({...GET_ARCHIVES_DATA,archivesData:res});
     },err=>{
         dispatch(GET_ARCHIVES_DONE);
@@ -789,7 +779,7 @@ export const getTreeList = (list) => (dispatch,getState) => {
 export const changeTableData = (data) => (dispatch, getState) => {
     dispatch({...ARCHIVES_TABLE_DATA,archivesTableData:data})
 }
- 
+
 //  组织架构-根据部门id查询子部门及人员
 export const getDepartMentStaff = (data={},currentUid,departmentName='',current) => (dispatch,getState) => {
     AjaxByToken('structure/resume_statis_List_DepartmentAndResumeOff',{
@@ -907,7 +897,7 @@ export const getOrganizeChart = (data={}) => (dispatch,getState) => {
 
 //  组织架构-删除机构
 export const deleteMechnism = (data={}) => (dispatch,getState) => {
-    
+
     dispatch({...DELETE_MECHANISM,mechanismInfo:''});
     AjaxByToken('structure/del_structure_department',{
         head: {

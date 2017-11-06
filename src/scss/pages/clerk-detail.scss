@@ -44,7 +44,7 @@
                 color: #fff;
             }
         }
-        
+
         .ctr-btns {
             margin-top: 45px;
             button {
@@ -155,7 +155,7 @@
             li {
                 margin-top: 30px;
                 &>span,
-                .inline-block>span,
+                .inline-block>span
                  {
                     display: inline-block;
                     font-weight: bold;
@@ -192,7 +192,7 @@
                         text-align: left;
                     }
                 }
-                
+
                 &:first-child {
                     margin-top: 0;
                 }
@@ -222,7 +222,7 @@
         }
         .ant-timeline-item-head {
             width: 14px;
-            height: 14px;                
+            height: 14px;
             background-color: $border-color;
         }
         .ant-timeline-item-head-blue {
@@ -326,7 +326,7 @@
                 &:first-child:before {
                     content: '';
                     position: absolute;
-                    top: -19px; 
+                    top: -19px;
                     right: 0px;
                     left: 0;
                     margin: auto;
@@ -412,7 +412,6 @@
                     }
                 }
             }
-            
         }
         .hint-field {
             position: relative;
@@ -469,7 +468,7 @@
                 background: inherit;
                 &:hover{
                     box-shadow:1px 1px 7px rgba(21,135,199,.3);
-                }    
+                }
             }
             .ant-card-body {
                 padding-top: 33px;
@@ -600,7 +599,7 @@
             }
         }
     }
-    
+
 }
 
 //办理转正弹窗
@@ -734,7 +733,7 @@
             color: #108ee9;
         }
     }
-} 
+}
 
 //添加附件
 .add-attactment {
@@ -773,7 +772,7 @@
 .add-attactment:hover .upLoadView{
     opacity: 1;
 }
- 
+
 .attachment-wrap {
     .add-attactment {
         .ant-upload.ant-upload-drag {
