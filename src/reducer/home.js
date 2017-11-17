@@ -10,7 +10,8 @@ import {
     HIDE_MEMO_MODAL,
     ADD_MEMO_EVENT,
     GET_MEMO_CONTENT,
-    GET_DATE_MEMO_CONTENT
+    GET_DATE_MEMO_CONTENT,
+    GET_VIDEO
 } from 'constants/home';
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     memoModalVisible: false,
     isMemoLoading: false,
     MemoContent:{},
-    DateMemoContent:{}
+    DateMemoContent:{},
+    video:{}
 };
 
 export default function home(state = initialState,actions){
@@ -49,7 +51,9 @@ export default function home(state = initialState,actions){
         case SHOW_MEMO_MODAL:
             return {...state,memoModalVisible: true,isMemoLoading: true};
         case HIDE_MEMO_MODAL:
-            return {...state,memoModalVisible: false,isMemoLoading: false};      
+            return {...state,memoModalVisible: false,isMemoLoading: false};
+        case GET_VIDEO:
+            return {...state,video:actions.video};      
         default: 
             return state;
     }

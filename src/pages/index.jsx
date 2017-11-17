@@ -33,7 +33,7 @@ import * as Actions from 'actions';
     }
     
     render() {
-        const {MemoContent , getMemoContent , DateMemoContent ,getDateMemoContent} = this.props;
+        const {MemoContent , getMemoContent , DateMemoContent ,getDateMemoContent ,editVideo,video} = this.props;
         return (
             <ScrollPageContent>
                 <div className="page-content index-page">
@@ -63,7 +63,7 @@ import * as Actions from 'actions';
                     <div className="list-block">
                         <div className="pull-left">
                             <PieChartComponent />
-                            <VideoComponent/>
+                            <VideoComponent editVideo={editVideo} video={video}/>
                         </div>
                         <div className="pull-right">
                             <TableComponent />
@@ -76,11 +76,13 @@ import * as Actions from 'actions';
 }
 const mapStateToProps = state => ({
     MemoContent:state.Home.MemoContent,
-    DateMemoContent:state.Home.DateMemoContent
+    DateMemoContent:state.Home.DateMemoContent,
+    video:state.Home.video
 })
 const mapDispatchToProps = dispatch => ({
     getMemoContent: bindActionCreators(Actions.homeActions.getMemoContent, dispatch),
     getDateMemoContent: bindActionCreators(Actions.homeActions.getDateMemoContent, dispatch),
+    editVideo: bindActionCreators(Actions.homeActions.editVideo, dispatch)
 })
 
 export default connect(

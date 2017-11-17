@@ -94,7 +94,6 @@ class MaterialAttach extends Component {
         } = this.state;
         const { queryEmployeeList} = this.props;
         const { isLoading } = queryEmployeeList;
-        console.log(basicData)
         return (
             <div className="material-attach clerk-tab-container">
                 {isLoading &&

@@ -1,24 +1,90 @@
 import React , { Component } from "react";
-import {Tooltip , message ,Button ,Input , Modal} from 'antd';
-import Clipboard from "clipboard";
+import {Tooltip , message ,Button ,Input , Modal , notification ,Icon} from 'antd';
+import copy from 'copy-to-clipboard';
+const confirm = Modal.confirm;
 
 export default class VideoComponent extends Component {
     state = {
-        videoUrl:"http://systemcove-10037104.cossh.myqcloud.com/51jrqcorp/1010113/51%E9%87%91%E8%9E%8D%E5%9C%88%E5%AE%A3%E4%BC%A0%E7%89%87%E6%9C%80%E7%BB%88%E7%89%88%2820170802%29-1920x1080.mp4"
+        videoUrl:"",
+        id:"",
+        msg:'修改企业视频'
     }
-    componentDidMount(){
-        this.clickBtn()
+    componentDidMount() {
+        this.props.editVideo({type:'0'})
     }
-    clickBtn = ()=>{
-        const clipboard = new Clipboard('.btn');
-        clipboard.on('success', function() {
-            message.success('复制链接成功',3);
-            clipboard.destroy();
-        });
-        clipboard.on('error', function(e) {
-            message.error('复制链接失败，请刷新浏览器重新复制',3);
-            clipboard.destroy();
-        }); 
+    componentWillReceiveProps(nextprops) {
+        const {video} = nextprops;
+        if(video){
+            this.setState({
+                videoUrl:video.videourl,
+                id:video.id
+            })
+        }  
+    }
+    onChange = e => {
+        this.setState({
+            videoUrl:e.target.value
+        })
+    }
+    //复制链接
+    copyUrl = () => {
+        const {videoUrl} = this.state;
+        if(videoUrl){
+            copy(videoUrl);
+            message.success('复制成功，如果失败，请在输入框内手动复制!');
+        }else{
+            notification.warning({
+                message: '暂无视频链接复制！'
+              });
+        }
+        
+    };
+    //添加视频
+    addUrl = () => {
+        const {videoUrl} = this.state;
+        const {editVideo} = this.props;
+        if(!videoUrl){
+            notification.warning({
+                message: '请在输入框中添加视频链接！'
+              });
+        }else{
+            this.props.editVideo({type:'1',videourl:videoUrl})
+        }
+        
+    }
+    //修改视频
+    editUrl = () => {
+        const {id="" ,videoUrl,msg} = this.state;
+        const {editVideo} = this.props;
+        if(!videoUrl){
+            notification.warning({
+                message: '请在输入框中输入修改后的视频链接！'
+              });
+        }else{
+            this.props.editVideo({type:"2",id:id+"",videourl:videoUrl,msg})
+        }  
+    }
+    //删除视频
+    deleteUrl = () => {
+        const {id="" ,videoUrl,msg} = this.state;
+        const {editVideo} = this.props;
+        if(!videoUrl){
+            notification.warning({
+                message: '暂无视频链接可删除！'
+              });
+        }else {
+            confirm({
+                content: <h2>确定要删除吗?</h2>,
+                okText: '删除',
+                okType: "danger",
+                cancelText: '取消',
+                maskClosable:true,
+                style:{top:300},
+                onOk:()=> {
+                    this.props.editVideo({type:"3",id:id+""})
+                }
+            }); 
+        }     
     }
     
     render () {
@@ -28,36 +94,58 @@ export default class VideoComponent extends Component {
                 <Tooltip
                     overlayClassName="Corporate-video-Tooltip" 
                     placement="topRight" 
-                    title={<Input
-                        style={{height:30}}
-                        value={videoUrl}
-                        addonAfter={
-                            <Button
-                                style={{height:30}} 
-                                value='复制链接'
-                                className="btn"
-                                type="primary"
-                                data-clipboard-action="copy"
-                                data-clipboard-text={videoUrl}
-                                onClick = {this.clickBtn}
-                            >
-                                复制链接
-                            </Button>}
-                    />}>
+                    title={
+                        <div>
+                            <Input
+                                style={{height:30}}
+                                value={videoUrl}
+                                onChange={this.onChange}
+                                addonAfter={
+                                
+                                    <Button
+                                        style={{height:30}} 
+                                        value='复制链接'
+                                        className="btn"
+                                        type="primary"
+                                        onClick = {this.copyUrl}
+                                    >
+                                        复制链接
+                                    </Button>}
+                            /><br/>
+                            <Tooltip title="请在以上输入框中添加视频链接">
+                                <Button type="primary" onClick = {this.addUrl}>添加</Button>
+                            </Tooltip>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <Tooltip title="请在以上输入框中修改视频链接">
+                                <Button type="primary" onClick = {this.editUrl}>修改</Button>
+                            </Tooltip>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <Button type="primary" onClick = {this.deleteUrl}>删除</Button>
+                    </div>}
+                >
                     <div 
                         className="title box-border"    
                     >
                         企业视频
                     </div>
                 </Tooltip>
-                <video 
-                    src={videoUrl}
-                    controls="controls"
-                    autoplay="autoplay"
-                    loop
-                    style={{width:244}}
-                >
-                </video>
+                {
+                    !videoUrl?
+                    <div 
+                        style={{width:244,height:143,textAlign:"center",fontSize:23,paddingTop:30}}>
+                        <Icon type="play-circle-o" style={{fontSize:32}}/>
+                        <p style={{textAlign:"center"}}>
+                            暂无视频
+                        </p>
+                    </div>:
+                    <video 
+                        src={videoUrl}
+                        controls="controls"
+                        autoplay="autoplay"
+                        loop
+                        style={{width:244}}
+                    >
+                    </video>
+                }
+                
             </div>
             
         )

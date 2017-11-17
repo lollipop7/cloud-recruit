@@ -255,7 +255,7 @@ class TableComponent extends Component {
                             return item;
                         })
                     }
-                    scroll={{x:isLoading?0:1090}} 
+                    scroll={{x:list.length==0?0:1090}} 
                     bordered
                     loading={isLoading}
                     columns={this.columns}

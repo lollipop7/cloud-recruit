@@ -5,36 +5,50 @@ import BarChartComponent from './bar-chart';
 import { Collapse } from 'antd';
 import store from 'store';
 const Panel = Collapse.Panel;
+import moment from 'moment'
 
 export default class CreditReturnComponent extends Component {
-
+    componentDidMount() {
+        const {searchCredit , data , creditData} = this.props,
+        {resumeid,rid} = data.resumeoff;
+        if(creditData.flag){
+            if(resumeid)
+                {
+                    searchCredit({resumeid});
+                }else{
+                    searchCredit({rid});
+                }
+        }
+    }
     render(){
         const {creditInfoData} = this.props,
             {
-                cerditcerinfo,
-                dishonest,
-                education,
-                selfinfo,
+                cerditcerinfo=[],
+                dishonest=[],
+                education=[],
+                selfinfo={},
+                basic={},//基本信息{}
+                jzList=[]//较真返回的各方案信息[]
             } = creditInfoData;
-        const {
-            sid,
-            card,
-            certcard,
-            mobile,
-            verifymessage,//返回消息
-            bizno,//"transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
-            cid,
-            createby,
-            createdate,
-            activeflag,
-            flg1,//姓名和身份证是否匹配标识字段
-            flg2//电话号码和姓名是否匹配标识字段
-        } = selfinfo;
+        // const {
+        //     sid,
+        //     card,
+        //     certcard,
+        //     mobile,
+        //     verifymessage,//返回消息
+        //     bizno,//"transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
+        //     cid,
+        //     createby,
+        //     createdate,
+        //     activeflag,
+        //     flg1,//姓名和身份证是否匹配标识字段
+        //     flg2//电话号码和姓名是否匹配标识字段
+        // } = selfinfo;
         const token = store.get('token');
         return (
             <li style={{paddingLeft: 100}}>
-                <div className="inverst-field">
-                    <div className="inverst-item inline-block box-border">
+                <div className="inverst-field" style={{marginBottom:30}}>
+                    {/* <div className="inverst-item inline-block box-border">
                         <div className="top-title">
                             身份证核查
                             <span className="pull-right" style={{color: "#48df81"}}>信息源自中国公安部</span>
@@ -48,7 +62,7 @@ export default class CreditReturnComponent extends Component {
                             <div className="info-right inline-block">
                                 <ul>
                                     <li className="list-item">
-                                        <span style={{fontSize: 20}}>{selfinfo.name}</span>
+                                        <span style={{fontSize: 20}}>{selfinfo.name?selfinfo.name:""}</span>
                                         <span></span>
                                         <span></span>
                                     </li>
@@ -62,8 +76,8 @@ export default class CreditReturnComponent extends Component {
                         <img className="consquence"
                                src={`/static/images/manager/clerk/${flg1 ? `pipei.png` : `bupipei.png`}`
                                } alt="匹配"/>
-                    </div>
-                    <div className="inverst-item inline-block box-border">
+                    </div> */}
+                    {/* <div className="inverst-item inline-block box-border">
                         <div className="top-title">
                             手机号核查
                             <span className="pull-right" style={{color: "#c25255"}}>信息源自运营商</span>
@@ -92,6 +106,41 @@ export default class CreditReturnComponent extends Component {
                         <img   className="consquence"
                                src={`/static/images/manager/clerk/${flg2 ? `pipei.png` : `bupipei.png`}`
                                } alt="匹配"/>
+                    </div> */}
+                    <div className="inverst-item">
+                            <div className="top-title">
+                                基本信息
+                            </div>
+                            <div style={{margin:"10px 0px 30px 0px"}}>
+                                <ul className="field-list inline-block" style={{width:350}}>
+                                    <li>
+                                        <span>姓名：</span>
+                                        <span>{basic.name?basic.name:"无"}</span>
+                                    </li>
+                                    <li>
+                                        <span>手机：</span>
+                                        <span>{basic.phone?basic.phone:"无"}</span>
+                                    </li>
+                                    <li>
+                                        <span>创建日期：</span>
+                                        <span>{basic.createdate?moment(basic.createdate).format("YYYY-MM-DD"):"无"}</span>
+                                    </li>
+                                </ul>
+                                <ul className="field-list inline-block" style={{width:350}}>
+                                    <li>
+                                        <span>身份证号：</span>
+                                        <span>{basic.card?basic.card:"无"}</span>
+                                    </li>
+                                    <li>
+                                        <span>毕业证书号：</span>
+                                        <span>{basic.certcard?basic.certcard:"无"}</span>
+                                    </li>
+                                    <li>
+                                        <span>公司：</span>
+                                        <span>{basic.createby?basic.createby:"无"}</span>
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
                 </div>
                 <div className="inverst-field">
@@ -109,11 +158,11 @@ export default class CreditReturnComponent extends Component {
                                                     <div>
                                                         <div className="inline-block info-bar">
                                                             <span>毕业证书编号 : </span>
-                                                            <span>{selfinfo.certcard}</span>
+                                                            {/* <span>{selfinfo.certcard}</span> */}
                                                         </div>
                                                         <div className="inline-block info-bar">
                                                             <span>专业 : </span>
-                                                            <span>{item.major}</span>
+                                                            {/* <span>{item.major}</span> */}
                                                         </div>
                                                         <div className="inline-block info-bar">
                                                             <span>院校地址 : </span>
@@ -197,8 +246,399 @@ export default class CreditReturnComponent extends Component {
                                 })
                             }
                                 
-                        </Collapse>
-                        
+                        </Collapse>   
+                    </div>
+                </div>
+                <div className="inverst-field">
+                    <div className="inverst-item">
+                        <div className="top-title">
+                            各调查方案查询结果
+                        </div>
+                        <Collapse defaultActiveKey={['1']}>
+                            {
+                                jzList.map((item,index)=>{
+                                        return <Panel 
+                                            header={item.transactiontype=="100"?"身份信息核实":item.transactiontype=="110"?"手机实名核查":item.transactiontype=="120"?"国内最高学历核实":item.transactiontype=="130"?"商业利益冲突核实":item.transactiontype=="140"?"金融风险信息核查":item.transactiontype=="145"?"法院诉讼核查":item.transactiontype=="150"?"犯罪记录核实":item.transactiontype=="160"?"职业资质核实":item.transactiontype=="122"?"国内学历核实":item.transactiontype=="127"?"国内学位核实":item.transactiontype=="123"?"海外学历核实":item.transactiontype=="200"?"国内工作履历核实":item.transactiontype=="201"?"海外工作履历核实":item.transactiontype=="210"?"国内工作表现访谈":item.transactiontype=="211"?"海外工作表现访谈":item.transactiontype=="212"?"自主寻访国内证明人":"自主寻访海外证明人"} 
+                                            key={index+1}
+                                        >
+                                                    <div className="superior-content" style={{padding: "27px 0 0 49px"}}>
+                                                        {item.transactiontype=="100"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="110"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="120"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="130"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="140"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="145"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="150"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>案发时间</td>
+                                                                <td>{JSON.parse(item.content).caseTime}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>案发描述</td>
+                                                                <td>{JSON.parse(item.content).des}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="160"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="122"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="127"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="123"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                                <td>学校名称</td>
+                                                                <td>{JSON.parse(item.content).university?
+                                                                    JSON.parse(item.content).university:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>毕业院校类型</td>
+                                                                <td>{JSON.parse(item.content).schoolType?
+                                                                    JSON.parse(item.content).schoolType:"无"}</td>
+                                                                <td>学历</td>
+                                                                <td>{JSON.parse(item.content).degree?
+                                                                    JSON.parse(item.content).degree:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>学历类型</td>
+                                                                <td>{JSON.parse(item.content).degreesType?
+                                                                    JSON.parse(item.content).degreesType:"无"}</td>
+                                                                <td>专业</td>
+                                                                <td>{JSON.parse(item.content).major?
+                                                                    JSON.parse(item.content).major:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>报名时间</td>
+                                                                <td>{JSON.parse(item.content).enrolDate?
+                                                                    JSON.parse(item.content).enrolDate:"无"}</td>
+                                                                <td>毕业日期</td>
+                                                                <td>{JSON.parse(item.content).graduateDate?
+                                                                    JSON.parse(item.content).graduateDate:"无"}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="200"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="201"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="210"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="211"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:item.transactiontype=="212"?
+                                                        <table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>:<table cellSpacing={0}>
+                                                            <tr>
+                                                                <td>查询结果</td>
+                                                                <td>
+                                                                    {JSON.parse(item.content).resCode=="0"?
+                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "匹配成功":"查询异常"}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        }
+                                                    </div>
+                                            </Panel> 
+                                })
+                            }
+                                
+                        </Collapse>   
                     </div>
                 </div>
                 <div className="inverst-field">
@@ -342,26 +782,6 @@ export default class CreditReturnComponent extends Component {
                         </Collapse>
                         }  
                     </div>
-                </div>
-                <div className="inverst-field">
-                    {/* <div className="inverst-item">
-                        <div className="top-title">
-                            职业稳定性分析
-                            <span className="pull-right">数据源自51金融圈大数据</span>
-                        </div>
-                        <div className="superior-content" style={{
-                            padding: "10px 0 0 8px"
-                        }}> 
-                            <BarChartComponent/>
-                            <div className="summary">
-                                <div className="inline-block above-all" style={{position: 'relative'}}>
-                                    数据有话说
-                                </div>
-                                <div className="inline-block" style={{backgroundColor: '#fff', width: 1}}></div>
-                                <div className="inline-block above-all" style={{width: 787}}>结合求职者提供的工作经验，基于云招聘大数据智能分析进行分析测评，该求职者工作较为稳定。</div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="inverst-field">
                     <div className="inverst-item">

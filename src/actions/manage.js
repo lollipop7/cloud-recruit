@@ -411,8 +411,8 @@ import isNumber from 'lodash/isNumber';
             }
         })
         .then(res=>{
-            const blob = new Blob([res.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-            FileSaver.saveAs(blob,'员工信息导入模板表.xlsx');
+            const blob = new Blob([res.data]);
+            FileSaver.saveAs(blob);
         }).catch(error=>{
             console.log(error)
         });
@@ -461,10 +461,12 @@ import isNumber from 'lodash/isNumber';
         .then(res=>{
             NProgress.start();
             dispatch({...SEARCHCREDITINVESTGATION,creditInfoData:res.data});
-            showcredit()
+            if(showcredit){
+                showcredit()
+            }
             NProgress.done();
         },err=>{
-            dispatch(...CANCELLOADING)
+            //dispatch(...CANCELLOADING)
         })
     }
     export const hidecredit = () => (dispatch,getState) => {

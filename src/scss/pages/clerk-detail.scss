@@ -150,7 +150,7 @@
         .field-list {
             &+ul {
                 position: absolute;
-                left: 625px;
+                left: 500px;
             }
             li {
                 margin-top: 30px;
@@ -264,6 +264,7 @@
         }
     }
     .superior-content {
+
         .info-bar {
             margin-right: 46px;
             span {
@@ -340,6 +341,7 @@
         table {
             border-left: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
+            margin: 0 auto;
             tr {
                 td {
                     border-top: 1px solid #ddd;
@@ -382,8 +384,6 @@
         .inverst-item {
             padding-right: 18px;
             margin-right: 52px;
-            width: 381px;
-            height: 131px;
         }
     }
 
@@ -392,8 +392,9 @@
     .fill-field {
         position: relative;
         font-size: 16px;
+        padding-bottom: 40px;
         li {
-            padding-bottom: 25px;
+            //padding-bottom: 25px;
             .inline-block {
                 &>span {
                     display: inline-block;
@@ -415,10 +416,17 @@
         }
         .hint-field {
             position: relative;
-            margin-top: 24px;
-            padding-top: 16px;
-            &:before {
-                @include border-top;
+            width: 562px;
+            float: left;
+            padding-bottom: 20px;
+            border-right: 1px dashed #E0E0E0;
+            .uploadFile{
+                span{
+                   cursor:pointer
+                }
+                span:hover{
+                    color:#108EE9
+                }
             }
             .hint-title {
                 position: absolute;
@@ -435,17 +443,123 @@
                 }
             }
             .hint-list {
-                li {
-                    padding-bottom: 10px;
-                    line-height: 24px;
-                    span {
-                        color: $theme-color;
-                    }
+                margin-bottom: 10px;
+                text-align: left;
+                .span-title{
+                    line-height: 20px;
+                    position: relative;
+                    top: -10px
+                }
+                .explaination{
+                    display: block;
+                    margin-top: 20px;
+                    font-size: 12px;
                 }
             }
-            .card-list {
-                padding: 53px 0 53px 37px;
+            .resumeSource{
+                text-align: left;
+                margin-bottom: 10px;
             }
+            .uploadBtn{
+                position: relative;
+                left: -130px;
+            }
+            .card-list {
+               // padding: 53px 0 53px 37px;
+               ul {
+                   overflow:hidden;
+                   li{
+                       cursor: pointer;
+                       border-radius: 5px;
+                       padding-bottom: 15px;
+                        margin: 10px;
+                        text-align:center;
+                        width:120px;
+                        border:1px solid #E0E0E0;
+                        float: left;
+                        font-size: 12px;
+                        i{
+                            color:#3188ff;
+                            font-size:18px;
+                            margin-top: 10px
+                           }
+                   }
+                   li:hover{
+                       border-color: #3188ff;
+                   }
+               }
+            }
+        }
+        .SurveyPlan{
+            width: 400px;
+            float: right;
+            .p-title{
+                width: 100%;
+                height: 50px;
+                background: #9FA8DA;
+                color: #fff;
+                font-weight: none;
+                text-align: center;
+                line-height: 50px;
+                border-radius: 5px;
+            }
+            .data{
+                border-bottom: 1px solid #E0E0E0;
+                overflow: hidden;
+                .basicData{
+                    overflow: hidden;
+                    .basicDataUl{
+                        width: 100%;
+                        li{
+                            width: 150px;
+                            float: left;
+                            margin: 10px 20px 10px 20px;
+                        }
+                    }
+                    
+                }
+                .work{
+                    overflow: hidden;
+                    .workUl{
+                        width: 100%;
+                        li{
+                            width: 150px;
+                            float: left;
+                            margin: 10px 20px 10px 20px;
+                        }
+                    }
+                    
+                }
+                .express{
+                    overflow: hidden;
+                    .expressUl{
+                        width: 100%;
+                        li{
+                            width: 150px;
+                            float: left;
+                            margin: 10px 20px 10px 20px;
+                        }
+                    }
+                    
+                }
+                .other{
+                    overflow: hidden;
+                    .otherUl{
+                        width: 100%;
+                        li{
+                            width: 150px;
+                            float: left;
+                            margin: 10px 20px 10px 20px;
+                        }
+                    }
+                    
+                }
+            }
+        }
+        .bottomBtn{
+            text-align: center;
+            padding-bottom: 20px;
+            padding-top: 20px;
         }
         &:first-child {
             .hint-field {

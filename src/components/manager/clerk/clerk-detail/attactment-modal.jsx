@@ -27,21 +27,22 @@ export default class PlusAttachmentModal extends Component {
 
     // 文件上传之前的钩子函数
     onFilebeforeUpload = (file) => {
-        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.doc|\.docx|\.jpg|\.png)$/i,
+        const matchName = /(\.html|\.xls|\.xlsx|\.xlsm|\.mht|\.htm|\.doc|\.docx|\.jpg|\.png|\.pdf)$/i,
             {error,fileList} = this.state,
             {name,size} = file;
             // 匹配文件类型
             if(!matchName.test(name)){
-                this.triggerError(true);
+                notification.warning({
+                    message: '文件类型暂不支持！'
+                  });
                 return false;
             }
             // 判断文件大小最大支持2M的文件
             if(size > 2*1024*1024){
-                this.triggerError(true,'文件大小不能超过2MB！');
+                notification.warning({
+                    message: '文件大小不能超过2MB！'
+                  });
                 return false;
-            }
-            if(error){
-                this.triggerError(false);
             }
         
         return true;
@@ -51,7 +52,9 @@ export default class PlusAttachmentModal extends Component {
     onFileChange = info =>{
         let fileList = info.fileList;
         if (info.file.status === 'error') {
-            this.triggerError(true,'文件上传失败！');
+            notification.error({
+                message: '文件上传失败！'
+              });
         }
         this.setState({fileList});
     }
@@ -70,7 +73,9 @@ export default class PlusAttachmentModal extends Component {
     onFileChangeOpposite = info =>{
         let fileListOpposite = info.fileList;
         if (info.file.status === 'error') {
-            this.triggerError(true,'文件上传失败！');
+            notification.error({
+                message: '文件上传失败！'
+              });
         }
         this.setState({fileListOpposite});
     }

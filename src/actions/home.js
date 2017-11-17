@@ -23,9 +23,11 @@ const HIDE_MEMO_MODAL = {type:types.HIDE_MEMO_MODAL};
 //添加备忘录内容
 const ADD_MEMO_EVENT = {type:types.ADD_MEMO_EVENT};
 //获取备忘录内容
-const GET_MEMO_CONTENT = { type:types.GET_MEMO_CONTENT}
+const GET_MEMO_CONTENT = { type:types.GET_MEMO_CONTENT};
 //获取具体日期备忘录
-const GET_DATE_MEMO_CONTENT = {type:types.GET_DATE_MEMO_CONTENT}
+const GET_DATE_MEMO_CONTENT = {type:types.GET_DATE_MEMO_CONTENT};
+//视频
+const GET_VIDEO = {type:types.GET_VIDEO}
 
 // 获取紧急任务
 export const getUrgentTasks = (data={}) => (dispatch,getState) => {
@@ -175,4 +177,25 @@ export const hideMemoModal = () => (dispatch,getState) => {
     dispatch(HIDE_MEMO_MODAL);
 }
 
-//获取备忘录
+//视频编辑
+export const editVideo = (data) => (dispatch,getState) => {
+    AjaxByToken('structure/companyVideo',{
+        head: {
+            transcode: 'L0086'
+        },
+        data: data
+    })
+    .then(res=>{
+        dispatch({...GET_VIDEO,video:res.video});
+        const{type} = data;
+        if(type=="1"){
+            notification.success({message: '成功添加企业视频'});
+        }else if(type=="2"){
+            notification.success({message: '成功修改企业视频'});
+        }else if(type=="3"){
+            notification.success({message: '成功删除企业视频'});
+        }
+    },err=>{
+       console.log(err)
+    });
+}

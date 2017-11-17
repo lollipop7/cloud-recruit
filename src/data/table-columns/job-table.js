@@ -38,6 +38,7 @@ module.exports = [
         "dataIndex": "department",
         "key": "department",
         "width": 100,
+        "fixed": 'left',
         "render": renderTextWithATag
     },
     {

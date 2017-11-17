@@ -22,4 +22,6 @@ export const ADD_MEMO_EVENT = "ADD_MEMO_EVENT";
 //获取备忘录内容
 export const GET_MEMO_CONTENT = "GET_MEMO_CONTENT"
 //获取具体日期备忘录内容
-export const GET_DATE_MEMO_CONTENT = "GET_DATE_MEMO_CONTENT"
+export const GET_DATE_MEMO_CONTENT = "GET_DATE_MEMO_CONTENT";
+//视频
+export const GET_VIDEO = "GET_VIDEO";

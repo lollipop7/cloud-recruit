@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import store from 'store';
-import { Modal, Icon } from 'antd';
+import { Modal, Icon ,Button} from 'antd';
 import LoadingComponent from 'components/loading';
 const confirm = Modal.confirm;
 
@@ -38,12 +38,12 @@ class ViewModal extends Component {
 
     }
     //下载附件材料
-    downloadAttachment = (name) => {
-        this.props.downloadAttachment(name)
-    }
+    // downloadAttachment = (name) => {
+    //     this.props.downloadAttachment(name)
+    // }
     hideImageModal = () =>{
         this.props.hideImageModal();//隐藏预览框
-        this.props.cancelImageUrl();//清空图片地址
+        //this.props.cancelImageUrl();//清空图片地址
     }
 
 
@@ -115,8 +115,8 @@ class ViewModal extends Component {
                                         style={{ width: '80%',height:'80%',display:'block'}}
                                         src="/static/images/manager/clerk/fjcl.png" />
                                     <a
-                                        onClick={this.downloadAttachment.bind(this,item.filename)}
                                         style={{textAlign:'center',fontSize:'18'}}
+                                        href={`${prefixUri}/download_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`}
                                     >
                                         下载
                                     </a>&nbsp;&nbsp;&nbsp;&nbsp;

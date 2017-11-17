@@ -25,7 +25,7 @@ import * as Actions from 'actions';
        return(
         <div className="credit-investgation clerk-tab-container">
             <ul>
-                {isFill ? <CreditReturnComponent creditInfoData={creditInfoData}/> : <CreditFillComponent {...this.props}/>}
+                {(isFill || creditData.flag) ? <CreditReturnComponent {...this.props}/> : <CreditFillComponent {...this.props}/>}
             </ul>
         </div>    
        )    
@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch),
-    
+    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch)   
 })
 
 export default connect(
