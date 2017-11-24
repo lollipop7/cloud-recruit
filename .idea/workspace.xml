@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a5525f4-e096-4c45-907e-f1324ccc1bac" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/material-attach.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/material-attach.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/view-modal.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/view-modal.jsx" />
+    <list default="true" id="9a5525f4-e096-4c45-907e-f1324ccc1bac" name="Default" comment="使用帮助、招聘流程">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/manage.js" afterPath="$PROJECT_DIR$/src/actions/manage.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/index/video.jsx" afterPath="$PROJECT_DIR$/src/components/index/video.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-investgation.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-investgation.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-return.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-return.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/control.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/control.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/new-clerk-form.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/new-clerk-form.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/form.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/form.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/table.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/table.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/upload-resume-modal.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/upload-resume-modal.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/help.jsx" afterPath="$PROJECT_DIR$/src/pages/help.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/manager.jsx" afterPath="$PROJECT_DIR$/src/pages/manager.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/recruit.jsx" afterPath="$PROJECT_DIR$/src/pages/recruit.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/router/index.js" afterPath="$PROJECT_DIR$/src/router/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scss/main.scss" afterPath="$PROJECT_DIR$/src/scss/main.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scss/pages/clerk-detail.scss" afterPath="$PROJECT_DIR$/src/scss/pages/clerk-detail.scss" />
     </list>
     <ignored path="cloud-recruit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,6 +111,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -107,18 +123,7 @@
             <path>
               <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
               <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
@@ -131,18 +136,16 @@
               <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="task" type="462c0819:PsiDirectoryNode" />
+              <item name="help" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="E:/xiangmu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
@@ -185,6 +188,7 @@
       <workItem from="1509930683794" duration="1687000" />
       <workItem from="1509939830033" duration="639000" />
       <workItem from="1509948184298" duration="15000" />
+      <workItem from="1511494989538" duration="272000" />
     </task>
     <task id="LOCAL-00001" summary="附件材料">
       <created>1509595532729</created>
@@ -197,7 +201,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38033000" />
+    <option name="totallyTimeSpent" value="38305000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -211,8 +215,9 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21035941" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1844609" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -222,7 +227,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -239,7 +243,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="附件材料" />
-    <option name="LAST_COMMIT_MESSAGE" value="附件材料" />
+    <MESSAGE value="使用帮助、招聘流程" />
+    <option name="LAST_COMMIT_MESSAGE" value="使用帮助、招聘流程" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
