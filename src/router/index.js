@@ -157,16 +157,16 @@ const SettingEmail = {
 }
 
 // 引入使用帮助页面路由
-const HelpPage = {
-    path:"help",
-    breadcrumbName:"使用帮助",
-    onLeave:onLeavePage,
-    getComponent:(nextState,cb)=>{
-        require.ensure([], (require) => {
-            cb(null, require('pages/help').default)
-        }, 'HelpPage')
-    }
-}
+// const HelpPage = {
+//     path:"help",
+//     breadcrumbName:"使用帮助",
+//     onLeave:onLeavePage,
+//     getComponent:(nextState,cb)=>{
+//         require.ensure([], (require) => {
+//             cb(null, require('pages/help').default)
+//         }, 'HelpPage')
+//     }
+// }
 
 // 引入404页面路由
 const NotFoundPage = {
@@ -295,6 +295,154 @@ const ManagerPage = {
         require.ensure([], (require) => {
             cb(null, require('pages/manager').default)
         }, 'ManagerPage')
+    }
+}
+//引入使用帮助页面编辑目的子路由
+const HelpEditPurpose = {
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/helpEditPurpose').default)
+        }, 'HelpEditPurpose')
+    }
+}
+//引入使用帮助页面使用对象子路由
+const UseObject = {
+    path: 'useObject',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/useObject').default)
+        }, 'UseObject')
+    } 
+}
+//引入使用帮助页面登录界面子路由
+const LogPage = {
+    path: 'logPage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/logPage').default)
+        }, 'LogPage')
+    } 
+}
+//引入使用帮助页面主界面子路由
+const MainPage = {
+    path: 'mainPage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/mainPage').default)
+        }, 'MainPage')
+    } 
+}
+//引入使用帮助页面职位管理界面子路由
+const ResumePage = {
+    path: 'resumePage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/resumePage').default)
+        }, 'ResumePage')
+    } 
+}
+//引入使用帮助页面招聘流程界面子路由
+const RecrtPage = {
+    path: 'RecrtPage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/recrtPage').default)
+        }, 'RecrtPage')
+    } 
+}
+//引入使用帮助页面人才库界面子路由
+const TlentPage = {
+    path: 'TlentPage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/tlentPage').default)
+        }, 'TlentPage')
+    } 
+}
+//引入使用帮助页面任务报表界面子路由
+const TskPage = {
+    path: 'TskPage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/tskPage').default)
+        }, 'TskPage')
+    } 
+}
+//引入使用帮助页面员工管理界面子路由
+const ManagePage = {
+    path: 'ManagePage',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/managePage').default)
+        }, 'ManagePage')
+    } 
+}
+//引入使用帮助页面常见问题界面子路由
+const Questions = {
+    path: 'Questions',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/questions').default)
+        }, 'Questions')
+    } 
+}
+//引入使用帮助页面说明界面子路由
+const Explain = {
+    path: 'Explain',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/help/explain').default)
+        }, 'Explain')
+    } 
+}
+// 引入使用帮助页面路由
+const HelpPage = {
+    path:"help",
+    breadcrumbName:"使用帮助",
+    indexRoute:HelpEditPurpose,
+    getChildRoutes(partialNextState, cb) {
+        require.ensure([], (require) => {
+            cb(null, [
+                HelpEditPurpose,
+                UseObject,
+                LogPage,
+                MainPage,
+                ResumePage,
+                RecrtPage,
+                TlentPage,
+                TskPage,
+                ManagePage,
+                Questions,
+                Explain
+            ])
+        })
+    },
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/help').default)
+        }, 'HelpPage')
     }
 }
 

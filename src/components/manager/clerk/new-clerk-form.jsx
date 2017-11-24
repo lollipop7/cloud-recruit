@@ -253,7 +253,6 @@ class NewClerkForm extends Component {
             workemailInput,
             cardInput
         } = this.refs;
-        console.log(documenttype)
         allCrewList.forEach((item,index) => {
             if(value !=''){
                 if( field == 'name' && value == item.name){

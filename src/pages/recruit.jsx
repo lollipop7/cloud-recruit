@@ -37,13 +37,12 @@ class RecruitPage extends BasicPage {
     params = {
         stageid: '1',
         skip: 0,
-        range:"1",
+        range:"2",
         positionid:"",
         degree:''
     };
 
-    formData = {
-    };
+    formData = {};
 
     componentDidMount() {
         this.hideNProgress();

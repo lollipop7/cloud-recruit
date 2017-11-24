@@ -18,7 +18,6 @@ import * as Actions from 'actions';
             }else{
                 searchCreditInvestgation({rid:rid+''});
             }
-        
     }
     render() {
        const {creditData,searchCredit, creditInfoData, isFill} = this.props;

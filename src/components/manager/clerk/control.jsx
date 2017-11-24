@@ -37,10 +37,10 @@ class ControlComponent extends Component {
         switch(value)
             {
                 case "按入职时间从早到晚":
-                    handleFind({sort:"desc"});
+                    handleFind({sort:"asc"});
                     break;
                 case "按入职时间降序":
-                    handleFind({sort:"asc"});
+                    handleFind({sort:"desc"});
                     break;
                 default :
                     break;    

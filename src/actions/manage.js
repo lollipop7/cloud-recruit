@@ -466,7 +466,7 @@ import isNumber from 'lodash/isNumber';
             }
             NProgress.done();
         },err=>{
-            //dispatch(...CANCELLOADING)
+            dispatch({...CANCELLOADING})
         })
     }
     export const hidecredit = () => (dispatch,getState) => {

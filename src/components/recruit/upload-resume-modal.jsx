@@ -12,7 +12,7 @@ import * as Actions from 'actions';
 class UploadResumeModalComponents extends Component {
     state = {
         fileList: [],
-        source: 'zhilian',
+        source: 'basic2',
         error: false,
         errorMsg: '',
         isResetForm: false
@@ -140,8 +140,8 @@ class UploadResumeModalComponents extends Component {
                                 width: 366
                             }}
                         >
-                            <Option value="zhilian">智联招聘</Option>
-                            <Option value="basic1">51job</Option>
+                            {/* <Option value="zhilian">智联招聘</Option>
+                            <Option value="basic1">51job</Option> */}
                             <Option value="basic2">通用</Option>
                         </Select>
                     </li>

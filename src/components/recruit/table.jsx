@@ -7,6 +7,7 @@ import LoadingComponent from 'components/loading';
 import columns from 'data/table-columns/recruit-table';
 import trim from 'lodash/trim';
 import merge from 'lodash/merge';
+import moment from 'moment';
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -42,6 +43,9 @@ class TableComponents extends Component {
                     >
                         {trim(text)}
                     </a>
+        }
+        columns[columns.length-2].render = (text,record,index)=>{
+            return <a title={moment(text).format("YYYY-MM-DD")}>{moment(text).format("YYYY-MM-DD")}</a>;
         }
         columns[columns.length-1].render = (text,record,index)=>{
             return <span className="prestatusname-manage">{text?text:"无"}</span>;

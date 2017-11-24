@@ -125,7 +125,7 @@ export default class FormComponents extends Component {
                             添加候选人+
                     </Button>
                     <Select 
-                        defaultValue="按申请时间升序" 
+                        defaultValue="按申请时间降序" 
                         style={{width: 140,height:30}}
                         onChange={(value)=>this.handleSelectChange('time',value)}
                     >

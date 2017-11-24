@@ -35,7 +35,7 @@ class ClerkPage extends Component {
     params = {
         skip: 0,
         count:"20",
-        sort:"asc"
+        sort:"desc"
     }
 
     // 表单数据
@@ -148,7 +148,7 @@ class ClerkPage extends Component {
             this.params={
                 skip: 0,
                 count:"20",
-                sort:"asc"
+                sort:"desc"
             }
         }
     }

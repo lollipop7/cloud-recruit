@@ -9,33 +9,19 @@ import LoadingComponent from 'components/loading';
 
 import {ErrorInputComponent} from '../input-select-time';
 import store from 'store';
+import pickBy from 'lodash/pickBy';
 
 export default class CreditFillComponent extends Component {
 
      state = {
-        // name:'',
-        // mobile:'',
-        // card:'',
-        // certid:'',
-        // rid:'',
-        // resumeid:'',
-        // searchLoading:false,
-        // fileList:[],
-        // dataType:"简历文件",
-        // resume:"",
-        // authorizationFile:"",
-        // graduationFile:"",
-        // degreeFile:"",
-        // overseasEducationFile:"",
-        // certificateVocationalFile:"",
-        // transactionType:""
-        
-        name:'卜清华',
-        mobile:'13000000000',
-        card:'430703198702220475',
-        certid:'104101200306000405',
-        rid:'10',
+        name:'',
+        mobile:'',
+        card:'',
+        certid:'',
+        rid:'',
         resumeid:'',
+        searchLoading:false,
+        fileList:[],
         dataType:"简历文件",
         resume:"",
         authorizationFile:"",
@@ -43,8 +29,27 @@ export default class CreditFillComponent extends Component {
         degreeFile:"",
         overseasEducationFile:"",
         certificateVocationalFile:"",
-        transactionType:"100,140,130",
-        fileList:[]
+        transactionType:"",
+        disableState:false ,
+        border:false
+        
+        // name:'管文平',
+        // mobile:'13000000000',
+        // card:'310104198601080836',
+        // certid:'104101200306000405',
+        // rid:'10',
+        // resumeid:'',
+        // dataType:"简历文件",
+        // resume:"",
+        // authorizationFile:"",
+        // graduationFile:"",
+        // degreeFile:"",
+        // overseasEducationFile:"",
+        // certificateVocationalFile:"",
+        // transactionType:"100,120,150,140,145,130",
+        // fileList:[],
+        // disableState:false ,
+        // border:false 
      }
 
      handleChange = (field,e) => {
@@ -73,44 +78,58 @@ export default class CreditFillComponent extends Component {
             }
     }
      componentWillReceiveProps(nextprops){
-         const {searchLoading ,data,creditData} = nextprops;
-    //     const{
-    //         name,
-    //         mobile,
-    //         card,
-    //         certid,
-    //         resumeid,
-    //         rid
-    //     } = data.resumeoff;
-    //     if(creditData.contractCount){
-    //         this.setState({
-    //             isLoading:false
-    //         })
-    //     }
-    //     if(resumeid){
-    //         this.setState({
-    //             name,
-    //             mobile,
-    //             card,
-    //             certid:certid?certid:'',
-    //             resumeid
-    //         })
-    //     }else{
-    //         this.setState({
-    //             name,
-    //             mobile,
-    //             card,
-    //             certid,
-    //             rid:rid+''
-    //         })
-    //     }
+        const {searchLoading ,data={},creditData} = nextprops;
+        const {resumeoff={}} = data;
+        const{
+            name="",
+            mobile,
+            card,
+            certid,
+            resumeid,
+            rid
+        } = data.resumeoff;
+        if(data!={}){
+            this.setState({
+                isLoading:false
+            })
+        }
+        if(resumeid){
+            this.setState({
+                name,
+                mobile,
+                card,
+                certid:certid?certid:'',
+                resumeid
+            })
+        }else{
+            this.setState({
+                name,
+                mobile,
+                card,
+                certid,
+                rid:rid+''
+            })
+        }
         this.setState({
             searchLoading
         })
     }
     searchCredit = () => {
-        const {searchCredit,data,showcredit,creditData}=this.props;
-        const {resumeid,rid,name,mobile,card,certid,resume,authorizationFile,transactionType,graduationFile}= this.state;
+        const {
+            searchCredit,
+            data,
+            showcredit,
+            creditData
+        }=this.props;
+        const {
+            name,
+            mobile,
+            card,
+            certid,
+            resume,
+            authorizationFile
+        }= this.state;
+        //检验必选项是否为空
         if(!mobile){
             this.refs.phonenumInput.triggerError(true);
             return false
@@ -135,7 +154,9 @@ export default class CreditFillComponent extends Component {
             })
             return false
         }
+        //已选方案
         const arr =[];
+        //已选方案转为数字代替
         const numArr = [];
         $('.basicDataUl li').each(function(index,item){
             arr.push(item.innerHTML)
@@ -202,64 +223,32 @@ export default class CreditFillComponent extends Component {
                 break;    
                     }
         }
+        //已选调查方案
         const numString = numArr.join(",")
+        //过滤需要的参数
+        const filterObj = pickBy(this.state,(val,key)=>{
+            return  key=== 'graduationFile' || key=== 'degreeFile' || key=== 'overseasEducationFile' || key=== 'certificateVocationalFile' || key=== 'resumeid' || key=== 'name' || key=== 'card' || key=== 'certid' || key=== 'resume' || key=== 'authorizationFile' || key=== 'rid'
+        });
+        //过滤不为空的参数
+        const filterdata = pickBy(filterObj,(val,key)=>{
+            return  val !=="" 
+        });
+        //新建需要参数的对象
+        const addData = {phone:mobile,transactionType:numString};
+        //合并请求需要的对象参数
+        const requiredata = Object.assign(filterdata,addData);
+        //判断是否已选调查方案
+        if(!numString){
+            notification.warning({
+                message:"请选择调查方案！"
+            })
+            return false
+        }
         this.setState({
             searchLoading:true,
         })
-        setTimeout(()=>{
-            searchCredit({
-                rid,
-                name,
-                phone:mobile,
-                card,
-                certid,
-                transactionType,
-                resume,
-                authorizationFile
-            }, showcredit)
-        })        
-        // if(creditData.flag){
-        //     if(resumeid)
-        //         {
-        //             searchCredit({resumeid},showcredit);
-        //         }else{
-        //             searchCredit({rid},showcredit);
-        //         }
-        // }else{
-        //     if(resumeid)
-        //         {
-        //             searchCredit({
-        //                 resumeid,
-        //                 name,
-        //                 phone:mobile,
-        //                 card,
-        //                 certid,
-        //                 transactionType,
-        //                 resume:"",
-        //                 authorizationFile:"",
-        //                 graduationFile:"",
-        //                 degreeFile:"",
-        //                 overseasEducationFile:"",
-        //                 certificateVocationalFile:""
-        //             },showcredit);
-        //         }else{
-        //             searchCredit({
-        //                 rid,
-        //                 name,
-        //                 phone:mobile,
-        //                 card,
-        //                 certid,
-        //                 transactionType,
-        //                 resume:"",
-        //                 authorizationFile:"",
-        //                 graduationFile:"",
-        //                 degreeFile:"",
-        //                 overseasEducationFile:"",
-        //                 certificateVocationalFile:""
-        //             },showcredit);
-        //         }
-
-        //}
+        //开始调查
+        searchCredit(requiredata,showcredit);
     }
     //基础数据点击
     onClick = (value,num) => {
@@ -296,14 +285,7 @@ export default class CreditFillComponent extends Component {
             }
         };
         const $li = $(`<li title="点击删除" style="cursor:pointer">${value}</li>`);
-        $('.basicDataUl').append($li);
-        // this.setState({
-        //     numArr
-        // })
-        // setTimeout(()=>{
-        //     console.log(this.state.numArr)
-        // })
-        
+        $('.basicDataUl').append($li);   
     }
     //证明人访谈
     onExpressClick = (value) => {
@@ -518,19 +500,51 @@ export default class CreditFillComponent extends Component {
     }
     //选择上传文件类型
     handleSelectChange = (value) => {
+        const {
+            resume,
+            authorizationFile,
+            graduationFile,
+            degreeFile,
+            overseasEducationFile,
+            certificateVocationalFile
+        } = this.state;
+        if(value==="简历文件" && resume || 
+            value==="授权证书文件" && authorizationFile || 
+            value==="学历证书" && graduationFile
+            || value==="学信证书" && degreeFile || 
+            value==="海外学历证书" && overseasEducationFile || 
+            value==="职位资格证书" && certificateVocationalFile){
+                notification.warning({
+                    message:"该类型文件已存在！"
+                })
+                return false
+        }
         this.setState({
             dataType:value,
-            fileList:[]
+            fileList:[],
+            border:false
         })
-       
     }
     //上传文件点击
     UploadFile = () => {
-        const {fileList} = this.state;
+        const {
+            fileList,
+            dataType,
+            resume,
+            authorizationFile,
+            graduationFile,
+            degreeFile,
+            overseasEducationFile,
+            certificateVocationalFile
+        } = this.state;
+        
         if(fileList.length!=0){
+            this.setState({
+                border:true
+            })
             notification.warning({
-                message: '每种文件类型只能上传一个文件！'
-                });
+                message: '每种文件类型一次只能上传一个文件！'
+            });
         }
     }
     //删除上传文件
@@ -590,17 +604,18 @@ export default class CreditFillComponent extends Component {
             graduationFile,
             degreeFile,
             overseasEducationFile,
-            certificateVocationalFile
+            certificateVocationalFile,
+            disableState,
+            border
          } = this.state;
-         const {creditData}=this.props;
-        
+         const {creditData}=this.props;  
          return(
              <li>
                  <div className="fill-field">
                     <Collapse defaultActiveKey={['1','2']} >
-                        <Panel header="第一步：候选人信息" key="1">
+                        <Panel header="第一步：候选人信息" key="1" style={{height:350}}>
                         <div className="inline-block">
-                            {/* {isLoading &&
+                            {isLoading &&
                                 <LoadingComponent style={{
                                     position: 'absolute',
                                     top: 100,
@@ -609,7 +624,7 @@ export default class CreditFillComponent extends Component {
                                     width: '10%',
                                     zIndex: 2
                                 }} />
-                            } */}
+                            }
                             <ul>
                                 <li style={{paddingBottom: 25}}>
                                     <ErrorInputComponent
@@ -655,34 +670,6 @@ export default class CreditFillComponent extends Component {
                                     />
                                 </li>
                             </ul>
-                            {/* <div className="inline-block" style={{marginLeft: 177}}>
-                                {creditData.flag?
-                                    <Button
-                                        type="primary"
-                                        style={{fontSize: 20, width: 182, height: 45}}
-                                        onClick= {this.searchCredit}
-                                        loading={searchLoading}
-                                    >
-                                        点击查看
-                                    </Button>:
-                                    <span>
-                                        <span
-                                            style={{fontSize:12,color:'red'}}
-                                        >
-                                        友情提醒：免费查询共{`${creditData.contractSum}次，`}仅剩{`${creditData.contractCount?creditData.contractCount:0}`}次
-                                        </span><br/>
-                                        <Button
-                                            type="primary"
-                                            style={{fontSize: 20, width: 182, height: 45}}
-                                            onClick= {this.searchCredit}
-                                            loading={searchLoading}
-                                        >
-                                            一键查询
-                                        </Button>
-                                    </span>
-                                    }
-
-                            </div> */}
                         </div>
                         <div className="inline-block"
                             style={{
@@ -697,6 +684,8 @@ export default class CreditFillComponent extends Component {
                                 <div className="resumeSource">
                                     <span>选择上传文件类型：</span>
                                     <Select
+                                        ref="fileSelect"
+                                        className={border?"borderState":"borderNoneState"}
                                         style={{ width: 200,height:50,color:'#868686' }}
                                         placeholder="请选择上传文件类型"
                                         value={dataType}
@@ -711,7 +700,7 @@ export default class CreditFillComponent extends Component {
                                     </Select>
                                 </div>
                                 <div className="hint-list" style={{width: 385}}>
-                                    <span className="span-title">候选人文件上传：</span>
+                                    <span className="span-title">候选人文件上传：</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <Upload
                                         name='file'
                                         disabled={fileList.length==0?false:true}
@@ -722,58 +711,36 @@ export default class CreditFillComponent extends Component {
                                         onRemove={this.onFileRemove}
                                     >
                                         <Icon 
-                                            type="plus-square-o" 
-                                            style={{fontSize:38,color:"#888"}} 
+                                            className="upLoad"
+                                            type="upload" 
                                             title="请先选择要上传的文件类型再上传"
                                             onClick= {this.UploadFile}
                                         />
                                     </Upload>
-                                    <span className="explaination">
-                                    温馨提示：请先选择要上传的文件类型再上传文件，
-                                    <span style={{color:"red"}}>候选人简历文件和授权证书文件为必须上传文件</span>，
-                                    其他为可选上传文件，文件支持.doc, .docx, .pdf等文件格式，文件大小应小于3MB;
+                                    <span className="explaination" style={{position:"relative"}}>
+                                        <span>温馨提示：</span>请先选择要上传的文件类型再上传文件，
+                                        <span style={{color:"red"}}>候选人简历文件和授权证书文件为必须上传文件</span>，
+                                        其他为可选上传文件，文件支持.doc, .docx, .pdf等文件格式，文件大小应小于3MB;
                                     </span>
                                 </div>
+                                
                                 <div 
                                     className="uploadFile"
                                     style={{position:"relative",width:400,textAlign:"left"}}>
-                                    已上传文件：
-                                    <span 
-                                        title="点击删除"
-                                        onClick={this.deleteFile.bind(this,"简历文件")}
-                                    >
-                                        {resume?"简历文件":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span 
-                                        title="点击删除"
-                                        onClick={this.deleteFile.bind(this,"授权证书文件")}
-                                    >
-                                        {authorizationFile?"授权证书文件":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span 
-                                        title="点击删除"
-                                        onClick={this.deleteFile.bind(this,"学历证书")}
-                                    >
-                                        {graduationFile?"学历证书":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span
-                                        title="点击删除" 
-                                        onClick={this.deleteFile.bind(this,"学信证书")}
-                                    >
-                                        {degreeFile?"学信证书":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span
-                                        title="点击删除" 
-                                        onClick={this.deleteFile.bind(this,"海外学历证书")}
-                                    >
-                                        {overseasEducationFile?"海外学历证书":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span
-                                        title="点击删除"
-                                        onClick={this.deleteFile.bind(this,"职业资格证书")}
-                                    >
-                                        {certificateVocationalFile?"职业资格证书":""}</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    已上传文件类型列表：
+                                    {!resume && !authorizationFile && !graduationFile && !degreeFile && !overseasEducationFile && !certificateVocationalFile && <a>暂无上传文件</a> }
+                                    <span>
+                                        {resume?<a>&nbsp;&nbsp;简历文件&nbsp;&nbsp;<b title="点击删除"  onClick={this.deleteFile.bind(this,"简历文件")}>×</b>&nbsp;&nbsp;</a>:""}</span>
+                                    <span>
+                                        {authorizationFile?<a>&nbsp;&nbsp;授权证书文件&nbsp;&nbsp;<b title="点击删除" onClick={this.deleteFile.bind(this,"授权证书文件")}>×</b>&nbsp;&nbsp;</a>:""}</span>
+                                    <span>
+                                        {graduationFile?<a>&nbsp;&nbsp;学历证书&nbsp;&nbsp;<b title="点击删除" onClick={this.deleteFile.bind(this,"学历证书")}>×</b>&nbsp;&nbsp;</a>:""}</span>
+                                    <span>
+                                        {degreeFile?<a>&nbsp;&nbsp;学信证书&nbsp;&nbsp;<b title="点击删除"  onClick={this.deleteFile.bind(this,"学信证书")}>×</b>&nbsp;&nbsp;</a>:""}</span>
+                                    <span>
+                                        {overseasEducationFile?<a>&nbsp;&nbsp;海外学历证书&nbsp;&nbsp;<b title="点击删除" onClick={this.deleteFile.bind(this,"海外学历证书")}>×</b>&nbsp;&nbsp;</a>:""}</span>
+                                    <span>
+                                        {certificateVocationalFile?<a>&nbsp;&nbsp;职业资格证书&nbsp;&nbsp;<b title="点击删除" onClick={this.deleteFile.bind(this,"职业资格证书")}>×</b>&nbsp;&nbsp;</a>:""}</span>
                                 </div>
                             </div>
                         </div>
@@ -888,7 +855,7 @@ export default class CreditFillComponent extends Component {
                                 </div>
                             </div>
                             <div className="SurveyPlan">
-                                <p className="p-title">调查方案</p>
+                                <p className="p-title">已选调查方案</p>
                                 <div className="data">
                                     <div className="basicData">
                                         <span 
@@ -955,7 +922,7 @@ export default class CreditFillComponent extends Component {
                                         loading={searchLoading}
                                         type="primary" 
                                         onClick={this.searchCredit}
-                                        style={{width:200,height:50,fontSize:16}}
+                                        style={{width:150,height:40,fontSize:16}}
                                     >
                                     开始调查
                                     </Button>

@@ -44,9 +44,7 @@ export default class VideoComponent extends Component {
         const {videoUrl} = this.state;
         const {editVideo} = this.props;
         if(!videoUrl){
-            notification.warning({
-                message: '请在输入框中添加视频链接！'
-              });
+            this.refs.videoUrl.refs.input.focus()
         }else{
             this.props.editVideo({type:'1',videourl:videoUrl})
         }
@@ -57,9 +55,7 @@ export default class VideoComponent extends Component {
         const {id="" ,videoUrl,msg} = this.state;
         const {editVideo} = this.props;
         if(!videoUrl){
-            notification.warning({
-                message: '请在输入框中输入修改后的视频链接！'
-              });
+            this.refs.videoUrl.refs.input.focus()
         }else{
             this.props.editVideo({type:"2",id:id+"",videourl:videoUrl,msg})
         }  
@@ -97,6 +93,7 @@ export default class VideoComponent extends Component {
                     title={
                         <div>
                             <Input
+                                ref="videoUrl"
                                 style={{height:30}}
                                 value={videoUrl}
                                 onChange={this.onChange}
@@ -112,12 +109,10 @@ export default class VideoComponent extends Component {
                                         复制链接
                                     </Button>}
                             /><br/>
-                            <Tooltip title="请在以上输入框中添加视频链接">
                                 <Button type="primary" onClick = {this.addUrl}>添加</Button>
-                            </Tooltip>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <Tooltip title="请在以上输入框中修改视频链接">
+                           &nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button type="primary" onClick = {this.editUrl}>修改</Button>
-                            </Tooltip>&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <Button type="primary" onClick = {this.deleteUrl}>删除</Button>
                     </div>}
                 >
