@@ -37,10 +37,14 @@ const SHOW_INTERVIEW_EVALUATION_MODAL = {type:types.SHOW_INTERVIEW_EVALUATION_MO
 const HIDE_INTERVIEW_EVALUATION_MODAL = {type:types.HIDE_INTERVIEW_EVALUATION_MODAL};
 
 //添加面试评估
-const GET_EVALUATION = {type:types.GET_EVALUATION}
+const GET_EVALUATION = {type:types.GET_EVALUATION};
 
 //添加面试评估ID
-const GET_EVALUATION_ID = {type:types.GET_EVALUATION_ID}
+const GET_EVALUATION_ID = {type:types.GET_EVALUATION_ID};
+
+//背景调查
+const SHOW_BACKGROUNDSURVEY_MODAL = {type:types.SHOW_BACKGROUNDSURVEY_MODAL};
+const HIDE_BACKGROUNDSURVEY_MODAL = {type:types.HIDE_BACKGROUNDSURVEY_MODAL};
 
 //简历信息分享
 const RESUME_INFORMATION = {type:types.RESUME_INFORMATION}
@@ -63,29 +67,6 @@ export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
         dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
     });
 }
-
-// export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
-//         dispatch(LOAD_INFO_START);
-//         axios({
-//             url: '/hrmanage/api /web/getResumeById',
-//             method: 'post',
-//             data: {...data,...{
-//                 head:{
-//                     type:'h',
-//                     transcode: 'L0017'
-//                 }
-//             }},
-//             header: {
-//                 contentType: 'application/x-www-form-urlencoded'
-//             },
-//         })
-//         .then(res=>{
-//             console.log(res);
-//             dispatch(LOAD_INFO_DONE);
-//             dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
-//         });
-//     }
-
 
 // 获取流程log(根据简历id和职位id)
 export const getStageLog = (data) => (dispatch,getState) => {
@@ -118,27 +99,6 @@ export const getTalentResumeInfo = (data) => (dispatch,getState) => {
         console.log(err);
     });
 }
-
-// export const getTalentResumeInfo = (data) => (dispatch,getState) => {
-//         dispatch(LOAD_INFO_START);
-//         axios({
-//             url: '/hrmanage/api /web/resumeView',
-//             method: 'post',
-//             data: {...data,...{
-//                 head:{
-//                     type:'h',
-//                     transcode: 'L0040'
-//                 }
-//             }},
-//             header: {
-//                 contentType: 'application/x-www-form-urlencoded'
-//             },
-//         })
-//         .then(res=>{
-//             dispatch(LOAD_INFO_DONE);
-//             dispatch({...LOAD_RESUME_INFO,resumeInfo:res});
-//         });
-//     }
 
 // 下载简历
 export const downloadResume = (data,username) => (dispatch,getState) => {
@@ -252,22 +212,6 @@ export const getEvaluation = (data) => (dispatch,getState) => {
     });
 }
 
-//获取面试评估表id
-// export const getEvaluationId = (data,getEvaluation) => (dispatch,getState) => {
-//     AjaxByToken('getInterviewForm',{
-//         head: {
-//             transcode: 'L0070'
-//         },
-//         data: data
-//     })
-//     .then(res=>{
-//         getEvaluation({evaluationId:`${res.evaluationId}`})
-//         dispatch({...GET_EVALUATION_ID,evaluationid:res.evaluationId})
-//     },err=>{
-//         message.error('获取失败！');
-//     });
-// }
-
 export const showModal = (data) => (dispatch,getState) => {
     dispatch({...SHOW_MODAL,currentStage:data});
 }
@@ -290,4 +234,12 @@ export const showEvaluationModal = (data) => (dispatch,getState) => {
 
 export const hideEvaluationModal = () => (dispatch,getState) => {
     dispatch(HIDE_INTERVIEW_EVALUATION_MODAL);
+}
+
+export const showBackgroundModal = (data) => (dispatch,getState) => {
+    dispatch({...SHOW_BACKGROUNDSURVEY_MODAL,evaluationData:data});
+}
+
+export const hideBackgroundModal = () => (dispatch,getState) => {
+    dispatch(HIDE_BACKGROUNDSURVEY_MODAL);
 }

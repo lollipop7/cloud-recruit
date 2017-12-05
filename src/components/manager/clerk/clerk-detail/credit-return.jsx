@@ -5,107 +5,151 @@ import BarChartComponent from './bar-chart';
 import { Collapse } from 'antd';
 import store from 'store';
 const Panel = Collapse.Panel;
-import moment from 'moment'
+import moment from 'moment';
+import pickBy from 'lodash/pickBy';
 
-export default class CreditReturnComponent extends Component {
+//redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from 'actions';
+
+ class CreditReturnComponent extends Component {
+    state = {
+        Loading:true
+    }
     componentDidMount() {
-        const {searchCredit , data , creditData} = this.props,
-        {resumeid,rid} = data.resumeoff;
+        const {searchCredit , data , creditData={}, queryEmployeeList} = this.props,
+        {resumeid,rid} = queryEmployeeList.list.resumeoff;
         if(creditData.flag){
             if(resumeid){
                 searchCredit({resumeid});
             }else{
-                searchCredit({rid});
+                searchCredit({rid:rid+""});
             }
         }
     }
     render(){
-        const {creditInfoData} = this.props,
-            {
-                cerditcerinfo=[],
-                dishonest=[],
-                education=[],
-                selfinfo={},
-                basic={},//基本信息{}
-                jzList=[]//较真返回的各方案信息[]
-            } = creditInfoData;
-        // const {
-        //     sid,
-        //     card,
-        //     certcard,
-        //     mobile,
-        //     verifymessage,//返回消息
-        //     bizno,//"transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
-        //     cid,
-        //     createby,
-        //     createdate,
-        //     activeflag,
-        //     flg1,//姓名和身份证是否匹配标识字段
-        //     flg2//电话号码和姓名是否匹配标识字段
-        // } = selfinfo;
+        const jzarr =[];
+        const Data =[];
+        const DataJzlist = [];
+        const {creditInfoData,creditData} = this.props;
+        //判断creditInfoData是否为空对象
+        if(!creditInfoData.cerditcerinfo && !creditInfoData.dishonest && !creditInfoData.education && !creditInfoData.selfinfo && !creditInfoData.basic && !creditInfoData.jzList){
+            Data.push({
+                cerditcerinfo:[],
+                dishonest:[],
+                education:[],
+                selfinfo:{},
+                basic:{},//基本信息{}
+                jzList:[]//较真返回的各方案信息[]
+            }) ;
+        }else{
+            Data.push(creditInfoData)
+        };
+        //过滤调查方案
+        for(let j=0;j<Data[0].jzList.length;j++){
+            if(Data[0].jzList[j].transactiontype!="110" && Data[0].jzList[j].transactiontype!="127" && Data[0].jzList[j].transactiontype!="212" && Data[0].jzList[j].transactiontype!="213"){
+                DataJzlist.push(Data[0].jzList[j])
+            }
+        }
+        const DataObject = Data[0];
+        // const  {
+        //         //cerditcerinfo=[],
+        //         //dishonest=[],
+        //         //education=[],
+        //         //selfinfo={},
+        //         //basic={},//基本信息{}
+        //         //jzList=[]//较真返回的各方案信息[]
+        //     } = creditInfoData;
+        //    creditInfoData.jzList =[]
+        for(let i=0;i<DataObject.jzList.length;i++){
+            if(DataObject.jzList[i].transactiontype==="122" || DataObject.jzList[i].transactiontype==="123" || DataObject.jzList[i].transactiontype==="200" || DataObject.jzList[i].transactiontype==="201" || DataObject.jzList[i].transactiontype==="210" || DataObject.jzList[i].transactiontype==="211"){
+                jzarr.push(DataObject.jzList[i].transactiontype)
+            }
+        }
+        const {Loading} = this.state;
+            //         const {
+            //         sid="",
+            //         card="",
+            //         certcard="",
+            //         mobile="",
+            //         verifymessage="",//返回消息
+            //         bizno="",//"transactionid": "2017102010510295036e89a77-b06a-4ead-9ab7-850defdfa0fb",//业务流水号
+            //         cid="",
+            //         createby="",
+            //         createdate="",
+            //         activeflag="",
+            //         flg1=false,//姓名和身份证是否匹配标识字段
+            //         flg2=false//电话号码和姓名是否匹配标识字段
+            //     } = selfinfo;
         const token = store.get('token');
         return (
-            <li style={{paddingLeft: 100}}>
-                <div className="inverst-field" style={{marginBottom:30}}>
-                    {/* <div className="inverst-item inline-block box-border">
-                        <div className="top-title">
-                            身份证核查
-                            <span className="pull-right" style={{color: "#48df81"}}>信息源自中国公安部</span>
-                        </div>
-                        <div className="superior-content" style={{
-                            padding: "27px 0 0 49px"
-                        }}>
-                            <div className="inline-block">
-                                <img src={`/static/images/manager/clerk/${flg1 ? `gou` : `cha`}.png`} alt="勾差" style={{height: 44}}/>   
+            <li style={{paddingLeft: 100}}> 
+               {/* {creditInfoData.selfinfo!=null && <div className="inverst-field" style={{marginBottom:30}}>
+                    <div>
+                        <div className="inverst-item inline-block box-border" style={{width:360}}>
+                            <div className="top-title">
+                                身份证核查
+                                <span className="pull-right" style={{color: "#48df81"}}>信息源自中国公安部</span>
                             </div>
-                            <div className="info-right inline-block">
-                                <ul>
-                                    <li className="list-item">
-                                        <span style={{fontSize: 20}}>{selfinfo.name?selfinfo.name:""}</span>
+                            <div className="superior-content" style={{
+                                padding: "27px 0 0 49px",height:95
+                            }}>
+                                <div className="inline-block">
+                                    <img src={`/static/images/manager/clerk/${selfinfo.flg1 ? `gou` : `cha`}.png`} alt="勾差" style={{height: 44}}/>   
+                                </div>
+                                <div className="info-right inline-block">
+                                    <ul>
+                                        <li className="list-item">
+                                            <span style={{fontSize: 20}}>{selfinfo.name?selfinfo.name:""}</span>
+                                            <span></span>
+                                            <span></span>
+                                        </li>
+                                        <li className="list-item">
+                                        <span>{selfinfo.card?selfinfo.card:""}</span>
                                         <span></span>
-                                        <span></span>
-                                    </li>
-                                    <li className="list-item">
-                                    <span>{card}</span>
-                                    <span></span>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
+                            <img className="consquence"
+                                src={`/static/images/manager/clerk/${selfinfo.flg1 ? `pipei.png` : `bupipei.png`}`
+                                } alt="匹配"/>
                         </div>
-                        <img className="consquence"
-                               src={`/static/images/manager/clerk/${flg1 ? `pipei.png` : `bupipei.png`}`
-                               } alt="匹配"/>
-                    </div> */}
-                    {/* <div className="inverst-item inline-block box-border">
-                        <div className="top-title">
-                            手机号核查
-                            <span className="pull-right" style={{color: "#c25255"}}>信息源自运营商</span>
-                        </div>
-                        <div className="superior-content" style={{
-                            padding: "27px 0 0 49px"
-                        }}>
-                            <div className="inline-block">
-                                <img src={`/static/images/manager/clerk/${flg2 ? `gou` : `cha`}.png`} 
-                                    alt="勾差"
-                                    style={{height: 44}}/>
+                        <div className="inverst-item inline-block box-border" style={{width:360}}>
+                            <div className="top-title">
+                                手机号核查
+                                <span className="pull-right" style={{color: "#c25255"}}>信息源自运营商</span>
                             </div>
-                            <div className="info-right inline-block">
-                                <ul>
-                                    <li className="list-item">
-                                        <span style={{fontSize: 20}}>{mobile}</span>
-                                        <span>移动号码</span>
-                                    </li>
-                                    <li className="list-item">
-                                        <span>{name}</span>
-                                        <span></span>
-                                    </li>
-                                </ul>
+                            <div className="superior-content" style={{
+                                padding: "27px 0 0 49px",height:95
+                            }}>
+                                <div className="inline-block">
+                                    <img src={`/static/images/manager/clerk/${selfinfo.flg2 ? `gou` : `cha`}.png`} 
+                                        alt="勾差"
+                                        style={{height: 44}}/>
+                                </div>
+                                <div className="info-right inline-block">
+                                    <ul>
+                                        <li className="list-item">
+                                            <span style={{fontSize: 20}}>{selfinfo.mobile?selfinfo.mobile:""}</span>
+                                            <span>移动号码</span>
+                                        </li>
+                                        <li className="list-item">
+                                            <span>{selfinfo.name?selfinfo.name:""}</span>
+                                            <span></span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
+                            <img   className="consquence"
+                                src={`/static/images/manager/clerk/${selfinfo.flg2 ? `pipei.png` : `bupipei.png`}`
+                                } alt="匹配"/>
                         </div>
-                        <img   className="consquence"
-                               src={`/static/images/manager/clerk/${flg2 ? `pipei.png` : `bupipei.png`}`
-                               } alt="匹配"/>
-                    </div> */}
+                    </div>
+                </div> 
+                } */}
+                {DataObject.basic!=null && <div className="inverst-field" style={{marginBottom:30}}>
                     <div className="inverst-item">
                             <div className="top-title">
                                 基本信息
@@ -114,43 +158,46 @@ export default class CreditReturnComponent extends Component {
                                 <ul className="field-list inline-block" style={{width:350}}>
                                     <li>
                                         <span>姓名：</span>
-                                        <span>{basic.name?basic.name:"无"}</span>
+                                        <span>{DataObject.basic.name?DataObject.basic.name:"无"}</span>
                                     </li>
                                     <li>
                                         <span>手机：</span>
-                                        <span>{basic.phone?basic.phone:"无"}</span>
+                                        <span>{DataObject.basic.phone?DataObject.basic.phone:"无"}</span>
                                     </li>
                                     <li>
                                         <span>创建日期：</span>
-                                        <span>{basic.createdate?moment(basic.createdate).format("YYYY-MM-DD"):"无"}</span>
+                                        <span>{DataObject.basic.createdate?moment(DataObject.basic.createdate).format("YYYY-MM-DD"):"无"}</span>
                                     </li>
                                     <li>
                                         <span>订单状态：</span>
-                                        <span>{basic.orderstatus===1?"未开始":basic.orderstatus===2?"进行中":basic.orderstatus===3?"已完成":"已取消"}</span>
+                                        <span>{DataObject.basic.orderstatus===1?"未开始":DataObject.basic.orderstatus===2?"进行中":DataObject.basic.orderstatus===3?"已完成":DataObject.basic.orderstatus===4?"已取消":"进行中"}</span>
                                     </li>
                                 </ul>
                                 <ul className="field-list inline-block" style={{width:350}}>
                                     <li>
                                         <span>身份证号：</span>
-                                        <span>{basic.card?basic.card:"无"}</span>
+                                        <span>{DataObject.basic.card?DataObject.basic.card:"无"}</span>
                                     </li>
                                     <li>
                                         <span>毕业证书号：</span>
-                                        <span>{basic.certcard?basic.certcard:"无"}</span>
+                                        <span>{DataObject.basic.certcard?DataObject.basic.certcard:"无"}</span>
                                     </li>
-                                    <li>
-                                        <span>公司：</span>
-                                        <span>{basic.createby?basic.createby:"无"}</span>
-                                    </li>
-                                    <li style={{height:50,position:"relative",left:"-22px"}}>
-                                        <span style={{display:"block",float:"left"}}>非秒查信息文件：</span>
-                                        <span style={{display:"block",float:"left",overflow:"hidden",width:160}}>{basic.filepath?<a href={basic.filepath} title="点击下载">{basic.filepath}</a>:"无"}</span>
+                                    
+                                    <li style={{height:50,position:"relative",left:"-8px"}}>
+                                        <span style={{display:"block",float:"left"}}>人工核查信息：</span>
+                                        {
+                                            jzarr.length==0?"无":
+                                            <span style={{display:"block",float:"left",overflow:"hidden",width:160,height:80}}>{DataObject.basic.filepath?
+                                                <a href={`${prefixUri}/downloadJz?token=${token.token}&tokenKey=${token.tokenKey}&fileName=${DataObject.basic.filepath}`} title="点击下载">点击下载</a>:"请等待3-5个工作日"}
+                                            </span>
+                                    }
                                     </li>
                                 </ul>
                             </div>
-                    </div>
+                    </div> 
                 </div>
-                <div className="inverst-field">
+                }
+                {DataObject.education && DataObject.education.length!=0 && <div className="inverst-field">
                     <div className="inverst-item">
                         <div className="top-title">
                             学历信息核查
@@ -158,7 +205,7 @@ export default class CreditReturnComponent extends Component {
                         </div>
                         <Collapse defaultActiveKey={['1']}>
                             {
-                                education.map((item,index)=>{
+                                DataObject.education.map((item,index)=>{
                                         return <Panel header="学历信息" key={index+1}>
                                                     <div className="superior-content" 
                                                         style={{padding: "27px 0 0 49px"}}>
@@ -228,7 +275,7 @@ export default class CreditReturnComponent extends Component {
                                                                 </ul>
                                                             </div>
                                                             <div className="inline-block"style={{textAlign: "center", margin: "0 20px"}}>
-                                                                <h3 style={{marginBottom: 15}}>{education[0].schoolname}</h3>
+                                                                <h3 style={{marginBottom: 15}}>{creditInfoData.education[0].schoolname}</h3>
                                                                 <img src="/static/images/manager/clerk/time.png" alt="time"
                                                                     style={{
                                                                         width: 136,
@@ -251,21 +298,21 @@ export default class CreditReturnComponent extends Component {
                                                 </div>
                                             </Panel> 
                                 })
-                            }
-                                
+                            }                               
                         </Collapse>   
                     </div>
                 </div>
-                <div className="inverst-field">
+                }
+                {DataJzlist.length!=0 && <div className="inverst-field">
                     <div className="inverst-item">
                         <div className="top-title">
                             各调查方案查询结果
                         </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        <Collapse>
                             {
-                                jzList.map((item,index)=>{
+                                DataJzlist.map((item,index)=>{
                                         return <Panel 
-                                            header={item.transactiontype=="100"?"身份信息核实":item.transactiontype=="110"?"手机实名核查":item.transactiontype=="120"?"国内最高学历核实":item.transactiontype=="130"?"商业利益冲突核实":item.transactiontype=="140"?"金融风险信息核查":item.transactiontype=="145"?"法院诉讼核查":item.transactiontype=="150"?"犯罪记录核实":item.transactiontype=="160"?"职业资质核实":item.transactiontype=="122"?"国内学历核实":item.transactiontype=="127"?"国内学位核实":item.transactiontype=="123"?"海外学历核实":item.transactiontype=="200"?"国内工作履历核实":item.transactiontype=="201"?"海外工作履历核实":item.transactiontype=="210"?"国内工作表现访谈":item.transactiontype=="211"?"海外工作表现访谈":item.transactiontype=="212"?"自主寻访国内证明人":"自主寻访海外证明人"} 
+                                            header={item.transactiontype==="100"?"身份信息核实":item.transactiontype==="120"?"国内最高学历核实":item.transactiontype==="130"?"商业利益冲突核实":item.transactiontype==="140"?"金融风险信息核查":item.transactiontype==="145"?"法院诉讼核查":item.transactiontype==="150"?"犯罪记录核实":item.transactiontype==="160"?"职业资质核实":item.transactiontype==="122"?"国内学历核实":item.transactiontype==="123"?"海外学历核实":item.transactiontype==="200"?"国内工作履历核实":item.transactiontype==="201"?"海外工作履历核实":item.transactiontype==="210"?"国内工作表现访谈":item.transactiontype==="211"&& "海外工作表现访谈"} 
                                             key={index+1}
                                         >
                                                     <div className="superior-content" style={{padding: "27px 0 0 49px"}}>
@@ -281,30 +328,15 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="110"?
+                                                        </table>:item.transactiontype==="120"?
                                                         <table cellSpacing={0}>
                                                             <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="120"?
-                                                        <table cellSpacing={0}>
-                                                            <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
                                                                 <td>学校名称</td>
                                                                 <td>{JSON.parse(item.content).university?
                                                                     JSON.parse(item.content).university:"无"}</td>
+                                                                <td>是否毕业</td>
+                                                                <td>{JSON.parse(item.content).graduateResult?
+                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>毕业院校类型</td>
@@ -330,174 +362,133 @@ export default class CreditReturnComponent extends Component {
                                                                 <td>{JSON.parse(item.content).graduateDate?
                                                                     JSON.parse(item.content).graduateDate:"无"}</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>是否毕业</td>
-                                                                <td>{JSON.parse(item.content).graduateResult?
-                                                                    JSON.parse(item.content).graduateResult:"无"}</td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="130"? 
-                                                            <div>
-                                                                {
-                                                                    !JSON.parse(item.content).conflictResult?"":JSON.parse(item.content).conflictResult.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            注册及职位信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td>公司名称</td>
-                                                                                    <td>{item.entName?item.entName:"无"}</td>
-                                                                                    <td>注册号</td>
-                                                                                    <td>{item.regNo?item.regNo:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注册资本（万元）</td>
-                                                                                    <td>{item.regCap?item.regCap:"无"}</td>
-                                                                                    <td>币种</td>
-                                                                                    <td>{item.regCapCur?item.regCapCur:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>企业状态</td>
-                                                                                    <td>{item.entStatus?item.entStatus:"无"}</td>
-                                                                                    <td>担任职位</td>
-                                                                                    <td>{item.position?item.position:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                    })
-                                                                }
-                                                                {
-                                                                    !JSON.parse(item.content).ryPosFrList?"":JSON.parse(item.content).ryPosFrList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            企业法人
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td>企业法人</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                    <td>公司名称</td>
-                                                                                    <td>{item.entName?item.entName:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>企业(机构)类型</td>
-                                                                                    <td>{item.entType?item.entType:"无"}</td>
-                                                                                    <td>注册号</td>
-                                                                                    <td>{item.regNo?item.regNo:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注册资本（万元）</td>
-                                                                                    <td>{item.regCap?item.regCap:"无"}</td>
-                                                                                    <td>币种</td>
-                                                                                    <td>{item.regCapCur?item.regCapCur:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>企业状态</td>
-                                                                                    <td>{item.entStatus?item.entStatus:"无"}</td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                    })
-                                                                }
-                                                                {
-                                                                    !JSON.parse(item.content).ryPosShaList?"":JSON.parse(item.content).ryPosShaList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            企业股东
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td>公司名称</td>
-                                                                                    <td>{item.entName?item.entName:"无"}</td>
-                                                                                    <td>企业(机构)类型</td>
-                                                                                    <td>{item.entType?item.entType:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注册号</td>
-                                                                                    <td>{item.regNo?item.regNo:"无"}</td>
-                                                                                    <td>注册资本（万元）</td>
-                                                                                    <td>{item.regCap?item.regCap:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>币种</td>
-                                                                                    <td>{item.regCapCur?item.regCapCur:"无"}</td>
-                                                                                    <td>企业状态</td>
-                                                                                    <td>{item.entStatus?item.entStatus:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                    })
-                                                                }
-                                                                {
-                                                                    !JSON.parse(item.content).ryPosPerList?"":JSON.parse(item.content).ryPosPerList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            企业高管
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td>公司名称</td>
-                                                                                    <td>{item.entName?item.entName:"无"}</td>
-                                                                                    <td>企业(机构)类型</td>
-                                                                                    <td>{item.entType?item.entType:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注册号</td>
-                                                                                    <td>{item.regNo?item.regNo:"无"}</td>
-                                                                                    <td>注册资本（万元）</td>
-                                                                                    <td>{item.regCap?item.regCap:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>币种</td>
-                                                                                    <td>{item.regCapCur?item.regCapCur:"无"}</td>
-                                                                                    <td>企业状态</td>
-                                                                                    <td>{item.entStatus?item.entStatus:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                    })
-                                                                }
-                                                            </div>                            
-                                                        :item.transactiontype=="140"?
-                                                        <div>
+                                                        </table>:item.transactiontype==="130"? 
+                                                                <Collapse>
+                                                                    <Panel header="注册及职位信息" key="1">
+                                                                    {
+                                                                        JSON.parse(item.content).conflictResult.length==0?"":
+                                                                        JSON.parse(item.content).conflictResult.map((item,index)=>{
+                                                                        return <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>公司名称</td>
+                                                                                        <td>{item.entName?item.entName:"无"}</td>
+                                                                                        <td>注册号</td>
+                                                                                        <td>{item.regNo?item.regNo:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>注册资本（万元）</td>
+                                                                                        <td>{item.regCap?item.regCap:"无"}</td>
+                                                                                        <td>币种</td>
+                                                                                        <td>{item.regCapCur?item.regCapCur:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>企业状态</td>
+                                                                                        <td>{item.entStatus?item.entStatus:"无"}</td>
+                                                                                        <td>担任职位</td>
+                                                                                        <td>{item.position?item.position:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                        })
+                                                                    }
+                                                                    </Panel>
+                                                                    <Panel header="企业法人" key="2">
+                                                                    {
+                                                                        JSON.parse(item.content).ryPosFrList.length==0?"":
+                                                                        JSON.parse(item.content).ryPosFrList.map((item,index)=>{
+                                                                        return <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>企业法人</td>
+                                                                                        <td>{item.type?item.type:"无"}</td>
+                                                                                        <td>公司名称</td>
+                                                                                        <td>{item.entName?item.entName:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>企业(机构)类型</td>
+                                                                                        <td>{item.entType?item.entType:"无"}</td>
+                                                                                        <td>注册号</td>
+                                                                                        <td>{item.regNo?item.regNo:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>注册资本（万元）</td>
+                                                                                        <td>{item.regCap?item.regCap:"无"}</td>
+                                                                                        <td>币种</td>
+                                                                                        <td>{item.regCapCur?item.regCapCur:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>企业状态</td>
+                                                                                        <td>{item.entStatus?item.entStatus:"无"}</td>
+                                                                                        <td></td>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            })
+                                                                    }
+                                                                    </Panel>
+                                                                    <Panel header="企业股东" key="3">
+                                                                    {
+                                                                        !JSON.parse(item.content).ryPosShaList?"":
+                                                                        JSON.parse(item.content).ryPosShaList.map((item,index)=>{
+                                                                        return <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>公司名称</td>
+                                                                                        <td>{item.entName?item.entName:"无"}</td>
+                                                                                        <td>企业(机构)类型</td>
+                                                                                        <td>{item.entType?item.entType:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>注册号</td>
+                                                                                        <td>{item.regNo?item.regNo:"无"}</td>
+                                                                                        <td>注册资本（万元）</td>
+                                                                                        <td>{item.regCap?item.regCap:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>币种</td>
+                                                                                        <td>{item.regCapCur?item.regCapCur:"无"}</td>
+                                                                                        <td>企业状态</td>
+                                                                                        <td>{item.entStatus?item.entStatus:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                        })
+                                                                    }
+                                                                    </Panel>
+                                                                    <Panel header="企业高管" key="4">
+                                                                    {
+                                                                        !JSON.parse(item.content).ryPosPerList?"":
+                                                                        JSON.parse(item.content).ryPosPerList.map((item,index) => {
+                                                                            return <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>公司名称</td>
+                                                                                        <td>{item.entName?item.entName:"无"}</td>
+                                                                                        <td>企业(机构)类型</td>
+                                                                                        <td>{item.entType?item.entType:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>注册号</td>
+                                                                                        <td>{item.regNo?item.regNo:"无"}</td>
+                                                                                        <td>注册资本（万元）</td>
+                                                                                        <td>{item.regCap?item.regCap:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>币种</td>
+                                                                                        <td>{item.regCapCur?item.regCapCur:"无"}</td>
+                                                                                        <td>企业状态</td>
+                                                                                        <td>{item.entStatus?item.entStatus:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            })
+                                                                    }
+                                                                    </Panel>
+                                                                </Collapse>                            
+                                                        :item.transactiontype==="140"?
+                                                        <Collapse>
+                                                            <Panel header="欠税公告" key="1">
                                                             {
-                                                                JSON.parse(item.content).taxDuesAnnouncementList==null?<h3>暂无欠税公告</h3>:JSON.parse(item.content).taxDuesAnnouncementList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            欠税公告
-                                                                            </h3>
+                                                                JSON.parse(item.content).taxDuesAnnouncementList==null?
+                                                                <p>暂无欠税公告</p>:
+                                                                JSON.parse(item.content).taxDuesAnnouncementList.map((item,index)=>{
+                                                                    return <Collapse>
+                                                                                <Panel header={item.leader?item.leader:"无"} key="1">
                                                                             <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>欠税公告</td>
-                                                                                </tr>
                                                                                 <tr>
                                                                                     <td>纳税人识别号</td>
                                                                                     <td>{item.taxNum?item.taxNum:"无"}</td>
@@ -546,276 +537,256 @@ export default class CreditReturnComponent extends Component {
                                                                                     <td>公告期次</td>
                                                                                     <td>{item.period?item.period:"无"}</td>
                                                                                 </tr>
-                                                                            </table></div>
+                                                                            </table>
+                                                                            </Panel>
+                                                                         </Collapse>
                                                                 })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="失踪纳税人信息" key="2">
                                                             {
-                                                                JSON.parse(item.content).taxMissList==null?<h3>暂无失踪纳税人信息</h3>:JSON.parse(item.content).taxMissList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            失踪纳税人信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>失踪纳税人信息</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人识别号</td>
-                                                                                    <td>{item.taxNum?item.taxNum:"无"}</td>
-                                                                                    <td>经营地址</td>
-                                                                                    <td>{item.address?item.address:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>法定代表人（业主）</td>
-                                                                                    <td>{item.leader?item.leader:"无"}</td>
-                                                                                    <td>证件类别</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>主管税务机关</td>
-                                                                                    <td>{item.unit?item.unit:"无"}</td>
-                                                                                    <td>认定失踪日期</td>
-                                                                                    <td>{item.missTime?item.missTime:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>偷逃欠税税额</td>
-                                                                                    <td>{item.money?item.money:"无"}</td>
-                                                                                    <td>公告时间</td>
-                                                                                    <td>{item.time?item.time:"无"}</td>
-                                                                                </tr> 
-                                                                            </table></div>
+                                                                JSON.parse(item.content).taxMissList==null?
+                                                                <p>暂无失踪纳税人信息</p>:
+                                                                JSON.parse(item.content).taxMissList.map((item,index)=>{
+                                                                    return <Collapse>
+                                                                                <Panel header={item.leader?item.leader:"无"} key="1">
+                                                                                    <table cellSpacing={0}>
+                                                                                        <tr>
+                                                                                            <td>纳税人识别号</td>
+                                                                                            <td>{item.taxNum?item.taxNum:"无"}</td>
+                                                                                            <td>经营地址</td>
+                                                                                            <td>{item.address?item.address:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>法定代表人（业主）</td>
+                                                                                            <td>{item.leader?item.leader:"无"}</td>
+                                                                                            <td>证件类别</td>
+                                                                                            <td>{item.type?item.type:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>主管税务机关</td>
+                                                                                            <td>{item.unit?item.unit:"无"}</td>
+                                                                                            <td>认定失踪日期</td>
+                                                                                            <td>{item.missTime?item.missTime:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>偷逃欠税税额</td>
+                                                                                            <td>{item.money?item.money:"无"}</td>
+                                                                                            <td>公告时间</td>
+                                                                                            <td>{item.time?item.time:"无"}</td>
+                                                                                        </tr> 
+                                                                                    </table>
+                                                                                </Panel>
+                                                                         </Collapse>
+                                                                    
                                                                 })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="注销信息" key="3">
                                                             {
-                                                                JSON.parse(item.content).taxCancleList==null?<h3>暂无注销信息</h3>:JSON.parse(item.content).taxCancleList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            注销信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>注销信息</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人识别号</td>
-                                                                                    <td>{item.taxNum?item.taxNum:"无"}</td>
-                                                                                    <td>纳税户类型</td>
-                                                                                    <td>{item.peopleType?item.peopleType:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>经营地址</td>
-                                                                                    <td>{item.address?item.address:"无"}</td>
-                                                                                    <td>法定代表人（业主）</td>
-                                                                                    <td>{item.leader?item.leader:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>证件类别</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                    <td>主管税务机关</td>
-                                                                                    <td>{item.unit?item.unit:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注销日期</td>
-                                                                                    <td>{item.cancleTime?item.cancleTime:"无"}</td>
-                                                                                    <td>注销类型</td>
-                                                                                    <td>{item.cancleType?item.cancleType:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>注销原因</td>
-                                                                                    <td>{item.cancleReason?item.cancleReason:"无"}</td>
-                                                                                    <td>公告时间</td>
-                                                                                    <td>{item.time?item.time:"无"}</td>
-                                                                                </tr> 
-                                                                            </table></div>
+                                                                JSON.parse(item.content).taxCancleList==null?
+                                                                <p>暂无注销信息</p>:
+                                                                JSON.parse(item.content).taxCancleList.map((item,index)=>{
+                                                                    return <Collapse style={{marginBottom:10}}>
+                                                                                <Panel header={item.court?item.court:"无"} key={index}>
+                                                                                    <table cellSpacing={0}>
+                                                                                        <tr>
+                                                                                            <td>纳税人识别号</td>
+                                                                                            <td>{item.taxNum?item.taxNum:"无"}</td>
+                                                                                            <td>纳税户类型</td>
+                                                                                            <td>{item.peopleType?item.peopleType:"无"}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>经营地址</td>
+                                                                                            <td>{item.address?item.address:"无"}</td>
+                                                                                            <td>法定代表人（业主）</td>
+                                                                                            <td>{item.leader?item.leader:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>证件类别</td>
+                                                                                            <td>{item.type?item.type:"无"}</td>
+                                                                                            <td>主管税务机关</td>
+                                                                                            <td>{item.unit?item.unit:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>注销日期</td>
+                                                                                            <td>{item.cancleTime?item.cancleTime:"无"}
+                                                                                            </td>
+                                                                                            <td>注销类型</td>
+                                                                                            <td>{item.cancleType?item.cancleType:"无"}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>注销原因</td>
+                                                                                            <td>{item.cancleReason?item.cancleReason:
+                                                                                                "无"}</td>
+                                                                                            <td>公告时间</td>
+                                                                                            <td>{item.time?item.time:"无"}</td>
+                                                                                        </tr> 
+                                                                                    </table>
+                                                                                </Panel>
+                                                                          </Collapse>   
                                                                 })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="失信纳税人信息" key="4">
                                                             {
-                                                                JSON.parse(item.content).taxDishonestList==null?<h3>暂无失信纳税人信息</h3>:JSON.parse(item.content).taxDishonestList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            失信纳税人信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>失信纳税人信息</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人识别号</td>
-                                                                                    <td>{item.taxNum?item.taxNum:"无"}</td>
-                                                                                    <td>法定代表人（业主）</td>
-                                                                                    <td>{item.leader?item.leader:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>证件类别</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                    <td>主管税务机关</td>
-                                                                                    <td>{item.unit?item.unit:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>是否评定为D级</td>
-                                                                                    <td>{item.isD?item.isD:"无"}</td>
-                                                                                    <td>评定时间</td>
-                                                                                    <td>{item.time?item.time:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
+                                                                JSON.parse(item.content).taxDishonestList==null?
+                                                                <p>暂无失信纳税人信息</p>:
+                                                                JSON.parse(item.content).taxDishonestList.map((item,index)=>{
+                                                                return <Collapse>
+                                                                            <Panel header={item.leader?item.leader:"无"} key={index}>
+                                                                                <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>纳税人识别号</td>
+                                                                                        <td>{item.taxNum?item.taxNum:"无"}</td>
+                                                                                        <td>法定代表人（业主）</td>
+                                                                                        <td>{item.leader?item.leader:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>证件类别</td>
+                                                                                        <td>{item.type?item.type:"无"}</td>
+                                                                                        <td>主管税务机关</td>
+                                                                                        <td>{item.unit?item.unit:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>是否评定为D级</td>
+                                                                                        <td>{item.isD?item.isD:"无"}</td>
+                                                                                        <td>评定时间</td>
+                                                                                        <td>{item.time?item.time:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </Panel>
+                                                                        </Collapse>
                                                                 })
                                                             }
+                                                            </Panel>
+                                                            
+                                                            <Panel header="税务违法信息" key="5">
                                                             {
-                                                                JSON.parse(item.content).taxIllegalList==null?<h3>暂无税务违法信息</h3>:JSON.parse(item.content).taxIllegalList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            税务违法信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>税务违法信息</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人识别号</td>
-                                                                                    <td>{item.taxNum?item.taxNum:"无"}</td>
-                                                                                    <td>法定代表人（业主）</td>
-                                                                                    <td>{item.leader?item.leader:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>证件类别</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                    <td>主管税务机关</td>
-                                                                                    <td>{item.unit?item.unit:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>检查/稽查年度</td>
-                                                                                    <td>{item.year?item.year:"无"}</td>
-                                                                                    <td>违法违章事实</td>
-                                                                                    <td>{item.fact?item.fact:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>违法违章手段</td>
-                                                                                    <td>{item.means?item.means:"无"}</td>
-                                                                                    <td>处理处罚决定日期</td>
-                                                                                    <td>{item.punishTime?item.punishTime:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>处理处罚限定履行日期</td>
-                                                                                    <td>{item.decisionTime?item.decisionTime:"无"}</td>
-                                                                                    <td>罚款金额</td>
-                                                                                    <td>{item.money?item.money:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>处罚处理实际履行时间</td>
-                                                                                    <td>{item.performTime?item.performTime:"无"}</td>
-                                                                                    <td>实缴税款/入库金额</td>
-                                                                                    <td>{item.money2?item.money2:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>未缴税款/未入库金额</td>
-                                                                                    <td>{item.money3?item.money3:"无"}</td>
-                                                                                    <td>限改状态</td>
-                                                                                    <td>{item.statute?item.statute:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人当前状态</td>
-                                                                                    <td>{item.statute2?item.statute2:"无"}</td>
-                                                                                    <td>公告时间</td>
-                                                                                    <td>{item.time?item.time:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                })
+                                                                JSON.parse(item.content).taxIllegalList==null?
+                                                                <p>暂无税务违法信息</p>:
+                                                                    JSON.parse(item.content).taxIllegalList.map((item,index)=>{
+                                                                    return <Collapse >
+                                                                                <Panel header={item.leader?item.leader:"无"} 
+                                                                                    key={index}>
+                                                                                    <table cellSpacing={0}>
+                                                                                        <tr>
+                                                                                            <td>纳税人识别号</td>
+                                                                                            <td>{item.taxNum?item.taxNum:"无"}</td>
+                                                                                            <td>法定代表人（业主）</td>
+                                                                                            <td>{item.leader?item.leader:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>证件类别</td>
+                                                                                            <td>{item.type?item.type:"无"}</td>
+                                                                                            <td>主管税务机关</td>
+                                                                                            <td>{item.unit?item.unit:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>检查/稽查年度</td>
+                                                                                            <td>{item.year?item.year:"无"}</td>
+                                                                                            <td>违法违章事实</td>
+                                                                                            <td>{item.fact?item.fact:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>违法违章手段</td>
+                                                                                            <td>{item.means?item.means:"无"}</td>
+                                                                                            <td>处理处罚决定日期</td>
+                                                                                            <td>{item.punishTime?item.punishTime:"无"}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>处理处罚限定履行日期</td>
+                                                                                            <td>{item.decisionTime?item.decisionTime:
+                                                                                                "无"}</td>
+                                                                                            <td>罚款金额</td>
+                                                                                            <td>{item.money?item.money:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>处罚处理实际履行时间</td>
+                                                                                            <td>{item.performTime?item.performTime:"无"}
+                                                                                            </td>
+                                                                                            <td>实缴税款/入库金额</td>
+                                                                                            <td>{item.money2?item.money2:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>未缴税款/未入库金额</td>
+                                                                                            <td>{item.money3?item.money3:"无"}</td>
+                                                                                            <td>限改状态</td>
+                                                                                            <td>{item.statute?item.statute:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>纳税人当前状态</td>
+                                                                                            <td>{item.statute2?item.statute2:"无"}</td>
+                                                                                            <td>公告时间</td>
+                                                                                            <td>{item.time?item.time:"无"}</td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </Panel>
+                                                                            </Collapse>
+                                                                    
+                                                                    })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="税务逾期信息" key="6">
                                                             {
-                                                                JSON.parse(item.content).taxOverdueList==null?<h3>暂无税务逾期信息</h3>:JSON.parse(item.content).taxOverdueList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            税务逾期信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>税务逾期信息</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>纳税人识别号</td>
-                                                                                    <td>{item.taxNum?item.taxNum:"无"}</td>
-                                                                                    <td>法定代表人（业主）</td>
-                                                                                    <td>{item.leader?item.leader:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>证件类别</td>
-                                                                                    <td>{item.type?item.type:"无"}</td>
-                                                                                    <td>主管税务机关</td>
-                                                                                    <td>{item.unit?item.unit:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>海关代码</td>
-                                                                                    <td>{item.code?item.code:"无"}</td>
-                                                                                    <td>经营地址</td>
-                                                                                    <td>{item.address?item.address:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>申报期限</td>
-                                                                                    <td>{item.timeLimit?item.timeLimit:"无"}</td>
-                                                                                    <td>未申报项目</td>
-                                                                                    <td>{item.project?item.project:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>未申报税种</td>
-                                                                                    <td>{item.taxType?item.taxType:"无"}</td>
-                                                                                    <td>欠缴税额</td>
-                                                                                    <td>{item.money?item.money:"无"}</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>处罚金额</td>
-                                                                                    <td>{item.money2?item.money2:"无"}</td>
-                                                                                    <td>处理时间</td>
-                                                                                    <td>{item.time?item.time:"无"}</td>
-                                                                                </tr>
-                                                                            </table></div>
-                                                                })
+                                                                JSON.parse(item.content).taxOverdueList==null?
+                                                                <p>暂无税务逾期信息</p>:
+                                                                    JSON.parse(item.content).taxOverdueList.map((item,index)=>{
+                                                                    return <Collapse >
+                                                                                <Panel header={item.leader?item.leader:"无"} 
+                                                                                    key={index}>
+                                                                                <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>纳税人识别号</td>
+                                                                                        <td>{item.taxNum?item.taxNum:"无"}</td>
+                                                                                        <td>法定代表人（业主）</td>
+                                                                                        <td>{item.leader?item.leader:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>证件类别</td>
+                                                                                        <td>{item.type?item.type:"无"}</td>
+                                                                                        <td>主管税务机关</td>
+                                                                                        <td>{item.unit?item.unit:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>海关代码</td>
+                                                                                        <td>{item.code?item.code:"无"}</td>
+                                                                                        <td>经营地址</td>
+                                                                                        <td>{item.address?item.address:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>申报期限</td>
+                                                                                        <td>{item.timeLimit?item.timeLimit:"无"}</td>
+                                                                                        <td>未申报项目</td>
+                                                                                        <td>{item.project?item.project:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>未申报税种</td>
+                                                                                        <td>{item.taxType?item.taxType:"无"}</td>
+                                                                                        <td>欠缴税额</td>
+                                                                                        <td>{item.money?item.money:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>处罚金额</td>
+                                                                                        <td>{item.money2?item.money2:"无"}</td>
+                                                                                        <td>处理时间</td>
+                                                                                        <td>{item.time?item.time:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                </Panel>
+                                                                            </Collapse>
+                                                                    })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="税务行政处罚决定书信息" key="7">
                                                             {
-                                                                JSON.parse(item.content).administrativePunishmentDecisionList==null?<h3>暂无税务行政处罚决定书信息</h3>:JSON.parse(item.content).administrativePunishmentDecisionList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            税务行政处罚决定书信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>税务行政处罚决定书信息</td>
-                                                                                </tr>
+                                                                JSON.parse(item.content).administrativePunishmentDecisionList==null?
+                                                                <p>暂无税务行政处罚决定书信息</p>:
+                                                                JSON.parse(item.content).administrativePunishmentDecisionList.map((item,index)=>{
+                                                                    return <table cellSpacing={0}>
                                                                                 <tr>
                                                                                     <td>纳税人识别号</td>
                                                                                     <td>{item.taxNum?item.taxNum:"无"}</td>
@@ -846,25 +817,16 @@ export default class CreditReturnComponent extends Component {
                                                                                     <td>生产经营地址</td>
                                                                                     <td>{item.address?item.address:"无"}</td>
                                                                                 </tr>
-                                                                            </table></div>
-                                                                })
+                                                                            </table>
+                                                                    })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="税务行政处罚信息" key="8">
                                                             {
-                                                                JSON.parse(item.content).administrativePunishmentInfoList==null?<h3>暂无税务行政处罚信息</h3>:JSON.parse(item.content).administrativePunishmentInfoList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            税务行政处罚信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>税务行政处罚信息</td>
-                                                                                </tr>
+                                                                JSON.parse(item.content).administrativePunishmentInfoList==null?
+                                                                <p>暂无税务行政处罚信息</p>:
+                                                                    JSON.parse(item.content).administrativePunishmentInfoList.map((item,index)=>{
+                                                                    return <table cellSpacing={0}>
                                                                                 <tr>
                                                                                     <td>纳税人识别号</td>
                                                                                     <td>{item.taxNum?item.taxNum:"无"}</td>
@@ -889,25 +851,15 @@ export default class CreditReturnComponent extends Component {
                                                                                     <td>生产经营地址</td>
                                                                                     <td>{item.address?item.address:"无"}</td>
                                                                                 </tr>
-                                                                            </table></div>
-                                                                })
+                                                                            </table>
+                                                                    })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="催欠公告信息" key="9">
                                                             {
-                                                                JSON.parse(item.content).netLoanBlacklistLessList==null?<h3>暂无催欠公告信息</h3>:JSON.parse(item.content).netLoanBlacklistLessList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            催欠公告信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>催欠公告信息</td>
-                                                                                </tr>
+                                                                JSON.parse(item.content).netLoanBlacklistLessList==null?
+                                                                <p>暂无催欠公告信息</p>:JSON.parse(item.content).netLoanBlacklistLessList.map((item,index)=>{
+                                                                    return <table cellSpacing={0}>
                                                                                 <tr>
                                                                                     <td>催欠金额</td>
                                                                                     <td>{item.money?item.money:"无"}</td>
@@ -920,25 +872,16 @@ export default class CreditReturnComponent extends Component {
                                                                                     <td></td>
                                                                                     <td></td>
                                                                                 </tr>
-                                                                            </table></div>
-                                                                })
+                                                                            </table>
+                                                                    })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="网贷逾期信息" key="10">
                                                             {
-                                                                JSON.parse(item.content).netLoanBlacklistOverdueList==null?<h3>暂无网贷逾期信息</h3>:JSON.parse(item.content).netLoanBlacklistOverdueList.map((item,index)=>{
-                                                                    return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            网贷逾期信息
-                                                                            </h3>
-                                                                            <table cellSpacing={0}>
-                                                                                <tr>
-                                                                                    <td style={{textAlign:"center"}}>网贷逾期信息</td>
-                                                                                </tr>
+                                                                JSON.parse(item.content).netLoanBlacklistOverdueList==null?
+                                                                <p>暂无网贷逾期信息</p>:
+                                                                    JSON.parse(item.content).netLoanBlacklistOverdueList.map((item,index)=>{
+                                                                    return <table cellSpacing={0}>
                                                                                 <tr>
                                                                                     <td>借入本金</td>
                                                                                     <td>{item.money?item.money:"无"}</td>
@@ -949,265 +892,234 @@ export default class CreditReturnComponent extends Component {
                                                                                     <td>借款时间</td>
                                                                                     <td>{item.time?item.time:"无"}</td>
                                                                                     <td>逾期总罚息</td>
-                                                                                    <td>{item.overdueInterest?item.overdueInterest:"无"}</td>
+                                                                                    <td>{item.overdueInterest?item.overdueInterest:"无"}
+                                                                                    </td>
                                                                                 </tr>
-                                                                            </table></div>
+                                                                            </table>
+                                                                    })
+                                                            }
+                                                            </Panel>
+                                                        </Collapse> 
+                                                        :item.transactiontype==="145"?
+                                                        <Collapse>
+                                                            <Panel header="判决文书" key="1">
+                                                            {
+                                                                JSON.parse(item.content).litigationDecisionList==null?
+                                                                <p>暂无判决文书信息</p>:
+                                                                JSON.parse(item.content).litigationDecisionList.map((item,index)=>{
+                                                                    return <Collapse>
+                                                                                <Panel header={item.title?item.title:"无"} key="1">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td>标题</td>
+                                                                                        <td>{item.title?item.title:"无"}</td>
+                                                                                        <td>审理程序</td>
+                                                                                        <td>{item.trialProcedure?item.trialProcedure:
+                                                                                            "无"}
+                                                                                        </td> 
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>法院</td>
+                                                                                        <td>{item.court?item.court:"无"}</td>
+                                                                                        <td>文书字号</td>
+                                                                                        <td>{item.caseNum?item.caseNum:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>文书类型</td>
+                                                                                        <td>{item.dateTime?item.dateTime:"无"}</td>
+                                                                                        <td>审结日期</td>
+                                                                                        <td>{item.time?item.time:"无"}</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                </Panel>
+                                                                            </Collapse>
+                                                                    
                                                                 })
                                                             }
-                                                        </div>
-                                                        :item.transactiontype=="145"?
-                                                        <div>
+                                                            </Panel>
+                                                            <Panel header="失信被执行人信息" key="2">
                                                             {
-                                                                JSON.parse(item.content).litigationDecisionList==null?<h3>暂无判决文书信息</h3>:
-                                                                    JSON.parse(item.content).litigationDecisionList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            失信被执行人信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>判决文书信息</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>标题</td>
-                                                                                <td>{item.title?item.title:"无"}</td>
-                                                                                <td>审理程序</td>
-                                                                                <td>{item.trialProcedure?item.trialProcedure:"无"}</td> 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>法院</td>
-                                                                                <td>{item.court?item.court:"无"}</td>
-                                                                                <td>文书字号</td>
-                                                                                <td>{item.caseNum?item.caseNum:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>文书类型</td>
-                                                                                <td>{item.dateTime?item.dateTime:"无"}</td>
-                                                                                <td>审结日期</td>
-                                                                                <td>{item.time?item.time:"无"}</td>
-                                                                            </tr>
-                                                                        </table></div>
-                                                                    })
+                                                                JSON.parse(item.content).litigationDecisionList==null?
+                                                                <p>暂无失信被执行人信息</p>:
+                                                                JSON.parse(item.content).litigationDecisionList.map((item,index)=>{
+                                                                    return <Collapse>
+                                                                                <Panel header={item.leader?item.leader:"无"} key="1">
+                                                                                <table>
+                                                                                <tr>
+                                                                                    <td>法定代表人/负责人</td>
+                                                                                    <td>{item.leader?item.leader:"无"}</td>
+                                                                                    <td>住所地</td>
+                                                                                    <td>{item.address?item.address:'无'}</td> 
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>执行法院</td>
+                                                                                    <td>{item.court?item.court:"无"}</td>
+                                                                                    <td>立案时间</td>
+                                                                                    <td>{item.time?item.time:"无"}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>执行案号</td>
+                                                                                    <td>{item.caseNum?item.caseNum:"无"}</td>
+                                                                                    <td>执行依据文号</td>
+                                                                                    <td>{item.base?item.base:"无"}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>做出执行依据单位</td>
+                                                                                    <td>{item.baseCompany?item.baseCompany:"无"}</td>
+                                                                                    <td>生效法律文书确定的义务</td>
+                                                                                    <td>{item.obligation?item.obligation:"无"}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>生效法律文书确定后履行截止时间</td>
+                                                                                    <td>{item.lastTime?item.lastTime:"无"}</td>
+                                                                                    <td>被执行人的履行情况</td>
+                                                                                    <td>{item.performance?item.performance:"无"}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>实行被执行人行为具体情形</td>
+                                                                                    <td>{item.concreteSituation?
+                                                                                        item.concreteSituation:"无"}
+                                                                                    </td>
+                                                                                    <td>认定失信时间</td>
+                                                                                    <td>{item.breakTime?item.breakTime:"无"}</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            </Panel>
+                                                                         </Collapse>
+                                                                    
+                                                                })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="最高法执行信息" key="3">
                                                             {
-                                                                JSON.parse(item.content).litigationDecisionList==null?<h3>暂无失信被执行人信息</h3>:
-                                                                    JSON.parse(item.content).litigationDecisionList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            失信被执行人信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>失信被执行人信息</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>法定代表人/负责人</td>
-                                                                                <td>{item.leader?item.leader:"无"}</td>
-                                                                                <td>住所地</td>
-                                                                                <td>{item.address?item.address:'无'}</td> 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行法院</td>
-                                                                                <td>{item.court?item.court:"无"}</td>
-                                                                                <td>立案时间</td>
-                                                                                <td>{item.time?item.time:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行案号</td>
-                                                                                <td>{item.caseNum?item.caseNum:"无"}</td>
-                                                                                <td>执行依据文号</td>
-                                                                                <td>{item.base?item.base:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>做出执行依据单位</td>
-                                                                                <td>{item.baseCompany?item.baseCompany:"无"}</td>
-                                                                                <td>生效法律文书确定的义务</td>
-                                                                                <td>{item.obligation?item.obligation:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>生效法律文书确定后履行截止时间</td>
-                                                                                <td>{item.lastTime?item.lastTime:"无"}</td>
-                                                                                <td>被执行人的履行情况</td>
-                                                                                <td>{item.performance?item.performance:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>实行被执行人行为具体情形</td>
-                                                                                <td>{item.concreteSituation?item.concreteSituation:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>认定失信时间</td>
-                                                                                <td>{item.breakTime?item.breakTime:"无"}</td>
-                                                                            </tr>
-                                                                            
-                                                                        </table></div>
-                                                                    })
+                                                                JSON.parse(item.content).litigationSupremeLawList==null?
+                                                                <p>暂无最高法执行信息</p>:
+                                                                JSON.parse(item.content).litigationSupremeLawList.map((item,index)=>{
+                                                                    return <Collapse style={{marginBottom:10}}>
+                                                                                <Panel header={item.court?item.court:"无"} key={index}>
+                                                                                    <table style={{marginBottom:20}}>
+                                                                                        <tr>
+                                                                                            <td>执行法院</td>
+                                                                                            <td>{item.court?item.court:"无"}</td>
+                                                                                            <td>立案时间</td>
+                                                                                            <td>{item.time?item.time:'无'}</td> 
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>执行案号</td>
+                                                                                            <td>{item.caseNum?item.caseNum:"无"}</td>
+                                                                                            <td>案件状态</td>
+                                                                                            <td>{item.statute?item.statute:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>执行依据</td>
+                                                                                            <td>{item.basic?item.basic:"无"}</td>
+                                                                                            <td>做出执行依据的机构</td>
+                                                                                            <td>{item.basicCourt?item.basicCourt:"无"} 
+                                                                                            </td>
+                                                                                        </tr>      
+                                                                                    </table>
+                                                                                </Panel>
+                                                                          </Collapse>   
+                                                                })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="限制高消费被执行人信息" key="4">
                                                             {
-                                                                JSON.parse(item.content).litigationSupremeLawList==null?<h3>暂无最高法执行信息</h3>:
-                                                                    JSON.parse(item.content).litigationSupremeLawList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            最高法执行信息
-                                                                            </h3>
-                                                                       <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>最高法执行信息</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行法院</td>
-                                                                                <td>{item.court?item.court:"无"}</td>
-                                                                                <td>立案时间</td>
-                                                                                <td>{item.time?item.time:'无'}</td> 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行案号</td>
-                                                                                <td>{item.caseNum?item.caseNum:"无"}</td>
-                                                                                <td>案件状态</td>
-                                                                                <td>{item.statute?item.statute:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行依据</td>
-                                                                                <td>{item.basic?item.basic:"无"}</td>
-                                                                                <td>做出执行依据的机构</td>
-                                                                                <td>{item.basicCourt?item.basicCourt:"无"}</td>
-                                                                            </tr>      
-                                                                        </table></div>
-                                                                    })
+                                                                JSON.parse(item.content).litigationSpendingLimitsList==null?
+                                                                <p>暂无限制高消费被执行人信息</p>:
+                                                            JSON.parse(item.content).litigationSpendingLimitsList.map((item,index)=>{
+                                                                return <Collapse>
+                                                                            <Panel header={item.leader?item.leader:"无"} key={index}>
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td>法定代表人/负责人</td>
+                                                                                        <td>{item.leader?item.leader:"无"}</td>
+                                                                                        <td>住所地</td>
+                                                                                        <td>{item.address?item.address:'无'}</td> 
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>执行法院</td>
+                                                                                        <td>{item.court?item.court:"无"}</td>
+                                                                                        <td>执行案号</td>
+                                                                                        <td>{item.caseNum?item.caseNum:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>案由</td>
+                                                                                        <td>{item.anyou?item.anyou:"无"}</td>
+                                                                                        <td>标的</td>
+                                                                                        <td>{item.money?item.money:"无"}</td>
+                                                                                    </tr> 
+                                                                                    <tr>
+                                                                                        <td>立案时间</td>
+                                                                                        <td>{item.time?item.time:"无"}</td>
+                                                                                        <td>发布时间</td>
+                                                                                        <td>{item.postTime?item.postTime:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>具体内容</td>
+                                                                                        <td>{item.content?item.content:"无"}</td>
+                                                                                        <td>执行依据</td>
+                                                                                        <td>{item.basic?item.basic:"无"}</td>
+                                                                                    </tr>     
+                                                                                </table>
+                                                                            </Panel>
+                                                                        </Collapse>
+                                                                })
                                                             }
+                                                            </Panel>
+                                                            
+                                                            <Panel header="限制出境被执行人信息" key="5">
                                                             {
-                                                                JSON.parse(item.content).litigationSpendingLimitsList==null?<h3>暂无限制高消费被执行人信息</h3>:
-                                                                    JSON.parse(item.content).litigationSpendingLimitsList.map((item,index)=>{
-                                                                       return 
-                                                                       <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            限制高消费被执行人信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>限制高消费被执行人信息</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>法定代表人/负责人</td>
-                                                                                <td>{item.leader?item.leader:"无"}</td>
-                                                                                <td>住所地</td>
-                                                                                <td>{item.address?item.address:'无'}</td> 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行法院</td>
-                                                                                <td>{item.court?item.court:"无"}</td>
-                                                                                <td>执行案号</td>
-                                                                                <td>{item.caseNum?item.caseNum:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>案由</td>
-                                                                                <td>{item.anyou?item.anyou:"无"}</td>
-                                                                                <td>标的</td>
-                                                                                <td>{item.money?item.money:"无"}</td>
-                                                                            </tr> 
-                                                                            <tr>
-                                                                                <td>立案时间</td>
-                                                                                <td>{item.time?item.time:"无"}</td>
-                                                                                <td>发布时间</td>
-                                                                                <td>{item.postTime?item.postTime:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>具体内容</td>
-                                                                                <td>{item.content?item.content:"无"}</td>
-                                                                                <td>执行依据</td>
-                                                                                <td>{item.basic?item.basic:"无"}</td>
-                                                                            </tr>     
-                                                                        </table></div>
-                                                                    })
-                                                            }
-                                                            {
-                                                                JSON.parse(item.content).litigationOutboundLimitsList==null?<h3>暂无限制出境被执行人信息</h3>:
+                                                                JSON.parse(item.content).litigationOutboundLimitsList==null?
+                                                                <p>暂无限制出境被执行人信息</p>:
                                                                     JSON.parse(item.content).litigationOutboundLimitsList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            限制出境被执行人信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>限制出境被执行人信息</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>被限制人地址</td>
-                                                                                <td>{item.address?item.address:"无"}</td>
-                                                                                <td>边控措施</td>
-                                                                                <td>{item.control?item.control:'无'}</td> 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>边控日期</td>
-                                                                                <td>{item.controlTime?item.controlTime:"无"}</td>
-                                                                                <td>承办法院 </td>
-                                                                                <td>{item.court?item.court:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>执行案号</td>
-                                                                                <td>{item.caseNum?item.caseNum:"无"}</td>
-                                                                                <td>执行依据</td>
-                                                                                <td>{item.basic?item.basic:"无"}</td>
-                                                                            </tr> 
-                                                                            <tr>
-                                                                                <td>执行标的</td>
-                                                                                <td>{item.money?item.money:"无"}</td>
-                                                                                <td>立案时间</td>
-                                                                                <td>{item.time?item.time:"无"}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>具体内容</td>
-                                                                                <td>{item.content?item.content:"无"}</td>
-                                                                            </tr>     
-                                                                        </table></div>
+                                                                    return <Collapse >
+                                                                                <Panel header="This is panel nest panel" key={index}>
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td>被限制人地址</td>
+                                                                                            <td>{item.address?item.address:"无"}</td>
+                                                                                            <td>边控措施</td>
+                                                                                            <td>{item.control?item.control:'无'}</td> 
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>边控日期</td>
+                                                                                            <td>{item.controlTime?item.controlTime:"无"}
+                                                                                            </td>
+                                                                                            <td>承办法院 </td>
+                                                                                            <td>{item.court?item.court:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>执行案号</td>
+                                                                                            <td>{item.caseNum?item.caseNum:"无"}</td>
+                                                                                            <td>执行依据</td>
+                                                                                            <td>{item.basic?item.basic:"无"}</td>
+                                                                                        </tr> 
+                                                                                        <tr>
+                                                                                            <td>执行标的</td>
+                                                                                            <td>{item.money?item.money:"无"}</td>
+                                                                                            <td>立案时间</td>
+                                                                                            <td>{item.time?item.time:"无"}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>具体内容</td>
+                                                                                            <td>{item.content?item.content:"无"}</td>
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                        </tr>     
+                                                                                    </table>
+                                                                                </Panel>
+                                                                            </Collapse>
+                                                                    
                                                                     })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="老赖信息" key="6">
                                                             {
-                                                                JSON.parse(item.content).litigationOldLaiList==null?<h3>暂无老赖信息</h3>:
+                                                                JSON.parse(item.content).litigationOldLaiList==null?
+                                                                <p>暂无老赖信息</p>:
                                                                     JSON.parse(item.content).litigationOldLaiList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            老赖信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>老赖信息</td>
-                                                                            </tr>
+                                                                    return <table>
                                                                             <tr>
                                                                                 <td>失信情形</td>
                                                                                 <td>{item.situation?item.situation:"无"}</td>
@@ -1226,26 +1138,16 @@ export default class CreditReturnComponent extends Component {
                                                                                 <td></td>
                                                                                 <td></td>
                                                                             </tr>    
-                                                                        </table></div>
+                                                                        </table>
                                                                     })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="立案信息" key="7">
                                                             {
-                                                                JSON.parse(item.content).litigationFilingList==null?<h3>暂无立案信息</h3>:
+                                                                JSON.parse(item.content).litigationFilingList==null?
+                                                                <p>暂无立案信息</p>:
                                                                     JSON.parse(item.content).litigationFilingList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            立案信息
-                                                                            </h3>
-                                                                            <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>立案信息</td>
-                                                                            </tr>
+                                                                    return <table>
                                                                             <tr>
                                                                                 <td>原告(上诉人)</td>
                                                                                 <td>{item.plaintiff?item.plaintiff:"无"}</td>
@@ -1276,27 +1178,16 @@ export default class CreditReturnComponent extends Component {
                                                                                 <td>案号</td>
                                                                                 <td>{item.caseNum?item.caseNum:"无"}</td>
                                                                             </tr>      
-                                                                        </table></div>
+                                                                        </table>
                                                                     })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="开庭信息" key="8">
                                                             {
-                                                                JSON.parse(item.content).litigationHoldCourtList==null?<h3>暂无开庭信息</h3>:
+                                                                JSON.parse(item.content).litigationHoldCourtList==null?
+                                                                <p>暂无开庭信息</p>:
                                                                     JSON.parse(item.content).litigationHoldCourtList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            开庭信息
-                                                                            </h3>
-                                                                       
-                                                                       <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>开庭信息</td>
-                                                                            </tr>
+                                                                    return <table>
                                                                             <tr>
                                                                                 <td>原告(上诉人)</td>
                                                                                 <td>{item.plaintiff?item.plaintiff:"无"}</td>
@@ -1321,27 +1212,16 @@ export default class CreditReturnComponent extends Component {
                                                                                 <td>案号</td>
                                                                                 <td>{item.caseNum?item.caseNum:"无"}</td>
                                                                             </tr>      
-                                                                        </table></div>
+                                                                        </table>
                                                                     })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="送达公告" key="9">
                                                             {
-                                                                JSON.parse(item.content).litigationServiceAnnouncementList==null?<h3>暂无送达公告</h3>:
+                                                                JSON.parse(item.content).litigationServiceAnnouncementList==null?
+                                                                <p>暂无送达公告</p>:
                                                                     JSON.parse(item.content).litigationServiceAnnouncementList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                style={{
-                                                                                    width:"100%",
-                                                                                    textAlign:"center",
-                                                                                    border:"1px solid #EEEEEE"
-                                                                                }}  
-                                                                            >
-                                                                            送达公告
-                                                                            </h3>
-                                                                       
-                                                                       <table>
-                                                                            <tr>
-                                                                                <td style={{textAlign:"center"}}>送达公告</td>
-                                                                            </tr>
+                                                                    return <table>
                                                                             <tr>
                                                                                 <td>标题</td>
                                                                                 <td>{item.title?item.title:"无"}</td>
@@ -1366,25 +1246,16 @@ export default class CreditReturnComponent extends Component {
                                                                                 <td></td>
                                                                                 <td></td>
                                                                             </tr>      
-                                                                        </table></div>
+                                                                        </table>
                                                                     })
                                                             }
+                                                            </Panel>
+                                                            <Panel header="其他信息" key="10">
                                                             {
-                                                                JSON.parse(item.content).litigationOtherList==null?<h3>暂无其他信息</h3>:
+                                                                JSON.parse(item.content).litigationOtherList==null?
+                                                                <p>暂无其他信息</p>:
                                                                     JSON.parse(item.content).litigationOtherList.map((item,index)=>{
-                                                                       return <div>
-                                                                            <h3
-                                                                                   style={{
-                                                                                       width:"100%",
-                                                                                       textAlign:"center",
-                                                                                       border:"1px solid #EEEEEE"}}  
-                                                                                >
-                                                                                    其他信息
-                                                                            </h3>
-                                                                           <table>
-                                                                            
-                                                                                
-                                                                            
+                                                                    return <table>
                                                                             <tr>
                                                                                 <td>执行申请人 </td>
                                                                                 <td>{item.applyName?item.applyName:"无"}</td>
@@ -1427,31 +1298,78 @@ export default class CreditReturnComponent extends Component {
                                                                                 <td>住所地</td>
                                                                                 <td>{item.address?item.address:"无"}</td>
                                                                             </tr>       
-                                                                        </table></div>
+                                                                        </table>
                                                                     })
                                                             }
-                                                        </div>
-                                                        :item.transactiontype=="150"?
+                                                            </Panel>
+                                                        </Collapse> 
+                                                        :item.transactiontype==="150"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
                                                                 <td>
                                                                     {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
+                                                                    "无犯罪记录":JSON.parse(item.content).resCode=="1"?
+                                                                    "有犯罪记录":"查询异常"}
                                                                 </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td>案发时间</td>
-                                                                <td>{JSON.parse(item.content).caseTime}</td>
+                                                                <td>{JSON.parse(item.content).caseTime?JSON.parse(item.content).caseTime:"无"}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>案发描述</td>
-                                                                <td>{JSON.parse(item.content).des}</td>
+                                                                <td>{JSON.parse(item.content).des?JSON.parse(item.content).des:"无"}</td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="160"?
+                                                        </table>:item.transactiontype==="160"?
+                                                        <div>
+                                                        {
+                                                            !JSON.parse(item.content).certificateVocationalList?"暂无职业资质信息":
+                                                                JSON.parse(item.content).certificateVocationalList.map((item,index)=>{
+                                                                    return <Collapse>
+                                                                                <Panel header={item.title?item.title:"无"} key="1">
+                                                                                    <table cellSpacing={0}>
+                                                                                    <tr>
+                                                                                        <td>证书职业名称</td>
+                                                                                        <td>{item.occupation?item.occupation:"无"}</td>
+                                                                                        <td></td>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>姓名</td>
+                                                                                        <td>{item.name?item.name:"无"}</td>
+                                                                                        <td>证书编号</td>
+                                                                                        <td>{item.certificateId?item.certificateId:"无"}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>身份证号</td>
+                                                                                        <td>{item.cid?item.cid:"无"}</td>
+                                                                                        <td>证书级别</td>
+                                                                                        <td>{item.level?item.level:"无"}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>颁证日期</td>
+                                                                                        <td>{item.banZhengRiQi?item.banZhengRiQi:"无"}
+                                                                                        </td>
+                                                                                        <td>证书上报单位</td>
+                                                                                        <td>{item.submitOrgName?item.submitOrgName:"无"}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>笔试成绩</td>
+                                                                                        <td>{item.textMark?item.textMark:"无"}</td>
+                                                                                        <td>上机成绩</td>
+                                                                                        <td>{item.operationMark?item.operationMark:"无"}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                                </Panel>
+                                                                            </Collapse>
+                                                                    })
+                                                                }
+                                                        </div>
+                                                        :item.transactiontype==="122"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
@@ -1463,7 +1381,7 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="122"?
+                                                        </table>:item.transactiontype==="123"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
@@ -1475,7 +1393,7 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="127"?
+                                                        </table>:item.transactiontype==="200"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
@@ -1487,7 +1405,7 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="123"?
+                                                        </table>:item.transactiontype==="201"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
@@ -1499,7 +1417,7 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="200"?
+                                                        </table>:item.transactiontype==="210"?
                                                         <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
@@ -1511,55 +1429,8 @@ export default class CreditReturnComponent extends Component {
                                                                 <td></td>
                                                                 <td></td>
                                                             </tr>
-                                                        </table>:item.transactiontype=="201"?
+                                                        </table>:item.transactiontype==="211" &&
                                                         <table cellSpacing={0}>
-                                                            <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="210"?
-                                                        <table cellSpacing={0}>
-                                                            <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="211"?
-                                                        <table cellSpacing={0}>
-                                                            <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="212"?
-                                                        <table cellSpacing={0}>
-                                                            <tr>
-                                                                <td>查询结果</td>
-                                                                <td>
-                                                                    {JSON.parse(item.content).resCode=="0"?
-                                                                    "无相关记录":JSON.parse(item.content).resCode=="1"?
-                                                                    "匹配成功":"查询异常"}
-                                                                </td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </table>:item.transactiontype=="213" && <table cellSpacing={0}>
                                                             <tr>
                                                                 <td>查询结果</td>
                                                                 <td>
@@ -1580,21 +1451,16 @@ export default class CreditReturnComponent extends Component {
                         </Collapse>   
                     </div>
                 </div>
+                }
+                {DataObject.cerditcerinfo && DataObject.cerditcerinfo.length!=0 && 
                 <div className="inverst-field">
                     <div className="inverst-item">
                         <div className="top-title">
                             职业证书信息核查
                             <span className="pull-right">数据源自国家人力资源和社会保障部</span>
                         </div>
-                        {cerditcerinfo.length==0?
-                            <div className="superior-content" style={{
-                                padding: "10px 0 0 8px"
-                            }}>
-                                <p className='above-all'>
-                                基于51招聘云大数据及工商局信息匹配核查，未发现该被调人职业证书信息。
-                                </p>
-                            </div>: <Collapse defaultActiveKey={['1']}>
-                            {cerditcerinfo.map((item,index)=>{
+                        <Collapse defaultActiveKey={['1']}>
+                            {DataObject.cerditcerinfo.map((item,index)=>{
                                 return <Panel header={`${item.occupation}证书信息`} key={index+1}>
                                         <div className="superior-content" style={{padding: "27px 0 0 78px"}}>
                                             <ul className="field-list inline-block">
@@ -1646,23 +1512,19 @@ export default class CreditReturnComponent extends Component {
                                 })
                             }   
                         </Collapse>
-                        }   
+                          
                     </div>
                 </div>
+                }
+                {DataObject.dishonest && DataObject.dishonest.length!=0 && 
                 <div className="inverst-field">
                     <div className="inverst-item">
                         <div className="top-title">
                             失信被执行信息核查
                             <span className="pull-right">数据源自最高人民法院</span>
                         </div>
-                        {dishonest.length==0?<div className="superior-content" style={{
-                            padding: "10px 0 0 8px"
-                        }}>
-                            <p className='above-all'>
-                            基于51招聘云大数据及工商局信息匹配核查，未发现该被调人失信被执行信息。
-                            </p>
-                        </div>:<Collapse defaultActiveKey={['1']}>
-                            {dishonest.map((item,index)=>{
+                        <Collapse defaultActiveKey={['1']}>
+                            {DataObject.dishonest.map((item,index)=>{
                                 return <Panel header={`${item.courtname}核查`} key={index+1}>
                                             <div className="superior-content" style={{
                                             padding: "10px 0 0 8px"
@@ -1717,12 +1579,13 @@ export default class CreditReturnComponent extends Component {
                                             </table>
                                         </div>
                                     </Panel>
-                            })}  
-                        </Collapse>
-                        }  
+                                })
+                            }  
+                        </Collapse>  
                     </div>
                 </div>
-                <div className="inverst-field">
+                }
+                {/* <div className="inverst-field">
                     <div className="inverst-item">
                         <div className="top-title">
                             网贷黑名单核查
@@ -1766,8 +1629,25 @@ export default class CreditReturnComponent extends Component {
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </li>
         )
     }
 }
+const mapStateToProps = state => ({
+    creditData: state.Manage.creditData,
+    creditInfoData: state.Manage.creditInfoData,
+    isFill: state.Manage.isFill,
+    searchLoading: state.Manage.searchLoading,
+    queryEmployeeList: state.Manage.queryEmployeeList,
+})
+
+const mapDispatchToProps = dispatch => ({
+    showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch),
+    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch)   
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreditReturnComponent)

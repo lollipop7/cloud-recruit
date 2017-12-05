@@ -14,6 +14,7 @@ export default class ControlComponent extends Component {
         //清除缓存
         this.props.queryResetForm();
         this.props.hidecredit();
+        this.props.cancelData();
     }
     
     render() {

@@ -56,7 +56,7 @@ class NewClerkForm extends Component {
     }
 
     handleClick = () => {
-        window.history.back(-1)
+        window.history.back(-1)        
     }
 
     handleChange = (field,e) => {

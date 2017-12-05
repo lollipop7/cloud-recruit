@@ -25,7 +25,6 @@ class ResumeModalComponent extends Component {
               {resumeid=0,id=0} = uriParams;
         return (
             <Modal
-                id = "ww"
                 title="简历"
                 wrapClassName="vertical-center-modal modal-recruit"
                 visible={visible}

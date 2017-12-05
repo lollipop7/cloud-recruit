@@ -101,12 +101,10 @@ class ClerkPage extends Component {
         this.setState({
             selectedRowKeys:[]
         }) 
-    }
+    }   
 
     onSelectChange = (selectedRowKeys) => {
-        const {
-            crewList
-        } = this.props,
+        const {crewList} = this.props,
         {list} = crewList;
         let filterArr = filter(list,(item,index)=>{
             return indexOf(selectedRowKeys,index) !== -1;
@@ -266,11 +264,11 @@ class ClerkPage extends Component {
                     onSelectChange={this.onSelectChange}
                 />
                 <iframe 
-                        id="exportEmployees" 
-                        name="exportEmployees" 
-                        style={{display:'none'}} 
-                        src="" 
-                        frameborder="0"
+                    id="exportEmployees" 
+                    name="exportEmployees" 
+                    style={{display:'none'}} 
+                    src="" 
+                    frameborder="0"
                 ></iframe>
             </div>
         );

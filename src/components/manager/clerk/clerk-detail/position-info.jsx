@@ -386,9 +386,10 @@ export default class PositionInfo extends Component {
                                     <span>工号 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             ref="worknumberInput"
+                                            placeholder="请填写工号"
                                             value={worknumber}
                                             onChange={this.handleNumChange.bind(this,'worknumber')}
                                             onBlur={this.handleBlur.bind(this,'worknumber')}
@@ -414,9 +415,10 @@ export default class PositionInfo extends Component {
                                     <span>岗位职级 : </span>           
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={positionclass}
+                                            placeholder="请填写岗位职级"
                                             onChange={this.handleChange.bind(this,'positionclass')}
                                         />
                                     </span>
@@ -425,9 +427,10 @@ export default class PositionInfo extends Component {
                                     <span>工作电话 : </span>
                                     <span>
                                         <Input 
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled}
                                             value={workphone}
+                                            placeholder="请填写工作电话"
                                             onChange={this.handleNumChange.bind(this,'workphone')}
                                         />
                                     </span>
@@ -437,8 +440,9 @@ export default class PositionInfo extends Component {
                                     <span>
                                         <Input
                                             ref="cemailInput"
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
+                                            placeholder="请填写企业邮箱"
                                             value={cemail}
                                             onChange={this.handleChange.bind(this,'cemail')}
                                         />
@@ -452,6 +456,7 @@ export default class PositionInfo extends Component {
                                         <Select
                                             disabled = {isdisabled} 
                                             value={worknature}
+                                            placeholder="请选择"
                                             onChange={this.handleChange.bind(this,'worknature')}
                                             style={{width:147}}
                                         >
@@ -464,9 +469,10 @@ export default class PositionInfo extends Component {
                                     <span>岗位 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={position}
+                                            placeholder="请填写岗位"
                                             onChange={this.handleChange.bind(this,'position')}
                                         />
                                     </span>
@@ -480,7 +486,7 @@ export default class PositionInfo extends Component {
                                             value={workcity ? workcity.split("-") : ''}
                                             onChange={this.handleCityChange.bind(this,'workcity')}
                                             displayRender={label => label.join(' - ')}
-                                            placeholder="请选择工作地点"
+                                            placeholder="请选择"
                                             style={{width: 147}}
                                         />
                                     </div>
@@ -489,9 +495,10 @@ export default class PositionInfo extends Component {
                                     <span>分机号 : </span>
                                     <span>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={ext}
+                                            placeholder="请填写分机号"
                                             onChange={this.handleChange.bind(this,'ext')}
                                         />
                                     </span>
@@ -500,9 +507,10 @@ export default class PositionInfo extends Component {
                                     <span>紧急联系人 : </span>
                                     <span style={{width:147}}>
                                         <Input
-                                            style={{border:borderState}}
+                                            //style={{border:borderState}}
                                             disabled = {isdisabled} 
                                             value={contactname}
+                                            placeholder="请填写紧急联系人"
                                             onChange={this.handleNameChange.bind(this,'contactname')}
                                         />
                                     </span>

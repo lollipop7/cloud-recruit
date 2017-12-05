@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a5525f4-e096-4c45-907e-f1324ccc1bac" name="Default" comment="使用帮助、招聘流程">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/manage.js" afterPath="$PROJECT_DIR$/src/actions/manage.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/index/video.jsx" afterPath="$PROJECT_DIR$/src/components/index/video.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-investgation.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-investgation.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-return.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-return.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/control.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/control.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manager/clerk/new-clerk-form.jsx" afterPath="$PROJECT_DIR$/src/components/manager/clerk/new-clerk-form.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/form.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/form.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/table.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/table.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/recruit/upload-resume-modal.jsx" afterPath="$PROJECT_DIR$/src/components/recruit/upload-resume-modal.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/help.jsx" afterPath="$PROJECT_DIR$/src/pages/help.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/manager.jsx" afterPath="$PROJECT_DIR$/src/pages/manager.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pages/recruit.jsx" afterPath="$PROJECT_DIR$/src/pages/recruit.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/router/index.js" afterPath="$PROJECT_DIR$/src/router/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scss/main.scss" afterPath="$PROJECT_DIR$/src/scss/main.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scss/pages/clerk-detail.scss" afterPath="$PROJECT_DIR$/src/scss/pages/clerk-detail.scss" />
-    </list>
+    <list default="true" id="9a5525f4-e096-4c45-907e-f1324ccc1bac" name="Default" comment="" />
     <ignored path="cloud-recruit.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,7 +18,24 @@
     <favorites_list name="cloud-recruit" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="credit-fill.jsx" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2788">
+              <caret line="82" column="14" lean-forward="true" selection-start-line="82" selection-start-column="14" selection-end-line="82" selection-end-column="14" />
+              <folding>
+                <element signature="e#4604#6288#0" expanded="false" />
+                <marker date="1511425024845" expanded="true" signature="8624:8638" ph="..." />
+                <marker date="1511425024845" expanded="true" signature="9538:9552" ph="..." />
+                <marker date="1511425024845" expanded="true" signature="10131:10145" ph="..." />
+                <marker date="1511425024845" expanded="true" signature="11008:11022" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -63,12 +62,12 @@
         <option value="$PROJECT_DIR$/src/scss/pages/clerk-detail.scss" />
         <option value="$PROJECT_DIR$/src/components/manager/archives/progress.jsx" />
         <option value="$PROJECT_DIR$/config/index.js" />
-        <option value="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" />
         <option value="$PROJECT_DIR$/src/components/manager/archives/table.jsx" />
         <option value="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/material-attach.jsx" />
         <option value="$PROJECT_DIR$/src/actions/manage.js" />
         <option value="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/view-modal.jsx" />
         <option value="$PROJECT_DIR$/build/local-server.js" />
+        <option value="$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx" />
       </list>
     </option>
   </component>
@@ -136,7 +135,24 @@
               <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="help" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="clerk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud-recruit" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud-recruit" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="clerk" type="462c0819:PsiDirectoryNode" />
+              <item name="clerk-detail" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -188,7 +204,7 @@
       <workItem from="1509930683794" duration="1687000" />
       <workItem from="1509939830033" duration="639000" />
       <workItem from="1509948184298" duration="15000" />
-      <workItem from="1511494989538" duration="272000" />
+      <workItem from="1511494989538" duration="595000" />
     </task>
     <task id="LOCAL-00001" summary="附件材料">
       <created>1509595532729</created>
@@ -197,11 +213,18 @@
       <option name="project" value="LOCAL" />
       <updated>1509595532729</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="使用帮助、招聘流程">
+      <created>1511495292025</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1511495292025</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38305000" />
+    <option name="totallyTimeSpent" value="38628000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -215,7 +238,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1844609" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22832981" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -434,13 +457,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="88" column="26" lean-forward="true" selection-start-line="88" selection-start-column="26" selection-end-line="88" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/manager/archives/progress.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -487,6 +503,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
           <caret line="405" column="33" lean-forward="true" selection-start-line="405" selection-start-column="33" selection-end-line="405" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/help/helpEditPurpose.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/manager/clerk/clerk-detail/credit-fill.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2788">
+          <caret line="82" column="14" lean-forward="true" selection-start-line="82" selection-start-column="14" selection-end-line="82" selection-end-column="14" />
+          <folding>
+            <element signature="e#4604#6288#0" expanded="false" />
+            <marker date="1511425024845" expanded="true" signature="8624:8638" ph="..." />
+            <marker date="1511425024845" expanded="true" signature="9538:9552" ph="..." />
+            <marker date="1511425024845" expanded="true" signature="10131:10145" ph="..." />
+            <marker date="1511425024845" expanded="true" signature="11008:11022" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

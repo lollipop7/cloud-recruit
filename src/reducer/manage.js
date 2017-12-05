@@ -47,6 +47,7 @@ import {
     CANCELIMAGEURL,
     HIDECREDITINVESTGATIONSTATE,
     CANCELLOADING,
+    CANCELDATA,
     //**档案管理 ------------------------------------------------*/
     GET_ARCHIVES_START ,
     GET_ARCHIVES_DONE ,
@@ -336,6 +337,8 @@ export default function manage(state=initialState,actions){
             return {...state,mechanismInfo:actions.mechanismInfo};          
         case CREDITINVESTGATION:
             return {...state,creditData:actions.creditData};
+        case CANCELDATA:
+            return {...state,creditData:{}};
         case SEARCHCREDITINVESTGATION:
             return {...state,creditInfoData:actions.creditInfoData};
         case CREDITINVESTGATIONSTATE:

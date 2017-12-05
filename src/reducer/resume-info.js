@@ -14,7 +14,9 @@ import {
     DOWNLOAD_RESUME_DONE,
     GET_EVALUATION,
     GET_EVALUATION_ID,
-    RESUME_INFORMATION
+    RESUME_INFORMATION,
+    HIDE_BACKGROUNDSURVEY_MODAL,
+    SHOW_BACKGROUNDSURVEY_MODAL
 } from 'constants/resume-info';
 
 const initialState = {
@@ -29,7 +31,8 @@ const initialState = {
    isDownLoading: false,
    evaluation:{},//评估表
    evaluationid:"",//评估表ID
-   resumeUrl:{}
+   resumeUrl:{},
+   backSurveyVisible: false
 };
 
 export default function resume(state = initialState,actions){
@@ -65,7 +68,11 @@ export default function resume(state = initialState,actions){
         case DOWNLOAD_RESUME_START:
             return {...state,isDownLoading: true};
         case DOWNLOAD_RESUME_DONE:
-            return {...state,isDownLoading: false};  
+            return {...state,isDownLoading: false};
+        case SHOW_BACKGROUNDSURVEY_MODAL:
+            return {...state,backSurveyVisible:true};
+        case HIDE_BACKGROUNDSURVEY_MODAL:
+            return {...state,backSurveyVisible:false};  
         default: 
             return state;
     }

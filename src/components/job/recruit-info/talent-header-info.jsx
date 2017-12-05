@@ -101,7 +101,7 @@ class TalentHeaderInfoComponent extends Component {
                                     </Button>
                                     <Button type="primary" onClick={this.printResume} >
                                         打印简历
-                                    </Button>
+                                    </Button>   
                                 </div>
                             </li>
                             <li>

@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-
-import BarChartComponent from './bar-chart';
 import CreditReturnComponent from './credit-return';
 import CreditFillComponent from './credit-fill';
 
@@ -11,13 +9,8 @@ import * as Actions from 'actions';
 
  class CreditInvestgation extends Component {
     componentDidMount(){
-        const {searchCreditInvestgation , data={} , creditData} = this.props,
-            {resumeid="",rid=""} = data.resumeoff;
-            if(resumeid){
-                searchCreditInvestgation({resumeid:resumeid});
-            }else if(rid){
-                searchCreditInvestgation({rid:rid+''});
-            }
+        const {searchCreditInvestgation ,resumeid ,creditData} = this.props;
+        searchCreditInvestgation({resumeid:resumeid});
     }
     render() {
        const {creditData,searchCredit, creditInfoData, isFill , data , queryEmployeeList} = this.props;
@@ -40,7 +33,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showcredit:bindActionCreators(Actions.ManageActions.showcredit, dispatch),
-    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch)   
+    searchCredit: bindActionCreators(Actions.ManageActions.searchCredit, dispatch),
+    searchCreditInvestgation: bindActionCreators(Actions.ManageActions.searchCreditInvestgation, dispatch),   
 })
 
 export default connect(

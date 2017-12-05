@@ -9,6 +9,7 @@ import MainContentComponent from 'components/job/recruit-info/main-content';
 import ModalComponents from 'components/resume-info/modal';
 import ShareModalComponents from 'components/resume-info/share-modal';
 import EvaluationModalComponents from 'components/resume-info/interview-evaluation-modal';
+import BackgroundSurveyModalComponents from 'components/resume-info/background-survey';
 
 // 富文本编辑器
 import EmailEditorComponents from 'components/email/right';
@@ -127,19 +128,6 @@ class ResumeInfoPage extends Component {
                             {isRecruit &&
                                 <ul className="table tabs-container">
                                     <li className="table-cell empty"></li>
-                                    {/* <li 
-                                        className={`tab-item table-cell boder-right-none ${!!type ? '' : 'active'}`}
-                                        onClick={() => this.handleChangeType(0)}
-                                    >
-                                        个人简历
-                                    </li>
-                                    <li 
-                                        className={`tab-item table-cell ${!!type ? 'active' : ''}`}
-                                        onClick={() => this.handleChangeType(1)}
-                                    >
-                                        邮件
-                                    </li>
-                                    */}
                                     <li 
                                         className={`tab-item table-cell boder-right-none ${type==0 ? 'active' : ''}`}
                                         onClick={() => this.handleChangeType(0)}
@@ -159,33 +147,12 @@ class ResumeInfoPage extends Component {
                                     </Tooltip> 
                                         邮件
                                     </li>
-                                    {/* <li 
-                                        className={`tab-item table-cell ${type==2 ? 'active' : ''}`}
-                                        onClick={() => this.handleChangeType(2)}
-                                    >
-                                        其他信息
-                                    </li> */}
                                     <li className="table-cell empty"></li>
                                 </ul>
                             }
                             <div className="main-content" style={{
                                 marginTop: isTalent ? 36 : 0
                             }}>
-                                {/* <div className={`info-content ${!!type ? 'none' : ''}`}>
-                                    <MainContentComponent data={data} />
-                                </div>
-                                {isRecruit &&
-                                    <div className={`email-content ${!!type ? '' : 'none'}`}>
-                                        <EmailEditorComponents
-                                            addressee={{
-                                                resumeid,
-                                                ...{positionid: currentPId},
-                                                ...{resumename: username},
-                                                email
-                                            }}
-                                        />
-                                    </div>
-                                } */}
                                 <div className={`info-content ${type==0? '' : 'none'}`}>
                                     <MainContentComponent data={data} />
                                 </div>
@@ -202,9 +169,6 @@ class ResumeInfoPage extends Component {
                                         />
                                     </div>
                                 }
-                                {/* <div className={`information-content ${type==2 ? '' : 'none'}`}>
-                                    待定。。。
-                                </div> */}
                             </div>
                             <ModalComponents />
                             {/*简历分享Modal*/}
@@ -217,6 +181,8 @@ class ResumeInfoPage extends Component {
                                 evaluationId={evaluationId}
                                 logId={logId}
                             />
+                            {/* 背景调查 */}
+                            <BackgroundSurveyModalComponents resumeid={resumeid}/>
                         </div>
                 }
             </div>

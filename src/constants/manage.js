@@ -81,6 +81,8 @@ export const QUERY_RESET_FORM = 'QUERY_RESET_FORM';
  export const HIDECREDITINVESTGATIONSTATE = 'HIDECREDITINVESTGATIONSTATE';
 //人员征信查询loading
  export const CANCELLOADING = 'CANCELLOADING';
+ export const CANCELDATA = 'CANCELDATA';
+ 
 
 
  //图片地址

@@ -7,7 +7,7 @@ import clerkInfo from 'data/clerk/clerk';
 const {cardList} = clerkInfo.creditInvestgation.cardList;
 import LoadingComponent from 'components/loading';
 
-import {ErrorInputComponent} from '../input-select-time';
+import {ErrorInputComponent} from 'components/manager/clerk/input-select-time';
 import store from 'store';
 import pickBy from 'lodash/pickBy';
 
@@ -52,26 +52,6 @@ import * as Actions from 'actions';
         globalExpress:"",
         educate:"",
         globalEducate:""
-        
-        // name:'管文平',
-        // mobile:'13000000000',
-        // card:'310104198601080836',
-        // certid:'104101200306000405',
-        // rid:'10',
-        // resumeid:'',
-        // dataType:"简历文件",
-        // resume:"",
-        // authorizationFile:"",
-        // graduationFile:"",
-        // degreeFile:"",
-        // overseasEducationFile:"",
-        // certificateVocationalFile:"",
-        // transactionType:"",
-        // fileList:[],
-        // disableState:false ,
-        // border:false 
-
-        
      }
 
      handleChange = (field,e) => {
@@ -100,18 +80,11 @@ import * as Actions from 'actions';
             }
     }
      componentWillReceiveProps(nextprops){
-            // const {searchLoading ,data={},creditData,} = nextprops;
-            // const {resumeoff={}} = data;
             const {searchLoading ,data={},creditData,queryEmployeeList} = nextprops;
-            const {resumeoff={}} = queryEmployeeList.list;
             const{
-                name="",
-                mobile,
-                card,
-                certid,
-                resumeid,
-                rid
-            } = resumeoff;
+                username,
+                resumeid
+            } = data.resumeInfo;
             if(data!={}){
                 this.setState({
                     isLoading:false
@@ -119,19 +92,8 @@ import * as Actions from 'actions';
             }
             if(resumeid){
                 this.setState({
-                    name,
-                    mobile,
-                    card,
-                    certid:certid?certid:'',
+                    name:username,
                     resumeid
-                })
-            }else{
-                this.setState({
-                    name,
-                    mobile,
-                    card,
-                    certid,
-                    rid:rid+''
                 })
             }
             this.setState({
@@ -639,11 +601,11 @@ import * as Actions from 'actions';
             educate,
             globalEducate
          } = this.state;
-         const {creditData}=this.props;
+         const {creditData , data}=this.props;
          return(
              <li>
-                 <div className="fill-field">
-                    <Collapse defaultActiveKey={['1','2']} >
+                 <div className="fill-field" style={{height:1000}}>
+                    <Collapse defaultActiveKey={['1','2']} style={{height:1160}}>
                         <Panel header="第一步：候选人信息" key="1">
                         <div className="basic-input">
                             {isLoading &&
@@ -657,7 +619,7 @@ import * as Actions from 'actions';
                                 }} />
                             }
                             <ul>
-                                <li style={{paddingBottom: 40}}>
+                                <li style={{paddingBottom: 40,width:450}}>
                                     <ErrorInputComponent
                                         ref="candidatenameInput"
                                         name="姓名："
@@ -667,7 +629,7 @@ import * as Actions from 'actions';
                                         asterisk={true}
                                     />
                                 </li>
-                                <li style={{paddingBottom: 40}}>
+                                <li style={{paddingBottom: 40,width:450}}>
                                     <ErrorInputComponent
                                         ref="phonenumInput"
                                         name="手机号："
@@ -678,7 +640,7 @@ import * as Actions from 'actions';
                                         asterisk={true}
                                     />
                                 </li>
-                                <li style={{paddingBottom: 25}}>
+                                <li style={{paddingBottom: 25,width:450}}>
                                     <ErrorInputComponent
                                         ref="idnumInput"
                                         name="身份证号："
@@ -689,7 +651,7 @@ import * as Actions from 'actions';
                                         asterisk={true}
                                     />
                                 </li >
-                                <li style={{paddingBottom: 25}}>
+                                <li style={{paddingBottom: 25,width:450}}>
                                     <ErrorInputComponent
                                         ref="diplomanumInput"
                                         name="毕业证书号："
@@ -769,7 +731,7 @@ import * as Actions from 'actions';
                                         </li>
                                     </ul>   
                                 </div>
-                                <div className="card-list" style={{height:650,width:650,borderRight: "1px solid #e3e1e1"}}>
+                                <div className="card-list" style={{height:570,width:650,borderRight: "1px solid #e3e1e1"}}>
                                     <span 
                                         style={{color:"#108ee9",display:"block",marginBottom:20,marginTop:20}}>
                                         ●&nbsp;&nbsp;人工核查(3-5个工作日)
@@ -826,13 +788,10 @@ import * as Actions from 'actions';
                                     </ul>
                                     <div className="inline-block"
                                         style={{
-                                            //position: 'absolute',
                                             left: 516,
                                             width: 422,
                                             paddingLeft: 37,
                                             marginTop: 30
-                                            //borderLeft: "1px solid #e3e1e1",
-                                            //height: 221
                                         }}>
                                         <div className="hint-field" style={{textAlign: "center"}}>
                                             <div className="resumeSource">
@@ -900,10 +859,10 @@ import * as Actions from 'actions';
                                     </div>
                                 </div>
                             </div>
-                            <div className="SurveyPlan">
+                            <div className="SurveyPlan" style={{width:252,height:850}}>
                                 <p className="p-title">已选调查方案</p>
                                 <div className="data">
-                                    <div className="basicData">
+                                    <div className="basicData" style={{width:250,height:300}}>
                                         <span 
                                             style={{
                                                 color:"#108ee9",
@@ -915,7 +874,7 @@ import * as Actions from 'actions';
                                         >
                                              ●&nbsp;&nbsp;快速核查
                                        </span>
-                                       <ul className="basicDataUl" style={{overflow:"hidden",marginTop:16}}  onClick={this.onRemove}>
+                                       <ul className="basicDataUl" style={{overflow:"hidden",marginTop:16,paddingLeft:0}}  onClick={this.onRemove}>
                                            <li>
                                                 {idcard?
                                                     <a>&nbsp;&nbsp;{idcard}&nbsp;&nbsp;
@@ -988,7 +947,7 @@ import * as Actions from 'actions';
                                            </li>
                                        </ul>
                                     </div>
-                                    <div className="work">
+                                    <div className="work" style={{width:250,height:320}}>
                                         <span 
                                             style={{
                                                 color:"#108ee9",
@@ -999,7 +958,7 @@ import * as Actions from 'actions';
                                         >
                                                 ●&nbsp;&nbsp;人工核查
                                         </span>
-                                        <ul className="workUl" style={{overflow:"hidden",marginTop:16}}>
+                                        <ul className="workUl" style={{overflow:"hidden",marginTop:16,height:300,paddingLeft:0}}>
                                             <li>
                                                 {homeWork?
                                                     <a>&nbsp;&nbsp;{homeWork}&nbsp;&nbsp;
@@ -1063,7 +1022,7 @@ import * as Actions from 'actions';
                                        </ul>
                                     </div>
                                 </div>
-                                <div className="bottomBtn">
+                                <div className="bottomBtn" style={{textAlign:"center"}}>
                                     <Button
                                         loading={searchLoading}
                                         type="primary" 
@@ -1087,6 +1046,7 @@ import * as Actions from 'actions';
     isFill: state.Manage.isFill,
     searchLoading: state.Manage.searchLoading,
     queryEmployeeList: state.Manage.queryEmployeeList,
+    data: state.Resume.resumeInfo,
 })
 
 const mapDispatchToProps = dispatch => ({

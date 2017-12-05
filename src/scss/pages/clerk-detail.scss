@@ -402,9 +402,25 @@
         //     top: -36px;
         //     left: 137px;
         // }
+        .basic-input{
+            width: 100%;
+            ul{
+                width: 100%;
+                overflow: hidden;
+                li{
+                    width: 495px;
+                    float: left;
+                }
+            }
+        }
+        
         li {
             //padding-bottom: 25px;
             .inline-block {
+                width: 100%;
+                .inline-block{
+                    width: 300px;
+                }
                 &>span {
                     display: inline-block;
                     width: 133px;
@@ -421,14 +437,15 @@
                         background-color: #eee !important;
                     }
                 }
+               
             }
         }
         .hint-field {
             position: relative;
-            width: 562px;
-            float: left;
+            width: 100%;
+            //float: left;
             padding-bottom: 20px;
-            border-right: 1px dashed #E0E0E0;
+            //border-right: 1px dashed #E0E0E0;
             .borderState{
                 .ant-select-selection{
                     border: 1px solid #108EE9
@@ -447,14 +464,14 @@
                    a{
                        color: #595959;
                        b{
-                        visibility:hidden;;
+                        visibility:hidden;
                        }
                    }
                 }
                 span:hover{
                     background:#E1F5FE;
                     b{
-                        visibility:visible;;
+                        visibility:visible;
                     }
                 }
             }
@@ -487,6 +504,7 @@
                     display: block;
                     margin-top: 10px;
                     font-size: 12px;
+                    color: #79869C;
                 };
                 .upLoad{
                     color:#888;
@@ -517,82 +535,127 @@
                 left: -130px;
             }
             .card-list {
-               // padding: 53px 0 53px 37px;
                ul {
                    overflow:hidden;
+                   margin: 0 30px;
+                   //height: 240px;
+                   width: 620px;
                    li{
-                       cursor: pointer;
-                       border-radius: 5px;
-                       padding-bottom: 15px;
-                        margin: 10px;
+                        cursor: pointer;
+                        border-radius: 5px;
+                        padding-bottom: 15px;
+                        margin: 20px;
                         text-align:center;
-                        width:120px;
+                        width:115px;
+                        height: 80px;
                         border:1px solid #E0E0E0;
                         float: left;
                         font-size: 12px;
-                        i{
+                        .iconfont{
                             color:#3188ff;
                             font-size:18px;
-                            margin-top: 10px
+                            display:block;
+                            margin-bottom:-12px;
+                            margin-top:6px;
+                        }
+                        .i{
+                            font-size:23px;
+                            margin-bottom:-20px;
                         }
                    }
                    li:hover{
                        border-color: #3188ff;
                    }
                }
+               .peopleSearch{
+                   width: 620px;
+                   //float: left;
+               }
             }
         }
         .SurveyPlan{
-            width: 400px;
+            width: 300px;
+            overflow: hidden;
             float: right;
             .p-title{
                 width: 100%;
-                height: 50px;
+                height: 30px;
                 background: #9FA8DA;
                 color: #fff;
                 font-weight: none;
                 text-align: center;
-                line-height: 50px;
+                line-height: 30px;
                 border-radius: 5px;
                 letter-spacing:3px
             }
             .data{
-                border-bottom: 1px solid #E0E0E0;
                 overflow: hidden;
                 .basicData{
                     overflow: hidden;
+                    width: 300px;
+                    //margin-left: 70px;
+                    float: left;
+                    height: 380px;
+                   
                     .basicDataUl{
                         width: 100%;
+                        padding-left: 30px;
+                        //border-right: 1px solid #E3E1E1;
                         li{
-                            width: 150px;
                             float: left;
-                            margin: 10px 20px 10px 20px;
+                            line-height: 32px;
                             text-align: center;
                             font-size: 14px;
-                            border-radius: 3px
+                            border-radius: 3px;
+                            margin: 10px 0px;
+                            a{
+                                color: #595959;
+                                line-height: 30px;
+                                display: block;
+                                border-radius: 3px;
+                                b{
+                                    visibility:hidden;
+                                }
+                            }
                         };
-                        li:hover{
-                            color:white;
-                            background: #9E9E9E
+                        li:hover a{
+                            background: #E1F5FE;
+                            b{
+                                visibility:visible
+                            }
                         }
                     }
                     
                 }
                 .work{
                     overflow: hidden;
+                    width: 300px;
+                    height: 300px;
+                    float: right;
                     .workUl{
                         width: 100%;
+                        padding-left: 30px; 
                         li{
-                            width: 150px;
                             float: left;
-                            margin: 10px 20px 10px 20px;
                             text-align: center;
                             font-size: 14px;
-                            border-radius: 3px
+                            border-radius: 3px;
+                            margin: 10px 0px;
+                            a{
+                                color: #595959;
+                                line-height: 30px;
+                                display: block;
+                                border-radius: 3px;
+                                b{
+                                    visibility:hidden;
+                                }
+                            }
                         };
-                        li:hover{
-                            color: white;
-                            background: #9E9E9E
+                        li:hover a{
+                            background: #E1F5FE;
+                            b{
+                                visibility:visible
+                            }
                         }
                     }
                     
@@ -638,7 +701,7 @@
             }
         }
         .bottomBtn{
-            text-align: center;
+            text-align: left;
             padding-bottom: 20px;
             padding-top: 20px;
         }

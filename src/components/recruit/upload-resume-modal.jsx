@@ -29,7 +29,7 @@ class UploadResumeModalComponents extends Component {
     componentWillUpdate(nextProps,nextState) {
         if(nextProps.data.resetForm){
             this.setState({
-                source: 'zhilian',
+                source: '通用',
                 fileList: []
             });
             this.props.setResetFormFalse();

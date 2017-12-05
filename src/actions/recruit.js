@@ -104,7 +104,7 @@ export const uploadResume = (data,props) => (dispatch,getState) => {
             dispatch(HIDE_UPLOAD_MODAL);
         },500);
         const {getRecruitList} = props;
-        getRecruitList({stageid:'0',skip:'0',range:'1'});
+        getRecruitList({stageid:'0',skip:'0',range:'2'});
     },err=>{
         dispatch(UPLOAD_RESUME_DONE);
     });

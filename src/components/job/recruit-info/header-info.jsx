@@ -109,6 +109,9 @@ class HeaderInfoComponent extends Component {
         //显示评估表
         this.props.showEvaluationModal();  
     }
+    showBackgroundModal = () => {
+        this.props.showBackgroundModal()
+    }
 
     render() {
         const {data,modalVisible,currentStage,evaluation } = this.props,
@@ -162,13 +165,22 @@ class HeaderInfoComponent extends Component {
                                     }}>{email}</span>
                                 </div>
                                 <div className="pull-right noprint">
+                                    {
+                                        stage!=undefined && stage.stageid>=5 && <Button type="primary" onClick={this.showBackgroundModal} >
+                                                                背调TA
+                                                            </Button>
+                                    }
                                     <Button type="primary" onClick={this.downloadResume}>
                                         简历下载
                                     </Button>
                                     <Button type="primary" onClick={this.printResume} >
                                         打印简历
                                     </Button>
-                                    <Button className="share" onClick={this.handleShare} >
+                                    
+                                    <Button className="share" 
+                                        onClick={this.handleShare} 
+                                        style={{position: "relative",top:-2}}
+                                    >
                                         <img 
                                             style = {{
                                                 width: 40,
@@ -306,7 +318,8 @@ const mapDispatchToProps = dispatch => ({
     showShareModal: bindActionCreators(Actions.ResumeActions.showShareModal, dispatch),
     showEvaluationModal: bindActionCreators(Actions.ResumeActions.showEvaluationModal, dispatch),
     getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
-    getResumeUrl: bindActionCreators(Actions.ResumeActions.getResumeUrl, dispatch)
+    getResumeUrl: bindActionCreators(Actions.ResumeActions.getResumeUrl, dispatch),
+    showBackgroundModal: bindActionCreators(Actions.ResumeActions.showBackgroundModal, dispatch),
 })
 
 export default connect(

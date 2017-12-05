@@ -253,7 +253,6 @@ export class SelectComponent extends Component {
                 style = { width: 229, height: 40 },     //下拉框样式
                 asterisk = false,                       //是否是必填项    
             } = this.props;
-            console.log(defaultValue)
         return (
             <div className="inline-block inline-block-select">
                 <span className={ asterisk ? "required-asterisk" : ""}>{name}</span>
