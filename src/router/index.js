@@ -1,4 +1,4 @@
-import {onEnterLoginHook,requireAuthHook,onLeavePage} from '../hook';
+import {onEnterLoginHook,requireAuthHook,onLeavePage,requireHook} from '../hook';
 
 /**
  * 引入子路由
@@ -433,6 +433,8 @@ const HelpPage = {
 // 引入简历展示页面路由
 const ShowResume = {
     path:"showResume",
+    breadcrumbName:"简历分享",
+    onEnter:requireHook,
     onLeave:onLeavePage,
     getComponent:(nextState,cb)=>{
         require.ensure([], (require) => {
@@ -442,6 +444,8 @@ const ShowResume = {
 }
 const Evaluation = {
     path:"evaluation",
+    breadcrumbName:"面试评估表",
+    onEnter:requireHook,
     onLeave:onLeavePage,
     getComponent:(nextState,cb)=>{
         require.ensure([], (require) => {

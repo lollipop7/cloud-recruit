@@ -49,16 +49,24 @@ import * as Actions from 'actions';
      }) 
  }
     componentDidMount(){
-        const {a,b,c,d,e} = this.props.location.query;
+        const {a,b,c,d,e,f} = this.props.location.query;
         const key = "%!##@$%|$#$%(^)$}$*{^*+%";
         const resumeid = strDec(`${a}`,key);
         const jobid = strDec(`${b}`,key);
         const intername = strDec(`${c}`,key);
         const companyname = strDec(`${d}`,key);
         const loginname = strDec(`${e}`,key);
+        const shareTime = strDec(`${f}`,key);
         this.setState({
-            intername,jobid,resumeid,companyname,loginname
-        })  
+            intername,jobid,resumeid,companyname,loginname,shareTime
+        })
+        if((new Date().getTime()-shareTime)/1000/60/60>=3){
+            Modal.warning({
+                title: '链接已过期，请重新获取分享链接！',
+                okText:"确定",
+                style:{top:330}
+                })
+        }
     }
     //重置表单
     resetForm = () => {
@@ -92,7 +100,8 @@ import * as Actions from 'actions';
             interviewer,     
             comments,
             companyname,
-            loginname
+            loginname,
+            shareTime
         } = this.state;
         if(interviewer==""){
             this.setState({
@@ -110,9 +119,9 @@ import * as Actions from 'actions';
         
         //加密关键字
         const key = "%!##@$%|$#$%(^)$}$*{^*+%";
-        const shareTime = new Date().getTime();
+        //请求参数       
         const query = `resumeid=${resumeid}&jobid=${jobid}&startTime=${shareTime}&intername=${intername}&professional=${professional}&workexperience=${workexperience}&eduandtrain=${eduandtrain}&communication=${communication}&initiative=${initiative}&grooming=${grooming}&attitude=${attitude}&interviewer=${interviewer}&comments=${comments}&companyname=${companyname}&loginname=${loginname}`
-        //参数加密
+        //请求参数加密
         const  partters = strEnc(`${query}`,key);
         //添加面试评估
         this.props.fillEvaluation(partters);
@@ -141,7 +150,7 @@ import * as Actions from 'actions';
                         margin:"0 auto",
                         marginTop:100,
                         border:"1px solid #8CB6C0",
-                        height:700,
+                        height:750,
                         borderRadius:5,
                         
                     }}
@@ -168,7 +177,7 @@ import * as Actions from 'actions';
                                     <input 
                                         ref = "intername"
                                         value={intername}
-                                        style={{borderRadius:0}}
+                                        style={{borderRadius:0,color:"#000"}}
                                         disabled="true" 
                                         //onChange={this.changeInput.bind(this,'intername',"errorintername")}
                                     />
@@ -180,7 +189,7 @@ import * as Actions from 'actions';
                                     <input 
                                         ref = "interviewer"
                                         value={interviewer} 
-                                        style={{borderRadius:0}}
+                                        style={{borderRadius:0,color:"#000"}}
                                         onChange={this.changeInput.bind(this,'interviewer',"errorinterviewer")}
                                     />
                                     {errorinterviewer && 
@@ -283,7 +292,8 @@ import * as Actions from 'actions';
                                         style={{
                                             width: 660,
                                             height: 130,
-                                            resize: "none"
+                                            resize: "none",
+                                            color:"#000"
                                         }}
                                     />
                                 </div>

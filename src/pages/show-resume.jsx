@@ -70,26 +70,26 @@ import * as Actions from 'actions';
                         />
                     </div>
                     <ul style={{float:"left"}}>
-                        <li style={{height:60,lineHeight:"60px",fontSize:18}}><b>{username?username:""}</b></li>
+                        <li style={{height:60,lineHeight:"60px",fontSize:18}}><b>{username}</b></li>
                         <ul style={{overflow:"hidden"}}>
                             <li style={{ marginTop: 14,float:"left",marginRight:50}}>
-                                <Icon type="mobile" style={{color:"#B1CDEE"}}/>：{telephone?telephone:"无"} 
+                                <Icon type="mobile" style={{color:"#B1CDEE"}}/>：{telephone} 
                             </li>
                             <li style={{marginTop: 15}}>
-                                <Icon type="mail" style={{color:"#B1CDEE"}}/>：{email?email:"无"}
+                                <Icon type="mail" style={{color:"#B1CDEE"}}/>：{email}
                             </li>
                         </ul>
                         
                         <li style={{marginTop: 15}}>
                             <Icon type="user" style={{color:"#B1CDEE"}}/>：
-                            <span>{sex?sex:""}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <span>{borndate?borndate:""}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <span>现居住{livecityid?livecityid:""}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <span>{workyears?workyears:""}</span>
+                            <span>{sex}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{borndate}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>现居住{livecityid}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{workyears}</span>
                         </li>
                     </ul>
                 </div>
-                <div className="resume-info" >
+                <div className="resume-info">
                     <h3 className="title">
                         个人基本信息
                     </h3> 
@@ -97,19 +97,19 @@ import * as Actions from 'actions';
                         <ul style={{width:300, marginRight:100,float:"left"}}>
                             <li>
                                 <span>当前行业</span>
-                                <span> : {joblb?joblb:"无"}</span>
+                                <span> : {joblb}</span>
                             </li>
                             <li>
                                 <span>当前职业</span>
-                                <span> : {titlenow?titlenow:"无"}</span>
+                                <span> : {titlenow}</span>
                             </li>
                             <li>
                                 <span className="space">户籍</span>
-                                <span> : {accountcityid?accountcityid:"无"}</span>
+                                <span> : {accountcityid}</span>
                             </li>
                             <li>
                                 <span>婚姻状况</span>
-                                <span> : {marital?marital:"无"}</span>
+                                <span> : {marital}</span>
                             </li>
                             
                         </ul>

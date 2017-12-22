@@ -32,14 +32,18 @@ class ShareEvaluationModalComponents extends Component {
         const {companyname,loginname} = companyInfo;
             //加密关键字
             const key = "%!##@$%|$#$%(^)$}$*{^*+%";
+            //时间
+            const shareTime = new Date().getTime();
+            //const shareTime = new Date("2017/12/01").getTime();
             //参数加密
             const resuid = strEnc(`${resumeid}`,key);
             const jid = strEnc(`${jobid}`,key);
             const intname = strEnc(`${username}`,key);
             const company = strEnc(`${companyname}`,key);
             const login = strEnc(`${loginname}`,key);
+            const sharTime = strEnc(`${shareTime}`,key);
             //生成链接
-            const qrcodeLink = `${window.location.origin}/#/evaluation?a=${resuid}&b=${jid}&c=${intname}&d=${company}&e=${login}`;
+            const qrcodeLink = `${window.location.origin}/#/evaluation?a=${resuid}&b=${jid}&c=${intname}&d=${company}&e=${login}&f=${sharTime}`;
         return(
             <Modal
                 width = {600}

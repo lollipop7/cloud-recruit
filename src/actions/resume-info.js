@@ -177,8 +177,17 @@ export const getResumeInfo = (query) => (dispatch,getState) => {
         },
     })
     .then(res=>{
-        //console.log(res.data);
-        dispatch({...RESUME_INFO,resumeInformation:res.data})
+        dispatch({...RESUME_INFO,resumeInformation:res.data});
+        if(res.data.returnMsg=="该链接已超时!请重新分享。"){
+            Modal.warning({
+            title: '链接已过期，请重新分享！',
+            okText:"确定",
+            style:{top:330}
+            })
+        }
+        
+    },err=>{
+        console.log(err)
     });
 }
 //邀请他人填写面试评估
@@ -197,12 +206,21 @@ export const fillEvaluation = (query) => (dispatch,getState) => {
         },
     })
     .then(res=>{
-        dispatch({...FILL_LOADING})
-        Modal.success({
-            title: '成功添加评估表！',
+        dispatch({...FILL_LOADING});
+        if(res.data.returnMsg=="该链接以超时!请重新获取链接。"){
+            Modal.warning({
+            title: '链接已过期，请重新分享！',
             okText:"确定",
             style:{top:330}
-        })
+            })
+            return false
+        }else{
+            Modal.success({
+                title: '成功添加评估表！',
+                okText:"确定",
+                style:{top:330}
+            })
+        } 
     },err=>{
         dispatch({...FILL_LOADING})
         Modal.error({
