@@ -900,7 +900,7 @@ import * as Actions from 'actions';
                                     </div>
                                 </div>
                             </div>
-                            <div className="SurveyPlan">
+                            <div className="SurveyPlan" style={{marginRight:15}}>
                                 <p className="p-title">已选调查方案</p>
                                 <div className="data">
                                     <div className="basicData">
@@ -988,7 +988,7 @@ import * as Actions from 'actions';
                                            </li>
                                        </ul>
                                     </div>
-                                    <div className="work">
+                                    <div className="work" style={{position:"relative",top:"-50px"}}>
                                         <span 
                                             style={{
                                                 color:"#108ee9",
@@ -1063,7 +1063,7 @@ import * as Actions from 'actions';
                                        </ul>
                                     </div>
                                 </div>
-                                <div className="bottomBtn">
+                                <div className="bottomBtn" style={{textAlign:"center"}}>
                                     <Button
                                         loading={searchLoading}
                                         type="primary" 

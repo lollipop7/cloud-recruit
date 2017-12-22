@@ -10,6 +10,7 @@ import ModalComponents from 'components/resume-info/modal';
 import ShareModalComponents from 'components/resume-info/share-modal';
 import EvaluationModalComponents from 'components/resume-info/interview-evaluation-modal';
 import BackgroundSurveyModalComponents from 'components/resume-info/background-survey';
+import ShareEvaluationModalComponents from 'components/resume-info/share-evaluationModal';
 
 // 富文本编辑器
 import EmailEditorComponents from 'components/email/right';
@@ -183,6 +184,11 @@ class ResumeInfoPage extends Component {
                             />
                             {/* 背景调查 */}
                             <BackgroundSurveyModalComponents resumeid={resumeid}/>
+                            <ShareEvaluationModalComponents
+                                resumeid={resumeid}
+                                jobid = {currentPId}
+                                username = {username}
+                            />
                         </div>
                 }
             </div>

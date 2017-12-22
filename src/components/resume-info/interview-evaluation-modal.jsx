@@ -113,6 +113,10 @@ class EvaluationModalComponents extends Component {
         this.resetForm()
         this.props.hideEvaluationModal()    
     }
+    //显示分享链接Modal
+    showQrcodeLinkModal = () => {
+        this.props.showQrcodeLinkModal(this.props.userInfo)
+    }
     componentDidMount(){
         setTimeout(()=>{
             if(this.props.username!=undefined){
@@ -120,7 +124,8 @@ class EvaluationModalComponents extends Component {
                     intername:this.props.username,
                 })
             }    
-        });     
+        });  
+        this.props.getUserInfo()   
     }
     getEvaluation = (value) => {
         const {evaluation} = this.props;
@@ -162,7 +167,7 @@ class EvaluationModalComponents extends Component {
                 { value: '较好' },
                 { value: '优秀' }
             ],
-            { evaluationModalVisible , isLoading ,evaluation } = this.props,
+            { evaluationModalVisible , isLoading ,evaluation ,resumeid,jobid} = this.props,
             { intername , interviewer , comments , errorinterviewer , errorintername } = this.state;
             const {hash} = location;
         return(
@@ -194,16 +199,16 @@ class EvaluationModalComponents extends Component {
                         }  
                     </ul>
                 </div>
-                <div className="qrcode-write" 
+                {/* <div className="qrcode-write" 
                     style = {{
                         right: this.state.isShowQrcode ? '-150px' : '',
                         display:  this.state.isShowQrcode ? "block" : "none"
                     }}
                 >
                     <b className="left-arrow inline-block vertical-center "></b>
-                    <QRCode value={hash}/>
+                    <QRCode value={qrcodeLink}/>
                     <p>微信扫描分享填写</p>
-                </div>
+                </div> */}
                 <div className="table"  style={{marginBottom: 40}}>
                     <div className="table-cell">
                         <span className="title">候选人姓名:</span>
@@ -232,19 +237,22 @@ class EvaluationModalComponents extends Component {
                         }
                     </div>
                     <div className="table-cell">
-                        <span className="title">邀请他人填写</span>
+                        <span className="title">分享给他人填写</span>
                     </div>
                     <div className="table-cell">
-                        <Button className="share" 
-                                onMouseLeave={this.hideQrcodeShare} 
-                                onMouseOver={this.showQrcodeShare} >
+                        <Button 
+                            className="share" 
+                            onMouseLeave={this.hideQrcodeShare} 
+                            onMouseOver={this.showQrcodeShare}
+                            onClick = {this.showQrcodeLinkModal} 
+                        >      
                             <img 
                                 style = {{
                                     width: 40,
                                     height: 40
                                 }}
                                 src="./static/images/resume/share.jpg" alt="分享"/>
-                         </Button>
+                        </Button>
                     </div>                    
                 </div>
                 <div className='eva_div' style={{height:300}}>
@@ -332,13 +340,16 @@ const mapStateToProps = state => ({
     evaluationModalVisible: state.Resume.evaluationModalVisible,
     isLoading: state.Resume.isModalLoading,
     evaluation : state.Resume.evaluation,
-    evaluationid: state.Resume.evaluationid
+    evaluationid: state.Resume.evaluationid,
+    userInfo: state.User.userInfo
 })
 const mapDispatchToProps = dispatch => ({
     hideEvaluationModal: bindActionCreators(Actions.ResumeActions.hideEvaluationModal, dispatch),
     addEvaluation: bindActionCreators(Actions.ResumeActions.addEvaluation, dispatch),
     getEvaluation: bindActionCreators(Actions.ResumeActions.getEvaluation, dispatch),
     getRecruitResumeInfo: bindActionCreators(Actions.ResumeActions.getRecruitResumeInfo, dispatch),
+    showQrcodeLinkModal: bindActionCreators(Actions.ResumeActions.showQrcodeLinkModal, dispatch),
+    getUserInfo: bindActionCreators(Actions.UserActions.getUserInfo, dispatch),
 })
 
 export default connect(

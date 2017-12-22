@@ -322,20 +322,15 @@ class Contract extends Component {
                                                     :
                                                     <img alt="材料附件"  src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}  
                                                 />}
-                                                    <div>
-                                                        <h3 
-                                                            className="upLoadMaterial"
-                                                        >
-                                                            {name}
-                                                        </h3>
-                                                        <span
-                                                            className="viewMaterial" 
-                                                            onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
-                                                            title={`点击预览${name}附件`}
-                                                        >
-                                                            预览
-                                                        </span> 
-                                                    </div>
+                                                <div  className="mask" >
+                                                    <Icon 
+                                                        type="eye-o" 
+                                                        onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
+                                                        title={`点击预览${name}附件`}
+                                                    >
+                                                        <span>预览</span>
+                                                    </Icon>
+                                                </div>
                                             </div>
                                         }
                                         </div>

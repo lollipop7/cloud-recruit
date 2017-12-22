@@ -97,7 +97,9 @@ export default class PlusAttachmentModal extends Component {
             { itemData , rid='' , UploadMaterial ,queryEmployee} = this.props,
             { type} = itemData;
         if(fileList.length === 0){
-            this.triggerError(true,'请选择上传文件！');
+            notification.warning({
+                message: '请选择上传文件！'
+              });
             return ;
         }
         // 判断文件是否上传成功,上传失败fileList中的response为undefined

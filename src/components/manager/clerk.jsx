@@ -122,8 +122,8 @@ class ClerkPage extends Component {
             case 'formal': this.setWorkStatus('1'); break;
             case 'trial': this.setWorkStatus('0'); break;
             case 'hired': 
-                this.props.getResumeId({stageid:"6",title:'待入职'});
-                this.context.router.push(`recruit`); 
+                 this.props.getResumeId({stageid:"6",title:'待入职'});
+                 this.context.router.push(`recruit`); 
                 break;
             case 'departure': this.setWorkStatus('2'); break;
         }

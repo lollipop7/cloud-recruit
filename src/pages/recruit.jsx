@@ -190,7 +190,7 @@ class RecruitPage extends BasicPage {
                                     paginationCurrent={paginationCurrent}
                                 />
                             </div>
-                        </div>
+                        </div>   
                     </div>
                 </div>
                 {/*招聘人员详细信息Modal页面*/}

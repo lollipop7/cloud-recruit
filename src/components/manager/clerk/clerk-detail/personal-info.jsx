@@ -181,10 +181,7 @@ export default class PersonalInfo extends Component {
            const filterObj = pickBy(this.state,(val,key)=>{
             return key !='schooling' && key !='professional'  && key !='degree' && key !='school' && key !='endtime' && key !='recruitment' ;
         });
-        if(birthday != null) {
-            const formatBirthday = moment(birthday).format('YYYY-MM-DD');
-        }
-            this.props.editEmployeeInformation({...filterObj, birthday: formatBirthday});
+            this.props.editEmployeeInformation({...filterObj, birthday});
             this.setState({
                 btnState:'none',
                 borderState:"1px solid transparent",

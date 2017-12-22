@@ -78,7 +78,7 @@ export default class InputComponents extends Component {
                         className="eventtime"
                         format='YYYY-MM-DD h:mm:ss'
                         showToday={false}
-                        disabledDate={this.disabledDate}
+                        //disabledDate={this.disabledDate}
                         placeholder={timePlaceholder}
                         open={open}
                         onOpenChange={this.handleOpenChange}

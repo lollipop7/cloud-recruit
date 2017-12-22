@@ -16,7 +16,11 @@ import {
     GET_EVALUATION_ID,
     RESUME_INFORMATION,
     HIDE_BACKGROUNDSURVEY_MODAL,
-    SHOW_BACKGROUNDSURVEY_MODAL
+    SHOW_BACKGROUNDSURVEY_MODAL,
+    RESUME_INFO,
+    FILL_LOADING,
+    SHOW_QRCODE_LINKMODAL,
+    HIDE_QRCODE_LINKMODAL
 } from 'constants/resume-info';
 
 const initialState = {
@@ -32,7 +36,11 @@ const initialState = {
    evaluation:{},//评估表
    evaluationid:"",//评估表ID
    resumeUrl:{},
-   backSurveyVisible: false
+   backSurveyVisible: false,
+   resumeInformation: {},
+   isLoading:true,
+   shareLinkModalVisible:false,
+   companyInfo: {}
 };
 
 export default function resume(state = initialState,actions){
@@ -72,7 +80,15 @@ export default function resume(state = initialState,actions){
         case SHOW_BACKGROUNDSURVEY_MODAL:
             return {...state,backSurveyVisible:true};
         case HIDE_BACKGROUNDSURVEY_MODAL:
-            return {...state,backSurveyVisible:false};  
+            return {...state,backSurveyVisible:false};
+        case RESUME_INFO:
+            return {...state,resumeInformation:actions.resumeInformation};  
+        case FILL_LOADING:
+            return {...state,isLoading: false};
+        case SHOW_QRCODE_LINKMODAL:
+            return {...state,shareLinkModalVisible: true,companyInfo:actions.companyInfo}
+        case HIDE_QRCODE_LINKMODAL:
+            return {...state,shareLinkModalVisible: false}
         default: 
             return state;
     }

@@ -9,13 +9,13 @@ export default class LeftNavComponent extends Component {
         {name:'使用对象',path:'/help/useObject'},
     ];
     functionalModuleData = [
-        {name:'登陆界面',path:'/help/logPage'},              
+        {name:'登陆界面',path:'/help/logPage'},
         {name:'工作主界面',path:'/help/mainPage'},
-        {name:'职位管理界面',path:'/help/resumePage'},              
+        {name:'职位管理界面',path:'/help/resumePage'},
         {name:'招聘流程界面',path:'/help/recrtPage'},
         {name:'人才库界面',path:'/help/tlentPage'},
         {name:'任务报表界面',path:'/help/tskPage'},
-        {name:'员工管理界面',path:'/help/managePage'},              
+        {name:'员工管理界面',path:'/help/managePage'},
     ];
     render() {
         return (
@@ -28,16 +28,6 @@ export default class LeftNavComponent extends Component {
                     <Menu.Item key="0">
                         <Link to="/help" style={{fontSize:16,fontWeight:"bold"}}>前言</Link>
                     </Menu.Item>
-                    {/* <SubMenu key="sub1" title={<h3>前言</h3>}>
-                    {
-                        this.introductionData.map((item,index)=>{
-                            const {path,name} = item;
-                            return <Menu.Item key={index}>
-                                        <Link to={path}>{item.name}</Link>
-                                   </Menu.Item>
-                        })
-                    }
-                    </SubMenu> */}
                     <SubMenu key="sub2" title={<span style={{fontSize:16,fontWeight:"bold"}}>系统功能介绍</span>}>
                     {
                         this.functionalModuleData.map((item,index)=>{

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import store from 'store';
-import { Modal, Icon ,Button} from 'antd';
+import { Modal, Icon ,Button , Carousel} from 'antd';
 import LoadingComponent from 'components/loading';
 const confirm = Modal.confirm;
 
@@ -12,14 +12,15 @@ import * as Actions from 'actions';
 class ViewModal extends Component {
     state = {
         tokenKey:'',
-        token:''
+        token:'',
+        isShow:'none',
+        filename:"",
     }
     componentDidMount(){
         const rid = this.props.queryEmployeeList.list.resumeoff.rid+'';
         this.props.queryEmployee({rid:rid});
         const {token,tokenKey} = store.get('token') || {};
         this.setState({tokenKey, token})
-
     }
     //删除图片
     deleteImage = (value) =>{
@@ -37,13 +38,24 @@ class ViewModal extends Component {
         });
 
     }
-    //下载附件材料
-    // downloadAttachment = (name) => {
-    //     this.props.downloadAttachment(name)
-    // }
+    viewImage = (filename) => {
+        this.setState({
+            isShow:'block',
+            filename
+        });        
+    }
+    imageClick = (filename) => {
+        this.setState({
+            filename
+        })
+    }
+    closeImage = () => {
+        this.setState({
+            isShow:'none'
+        })
+    }
     hideImageModal = () =>{
         this.props.hideImageModal();//隐藏预览框
-        //this.props.cancelImageUrl();//清空图片地址
     }
 
 
@@ -64,6 +76,8 @@ class ViewModal extends Component {
         const {
             tokenKey,
             token,
+            isShow,
+            filename,
         } = this.state;
         const imageUrl = [];
         if(Array.isArray(listAll)){
@@ -101,48 +115,122 @@ class ViewModal extends Component {
                 {imageUrl.length==0?<h1 style={{color:'#cccccc',textAlign:'center',width:'100%',marginTop:100}}>暂无附件预览</h1>:
                     imageUrl.map((item,index)=>{
                         return (item.filenameExt!='jpg' && item.filenameExt!='png')?
-                                <div
-                                    style={{
-                                        width:"25%",
-                                        height:"25%",
-                                        margin:20,
-                                        float:'left',
-                                        textAlign:'center'
-                                        }}
-                                >
-                                    <img
-                                        alt="材料附件"
-                                        style={{ width: '80%',height:'80%',display:'block'}}
-                                        src="/static/images/manager/clerk/fjcl.png" />
-                                    <a
-                                        style={{textAlign:'center',fontSize:'18'}}
-                                        href={`${prefixUri}/download_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`}
-                                    >
-                                        下载
-                                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a
-                                        onClick={this.deleteImage.bind(this,item)}
-                                        style={{textAlign:'center',fontSize:'18'}}
-                                    >
-                                        删除
-                                    </a>
+                                <div className="filemanage">
+                                    <div style={{position:"relative",width:125,height:125,border:"1px dashed #AFAFAF"}}>
+                                        {/* <img
+                                            alt="材料附件"
+                                            style={{ 
+                                                width: '100%',
+                                                height:'100%',
+                                                display:'block',
+                                                margin:"0 auto"
+                                            }}
+                                            src="/static/images/manager/clerk/fjcl.png" 
+                                        /> */}
+                                        <Icon type={item.filenameExt==="pdf"?"file-pdf":item.filenameExt==="xlsx" || item.filenameExt==="xls"?"file-excel":item.filenameExt==="doc" || item.filenameExt==="docx"?"file-text":"file"}
+                                            style={{
+                                                fontSize:'70px',
+                                                color:"#2FAEE8",
+                                                position:"relative",
+                                                top:20
+                                            }}>
+                                            <span 
+                                                style={{
+                                                    fontSize:'12px',
+                                                    display:"block",
+                                                    lineHeight:'25px'
+                                                    }}>
+                                                {item.filenameExt}文件
+                                            </span>
+                                        </Icon>
+                                        <div  className="mask" > 
+                                            <a
+                                                href={`${prefixUri}/download_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`}
+                                            >
+                                                <Icon 
+                                                    type="download" 
+                                                    title={`点击下载${name}附件`}
+                                                >
+                                                <a
+                                                    href={`${prefixUri}/download_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`}
+                                                    style={{fontSize:12,display:"block",color:"#fff"}}
+                                                >
+                                                    下载
+                                                </a>
+                                                </Icon>
+                                            </a>
+                                            &nbsp;&nbsp;
+                                            <Icon 
+                                                type="delete"
+                                                onClick={this.deleteImage.bind(this,item)}
+                                                title={`点击删除${name}附件`}
+                                            >
+                                                <span>删除</span>
+                                            </Icon>
+                                        </div>
+                                    </div>
                                 </div>
                                 :
                                 <div
                                     className="viewMaterial"
+                                    style={{margin:20}}
                                 >
-                                    <img
-                                        alt="材料附件"
-                                        style={{ width: '80%',height:'80%',display:'block'}}
-                                        src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} />
-                                    <a
-                                        onClick={this.deleteImage.bind(this,item)}
-                                        style={{textAlign:'center',fontSize:'18'}}
-                                    >
-                                        删除
-                                    </a>
+                                    <div style={{position:"relative",width:125,height:125 ,border:"1px dashed #AFAFAF"}}>
+                                        <img
+                                            alt="材料附件"
+                                            //id="img"
+                                            style={{ 
+                                                width: '100%',
+                                                height:'100%',
+                                                display:'block',
+                                                margin:"0 auto"
+                                            }}
+                                            src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} 
+                                        />
+                                        <div  className="mask" >
+                                            <Icon 
+                                                type="eye-o" 
+                                                onClick={this.viewImage.bind(this,item.filename)}
+                                                title={`点击预览${name}附件`}
+                                            >
+                                                <span>预览</span>
+                                            </Icon>&nbsp;&nbsp;
+                                            <Icon 
+                                                type="delete"
+                                                onClick={this.deleteImage.bind(this,item)}
+                                                title={`点击上传${name}附件`}
+                                            >
+                                                <span>删除</span>
+                                            </Icon>
+                                        </div>
+                                    </div>
+                                    <div className="viewMask" style={{display:isShow,overflow:'hidden'}}>
+                                        <Icon 
+                                            type="close" 
+                                            title="点击关闭预览"
+                                            onClick={this.closeImage}
+                                        />
+                                        <img 
+                                            className="img"
+                                            alt="材料附件"
+                                            src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${filename}`} 
+                                        />
+                                        <ul  className="viewScal" >
+                                            <p className="title">附件列表</p>
+                                            {imageUrl.map((item,index)=>{
+                                                return (item.filenameExt==='jpg' || item.filenameExt==='png') && <li>
+                                                        <img
+                                                            alt="材料附件"
+                                                            onClick= {this.imageClick.bind(this,item.filename)}
+                                                            src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} 
+                                                            style={{width:"100%",height:"100%"}}
+                                                        />
+                                                    </li>
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
-
                     })
                 }
             </div>

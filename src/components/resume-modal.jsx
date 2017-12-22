@@ -23,6 +23,7 @@ class ResumeModalComponent extends Component {
     render() {
         const {visible,uriParams} = this.props,
               {resumeid=0,id=0} = uriParams;
+              console.log(uriParams)
         return (
             <Modal
                 title="简历"

@@ -49,8 +49,6 @@ const Job = {
     } 
 }
 
-
-
 // 引入招聘流程路由组件
 const Recruit = {
     path: 'recruit(/:stageid)',
@@ -103,8 +101,6 @@ const Task = {
     }
 }
 
-
-
 // 引入邮件路由组件
 const Email = {
     path:"email",
@@ -156,18 +152,6 @@ const SettingEmail = {
     } 
 }
 
-// 引入使用帮助页面路由
-// const HelpPage = {
-//     path:"help",
-//     breadcrumbName:"使用帮助",
-//     onLeave:onLeavePage,
-//     getComponent:(nextState,cb)=>{
-//         require.ensure([], (require) => {
-//             cb(null, require('pages/help').default)
-//         }, 'HelpPage')
-//     }
-// }
-
 // 引入404页面路由
 const NotFoundPage = {
     path:"*",
@@ -190,40 +174,40 @@ const ManageClerk = {
     }
 }
 
-    //员工详情页面路由
-    const ClerkDetail = {
-        path: 'clerkDetail/:rid',
-        onEnter:requireAuthHook,
-        onLeave:onLeavePage,
-        getComponent(nextState,cb){
-            require.ensure([], (require) => {
-                cb(null, require('components/manager/clerk/clerk-detail').default)
-            }, 'ClerkDetailPage')
-        } 
-    }
+//员工详情页面路由
+const ClerkDetail = {
+    path: 'clerkDetail/:rid',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/clerk/clerk-detail').default)
+        }, 'ClerkDetailPage')
+    } 
+}
 
-    //添加员工页面路由
-    const NewClerkForm = {
-        path: 'newClerkForm',
-        onEnter:requireAuthHook,
-        onLeave:onLeavePage,
-        getComponent(nextState,cb){
-            require.ensure([], (require) => {
-                cb(null, require('components/manager/clerk/new-clerk-form').default)
-            }, 'NewClerkForm')
-        } 
-    }
+//添加员工页面路由
+const NewClerkForm = {
+    path: 'newClerkForm',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/manager/clerk/new-clerk-form').default)
+        }, 'NewClerkForm')
+    } 
+}
 
-    // 引入员工简历页面路由组件
-    const employeeInfo = {
-        path: 'employeeInfo(/:resumeid)(/:rid)', // resumeId:职位id rid
-        onEnter:requireAuthHook,
-        getComponent(nextState,cb){
-            require.ensure([], (require) => {
-                cb(null, require('pages/employee-info').default)
-            }, 'EmployeeInfoPage')
-        }
+// 引入员工简历页面路由组件
+const employeeInfo = {
+    path: 'employeeInfo(/:resumeid)(/:rid)', // resumeId:职位id rid
+    onEnter:requireAuthHook,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('pages/employee-info').default)
+        }, 'EmployeeInfoPage')
     }
+}
 
 //档案管理页面子路由
 const Crchives = {
@@ -446,6 +430,26 @@ const HelpPage = {
     }
 }
 
+// 引入简历展示页面路由
+const ShowResume = {
+    path:"showResume",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/show-resume').default)
+        }, 'ShowResumePage')
+    }
+}
+const Evaluation = {
+    path:"evaluation",
+    onLeave:onLeavePage,
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/evaluation').default)
+        }, 'Evaluation')
+    }
+}
+
 /*路由配置*/
 const RouteConfig = {
   childRoutes: [ {
@@ -474,7 +478,9 @@ const RouteConfig = {
       ManagerPage, // 员工管理
       employeeInfo, //员工简历详情
       HelpPage, //使用帮助
-      NotFoundPage // 404
+      ShowResume ,//分享简历页面
+      Evaluation,//分享面试评估表页面
+      NotFoundPage// 404
     ]
   } ]
 }

@@ -220,13 +220,22 @@ class HeaderInfoComponent extends Component {
                     </div>
                     <div className="info-bottom">
                         <div className="table">
-                            <div className="table-cell" width="120">
-                                <span>同时申请职位 :</span>
+                            <div className="table-cell" style={{width:120,height:48,position:"relative",top:-7}} >
+                                <span style={{lineHeight:"48px"}}>同时申请职位 :</span>
                             </div>
-                            <div className="table-cell">
-                                <ul className="inline-block" style={{
-                                    listStyleType: 'none'
+                            <div className="table-cell"  
+                                style={{
+                                        width:"750px",
+                                        overflow:"auto"
                                 }}>
+                                <ul className="inline-block" 
+                                    style={{
+                                        listStyleType: 'none',
+                                        height:"100%",
+                                        width:"750px",
+                                        overflow:"auto"
+                                    }}
+                                >
                                     {
                                         positions.map((item,index)=>{
                                             const {positionid,stageid,stagename} = item;
@@ -244,7 +253,7 @@ class HeaderInfoComponent extends Component {
                                                             })
                                                         }
                                                         style={{
-                                                            color: '#898989',
+                                                            color: '#898989',   
                                                             textDecoration: 'underline'
                                                         }}
                                                     >{stagename}</a>)
@@ -285,7 +294,7 @@ class HeaderInfoComponent extends Component {
                                         color:((evaluationId!=undefined && evaluationId.length!=0))?'#28ad78':'#b6b6b6'
                                     }}
                                     onClick={this.handleEvaluate}
-                                    disabled={stage!=undefined && stage.stageid>2 && stage.stageid<5?false:true}
+                                    disabled={stage!=undefined && stage.stageid>2?false:true}
                                 >   
                                         <img className="as"
                                         style={{

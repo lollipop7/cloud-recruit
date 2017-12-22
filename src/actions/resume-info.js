@@ -5,7 +5,7 @@ import axios from 'axios';
 import store from 'store';
 import FileSaver from 'file-saver';
 
-import { message } from 'antd';
+import { message , Modal } from 'antd';
 
 import {AjaxByToken } from 'utils/ajax';
 
@@ -48,6 +48,16 @@ const HIDE_BACKGROUNDSURVEY_MODAL = {type:types.HIDE_BACKGROUNDSURVEY_MODAL};
 
 //简历信息分享
 const RESUME_INFORMATION = {type:types.RESUME_INFORMATION}
+
+//简历信息
+const RESUME_INFO = {type:types.RESUME_INFO}
+
+//loading
+const FILL_LOADING = {type:types.FILL_LOADING}
+
+//分享链接MOdal
+const SHOW_QRCODE_LINKMODAL = {type:types.SHOW_QRCODE_LINKMODAL}
+const HIDE_QRCODE_LINKMODAL = {type:types.HIDE_QRCODE_LINKMODAL}
 
 //得到招聘流程人员详细信息(根据简历id和流程id)
 export const getRecruitResumeInfo = (data) => (dispatch,getState) => {
@@ -150,6 +160,56 @@ export const changeStageStatus = (data,props) => (dispatch,getState) => {
         dispatch(HIDE_MODAL_LOADING);
     });
 }
+//获取个人简历详细信息
+export const getResumeInfo = (query) => (dispatch,getState) => {
+    
+    axios({
+        url: `${prefixUri}/share/shareResume`,
+        method: 'post',
+        data: {data:{params:query},...{
+            head:{
+                type:'h',
+                transcode: 'L0092'
+            }
+        }},
+        header: {
+            contentType: 'application/json;charset=utf-8'
+        },
+    })
+    .then(res=>{
+        //console.log(res.data);
+        dispatch({...RESUME_INFO,resumeInformation:res.data})
+    });
+}
+//邀请他人填写面试评估
+export const fillEvaluation = (query) => (dispatch,getState) => {
+    axios({
+        url: `${prefixUri}/share/evaluationEdit`,
+        method: 'post',
+        data: {data:{params:query},...{
+            head:{
+                type:'h',
+                transcode: 'L0093'
+            }
+        }},
+        header: {
+            contentType: 'application/json;charset=utf-8'
+        },
+    })
+    .then(res=>{
+        dispatch({...FILL_LOADING})
+        Modal.success({
+            title: '成功添加评估表！',
+            okText:"确定",
+            style:{top:330}
+        })
+    },err=>{
+        dispatch({...FILL_LOADING})
+        Modal.error({
+            title: '添加评估表失败！',
+        });
+    });
+}
 
 //简历分享参数
 export const getResumeUrl = (data) => (dispatch,getState) => {
@@ -242,4 +302,12 @@ export const showBackgroundModal = (data) => (dispatch,getState) => {
 
 export const hideBackgroundModal = () => (dispatch,getState) => {
     dispatch(HIDE_BACKGROUNDSURVEY_MODAL);
+}
+
+export const showQrcodeLinkModal = (data) => (dispatch,getState) => {
+    dispatch({...SHOW_QRCODE_LINKMODAL,companyInfo:data});
+}
+
+export const hideQrcodeLinkModal = () => (dispatch,getState) => {
+    dispatch(HIDE_QRCODE_LINKMODAL);
 }

@@ -78,6 +78,7 @@ class TableComponent extends Component {
 
     getColumns() {
         columns[2].render = this.renderWithAtag;
+        columns[3].render = this.renderWithPartment;
         columns[6].render = this.renderWithInterview;
         columns[7].render = this.renderWithReInterview;
         columns[8].render = this.renderWithgetOffer;
@@ -129,7 +130,18 @@ class TableComponent extends Component {
                 className="positionname" 
                 href="javascript:;" 
                 title={text}
+                style={{display:"block",width:100,overflow:"hidden"}}
                 onClick={this.positionClick.bind(this,record)}
+            >
+                {text}
+            </a>
+        )
+    }
+    renderWithPartment = (text, record, index) => {
+        return (
+            <a  
+                title={text}
+                style={{display:"block",width:80,overflow:"hidden"}}
             >
                 {text}
             </a>

@@ -181,11 +181,10 @@
 }
 //面试评估表
 .evaluation-modal {
-    left: -35px;
+    //left: -35px;
     position: relative;
     .resetForm{
         display: block;
-
         position:absolute;
         bottom:26px;
         background-color:#c0c0c0;
@@ -197,10 +196,23 @@
         left:200px;
         z-index:100
     }
+    .add{
+        display: block;
+        position:absolute;
+        bottom:26px;
+        background-color:#108EE9;
+        border-color:#c0c0c0;
+        color:#fff;
+        padding:2px 80px;
+        font-size:18px;
+        border-radius:3px;
+        left:425px;
+        z-index:100
+    }
     .qrcode-write {
         position: absolute;
         display: none;
-        top: 0;
+        top: 45px;
         right:0;
         transition: right .4s ease-in;
         padding: 4px;

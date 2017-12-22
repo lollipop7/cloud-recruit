@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Tag, Input, Tooltip, Button } from 'antd';
+import { Tag } from 'antd';
 import find from 'lodash/find';
 
 export default class EditableTagGroup extends Component {
@@ -15,11 +15,7 @@ export default class EditableTagGroup extends Component {
           tags!=undefined && (data.thelable ? data.thelable.split(","):[]).map((item,index)=>{
                 const isLongTag = item.length > 20;
                 return (
-                    <Tag 
-                        key={item} 
-                        closable
-                        onClose={()=>this.onTagClose(item)}
-                    >
+                    <Tag>
                         {isLongTag ? `${item.slice(0, 40)}...` : item}
                     </Tag>
                 )

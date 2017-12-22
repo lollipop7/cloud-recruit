@@ -140,12 +140,12 @@
             &:before {
                 @include border-top;
             }
-            .upLoadMaterial:hover{
-                color: blue
-            }
-            .viewMaterial:hover{
-                color: blue
-            }
+            // .upLoadMaterial:hover{
+            //     color: blue
+            // }
+            // .viewMaterial:hover{
+            //     color: blue
+            // }
         }
         .field-list {
             &+ul {
@@ -1006,6 +1006,9 @@
     background-color: $nav-bg-color;
     text-align: center;
     cursor: pointer;
+    .ant-upload-list{
+        height: 32px;
+    }
     &>i {
         margin-top: 30px;
     }
@@ -1024,7 +1027,43 @@
             height: 148px;
             border: 1px solid #d5d5d5;
             margin-bottom: -90px;
+        };
+        #img{
+            filter:blur(3px);
+            -webkit-filter:blur(3px);
+            -moz-filter:blur(3px);
+            -ms-filter:blur(3px);
+            -o-filter:blur(3px);
         }
+        
+        .mask{
+            position:absolute;
+            left: 0;
+            top:0;
+            width: 198px;
+            height: 148px;
+            background-image: url("/static/images/manager/clerk/mask.png");
+            display: none;
+            z-index: 50;
+           
+            i{
+                font-size:32px;
+                color:#fff;
+                position: relative;
+                top:35%;
+                cursor: pointer;
+                span{
+                    display: block;
+                    font-size: 12px;
+                }
+            }
+            i:hover{
+                color: #49ffe3
+            }
+        }
+    }
+    .preview-pics:hover .mask{
+        display: block
     }
 }
 .add-attactment:hover .upLoadView{
@@ -1052,24 +1091,126 @@
     }
     .ant-modal-body{
         position: relative;
+        .filemanage{
+                width:25%;
+                height:25%;
+                margin:20px;
+                float:left;
+                text-align:center
+              
+        }
+        .filemanage:hover .mask{
+            display: block
+        }
         .viewMaterial {
             width: 25%;
             height: 25%;
             margin:12px;
             float:left;
-            text-align:center
-        }
-        .viewMaterial{
-            img:hover{
+            text-align:center;
+            #img{
+                filter:blur(3px);
+                -webkit-filter:blur(3px);
+                -moz-filter:blur(3px);
+                -ms-filter:blur(3px);
+                -o-filter:blur(3px);
+            }
+            .viewMask{
+                width: 318%;
+                height: 885px;
                 position: absolute;
-                top:82%;
-                left:78%;
-                margin-top: -400px;
-                margin-left: -400px;
-                width: 800px;
-                height: 800px;
-                z-index: 1000
+                top: -105px;
+                left: -650px;
+                z-index: 30000;
+                background-image: url("/static/images/manager/clerk/viewMask.png");
+                i{
+                    font-size:32px; 
+                    position:relative;
+                    right:-47%;
+                    color:#fff;
+                    cursor: pointer;
+                };
+                i:hover{
+                    color: #49ffe3
+                };
+                .img{
+                        width: 70%;
+                        height:70%;
+                        display:block;
+                        margin:0 auto;
+                        position:relative;
+                        top:50px; 
+                };
+                .viewScal{
+                        height:150px;
+                        width:60%;
+                        position:relative;
+                        overflow:hidden;
+                        left:400px;
+                        top:80px;
+                        padding-top:20px;
+                        .title{
+                            width:30px;
+                            height:100%;
+                            float:left;
+                            font-size:18px;
+                            color:#fff
+                        };
+                        li{
+                            margin: 0 20px;
+                            cursor: pointer;
+                            width:120px;
+                            height:110px;
+                            float:left   
+                        }
+                }
+                .viewScal:hover li{
+                    width: 120px;
+                }
+                .viewScal li:hover{
+                     transform:scale(1.2);
+                }  
+        }
+    }
+        .mask{
+            position:absolute;
+            left: 0;
+            top:0;
+            width: 100%;
+            height: 100%;
+            background-image: url("/static/images/manager/clerk/mask.png");
+            display: none;
+            i{
+                font-size:32px;
+                color:#fff;
+                position: relative;
+                top:35%;
+                span{
+                    display: block;
+                    font-size: 12px;
+                }
+            }
+            i:hover{
+                color: #49ffe3
             }
         }
+        .viewMaterial:hover .mask{
+            display: block
+        }
+        
+        // .viewMaterial{
+        //     img:hover{
+        //         position: absolute;
+        //         // top:82%;
+        //         // left:78%;
+        //          top:0;
+        //          left:0;
+        //         //margin-top: -400px;
+        //         //margin-left: -400px;
+        //         width: 320%;
+        //         height: 320%;
+        //         z-index: 1000
+        //     }
+        // }
     }
 }

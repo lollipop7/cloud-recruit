@@ -122,7 +122,7 @@ class MaterialAttach extends Component {
                                         >
                                             {
                                                 value.attachment_type.length==0 ?
-                                                <div className="plus-circle">
+                                                <div className="plus-circle" style={{height:180,overflow:"hidden"}}>
                                                     <Icon type="plus-circle-o"
                                                         onClick={this.handleAttachmentClick.bind(this,value)}
                                                         style={{
@@ -133,27 +133,46 @@ class MaterialAttach extends Component {
                                                     />
                                                     <p>{name}</p>
                                                 </div> :
-                                                <div className="preview-pics">
-                                                    {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
-                                                        <img alt="材料附件"  src="/static/images/manager/clerk/fjcl.png"/>
-                                                        :
-                                                        <img alt="材料附件"  src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}
+                                                <div className="preview-pics" 
+                                                    style={{
+                                                        height:180,
+                                                        overflow:"hidden",
+                                                        position:"relative",
+                                                        
+                                                    }}
+                                                >
+                                                    <div  className="mask" >
+                                                        <Icon 
+                                                            type="eye-o" 
+                                                            onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
+                                                            title={`点击预览${name}附件`}
+                                                        >
+                                                            <span>预览</span>
+                                                        </Icon>&nbsp;&nbsp;
+                                                        <Icon 
+                                                            type="plus"
+                                                            onClick={this.handleAttachmentClick.bind(this,value)}
+                                                            title={`点击上传${name}附件`}
+                                                        >
+                                                            <span>添加</span>
+                                                        </Icon>
+                                                    </div>
+                                                    
+                                                    {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?<Icon type="folder-open" style={{fontSize:'100px',lineHeight:"150px",color:"#2FAEE8"}}/>
+                                                    //<img alt="材料附件"  src="/static/images/manager/clerk/fjcl.png"/>
+                                                    :
+                                                    <img 
+                                                        id="img"
+                                                        alt="材料附件"  
+                                                        src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}
                                                     />}
-                                                        <div>
+                                                        <div style={{position:"absolute",top:150,width:"100%"}}>
                                                             <h3
                                                                 className="upLoadMaterial"
-                                                                onClick={this.handleAttachmentClick.bind(this,value)}
-                                                                title={`点击上传${name}附件`}
+                                                                style={{width:"100%",textAlign:"center"}}
                                                             >
                                                                 {name}
                                                             </h3>
-                                                            <span
-                                                                className="viewMaterial"
-                                                                onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
-                                                                title={`点击预览${name}附件`}
-                                                            >
-                                                                预览
-                                                            </span>
                                                         </div>
                                                 </div>
                                             }
@@ -177,7 +196,7 @@ class MaterialAttach extends Component {
                                             >
                                             {
                                                 value.attachment_type.length==0?
-                                                <div className="plus-circle">
+                                                <div className="plus-circle" style={{height:180,overflow:"hidden"}}>
                                                     <Icon type="plus-circle-o"
                                                         onClick={this.handleAttachmentClick.bind(this,value)}
                                                         style={{
@@ -188,27 +207,48 @@ class MaterialAttach extends Component {
                                                     />
                                                     <p>{name}</p>
                                                 </div> :
-                                                <div className="preview-pics">
-                                                    {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
-                                                        <img alt="材料附件" src="/static/images/manager/clerk/fjcl.png"/>
-                                                        :
-                                                    <img alt="材料附件" src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}/>}
-                                                    <div>
-                                                        <h3
-                                                            className="upLoadMaterial"
-                                                            onClick={this.handleAttachmentClick.bind(this,value)}
-                                                            alt="点击上传附件"
-                                                            title={`点击上传${name}附件`}
-                                                        >
-                                                            {name}
-                                                        </h3>
-                                                        <span
-                                                            className="viewMaterial"
-                                                        onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
+                                                <div 
+                                                    className="preview-pics"
+                                                    style={{
+                                                        height:180,
+                                                        overflow:"hidden",
+                                                        position:"relative"
+                                                        }}
+                                                >
+                                                    <div  className="mask" >
+                                                        <Icon 
+                                                            type="eye-o" 
+                                                            onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
                                                             title={`点击预览${name}附件`}
                                                         >
-                                                            预览
-                                                        </span>
+                                                            <span>预览</span>
+                                                        </Icon>&nbsp;&nbsp;
+                                                        <Icon 
+                                                            type="plus"
+                                                            onClick={this.handleAttachmentClick.bind(this,value)}
+                                                            title={`点击上传${name}附件`}
+                                                        >
+                                                            <span>添加</span>
+                                                        </Icon>
+                                                    </div>
+                                                    {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?<Icon type="folder-open" style={{fontSize:'100px',lineHeight:"150px",color:"#2FAEE8"}}/>
+                                                        //<img alt="材料附件" src="/static/images/manager/clerk/fjcl.png"/>
+                                                    :
+                                                    <img 
+                                                        id="img"
+                                                        alt="材料附件" 
+                                                        src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}
+                                                    />}
+                                                    <div 
+                                                        style={{
+                                                            position:"absolute",
+                                                            top:150,
+                                                            width:"100%"
+                                                        }}
+                                                    >
+                                                        <h3 className="upLoadMaterial">
+                                                            {name}
+                                                        </h3>
                                                     </div>
                                                 </div>
                                             }
@@ -233,7 +273,7 @@ class MaterialAttach extends Component {
                                         >
                                         {
                                             value.attachment_type.length==0?
-                                            <div className="plus-circle">
+                                            <div className="plus-circle" style={{height:180,overflow:"hidden"}}>
                                                 <Icon
                                                     onClick={this.handleAttachmentClick.bind(this,value)}
                                                     type="plus-circle-o"
@@ -245,28 +285,48 @@ class MaterialAttach extends Component {
                                                 />
                                                 <p>{name}</p>
                                             </div> :
-                                            <div  className="preview-pics">
-                                                {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?
-                                                <img alt="材料附件" src="/static/images/manager/clerk/fjcl.png"/>
-                                                :
-                                                <img alt="材料附件" src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}
-                                                />}
-                                                <div>
-                                                    <h3
-                                                        className="upLoadMaterial"
-                                                        onClick={this.handleAttachmentClick.bind(this,value)}
-                                                        alt="点击上传附件"
-                                                        title={`点击上传${name}附件`}
-                                                    >
-                                                        {name}
-                                                    </h3>
-                                                    <span
-                                                        className="viewMaterial"
+                                            <div  
+                                                className="preview-pics"
+                                                style={{
+                                                    height:180,
+                                                    overflow:"hidden",
+                                                    position:"relative"
+                                                }}
+                                            >
+                                                <div  className="mask" >
+                                                    <Icon 
+                                                        type="eye-o" 
                                                         onClick={this.showImageModal.bind(this,value.parmentType,value.type)}
                                                         title={`点击预览${name}附件`}
                                                     >
-                                                        预览
-                                                    </span>
+                                                        <span>预览</span>
+                                                    </Icon>&nbsp;&nbsp;
+                                                    <Icon 
+                                                        type="plus"
+                                                        onClick={this.handleAttachmentClick.bind(this,value)}
+                                                        title={`点击上传${name}附件`}
+                                                    >
+                                                        <span>添加</span>
+                                                    </Icon>
+                                                </div>
+                                                {(value.attachment_type[0].filenameExt!="jpg" && value.attachment_type[0].filenameExt!="png")?<Icon type="folder-open" style={{fontSize:'100px',lineHeight:"150px",color:"#2FAEE8"}}/>
+                                                //<img alt="材料附件" src="/static/images/manager/clerk/fjcl.png"/>
+                                                :
+                                                <img 
+                                                    id="img"
+                                                    alt="材料附件" 
+                                                    src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${value.attachment_type[0].filename}`}
+                                                />}
+                                                <div 
+                                                    style={{
+                                                        position:"absolute",
+                                                        top:150,
+                                                        width:"100%"
+                                                    }}
+                                                >
+                                                    <h3 className="upLoadMaterial">
+                                                        {name}
+                                                    </h3>
                                                 </div>
                                             </div>
                                         }

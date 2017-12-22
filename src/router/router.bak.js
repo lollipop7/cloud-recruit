@@ -175,6 +175,16 @@ export default function getRoutes () {
             }} 
         />
         <Route 
+            path="showResume" 
+            breadcrumbName="配置邮箱(候选人管理)"
+            onLeave={onLeavePage}
+            getComponent={(nextState,cb)=>{
+                require.ensure([], (require) => {
+                    cb(null, require('pages/show-resume').default)
+                }, 'ShowResumePage')
+            }} 
+        />
+        <Route 
             path="settingEmail" 
             breadcrumbName="配置邮箱(候选人管理)"
             onLeave={onLeavePage}
@@ -184,6 +194,7 @@ export default function getRoutes () {
                 }, 'SettingEmailPage')
             }} 
         />
+        
     </Route>
   )
 }

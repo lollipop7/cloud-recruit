@@ -38,7 +38,8 @@ class ShareModalComponents extends Component {
                 currentPName='', // 申请职位名称
                 currentPworkcity='', // 申请区域
                 positions=[], // 当前简历同时申请的
-                stagesMap // 流程状态列表
+                stagesMap, // 流程状态列表
+                logId
             } = data,
             {
                 headimg, // 头像
@@ -49,7 +50,16 @@ class ShareModalComponents extends Component {
                 educationbg, //学历
                 channel, // 简历来源
             } = resumeInfo;
-            const qrcodeLink = `${resumeUrl.des_url}`;
+            //加密关键字
+            const key = "%!##@$%|$#$%(^)$}$*{^*+%";
+            //实时时间毫秒数
+            const  shareTime = new Date().getTime();
+            //要传递参数
+            const partter = `resumeid=${resumeid}&shareTime=${shareTime}`
+            //参数加密
+            const  partters = strEnc(`${partter}`,key);
+            //生成链接
+            const qrcodeLink = `${window.location.origin}/#/showResume?b=${partters}`;
         return(
             <Modal
                 width = {784}
@@ -59,7 +69,7 @@ class ShareModalComponents extends Component {
                 onCancel={isLoading ? ()=>{} : this.props.hideShareModal}
                 >
                 <p className="title">{`分享简历  ${username}--${currentPName}`}</p>
-                <p className="content">分享后，可以查看到该简历的面试评估表及招聘进度</p>
+                <p className="content">分享后，可以查看到该简历的详细信息</p>
                 <Tabs defaultActiveKey="1" size="small">
                     <TabPane tab="链接分享" key="1">
                         <div className="title">
@@ -81,7 +91,7 @@ class ShareModalComponents extends Component {
                             />
                         </div>
                         <p className="content">
-                                温馨提示： 该公开链接可被任何收到该分享的人打开查看，请您谨慎转发。如意外泄漏，可<a href="javascript:void(0)">重新生成分享链接</a>。
+                             温馨提示： 该公开链接可被任何收到该分享的人打开查看，请您谨慎转发！
                          </p>
                     </TabPane>
                     <TabPane tab="二维码分享" key="2">
@@ -114,7 +124,7 @@ class ShareModalComponents extends Component {
                         </div>
                         <div className="qrcode-foot">
                             <p className="content">
-                                温馨提示：根据候选人简历自动生成的二维码。扫描后可查看候选人的简历信息、招聘进度等。
+                                温馨提示：根据候选人简历自动生成的二维码。扫描后可查看候选人的简历信息等。
                             </p>
                         </div>
                      </TabPane>
@@ -128,7 +138,8 @@ const mapStateToProps = state => ({
     shareModalVisible: state.Resume.shareModalVisible,
     isLoading: state.Resume.isModalLoading,
     resumeData: state.Resume.resumeData,
-    resumeUrl: state.Resume.resumeUrl
+    resumeUrl: state.Resume.resumeUrl,
+    uriParams: state.Recruit.uriParams
 })
 const mapDispatchToProps = dispatch => ({
     hideShareModal: bindActionCreators(Actions.ResumeActions.hideShareModal, dispatch),

@@ -87,19 +87,7 @@ export default class MainContent extends Component {
                     <TabPane tab="操作记录" key="6">
                         <OperateHistory data={operationList} />
                     </TabPane>
-                    <TabPane tab={<Dropdown 
-                                    overlay={<Menu>
-                                                <Menu.Item key="1">背景调查页</Menu.Item>
-                                                <Menu.Item key="2">背景调查结果页</Menu.Item>
-                                            </Menu>}
-                                    >
-                                        <a className="ant-dropdown-link" >
-                                        人员征信<Icon type="down" />
-                                        </a>
-                                </Dropdown>
-                            } 
-                        key="7"
-                    >
+                    <TabPane tab="人员征信" key="7">
                         <CreditInvestgation data={resumeoff} {...this.props}/>
                     </TabPane>
                 </Tabs>
