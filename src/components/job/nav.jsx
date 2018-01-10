@@ -66,12 +66,18 @@ export default class LeftNavComponent extends Component {
                 title='',
                 data=[]
             } = this.props;
+            const leftData = [];
+            for(let i=0;i<data.length;i++){
+                if(data[i].title!=="复试管理"){
+                    leftData.push(data[i])
+                }
+            }  
         return (
             <ul className="left-nav box-border">
                 <li>
                     <a className="title" href="javascript:void(0);">{title}</a>
                     <dl>
-                        {data.map((item,index)=>{
+                        {leftData.map((item,index)=>{
                             return this.getItem(item,index);
                         })}
                     </dl>

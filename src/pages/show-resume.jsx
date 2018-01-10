@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MainContentComponent from "components/job/recruit-info/main-content";
-import {Icon} from "antd";
+import {Icon,Spin} from "antd";
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -12,7 +12,7 @@ import * as Actions from 'actions';
         const {b} = this.props.location.query;
         this.props.getResumeInfo(b)  
     }
-
+    
     render() {
         const {
             resumeInfo={},
@@ -54,6 +54,7 @@ import * as Actions from 'actions';
             } = jobInfo;
         return (
             <div className="showResume" >
+                {!username && <Spin size="large" style={{position:"absolute",top:"50%",left:"50%"}}/>}
                 <h3 style={{
                         lineHeight:"50px",
                         background:"#8CB6C0",
@@ -69,7 +70,7 @@ import * as Actions from 'actions';
                             alt="默认头像" 
                         />
                     </div>
-                    <ul style={{float:"left"}}>
+                    <ul style={{float:"left",width:500}}>
                         <li style={{height:60,lineHeight:"60px",fontSize:18}}><b>{username}</b></li>
                         <ul style={{overflow:"hidden"}}>
                             <li style={{ marginTop: 14,float:"left",marginRight:50}}>
@@ -82,9 +83,9 @@ import * as Actions from 'actions';
                         
                         <li style={{marginTop: 15}}>
                             <Icon type="user" style={{color:"#B1CDEE"}}/>：
-                            <span>{sex}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <span>{borndate}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <span>现居住{livecityid}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{sex}</span>{sex && <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
+                            <span>{borndate}</span>{borndate && <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
+                            <span>{livecityid}</span>{livecityid && <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
                             <span>{workyears}</span>
                         </li>
                     </ul>
@@ -137,7 +138,7 @@ import * as Actions from 'actions';
                     <h3 className="title">
                         求职意向
                     </h3>
-                    <ul className="field-list" style={{float:"left",width:300,marginRight:80}}>
+                    <ul className="field-list" style={{float:"left",width:300,marginRight:100}}>
                         <li>
                             <span>工作性质 : </span>
                             <span>{jobnature}</span>
@@ -196,22 +197,22 @@ import * as Actions from 'actions';
                             return (
                                 <ul key={index} className="field-list">
                                     <li>
-                                        <span><b>{index+1}、</b></span>
                                         <span>起止时间</span>
                                         <span> : {starttime} -- {endtime}</span>
                                     </li>
-                                    <li className="content">
+                                    <li >
                                         <span className="space">学校</span>
                                         <span> : {school}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span className="space">学历</span>
                                         <span> : {educationbg}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span className="space">专业</span>
                                         <span> : {specialtyid}</span>
                                     </li>
+                                    {eduList.length-1!=index && <li className="content" style={{borderBottom:"1px solid #D9D9D9"}}></li>}
                                 </ul>
                             )
                         })
@@ -231,24 +232,24 @@ import * as Actions from 'actions';
                                 trustremark // 责任描述
                             } = item;
                             return (
-                                <ul key={index} >
+                                <ul key={index}  >
                                     <li>
-                                        <span><b>{index+1}、</b></span>
                                         <span>起止时间 : </span>
                                         <span>{starttime} -- {endtime}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>项目名称 : </span>
                                         <span>{projectname}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>项目描述 : </span>
                                         <span dangerouslySetInnerHTML={{__html:projectremark}}></span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>责任描述 : </span>
                                         <span>{trustremark}</span>
                                     </li>
+                                    {projList.length-1!=index && <li  style={{borderBottom:"1px solid #D9D9D9"}}></li>}
                                 </ul>
                             )
                         })
@@ -271,26 +272,26 @@ import * as Actions from 'actions';
                             return (
                                 <ul key={index} className="field-list">
                                     <li>
-                                        <span><b>{index+1}、</b></span>
                                         <span>起止时间 : </span>
                                         <span>{starttime} -- {endtime}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>企业名称 : </span>
                                         <span>{corpname}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>所属行业 : </span>
                                         <span>{industry}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>职位名称 : </span>
                                         <span>{postcode}</span>
                                     </li>
-                                    <li className="content">
+                                    <li>
                                         <span>工作描述 : </span>
                                         <span dangerouslySetInnerHTML={{__html:workremark}}></span>
                                     </li>
+                                    {workList.length-1!=index && <li style={{borderBottom:"1px solid #D9D9D9"}}></li>}
                                 </ul>
                             )
                         })
@@ -358,7 +359,7 @@ import * as Actions from 'actions';
                         获得证书
                     </h3>
                     {certList.length > 0 &&
-                        <ul className="field-list">
+                        <ul className="field-list" >
                             {
                                 certList.map((item,index)=>{
                                     const {
@@ -392,8 +393,8 @@ import * as Actions from 'actions';
                                     } = item;
                                     return (
                                         <li key={index}>
-                                            <span>{subject}：</span><br/>
-                                            <p dangerouslySetInnerHTML={{__html:content}}></p>
+                                            <span>{subject}</span><br/>
+                                            <div dangerouslySetInnerHTML={{__html:content}}></div>
                                         </li>
                                     )
                                 })

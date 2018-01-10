@@ -1,6 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 
-import { Input , Select , Cascader , Radio } from 'antd';
+import { Input , Select , Cascader , Radio , Button } from 'antd';
 const RadioGroup = Radio.Group;
 
 import WorkYears from 'data/select/workyears';
@@ -192,7 +192,22 @@ export default class BaseinfoComponent extends Component {
         error:false,
         errorJobType:false,
         errorresponsibility:false,
-        errorqualification:false
+        errorqualification:false,
+        btnState:'hidden',
+
+        positionname:"",                // 职位名称
+        salary:undefined,               // 薪资待遇
+        department:'',                  // 用人部门
+        recruitreason:'',               // 招聘理由
+        headcount:'',                   // 招聘人数
+        workcity:'',                    // 工作地点
+        workyears:undefined,            // 工作年限
+        specialty:undefined,            // 专业
+        educationbackground:undefined,  //学历
+        age:'',                         //年龄
+        jobtype:'全职',                 //工作类型
+        responsibility:'',              //工作职责
+        qualification:'',               //任职资格
     }
 
     handleChange = (filed,e) => {
@@ -220,7 +235,7 @@ export default class BaseinfoComponent extends Component {
                 break;
         }
     }
-
+    
     resetForm() {
         this.setState({
             positionname:'',
@@ -435,27 +450,43 @@ export default class BaseinfoComponent extends Component {
                 qualification,          //任职资格
             })
     }
+    showBtn = () => {
+        this.setState({
+            btnState:'visible'
+        })
+    }
+    hideBtn = () => {
+        this.setState({
+            btnState:"hidden"
+        })
+    }
+    showSalaryModal = () => {
+        const {salary} = this.state;
+        const {showSalaryModal} = this.props;
+        showSalaryModal(salary);
+    }
 
     render() {
         const {
-            positionname="",                // 职位名称
-            salary=undefined,               // 薪资待遇
-            department='',                  // 用人部门
-            recruitreason='',               // 招聘理由
-            headcount='',                   // 招聘人数
-            workcity='',                    // 工作地点
-            workyears=undefined,            // 工作年限
-            specialty=undefined,            // 专业
-            educationbackground=undefined,  //学历
-            age='',                         //年龄
-            jobtype='全职',                     //工作类型
+            positionname,                // 职位名称
+            salary,               // 薪资待遇
+            department,                  // 用人部门
+            recruitreason,               // 招聘理由
+            headcount,                   // 招聘人数
+            workcity,                    // 工作地点
+            workyears,            // 工作年限
+            specialty,            // 专业
+            educationbackground,  //学历
+            age,                         //年龄
+            jobtype,                     //工作类型
             responsibility='',              //工作职责
             qualification='',               //任职资格
             errorJobType,
             errorresponsibility,
             errorqualification,
             error,
-            value
+            value,
+            btnState
         } = this.state;
         return (
             <li className="base-info">
@@ -472,16 +503,31 @@ export default class BaseinfoComponent extends Component {
                             value={positionname}
                             onChange={this.handleChange}
                         />
-                        <SelectComponent 
-                            ref="salarySelect"
-                            name="薪资待遇："
-                            data={salaryData}
-                            dropdownMatchSelectWidth={false}
-                            value={salary}
-                            field="salary"
-                            placeholder="请选择薪资待遇"
-                            onChange={this.handleChange}
-                        />
+                        
+                            <SelectComponent 
+                                ref="salarySelect"
+                                name="薪资待遇："
+                                data={salaryData}
+                                dropdownMatchSelectWidth={false}
+                                value={salary}
+                                field="salary"
+                                placeholder="请选择薪资待遇"
+                                onChange={this.handleChange}
+                            />
+                            <Button 
+                                //className="salary"
+                                type="primary"
+                                onClick={this.showSalaryModal.bind(this)} 
+                                style={{
+                                    height:40,
+                                    top:-1,
+                                    left:20,
+                                    //visibility:btnState
+                                }}
+                            >
+                                行业薪资参考
+                            </Button>
+                        
                     </li>
                     <li>
                         <ErrorInputComponent

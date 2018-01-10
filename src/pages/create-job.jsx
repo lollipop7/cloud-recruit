@@ -2,13 +2,14 @@ import React, { Component,PropTypes } from 'react';
 
 import { Button , Tag } from 'antd';
 import BaseInfoComponent from 'components/create-job/baseinfo';
-// import TagsComponent from 'components/create-job/tags';
 import OtherInfoComponent from 'components/create-job/other-info';
 import TopComponent from 'components/create-job/top.jsx';
 
 import BreadCrumbComponent from 'components/breadcrumb';
 
 import SaveModalComponent from 'components/create-job/save-modal';
+
+import SalaryModalComponent from 'components/create-job/salaryReference-modal';
 
 import each from 'lodash/each';
 import pick from 'lodash/pick';
@@ -25,7 +26,7 @@ class CreateJobPage extends Component {
     
      static contextTypes = {
         router: PropTypes.object
-    }
+    }   
 
     componentDidMount() {
         NProgress.done();
@@ -46,7 +47,7 @@ class CreateJobPage extends Component {
     }
 
     createJob =() => {
-        //if(!this.props.isCanCreateJob){ 
+        if(this.props.isCanCreateJob){ 
             const {BaseInfoComponent,OtherInfoComponent} = this.refs;
             const baseinfoData = BaseInfoComponent.getFormData();
             if(!baseinfoData) return;
@@ -58,7 +59,7 @@ class CreateJobPage extends Component {
                 ...{positionid:this.props.jobInfo.positionid}
             });
          this.props.resetForm()    
-        //}   
+        }   
     }
     handleClick =() => {
         window.history.back()
@@ -73,7 +74,9 @@ class CreateJobPage extends Component {
             isLoadingList,
             getJobInfo, 
             jobInfo, 
-            isCanCreateJob
+            isCanCreateJob,
+            showSalaryModal,
+            positionSalary,
         } = this.props;
         each(routes,item=>{
             routesCopy.push(pick(item,['breadcrumbName','path']));
@@ -89,7 +92,6 @@ class CreateJobPage extends Component {
         })  
         return (
             <div className="page-content new-job-page">
-
                 <BreadCrumbComponent routes={routesCopy} />
                 <div style = {{border: '1px solid #d5d5d5'}}>
                     <div className="back-zone">
@@ -102,24 +104,23 @@ class CreateJobPage extends Component {
                     <ul className="new-job-form">
                         <BaseInfoComponent 
                             ref="BaseInfoComponent"
-                            data = {jobInfo} 
+                            data = {jobInfo}
+                            showSalaryModal={showSalaryModal} 
                         />
-                        {/*<TagsComponent />*/}
                         <OtherInfoComponent 
                             ref="OtherInfoComponent" 
                             data = {jobInfo}
                         />
                         <li className="control">
-                            <ul>
-                                <li>
-                                    <Button type="primary" onClick={this.createJob}>发布</Button>
-                                    <Button onClick={this.resetForm}>重置</Button>
-                                </li>
-                            </ul>
+                            <Button type="primary" onClick={this.createJob.bind(this)}>发布</Button>
+                            <Button onClick={this.resetForm}>重置</Button>
                         </li>
                     </ul>
                 </div>
                 <SaveModalComponent/>
+                <SalaryModalComponent 
+                    positionSalary={positionSalary}
+                />
             </div>
         );
     }
@@ -129,11 +130,13 @@ const mapStateToProps = state => ({
     isCanCreateJob: state.Job.isCanCreateJob,
     isLoadingList: state.Job.isLoadingList,
     listData: state.Job.listData, // 统计列表数据
-    jobInfo: state.Job.jobInfo
+    jobInfo: state.Job.jobInfo,
+    positionSalary: state.Job.positionSalary
 })
 const mapDispatchToProps = dispatch => ({
     createJob: bindActionCreators(Actions.jobActions.createJob, dispatch),
     showSaveJobModal: bindActionCreators(Actions.jobActions.showSaveJobModal, dispatch),
+    showSalaryModal: bindActionCreators(Actions.jobActions.showSalaryModal, dispatch),
     getJobList: bindActionCreators(Actions.jobActions.getJobList, dispatch),
     getJobInfo: bindActionCreators(Actions.jobActions.getJobInfo, dispatch),
     resetForm: bindActionCreators(Actions.jobActions.resetForm, dispatch)

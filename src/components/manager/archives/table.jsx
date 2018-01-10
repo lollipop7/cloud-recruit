@@ -90,7 +90,7 @@ export default class TableComponent extends Component{
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon
                             type={type}
-                            style={{color:color}}
+                            style={{color:color,cursor:"pointer"}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        />
             }
@@ -102,7 +102,7 @@ export default class TableComponent extends Component{
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon
                             type={type}
-                            style={{color:color}}
+                            style={{color:color,cursor:"pointer"}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        />
             }
@@ -111,7 +111,7 @@ export default class TableComponent extends Component{
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon
                             type={type}
-                            style={{color:color}}
+                            style={{color:color,cursor:"pointer"}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        />
             }
@@ -120,7 +120,7 @@ export default class TableComponent extends Component{
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon
                             type={type}
-                            style={{color:color}}
+                            style={{color:color,cursor:"pointer"}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        />
             }
@@ -129,7 +129,7 @@ export default class TableComponent extends Component{
                 const color = text?'rgb(134, 226, 124)':'#b0b0b0';
                 return <Icon
                             type={type}
-                            style={{color:color}}
+                            style={{color:color,cursor:"pointer"}}
                             onClick={this.setPersonnelMaterials.bind(this,record)}
                        />
             }

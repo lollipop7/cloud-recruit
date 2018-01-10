@@ -19,7 +19,11 @@ import {
     HIDE_SAVEJOB_MODAL,
     RESET_FORM,
     RESUMEID,
-    CANCELLRESUMEID
+    CANCELLRESUMEID,
+    SHOW_SALARY_MODAL,
+    HIDE_SALARY_MODAL,
+    SALARYDATA,
+    CANCELSALARY
 } from 'constants/job';
 
 const initialState = {
@@ -41,7 +45,10 @@ const initialState = {
     isLoadingAbort: false,
     modalVisible: false,
     saveModalVisible:false,
-    interview:{}   //职位面试者的数据，存放职位id,流程id,只能筛选
+    salaryModalVisible:false,
+    interview:{} ,  //职位面试者的数据，存放职位id,流程id,只能筛选
+    salaryData:[],
+    positionSalary:""
 };
 
 export default function job(state = initialState,actions){
@@ -85,7 +92,15 @@ export default function job(state = initialState,actions){
         case RESUMEID:
             return {...state,interview: actions.interview};
         case CANCELLRESUMEID:
-            return {...state,interview: actions.interview};     
+            return {...state,interview: actions.interview};  
+        case SHOW_SALARY_MODAL:
+            return {...state,salaryModalVisible: true,positionSalary: actions.positionSalary};
+        case HIDE_SALARY_MODAL:
+            return {...state,salaryModalVisible: false};
+        case SALARYDATA:
+            return {...state,salaryData: actions.salaryData}; 
+        case CANCELSALARY:
+            return {...state,salaryData: []};  
         default: 
             return state;
     }

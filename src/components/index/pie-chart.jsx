@@ -16,7 +16,7 @@ import * as Actions from 'actions';
 import filter from 'lodash/filter';
 
 class PieChartComponent extends Component {
-
+    
     state = {
         isLoading: false,
         activeTab: 0,

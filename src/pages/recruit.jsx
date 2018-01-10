@@ -107,7 +107,7 @@ class RecruitPage extends BasicPage {
          navArr.push(dataAll)
          navArr.forEach((item,index)=>{
             NavData[index].num = item;
-        });        
+        });
         return NavData;
     }
 

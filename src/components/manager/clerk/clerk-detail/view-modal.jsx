@@ -204,7 +204,7 @@ class ViewModal extends Component {
                                             </Icon>
                                         </div>
                                     </div>
-                                    <div className="viewMask" style={{display:isShow,overflow:'hidden'}}>
+                                    <div className="viewMask" style={{display:isShow}}>
                                         <Icon 
                                             type="close" 
                                             title="点击关闭预览"
@@ -215,20 +215,23 @@ class ViewModal extends Component {
                                             alt="材料附件"
                                             src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${filename}`} 
                                         />
-                                        <ul  className="viewScal" >
+                                        <div style={{width:"60%",overflowX:imageUrl.length>8?"scroll":"",marginLeft:380,marginTop:60,height:140}}>
                                             <p className="title">附件列表</p>
-                                            {imageUrl.map((item,index)=>{
-                                                return (item.filenameExt==='jpg' || item.filenameExt==='png') && <li>
-                                                        <img
-                                                            alt="材料附件"
-                                                            onClick= {this.imageClick.bind(this,item.filename)}
-                                                            src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} 
-                                                            style={{width:"100%",height:"100%"}}
-                                                        />
-                                                    </li>
-                                                })
-                                            }
-                                        </ul>
+                                            <ul  className="viewScal">
+                                                
+                                                {imageUrl.map((item,index)=>{
+                                                    return (item.filenameExt==='jpg' || item.filenameExt==='png') && 
+                                                            <img
+                                                                alt="材料附件"
+                                                                onClick= {this.imageClick.bind(this,item.filename)}
+                                                                src={`${prefixUri}/view_uploadAttachment?token=${token}&tokenKey=${tokenKey}&fileName=${item.filename}`} 
+                                                                style={{width:120,height:"100%",display:"inline-block",margin:"0 12px"}}
+                                                            />
+                                                        
+                                                    })
+                                                }
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                     })

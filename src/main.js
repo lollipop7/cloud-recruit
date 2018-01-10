@@ -46,10 +46,10 @@ import { createStore , applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './reducer';
-
 // import getRoutes from './router/router.bak';
 // const routes = getRoutes();
 import routes from './router';
+import 'babel-polyfill';
 
 // 创建一个store
 const store = createStore(

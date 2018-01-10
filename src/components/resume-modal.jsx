@@ -23,7 +23,6 @@ class ResumeModalComponent extends Component {
     render() {
         const {visible,uriParams} = this.props,
               {resumeid=0,id=0} = uriParams;
-              console.log(uriParams)
         return (
             <Modal
                 title="简历"
@@ -31,6 +30,7 @@ class ResumeModalComponent extends Component {
                 visible={visible}
                 onCancel={() => this.setModalVisible()}
                 footer={null}
+                maskClosable={false}
                 afterClose={()=>this.modalAfterClose()}
                 width={1100}
             >    

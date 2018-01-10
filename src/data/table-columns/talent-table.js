@@ -24,7 +24,7 @@ module.exports = [
         "dataIndex": "livecityid", 
         "key": "livecityid",
         "width": 97,
-        render: renderWithATag
+        //render: renderWithATag
     },
     {
         "title": "出生日期",
@@ -49,7 +49,7 @@ module.exports = [
         "dataIndex": "postids",
         "key": "postids",
         "width": 190,
-        render: renderWithATag
+       // render: renderWithATag
     },
     {
         "title": "创建日期",

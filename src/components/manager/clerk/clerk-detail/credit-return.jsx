@@ -33,9 +33,10 @@ import * as Actions from 'actions';
         const Data =[];
         const DataJzlist = [];
         const iseducation = [];
-        const {creditInfoData,creditData} = this.props;
+        const {creditInfoData={},creditData,isDataLoading} = this.props;
+       
         //判断creditInfoData是否为空对象
-        if(!creditInfoData.cerditcerinfo && !creditInfoData.dishonest && !creditInfoData.education && !creditInfoData.selfinfo && !creditInfoData.basic && !creditInfoData.jzList){
+        if(creditInfoData==null || creditInfoData=={} || (!creditInfoData.cerditcerinfo && !creditInfoData.dishonest && !creditInfoData.education && !creditInfoData.selfinfo && !creditInfoData.basic && !creditInfoData.jzList)){
             Data.push({
                 cerditcerinfo:[],
                 dishonest:[],
@@ -48,30 +49,24 @@ import * as Actions from 'actions';
             Data.push(creditInfoData)
         };
         //过滤调查方案
-        for(let j=0;j<Data[0].jzList.length;j++){
-            if(Data[0].jzList[j].transactiontype!="110" && Data[0].jzList[j].transactiontype!="127" && Data[0].jzList[j].transactiontype!="212" && Data[0].jzList[j].transactiontype!="213"){
-                DataJzlist.push(Data[0].jzList[j])
+        if(Array.isArray(Data[0].jzList)){ 
+            for(let j=0;j<Data[0].jzList.length;j++){
+                if(Data[0].jzList[j].transactiontype!="110" && Data[0].jzList[j].transactiontype!="127" && Data[0].jzList[j].transactiontype!="212" && Data[0].jzList[j].transactiontype!="213"){
+                    DataJzlist.push(Data[0].jzList[j])
+                }
             }
         }
         const DataObject = Data[0];
-        //const  {
-        //         //cerditcerinfo=[],
-        //         //dishonest=[],
-        //         //education=[],
-        //         selfinfo={},
-        //         //basic={},//基本信息{}
-        //         //jzList=[]//较真返回的各方案信息[]
-        //    } = creditInfoData;
-        //    creditInfoData.jzList =[]
-        for(let i=0;i<DataObject.jzList.length;i++){
-            if(DataObject.jzList[i].transactiontype==="122" || DataObject.jzList[i].transactiontype==="123" || DataObject.jzList[i].transactiontype==="200" || DataObject.jzList[i].transactiontype==="201" || DataObject.jzList[i].transactiontype==="210" || DataObject.jzList[i].transactiontype==="211"){
-                jzarr.push(DataObject.jzList[i].transactiontype)
-            }
-            if(DataObject.jzList[i].transactiontype==='120'){
-                iseducation.push(DataObject.jzList[i].transactiontype)
+        if(Array.isArray(DataObject.jzList)){
+            for(let i=0;i<DataObject.jzList.length;i++){
+                if(DataObject.jzList[i].transactiontype==="122" || DataObject.jzList[i].transactiontype==="123" || DataObject.jzList[i].transactiontype==="200" || DataObject.jzList[i].transactiontype==="201" || DataObject.jzList[i].transactiontype==="210" || DataObject.jzList[i].transactiontype==="211"){
+                    jzarr.push(DataObject.jzList[i].transactiontype)
+                }
+                if(DataObject.jzList[i].transactiontype==='120'){
+                    iseducation.push(DataObject.jzList[i].transactiontype)
+                }
             }
         }
-        
         const {Loading} = this.state;
             //         const {
             //         sid="",
@@ -89,18 +84,27 @@ import * as Actions from 'actions';
             //     } = selfinfo;
         const token = store.get('token');
         return (
-            <li style={{paddingLeft: 100}}> 
-               {
-                   DataObject.selfinfo!=null && <div className="inverst-field" style={{marginBottom:30}}>
+            <li > 
+               { DataObject.selfinfo==null||!DataObject.selfinfo.name?"":
+                <div 
+                    className="inverst-field" 
+                    style={{
+                        width:890,
+                        margin:"0 auto",
+                        marginBottom:50,
+                        paddingLeft:20
+                    }}
+                >
                     <div>
                         <div className="inverst-item inline-block box-border" style={{width:360}}>
                             <div className="top-title">
                                 身份证核查
                                 <span className="pull-right" style={{color: "#48df81"}}>信息源自中国公安部</span>
                             </div>
-                            <div className="superior-content" style={{
-                                padding: "27px 0 0 49px",height:95
-                            }}>
+                            <div 
+                                className="superior-content" 
+                                style={{padding: "27px 0 0 49px",height:95}}
+                            >
                                 <div className="inline-block">
                                     <img src={`/static/images/manager/clerk/${DataObject.selfinfo.flg1 ? `gou` : `cha`}.png`} alt="勾差" style={{height: 44}}/>   
                                 </div>
@@ -153,15 +157,22 @@ import * as Actions from 'actions';
                                 } alt="匹配"/>
                         </div>
                     </div>
-                </div> 
+                </div>}
+                {isDataLoading && <Icon type="loading" 
+                    style={{
+                        position:"relative",
+                        fontSize:48,
+                        color:"#66BCEC",
+                        top:80,
+                        left:"45%"
+                    }} />
                 }
-                {!DataObject.basic.name && <Icon type="loading" style={{position:"relative",fontSize:48,color:"#66BCEC",top:80,left:"45%"}} />}
                 {DataObject.basic!=null && <div className="inverst-field" style={{marginBottom:30}}>
-                    <div className="inverst-item">
-                            <div className="top-title">
+                    <div className="inverst-item info-field" style={{width:1033}}>
+                            <h3 className="title">
                                 基本信息
-                            </div>
-                            <div style={{margin:"10px 0px 60px 0px"}}>
+                            </h3>{DataObject.basic.name?
+                            <div style={{margin:"0 auto",width:890}}>
                                 <ul className="field-list inline-block" style={{width:350}}>
                                     <li>
                                         <span>姓名：</span>
@@ -177,7 +188,7 @@ import * as Actions from 'actions';
                                     </li>
                                     <li>
                                         <span>订单状态：</span>
-                                        <span>{DataObject.basic.orderstatus===1?"未开始":DataObject.basic.orderstatus===2?"进行中":DataObject.basic.orderstatus===3?"已完成":DataObject.basic.orderstatus===4?"已取消":"进行中"}</span>
+                                        <span>{DataObject.basic.orderstatus===1?"未开始":DataObject.basic.orderstatus===2?"进行中":DataObject.basic.orderstatus===3?"已完成":DataObject.basic.orderstatus===4?"已取消":"暂无状态"}</span>
                                     </li>
                                 </ul>
                                 <ul className="field-list inline-block" style={{width:350}}>
@@ -200,17 +211,16 @@ import * as Actions from 'actions';
                                     }
                                     </li>
                                 </ul>
-                            </div>
+                            </div>:<h4 style={{paddingLeft:50,color:'#AFAFAF'}}>暂未查询到相关信息...</h4>}
                     </div> 
                 </div>
                 }
                 {iseducation.length==0 && DataObject.education && DataObject.education.length!=0 && <div className="inverst-field">
-                    <div className="inverst-item">
-                        <div className="top-title">
+                    <div className="inverst-item info-field" style={{width:1033}}>
+                        <h3 className="title">
                             学历信息核查
-                            <span className="pull-right">数据源自学信网</span>
-                        </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        </h3>
+                        <Collapse defaultActiveKey={['1']} style={{width:890,margin:"0 auto"}}>
                             {
                                 DataObject.education.map((item,index)=>{
                                         return <Panel header="学历信息" key={index+1}>
@@ -310,12 +320,12 @@ import * as Actions from 'actions';
                     </div>
                 </div>
                 }
-                {DataJzlist.length!=0 && <div className="inverst-field">
-                    <div className="inverst-item">
-                        <div className="top-title">
-                            各调查方案查询结果
-                        </div>
-                        <Collapse>
+                <div className="inverst-field">
+                    <div className="inverst-item info-field" style={{width:1033}}>
+                        <div className="title">
+                            调查方案查询信息
+                        </div>{DataJzlist.length!=0 ? 
+                        <Collapse style={{width:890,margin:"0 auto"}}>
                             {
                                 DataJzlist.map((item,index)=>{
                                         return <Panel 
@@ -414,7 +424,7 @@ import * as Actions from 'actions';
                                                                         <p>暂无企业法人信息</p>:
                                                                         JSON.parse(item.content).ryPosFrList.map((item,index)=>{
                                                                         return <Collapse style={{marginBottom:20}}>
-                                                                                    <Panel header={item.type?item.type:"无"} key="1">
+                                                                                    <Panel header={item.entName?item.entName:"无"} key="1">
                                                                                         <table cellSpacing={0}>
                                                                                             <tr>
                                                                                                 <td>企业法人</td>
@@ -1525,18 +1535,17 @@ import * as Actions from 'actions';
                                             </Panel> 
                                 })
                             }        
-                        </Collapse>   
+                        </Collapse>: <h4 style={{paddingLeft:50,color:'#AFAFAF'}}>暂未查询到相关信息...</h4>  } 
                     </div>
                 </div>
-                }
-                {DataObject.cerditcerinfo && DataObject.cerditcerinfo.length!=0 && 
+               
+                { DataObject.cerditcerinfo && DataObject.cerditcerinfo.length!=0 &&
                 <div className="inverst-field">
-                    <div className="inverst-item">
-                        <div className="top-title">
+                    <div className="inverst-item info-field" style={{width:1033}}>
+                        <h3 className="title">
                             职业证书信息核查
-                            <span className="pull-right">数据源自国家人力资源和社会保障部</span>
-                        </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        </h3>
+                        <Collapse defaultActiveKey={['1']} style={{width:890,margin:"0 auto"}}>
                             {DataObject.cerditcerinfo.map((item,index)=>{
                                 return <Panel header={`${item.occupation}证书信息`} key={index+1}>
                                         <div className="superior-content" style={{padding: "27px 0 0 78px"}}>
@@ -1595,12 +1604,11 @@ import * as Actions from 'actions';
                 }
                 {DataObject.dishonest && DataObject.dishonest.length!=0 && 
                 <div className="inverst-field">
-                    <div className="inverst-item">
-                        <div className="top-title">
+                    <div className="inverst-item info-field" style={{width:1033}}>
+                        <h3 className="title">
                             失信被执行信息核查
-                            <span className="pull-right">数据源自最高人民法院</span>
-                        </div>
-                        <Collapse defaultActiveKey={['1']}>
+                        </h3>
+                        <Collapse defaultActiveKey={['1']} style={{width:890,margin:"0 auto"}}>
                             {DataObject.dishonest.map((item,index)=>{
                                 return <Panel header={`${item.courtname}核查`} key={index+1}>
                                             <div className="superior-content" style={{
@@ -1714,6 +1722,7 @@ import * as Actions from 'actions';
 const mapStateToProps = state => ({
     creditData: state.Manage.creditData,
     creditInfoData: state.Manage.creditInfoData,
+    isDataLoading: state.Manage.isDataLoading,
     isFill: state.Manage.isFill,
     searchLoading: state.Manage.searchLoading,
     queryEmployeeList: state.Manage.queryEmployeeList,

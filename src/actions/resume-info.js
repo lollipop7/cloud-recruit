@@ -180,9 +180,9 @@ export const getResumeInfo = (query) => (dispatch,getState) => {
         dispatch({...RESUME_INFO,resumeInformation:res.data});
         if(res.data.returnMsg=="该链接已超时!请重新分享。"){
             Modal.warning({
-            title: '链接已过期，请重新分享！',
+            title: '链接已过期，请重新获取！',
             okText:"确定",
-            style:{top:330}
+            style:{top:200}
             })
         }
         

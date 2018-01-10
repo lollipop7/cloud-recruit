@@ -20,7 +20,7 @@ class ShareModalComponents extends Component {
          //复制简历分享地址
         const clipboard = new Clipboard('.btn');
         clipboard.on('success', function() {
-            message.success('复制成功',2);
+            message.success('复制成功',3);
         });
 
         clipboard.on('error', function(e) {
@@ -90,29 +90,29 @@ class ShareModalComponents extends Component {
                                               >复制链接</Button>}
                             />
                         </div>
-                        <p className="content">
+                        <p className="content" style={{color:"#79869C"}}>
                              温馨提示： 该公开链接可被任何收到该分享的人打开查看，请您谨慎转发！
-                         </p>
+                        </p>
                     </TabPane>
                     <TabPane tab="二维码分享" key="2">
                         <div className="qrcode-body">
                             <div className="qrcode pull-left"
                                 style = {{
                                     width: 165,
-                                    height: 165
+                                    height: 165,
+                                    marginRight:20
                                 }}>
+                                <img src="/static/images/favicon.ico" 
+                                style={{position: 'relative',left: '80px',top: '-45px'}}/>
                                 <QRCode value={qrcodeLink}/>
                             </div>
                             <div className="qrcode-info pull-left">
                                 <p className="title">
                                     微信扫码 · 实时查看简历详情
                                 </p>
-                                <p className="content">
-                                    简历信息及招聘进程一目了然
-                                </p>
                                 <div className="hint">
-                                    <p className="content">
-                                        <i className="phone"></i>
+                                    <p className="content" style={{marginBottom:10}}>
+                                        &nbsp;<i className="phone"></i>
                                         打开手机微信
                                     </p>
                                     <p className="content">
@@ -123,7 +123,7 @@ class ShareModalComponents extends Component {
                             </div>
                         </div>
                         <div className="qrcode-foot">
-                            <p className="content">
+                            <p className="content" style={{color:"#79869C"}}>
                                 温馨提示：根据候选人简历自动生成的二维码。扫描后可查看候选人的简历信息等。
                             </p>
                         </div>

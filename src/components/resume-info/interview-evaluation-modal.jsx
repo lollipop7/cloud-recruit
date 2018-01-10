@@ -18,7 +18,6 @@ import * as Actions from 'actions';
 
 class EvaluationModalComponents extends Component {
     state = {
-        isShowQrcode: false,
         errorinterviewer:false,
         errorintername:false,
         professional:"",            //专业技能
@@ -32,17 +31,6 @@ class EvaluationModalComponents extends Component {
         interviewer:"",             //面试官
         comments:"",                //评语
         id :""                      //评估表ID
-    }
-    hideQrcodeShare = () => {
-        this.setState({
-            isShowQrcode: false
-        });
-    }
-
-    showQrcodeShare = () => {
-        this.setState({
-            isShowQrcode: true
-        });
     }
     //应聘者情况   
     onChange = (value,e) => {
@@ -199,16 +187,6 @@ class EvaluationModalComponents extends Component {
                         }  
                     </ul>
                 </div>
-                {/* <div className="qrcode-write" 
-                    style = {{
-                        right: this.state.isShowQrcode ? '-150px' : '',
-                        display:  this.state.isShowQrcode ? "block" : "none"
-                    }}
-                >
-                    <b className="left-arrow inline-block vertical-center "></b>
-                    <QRCode value={qrcodeLink}/>
-                    <p>微信扫描分享填写</p>
-                </div> */}
                 <div className="table"  style={{marginBottom: 40}}>
                     <div className="table-cell">
                         <span className="title">候选人姓名:</span>
@@ -242,8 +220,6 @@ class EvaluationModalComponents extends Component {
                     <div className="table-cell">
                         <Button 
                             className="share" 
-                            onMouseLeave={this.hideQrcodeShare} 
-                            onMouseOver={this.showQrcodeShare}
                             onClick = {this.showQrcodeLinkModal} 
                         >      
                             <img 

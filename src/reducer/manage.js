@@ -40,6 +40,7 @@ import {
     CREDITINVESTGATION_DONE,
     CREDITINVESTGATION,
     SEARCHCREDITINVESTGATION,
+    SEARCHCREDITINVESTGATION_START,
     CREDITINVESTGATIONSTATE,
     IMAGEURL,
     SHOW_IMAGE_MODAL,
@@ -137,6 +138,7 @@ const initialState = {
         list: []
     },
     isInfoLoading:false,
+    isDataLoading:false,
     employeeInfo: {},
     visible:false,
     uriParams: {},
@@ -340,12 +342,13 @@ export default function manage(state=initialState,actions){
         case CANCELDATA:
             return {...state,creditData:{}};
         case SEARCHCREDITINVESTGATION:
-            return {...state,creditInfoData:actions.creditInfoData};
+            return {...state,creditInfoData:actions.creditInfoData,isDataLoading:false};
+        case SEARCHCREDITINVESTGATION_START:
+            return {...state,isDataLoading:true};   
         case CREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill};
         case HIDECREDITINVESTGATIONSTATE:
             return {...state,isFill:actions.isFill,creditInfoData:{}};
-            SEARCHCREDITINVESTGATION
         case GET_ARRANGE_DEPARTMENT:
             return {...state,arrangeDepartment:actions.arrangeDepartment};
         case ARRANGE_DEPARTMENT:

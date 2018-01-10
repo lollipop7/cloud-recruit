@@ -442,6 +442,7 @@ const ShowResume = {
         }, 'ShowResumePage')
     }
 }
+//分享面试评估表
 const Evaluation = {
     path:"evaluation",
     breadcrumbName:"面试评估表",
@@ -451,6 +452,58 @@ const Evaluation = {
         require.ensure([], (require) => {
             cb(null, require('pages/evaluation').default)
         }, 'Evaluation')
+    }
+}
+//简历搜索页面
+const QueryResume = {
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/resumeSearch/searchResume').default)
+        }, 'QueryResume')
+    } 
+}
+//我的下载页面
+const DownloadResume = {
+    path: 'downloadResume',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/resumeSearch/downloadResume').default)
+        }, 'DownloadResume')
+    } 
+}
+//我的收藏页面
+const CollectResume = {
+    path: 'collectResume',
+    onEnter:requireAuthHook,
+    onLeave:onLeavePage,
+    getComponent(nextState,cb){
+        require.ensure([], (require) => {
+            cb(null, require('components/resumeSearch/collectResume').default)
+        }, 'CollectResume')
+    } 
+}
+// 简历搜索页面路由
+const SearchResumePage = {
+    path:"searchResume",
+    breadcrumbName:"简历搜索",
+    indexRoute:QueryResume,
+    getChildRoutes(partialNextState, cb) {
+        require.ensure([], (require) => {
+            cb(null, [
+                QueryResume,
+                DownloadResume,
+                CollectResume
+            ])
+        })
+    },
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/resumeSearch').default)
+        }, 'SearchResumePage')
     }
 }
 
@@ -484,6 +537,7 @@ const RouteConfig = {
       HelpPage, //使用帮助
       ShowResume ,//分享简历页面
       Evaluation,//分享面试评估表页面
+      SearchResumePage,//简历搜索页面
       NotFoundPage// 404
     ]
   } ]

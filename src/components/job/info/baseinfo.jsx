@@ -418,6 +418,7 @@ export default class BaseinfoComponent extends Component {
                             name="薪资待遇："
                             data={salaryData}
                             dropdownMatchSelectWidth={false}
+                            isdisabled={isdisabled}
                             value={salary}
                             field="salary"
                             placeholder="请选择薪资待遇"
@@ -459,15 +460,16 @@ export default class BaseinfoComponent extends Component {
                             <div className="inline-block city-regions">
                                 <Cascader 
                                     options={city}
-                                    value ={workcity?workcity.split("-"):''}
-                                    disabled={isdisabled}
+                                    value ={workcity ? workcity.split("-"):''}
+                                    //disabled={isdisabled}
+                                    allowClear={!isdisabled}
                                     className={error ? "error" : ''}
-                                    onChange={this.handleCityChange}
-                                    displayRender={label => label.join(' - ')}
+                                    onChange={isdisabled?"":this.handleCityChange}
+                                    displayRender={label => label.join('-')}
                                     placeholder="请选择工作地点" 
                                     style={{
                                         height: 40,
-                                        width: 229
+                                        width: 229,
                                     }}
                                 />
                                 {error &&
@@ -506,6 +508,7 @@ export default class BaseinfoComponent extends Component {
                             ref="educationbackgroundSelect"
                             name="学历："
                             data={Education}
+                            isdisabled={isdisabled}
                             value={educationbackground}
                             field="educationbackground"
                             placeholder="请选择学历"

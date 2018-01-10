@@ -33,4 +33,12 @@ export const RESET_FORM = "RESET_FORM";
 export const RESUMEID = "RESUMEID";
 // 清空职位ID
 export const CANCELLRESUMEID = "CANCELLRESUMEID";
+//薪资查询MODAL
+export const SHOW_SALARY_MODAL = "SHOW_SALARY_MODAL";
+export const HIDE_SALARY_MODAL = "HIDE_SALARY_MODAL";
+//已查询到薪资数据
+export const SALARYDATA = "SALARYDATA";
+export const CANCELSALARY = "CANCELSALARY";
+
+
 

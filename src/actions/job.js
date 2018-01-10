@@ -1,5 +1,6 @@
 import * as types from 'constants/job';
 import {AjaxByToken,cancelRequestByKey} from 'utils/ajax';
+import axios from 'axios';
 
 import {message , notification} from 'antd'; 
 
@@ -43,6 +44,16 @@ const RESET_FORM = {type:types.RESET_FORM}
 const RESUMEID = {type:types.RESUMEID}
 //清空职位ID
 const CANCELLRESUMEID = {type:types.CANCELLRESUMEID}
+
+//薪资查询MODAL
+const SHOW_SALARY_MODAL = {type:types.SHOW_SALARY_MODAL};
+const HIDE_SALARY_MODAL = {type:types.HIDE_SALARY_MODAL};
+
+//薪资数据
+const SALARYDATA = {type:types.SALARYDATA};
+const CANCELSALARY = {type:types.CANCELSALARY};
+
+
 
 // 获取职位分类统计
 export const getJobCategory = () => (dispatch,getState) => {
@@ -122,6 +133,39 @@ export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getSta
         dispatch(ABORT_JOB_DONE);
     });
 }
+export const searchSalary = (jobpostids,functions,position) => (dispatch,getState) =>{
+    $.ajax({
+        url:"http://192.168.1.251:8080/vita/m/salary/findbyjob",
+        type:"post",
+        data:{
+            industry:jobpostids,
+            functions:functions,
+            positions:position
+        },
+        //dataType:"jsonp",    
+        //data:{"query":"civilnews"},
+        success: function(data) {
+            if(JSON.parse(data).result){
+                dispatch({...SALARYDATA,salaryData:JSON.parse(data).d.resultlist})
+            }else{
+                notification.error({
+                    message:JSON.parse(data).msg
+                })
+            }
+            
+        },
+        error: function(err) {
+            console.log(err);
+            notification.error({
+                    message:"请求失败！"
+                })
+        }
+    });
+    
+}
+export const cancelSalary = () => (dispatch,getState) => {
+    dispatch(CANCELSALARY);
+}
 
 // 创建职位
 export const createJob = (data,context) => (dispatch,getState) => {
@@ -178,4 +222,14 @@ export const getResumeId = (data) => (dispatch,getState) => {
 //清空职位ID
 export const cancellResumeId = (data) => (dispatch,getState) => {
     dispatch({...CANCELLRESUMEID,interview:data})
+}
+
+// 显示薪资查询MODAL
+export const showSalaryModal = (value) => (dispatch,getState) => {
+    dispatch({...SHOW_SALARY_MODAL,positionSalary:value});
+}
+
+// 隐藏薪资查询MODAL
+export const hideSalaryModal = () => (dispatch,getState) => {
+    dispatch(HIDE_SALARY_MODAL);
 }

@@ -49,17 +49,18 @@ import * as Actions from 'actions';
      }) 
  }
     componentDidMount(){
-        const {a,b,c,d,e,f} = this.props.location.query;
-        const key = "%!##@$%|$#$%(^)$}$*{^*+%";
-        const resumeid = strDec(`${a}`,key);
-        const jobid = strDec(`${b}`,key);
-        const intername = strDec(`${c}`,key);
-        const companyname = strDec(`${d}`,key);
-        const loginname = strDec(`${e}`,key);
-        const shareTime = strDec(`${f}`,key);
+        const {a,b,c,d,e,f} = this.props.location.query;//获取url参数
+        const key = "%!##@$%|$#$%(^)$}$*{^*+%";//加密关键字
+        const resumeid = strDec(`${a}`,key);//简历ID
+        const jobid = strDec(`${b}`,key);//职位ID
+        const intername = strDec(`${c}`,key);//候选人
+        const companyname = strDec(`${d}`,key);//公司名称
+        const loginname = strDec(`${e}`,key);//登录名称
+        const shareTime = strDec(`${f}`,key);//分享链接时间
         this.setState({
             intername,jobid,resumeid,companyname,loginname,shareTime
         })
+        //判断分享链接是否失效
         if((new Date().getTime()-shareTime)/1000/60/60>=3){
             Modal.warning({
                 title: '链接已过期，请重新获取分享链接！',
@@ -109,25 +110,25 @@ import * as Actions from 'actions';
             })
             this.refs.interviewer.focus()
             return false
-        }
+        };
         if(intername=="" ||professional==""||workexperience=="" ||eduandtrain=="" || communication==""||initiative=="" || grooming=="" ||attitude=="" || interviewer=="" || comments==""){
             notification.warning({
-                message: '您还有信息未填写，请填写完再提交！',
+                message: '您还有未评价内容，请全部评价完再提交！',
               });
               return false
-        }
+        };
         
         //加密关键字
         const key = "%!##@$%|$#$%(^)$}$*{^*+%";
         //请求参数       
-        const query = `resumeid=${resumeid}&jobid=${jobid}&startTime=${shareTime}&intername=${intername}&professional=${professional}&workexperience=${workexperience}&eduandtrain=${eduandtrain}&communication=${communication}&initiative=${initiative}&grooming=${grooming}&attitude=${attitude}&interviewer=${interviewer}&comments=${comments}&companyname=${companyname}&loginname=${loginname}`
+        const query = `resumeid=${resumeid}&jobid=${jobid}&startTime=${shareTime}&intername=${intername}&professional=${professional}&workexperience=${workexperience}&eduandtrain=${eduandtrain}&communication=${communication}&initiative=${initiative}&grooming=${grooming}&attitude=${attitude}&interviewer=${interviewer}&comments=${comments}&companyname=${companyname}&loginname=${loginname}`;
         //请求参数加密
         const  partters = strEnc(`${query}`,key);
         //添加面试评估
         this.props.fillEvaluation(partters);
         this.setState({
             isLoading:true
-        })
+        });
         
     }
     

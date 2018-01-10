@@ -11,6 +11,24 @@ export default class ProgressComponent extends Component{
         rightStyleColor:'',
         sort:'2'
     };
+    componentWillReceiveProps(nextProps){
+        const {archivesTableData} = nextProps;
+        if(archivesTableData=="2"){
+            this.setState({
+                leftStyleState:'none',
+                rightStyleState:'block',
+                leftStyleColor:'',
+                rightStyleColor:'#1587c7'
+            });
+        }else if(archivesTableData=="1"){
+            this.setState({
+                leftStyleState:'block',
+                rightStyleState:'none',
+                leftStyleColor:'#1587c7',
+                rightStyleColor:''
+            });
+        }
+    };
     handleClick = (value) => {
         switch(value)
             {

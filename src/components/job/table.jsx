@@ -103,24 +103,24 @@ class TableComponent extends Component {
     }
     renderWithstarttime = (text, record, index) => {
         return (
-            <a 
-                className="positionname" 
+            <span
+                //className="positionname" 
                 href="javascript:;" 
                 title={moment(text).format("YYYY-MM-DD")}
             >
                 {moment(text).format("YYYY-MM-DD")}
-            </a>
+            </span>
         )
     }
     renderWithendtime = (text, record, index) => {
         return (
-            <a 
-                className="positionname" 
+            <span 
+                //className="positionname" 
                 href="javascript:;" 
                 title={moment(text).format("YYYY-MM-DD")}
             >
             {moment(text).format("YYYY-MM-DD")}
-            </a>
+            </span>
         )
     }
 
@@ -139,12 +139,12 @@ class TableComponent extends Component {
     }
     renderWithPartment = (text, record, index) => {
         return (
-            <a  
+            <span 
                 title={text}
                 style={{display:"block",width:80,overflow:"hidden"}}
             >
                 {text}
-            </a>
+            </span>
         )
     }
     //面试列渲染

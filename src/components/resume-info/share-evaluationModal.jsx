@@ -19,7 +19,7 @@ class ShareEvaluationModalComponents extends Component {
         const linkUrl = this.refs.CopyLink.refs.input.value;
         if(linkUrl){
             copy(linkUrl);
-            message.success('复制链接成功，如果失败，请在输入框内手动复制!');
+            message.success('复制链接成功，如果失败，请在输入框内手动复制！',3);
         }else{
             notification.warning({
                 message: '暂无链接复制！'
@@ -72,17 +72,20 @@ class ShareEvaluationModalComponents extends Component {
                                 }
                             />
                         </div>
-                        <p className="content">
+                        <p className="content" style={{color:"#79869C"}}>
                              温馨提示： 该公开链接可被任何收到该分享的人打开查看填写，请您谨慎转发！
-                         </p>
+                        </p>
                     </TabPane>
                     <TabPane tab="二维码分享" key="2">
                         <div className="qrcode-body">
                             <div className="qrcode pull-left"
                                 style = {{
                                     width: 165,
-                                    height: 165
+                                    height: 165,
+                                    marginRight:15
                                 }}>
+                                <img src="/static/images/favicon.ico" 
+                                style={{position: 'relative',left: '80px',top: '-45px'}}/>
                                 <QRCode value={qrcodeLink}/>
                             </div>
                             <div className="qrcode-info pull-left">
@@ -91,7 +94,7 @@ class ShareEvaluationModalComponents extends Component {
                                 </p>
                                 <div className="hint">
                                     <p className="content" style={{marginBottom:10}}>
-                                        <i className="phone"></i>
+                                    &nbsp;<i className="phone"></i>
                                         打开手机微信
                                     </p>
                                     <p className="content">
@@ -102,7 +105,7 @@ class ShareEvaluationModalComponents extends Component {
                             </div>
                         </div>
                         <div className="qrcode-foot">
-                            <p className="content">
+                            <p className="content" style={{color:"#79869C"}}>
                                 温馨提示：根据候选人信息自动生成的二维码，扫描后可填写候选人面试评估表。
                             </p>
                         </div>

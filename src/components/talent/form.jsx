@@ -117,12 +117,6 @@ export default class FormComponent extends Component {
                         导入人才&nbsp;
                         <i className="anticon import"></i>
                     </Button> 
-                    {/* <Button 
-                        style={{width: 140}}
-                        onClick={this.timeSort}
-                    >
-                        按创建日期升序&nbsp;<Icon type="caret-down"/>
-                    </Button> */}
                 </div>
                 <div className="bottom10">
                     <Select 

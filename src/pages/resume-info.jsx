@@ -1,10 +1,12 @@
 import React, {Component , PropTypes} from 'react';
 import { Icon , Tooltip} from 'antd';
+import find from 'lodash/find';
 
 // components
 import HeaderInfoComponent from 'components/job/recruit-info/header-info';
 import TalentHeaderInfoComponent from 'components/job/recruit-info/talent-header-info';
 import MainContentComponent from 'components/job/recruit-info/main-content'; 
+import SearchSalaryComponent from 'components/job/recruit-info/searchSalary'; 
 
 import ModalComponents from 'components/resume-info/modal';
 import ShareModalComponents from 'components/resume-info/share-modal';
@@ -14,6 +16,7 @@ import ShareEvaluationModalComponents from 'components/resume-info/share-evaluat
 
 // 富文本编辑器
 import EmailEditorComponents from 'components/email/right';
+
 
 // redux
 import {bindActionCreators} from 'redux';
@@ -75,22 +78,20 @@ class ResumeInfoPage extends Component {
         this.props.hideResumeModal()
         //this.context.router.push(`/email`);
     }
-    componentWillReceiveProps(){
-        setTimeout(()=>{
-            const {historyEmail , data} = this.props,
-                  {list} = historyEmail;                 
-            if (list.length != 0 && data.resumeInfo){
-            const {resumeInfo} = data,
-                  {username} = resumeInfo;
-              for (let i=0;i<list.length;i++){
-                  if(list[i].resumename===username){
-                      this.setState({
-                        emailState:"block"
-                      })
-                  }
-              }
-          };            
-        },100)
+    componentWillReceiveProps(nextProps){
+        const {historyEmail , data} = nextProps,
+              {list} = historyEmail;                 
+        if (list.length != 0 && data.resumeInfo){
+        const {resumeInfo} = data,
+            {username} = resumeInfo;
+            for (let i=0;i<list.length;i++){
+                if(list[i].resumename===username){
+                    this.setState({
+                    emailState:"block"
+                    })
+                }
+            }
+        };            
     };
 
     render() {
@@ -99,8 +100,11 @@ class ResumeInfoPage extends Component {
             { logId } = routeParams,   
             isTalent = this.isInTalentPage(location.pathname),
             isRecruit = this.isInRecruitPage(location.pathname),
-            {resumeid,currentPId,resumeInfo={},evaluationId,lastStageLog} = data,
+            {resumeid,currentPId,resumeInfo={},evaluationId,lastStageLog,stagesMap} = data,
             {username,email} = resumeInfo; 
+        const staged = find(stagesMap,item=>{
+                return item.iscurrentstage === '1'
+            });
         return (
             <div className="resume-info-container" style={{
                 height: isLoading ? '100%' : '',
@@ -148,6 +152,12 @@ class ResumeInfoPage extends Component {
                                     </Tooltip> 
                                         邮件
                                     </li>
+                                    {staged!=undefined && staged.stageid>=3 && <li 
+                                        className={`tab-item table-cell ${type==2 ? 'active' : ''}`}
+                                        onClick={() => this.handleChangeType(2)}
+                                    >
+                                        行业薪资
+                                    </li>}
                                     <li className="table-cell empty"></li>
                                 </ul>
                             }
@@ -170,7 +180,12 @@ class ResumeInfoPage extends Component {
                                         />
                                     </div>
                                 }
-                            </div>
+                                {isRecruit &&
+                                    <div className={`email-content ${type==2 ? '' : 'none'}`}>
+                                        <SearchSalaryComponent/>
+                                    </div>
+                                }
+                            </div> 
                             <ModalComponents />
                             {/*简历分享Modal*/}
                             <ShareModalComponents {...this.props}/>

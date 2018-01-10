@@ -74,7 +74,7 @@ export default class InterViewComponents extends Component {
                     <TooltipComponents>
                         <Radio value='2'>淘汰</Radio>
                     </TooltipComponents>
-                    <Radio value='3'>安排复试</Radio>
+                    {/* <Radio value='3'>安排复试</Radio> */}
                     <Radio value='4'>建议入职</Radio>
                 </RadioGroup>
                 {statusid !== '2' && 

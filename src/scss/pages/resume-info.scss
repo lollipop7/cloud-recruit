@@ -83,6 +83,9 @@
     }
 }
 .shareModal {
+    .ant-tabs-nav{
+        left: 32%
+    }
     .title {
         font-size: 18px;
         color: #515151;
@@ -186,7 +189,7 @@
     .resetForm{
         display: block;
         position:absolute;
-        bottom:26px;
+        bottom:17px;
         background-color:#c0c0c0;
         border-color:#c0c0c0;
         color:#fff;
@@ -230,7 +233,7 @@
         }
     }
     .ant-modal-content{
-        height: 740px;
+        height: 730px;
         top:-20px
     }
     .ant-modal-body {

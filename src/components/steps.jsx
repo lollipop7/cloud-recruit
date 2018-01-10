@@ -29,28 +29,28 @@ export default class StepsComponent extends Component {
             icon: 3,
             time:""
         },
+        // {
+        //     status: 'wait',
+        //     title: '复试',
+        //     icon: 4,
+        //     time:""
+        // },
         {
             status: 'wait',
-            title: '复试',
+            title: 'offer',
             icon: 4,
             time:""
         },
         {
             status: 'wait',
-            title: 'offer',
+            title: '待入职',
             icon: 5,
             time:""
         },
         {
             status: 'wait',
-            title: '待入职',
-            icon: 6,
-            time:""
-        },
-        {
-            status: 'wait',
             title: '结束',
-            icon: 7,
+            icon: 6,
             time:""
         }
     ]
@@ -70,9 +70,19 @@ export default class StepsComponent extends Component {
                 stagesMapArr.push(stagesMap[item])
             }  
             forIn(stagesMap,item=>{
-                steps[item.stageid-1].status = 'finish';
+                if(item.stageid>3){
+                    steps[item.stageid-2].status = 'finish';
+                }else{
+                    steps[item.stageid-1].status = 'finish';
+                }  
             });
-            steps[currentStage.stageid-1].status = 'process';  
+
+            if(currentStage.stageid>3){
+                steps[currentStage.stageid-2].status = 'process';
+            }else{
+                steps[currentStage.stageid-1].status = 'process';
+            }
+
             for (let i=0;i<stagesMapArr.length;i++){
                 if (stagesMapArr[i].stageid==steps[i].icon){
                     steps[i].time=stagesMapArr[i].eventtime ? stagesMapArr[i].eventtime : stagesMapArr[i].deliverytime
@@ -83,7 +93,7 @@ export default class StepsComponent extends Component {
             <div className="steps noprint" style={{
                 position: 'absolute',
                 width: 608,
-                right: -41,
+                right: -35,
                 bottom: 0
             }}>
                 <Steps current={1} labelPlacement="vertical">

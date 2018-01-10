@@ -100,6 +100,19 @@ class RightComponents extends Component {
                 />
                 <Button className="upload" onClick={this.props.showUploadModal}>
                 </Button>
+                {/* <div 
+                    style={{
+                        position:"relative",
+                        overflow:"hidden",
+                        top:-390,
+                        zIndex:1000,
+                        width:850,
+                        height:390,
+                        background:"#666",
+                        opacity:0
+                    }}
+                    >
+                </div> */}
                 <UploadModalComponent 
                     handleFileList={this.handleFileList}
                 />

@@ -1,46 +1,28 @@
 module.exports = {
     
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        }
+    title: {
+        text: ''
     },
+        tooltip: {},
     legend: {
-        data:[{
-            name: '工作月份',
-            // 强制设置图形为圆
-            icon: 'circle',
-            // 设置文本为红色
-            textStyle: {
-                color: 'red'
-            }
-        }]
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
+        data:['月薪（万元）']
     },
     xAxis: {
-        type: 'value'
+        data: ["P10","P50","平均值","P90"]
     },
-    yAxis: {
-        type: 'category',
-        data: ['第一份工作', '第二份工作', '第三份工作', '第四份工作']
-    },
-    series: [
-                {
-                    name: '工作月份',
-                    type: 'bar',
-                    data: [
-                        {value:10,itemStyle:{normal:{color:"#ffb530"}}}, 
-                        {value:52,itemStyle:{normal:{color:"#61aa61"}}},
-                        {value:36,itemStyle:{normal:{color:"#1587c7"}}},
-                        {value:30,itemStyle:{normal:{color:"#c25255"}}}
-                    ]
-                }
-                
-    ]
+    yAxis: {},
+    series: [{
+        name: '月薪（万元）',
+        barWidth :60,
+        label: {
+            normal: {
+                show: true,
+                position: 'outside',
+                color:"#656565",
+                formatter: '{c}（万元）'
+            }
+        },
+        type: 'bar',
+        data: [2,3,4,3]
+    }]
 }

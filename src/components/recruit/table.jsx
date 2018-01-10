@@ -45,7 +45,7 @@ class TableComponents extends Component {
                     </a>
         }
         columns[columns.length-2].render = (text,record,index)=>{
-            return <a title={moment(text).format("YYYY-MM-DD")}>{moment(text).format("YYYY-MM-DD")}</a>;
+            return <span title={moment(text).format("YYYY-MM-DD")}>{moment(text).format("YYYY-MM-DD")}</span>;
         }
         columns[columns.length-1].render = (text,record,index)=>{
             return <span className="prestatusname-manage">{text?text:"无"}</span>;

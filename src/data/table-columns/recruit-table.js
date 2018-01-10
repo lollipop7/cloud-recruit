@@ -16,21 +16,21 @@ module.exports = [
         "dataIndex": "positionname",
         "key": "positionname",
         "width": 132,
-        render: renderWithATag
+        //render: renderWithATag
     },
     {
         "title": "部门",
         "dataIndex": "department", 
         "key": "department",
         "width": 80,
-        render: renderWithATag
+        //render: renderWithATag
     },
     {
         "title": "工作年限",
         "dataIndex": "workyears",
         "key": "workyears",
         "width": 90,
-        render: renderWithATag
+        //render: renderWithATag
     },
     {
         "title": "电话",
@@ -55,7 +55,7 @@ module.exports = [
         "dataIndex": "deliverytime",
         "key": "deliverytime",
         "width": 99,
-        render: renderWithATag
+        //render: renderWithATag
     },
     {
         "title": "状态",

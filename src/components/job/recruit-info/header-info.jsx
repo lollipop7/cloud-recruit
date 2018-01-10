@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'antd';
+import {Button , Icon} from 'antd';
 
 import trim from 'lodash/trim';
 import find from 'lodash/find';
@@ -166,9 +166,13 @@ class HeaderInfoComponent extends Component {
                                 </div>
                                 <div className="pull-right noprint">
                                     {
-                                        stage!=undefined && stage.stageid>=5 && <Button type="primary" onClick={this.showBackgroundModal} >
-                                                                背调TA
-                                                            </Button>
+                                        stage!=undefined && stage.stageid>=5 && 
+                                                    <Button 
+                                                        type="primary" 
+                                                        onClick={this.showBackgroundModal} 
+                                                    >
+                                                        背调TA
+                                                    </Button>
                                     }
                                     <Button type="primary" onClick={this.downloadResume}>
                                         简历下载
@@ -266,7 +270,9 @@ class HeaderInfoComponent extends Component {
                                 </ul>
                             </div>
                             <div className="table-cell">
-                                <div className="noprint"
+                                <div 
+                                    className="noprint"
+                                    style={{cursor:"pointer"}}
                                     onClick={this.changeStage}
                                 >
                                     <img  src="./static/images/resume/right-arrow.png" alt="more"/>

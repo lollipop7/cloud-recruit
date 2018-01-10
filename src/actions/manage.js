@@ -77,6 +77,7 @@ import isNumber from 'lodash/isNumber';
     const CREDITINVESTGATION_DONE = {type:types.CREDITINVESTGATION_DONE};
     const CREDITINVESTGATION = {type:types.CREDITINVESTGATION};
     const SEARCHCREDITINVESTGATION = {type:types.SEARCHCREDITINVESTGATION};
+    const SEARCHCREDITINVESTGATION_START = {type:types.SEARCHCREDITINVESTGATION_START};
     const CREDITINVESTGATIONSTATE = {type:types.CREDITINVESTGATIONSTATE};
     const HIDECREDITINVESTGATIONSTATE = {type:types.HIDECREDITINVESTGATIONSTATE};
     const CANCELDATA = {type:types.CANCELDATA};
@@ -458,6 +459,7 @@ import isNumber from 'lodash/isNumber';
     }
     //人员征信查询
     export const searchCredit = (data,showcredit) => (dispatch,getState) => {
+        dispatch(SEARCHCREDITINVESTGATION_START);
         AjaxByToken('cerditQueryperationList_employees', {
             head: {
                 transcode: 'L0060'

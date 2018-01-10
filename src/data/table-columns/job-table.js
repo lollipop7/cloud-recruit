@@ -46,7 +46,7 @@ module.exports = [
         "dataIndex": "salary",
         "key": "salary",
         "width": 105,
-        "render": renderTextWithATag
+        //"render": renderTextWithATag
     },
     {
         "title": "申请",
@@ -89,14 +89,14 @@ module.exports = [
         "dataIndex": "starttime",
         "key": "starttime",
         "width": 100,
-        "render": renderTime
+        //"render": renderTime
     },
     {
         "title": "结束时间",
         "dataIndex": "endtime",
         "key": "endtime",
         "width": 100,
-        "render": renderTime
+        //"render": renderTime
     },
     {
         "title": "状态",
