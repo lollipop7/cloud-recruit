@@ -31,7 +31,7 @@ export default class LeftNavComponent extends Component {
         {pathname} = location;
         return (
             <div className="left-nav resumeSearch">
-                <a className="title">简历搜索管理</a>
+                <a className="title" style={{cursor:"default"}}>简历搜索管理</a>
                 <ul>
                     
                     {

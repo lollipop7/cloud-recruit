@@ -10,6 +10,7 @@ import Task from './task';
 import Email from './email';
 import File from './file';
 import Manage from './manage';
+import ResumeSearch from './resumeSearch';
 
 const rootReducer = combineReducers({
     Login,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     Task,
     Email,
     File,
-    Manage
+    Manage,
+    ResumeSearch
 });
 
 export default rootReducer;

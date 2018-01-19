@@ -10,6 +10,7 @@ import * as TaskActions from './task';
 import * as EmailActions from './email';
 import * as FileActions from './file';
 import * as ManageActions from './manage';
+import * as SearchActions from './resumeSearch';
 
 module.exports =  {
     loginActions,
@@ -23,5 +24,6 @@ module.exports =  {
     TaskActions,
     EmailActions,
     FileActions,
-    ManageActions
+    ManageActions,
+    SearchActions
 }

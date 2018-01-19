@@ -10,9 +10,10 @@ export default class  extends Component {
             patternResume = /(\/resumeInfo)/i; // 匹配 /resumeInfo/:resumeId/:logId
         const patternShowResume = /\/showResume/i;
         const patternEvaluation = /\/evaluation/i;
+        const patternCaseView =  /\/CaseView/i;
         return (
             <div>
-                {!patternLogin.test(pathname) && !patternResume.test(pathname) && !patternShowResume.test(pathname) && !patternEvaluation.test(pathname) && <NavBarComponents location={location} />}
+                {!patternLogin.test(pathname) && !patternResume.test(pathname) && !patternShowResume.test(pathname) && !patternEvaluation.test(pathname) && !patternCaseView.test(pathname) && <NavBarComponents location={location} />}
                 {this.props.children}
             </div>
         );

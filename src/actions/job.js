@@ -135,6 +135,7 @@ export const abortJobInfo = (data,getJobList,getJobCategory) => (dispatch,getSta
 }
 export const searchSalary = (jobpostids,functions,position) => (dispatch,getState) =>{
     $.ajax({
+        //url:"http://www.51jrq.com/vita/m/salary/findbyjob",
         url:"http://192.168.1.251:8080/vita/m/salary/findbyjob",
         type:"post",
         data:{

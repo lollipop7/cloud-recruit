@@ -176,3 +176,27 @@
         padding: 0px;
     }
 }
+//简历搜索的信息提示
+.searchTip{
+    top:300px;
+    width:490px!important;
+    .ant-confirm-body-wrapper{
+        text-align: center;
+        .ant-confirm-title{
+            color: #575758;
+            font-weight: normal
+        }
+        .ant-confirm-btns{
+            margin: 0 auto;
+            float: none;
+            margin-top: 40px
+        };
+        .ant-btn-primary{
+            background-color: #254C92;
+            border-color: #254C92
+        }
+    }
+    .anticon-info-circle{
+        display: none
+    }
+}

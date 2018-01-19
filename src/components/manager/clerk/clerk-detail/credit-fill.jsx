@@ -605,6 +605,10 @@ import * as Actions from 'actions';
             break;
             }
     }
+    //查看背调案例
+    checkCase = () => {
+        window.open(`${window.location.origin}/#/CaseView`)
+    }
      render(){
          const {
             name,
@@ -701,7 +705,6 @@ import * as Actions from 'actions';
                                 </li>
                             </ul>
                         </div>
-                        
                         </Panel>
                         <Panel header="第二步：选择调查方案" key="2">
                             <div className="hint-field" style={{float:"left",width:600}}>
@@ -1071,6 +1074,14 @@ import * as Actions from 'actions';
                                         style={{width:150,height:40,fontSize:16}}
                                     >
                                     开始调查
+                                    </Button>
+                                </div>
+                                <div style={{textAlign:"center"}}>
+                                    <Button 
+                                        type="dashed"
+                                        onClick={this.checkCase}
+                                    >
+                                        查看背调案例
                                     </Button>
                                 </div>
                             </div>

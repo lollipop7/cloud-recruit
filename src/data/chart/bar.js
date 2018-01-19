@@ -10,7 +10,9 @@ module.exports = {
     xAxis: {
         data: ["P10","P50","平均值","P90"]
     },
-    yAxis: {},
+    yAxis: {
+        max:12
+    },
     series: [{
         name: '月薪（万元）',
         barWidth :60,
@@ -19,10 +21,9 @@ module.exports = {
                 show: true,
                 position: 'outside',
                 color:"#656565",
-                formatter: '{c}（万元）'
             }
         },
         type: 'bar',
-        data: [2,3,4,3]
+        data: [0,0,0,0]
     }]
 }

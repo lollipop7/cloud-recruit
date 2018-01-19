@@ -5,7 +5,9 @@ var config = require('../config')
 var proxyMiddleware = require('http-proxy-middleware')
 
 var proxyTable =  {
-      '/hrmanage': {target:'http://51jrq-servers2:66'}
+      '/hrmanage': {target:'http://192.168.1.251:66'},
+      '/resumeClient': {target:'http://192.168.1.251:8088'},
+      //'/resumeClient': {target:'http://51jrq-servers2:8088'}
       // '/web': {target:'http://192.168.101.57:66/hrmanage/api'}
     }
 

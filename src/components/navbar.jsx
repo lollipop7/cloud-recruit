@@ -147,20 +147,6 @@ class NavBarComponents extends Component {
                             })
                         }
                     </ul>
-                    {/*<div className="search">
-                        <input 
-                            value={keyword}
-                            type="text" 
-                            placeholder="人才搜索" 
-                            onKeyUp={this.handleKeyUp} 
-                            onChange={this.handleChange}
-                        />
-                        <a 
-                            href="javascript:void(0);" 
-                            className="search-button"
-                            onClick={this.searchKeyword}
-                        ></a>
-                    </div>*/}
                     <div className="user">
                         {!isLoading &&
                             <div className="table">

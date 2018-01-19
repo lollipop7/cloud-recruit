@@ -407,6 +407,16 @@ class SalaryModalComponent extends Component {
                                 请先选择查询条件进行查询...
                             </h1>}
                     </div>
+                    <div style={{paddingLeft:20,height:150}}>
+                        <h3>说明：</h3>
+                        <div style={{marginLeft:50,color:"#768490"}}>
+                            <p><span style={{fontSize:14,color:"#314659"}}>分&nbsp;&nbsp;位&nbsp;&nbsp;值：</span>表示被调查群体中有n%的数据小于此数值。n的大小反应市场的不同水平，通常使用P10、P50、P90来表示市场的不同水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>10分位值：</span>表示有10%的数据小于此数值，反映市场的低端水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>50分位值：</span>表示有50%的数据小于此数值，反映市场的中等水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>90分位值：</span>表示有90%的数据小于此数值，反映市场的高端水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>平&nbsp;&nbsp;均&nbsp;&nbsp;值：</span>所有数据的平均值，反映市场的平均水平。</p>
+                        </div>
+                    </div>
                 </div>   
         )
     }

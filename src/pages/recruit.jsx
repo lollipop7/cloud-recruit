@@ -160,7 +160,7 @@ class RecruitPage extends BasicPage {
     render() {
         const {
             paginationCurrent,
-            tableHead
+            tableHead="职位申请"
         } = this.state;
         const {routes,isLoading,categoryData} = this.props;
         return (

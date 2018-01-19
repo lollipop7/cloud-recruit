@@ -361,9 +361,9 @@ export default class BaseinfoComponent extends Component {
             [field]: e.target.value.replace(pattern,'')
         });
     }
-    onChange = (e) => {
-        console.log(`checked = ${e.target.checked}`)
-    }
+    // onChange = (e) => {
+    //     console.log(`checked = ${e.target.checked}`)
+    // }
 
     handleRadio = (e) => {
         this.setState({
@@ -433,22 +433,25 @@ export default class BaseinfoComponent extends Component {
                         value: 1
                     });
             }
-            
-            this.setState({
-                positionname,           // 职位名称
-                salary,                 // 薪资待遇
-                department,             // 用人部门
-                recruitreason,          // 招聘理由
-                headcount,              // 招聘人数
-                workcity,               // 工作地点
-                workyears,              // 工作年限
-                specialty,              // 专业
-                educationbackground,    //学历
-                age,                    //年龄
-                jobtype,                //工作类型
-                responsibility,         //工作职责
-                qualification,          //任职资格
-            })
+            if(positionname || salary || department || recruitreason ||
+                headcount ||workcity ||workyears || specialty || educationbackground ||
+                age || jobtype || responsibility ||qualification){
+                this.setState({
+                    positionname,           // 职位名称
+                    salary,                 // 薪资待遇
+                    department,             // 用人部门
+                    recruitreason,          // 招聘理由
+                    headcount,              // 招聘人数
+                    workcity,               // 工作地点
+                    workyears,              // 工作年限
+                    specialty,              // 专业
+                    educationbackground,    //学历
+                    age,                    //年龄
+                    jobtype,                //工作类型
+                    responsibility,         //工作职责
+                    qualification,          //任职资格
+                })
+        }
     }
     showBtn = () => {
         this.setState({

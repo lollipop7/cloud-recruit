@@ -28,7 +28,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/hrmanage': {target:'http://51jrq-servers2:66'}
+      '/hrmanage': {target:'http://192.168.1.251:66'},
+      '/resumeClient': {target:'http://192.168.1.251:8088'}
+      //'/resumeClient': {target:'http://51jrq-servers2:8088'}
+      //'/resumeClient': {target:'http://51jrq-servers2:8088'}
     },
     // proxyTable: {
     //   '/web': {target:'http://h157228u39.iask.in:42789/hrmanage/api'}

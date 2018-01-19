@@ -23,30 +23,18 @@ class SalaryModalComponent extends Component {
         functionsError:false,
         positionError:false,
         activeTab:"",
-        salaryData:[],
         highManage:false,
-        highSalary:"",
-        lowSalary:"",
         isEmpty:false,
         isSalaryLevel:false,
         remind:true,
         isLoading:false
     }
-    tabList= ["P10","P50","P90","平均值"];
     chartInstance = null;
     chartInstanceSalary = null;
 
-    componentDidMount() {
-        const {salaryModalVisible} = this.props;
-        const {salaryData} = this.state; 
-    }
-
     componentWillReceiveProps (nextProps) {
         const {salaryData,positionSalary} = nextProps;
-        this.setState({
-            salaryData
-        });
-        //重置echarts图表
+        //行业薪资echarts图表
         if(salaryData.length!=0){
             const salaryArr =[];//薪资
             const salarylevelArr = [];//职位层级
@@ -90,7 +78,10 @@ class SalaryModalComponent extends Component {
                 })
                 this.chartInstance.setOption({
                     title: {
-                        text: '行业薪资'
+                        text: '行业薪资',
+                        textStyle:{
+                            color:"#C23531"
+                        }
                     },
                     legend: {
                         right:20,
@@ -106,7 +97,6 @@ class SalaryModalComponent extends Component {
                                 show: true,
                                 position: 'outside',
                                 color:"#656565",
-                                formatter: '{c}（万元）'
                             }
                         },
                         data: salaryArr
@@ -118,33 +108,75 @@ class SalaryModalComponent extends Component {
                 })
             }
         }
-        //获取职位月薪
+        //当前职位月薪图表
         if(positionSalary){
-            switch(positionSalary){
-                case "1500以下":
-                    this.setState({
-                        highSalary:1500,
-                        lowSalary:0
-                    });
-                break;
-                case "100000以上":
-                    this.setState({
-                        highSalary:0,
-                        lowSalary:100000
-                    });
-                break;
-                default:
-                    this.setState({
-                        highSalary:positionSalary.split("-")[1],
-                        lowSalary:positionSalary.split("-")[0]
-                    });
-                break;
-            }
-        }else{
             this.setState({
-                highSalary:0,
-                lowSalary:0, 
+                isEmpty:false
             })
+            setTimeout(()=>{
+                // 实例化图表
+                this.chartInstanceSalary = echarts.init(document.getElementById("echartsSalary"));
+                //使用刚指定的配置项和数据显示图表。
+                this.chartInstanceSalary.setOption(options);
+                this.chartInstanceSalary.setOption({
+                    title: {
+                        text: positionSalary?'当前职位薪资':"未选择职位薪资"
+                    },
+                    legend: {
+                        right:20,
+                        data:['月薪（万元）']
+                    },
+                    color:["#2F4554"],
+                    xAxis: {
+                            data: ["最低薪资","最高薪资"]
+                        },
+                    series: [{
+                        barWidth :60,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'outside',
+                                color:"#656565",
+                            }
+                        },
+                        data: positionSalary=="1500以下"?[0,0.15]:positionSalary=="100000及以上"?[10,""]:
+                        [(positionSalary.split("-")[0]/10000).toFixed(2),(positionSalary.split("-")[1]/10000).toFixed(2)]
+                    }]
+                });
+            },50)}else{
+            this.setState({
+                isEmpty:true
+            });
+            setTimeout(()=>{
+                // 实例化图表
+                this.chartInstanceSalary = echarts.init(document.getElementById("echartsSalary"));
+                //使用刚指定的配置项和数据显示图表。
+                this.chartInstanceSalary.setOption(options);
+                this.chartInstanceSalary.setOption({
+                    title: {
+                        text: positionSalary?'当前职位薪资':"未选择职位薪资"
+                    },
+                    legend: {
+                        right:20,
+                        data:['月薪（万元）']
+                    },
+                    color:["#2F4554"],
+                    xAxis: {
+                            data: ["最低薪资","最高薪资"]
+                        },
+                    series: [{
+                        barWidth :60,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'outside',
+                                color:"#656565",
+                            }
+                        },
+                        data: [0,0]
+                    }]
+                });
+            },50)
         }   
     }
     destroyChart = () => {
@@ -164,10 +196,7 @@ class SalaryModalComponent extends Component {
             functions: undefined, // 职能
             position: undefined, // 职位
             activeTab:"",
-            salaryData:[],
             highManage:false,
-            highSalary:"",
-            lowSalary:"",
             isEmpty:false,
             isSalaryLevel:false,
             remind:true
@@ -215,8 +244,9 @@ class SalaryModalComponent extends Component {
     }
     //查询
     searchSalary = () =>{
-        const {jobpostids,functions,position,highSalary,lowSalary} = this.state;
+        const {jobpostids,functions,position} = this.state;
         const {positionSalary} = this.props;
+        //判断查询条件是否为空
         if(!jobpostids){
             this.setState({
                 jobpostidsError:true
@@ -240,51 +270,11 @@ class SalaryModalComponent extends Component {
             isLoading:true
         })
         //查询行业薪资
-        this.props.searchSalary(jobpostids,functions,position);
-        // 实例化图表
-        this.chartInstanceSalary = echarts.init(document.getElementById("echartsSalary"));
-        //使用刚指定的配置项和数据显示图表。
-        this.chartInstanceSalary.setOption(options); 
-        //使用刚指定的配置项和数据显示图表。
-        if(!highSalary && !lowSalary){
-            this.setState({
-                isEmpty:true
-            })
-        }else{
-            this.chartInstanceSalary.setOption({
-                title: {
-                    text: positionSalary?'当前职位薪资':"未选择职位薪资"
-                },
-                legend: {
-                    right:20,
-                    data:['月薪（万元）']
-                },
-                color:["#2F4554"],
-                xAxis: {
-                        data: ["最低薪资","最高薪资"]
-                    },
-                series: [{
-                    barWidth :60,
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'outside',
-                            color:"#656565",
-                            formatter: '{c}（万元）'
-                        }
-                    },
-                    data: [(Math.round(lowSalary)/10000).toFixed(2),(Math.round(highSalary)/10000).toFixed(2)]
-                }]
-            });
-        }
-        // 实例化图表
-        this.chartInstance = echarts.init(document.getElementById("echarts"));
-        //使用刚指定的配置项和数据显示图表。
-        this.chartInstance.setOption(options);  
+        this.props.searchSalary(jobpostids,functions,position); 
     }
         
     render(){
-       const {salaryModalVisible ,salaryData,valueString} = this.props;
+       const {salaryModalVisible ,valueString} = this.props;
        const {
            jobpostids,
            position,
@@ -425,8 +415,9 @@ class SalaryModalComponent extends Component {
                                     lineHeight: '380px',
                                     width: 470,
                                     height: 350,
+                                    fontSize:18
                                 }}>
-                                    暂无当前职位薪资
+                                    暂未选择当前职位薪资
                             </div>
                         }
                         <div id="echarts" className="box-border" 
@@ -442,7 +433,8 @@ class SalaryModalComponent extends Component {
                                     width: 470,
                                     height: 350,
                                     position:"absolute",
-                                    right:0
+                                    right:0,
+                                    fontSize:18
                                 }}>
                                     暂无数据
                             </div>}
@@ -456,18 +448,30 @@ class SalaryModalComponent extends Component {
                         {remind && 
                             <h1 
                                 style={{
-                                    color:"#fff",
+                                    color:"#C0C3C6",
                                     position:"absolute",
                                     top:120,
+                                    right:0,
                                     height:50,
-                                    width:"100%",
+                                    width:"50%",
                                     textAlign:"center",
+                                    fontSize:18
                                     }}
                                 >
-                                请先选择查询条件进行查询...
-                            </h1>}
+                                请先选择查询条件进行查询行业薪资...
+                            </h1>
+                        }
                     </div>
-                    
+                    <div style={{paddingLeft:20,height:150}}>
+                        <h3>说明：</h3>
+                        <div style={{marginLeft:50,color:"#768490"}}>
+                            <p><span style={{fontSize:14,color:"#314659"}}>分&nbsp;&nbsp;位&nbsp;&nbsp;值：</span>表示被调查群体中有n%的数据小于此数值。n的大小反应市场的不同水平，通常使用P10、P50、P90来表示市场的不同水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>10分位值：</span>表示有10%的数据小于此数值，反映市场的低端水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>50分位值：</span>表示有50%的数据小于此数值，反映市场的中等水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>90分位值：</span>表示有90%的数据小于此数值，反映市场的高端水平。</p>
+                            <p><span style={{fontSize:14,color:"#314659"}}>平&nbsp;&nbsp;均&nbsp;&nbsp;值：</span>所有数据的平均值，反映市场的平均水平。</p>
+                        </div>
+                    </div>
                 </div>   
             </Modal>
         )

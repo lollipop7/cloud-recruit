@@ -506,6 +506,15 @@ const SearchResumePage = {
         }, 'SearchResumePage')
     }
 }
+//背调案例
+const CaseView = {
+    path:"caseView",
+    getComponent:(nextState,cb)=>{
+        require.ensure([], (require) => {
+            cb(null, require('pages/case-view').default)
+        }, 'CaseView')
+    }
+}
 
 /*路由配置*/
 const RouteConfig = {
@@ -523,23 +532,24 @@ const RouteConfig = {
         } 
     },
     childRoutes: [
-      Job, // 职位
-      Recruit, // 招聘
-      Talent, // 人才
-      Task, // 任务报表
-      Login, // 登陆
-      ChangePasswd, // 修改密码
-      SettingEmail, // 设置邮箱
-      resumeInfo, // 简历详情
-      Email,
-      ManagerPage, // 员工管理
-      employeeInfo, //员工简历详情
-      HelpPage, //使用帮助
-      ShowResume ,//分享简历页面
-      Evaluation,//分享面试评估表页面
-      SearchResumePage,//简历搜索页面
-      NotFoundPage// 404
-    ]
+            Job, // 职位
+            Recruit, // 招聘
+            Talent, // 人才
+            Task, // 任务报表
+            Login, // 登陆
+            ChangePasswd, // 修改密码
+            SettingEmail, // 设置邮箱
+            resumeInfo, // 简历详情
+            Email,
+            ManagerPage, // 员工管理
+            employeeInfo, //员工简历详情
+            HelpPage, //使用帮助
+            ShowResume ,//分享简历页面
+            Evaluation,//分享面试评估表页面
+            SearchResumePage,//简历搜索页面
+            CaseView,//背调案例
+            NotFoundPage// 404
+        ]
   } ]
 }
 
