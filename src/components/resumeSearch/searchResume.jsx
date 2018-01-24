@@ -1,12 +1,10 @@
 import React, {Component,PropTypes} from 'react';
 
-import {Button , Menu , Input , Icon , Select , Cascader,Spin} from 'antd';
+import {Button , Menu , Input , Icon , Select , Cascader,Spin,BackTop} from 'antd';
 const SubMenu = Menu.SubMenu;
 import city from 'data/resumeCity.json';
 import pickBy from 'lodash/pickBy';
 
-import ScrollPageContent from 'components/scroll-page-content';
-import LeftNavComponent from 'components/help/left-menu';
 import ResumeDetailComponent from 'components/resumeSearch/resumeDetail';
 import ResumeSimpleComponent from 'components/resumeSearch/resumeSimple';
 import CandidateResumeComponent from 'components/resumeSearch/candidateResume';
@@ -36,9 +34,7 @@ class SearchResumePage extends Component {
         pageSize:10,
         q:"",
     }
-    static contextTypes = {
-        router: PropTypes.object
-    }
+    
     //简历详情、简版切换
     switch = (switchContent) => {
         this.setState({
@@ -56,6 +52,7 @@ class SearchResumePage extends Component {
             const filter = pickBy(filterObj,(val,key)=>{
                return val!=="" && val!=="更新时间" && val!=="学历" && val!=="薪资范围" && val!=="性别" 
             });
+            //条件选择简历搜索
             this.props.searchResume({...filter})
         })
     }
@@ -76,6 +73,11 @@ class SearchResumePage extends Component {
                 case "最近30天":
                     this.setState({
                         lastUpdateDays:30
+                    });
+                    break;
+                case "最近60天":
+                    this.setState({
+                        lastUpdateDays:60
                     });
                     break;
             }   
@@ -127,7 +129,7 @@ class SearchResumePage extends Component {
         this.setState({
             [field]:value
         })
-        
+        //条件选择搜索
         this.conditionSearch()
     }
     //工作地点选择
@@ -136,6 +138,7 @@ class SearchResumePage extends Component {
             workcity: val.length > 0 ?  val[0] + '/' + val[1] : '',
             city: val.length > 1 ?  val[1] : val.length <= 1?val[0]:''
         });
+        //条件选择搜索
         this.conditionSearch()
     }
     onChangeInput = (e) => {
@@ -158,6 +161,7 @@ class SearchResumePage extends Component {
             isCandidateResume:true
         })
     }
+    //查询简历
     searchResume = (page, pageSize) => {
         const {q} = this.state;
         if(page && pageSize){
@@ -175,10 +179,22 @@ class SearchResumePage extends Component {
                 const filterObj = pickBy(this.state,(val,key)=>{
                     return key==="city" || key==="pageNo"|| key==="pageSize" || key==="q"
                 });
-                this.props.searchResume(filterObj)
-                this.checkCandidate()
+                //查询简历
+                this.props.searchResume(filterObj);
+                //隐藏联系人内容，显示简历详情
+                this.checkCandidate();
             }
         })
+
+        const {companyname} = this.props.userInfo;
+        //加密关键字
+        const key = "%!##@$%|$#$%(^)$}$*{^*+%";
+        //请求参数       
+        const partters=`key=51hr&value=${companyname}`;
+        //请求参数加密
+        const  sorKey = strEnc(`${partters}`,key);
+        //获取剩余简历下载数据量
+        this.props.getRemainedDownloadNum({sorKey})
     }
     
     render() {
@@ -200,10 +216,15 @@ class SearchResumePage extends Component {
             searchResumeDetail,
             resumeDetailData,
             isLoading,
-            clearResumeData,
+            clearResumeDetailData,
             detailLoading,
             downLoadResume,
-            totalHits
+            totalHits,
+            userInfo,
+            isView,
+            collectResume,
+            location,
+            contract_count
         } = this.props;
         return (
             <div className="queryResume">
@@ -235,7 +256,11 @@ class SearchResumePage extends Component {
                 }
                 {
                     isCheckResume && <div className="queryResult">
-                        <span style={{color:"#8F9EB4"}}>共找到{totalHits}份简历</span>
+                        <span style={{color:"#8F9EB4"}}>
+                            共找到&nbsp;
+                            <span style={{color:"#7D92BB"}}>{totalHits}</span>
+                            &nbsp;份简历
+                        </span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         <a 
                             onClick={this.switch.bind(this,switchContent)}
@@ -320,7 +345,8 @@ class SearchResumePage extends Component {
                                         "更新时间",
                                         "最近3天",
                                         "最近7天",
-                                        "最近30天"
+                                        "最近30天",
+                                        "最近60天"
                                     ].map((item,index)=>{
                                         return (
                                             <Option key={index} value={item}>{item}</Option>
@@ -338,6 +364,9 @@ class SearchResumePage extends Component {
                                 resumeData={resumeData}
                                 totalHits={totalHits}
                                 searchResume={this.searchResume}
+                                location={location}
+                                collectResume={collectResume}
+                                userInfo={userInfo}
                             />
                         }
                         {
@@ -347,6 +376,9 @@ class SearchResumePage extends Component {
                                 resumeData={resumeData}
                                 totalHits={totalHits}
                                 searchResume={this.searchResume}
+                                location={location}
+                                collectResume={collectResume}
+                                userInfo={userInfo}
                             />
                         }
                     </div>
@@ -355,8 +387,14 @@ class SearchResumePage extends Component {
                     isCandidateResume && <CandidateResumeComponent 
                         checkCandidate= {this.checkCandidate}
                         resumeDetailData= {resumeDetailData}
-                        clearResumeData= {clearResumeData}
+                        clearResumeDetailData= {clearResumeDetailData}
                         detailLoading= {detailLoading}
+                        downLoadResume= {downLoadResume}
+                        userInfo= {userInfo}
+                        isView= {isView}
+                        location={location}
+                        collectResume={collectResume}
+                        contract_count= {contract_count}
                     />
                 }
             </div>
@@ -368,16 +406,19 @@ const mapStateToProps = (state) => ({
     resumeDetailData: state.ResumeSearch.resumeDetailData,
     isLoading: state.ResumeSearch.isLoading,
     detailLoading: state.ResumeSearch.detailLoading,
-    totalHits: state.ResumeSearch.totalHits
+    totalHits: state.ResumeSearch.totalHits,
+    userInfo: state.User.userInfo,
+    isView: state.ResumeSearch.isView,
+    contract_count: state.ResumeSearch.contract_count
 })
 const mapDispatchToProps = (dispatch) => ({
     searchResume: bindActionCreators(Actions.SearchActions.searchResume, dispatch),
     searchResumeDetail: bindActionCreators(Actions.SearchActions.searchResumeDetail, dispatch),
-    clearResumeData: bindActionCreators(Actions.SearchActions.clearResumeData, dispatch),
-    downLoadResume: bindActionCreators(Actions.SearchActions.downLoadResume, dispatch)
+    clearResumeDetailData: bindActionCreators(Actions.SearchActions.clearResumeDetailData, dispatch),
+    downLoadResume: bindActionCreators(Actions.SearchActions.downLoadResume, dispatch),
+    collectResume: bindActionCreators(Actions.SearchActions.collectResume, dispatch),
+    getRemainedDownloadNum: bindActionCreators(Actions.SearchActions.getRemainedDownloadNum, dispatch)
 })
-   
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

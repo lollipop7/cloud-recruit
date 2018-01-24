@@ -1,6 +1,7 @@
 import store from 'store';
 
 import {cancelRequest} from 'utils/ajax';
+import {clearResumeData} from 'actions/resumeSearch'
 
 // 已经登录如果再次进入登陆页,跳转到首页
 export const onEnterLoginHook = (nextState,replace) => {

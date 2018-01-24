@@ -25,7 +25,7 @@ export default class ResumeSearchComponent extends Component {
         const {location,routes} = this.props;
         return (
             <ScrollPageContent>
-                <div className="page-content">
+                <div className="page-content" ref="pageContent">
                     <BreadCrumbComponent routes={routes} />
                     <div className="box-border">
                         <div className="pull-left">
@@ -36,6 +36,7 @@ export default class ResumeSearchComponent extends Component {
                         </div>
                     </div>
                 </div>
+                
             </ScrollPageContent>
         );
     }

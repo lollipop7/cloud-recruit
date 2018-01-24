@@ -4,15 +4,19 @@ import {
     RESUME_SEARCH_START,
     RESUME_SEARCH_DONE,
     CLEAR_RESUME_DATA,
+    CLEAR_RESUME_DETAIL_DATA,
     VIEW_DETAILS_START,
-    VIEW_DETAILS_DONE
+    VIEW_DETAILS_DONE,
+    DOWNLOAD_NUM
 } from 'constants/resumeSearch';
 const initialState = {
     resumeData:[],
     resumeDetailData:{},
     isLoading:false,
     detailLoading:false,
-    totalHits:""
+    totalHits:"",
+    isView:false,
+    contract_count:""
 };
 export default function recruit(state = initialState,actions){
     switch(actions.type){
@@ -27,9 +31,13 @@ export default function recruit(state = initialState,actions){
         case VIEW_DETAILS_START:
             return {...state,detailLoading:true};
         case RESUME_DETAIL:
-            return {...state,resumeDetailData:actions.resumeDetailData,detailLoading:false};
-        case CLEAR_RESUME_DATA:
+            return {...state,resumeDetailData:actions.resumeDetailData,isView:actions.isView,detailLoading:false};
+        case CLEAR_RESUME_DETAIL_DATA:
             return {...state,resumeDetailData:{}};
+        case CLEAR_RESUME_DATA:
+            return {...state,resumeData:[]};
+        case DOWNLOAD_NUM:
+            return {...state,contract_count:actions.contract_count};
         default: 
             return state;
     }

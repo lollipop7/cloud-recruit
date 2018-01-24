@@ -5,14 +5,37 @@ const SubMenu = Menu.SubMenu;
 
 export default class ResumeSimplePage extends Component {
     checkResumeDetail = (resumeId) => {
-        this.props.searchResumeDetail({resumeId:`${resumeId}`})
+        const  sorKey = this.sorKey();
+        //this.props.searchResumeDetail({resumeId:`${resumeId}`,sorKey})
+        this.props.searchResumeDetail({resumeId:"3926440",sorKey})
         this.props.showResumeDetail()
     }
     pageSize = (page, pageSize) => {
         this.props.searchResume(page, pageSize)
     }
+    //加密参数
+    sorKey = () => {
+        const {companyname} = this.props.userInfo;
+        //加密关键字
+        const key = "%!##@$%|$#$%(^)$}$*{^*+%";
+        //请求参数       
+        const partters=`key=51hr&value=${companyname}`;
+        //请求参数加密
+        const  sorKey = strEnc(`${partters}`,key);
+        return sorKey
+    }
+    //取消收藏简历
+    deleteCollectResume = (resumeId) => {
+        const {deleteCollectResume,collectResumeList} = this.props;
+        const  sorKey = this.sorKey();
+        if(this.props.location.pathname=="/searchResume/collectResume"){
+            //取消已收藏简历
+            //deleteCollectResume({resumeId:`${resumeId}`,sorKey},collectResumeList,sorKey)
+            deleteCollectResume({resumeId:"3926440",sorKey},collectResumeList,sorKey)
+        } 
+    }
     render() {
-        const {resumeData=[],totalHits} = this.props;
+        const {resumeData=[],totalHits,location} = this.props;
         return (
             <div className="resumeSimple">
                 {
@@ -34,14 +57,29 @@ export default class ResumeSimplePage extends Component {
                                 { resumeData.map((item,index)=>{
                                     return(
                                         <tr>
-                                            <td><span>{item.expectPositions.length==0?"无":item.expectPositions[0]}</span></td>
-                                            <td><a onClick={this.checkResumeDetail.bind(this,item.resumeId)}>{item.name}先生</a></td>
-                                            <td><span>{item.education}</span></td>
-                                            <td><span>{item.lastPosition}</span></td>
-                                            <td><span>{item.lastCompany}</span></td>
+                                            <td style={{maxWidth:100}}><span>{Array.isArray(item.expectPositions) ? item.expectPositions.length==0?"无":item.expectPositions[0]:item.expectPositions}</span></td>
+                                            <td>
+                                                <a onClick={this.checkResumeDetail.bind(this,item.resumeId)}>
+                                                {(item.sex==1 || item.sex=="男")?`${item.name}先生`:(item.sex==0 || item.sex=="女")?`${item.name}女士`:""}
+                                                </a>
+                                            </td>
+                                            <td style={{maxWidth:80}}><span>
+                                                {item.education==1?"小学":item.education==10?"初中":item.education==20?"高中":item.education==21?"中专":item.education==22?"技校":item.education==23?"中技":item.education==100?"大学":item.education==101?"大专":item.education==102?"专科":item.education==110?"本科":item.education==200?"研究生":item.education==201?"MBA":item.education==210?"博士":item.education}
+                                                </span>
+                                            </td>
+                                            <td style={{maxWidth:120}}><span>{item.lastPosition}</span></td>
+                                            <td style={{maxWidth:120}}><span>{item.lastCompany}</span></td>
                                             <td><span>{item.expectSalary}</span></td>
-                                            <td><span>{item.workedYears}</span></td>
-                                            <td><a onClick={this.checkResumeDetail.bind(this,item.resumeId)}>查看</a></td>
+                                            <td><span>{item.workedYearsMeanly?item.workedYearsMeanly:item.workedYears}</span></td>
+                                            <td>
+                                                <a onClick={this.checkResumeDetail.bind(this,item.resumeId)}>查看</a>
+                                                {location.pathname=="/searchResume/collectResume" &&
+                                                <span>
+                                                    &nbsp;|&nbsp;
+                                                    <a onClick={this.deleteCollectResume.bind(this,item.resumeId)}>取消收藏</a>
+                                                </span>
+                                                }
+                                            </td>
                                     </tr>
                                     )
                                 }) 
